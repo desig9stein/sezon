@@ -64,14 +64,12 @@ export function breadcrumbListJsonLd(
   };
 }
 
-/** Returns schema.org `ItemList` data with 1-based positions and absolute item URLs. */
-export function itemListJsonLd(
+function itemListEntity(
   name: string,
   items: ReadonlyArray<BreadcrumbItem>,
   siteUrl: string,
 ): JsonLd {
   return {
-    '@context': SCHEMA_CONTEXT,
     '@type': 'ItemList',
     name,
     numberOfItems: items.length,
@@ -82,6 +80,15 @@ export function itemListJsonLd(
       url: absoluteUrl(siteUrl, item.path),
     })),
   };
+}
+
+/** Returns schema.org `ItemList` data with 1-based positions and absolute item URLs. */
+export function itemListJsonLd(
+  name: string,
+  items: ReadonlyArray<BreadcrumbItem>,
+  siteUrl: string,
+): JsonLd {
+  return { '@context': SCHEMA_CONTEXT, ...itemListEntity(name, items, siteUrl) };
 }
 
 /** Input for {@link articleJsonLd}. */
@@ -141,14 +148,11 @@ export interface CollectionPageJsonLdInput {
   readonly path: string;
   readonly name: string;
   readonly description: string;
-  readonly mainEntity: JsonLd;
+  readonly items: ReadonlyArray<BreadcrumbItem>;
 }
 
-/** Returns schema.org `CollectionPage` data whose main entity is the given list (without its `@context`). */
+/** Returns schema.org `CollectionPage` data whose main entity is an `ItemList` of `items`. */
 export function collectionPageJsonLd(input: CollectionPageJsonLdInput): JsonLd {
-  const mainEntity = Object.fromEntries(
-    Object.entries(input.mainEntity).filter(([key]) => key !== '@context'),
-  );
   return {
     '@context': SCHEMA_CONTEXT,
     '@type': 'CollectionPage',
@@ -156,6 +160,6 @@ export function collectionPageJsonLd(input: CollectionPageJsonLdInput): JsonLd {
     description: input.description,
     url: absoluteUrl(input.siteUrl, input.path),
     inLanguage: CONTENT_LANGUAGE,
-    mainEntity,
+    mainEntity: itemListEntity(input.name, input.items, input.siteUrl),
   };
 }

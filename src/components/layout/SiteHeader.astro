@@ -88,4 +88,8 @@ const currentOf = (href: string): 'page' | 'true' | undefined => {
   .site-header__nav a[aria-current] {
     text-decoration-thickness: 3px;
   }
+
+  .site-header__nav a[aria-current='true'] {
+    text-decoration-style: dotted;
+  }
 </style>

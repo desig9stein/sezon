@@ -6,7 +6,8 @@ import { ui } from '@i18n/bg';
 
 /**
  * Every produce of one kind in labelled groups: peak, available, storage, out of season.
- * Seasonal cards carry a season badge; empty groups are not rendered.
+ * Starts with an intro, or the empty-state text when the kind has no produce. Seasonal cards
+ * carry a season badge; empty groups are not rendered.
  */
 interface Props {
   section: SectionIndex;
@@ -36,7 +37,11 @@ const levelOf = (produce: Produce, group: Group): SeasonLevel | undefined =>
   group.withLevel ? produce.levelIn(month) : undefined;
 ---
 
-{section.count === 0 && <p>{ui.sections.empty}</p>}
+{section.count === 0 ? (
+  <p>{ui.sections.empty}</p>
+) : (
+  <p class="section-intro">{ui.sections.intro(section.kind, month)}</p>
+)}
 {groups.map((group) => (
   <section class="section-group" aria-labelledby={`section-${group.id}`}>
     <h2 id={`section-${group.id}`}>{group.heading}</h2>
@@ -51,6 +56,11 @@ const levelOf = (produce: Produce, group: Group): SeasonLevel | undefined =>
 ))}
 
 <style>
+  .section-intro {
+    max-width: var(--reading-width);
+    font-size: var(--font-size-lg);
+  }
+
   .section-group {
     margin-top: var(--space-8);
   }

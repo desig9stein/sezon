@@ -82,7 +82,7 @@ Each list keeps the repository order (sorted by Bulgarian name). `SectionIndexSe
 - Groups are lists (`<ul role="list">`) so the count is announced.
 - Season level is text + icon + colour (badges, spec 004); out-of-season is stated in the
   heading text.
-- Navigation stays a `<nav aria-label="Основна навигация">`; six links wrap without horizontal
+- Navigation stays a `<nav aria-label="Основна навигация">` (the section of the current page has a dotted underline, the current page a solid one); six links wrap without horizontal
   scroll at 320 px; each target ≥ 24 × 24 px. `aria-current="true"` marks the section of a
   produce page (WCAG 1.3.1; current location in a set).
 - Readable without CSS (spec 009) and without JavaScript; zero axe violations in light and dark
@@ -104,7 +104,7 @@ Each list keeps the repository order (sorted by Bulgarian name). `SectionIndexSe
 3. **AC3:** `routes.section(kind)` returns `/plodove`, `/zelenchutsi`, `/podpravki` and `/yadki`.
 4. **AC4:** `collectionPageJsonLd` returns a `CollectionPage` with `inLanguage`, absolute `url` and an `ItemList` `mainEntity`.
 5. **AC5:** For every kind and month, the section description is 70–160 characters and the full title is ≤ 60.
-6. **AC6:** `SectionIndex` renders one labelled section per non-empty group with an `h2`, lists of cards, badges for seasonal groups, and the empty-state text when the kind has no produce.
+6. **AC6:** `SectionIndex` renders the intro, then one labelled section per non-empty group in the order peak, available, storage, out of season, each with an `h2`, a list of cards and badges on seasonal cards; when the kind has no produce it renders only the empty-state text.
 7. **AC7:** `SiteHeader` links to the four sections in order, marks the current page with `aria-current="page"` and the section of a produce page with `aria-current="true"`.
 8. **AC8:** The built site has `/plodove`, `/zelenchutsi`, `/podpravki` and `/yadki` with one `h1`, canonical, `CollectionPage` + `BreadcrumbList` JSON-LD and cards linking to every produce of the kind (e2e).
 9. **AC9:** A produce page's breadcrumbs are Начало › <Section> › <Name>, and its `BreadcrumbList` has three items (e2e).
@@ -112,15 +112,15 @@ Each list keeps the repository order (sorted by Bulgarian name). `SectionIndexSe
 
 ## 9. Test plan
 
-| AC       | Type      | Test file                                                             |
-| -------- | --------- | --------------------------------------------------------------------- |
-| AC1–AC2  | unit      | `tests/unit/contexts/catalog/application/SectionIndexService.test.ts` |
-| AC3      | unit      | `tests/unit/components/routes.test.ts`                                |
-| AC4      | unit      | `tests/unit/shared/seo/jsonLd-010.test.ts`                            |
-| AC5      | unit      | `tests/unit/i18n/bg-010.test.ts`                                      |
-| AC6      | component | `tests/components/SectionIndex.test.ts`                               |
-| AC7      | component | `tests/components/SiteHeader-010.test.ts`                             |
-| AC8–AC10 | e2e       | `tests/e2e/section-pages.spec.ts`                                     |
+| AC       | Type      | Test file                                                                                  |
+| -------- | --------- | ------------------------------------------------------------------------------------------ |
+| AC1–AC2  | unit      | `tests/unit/contexts/catalog/application/SectionIndexService.test.ts`                      |
+| AC3      | unit      | `tests/unit/components/routes.test.ts`                                                     |
+| AC4      | unit      | `tests/unit/shared/seo/jsonLd-010.test.ts`                                                 |
+| AC5      | unit      | `tests/unit/i18n/bg-010.test.ts`                                                           |
+| AC6      | component | `tests/components/SectionIndex.test.ts`                                                    |
+| AC7      | component | `tests/components/SiteHeader-010.test.ts`                                                  |
+| AC8–AC10 | e2e       | `tests/e2e/section-pages.spec.ts`, `tests/e2e/readable-without-css.spec.ts` (section page) |
 
 ## 10. Third-party documentation consulted
 
