@@ -1,8 +1,7 @@
 # Skills for this project
 
-The official skills are vendored in `.claude/skills/` (see its README). This page lists the
-ones that help with Sezon and when to use them. Skills not listed here are available but have
-no planned use in this project.
+The official skills that help with Sezon are vendored in `.claude/skills/` (see its README).
+This page says when to use each one.
 
 | Skill             | Use in Sezon                                                                                                                                                                           | When                                                                                                                                         |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -14,8 +13,6 @@ no planned use in this project.
 | `pdf`             | A printable PDF of the seasonal calendar; reading source PDFs (e.g. EU regulations, agrarian reports) while reviewing content.                                                         | Calendar and content-review issues.                                                                                                          |
 | `xlsx`            | Importing or exporting produce data and nutrition tables from spreadsheets during content work.                                                                                        | Catalog expansion and content review.                                                                                                        |
 | `theme-factory`   | Quick theme variations of artifacts and mock pages when exploring the redesign.                                                                                                        | Design exploration only; final tokens live in `src/design/tokens.ts`.                                                                        |
-| `mcp-builder`     | Only if we later build an MCP server (e.g. for the CMS or farm data).                                                                                                                  | Not planned.                                                                                                                                 |
 
-Not used for Sezon: `algorithmic-art`, `slack-gif-creator`, `brand-guidelines` (Anthropic's brand),
-`internal-comms`, `web-artifacts-builder` (claude.ai artifacts, not this site), `docx`, `pptx`,
-`claude-api`, `academy-guide`, `discernment-nudge`.
+Only these skills are kept in the repository; other official skills were removed as not
+relevant to this project.
