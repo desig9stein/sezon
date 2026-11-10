@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { breadcrumbListJsonLd, serializeJsonLd, websiteJsonLd } from '@shared/seo/jsonLd';
+import {
+  breadcrumbListJsonLd,
+  itemListJsonLd,
+  serializeJsonLd,
+  websiteJsonLd,
+} from '@shared/seo/jsonLd';
 import { InvalidPageMetaError } from '@shared/domain/errors';
 
 const SITE = 'https://sezon.example';
@@ -53,5 +58,39 @@ describe('breadcrumbListJsonLd', () => {
 
   it('AC4: rejects an empty list', () => {
     expect(() => breadcrumbListJsonLd([], SITE)).toThrow(InvalidPageMetaError);
+  });
+});
+
+describe('itemListJsonLd', () => {
+  it('AC9 (spec 004): lists items with positions and absolute URLs', () => {
+    expect(
+      itemListJsonLd(
+        'В сезон през ноември',
+        [
+          { name: 'Зеле', path: '/zelenchutsi/zele' },
+          { name: 'Ябълки', path: '/plodove/yabalki' },
+        ],
+        SITE,
+      ),
+    ).toEqual({
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: 'В сезон през ноември',
+      numberOfItems: 2,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Зеле',
+          url: 'https://sezon.example/zelenchutsi/zele',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Ябълки',
+          url: 'https://sezon.example/plodove/yabalki',
+        },
+      ],
+    });
   });
 });
