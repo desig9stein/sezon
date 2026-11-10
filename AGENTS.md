@@ -223,6 +223,9 @@ tests/
 - Images have meaningful Bulgarian `alt`, or `alt=""` when decorative.
 - Respect `prefers-reduced-motion` and `prefers-color-scheme`.
 - Every page works without JavaScript.
+- Every page is readable and usable **without CSS**: the source order alone gives a logical
+  reading order, icons and decorative images do not render oversized, nothing relies on CSS to
+  hide or reveal content (except `.visually-hidden`), and CSS never reorders content.
 - `lang="bg"` on `<html>`. Foreign-language fragments (e.g. Latin names) get `lang="la"`.
 
 ## 9. SEO rules
@@ -267,7 +270,15 @@ tests/
   `<type>` is a Conventional Commits type. No tool-generated or random branch names.
 - The owner reviews and merges. Delete the branch after the merge.
 - Work starts from an issue (forms in `.github/ISSUE_TEMPLATE/`) and is tracked on the GitHub
-  Projects board (see `docs/PROJECT-BOARD.md`). PRs use `.github/pull_request_template.md` and
+  Projects board (see `docs/PROJECT-BOARD.md`).
+- Every issue is assigned to the owner (`desig9stein`) when it is created.
+- Every issue has full metadata: assignee, labels (`type:*`, at least one `area:*`, a phase
+  label, plus `epic` or `status:blocked` where they apply), parent epic, and milestone.
+- Every issue is added to the **Planning** project with all fields filled: Status, Priority,
+  Impact, Estimate (ideal days), Start date and Target date. An epic's dates span its sub-issues.
+- Large work is an **epic**: an issue titled `epic: …` whose parts are GitHub **sub-issues**.
+  Split an issue into sub-issues when it needs more than one pull request. Each roadmap phase
+  has an epic; a sub-issue can itself have sub-issues (e.g. the redesign). PRs use `.github/pull_request_template.md` and
   link the issue with `Closes #<n>`.
 - CI runs separate checks (Prettier, ESLint, Types, Unit tests and coverage, Build and HTML
   validation, E2E and accessibility, Lighthouse 100); all must pass before merging.
