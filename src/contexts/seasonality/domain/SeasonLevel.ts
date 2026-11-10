@@ -1,15 +1,15 @@
 import { InvalidSeasonLevelError } from '@shared/domain/errors';
 
-/** Raw season level values as stored in content. */
-export const SEASON_LEVEL_VALUES = ['peak', 'available', 'storage'] as const;
+/** Raw season level values as stored in content, ordered from lowest to highest rank. */
+export const SEASON_LEVEL_VALUES = ['storage', 'available', 'peak'] as const;
 
 export type SeasonLevelValue = (typeof SEASON_LEVEL_VALUES)[number];
 
 /** How available a produce is in a month: at its peak, available fresh, or from storage. */
 export class SeasonLevel {
-  static readonly PEAK = new SeasonLevel('peak', 3, true);
-  static readonly AVAILABLE = new SeasonLevel('available', 2, true);
-  static readonly STORAGE = new SeasonLevel('storage', 1, false);
+  static readonly PEAK = new SeasonLevel('peak', true);
+  static readonly AVAILABLE = new SeasonLevel('available', true);
+  static readonly STORAGE = new SeasonLevel('storage', false);
 
   private static readonly byValue: ReadonlyMap<string, SeasonLevel> = new Map(
     [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE].map((level) => [
@@ -18,11 +18,15 @@ export class SeasonLevel {
     ]),
   );
 
+  private readonly rank: number;
+
   private constructor(
     readonly value: SeasonLevelValue,
-    private readonly rank: number,
     private readonly fresh: boolean,
-  ) {}
+  ) {
+    this.rank = SEASON_LEVEL_VALUES.indexOf(value);
+    Object.freeze(this);
+  }
 
   /**
    * Returns the level for a raw value.

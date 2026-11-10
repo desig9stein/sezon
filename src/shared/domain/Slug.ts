@@ -7,7 +7,9 @@ const EDGE_HYPHENS = /^-+|-+$/g;
 
 /** A lowercase, hyphen-separated Latin identifier used in URLs and as content entry ids. */
 export class Slug {
-  private constructor(readonly value: string) {}
+  private constructor(readonly value: string) {
+    Object.freeze(this);
+  }
 
   /**
    * Creates a slug from Bulgarian text by transliterating it, lowercasing it and joining

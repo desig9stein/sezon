@@ -10,7 +10,9 @@ export interface SeasonEntryInput {
 
 /** The season level of a produce for each month in which it is available. */
 export class SeasonCalendar {
-  private constructor(private readonly levels: ReadonlyMap<Month, SeasonLevel>) {}
+  private constructor(private readonly levels: ReadonlyMap<Month, SeasonLevel>) {
+    Object.freeze(this);
+  }
 
   /**
    * Builds a calendar from raw entries.

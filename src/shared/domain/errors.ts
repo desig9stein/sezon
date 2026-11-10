@@ -27,3 +27,8 @@ export class InvalidSeasonLevelError extends DomainError {
 export class InvalidSeasonCalendarError extends DomainError {
   readonly code = 'INVALID_SEASON_CALENDAR';
 }
+
+/** Thrown when a time zone identifier is not supported by the runtime. */
+export class InvalidTimeZoneError extends DomainError {
+  readonly code = 'INVALID_TIME_ZONE';
+}

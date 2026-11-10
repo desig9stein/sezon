@@ -29,6 +29,7 @@ const CYRILLIC_TO_LATIN: Readonly<Record<string, string>> = {
   ь: 'y',
   ю: 'yu',
   я: 'ya',
+  ѝ: 'i',
 };
 
 /** Words with a statutory transliteration that differs from the letter table. */
@@ -37,7 +38,8 @@ const STATUTORY_EXCEPTIONS: Readonly<Record<string, string>> = {
 };
 
 const CYRILLIC_WORD = /\p{Script=Cyrillic}+/gu;
-const WORD_CHARACTER = /[\p{L}\p{N}]/u;
+const LETTER = /\p{L}/u;
+const MARKS_AFTER_CYRILLIC = /(\p{Script=Cyrillic})\p{M}+/gu;
 const WORD_FINAL_IA = 'ия';
 const WORD_FINAL_IA_LATIN = 'ia';
 
@@ -47,14 +49,16 @@ type LetterCase = 'lower' | 'capitalised' | 'upper';
  * Transliterates Bulgarian Cyrillic text to Latin using the Streamlined System of the
  * Bulgarian Transliteration Act (2009): the letter table, the word-final "ия" → "ia" rule
  * and the statutory exception "България" → "Bulgaria".
+ * Input is normalised to NFC and combining marks after Cyrillic letters are removed.
  * Characters that are not Cyrillic letters are returned unchanged.
  * @param text - Text to transliterate.
  * @returns The transliterated text.
  */
 export function transliterate(text: string): string {
-  return text.replace(CYRILLIC_WORD, (run: string, offset: number) => {
-    const next = text.charAt(offset + run.length);
-    const endsWord = next === '' || !WORD_CHARACTER.test(next);
+  const normalised = text.normalize('NFC').replace(MARKS_AFTER_CYRILLIC, '$1');
+  return normalised.replace(CYRILLIC_WORD, (run: string, offset: number) => {
+    const next = normalised.charAt(offset + run.length);
+    const endsWord = next === '' || !LETTER.test(next);
     return transliterateRun(run, endsWord);
   });
 }
