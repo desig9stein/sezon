@@ -6,7 +6,12 @@ import {
   type MilestonePlan,
   type ProjectField,
 } from '../../../../scripts/planning/plan.ts';
-import { syncPlan, type PlanningClient } from '../../../../scripts/planning/syncPlan.ts';
+import {
+  syncPlan,
+  type IssueItem,
+  type Milestone,
+  type PlanningClient,
+} from '../../../../scripts/planning/syncPlan.ts';
 
 const issue = (overrides: Record<string, unknown> = {}) => ({
   status: 'Backlog',
@@ -53,7 +58,15 @@ const fields: ReadonlyArray<ProjectField> = [
   { id: 'F_target', name: 'Target date', dataType: 'DATE' },
 ];
 
-function recordingClient(): { client: PlanningClient; calls: string[] } {
+interface ClientState {
+  readonly closed?: ReadonlySet<number>;
+  readonly archived?: ReadonlySet<number>;
+  readonly current?: ReadonlyMap<number, ReadonlyArray<FieldUpdate>>;
+  readonly milestoneOf?: ReadonlyMap<number, number>;
+  readonly milestones?: ReadonlyArray<Milestone>;
+}
+
+function recordingClient(state: ClientState = {}): { client: PlanningClient; calls: string[] } {
   const calls: string[] = [];
   const client: PlanningClient = {
     findProject: async (owner, title) => {
@@ -62,15 +75,34 @@ function recordingClient(): { client: PlanningClient; calls: string[] } {
     },
     listMilestones: async () => {
       calls.push('listMilestones');
-      return [{ number: 1, title: 'Phase 2' }];
+      return (
+        state.milestones ?? [
+          { number: 1, title: 'Phase 2', due: '2026-12-31', description: 'Catalog' },
+        ]
+      );
     },
     createMilestone: async (milestone: MilestonePlan) => {
       calls.push(`createMilestone ${milestone.title}`);
-      return { number: 2, title: milestone.title };
+      return {
+        number: 2,
+        title: milestone.title,
+        due: milestone.due,
+        description: milestone.description,
+      };
     },
-    ensureProjectItem: async (projectId, issueNumber) => {
-      calls.push(`ensureProjectItem ${projectId} #${issueNumber}`);
-      return `item-${issueNumber}`;
+    updateMilestone: async (number: number, milestone: MilestonePlan) => {
+      calls.push(`updateMilestone ${number} ${milestone.due}`);
+    },
+    issueItem: async (projectId, issueNumber): Promise<IssueItem> => {
+      calls.push(`issueItem ${projectId} #${issueNumber}`);
+      if (state.closed?.has(issueNumber) === true) return { closed: true };
+      return {
+        closed: false,
+        itemId: `item-${issueNumber}`,
+        archived: state.archived?.has(issueNumber) === true,
+        values: state.current?.get(issueNumber) ?? [],
+        milestoneNumber: state.milestoneOf?.get(issueNumber),
+      };
     },
     updateField: async (_projectId, itemId, update: FieldUpdate) => {
       calls.push(`updateField ${itemId} ${update.fieldId}`);
@@ -81,6 +113,11 @@ function recordingClient(): { client: PlanningClient; calls: string[] } {
   };
   return { client, calls };
 }
+
+const allFields = (item: string) =>
+  ['F_status', 'F_priority', 'F_impact', 'F_estimate', 'F_start', 'F_target'].map(
+    (field) => `updateField ${item} ${field}`,
+  );
 
 describe('syncPlan', () => {
   it('AC8: creates missing milestones, then updates every issue', async () => {
@@ -95,21 +132,11 @@ describe('syncPlan', () => {
       'findProject desig9stein/Planing',
       'listMilestones',
       'createMilestone Phase 3',
-      'ensureProjectItem P #13',
-      'updateField item-13 F_status',
-      'updateField item-13 F_priority',
-      'updateField item-13 F_impact',
-      'updateField item-13 F_estimate',
-      'updateField item-13 F_start',
-      'updateField item-13 F_target',
+      'issueItem P #13',
+      ...allFields('item-13'),
       'setMilestone #13 2',
-      'ensureProjectItem P #35',
-      'updateField item-35 F_status',
-      'updateField item-35 F_priority',
-      'updateField item-35 F_impact',
-      'updateField item-35 F_estimate',
-      'updateField item-35 F_start',
-      'updateField item-35 F_target',
+      'issueItem P #35',
+      ...allFields('item-35'),
       'setMilestone #35 1',
     ]);
     expect(logged).toHaveLength(3);
@@ -124,5 +151,64 @@ describe('syncPlan', () => {
       syncPlan(plan({ '13': issue(), '35': issue({ impact: 'Huge' }) }), client, () => {}),
     ).rejects.toThrow(PlanningFieldError);
     expect(calls).toEqual(['findProject desig9stein/Planing']);
+  });
+
+  it('skips closed issues without touching their fields or milestone', async () => {
+    const { client, calls } = recordingClient({ closed: new Set([13]) });
+    const logged: string[] = [];
+
+    await syncPlan(plan({ '13': issue({ milestone: 'Phase 2' }) }), client, (line) =>
+      logged.push(line),
+    );
+
+    expect(calls.filter((call) => call.includes('#13') || call.includes('item-13'))).toEqual([
+      'issueItem P #13',
+    ]);
+    expect(logged.join('\n')).toMatch(/#13.*closed.*skipped/i);
+  });
+
+  it('writes only changed fields and skips an unchanged milestone', async () => {
+    const { client, calls } = recordingClient({
+      current: new Map([
+        [
+          35,
+          [
+            { fieldId: 'F_status', value: { singleSelectOptionId: 'o_b' } },
+            { fieldId: 'F_priority', value: { singleSelectOptionId: 'o_p1' } },
+            { fieldId: 'F_impact', value: { singleSelectOptionId: 'o_h' } },
+            { fieldId: 'F_estimate', value: { number: 2 } },
+            { fieldId: 'F_start', value: { date: '2027-01-11' } },
+          ],
+        ],
+      ]),
+      milestoneOf: new Map([[35, 1]]),
+    });
+
+    await syncPlan(plan({ '35': issue({ milestone: 'Phase 2' }) }), client, () => {});
+
+    expect(calls.slice(-2)).toEqual(['issueItem P #35', 'updateField item-35 F_target']);
+  });
+
+  it('updates an existing milestone whose due date differs', async () => {
+    const { client, calls } = recordingClient({
+      milestones: [
+        { number: 1, title: 'Phase 2', due: '2026-12-31', description: 'Catalog' },
+        { number: 2, title: 'Phase 3', due: '2027-01-15', description: 'Regions' },
+      ],
+    });
+
+    await syncPlan(plan({ '13': issue() }), client, () => {});
+
+    expect(calls).toContain('updateMilestone 2 2027-01-29');
+    expect(calls).not.toContain('createMilestone Phase 3');
+  });
+
+  it('logs a warning for an archived project item', async () => {
+    const { client } = recordingClient({ archived: new Set([13]) });
+    const logged: string[] = [];
+
+    await syncPlan(plan({ '13': issue() }), client, (line) => logged.push(line));
+
+    expect(logged.join('\n')).toMatch(/#13.*archived/i);
   });
 });

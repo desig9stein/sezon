@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
+  changedUpdates,
   fieldUpdatesFor,
+  milestoneChanges,
   milestonesToCreate,
   parsePlan,
   PlanningFieldError,
@@ -68,7 +70,7 @@ const fields: ReadonlyArray<ProjectField> = [
 ];
 
 describe('parsePlan', () => {
-  it('AC1: returns a frozen plan with numeric issue numbers in file order', () => {
+  it('AC1: returns a frozen plan with numeric issue numbers sorted by issue number', () => {
     const plan = parsePlan(validRaw());
 
     expect(plan.project).toEqual({ owner: 'desig9stein', title: 'Planing' });
@@ -190,5 +192,55 @@ describe('milestonesToCreate', () => {
     expect(milestonesToCreate(plan, ['Phase 2']).map((m) => m.title)).toEqual(['Phase 3']);
     expect(milestonesToCreate(plan, []).map((m) => m.title)).toEqual(['Phase 2', 'Phase 3']);
     expect(milestonesToCreate(plan, ['Phase 2', 'Phase 3'])).toEqual([]);
+  });
+});
+
+describe('QA regressions', () => {
+  it('trims milestone titles and issue milestone references', () => {
+    const raw = validRaw();
+    raw.milestones[1] = { title: ' Phase 3 ', due: '2027-01-29', description: 'Regions and farms' };
+    raw.issues['13'] = { ...raw.issues['13'], milestone: 'Phase 3 ' };
+
+    const plan = parsePlan(raw);
+
+    expect(plan.milestones[1]?.title).toBe('Phase 3');
+    expect(plan.issues[0]?.milestone).toBe('Phase 3');
+  });
+
+  it('matches existing milestones case-insensitively', () => {
+    const plan = parsePlan(validRaw());
+
+    expect(milestonesToCreate(plan, ['phase 2', 'PHASE 3'])).toEqual([]);
+  });
+
+  it('changedUpdates keeps only updates whose value differs from the current one', () => {
+    const desired = [
+      { fieldId: 'F_status', value: { singleSelectOptionId: 'o_b' } },
+      { fieldId: 'F_estimate', value: { number: 2 } },
+      { fieldId: 'F_start', value: { date: '2027-01-11' } },
+    ];
+    const current = [
+      { fieldId: 'F_status', value: { singleSelectOptionId: 'o_b' } },
+      { fieldId: 'F_estimate', value: { number: 3 } },
+    ];
+
+    expect(changedUpdates(desired, current)).toEqual([desired[1], desired[2]]);
+  });
+
+  it('milestoneChanges returns existing milestones whose due date or description differ', () => {
+    const plan = parsePlan(validRaw());
+    const existing = [
+      {
+        number: 1,
+        title: 'phase 2',
+        due: '2026-12-31',
+        description: 'Visual identity and catalog',
+      },
+      { number: 2, title: 'Phase 3', due: '2027-01-15', description: 'Regions and farms' },
+    ];
+
+    expect(milestoneChanges(plan, existing)).toEqual([
+      { number: 2, milestone: plan.milestones[1] },
+    ]);
   });
 });
