@@ -175,10 +175,13 @@ describe('labels', () => {
     'area:performance',
     'area:content',
     'area:ci',
+    'area:design',
     'phase:2',
     'phase:3',
     'phase:4',
     'phase:5',
+    'phase:launch',
+    'epic',
     'status:blocked',
   ];
 
