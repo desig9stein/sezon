@@ -269,6 +269,8 @@ tests/
 - Work starts from an issue (forms in `.github/ISSUE_TEMPLATE/`) and is tracked on the GitHub
   Projects board (see `docs/PROJECT-BOARD.md`).
 - Every issue is assigned to the owner (`desig9stein`) when it is created.
+- Every issue is added to the **Planning** project with all fields filled: Status, Priority,
+  Impact, Estimate (ideal days), Start date and Target date. An epic's dates span its sub-issues.
 - Large work is an **epic**: an issue titled `epic: …` whose parts are GitHub **sub-issues**.
   Split an issue into sub-issues when it needs more than one pull request. Each roadmap phase
   has an epic; a sub-issue can itself have sub-issues (e.g. the redesign). PRs use `.github/pull_request_template.md` and
