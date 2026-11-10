@@ -1,6 +1,6 @@
 ---
 import { Month } from '@contexts/seasonality';
-import { BUILD_DATE } from '@composition/clock';
+import { buildYear } from '@composition/clock';
 import { monthName, ui } from '@i18n/bg';
 import { routes } from './routes';
 
@@ -22,7 +22,7 @@ import { routes } from './routes';
       </ul>
     </nav>
     <p class="site-footer__disclaimer">{ui.footer.disclaimer}</p>
-    <p>{ui.footer.copyright(BUILD_DATE.getFullYear())}</p>
+    <p>{ui.footer.copyright(buildYear)}</p>
   </div>
 </footer>
 

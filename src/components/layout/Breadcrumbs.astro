@@ -1,5 +1,6 @@
 ---
 import JsonLd from '@components/seo/JsonLd.astro';
+import { requireSiteUrl } from '@composition/site';
 import { ui } from '@i18n/bg';
 import { breadcrumbListJsonLd, type BreadcrumbItem } from '@shared/seo';
 
@@ -9,10 +10,7 @@ interface Props {
 }
 
 const { items } = Astro.props;
-const siteUrl = Astro.site?.toString();
-if (siteUrl === undefined) {
-  throw new Error('Astro `site` must be configured to render breadcrumbs.');
-}
+const siteUrl = requireSiteUrl(Astro.site);
 const lastIndex = items.length - 1;
 ---
 
@@ -43,7 +41,7 @@ const lastIndex = items.length - 1;
   }
 
   .breadcrumbs li:not(:last-child)::after {
-    content: '/';
+    content: '/' / '';
     margin-inline-start: var(--space-1);
     color: var(--color-text-muted);
   }

@@ -49,7 +49,7 @@ function architectureRules() {
   );
   return [
     restrict(['src/shared/domain/**/*.ts'], [ASTRO, OUTER_LAYERS, APP_LAYERS]),
-    restrict(['src/shared/infrastructure/**/*.ts'], [APP_LAYERS]),
+    restrict(['src/shared/seo/**/*.ts', 'src/shared/infrastructure/**/*.ts'], [APP_LAYERS]),
     ...domainBlocks,
     restrict(
       ['src/contexts/*/application/**/*.ts'],

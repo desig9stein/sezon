@@ -67,3 +67,8 @@ export class InvalidNutrientError extends DomainError {
 export class InvalidProduceError extends DomainError {
   readonly code = 'INVALID_PRODUCE';
 }
+
+/** Thrown when required site configuration (e.g. Astro `site`) is missing or invalid. */
+export class InvalidConfigurationError extends DomainError {
+  readonly code = 'INVALID_CONFIGURATION';
+}

@@ -32,6 +32,7 @@ describe('buildPageMeta', () => {
       description: DESCRIPTION,
       path: '/',
       siteUrl: `${SITE}/`,
+      siteName: 'Сезон',
     });
     expect(meta.title).toBe('Сезон');
     expect(meta.canonicalUrl).toBe('https://sezon.example/');

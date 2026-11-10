@@ -26,11 +26,12 @@ export const ui = {
   siteDescription:
     'Кои плодове и зеленчуци са в сезон в България сега, откъде да ги купите и как да ги приготвите.',
   skipLink: 'Към основното съдържание',
-  homeLinkLabel: 'Сезон – начална страница',
+  homeLinkLabel: `${SITE_NAME} – начална страница`,
+  logoGlyph: '🌱',
   nav: {
     label: 'Основна навигация',
     now: 'Сезонът сега',
-    months: 'Сезон по месеци',
+    next: (monthName: string) => `Какво идва: ${monthName}`,
   },
   breadcrumbs: {
     label: 'Път до страницата',

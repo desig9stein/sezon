@@ -58,6 +58,12 @@ No domain entities. Pure modules:
   hash; otherwise `InvalidPageMetaError`.
 - `canonicalUrl` = `siteUrl` (without trailing slash) + `path`; the root is `siteUrl + "/"`.
 
+- Title and description have runs of whitespace collapsed to one space before validation;
+  lengths are counted in Unicode code points. A title that already ends with `| <site name>`
+  is not suffixed again. The site name is an input (`siteName`), not a constant.
+- `siteUrl` must be an http(s) origin with no path, query or hash; URLs are joined with the
+  `URL` API. A missing `Astro.site` throws `InvalidConfigurationError`.
+
 ### JSON-LD
 
 - `serializeJsonLd(value)` returns JSON with `<`, `>`, `&`, U+2028 and U+2029 escaped as
@@ -83,9 +89,12 @@ No domain entities. Pure modules:
 - Renders `<html lang="bg">`, `<meta charset>`, viewport, `Seo`, inline token CSS, then body:
   `SkipLink` (first focusable element, target `#main`), `SiteHeader`, optional `Breadcrumbs`,
   `<main id="main" tabindex="-1">`, `SiteFooter`.
-- Site navigation lists `/` („Сезонът сега“) and the current month page; the current page link
+- Site navigation lists `/` („Сезонът сега“) and next month's page („Какво идва: <Месец>“); the current page link
   has `aria-current="page"`.
-- Footer lists links to all 12 month pages, the health disclaimer and the copyright year.
+- Footer lists links to all 12 month pages, the health disclaimer and the copyright year
+  (computed in Europe/Sofia).
+- Page content inside `<main>` is wrapped in the `.container` gutter.
+- The breadcrumb separator is decorative and hidden from assistive technology.
 - No client-side JavaScript.
 
 ## 6. Accessibility requirements

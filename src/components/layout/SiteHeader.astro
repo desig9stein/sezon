@@ -1,6 +1,6 @@
 ---
 import { buildMonth } from '@composition/clock';
-import { ui } from '@i18n/bg';
+import { monthName, ui } from '@i18n/bg';
 import { routes } from './routes';
 
 /** Site banner with the logo link and the main navigation. */
@@ -11,14 +11,14 @@ interface Props {
 const { currentPath } = Astro.props;
 const links = [
   { href: routes.home, label: ui.nav.now },
-  { href: routes.month(buildMonth), label: ui.nav.months },
+  { href: routes.month(buildMonth.next()), label: ui.nav.next(monthName(buildMonth.next())) },
 ];
 ---
 
 <header class="site-header">
   <div class="container site-header__inner">
     <a class="site-header__logo" href={routes.home} aria-label={ui.homeLinkLabel}>
-      <span aria-hidden="true">🌱</span>
+      <span aria-hidden="true">{ui.logoGlyph}</span>
       {ui.siteName}
     </a>
     <nav aria-label={ui.nav.label}>
