@@ -25,4 +25,13 @@ describe('routes', () => {
   ] as const)('AC10 (spec 005): returns the URL section for kind %s', (kind, section) => {
     expect(routes.produceSection(kind)).toBe(section);
   });
+
+  it.each([
+    ['fruit', '/plodove'],
+    ['vegetable', '/zelenchutsi'],
+    ['herb', '/podpravki'],
+    ['nut', '/yadki'],
+  ] as const)('AC3 (spec 010): returns the section page path for kind %s', (kind, path) => {
+    expect(routes.section(kind)).toBe(path);
+  });
 });
