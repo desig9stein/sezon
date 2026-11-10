@@ -253,6 +253,19 @@ tests/
 
 ## 12. Git
 
+### Branches and pull requests
+
+- `main` is the only long-lived branch. Nobody pushes to it directly.
+- Every change goes through a pull request into `main`, from a short-lived branch named after
+  the work: `<type>/<NNN>-<kebab-feature>` for spec-driven work (e.g. `feat/007-produce-index-pages`)
+  or `<type>/<kebab-topic>` otherwise (e.g. `docs/content-guide-sources`, `fix/calendar-focus`).
+  `<type>` is a Conventional Commits type. No tool-generated or random branch names.
+- The owner reviews and merges. Delete the branch after the merge.
+- The PR title is a Conventional Commits summary; the body lists the specs, what changed and how
+  it was verified (`pnpm verify`, `pnpm lhci`).
+
+### Commits
+
 - Conventional Commits: `feat`, `fix`, `test`, `docs`, `refactor`, `chore`, `ci`, `build`,
   with the bounded context as scope, e.g. `feat(seasonality): ...`.
 - One logical change per commit. Commit messages in English, imperative mood.
