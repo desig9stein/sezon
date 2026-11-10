@@ -2,21 +2,25 @@
 import { palettes } from '@design/tokens';
 import type { PageMeta } from '@shared/seo';
 
-/** Renders title, description, canonical, robots, Open Graph, Twitter and theme-color tags. */
+/**
+ * Renders title, description, canonical, robots, Open Graph, Twitter, theme-color and favicon tags.
+ * With `noindex`, the page is excluded from indexing and has no canonical or `og:url`.
+ */
 interface Props {
   meta: PageMeta;
+  noindex?: boolean;
 }
 
-const { meta } = Astro.props;
+const { meta, noindex = false } = Astro.props;
 ---
 
 <title>{meta.title}</title>
 <meta name="description" content={meta.description} />
-<link rel="canonical" href={meta.canonicalUrl} />
-<meta name="robots" content="index, follow" />
+{!noindex && <link rel="canonical" href={meta.canonicalUrl} />}
+<meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
 <meta property="og:title" content={meta.title} />
 <meta property="og:description" content={meta.description} />
-<meta property="og:url" content={meta.canonicalUrl} />
+{!noindex && <meta property="og:url" content={meta.canonicalUrl} />}
 <meta property="og:type" content={meta.ogType} />
 <meta property="og:locale" content={meta.locale} />
 <meta property="og:site_name" content={meta.siteName} />
@@ -27,3 +31,4 @@ const { meta } = Astro.props;
   media="(prefers-color-scheme: light)"
 />
 <meta name="theme-color" content={palettes.dark.background} media="(prefers-color-scheme: dark)" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />

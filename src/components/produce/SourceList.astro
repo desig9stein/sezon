@@ -21,7 +21,7 @@ const isoDate = updatedAt.toISOString().slice(0, 10);
   ))}
 </ul>
 <p class="sources__meta">
-  {ui.produce.sources.updated} <time datetime={isoDate}>{formatDate(updatedAt)}</time>.
+  {ui.produce.sources.updated} <time datetime={isoDate}>{formatDate(updatedAt)}</time>
   {isDraft && ` ${ui.produce.sources.draft}`}
 </p>
 

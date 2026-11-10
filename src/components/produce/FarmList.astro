@@ -1,25 +1,24 @@
 ---
-import type { Farm } from '@contexts/farms';
+import type { FarmWithRegion } from '@composition/ProduceDetailsQuery';
 import { ui } from '@i18n/bg';
 
-/** Farms that sell a produce, with region, description, contact links and labels. */
+/** Farms that sell a produce, with province, description, contact links and labels. */
 interface Props {
-  farms: ReadonlyArray<Farm>;
-  regionNames: ReadonlyMap<string, string>;
+  farms: ReadonlyArray<FarmWithRegion>;
 }
 
-const { farms, regionNames } = Astro.props;
+const { farms } = Astro.props;
 const labels = ui.produce.farms;
 ---
 
 {farms.length === 0 && <p>{labels.empty}</p>}
 {farms.length > 0 && (
   <ul class="farms" role="list">
-    {farms.map((farm) => (
+    {farms.map(({ farm, region }) => (
       <li class="farm">
         <h3 class="farm__name">{farm.name}</h3>
         <p class="farm__meta">
-          <span>{regionNames.get(farm.regionSlug) ?? farm.regionSlug}</span>
+          <span>{region.name}</span>
           {farm.sponsored && <span class="farm__tag">{labels.sponsored}</span>}
           {farm.isPlaceholder && <span class="farm__tag">{labels.placeholder}</span>}
         </p>
@@ -39,7 +38,7 @@ const labels = ui.produce.farms;
           )}
           {farm.contact.phone !== undefined && (
             <li>
-              {labels.phoneLabel}{' '}
+              <span aria-hidden="true">{labels.phoneLabel}</span>{' '}
               <a
                 class="farm__phone"
                 href={`tel:${farm.contact.phone}`}

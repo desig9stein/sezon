@@ -24,7 +24,6 @@ const path = routes.produce(produce);
 const siteUrl = requireSiteUrl(Astro.site);
 const labels = ui.produce;
 const currentLevel = produce.levelIn(buildMonth);
-const regionNames = new Map(details.growingRegions.map(({ region }) => [region.slug, region.name]));
 const jsonLd = [
   articleJsonLd({
     siteUrl,
@@ -69,7 +68,7 @@ const jsonLd = [
       </p>
     </header>
 
-    <section aria-labelledby="season">
+    <section class="produce__wide" aria-labelledby="season">
       <h2 id="season">{labels.headings.season}</h2>
       <SeasonCalendarList produce={produce} currentMonth={buildMonth} />
     </section>
@@ -123,9 +122,9 @@ const jsonLd = [
       </ul>
     </section>
 
-    <section aria-labelledby="farms">
+    <section class="produce__wide" aria-labelledby="farms">
       <h2 id="farms">{labels.headings.farms}</h2>
-      <FarmList farms={details.farms} regionNames={regionNames} />
+      <FarmList farms={details.farms} />
     </section>
 
     <section aria-labelledby="choose">
@@ -174,8 +173,7 @@ const jsonLd = [
     max-width: var(--reading-width);
   }
 
-  .produce section:has(.calendar),
-  .produce section:has(.farms) {
+  .produce .produce__wide {
     max-width: none;
   }
 

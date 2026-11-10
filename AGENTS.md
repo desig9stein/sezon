@@ -26,18 +26,18 @@ The full roadmap is in `docs/PLAN.md`.
 
 ## 2. Tech stack
 
-| Concern         | Tool                                                                  |
-| --------------- | --------------------------------------------------------------------- |
-| Framework       | Astro 7 (`output: 'static'`), deployed to Cloudflare Pages            |
-| Language        | TypeScript 6 (`strict`, `noUncheckedIndexedAccess`)                   |
-| Content         | Astro Content Layer, YAML files in `src/data/**`, Zod via `astro/zod` |
-| Styling         | Vanilla CSS, design tokens in `src/styles/tokens.css`, scoped styles  |
-| Unit/components | Vitest + Astro Container API                                          |
-| E2E / a11y      | Playwright + `@axe-core/playwright`                                   |
-| Performance     | Lighthouse CI (`lighthouserc.cjs`), all categories must be 1.0        |
-| Lint / format   | ESLint (typescript-eslint, eslint-plugin-astro, jsx-a11y), Prettier   |
-| HTML validity   | html-validate on `dist/`                                              |
-| Package manager | pnpm (see `packageManager` in `package.json`)                         |
+| Concern         | Tool                                                                                                   |
+| --------------- | ------------------------------------------------------------------------------------------------------ |
+| Framework       | Astro 7 (`output: 'static'`), deployed to Cloudflare Pages                                             |
+| Language        | TypeScript 6 (`strict`, `noUncheckedIndexedAccess`)                                                    |
+| Content         | Astro Content Layer, YAML files in `src/data/**`, Zod via `astro/zod`                                  |
+| Styling         | Vanilla CSS, design tokens in `src/design/tokens.ts` (inlined as CSS custom properties), scoped styles |
+| Unit/components | Vitest + Astro Container API                                                                           |
+| E2E / a11y      | Playwright + `@axe-core/playwright`                                                                    |
+| Performance     | Lighthouse CI (`lighthouserc.cjs`), all categories must be 1.0                                         |
+| Lint / format   | ESLint (typescript-eslint, eslint-plugin-astro, jsx-a11y), Prettier                                    |
+| HTML validity   | html-validate on `dist/`                                                                               |
+| Package manager | pnpm (see `packageManager` in `package.json`)                                                          |
 
 Exact versions are pinned in `package.json`. Do not upgrade a major version without an ADR.
 
@@ -55,7 +55,7 @@ pnpm format:check     # Prettier check
 pnpm build            # static build into dist/
 pnpm validate:html    # html-validate on dist/
 pnpm test:e2e         # Playwright + axe against the built site (runs preview)
-pnpm lhci             # Lighthouse CI against the built site
+pnpm lhci             # Lighthouse CI against the built site (locally set CHROME_PATH to a Chrome binary)
 pnpm verify           # lint + check + test + build + validate:html + test:e2e
 ```
 
@@ -136,7 +136,8 @@ src/
   components/<area>/*.astro   Presentational components
   layouts/                    Page layouts
   pages/                      Routes. Thin: call application services, render components.
-  styles/                     tokens.css (design tokens), base.css (reset + base)
+  design/                     tokens.ts (design tokens, WCAG-tested), contrast.ts
+  styles/                     base.css (reset + base)
 tests/
   unit/                       Mirrors src/ structure
   components/                 Astro Container API tests
@@ -251,6 +252,19 @@ tests/
 - [ ] Comments follow the comment policy.
 
 ## 12. Git
+
+### Branches and pull requests
+
+- `main` is the only long-lived branch. Nobody pushes to it directly.
+- Every change goes through a pull request into `main`, from a short-lived branch named after
+  the work: `<type>/<NNN>-<kebab-feature>` for spec-driven work (e.g. `feat/007-produce-index-pages`)
+  or `<type>/<kebab-topic>` otherwise (e.g. `docs/content-guide-sources`, `fix/calendar-focus`).
+  `<type>` is a Conventional Commits type. No tool-generated or random branch names.
+- The owner reviews and merges. Delete the branch after the merge.
+- The PR title is a Conventional Commits summary; the body lists the specs, what changed and how
+  it was verified (`pnpm verify`, `pnpm lhci`).
+
+### Commits
 
 - Conventional Commits: `feat`, `fix`, `test`, `docs`, `refactor`, `chore`, `ci`, `build`,
   with the bounded context as scope, e.g. `feat(seasonality): ...`.

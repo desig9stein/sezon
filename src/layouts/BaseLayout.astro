@@ -24,9 +24,10 @@ interface Props {
   type?: OgType;
   breadcrumbs?: ReadonlyArray<BreadcrumbItem>;
   jsonLd?: ReadonlyArray<JsonLdData>;
+  noindex?: boolean;
 }
 
-const { title, description, path, type, breadcrumbs, jsonLd = [] } = Astro.props;
+const { title, description, path, type, breadcrumbs, jsonLd = [], noindex = false } = Astro.props;
 const meta = buildPageMeta({
   title,
   description,
@@ -42,7 +43,7 @@ const meta = buildPageMeta({
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <Seo meta={meta} />
+    <Seo meta={meta} noindex={noindex} />
     <style is:inline set:html={tokensToCss()}></style>
     {jsonLd.length > 0 && <JsonLd data={jsonLd} />}
   </head>

@@ -4,6 +4,20 @@ import type { Source } from './Source';
 
 declare const nominal: unique symbol;
 
+/** Macronutrient fields of {@link NutritionFacts}. */
+export type Macronutrient =
+  'energyKcal' | 'proteinG' | 'fatG' | 'carbohydrateG' | 'sugarsG' | 'fiberG';
+
+/** EU adult reference intakes for macronutrients (Regulation (EU) 1169/2011, Annex XIII Part B). */
+const MACRO_REFERENCE_INTAKES: Readonly<Partial<Record<Macronutrient, number>>> = {
+  energyKcal: 2000,
+  fatG: 70,
+  carbohydrateG: 260,
+  sugarsG: 90,
+  proteinG: 50,
+};
+const PERCENT = 100;
+
 /** Amount of one micronutrient per 100 g, in the unit defined by the nutrient. */
 export interface MicronutrientAmount {
   readonly nutrientSlug: string;
@@ -75,5 +89,18 @@ export class NutritionFacts {
       throw new InvalidNutritionFactsError(`Nutrient "${repeated}" is listed more than once.`);
     }
     return new NutritionFacts(input);
+  }
+
+  /**
+   * Returns the macronutrient amount as a rounded percentage of the EU adult reference intake,
+   * or `undefined` when the value is missing or the EU defines no reference intake (fibre).
+   */
+  percentOfReferenceIntake(macro: Macronutrient): number | undefined {
+    const referenceIntake = MACRO_REFERENCE_INTAKES[macro];
+    const value = this[macro];
+    if (referenceIntake === undefined || value === undefined) {
+      return undefined;
+    }
+    return Math.round((value / referenceIntake) * PERCENT);
   }
 }

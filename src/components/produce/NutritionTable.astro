@@ -1,5 +1,5 @@
 ---
-import type { NutritionFacts } from '@contexts/catalog';
+import type { Macronutrient, NutritionFacts } from '@contexts/catalog';
 import type { ResolvedMicronutrient } from '@composition/ProduceDetailsQuery';
 import { formatNumber, ui } from '@i18n/bg';
 
@@ -9,18 +9,39 @@ interface Props {
   micronutrients: ReadonlyArray<ResolvedMicronutrient>;
 }
 
+interface Row {
+  readonly label: string;
+  readonly value: string;
+  readonly percent: number | undefined;
+}
+
 const { nutrition, micronutrients } = Astro.props;
 const labels = ui.produce.nutrition;
-const grams = (value: number) => `${formatNumber(value)} g`;
-const macroRows = [
-  { label: labels.energy, value: `${formatNumber(nutrition.energyKcal)} kcal` },
-  { label: labels.protein, value: grams(nutrition.proteinG) },
-  { label: labels.fat, value: grams(nutrition.fatG) },
-  { label: labels.carbohydrate, value: grams(nutrition.carbohydrateG) },
-  ...(nutrition.sugarsG === undefined
+const { units } = labels;
+const macroRow = (macro: Macronutrient, label: string, unit: string): Row[] => {
+  const value = nutrition[macro];
+  return value === undefined
     ? []
-    : [{ label: labels.sugars, value: grams(nutrition.sugarsG) }]),
-  { label: labels.fiber, value: grams(nutrition.fiberG) },
+    : [
+        {
+          label,
+          value: `${formatNumber(value)} ${unit}`,
+          percent: nutrition.percentOfReferenceIntake(macro),
+        },
+      ];
+};
+const rows: ReadonlyArray<Row> = [
+  ...macroRow('energyKcal', labels.energy, units.kcal),
+  ...macroRow('proteinG', labels.protein, units.g),
+  ...macroRow('fatG', labels.fat, units.g),
+  ...macroRow('carbohydrateG', labels.carbohydrate, units.g),
+  ...macroRow('sugarsG', labels.sugars, units.g),
+  ...macroRow('fiberG', labels.fiber, units.g),
+  ...micronutrients.map(({ nutrient, amount, percentOfReferenceIntake }) => ({
+    label: nutrient.name,
+    value: `${formatNumber(amount)} ${units[nutrient.unit]}`,
+    percent: percentOfReferenceIntake,
+  })),
 ];
 ---
 
@@ -31,34 +52,39 @@ const macroRows = [
       <tr>
         <th scope="col">{labels.nutrient}</th>
         <th scope="col">{labels.amount}</th>
-        <th scope="col">{labels.percent}</th>
+        <th scope="col">
+          {labels.percent} <abbr title={labels.percentTitle}>{labels.percentAbbreviation}</abbr>
+        </th>
       </tr>
     </thead>
     <tbody>
-      {macroRows.map((row) => (
+      {rows.map((row) => (
         <tr>
           <th scope="row">{row.label}</th>
           <td>{row.value}</td>
-          <td />
-        </tr>
-      ))}
-      {micronutrients.map(({ nutrient, amount, percentOfReferenceIntake }) => (
-        <tr>
-          <th scope="row">{nutrient.name}</th>
-          <td>{`${formatNumber(amount)} ${nutrient.unit}`}</td>
-          <td>{`${percentOfReferenceIntake}%`}</td>
+          <td>
+            {row.percent === undefined ? (
+              <>
+                <span aria-hidden="true">–</span>
+                <span class="visually-hidden">{labels.noReferenceIntake}</span>
+              </>
+            ) : (
+              `${row.percent}%`
+            )}
+          </td>
         </tr>
       ))}
     </tbody>
   </table>
 </section>
 <p class="nutrition__note">
-  {labels.sourcePrefix} <a href={nutrition.source.url}>{nutrition.source.name}</a>.{' '}
+  {labels.sourcePrefix} <a href={nutrition.source.url}>{nutrition.source.name}</a>.
   {labels.referenceNote}
 </p>
 
 <style>
   .table-scroll {
+    position: relative;
     overflow-x: auto;
   }
 
@@ -84,6 +110,10 @@ const macroRows = [
 
   .nutrition td {
     text-align: end;
+  }
+
+  .nutrition abbr {
+    text-decoration: none;
   }
 
   .nutrition__note {

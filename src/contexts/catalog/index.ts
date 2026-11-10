@@ -1,7 +1,11 @@
 export { Nutrient, NUTRIENT_KINDS, NUTRIENT_UNITS } from './domain/Nutrient';
 export type { NutrientInput, NutrientKind, NutrientUnit } from './domain/Nutrient';
 export { NutritionFacts } from './domain/NutritionFacts';
-export type { MicronutrientAmount, NutritionFactsInput } from './domain/NutritionFacts';
+export type {
+  Macronutrient,
+  MicronutrientAmount,
+  NutritionFactsInput,
+} from './domain/NutritionFacts';
 export { Produce, REVIEW_STATUSES, TRADITIONAL_SYSTEMS } from './domain/Produce';
 export type {
   FaqItem,

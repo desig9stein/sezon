@@ -48,7 +48,7 @@ Cross-collection refs (`reference()`) are validated at build time, so a broken l
 
 - `/` shows the current month: "В сезон сега" (peak), "Все още има" (available), "Идва скоро" (next month)
 - `/sezon/[mesets]` gives 12 month pages (`/sezon/noemvri`), strong for queries like „какво е в сезон през ноември“
-- `/plodove`, `/zelenchutsi`, `/bilki`, plus a product page at `/plodove/[slug]` and so on
+- `/plodove`, `/zelenchutsi`, `/podpravki`, `/yadki` (section indexes in Phase 2); product pages at `/<section>/<slug>` (built)
 - `/kalendar` is a seasonal calendar as an accessible `<table>` (12 columns)
 - `/grupi/[slug]`, `/nutrienti/[slug]` (for example „храни богати на витамин C“, long-tail SEO)
 - `/regioni`, `/regioni/[slug]` (map, what grows there, farms)
@@ -59,7 +59,7 @@ Cross-collection refs (`reference()`) are validated at build time, so a broken l
 
 - The home page is generated with the build-time month (Europe/Sofia).
 - A GitHub Actions cron calls the Cloudflare Pages deploy hook **daily at 00:05 Sofia time**, so the content stays current. Month changes are the critical moment.
-- Fallback: a tiny inline script compares the month with the build month and, if they differ, shows a link „Виж сезона за <месец>“. No layout shift.
+- No client-side fallback script: revealing a notice after load would cause layout shift and is blocked by the CSP. The rebuild cron keeps the month current (spec 004).
 - Season logic lives in the `seasonality` and `catalog` domain layers (pure TypeScript), 100% covered by unit tests.
 
 ### Monetization without intrusiveness
@@ -72,7 +72,7 @@ Cross-collection refs (`reference()`) are validated at build time, so a broken l
 
 ### SEO checklist (each item is covered by a test)
 
-- A unique `<title>` and `meta description` per page. Each page goes through a `<Seo>` component and the `buildSeo()` helper, which validates length.
+- A unique `<title>` and `meta description` per page. Each page goes through `BaseLayout` → `<Seo>` and `buildPageMeta()`, which validates length.
 - `canonical`, `lang="bg"`, `og:*`, `twitter:*`, `og:locale=bg_BG`.
 - JSON-LD builders in `src/shared/seo/`: `WebSite` (+ SearchAction after Pagefind), `BreadcrumbList`, `ItemList` (season lists), `FAQPage` (product FAQ), `LocalBusiness`/`Farm` for farms, `Article` with `about`, `dateModified` and `citation` for product pages.
 - `@astrojs/sitemap`, `robots.txt`, clean URLs with trailing-slash policy `never`, 301 redirects through `_redirects`.
@@ -149,12 +149,14 @@ docs/specs/_TEMPLATE.md, docs/specs/NNN-*.md
 src/content.config.ts
 src/data/{produce,groups,regions,farms,nutrients,sponsors}/*.yaml
 src/contexts/<context>/{domain,application,infrastructure,index.ts}
-src/shared/{slug, seo, result}/
+src/shared/{domain, seo, infrastructure}/
+src/composition/          # composition root, cross-context read models, build clock
+src/design/{tokens.ts, contrast.ts}
 src/i18n/bg.ts            # all UI strings in one place (keys in English)
 src/components/{layout,produce,season,seo,ads,ui}/*.astro
 src/layouts/BaseLayout.astro
 src/pages/**
-src/styles/{tokens.css, base.css}
+src/styles/base.css
 tests/unit/**  tests/components/** (Astro Container API)  tests/e2e/** (Playwright + axe)
 lighthouserc.cjs  .github/workflows/{ci.yml, daily-rebuild.yml}
 ```
@@ -167,7 +169,7 @@ lighthouserc.cjs  .github/workflows/{ci.yml, daily-rebuild.yml}
 - **Lighthouse CI:** assertion `minScore: 1` for all 4 categories on a representative set of URLs. CI fails at 99.
 - **Content tests:** every produce has ≥1 season month, ≥1 region, a nutrition `source`, and a `source` on every traditional use. Every farm has a region and at least one way to contact it.
 - Also: `astro check` (types), ESLint (+ `eslint-plugin-astro`, `eslint-plugin-jsx-a11y` for astro), Prettier, `html-validate` on `dist/`.
-- Each feature lands as 2 commits: `test: … (failing)` → `feat: …`.
+- Each feature lands as `docs(spec)` → `test (red)` → `feat` → (`test` + `fix` for QA findings), see AGENTS.md.
 
 ---
 
@@ -192,7 +194,7 @@ lighthouserc.cjs  .github/workflows/{ci.yml, daily-rebuild.yml}
 
 **Phase 4: Monetization.** `sponsors`, `AdSlot`, the `/reklama` page, consent banner (choose a certified CMP), lazy AdSense, privacy/cookie pages.
 
-**Phase 5: Growth.** OG images per page, RSS, newsletter, PWA, CMS (Keystatic on top of the same files), daily rebuild cron with deploy hook (needs secret `CF_DEPLOY_HOOK`).
+**Phase 5: Growth.** OG images per page, RSS, newsletter, PWA, CMS (Keystatic on top of the same files). The daily rebuild workflow already exists; it needs the secret `CF_DEPLOY_HOOK`.
 
 ## Verification
 
@@ -204,7 +206,8 @@ lighthouserc.cjs  .github/workflows/{ci.yml, daily-rebuild.yml}
 
 ## Implementation status and resolved versions (as of 2026-11-10)
 
-Phase 0 completed: agent instructions, templates, ADRs, tooling and CI.
+Phase 0 and Phase 1 completed (specs 001–006): home page, 12 month pages, 13 produce pages, 404,
+robots.txt, sitemap, security headers; Lighthouse 100 × 4 on all audited templates.
 
 Pinned versions (latest compatible, checked with `npm view`):
 

@@ -23,9 +23,14 @@ describe('NutritionTable', () => {
     expect(html.match(/<th[^>]*scope="col"/g)?.length).toBeGreaterThanOrEqual(3);
     expect(html).toMatch(/<th[^>]*scope="row"[^>]*>\s*Енергия\s*<\/th>/);
     expect(html).toMatch(/<th[^>]*scope="row"[^>]*>\s*Витамин C\s*<\/th>/);
-    expect(html).toContain('36,6 mg');
+    expect(html).toContain('36,6 мг');
     expect(html).toContain('46%');
-    expect(html).toContain('1,28 g');
+    expect(html).toContain('1,28 г');
+    expect(html).toContain('25 ккал');
+    expect(html).not.toMatch(/<td[^>]*>\s*<\/td>/);
+    expect(html).toContain('1%');
+    expect(html).toContain('няма референтен прием');
+    expect(html).toMatch(/<abbr[^>]*title="референтен прием"[^>]*>РСП<\/abbr>/);
     expect(html).toMatch(
       /<a[^>]*href="https:\/\/fdc\.nal\.usda\.gov\/"[^>]*>USDA FoodData Central/,
     );
