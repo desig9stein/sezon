@@ -13,6 +13,12 @@
 - name: 'type:chore'
   color: 'cfd3d7'
   description: Tooling, dependencies and maintenance
+- name: 'epic'
+  color: '3e4b9e'
+  description: Large work split into sub-issues
+- name: 'area:design'
+  color: 'f9a8d4'
+  description: Visual identity, typography and layout
 - name: 'area:seo'
   color: 'fbca04'
   description: Titles, descriptions, structured data, sitemap
@@ -28,6 +34,9 @@
 - name: 'area:ci'
   color: 'bfdadc'
   description: CI, hooks and repository workflow
+- name: 'phase:launch'
+  color: 'fef2c0'
+  description: 'Launch readiness: deploy, domain, board and repository setup'
 - name: 'phase:2'
   color: 'c5def5'
   description: 'Roadmap phase 2: catalog'

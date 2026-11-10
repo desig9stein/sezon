@@ -223,6 +223,9 @@ tests/
 - Images have meaningful Bulgarian `alt`, or `alt=""` when decorative.
 - Respect `prefers-reduced-motion` and `prefers-color-scheme`.
 - Every page works without JavaScript.
+- Every page is readable and usable **without CSS**: the source order alone gives a logical
+  reading order, icons and decorative images do not render oversized, nothing relies on CSS to
+  hide or reveal content (except `.visually-hidden`), and CSS never reorders content.
 - `lang="bg"` on `<html>`. Foreign-language fragments (e.g. Latin names) get `lang="la"`.
 
 ## 9. SEO rules
@@ -269,6 +272,8 @@ tests/
 - Work starts from an issue (forms in `.github/ISSUE_TEMPLATE/`) and is tracked on the GitHub
   Projects board (see `docs/PROJECT-BOARD.md`).
 - Every issue is assigned to the owner (`desig9stein`) when it is created.
+- Every issue has full metadata: assignee, labels (`type:*`, at least one `area:*`, a phase
+  label, plus `epic` or `status:blocked` where they apply), parent epic, and milestone.
 - Every issue is added to the **Planning** project with all fields filled: Status, Priority,
   Impact, Estimate (ideal days), Start date and Target date. An epic's dates span its sub-issues.
 - Large work is an **epic**: an issue titled `epic: …` whose parts are GitHub **sub-issues**.
