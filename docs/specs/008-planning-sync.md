@@ -87,7 +87,7 @@ None. No page is produced.
 
 ## 8. Acceptance criteria
 
-1. **AC1:** Given a valid plan, `parsePlan` returns a frozen plan with numeric issue numbers in file order.
+1. **AC1:** Given a valid plan, `parsePlan` returns a frozen plan with numeric issue numbers, sorted by issue number.
 2. **AC2:** Given a plan with several problems (invalid date, start after target, negative estimate, undeclared milestone, duplicate milestone), `parsePlan` throws one `PlanValidationError` that lists each problem.
 3. **AC3:** Given project fields, `fieldUpdatesFor` returns six updates with the matching option ids, number and dates, matching names and options case-insensitively.
 4. **AC4:** Given a missing option or a missing field, `fieldUpdatesFor` throws `PlanningFieldError` that names the issue, the field and the available options.
