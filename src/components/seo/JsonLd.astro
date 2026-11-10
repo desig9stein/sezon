@@ -1,0 +1,15 @@
+---
+import { serializeJsonLd, type JsonLd } from '@shared/seo';
+
+/** Renders one or more JSON-LD objects as `application/ld+json` scripts. */
+interface Props {
+  data: JsonLd | ReadonlyArray<JsonLd>;
+}
+
+const { data } = Astro.props;
+const blocks: ReadonlyArray<JsonLd> = Array.isArray(data) ? data : [data as JsonLd];
+---
+
+{blocks.map((block) => (
+  <script is:inline type="application/ld+json" set:html={serializeJsonLd(block)} />
+))}

@@ -52,3 +52,8 @@ export class DuplicateEntityError extends DomainError {
 export class BrokenReferenceError extends DomainError {
   readonly code = 'BROKEN_REFERENCE';
 }
+
+/** Thrown when page metadata violates SEO rules (title or description length, path format). */
+export class InvalidPageMetaError extends DomainError {
+  readonly code = 'INVALID_PAGE_META';
+}

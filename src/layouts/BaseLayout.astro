@@ -1,0 +1,53 @@
+---
+import '../styles/base.css';
+import Breadcrumbs from '@components/layout/Breadcrumbs.astro';
+import SiteFooter from '@components/layout/SiteFooter.astro';
+import SiteHeader from '@components/layout/SiteHeader.astro';
+import SkipLink from '@components/layout/SkipLink.astro';
+import JsonLd from '@components/seo/JsonLd.astro';
+import Seo from '@components/seo/Seo.astro';
+import { tokensToCss } from '@design/tokens';
+import {
+  buildPageMeta,
+  type BreadcrumbItem,
+  type JsonLd as JsonLdData,
+  type OgType,
+} from '@shared/seo';
+
+/** Page shell: document head with SEO tags, skip link, header, breadcrumbs, main and footer. */
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  type?: OgType;
+  breadcrumbs?: ReadonlyArray<BreadcrumbItem>;
+  jsonLd?: ReadonlyArray<JsonLdData>;
+}
+
+const { title, description, path, type, breadcrumbs, jsonLd = [] } = Astro.props;
+const siteUrl = Astro.site?.toString();
+if (siteUrl === undefined) {
+  throw new Error('Astro `site` must be configured.');
+}
+const meta = buildPageMeta({ title, description, path, siteUrl, type });
+---
+
+<!doctype html>
+<html lang="bg">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Seo meta={meta} />
+    <style is:inline set:html={tokensToCss()}></style>
+    {jsonLd.length > 0 && <JsonLd data={jsonLd} />}
+  </head>
+  <body>
+    <SkipLink />
+    <SiteHeader currentPath={path} />
+    {breadcrumbs !== undefined && breadcrumbs.length > 0 && <Breadcrumbs items={breadcrumbs} />}
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

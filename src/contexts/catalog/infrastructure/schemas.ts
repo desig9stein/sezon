@@ -17,7 +17,7 @@ const LAST_MONTH = 12;
 /** Required opening of every traditional-use statement. */
 export const TRADITIONAL_USE_PREFIX = 'Традиционно се използва';
 
-const amount = () => z.number().finite().nonnegative();
+const amount = () => z.number().nonnegative();
 
 const nutritionSchema = z.object({
   energyKcal: amount(),

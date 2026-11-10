@@ -1,0 +1,56 @@
+---
+import JsonLd from '@components/seo/JsonLd.astro';
+import { ui } from '@i18n/bg';
+import { breadcrumbListJsonLd, type BreadcrumbItem } from '@shared/seo';
+
+/** Breadcrumb trail; the last item is the current page. Also emits BreadcrumbList JSON-LD. */
+interface Props {
+  items: ReadonlyArray<BreadcrumbItem>;
+}
+
+const { items } = Astro.props;
+const siteUrl = Astro.site?.toString();
+if (siteUrl === undefined) {
+  throw new Error('Astro `site` must be configured to render breadcrumbs.');
+}
+const lastIndex = items.length - 1;
+---
+
+<nav class="breadcrumbs container" aria-label={ui.breadcrumbs.label}>
+  <ol>
+    {items.map((item, index) => (
+      <li>
+        {index === lastIndex ? (
+          <span aria-current="page">{item.name}</span>
+        ) : (
+          <a href={item.path}>{item.name}</a>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+<JsonLd data={breadcrumbListJsonLd(items, siteUrl)} />
+
+<style>
+  .breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    padding: var(--space-3) 0 0;
+    list-style: none;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .breadcrumbs li:not(:last-child)::after {
+    content: '/';
+    margin-inline-start: var(--space-1);
+    color: var(--color-text-muted);
+  }
+
+  .breadcrumbs a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.5rem;
+  }
+</style>

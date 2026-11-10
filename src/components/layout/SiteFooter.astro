@@ -1,0 +1,67 @@
+---
+import { Month } from '@contexts/seasonality';
+import { BUILD_DATE } from '@composition/clock';
+import { monthName, ui } from '@i18n/bg';
+import { routes } from './routes';
+
+/** Site footer with links to every month page and the health disclaimer. */
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <nav aria-labelledby="footer-months-heading">
+      <h2 id="footer-months-heading" class="site-footer__heading">
+        {ui.footer.monthsHeading}
+      </h2>
+      <ul class="site-footer__months">
+        {Month.all().map((month) => (
+          <li>
+            <a href={routes.month(month)}>{monthName(month)}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <p class="site-footer__disclaimer">{ui.footer.disclaimer}</p>
+    <p>{ui.footer.copyright(BUILD_DATE.getFullYear())}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-16);
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-4);
+    padding-block: var(--space-8);
+  }
+
+  .site-footer__heading {
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+  }
+
+  .site-footer__months {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+    gap: var(--space-1) var(--space-4);
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer__months a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+  }
+
+  .site-footer__disclaimer {
+    max-width: var(--reading-width);
+  }
+</style>

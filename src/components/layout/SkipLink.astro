@@ -1,0 +1,28 @@
+---
+import { ui } from '@i18n/bg';
+
+/** Link to `#main` that becomes visible when focused. Must be the first focusable element. */
+---
+
+<a class="skip-link" href="#main">
+  {ui.skipLink}
+</a>
+
+<style>
+  .skip-link {
+    position: absolute;
+    inset-inline-start: var(--space-4);
+    top: var(--space-2);
+    z-index: 100;
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus-visible {
+    transform: none;
+  }
+</style>
