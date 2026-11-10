@@ -273,7 +273,8 @@ tests/
   Projects board (see `docs/PROJECT-BOARD.md`).
 - Every issue is assigned to the owner (`desig9stein`) when it is created.
 - Every issue has full metadata: assignee, labels (`type:*`, at least one `area:*`, a phase
-  label, plus `epic` or `status:blocked` where they apply), parent epic, and milestone.
+  label, plus `epic` or `status:blocked` where they apply), and parent epic.
+  The repository does not use milestones: epics group the work and Planning dates set deadlines.
 - Every issue is added to the **Planning** project with all fields filled: Status, Priority,
   Impact, Estimate (ideal days), Start date and Target date. An epic's dates span its sub-issues.
 - Large work is an **epic**: an issue titled `epic: …` whose parts are GitHub **sub-issues**.
