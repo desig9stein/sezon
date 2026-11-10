@@ -1,10 +1,9 @@
-import type { FieldUpdate, MilestonePlan, ProjectField } from './plan.ts';
-import type { IssueItem, Milestone, PlanningClient } from './syncPlan.ts';
+import type { FieldUpdate, ProjectField } from './plan.ts';
+import type { IssueItem, PlanningClient } from './syncPlan.ts';
 
 const API_URL = 'https://api.github.com';
 const API_VERSION = '2022-11-28';
 const USER_AGENT = 'sezon-planning-sync';
-const END_OF_DAY = 'T23:59:59Z';
 const PAGE_SIZE = 100;
 
 const FIND_PROJECT = `query($owner: String!) {
@@ -30,7 +29,6 @@ const FIND_ISSUE = `query($owner: String!, $name: String!, $number: Int!) {
     issue(number: $number) {
       id
       state
-      milestone { number }
       projectItems(first: ${PAGE_SIZE}) {
         nodes {
           id
@@ -91,7 +89,6 @@ interface FindIssueData {
     readonly issue: {
       readonly id: string;
       readonly state: string;
-      readonly milestone: { readonly number: number } | null;
       readonly projectItems: {
         readonly nodes: ReadonlyArray<{
           readonly id: string;
@@ -102,13 +99,6 @@ interface FindIssueData {
       };
     } | null;
   } | null;
-}
-
-interface RawMilestone {
-  readonly number: number;
-  readonly title: string;
-  readonly due_on: string | null;
-  readonly description: string | null;
 }
 
 /** Options for {@link GitHubPlanningClient}. */
@@ -143,13 +133,6 @@ function toFieldUpdate(raw: RawFieldValue): FieldUpdate | undefined {
   return undefined;
 }
 
-const toMilestone = (raw: RawMilestone): Milestone => ({
-  number: raw.number,
-  title: raw.title,
-  due: raw.due_on === null ? undefined : raw.due_on.slice(0, 10),
-  description: raw.description ?? '',
-});
-
 async function readJson(response: Response): Promise<unknown> {
   const text = await response.text();
   try {
@@ -164,7 +147,7 @@ const messageOf = (payload: unknown): string =>
     ? String(payload.message)
     : '';
 
-/** GitHub GraphQL (user-owned Projects v2) and REST (milestones) adapter for the planning sync. */
+/** GitHub GraphQL adapter for the planning sync (user-owned Projects v2). */
 export class GitHubPlanningClient implements PlanningClient {
   readonly #token: string;
   readonly #fetch: typeof fetch;
@@ -199,46 +182,7 @@ export class GitHubPlanningClient implements PlanningClient {
   }
 
   /**
-   * Lists the repository's milestones, open and closed.
-   * @throws {GitHubApiError} When the list may be truncated (100 or more milestones).
-   */
-  async listMilestones(): Promise<ReadonlyArray<Milestone>> {
-    const milestones = await this.#rest<ReadonlyArray<RawMilestone>>(
-      'GET',
-      `/repos/${this.#owner}/${this.#name}/milestones?state=all&per_page=${PAGE_SIZE}`,
-    );
-    if (milestones.length >= PAGE_SIZE) {
-      throw new GitHubApiError(
-        `The repository has ${PAGE_SIZE} milestones or more; pagination is not supported`,
-      );
-    }
-    return milestones.map(toMilestone);
-  }
-
-  /** Creates a milestone due at the end of its due date (UTC). */
-  async createMilestone(milestone: MilestonePlan): Promise<Milestone> {
-    const created = await this.#rest<RawMilestone>(
-      'POST',
-      `/repos/${this.#owner}/${this.#name}/milestones`,
-      {
-        title: milestone.title,
-        due_on: `${milestone.due}${END_OF_DAY}`,
-        description: milestone.description,
-      },
-    );
-    return toMilestone(created);
-  }
-
-  /** Sets the due date and description of an existing milestone. */
-  async updateMilestone(number: number, milestone: MilestonePlan): Promise<void> {
-    await this.#rest('PATCH', `/repos/${this.#owner}/${this.#name}/milestones/${number}`, {
-      due_on: `${milestone.due}${END_OF_DAY}`,
-      description: milestone.description,
-    });
-  }
-
-  /**
-   * Returns the project item of an open issue with its current field values and milestone,
+   * Returns the project item of an open issue with its current field values,
    * adding the issue to the project first when needed. Closed issues are not added.
    * @throws {GitHubApiError} When the issue does not exist.
    */
@@ -253,7 +197,6 @@ export class GitHubPlanningClient implements PlanningClient {
       throw new GitHubApiError(`Issue #${issueNumber} not found in ${this.#owner}/${this.#name}`);
     }
     if (issue.state !== 'OPEN') return { closed: true };
-    const milestoneNumber = issue.milestone?.number;
     const existing = issue.projectItems.nodes.find((item) => item.project.id === projectId);
     if (existing !== undefined) {
       return {
@@ -261,7 +204,6 @@ export class GitHubPlanningClient implements PlanningClient {
         itemId: existing.id,
         archived: existing.isArchived,
         values: existing.fieldValues.nodes.flatMap((raw) => toFieldUpdate(raw) ?? []),
-        milestoneNumber,
       };
     }
     const added = await this.#graphql<{
@@ -272,7 +214,6 @@ export class GitHubPlanningClient implements PlanningClient {
       itemId: added.addProjectV2ItemById.item.id,
       archived: false,
       values: [],
-      milestoneNumber,
     };
   }
 
@@ -283,13 +224,6 @@ export class GitHubPlanningClient implements PlanningClient {
       itemId,
       fieldId: update.fieldId,
       value: update.value,
-    });
-  }
-
-  /** Assigns a milestone to an issue. */
-  async setMilestone(issueNumber: number, milestoneNumber: number): Promise<void> {
-    await this.#rest('PATCH', `/repos/${this.#owner}/${this.#name}/issues/${issueNumber}`, {
-      milestone: milestoneNumber,
     });
   }
 
@@ -322,20 +256,5 @@ export class GitHubPlanningClient implements PlanningClient {
       );
     }
     return payload.data;
-  }
-
-  async #rest<T>(method: string, path: string, body?: Record<string, unknown>): Promise<T> {
-    const response = await this.#fetch(`${API_URL}${path}`, {
-      method,
-      headers: this.#headers(),
-      ...(body === undefined ? {} : { body: JSON.stringify(body) }),
-    });
-    const payload = await readJson(response);
-    if (!response.ok || payload === undefined) {
-      throw new GitHubApiError(
-        `${method} ${path} failed: ${response.status} ${messageOf(payload)}`.trim(),
-      );
-    }
-    return payload as T;
   }
 }

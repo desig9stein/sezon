@@ -7,13 +7,6 @@ export interface ProjectRef {
   readonly title: string;
 }
 
-/** A milestone declared in the planning file. */
-export interface MilestonePlan {
-  readonly title: string;
-  readonly due: IsoDate;
-  readonly description: string;
-}
-
 /** Planning metadata of one issue. */
 export interface IssuePlan {
   readonly number: number;
@@ -23,13 +16,11 @@ export interface IssuePlan {
   readonly estimate: number;
   readonly start: IsoDate;
   readonly target: IsoDate;
-  readonly milestone: string;
 }
 
 /** A validated planning file. */
 export interface Plan {
   readonly project: ProjectRef;
-  readonly milestones: ReadonlyArray<MilestonePlan>;
   readonly issues: ReadonlyArray<IssuePlan>;
 }
 
@@ -74,7 +65,17 @@ export class PlanningFieldError extends Error {
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const ISSUE_NUMBER = /^[1-9]\d*$/;
-const TEXT_KEYS = ['status', 'priority', 'impact', 'milestone'] as const;
+const TEXT_KEYS = ['status', 'priority', 'impact'] as const;
+const ROOT_KEYS: ReadonlyArray<string> = ['project', 'issues'];
+const PROJECT_KEYS: ReadonlyArray<string> = ['owner', 'title'];
+const ISSUE_KEYS: ReadonlyArray<string> = [
+  'status',
+  'priority',
+  'impact',
+  'estimate',
+  'start',
+  'target',
+];
 const DATE_KEYS = ['start', 'target'] as const;
 
 type FieldKind = 'SINGLE_SELECT' | 'NUMBER' | 'DATE';
@@ -108,53 +109,32 @@ export function isIsoDate(value: unknown): value is IsoDate {
   return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
 }
 
+function reportUnknownKeys(
+  value: Record<string, unknown>,
+  allowed: ReadonlyArray<string>,
+  label: string,
+  problems: string[],
+): void {
+  for (const key of Object.keys(value)) {
+    if (!allowed.includes(key)) problems.push(`${label}unknown key "${key}"`);
+  }
+}
+
 function parseProject(raw: unknown, problems: string[]): ProjectRef {
   const project = isRecord(raw) ? raw : {};
   if (!isRecord(raw)) problems.push('project must be a map with owner and title');
+  reportUnknownKeys(project, PROJECT_KEYS, 'project: ', problems);
   const { owner, title } = project;
   if (!isNonEmptyString(owner)) problems.push('project.owner must be a non-empty string');
   if (!isNonEmptyString(title)) problems.push('project.title must be a non-empty string');
   return Object.freeze({ owner: String(owner ?? ''), title: String(title ?? '') });
 }
 
-function parseMilestones(raw: unknown, problems: string[]): ReadonlyArray<MilestonePlan> {
-  if (!Array.isArray(raw)) {
-    problems.push('milestones must be a list');
-    return Object.freeze([]);
-  }
-  const seen = new Set<string>();
-  const milestones = raw.map((entry: unknown, index): MilestonePlan => {
-    const milestone = isRecord(entry) ? entry : {};
-    const { title, due, description = '' } = milestone;
-    const label = isNonEmptyString(title) ? `milestone "${title}"` : `milestone ${index + 1}`;
-    if (!isNonEmptyString(title)) problems.push(`${label}: title must be a non-empty string`);
-    if (!isIsoDate(due)) {
-      problems.push(`${label}: due must be a YYYY-MM-DD date, got "${String(due)}"`);
-    }
-    if (typeof description !== 'string') problems.push(`${label}: description must be a string`);
-    if (isNonEmptyString(title)) {
-      const key = title.trim().toLowerCase();
-      if (seen.has(key)) problems.push(`duplicate milestone "${title.trim()}"`);
-      seen.add(key);
-    }
-    return Object.freeze({
-      title: String(title ?? '').trim(),
-      due: String(due ?? ''),
-      description: String(description),
-    });
-  });
-  return Object.freeze(milestones);
-}
-
-function parseIssue(
-  key: string,
-  raw: unknown,
-  milestoneTitles: ReadonlySet<string>,
-  problems: string[],
-): IssuePlan {
+function parseIssue(key: string, raw: unknown, problems: string[]): IssuePlan {
   const label = `#${key}`;
   const entry = isRecord(raw) ? raw : {};
   if (!isRecord(raw)) problems.push(`${label}: must be a map of planning fields`);
+  reportUnknownKeys(entry, ISSUE_KEYS, `${label}: `, problems);
   for (const name of TEXT_KEYS) {
     if (!isNonEmptyString(entry[name]))
       problems.push(`${label}: ${name} must be a non-empty string`);
@@ -164,15 +144,12 @@ function parseIssue(
       problems.push(`${label}: ${name} must be a YYYY-MM-DD date, got "${String(entry[name])}"`);
     }
   }
-  const { estimate, start, target, milestone } = entry;
+  const { estimate, start, target } = entry;
   if (typeof estimate !== 'number' || !Number.isFinite(estimate) || estimate < 0) {
     problems.push(`${label}: estimate must be a finite number ≥ 0, got ${String(estimate)}`);
   }
   if (isIsoDate(start) && isIsoDate(target) && start > target) {
     problems.push(`${label}: start ${start} is after target ${target}`);
-  }
-  if (isNonEmptyString(milestone) && !milestoneTitles.has(milestone.trim().toLowerCase())) {
-    problems.push(`${label}: milestone "${milestone}" is not declared under milestones`);
   }
   return Object.freeze({
     number: Number(key),
@@ -182,26 +159,20 @@ function parseIssue(
     estimate: Number(estimate),
     start: String(start ?? ''),
     target: String(target ?? ''),
-    milestone: String(milestone ?? '').trim(),
   });
 }
 
-function parseIssues(
-  raw: unknown,
-  milestones: ReadonlyArray<MilestonePlan>,
-  problems: string[],
-): ReadonlyArray<IssuePlan> {
+function parseIssues(raw: unknown, problems: string[]): ReadonlyArray<IssuePlan> {
   if (!isRecord(raw)) {
     problems.push('issues must be a map from issue number to planning fields');
     return Object.freeze([]);
   }
-  const titles = new Set(milestones.map((milestone) => milestone.title.toLowerCase()));
   const issues = Object.entries(raw).flatMap(([key, entry]) => {
     if (!ISSUE_NUMBER.test(key)) {
       problems.push(`issue number "${key}" must be a positive integer`);
       return [];
     }
-    return [parseIssue(key, entry, titles, problems)];
+    return [parseIssue(key, entry, problems)];
   });
   return Object.freeze(issues.sort((a, b) => a.number - b.number));
 }
@@ -216,11 +187,11 @@ export function parsePlan(raw: unknown): Plan {
   const problems: string[] = [];
   const root = isRecord(raw) ? raw : {};
   if (!isRecord(raw)) problems.push('the planning file must be a map');
+  reportUnknownKeys(root, ROOT_KEYS, '', problems);
   const project = parseProject(root['project'], problems);
-  const milestones = parseMilestones(root['milestones'], problems);
-  const issues = parseIssues(root['issues'], milestones, problems);
+  const issues = parseIssues(root['issues'], problems);
   if (problems.length > 0) throw new PlanValidationError(problems);
-  return Object.freeze({ project, milestones, issues });
+  return Object.freeze({ project, issues });
 }
 
 const sameName = (a: string, b: string): boolean =>
@@ -270,62 +241,6 @@ export function fieldUpdatesFor(
         );
       }
       return Object.freeze({ fieldId: field.id, value: fieldValue(entry, field, key, kind) });
-    }),
-  );
-}
-
-/** A repository milestone as read from GitHub. */
-export interface ExistingMilestone {
-  readonly number: number;
-  readonly title: string;
-  readonly due: IsoDate | undefined;
-  readonly description: string;
-}
-
-/**
- * Returns whether two milestone titles name the same milestone (case-insensitive).
- * @param a - First title.
- * @param b - Second title.
- */
-export const sameMilestoneTitle = (a: string, b: string): boolean =>
-  a.trim().toLowerCase() === b.trim().toLowerCase();
-
-/**
- * Returns the plan's milestones that do not exist on GitHub yet. Titles match case-insensitively.
- * @param plan - The validated plan.
- * @param existingTitles - Titles of the repository's milestones (open and closed).
- * @returns The missing milestones, in plan order.
- */
-export function milestonesToCreate(
-  plan: Plan,
-  existingTitles: ReadonlyArray<string>,
-): ReadonlyArray<MilestonePlan> {
-  return Object.freeze(
-    plan.milestones.filter(
-      (milestone) => !existingTitles.some((title) => sameMilestoneTitle(title, milestone.title)),
-    ),
-  );
-}
-
-/**
- * Returns the existing milestones whose due date or description differ from the plan.
- * @param plan - The validated plan.
- * @param existing - The repository's milestones.
- * @returns The milestone number and its planned values, in plan order.
- */
-export function milestoneChanges(
-  plan: Plan,
-  existing: ReadonlyArray<ExistingMilestone>,
-): ReadonlyArray<{ readonly number: number; readonly milestone: MilestonePlan }> {
-  return Object.freeze(
-    plan.milestones.flatMap((milestone) => {
-      const current = existing.find((candidate) =>
-        sameMilestoneTitle(candidate.title, milestone.title),
-      );
-      if (current === undefined) return [];
-      const unchanged =
-        current.due === milestone.due && current.description === milestone.description;
-      return unchanged ? [] : [Object.freeze({ number: current.number, milestone })];
     }),
   );
 }
