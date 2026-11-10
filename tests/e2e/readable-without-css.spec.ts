@@ -5,6 +5,7 @@ import { hiddenByCss, removeAllCss, reorderedByCss } from './noCss';
 const PAGES = [
   { name: 'home', path: '/' },
   { name: 'month', path: '/sezon/noemvri' },
+  { name: 'section', path: '/zelenchutsi' },
   { name: 'produce', path: '/zelenchutsi/zele' },
   { name: 'not found', path: '/404' },
 ] as const;

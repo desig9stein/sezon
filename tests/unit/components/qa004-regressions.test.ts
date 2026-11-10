@@ -51,7 +51,13 @@ describe('QA 004 regressions', () => {
   });
 
   it('the routes helper exposes only route builders in use', () => {
-    expect(Object.keys(routes).sort()).toEqual(['home', 'month', 'produce', 'produceSection']);
+    expect(Object.keys(routes).sort()).toEqual([
+      'home',
+      'month',
+      'produce',
+      'produceSection',
+      'section',
+    ]);
   });
 
   it('page strings use the month name', () => {

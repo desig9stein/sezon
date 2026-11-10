@@ -1,4 +1,5 @@
 ---
+import { PRODUCE_KINDS } from '@contexts/catalog';
 import { buildMonth } from '@composition/clock';
 import { monthName, ui } from '@i18n/bg';
 import { routes } from './routes';
@@ -12,7 +13,14 @@ const { currentPath } = Astro.props;
 const links = [
   { href: routes.home, label: ui.nav.now },
   { href: routes.month(buildMonth.next()), label: ui.nav.next(monthName(buildMonth.next())) },
+  ...PRODUCE_KINDS.map((kind) => ({ href: routes.section(kind), label: ui.sections.names[kind] })),
 ];
+
+/** `page` for the current page, `true` for the section that contains it, otherwise nothing. */
+const currentOf = (href: string): 'page' | 'true' | undefined => {
+  if (href === currentPath) return 'page';
+  return href !== routes.home && currentPath.startsWith(`${href}/`) ? 'true' : undefined;
+};
 ---
 
 <header class="site-header">
@@ -25,7 +33,7 @@ const links = [
       <ul class="site-header__nav" role="list">
         {links.map((link) => (
           <li>
-            <a href={link.href} aria-current={link.href === currentPath ? 'page' : undefined}>
+            <a href={link.href} aria-current={currentOf(link.href)}>
               {link.label}
             </a>
           </li>
@@ -77,7 +85,11 @@ const links = [
     font-weight: 600;
   }
 
-  .site-header__nav a[aria-current='page'] {
+  .site-header__nav a[aria-current] {
     text-decoration-thickness: 3px;
+  }
+
+  .site-header__nav a[aria-current='true'] {
+    text-decoration-style: dotted;
   }
 </style>

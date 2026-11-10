@@ -10,10 +10,16 @@ export type { OgType, PageMeta, PageMetaInput } from './pageMeta';
 export {
   articleJsonLd,
   breadcrumbListJsonLd,
+  collectionPageJsonLd,
   faqPageJsonLd,
   itemListJsonLd,
   serializeJsonLd,
   websiteJsonLd,
 } from './jsonLd';
-export type { ArticleJsonLdInput, BreadcrumbItem, JsonLd } from './jsonLd';
+export type {
+  ArticleJsonLdInput,
+  BreadcrumbItem,
+  CollectionPageJsonLdInput,
+  JsonLd,
+} from './jsonLd';
 export { robotsTxt } from './robots';

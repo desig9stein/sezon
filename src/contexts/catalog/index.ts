@@ -29,3 +29,5 @@ export type {
 } from './domain/repositories';
 export { SeasonOverviewService } from './application/SeasonOverviewService';
 export type { SeasonOverview } from './application/SeasonOverviewService';
+export { SectionIndexService } from './application/SectionIndexService';
+export type { SectionIndex } from './application/SectionIndexService';

@@ -1,5 +1,5 @@
 import { getCollection } from 'astro:content';
-import { SeasonOverviewService } from '@contexts/catalog';
+import { SeasonOverviewService, SectionIndexService } from '@contexts/catalog';
 import type {
   Nutrient,
   NutrientRepository,
@@ -96,3 +96,5 @@ export const produceDetailsQuery = new ProduceDetailsQuery({
 
 /** Season overview queries over the content produce. */
 export const seasonOverviewService = new SeasonOverviewService(produceRepository);
+/** Lists the produce of one kind for its section page. */
+export const sectionIndexService = new SectionIndexService(produceRepository);

@@ -7,6 +7,7 @@ module.exports = {
       url: [
         'http://localhost:4323/',
         'http://localhost:4323/sezon/noemvri',
+        'http://localhost:4323/zelenchutsi',
         'http://localhost:4323/zelenchutsi/zele',
       ],
       numberOfRuns: 3,
