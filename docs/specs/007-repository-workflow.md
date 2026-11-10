@@ -67,8 +67,8 @@ None.
   `eslint --fix` on staged `*.{ts,astro,js,mjs,cjs}`. The hook installs on `pnpm install`
   (`prepare` script). It never runs tests (fast commits); CI runs them.
 - **Labels:** types (`type:feature`, `type:bug`, `type:content`, `type:docs`, `type:chore`),
-  areas (`area:seo`, `area:a11y`, `area:performance`, `area:content`, `area:ci`), phases
-  (`phase:2` … `phase:5`) and `status:blocked`. The sync workflow runs on changes to
+  areas (`area:seo`, `area:a11y`, `area:performance`, `area:content`, `area:ci`, `area:design`),
+  phases (`phase:2` … `phase:5`, `phase:launch`), `epic` and `status:blocked`. The sync workflow runs on changes to
   `.github/labels.yml` and on demand with `contents: read` and `issues: write`; it creates or
   updates labels and never deletes others.
 - **Templates:** issue forms require a summary and acceptance criteria (feature), steps to
