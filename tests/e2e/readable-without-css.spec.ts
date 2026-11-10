@@ -137,3 +137,15 @@ test('AC8: without CSS the produce facts under the title are separate list items
   );
   expect(new Set(tops).size).toBe(3);
 });
+
+test('AC8: with CSS the produce facts stay on one wrapping row on desktop', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'one row needs the desktop width');
+  await page.goto('/zelenchutsi/zele');
+
+  const tops = await page
+    .locator('article header ul > li')
+    .evaluateAll((items) => items.map((item) => Math.round(item.getBoundingClientRect().top)));
+  expect(new Set(tops).size).toBe(1);
+});
