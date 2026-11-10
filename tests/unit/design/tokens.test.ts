@@ -16,6 +16,7 @@ const REQUIRED_PAIRS: Pair[] = [
   ['onBadge', 'available', 4.5],
   ['onBadge', 'storage', 4.5],
   ['focus', 'background', 3],
+  ['focus', 'surface', 3],
   ['border', 'background', 3],
 ];
 
@@ -52,8 +53,11 @@ describe('tokensToCss', () => {
         `--color-${name.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)}:${value}`,
       );
     }
-    for (const value of Object.values(palettes.dark)) {
-      expect(css).toContain(value);
+    const dark = css.slice(css.indexOf('@media (prefers-color-scheme:dark)'));
+    for (const [name, value] of Object.entries(palettes.dark)) {
+      expect(dark).toContain(
+        `--color-${name.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)}:${value};`,
+      );
     }
     expect(css).toMatch(/--space-\d+:/);
     expect(css).toMatch(/--font-size-\w+:/);

@@ -13,6 +13,7 @@ describe('buildPageMeta', () => {
       description: `  ${DESCRIPTION}  `,
       path: '/zelenchutsi/zele',
       siteUrl: SITE,
+      siteName: 'Сезон',
       type: 'article',
     });
     expect(meta).toEqual({
@@ -53,6 +54,7 @@ describe('buildPageMeta', () => {
         description: DESCRIPTION,
         path: '/zele',
         siteUrl: SITE,
+        siteName: 'Сезон',
         ...overrides,
       }),
     ).toThrow(InvalidPageMetaError);
@@ -61,7 +63,13 @@ describe('buildPageMeta', () => {
   it('AC2: accepts a full title of exactly 60 characters', () => {
     const title = 'а'.repeat(60 - ' | Сезон'.length);
     expect(
-      buildPageMeta({ title, description: DESCRIPTION, path: '/', siteUrl: SITE }).title,
+      buildPageMeta({
+        title,
+        description: DESCRIPTION,
+        path: '/',
+        siteUrl: SITE,
+        siteName: 'Сезон',
+      }).title,
     ).toHaveLength(60);
   });
 });

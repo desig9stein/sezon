@@ -72,4 +72,9 @@ describe('BaseLayout', () => {
     const scripts = [...html.matchAll(/<script\b([^>]*)>/g)].map((match) => match[1]);
     expect(scripts.every((attributes) => attributes?.includes('application/ld+json'))).toBe(true);
   });
+
+  it('QA 003: wraps page content in the layout container', async () => {
+    const html = await renderLayout();
+    expect(html).toMatch(/<main[^>]*>\s*<div class="container[^"]*"[^>]*>\s*<h1>/);
+  });
 });
