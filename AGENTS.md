@@ -26,18 +26,18 @@ The full roadmap is in `docs/PLAN.md`.
 
 ## 2. Tech stack
 
-| Concern         | Tool                                                                  |
-| --------------- | --------------------------------------------------------------------- |
-| Framework       | Astro 7 (`output: 'static'`), deployed to Cloudflare Pages            |
-| Language        | TypeScript 6 (`strict`, `noUncheckedIndexedAccess`)                   |
-| Content         | Astro Content Layer, YAML files in `src/data/**`, Zod via `astro/zod` |
-| Styling         | Vanilla CSS, design tokens in `src/styles/tokens.css`, scoped styles  |
-| Unit/components | Vitest + Astro Container API                                          |
-| E2E / a11y      | Playwright + `@axe-core/playwright`                                   |
-| Performance     | Lighthouse CI (`lighthouserc.cjs`), all categories must be 1.0        |
-| Lint / format   | ESLint (typescript-eslint, eslint-plugin-astro, jsx-a11y), Prettier   |
-| HTML validity   | html-validate on `dist/`                                              |
-| Package manager | pnpm (see `packageManager` in `package.json`)                         |
+| Concern         | Tool                                                                                                   |
+| --------------- | ------------------------------------------------------------------------------------------------------ |
+| Framework       | Astro 7 (`output: 'static'`), deployed to Cloudflare Pages                                             |
+| Language        | TypeScript 6 (`strict`, `noUncheckedIndexedAccess`)                                                    |
+| Content         | Astro Content Layer, YAML files in `src/data/**`, Zod via `astro/zod`                                  |
+| Styling         | Vanilla CSS, design tokens in `src/design/tokens.ts` (inlined as CSS custom properties), scoped styles |
+| Unit/components | Vitest + Astro Container API                                                                           |
+| E2E / a11y      | Playwright + `@axe-core/playwright`                                                                    |
+| Performance     | Lighthouse CI (`lighthouserc.cjs`), all categories must be 1.0                                         |
+| Lint / format   | ESLint (typescript-eslint, eslint-plugin-astro, jsx-a11y), Prettier                                    |
+| HTML validity   | html-validate on `dist/`                                                                               |
+| Package manager | pnpm (see `packageManager` in `package.json`)                                                          |
 
 Exact versions are pinned in `package.json`. Do not upgrade a major version without an ADR.
 
@@ -136,7 +136,8 @@ src/
   components/<area>/*.astro   Presentational components
   layouts/                    Page layouts
   pages/                      Routes. Thin: call application services, render components.
-  styles/                     tokens.css (design tokens), base.css (reset + base)
+  design/                     tokens.ts (design tokens, WCAG-tested), contrast.ts
+  styles/                     base.css (reset + base)
 tests/
   unit/                       Mirrors src/ structure
   components/                 Astro Container API tests

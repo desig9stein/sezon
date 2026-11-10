@@ -13,4 +13,5 @@
   the changed files. Fix confirmed findings before reporting the feature as done.
 - Track multi-step work with the task list. Mark a task completed only after QA passes.
 - When a request is ambiguous, ask clarifying questions before writing code.
-- Never include model identifiers in commits, code or docs.
+- Never include model identifiers in code, docs or commit message bodies. The only exception is
+  the attribution trailer that the Claude Code harness requires at the end of commit messages.

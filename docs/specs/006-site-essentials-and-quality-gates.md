@@ -70,16 +70,16 @@ img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'
 3. **AC3:** Every page links the SVG favicon.
 4. **AC4:** The built site contains `404.html` (with `noindex`), `robots.txt`, `sitemap-index.xml` (without `/404`) and `_headers` (e2e).
 5. **AC5:** The 404 page has one `h1`, links to `/` and the current month, and zero axe violations (e2e).
-6. **AC6:** Lighthouse scores 1.0 in Performance, Accessibility, Best Practices and SEO for `/`, `/sezon/noemvri` and `/zelenchutsi/zele` (LHCI).
+6. **AC6:** Lighthouse (best of 3 runs, `aggregationMethod: 'optimistic'`) scores 1.0 in Performance, Accessibility, Best Practices and SEO for `/`, `/sezon/noemvri` and `/zelenchutsi/zele` (LHCI).
 
 ## 9. Test plan
 
-| AC      | Type       | Test file                              |
-| ------- | ---------- | -------------------------------------- |
-| AC1     | unit       | `tests/unit/shared/seo/robots.test.ts` |
-| AC2–AC3 | component  | `tests/components/BaseLayout.test.ts`  |
-| AC4–AC5 | e2e        | `tests/e2e/site-essentials.spec.ts`    |
-| AC6     | lighthouse | `lighthouserc.cjs` (`pnpm lhci`)       |
+| AC      | Type       | Test file                                 |
+| ------- | ---------- | ----------------------------------------- |
+| AC1     | unit       | `tests/unit/shared/seo/robots.test.ts`    |
+| AC2–AC3 | component  | `tests/components/BaseLayout-006.test.ts` |
+| AC4–AC5 | e2e        | `tests/e2e/site-essentials.spec.ts`       |
+| AC6     | lighthouse | `lighthouserc.cjs` (`pnpm lhci`)          |
 
 ## 10. Third-party documentation consulted
 

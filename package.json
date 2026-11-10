@@ -22,7 +22,7 @@
     "test:e2e": "playwright test --trace off",
     "validate:html": "html-validate \"dist/**/*.html\"",
     "lhci": "lhci autorun",
-    "verify": "pnpm lint && pnpm check && pnpm test && pnpm build && pnpm validate:html && pnpm test:e2e"
+    "verify": "pnpm format:check && pnpm lint && pnpm check && pnpm test:coverage && pnpm build && pnpm validate:html && pnpm test:e2e"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

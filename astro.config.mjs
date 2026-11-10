@@ -2,7 +2,8 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-const SITE_URL = process.env.PUBLIC_SITE_URL ?? 'https://sezon.example';
+const NOT_FOUND_PATH = '/404';
+const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://sezon.example';
 
 export default defineConfig({
   site: SITE_URL,
@@ -13,5 +14,5 @@ export default defineConfig({
     inlineStylesheets: 'always',
   },
   compressHTML: true,
-  integrations: [sitemap({ filter: (page) => !page.endsWith('/404') })],
+  integrations: [sitemap({ filter: (page) => !page.endsWith(NOT_FOUND_PATH) })],
 });
