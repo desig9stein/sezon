@@ -1,22 +1,30 @@
 ---
 import ProduceCard from '@components/produce/ProduceCard.astro';
 import type { Produce, SeasonOverview } from '@contexts/catalog';
-import type { SeasonLevel } from '@contexts/seasonality';
+import type { Month, SeasonLevel } from '@contexts/seasonality';
 import { ui } from '@i18n/bg';
 
-/** Produce of one month grouped into labelled sections: peak, available, coming soon, storage. */
+/** Identifiers of the groups an overview can render. */
+type GroupId = 'peak' | 'available' | 'comingSoon' | 'storage';
+
+/**
+ * Produce of one month grouped into labelled sections: peak, available, coming soon, storage.
+ * `groups` limits and orders the sections; coming-soon badges name the month they apply from.
+ */
 interface Props {
   overview: SeasonOverview;
+  groups?: ReadonlyArray<GroupId>;
 }
 
 interface Group {
-  readonly id: string;
+  readonly id: GroupId;
   readonly heading: string;
   readonly items: ReadonlyArray<Produce>;
   readonly levelOf: (produce: Produce) => SeasonLevel | undefined;
+  readonly levelFrom?: Month;
 }
 
-const { overview } = Astro.props;
+const { overview, groups: selected = ['peak', 'available', 'comingSoon', 'storage'] } = Astro.props;
 const { month } = overview;
 const next = month.next();
 const allGroups: ReadonlyArray<Group> = [
@@ -28,10 +36,11 @@ const allGroups: ReadonlyArray<Group> = [
     levelOf: (p) => p.levelIn(month),
   },
   {
-    id: 'coming-soon',
+    id: 'comingSoon',
     heading: ui.overview.comingSoon,
     items: overview.comingSoon,
     levelOf: (p) => p.levelIn(next),
+    levelFrom: next,
   },
   {
     id: 'storage',
@@ -40,7 +49,9 @@ const allGroups: ReadonlyArray<Group> = [
     levelOf: (p) => p.levelIn(month),
   },
 ];
-const groups = allGroups.filter((group) => group.items.length > 0);
+const groups = selected
+  .map((id) => allGroups.find((group) => group.id === id))
+  .filter((group): group is Group => group !== undefined && group.items.length > 0);
 ---
 
 {groups.length === 0 && <p>{ui.overview.empty}</p>}
@@ -50,7 +61,11 @@ const groups = allGroups.filter((group) => group.items.length > 0);
     <ul class="season-group__list" role="list">
       {group.items.map((produce) => (
         <li>
-          <ProduceCard produce={produce} level={group.levelOf(produce)} />
+          <ProduceCard
+            produce={produce}
+            level={group.levelOf(produce)}
+            levelFrom={group.levelFrom}
+          />
         </li>
       ))}
     </ul>

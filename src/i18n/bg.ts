@@ -1,5 +1,6 @@
 import type { ProduceKind } from '@contexts/catalog';
 import type { Month, SeasonLevelValue } from '@contexts/seasonality';
+import { characterCount, DESCRIPTION_MAX_LENGTH } from '@shared/seo';
 
 /** Name of the website. */
 export const SITE_NAME = 'Сезон';
@@ -20,8 +21,6 @@ const MONTH_NAMES = [
   'Декември',
 ] as const;
 
-const DESCRIPTION_MAX_LENGTH = 160;
-
 /** Returns the Bulgarian name of `month` in lowercase (e.g. „ноември“), as used inside sentences. */
 export function monthNameLower(month: Month): string {
   return monthName(month).toLocaleLowerCase('bg');
@@ -29,19 +28,15 @@ export function monthNameLower(month: Month): string {
 
 function monthPageDescription(month: Month, produceNames: ReadonlyArray<string>): string {
   const intro = `Какво е в сезон в България през ${monthNameLower(month)}`;
-  const closing = 'Вижте кое е в разгара си и откъде да купите от местни ферми.';
-  const fits = (names: ReadonlyArray<string>) =>
-    `${intro}: ${names.join(', ')}. ${closing}`.length <= DESCRIPTION_MAX_LENGTH;
+  const closing = 'Вижте кое е в разгара си и кое идва скоро.';
+  const withNames = (names: ReadonlyArray<string>) => `${intro}: ${names.join(', ')}. ${closing}`;
   const listed: string[] = [];
   for (const name of produceNames) {
-    if (!fits([...listed, name])) {
-      break;
+    if (characterCount(withNames([...listed, name])) <= DESCRIPTION_MAX_LENGTH) {
+      listed.push(name);
     }
-    listed.push(name);
   }
-  return listed.length === 0
-    ? `${intro}? ${closing}`
-    : `${intro}: ${listed.join(', ')}. ${closing}`;
+  return listed.length === 0 ? `${intro}? ${closing}` : withNames(listed);
 }
 
 /** All user-facing UI strings. */
@@ -73,7 +68,8 @@ export const ui = {
     intro:
       'Сезонните плодове и зеленчуци са най-вкусни, най-евтини и идват от по-близо. Ето какво се бере в България този месец.',
     description: (month: Month) =>
-      `Какво е в сезон в България сега – ${monthNameLower(month)}. Вижте кои плодове и зеленчуци са в разгара си и откъде да ги купите.`,
+      `Какво е в сезон в България сега – ${monthNameLower(month)}. Вижте кои плодове и зеленчуци са в разгара си и кои идват скоро.`,
+    fullMonthLink: (month: Month) => `Вижте всичко в сезон през ${monthNameLower(month)}`,
     nextMonthLink: (month: Month) => `Вижте какво идва през ${monthNameLower(month)}`,
   },
   monthPage: {
@@ -83,11 +79,12 @@ export const ui = {
   },
   overview: {
     peak: 'В разгара на сезона',
-    available: 'Все още в сезон',
+    available: 'Също в сезон',
     comingSoon: 'Идват скоро',
     storage: 'От хранилище',
     empty: 'Няма данни за този месец.',
     listName: (month: Month) => `В сезон през ${monthNameLower(month)}`,
+    fromMonth: (month: Month, level: string) => `От ${monthNameLower(month)}: ${level}`,
   },
   monthPager: {
     label: 'Други месеци',

@@ -13,7 +13,7 @@ import { routes } from './routes';
       <h2 id="footer-months-heading" class="site-footer__heading">
         {ui.footer.monthsHeading}
       </h2>
-      <ul class="site-footer__months">
+      <ul class="site-footer__months" role="list">
         {Month.all().map((month) => (
           <li>
             <a href={routes.month(month)}>{monthName(month)}</a>

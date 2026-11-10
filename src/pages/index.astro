@@ -12,6 +12,7 @@ import { websiteJsonLd } from '@shared/seo';
 const siteUrl = requireSiteUrl(Astro.site);
 const overview = await seasonOverviewService.overviewFor(buildMonth);
 const nextMonth = buildMonth.next();
+const itemList = freshProduceItemList(overview, siteUrl);
 ---
 
 <BaseLayout
@@ -20,15 +21,20 @@ const nextMonth = buildMonth.next();
   path={routes.home}
   jsonLd={[
     websiteJsonLd({ siteUrl, name: ui.siteName, description: ui.siteDescription }),
-    freshProduceItemList(overview, siteUrl),
+    ...(itemList === undefined ? [] : [itemList]),
   ]}
 >
   <h1>{ui.home.heading(buildMonth)}</h1>
   <p class="lead">{ui.home.intro}</p>
-  <SeasonOverview overview={overview} />
-  <p class="next-month">
-    <a href={routes.month(nextMonth)}>{ui.home.nextMonthLink(nextMonth)}</a>
-  </p>
+  <SeasonOverview overview={overview} groups={['peak', 'comingSoon']} />
+  <ul class="more-links" role="list">
+    <li>
+      <a href={routes.month(buildMonth)}>{ui.home.fullMonthLink(buildMonth)}</a>
+    </li>
+    <li>
+      <a href={routes.month(nextMonth)}>{ui.home.nextMonthLink(nextMonth)}</a>
+    </li>
+  </ul>
 </BaseLayout>
 
 <style>
@@ -43,11 +49,16 @@ const nextMonth = buildMonth.next();
     color: var(--color-text-muted);
   }
 
-  .next-month {
+  .more-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
     margin-top: var(--space-12);
+    padding: 0;
+    list-style: none;
   }
 
-  .next-month a {
+  .more-links a {
     display: inline-flex;
     align-items: center;
     min-height: var(--target-min);

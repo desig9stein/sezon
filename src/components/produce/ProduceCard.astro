@@ -2,17 +2,21 @@
 import SeasonBadge from '@components/season/SeasonBadge.astro';
 import { routes } from '@components/layout/routes';
 import type { Produce } from '@contexts/catalog';
-import type { SeasonLevel } from '@contexts/seasonality';
+import type { Month, SeasonLevel } from '@contexts/seasonality';
 import { ui } from '@i18n/bg';
 
-/** Summary card for one produce: linked name, kind, optional season badge and summary. */
+/**
+ * Summary card for one produce: linked name, kind, optional season badge and summary.
+ * `levelFrom` marks the badge level as applying from a later month.
+ */
 interface Props {
   produce: Produce;
   level?: SeasonLevel | undefined;
+  levelFrom?: Month | undefined;
   headingLevel?: 2 | 3 | 4;
 }
 
-const { produce, level, headingLevel = 3 } = Astro.props;
+const { produce, level, levelFrom, headingLevel = 3 } = Astro.props;
 const Heading = `h${headingLevel}` as const;
 ---
 
@@ -22,7 +26,7 @@ const Heading = `h${headingLevel}` as const;
   </Heading>
   <p class="produce-card__meta">
     <span>{ui.produceKinds[produce.kind]}</span>
-    {level !== undefined && <SeasonBadge level={level} />}
+    {level !== undefined && <SeasonBadge level={level} fromMonth={levelFrom} />}
   </p>
   <p class="produce-card__summary">{produce.summary}</p>
 </article>

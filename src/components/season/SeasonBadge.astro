@@ -1,18 +1,23 @@
 ---
-import type { SeasonLevel } from '@contexts/seasonality';
+import type { Month, SeasonLevel } from '@contexts/seasonality';
 import { ui } from '@i18n/bg';
 
-/** Season level shown as a decorative icon plus a visible text label on a level-coloured badge. */
+/**
+ * Season level shown as a decorative icon plus a visible text label on a level-coloured badge.
+ * With `fromMonth`, the label states that the level applies from that month.
+ */
 interface Props {
   level: SeasonLevel;
+  fromMonth?: Month | undefined;
 }
 
-const { level } = Astro.props;
+const { level, fromMonth } = Astro.props;
+const label = ui.seasonLevels[level.value];
 ---
 
 <span class="season-badge" data-level={level.value}>
   <span aria-hidden="true">{ui.seasonLevelIcons[level.value]}</span>
-  {ui.seasonLevels[level.value]}
+  {fromMonth === undefined ? label : ui.overview.fromMonth(fromMonth, label)}
 </span>
 
 <style>

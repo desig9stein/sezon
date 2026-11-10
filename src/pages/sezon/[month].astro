@@ -18,6 +18,7 @@ const siteUrl = requireSiteUrl(Astro.site);
 const overview = await seasonOverviewService.overviewFor(month);
 const freshNames = [...overview.peak, ...overview.available].map((produce) => produce.name);
 const path = routes.month(month);
+const itemList = freshProduceItemList(overview, siteUrl);
 ---
 
 <BaseLayout
@@ -28,7 +29,7 @@ const path = routes.month(month);
     { name: ui.breadcrumbs.home, path: routes.home },
     { name: monthName(month), path },
   ]}
-  jsonLd={[freshProduceItemList(overview, siteUrl)]}
+  jsonLd={itemList === undefined ? [] : [itemList]}
 >
   <h1>{ui.monthPage.heading(month)}</h1>
   <SeasonOverview overview={overview} />

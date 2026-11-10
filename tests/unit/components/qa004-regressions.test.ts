@@ -75,8 +75,8 @@ describe('QA 004 regressions', () => {
   });
 
   it('description keeps later names that fit after a long one', () => {
-    const description = ui.monthPage.description(Month.of(8), ['Б'.repeat(74), 'Зеле']);
+    const description = ui.monthPage.description(Month.of(8), ['Б'.repeat(120), 'Зеле']);
     expect(description).toContain('Зеле');
-    expect(description).not.toContain('Б'.repeat(74));
+    expect(description).not.toContain('Б'.repeat(120));
   });
 });
