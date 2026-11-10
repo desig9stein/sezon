@@ -68,7 +68,16 @@ describe('ProduceDetailsQuery', () => {
     expect(details.growingRegions.map((r) => [r.region.name, r.note])).toEqual([
       ['Пловдив', 'Тракийската низина има плодородни почви.'],
     ]);
-    expect(details.farms.map((farm) => farm.slug)).toEqual(['sponsor', 'agro', 'zelena-dolina']);
+    expect(details.farms.map(({ farm }) => farm.slug)).toEqual([
+      'sponsor',
+      'agro',
+      'zelena-dolina',
+    ]);
+    expect(details.farms.map(({ region }) => region.name)).toEqual([
+      'Пловдив',
+      'Пловдив',
+      'Пловдив',
+    ]);
     expect(details.sources.map((source) => source.url)).toEqual([
       'https://fdc.nal.usda.gov/',
       'https://example.org/source',
@@ -92,4 +101,89 @@ describe('ProduceDetailsQuery', () => {
       );
     },
   );
+
+  it('QA 005: resolves the region of a farm outside the growing regions', async () => {
+    const zele = toProduce('zele', produceRecord());
+    const query = new ProduceDetailsQuery({
+      produce: repositoryOf([zele]),
+      groups: repositoryOf([
+        toProduceGroup('krastotsvetni', {
+          name: 'Кръстоцветни',
+          latinName: 'Brassicaceae',
+          description: 'Описание.',
+        }),
+      ]),
+      nutrients: repositoryOf([
+        toNutrient('vitamin-c', nutrientRecord('Витамин C', 80)),
+        toNutrient('vitamin-k', nutrientRecord('Витамин K', 75)),
+      ]),
+      regions: repositoryOf([
+        toRegion('plovdiv', { name: 'Пловдив' }),
+        toRegion('veliko-tarnovo', { name: 'Велико Търново' }),
+      ]),
+      farms: new IndexedFarmRepository(async () => [
+        toFarm('gora', farmRecord({ name: 'Гора', region: 'veliko-tarnovo', produce: ['zele'] })),
+      ]),
+    });
+    const details = await query.forSlug('zele');
+    expect(details.farms.map(({ region }) => region.name)).toEqual(['Велико Търново']);
+  });
+
+  it('QA 005: throws BrokenReferenceError when a farm region is missing', async () => {
+    const zele = toProduce('zele', produceRecord());
+    const query = new ProduceDetailsQuery({
+      produce: repositoryOf([zele]),
+      groups: repositoryOf([
+        toProduceGroup('krastotsvetni', {
+          name: 'Кръстоцветни',
+          latinName: 'Brassicaceae',
+          description: 'Описание.',
+        }),
+      ]),
+      nutrients: repositoryOf([
+        toNutrient('vitamin-c', nutrientRecord('Витамин C', 80)),
+        toNutrient('vitamin-k', nutrientRecord('Витамин K', 75)),
+      ]),
+      regions: repositoryOf([toRegion('plovdiv', { name: 'Пловдив' })]),
+      farms: new IndexedFarmRepository(async () => [
+        toFarm('gora', farmRecord({ name: 'Гора', region: 'missing', produce: ['zele'] })),
+      ]),
+    });
+    await expect(query.forSlug('zele')).rejects.toThrow(BrokenReferenceError);
+  });
+
+  it('QA 005: de-duplicates sources by URL and name', async () => {
+    const record = produceRecord();
+    const duplicate = { ...record.traditionalUses[0]!, source: record.nutrition.source };
+    const sameUrlOtherName = {
+      ...record.traditionalUses[0]!,
+      source: { name: 'Друго име', url: record.nutrition.source.url },
+    };
+    const zele = toProduce('zele', {
+      ...record,
+      traditionalUses: [...record.traditionalUses, duplicate, sameUrlOtherName],
+    });
+    const query = new ProduceDetailsQuery({
+      produce: repositoryOf([zele]),
+      groups: repositoryOf([
+        toProduceGroup('krastotsvetni', {
+          name: 'Кръстоцветни',
+          latinName: 'Brassicaceae',
+          description: 'Описание.',
+        }),
+      ]),
+      nutrients: repositoryOf([
+        toNutrient('vitamin-c', nutrientRecord('Витамин C', 80)),
+        toNutrient('vitamin-k', nutrientRecord('Витамин K', 75)),
+      ]),
+      regions: repositoryOf([toRegion('plovdiv', { name: 'Пловдив' })]),
+      farms: new IndexedFarmRepository(async () => []),
+    });
+    const { sources } = await query.forSlug('zele');
+    expect(sources.map((source) => source.name)).toEqual([
+      record.nutrition.source.name,
+      'Народна медицина',
+      'Друго име',
+    ]);
+  });
 });
