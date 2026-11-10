@@ -37,6 +37,19 @@ test.describe('no-CSS helpers', () => {
     expect(await hiddenByCss(browser)).toEqual([]);
   });
 
+  test('hiddenByCss allows content reachable by scrolling a container', async ({
+    page: browser,
+  }) => {
+    await browser.setViewportSize({ width: 320, height: 400 });
+    await browser.setContent(
+      page(
+        '.scroll { overflow-x: auto } table { min-width: 60rem }',
+        '<section class="scroll" tabindex="0"><table><tr><td>А</td><td class="far">Б</td></tr></table></section>',
+      ),
+    );
+    expect(await hiddenByCss(browser)).toEqual([]);
+  });
+
   const reorderPatterns = [
     ['float: right on siblings', '.r > * { float: right }'],
     ['direction: rtl', '.r { display: flex; direction: rtl }'],

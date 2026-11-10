@@ -23,7 +23,7 @@ describe('NutritionTable', () => {
     expect(html).toMatch(/<caption[^>]*>[\s\S]*Хранителни стойности на 100 г[\s\S]*<\/caption>/);
     expect(html.match(/<th[^>]*scope="col"/g)?.length).toBeGreaterThanOrEqual(3);
     expect(html).toMatch(/<th[^>]*scope="row"[^>]*>\s*Енергия\s*<\/th>/);
-    expect(html).toMatch(/<th[^>]*scope="row"[^>]*>\s*Витамин C\s*<\/th>/);
+    expect(html).toMatch(/<th[^>]*scope="row"[^>]*>\s*<a[^>]*>Витамин C<\/a>\s*<\/th>/);
     expect(html).toContain('36,6 мг');
     expect(html).toContain('46%');
     expect(html).toContain('1,28 г');
