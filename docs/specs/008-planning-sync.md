@@ -24,20 +24,25 @@ maintain the plan.
 
 ### In scope
 
-- `.github/planning.yml`: the project (owner and title), milestones (title, due date,
+- `.github/planning.yml`: the user-owned project (owner and title), milestones (title, due date,
   description) and, per issue number, `status`, `priority`, `impact`, `estimate`, `start`,
   `target` and `milestone`.
 - `scripts/planning/plan.ts`: pure functions that validate the plan and compute changes.
 - `scripts/planning/GitHubPlanningClient.ts`: GraphQL and REST adapter (injected `fetch`).
 - `scripts/planning/syncPlan.ts`: orchestration over a client interface.
 - `scripts/planning/sync.ts`: entry point that reads the plan as JSON and calls `syncPlan`.
-- `.github/workflows/planning.yml`: runs the sync on push to `main` when the plan or the
-  scripts change, and on manual dispatch. Uses the `PROJECT_TOKEN` secret.
+- `.github/workflows/planning.yml`: runs the sync on push to `main` when the plan, the workflow
+  or the scripts change, and on manual dispatch. The job runs only on `main`, so the
+  `PROJECT_TOKEN` secret is never used for an unreviewed branch.
+
+Only projects owned by a user account are supported (`user(login:)` in GraphQL).
 
 ### Out of scope
 
 - Labels and assignees (managed with `.github/labels.yml` and on the issue itself).
 - Removing items from the project or deleting milestones.
+- Organization-owned projects; more than 100 projects, project items per issue or milestones
+  (the sync stops with a clear error instead of paginating).
 - Pull-request items on the board.
 
 ## 4. Domain model
@@ -60,8 +65,9 @@ maintain the plan.
 
 - `parsePlan(raw)` collects every problem and throws one `PlanValidationError` that lists them
   all. Problems: a missing or wrong-typed key, an invalid date, `start` after `target`, a
-  negative or non-finite estimate, a non-positive or non-integer issue number, a duplicate issue
-  number, a duplicate milestone title, or an issue milestone that is not declared.
+  negative or non-finite estimate, a non-positive or non-integer issue number, a duplicate
+  milestone title (case-insensitive), or an issue milestone that is not declared. Duplicate
+  issue numbers are rejected by the YAML parser. Milestone titles and references are trimmed.
 - The plan's issue keys are issue numbers (YAML map keys arrive as strings and are converted).
 - `fieldUpdatesFor(entry, fields)` maps plan keys to project fields by name, case-insensitively:
   `status` → „Status“, `priority` → „Priority“, `impact` → „Impact“, `estimate` → „Estimate“,
@@ -69,13 +75,21 @@ maintain the plan.
   case-insensitively. A missing field, a missing option, or a field of an unexpected type throws
   `PlanningFieldError` naming the issue, the field and the available options.
 - `milestonesToCreate(plan, existingTitles)` returns the plan milestones whose titles do not
-  exist yet, in plan order.
-- Sync order: resolve the project by owner and title (`PlanningFieldError` if not found) →
-  read fields → create missing milestones → for each issue: add it to the project if it is not
-  an item yet, update every field, set the milestone. All field updates are computed (and so
-  validated) before the first write.
+  exist yet (case-insensitive), in plan order. `milestoneChanges(plan, existing)` returns the
+  existing milestones whose due date or description differ from the plan.
+- `changedUpdates(desired, current)` keeps only the updates whose value differs from the item's
+  current value, so re-runs write nothing when nothing changed.
+- Sync order: resolve the project by owner and title (`GitHubApiError` if not found) → read
+  fields → compute every field update (so a plan that does not match the project fails before
+  the first write) → update changed milestones, create missing ones → for each issue: skip it
+  with a log line when it is closed (its board status is left to the project's own
+  workflows); add it to the project if it is not an item yet; warn when the item is archived;
+  write the changed fields; set the milestone when it differs. A milestone title that cannot be
+  resolved throws `PlanningFieldError`.
+- Milestone due dates are sent as the end of the day in UTC and compared by their date part.
 - The sync logs one line per issue and exits non-zero on the first API error, printing the
-  GraphQL or REST message. The token is never logged.
+  GraphQL or REST message, or the HTTP status, method and path when the body is not JSON. The
+  token is sent only in the `Authorization` header and never logged.
 
 ## 6. Accessibility requirements
 

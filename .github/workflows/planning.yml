@@ -3,7 +3,10 @@ name: Planning
 on:
   push:
     branches: [main]
-    paths: ['.github/planning.yml', 'scripts/planning/**']
+    paths:
+      - '.github/planning.yml'
+      - '.github/workflows/planning.yml'
+      - 'scripts/planning/**'
   workflow_dispatch:
 
 permissions:
@@ -16,10 +19,17 @@ concurrency:
 jobs:
   sync:
     name: Sync planning to the project and milestones
+    # The PROJECT_TOKEN secret is only used for the reviewed plan on main.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
-      - uses: pnpm/setup@v3
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
       - name: Convert the plan to JSON
         run: yq -o=json '.' .github/planning.yml > "$RUNNER_TEMP/plan.json"
       - name: Apply the plan

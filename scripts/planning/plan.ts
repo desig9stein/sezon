@@ -133,11 +133,12 @@ function parseMilestones(raw: unknown, problems: string[]): ReadonlyArray<Milest
     }
     if (typeof description !== 'string') problems.push(`${label}: description must be a string`);
     if (isNonEmptyString(title)) {
-      if (seen.has(title)) problems.push(`duplicate milestone "${title}"`);
-      seen.add(title);
+      const key = title.trim().toLowerCase();
+      if (seen.has(key)) problems.push(`duplicate milestone "${title.trim()}"`);
+      seen.add(key);
     }
     return Object.freeze({
-      title: String(title ?? ''),
+      title: String(title ?? '').trim(),
       due: String(due ?? ''),
       description: String(description),
     });
@@ -170,7 +171,7 @@ function parseIssue(
   if (isIsoDate(start) && isIsoDate(target) && start > target) {
     problems.push(`${label}: start ${start} is after target ${target}`);
   }
-  if (isNonEmptyString(milestone) && !milestoneTitles.has(milestone)) {
+  if (isNonEmptyString(milestone) && !milestoneTitles.has(milestone.trim().toLowerCase())) {
     problems.push(`${label}: milestone "${milestone}" is not declared under milestones`);
   }
   return Object.freeze({
@@ -181,7 +182,7 @@ function parseIssue(
     estimate: Number(estimate),
     start: String(start ?? ''),
     target: String(target ?? ''),
-    milestone: String(milestone ?? ''),
+    milestone: String(milestone ?? '').trim(),
   });
 }
 
@@ -194,7 +195,7 @@ function parseIssues(
     problems.push('issues must be a map from issue number to planning fields');
     return Object.freeze([]);
   }
-  const titles = new Set(milestones.map((milestone) => milestone.title));
+  const titles = new Set(milestones.map((milestone) => milestone.title.toLowerCase()));
   const issues = Object.entries(raw).flatMap(([key, entry]) => {
     if (!ISSUE_NUMBER.test(key)) {
       problems.push(`issue number "${key}" must be a positive integer`);
@@ -273,8 +274,24 @@ export function fieldUpdatesFor(
   );
 }
 
+/** A repository milestone as read from GitHub. */
+export interface ExistingMilestone {
+  readonly number: number;
+  readonly title: string;
+  readonly due: IsoDate | undefined;
+  readonly description: string;
+}
+
 /**
- * Returns the plan's milestones that do not exist on GitHub yet.
+ * Returns whether two milestone titles name the same milestone (case-insensitive).
+ * @param a - First title.
+ * @param b - Second title.
+ */
+export const sameMilestoneTitle = (a: string, b: string): boolean =>
+  a.trim().toLowerCase() === b.trim().toLowerCase();
+
+/**
+ * Returns the plan's milestones that do not exist on GitHub yet. Titles match case-insensitively.
  * @param plan - The validated plan.
  * @param existingTitles - Titles of the repository's milestones (open and closed).
  * @returns The missing milestones, in plan order.
@@ -283,6 +300,53 @@ export function milestonesToCreate(
   plan: Plan,
   existingTitles: ReadonlyArray<string>,
 ): ReadonlyArray<MilestonePlan> {
-  const existing = new Set(existingTitles);
-  return Object.freeze(plan.milestones.filter((milestone) => !existing.has(milestone.title)));
+  return Object.freeze(
+    plan.milestones.filter(
+      (milestone) => !existingTitles.some((title) => sameMilestoneTitle(title, milestone.title)),
+    ),
+  );
+}
+
+/**
+ * Returns the existing milestones whose due date or description differ from the plan.
+ * @param plan - The validated plan.
+ * @param existing - The repository's milestones.
+ * @returns The milestone number and its planned values, in plan order.
+ */
+export function milestoneChanges(
+  plan: Plan,
+  existing: ReadonlyArray<ExistingMilestone>,
+): ReadonlyArray<{ readonly number: number; readonly milestone: MilestonePlan }> {
+  return Object.freeze(
+    plan.milestones.flatMap((milestone) => {
+      const current = existing.find((candidate) =>
+        sameMilestoneTitle(candidate.title, milestone.title),
+      );
+      if (current === undefined) return [];
+      const unchanged =
+        current.due === milestone.due && current.description === milestone.description;
+      return unchanged ? [] : [Object.freeze({ number: current.number, milestone })];
+    }),
+  );
+}
+
+const sameValue = (a: FieldValue, b: FieldValue): boolean =>
+  JSON.stringify(a) === JSON.stringify(b);
+
+/**
+ * Returns the updates whose value differs from the item's current value of that field.
+ * @param desired - Updates computed from the plan.
+ * @param current - The item's current field values.
+ * @returns The updates to send, in the order of `desired`.
+ */
+export function changedUpdates(
+  desired: ReadonlyArray<FieldUpdate>,
+  current: ReadonlyArray<FieldUpdate>,
+): ReadonlyArray<FieldUpdate> {
+  return Object.freeze(
+    desired.filter((update) => {
+      const now = current.find((value) => value.fieldId === update.fieldId);
+      return now === undefined || !sameValue(now.value, update.value);
+    }),
+  );
 }

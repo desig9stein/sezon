@@ -1,5 +1,6 @@
-# Planning metadata for every open issue. Applied to the Planing project and to milestones
-# by .github/workflows/planning.yml (spec 008). Estimates are in ideal days; epics sum their parts.
+# Planning metadata for every open issue. Applied to the user-owned Planing project and to the
+# repository milestones by .github/workflows/planning.yml (spec 008). Closed issues are skipped.
+# Estimates are in ideal days; epics sum their parts.
 project:
   owner: desig9stein
   title: Planing
