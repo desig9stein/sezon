@@ -4,9 +4,19 @@ import { expect, type Page } from '@playwright/test';
 /** WCAG rule tags checked on every page. */
 export const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
-/** Fails the test when axe reports any violation on the current page. */
-export async function expectNoAxeViolations(page: Page): Promise<void> {
-  const results = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
+/**
+ * Fails the test when axe reports any violation on the current page.
+ * @param page - The page to scan.
+ * @param disabledRules - axe rule ids to skip, for checks where WCAG exempts the content.
+ */
+export async function expectNoAxeViolations(
+  page: Page,
+  disabledRules: ReadonlyArray<string> = [],
+): Promise<void> {
+  const results = await new AxeBuilder({ page })
+    .withTags(WCAG_TAGS)
+    .disableRules([...disabledRules])
+    .analyze();
   expect(
     results.violations.map((violation) => ({
       id: violation.id,

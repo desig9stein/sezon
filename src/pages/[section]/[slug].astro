@@ -52,11 +52,13 @@ const jsonLd = [
   <article class="produce">
     <header class="produce__header">
       <h1>{produce.name}</h1>
-      <p class="produce__meta">
-        <i lang="la">{produce.latinName}</i>
-        <span>{ui.produceKinds[produce.kind]}</span>
-        <span>{labels.family(group.name, group.latinName)}</span>
-      </p>
+      <ul class="produce__meta" role="list">
+        <li>
+          <i lang="la">{produce.latinName}</i>
+        </li>
+        <li>{ui.produceKinds[produce.kind]}</li>
+        <li>{labels.family(group.name, group.latinName)}</li>
+      </ul>
       <p class="produce__summary">{produce.summary}</p>
       <p class="produce__now">
         {labels.now(
@@ -186,6 +188,9 @@ const jsonLd = [
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-1) var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
     color: var(--color-text-muted);
   }
 
@@ -198,7 +203,7 @@ const jsonLd = [
     font-weight: 600;
   }
 
-  .produce ul {
+  .produce section ul {
     display: grid;
     gap: var(--space-1);
     padding-inline-start: var(--space-6);
