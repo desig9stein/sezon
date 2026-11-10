@@ -1,0 +1,38 @@
+name: Bug
+description: Something on the site or in the tooling does not work as expected.
+title: 'fix: '
+labels: ['type:bug']
+body:
+  - type: input
+    id: url
+    attributes:
+      label: Page or area
+      description: URL or part of the project (e.g. /zelenchutsi/zele, CI, content).
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open …
+        2. Press Tab …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser, device and settings
+      description: e.g. Safari 19 on iPhone, dark mode, screen reader, 200% zoom.

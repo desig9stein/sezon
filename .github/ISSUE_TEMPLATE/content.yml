@@ -1,0 +1,38 @@
+name: Content
+description: Add or correct produce, farm, region or nutrition data.
+title: 'content: '
+labels: ['type:content', 'area:content']
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of content?
+      options:
+        - New produce
+        - Correction to existing produce
+        - New farm
+        - Correction to a farm
+        - Region or nutrient data
+    validations:
+      required: true
+  - type: input
+    id: entry
+    attributes:
+      label: Entry
+      description: Name or slug, e.g. „Ябълки“ / yabalki, or the farm name.
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: The values or text to add or change. Follow docs/CONTENT-GUIDE.md.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources
+      description: Links for nutrition values (USDA FoodData Central or EFSA) and traditional uses. Required for health-related content; optional for farm corrections.
+    validations:
+      required: false

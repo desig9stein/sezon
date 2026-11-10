@@ -16,8 +16,10 @@ The "current season" depends on today's date.
 - Keep the home page current by **rebuilding daily** (GitHub Actions cron → Cloudflare Pages deploy hook).
 - Use **TypeScript 6.0.x**. TypeScript 7 is released, but `@astrojs/check@0.9.12` and
   `typescript-eslint@8.72.2` declare peer support only up to 6.x. Revisit when they support 7.
-- Use **pnpm** with an override `@puppeteer/browsers: 3.2.6`, because the 3.2.7 tarball
-  required by `@lhci/cli@0.16.0` is not downloadable from the registry.
+- Use **pnpm 12** (latest). Settings live in `pnpm-workspace.yaml`: an override
+  `@puppeteer/browsers: 3.2.6` (the 3.2.7 tarball required by `@lhci/cli@0.16.0` is not
+  downloadable) and `allowBuilds`. pnpm's default `minimumReleaseAge` (1 day) rejects packages
+  published in the last 24 hours. CI uses `pnpm/setup@v3`.
 
 ## Consequences
 

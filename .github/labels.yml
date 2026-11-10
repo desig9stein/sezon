@@ -1,0 +1,45 @@
+- name: 'type:feature'
+  color: '1d76db'
+  description: New page, component or capability
+- name: 'type:bug'
+  color: 'd73a4a'
+  description: Something does not work as expected
+- name: 'type:content'
+  color: '0e8a16'
+  description: Produce, farm, region or nutrition data
+- name: 'type:docs'
+  color: '0075ca'
+  description: Documentation, specs and ADRs
+- name: 'type:chore'
+  color: 'cfd3d7'
+  description: Tooling, dependencies and maintenance
+- name: 'area:seo'
+  color: 'fbca04'
+  description: Titles, descriptions, structured data, sitemap
+- name: 'area:a11y'
+  color: '5319e7'
+  description: Accessibility (WCAG 2.2 AA)
+- name: 'area:performance'
+  color: 'f9d0c4'
+  description: Lighthouse performance and page weight
+- name: 'area:content'
+  color: 'c2e0c6'
+  description: Content model and seed data
+- name: 'area:ci'
+  color: 'bfdadc'
+  description: CI, hooks and repository workflow
+- name: 'phase:2'
+  color: 'c5def5'
+  description: 'Roadmap phase 2: catalog'
+- name: 'phase:3'
+  color: 'bfd4f2'
+  description: 'Roadmap phase 3: regions and farms'
+- name: 'phase:4'
+  color: 'd4c5f9'
+  description: 'Roadmap phase 4: monetization'
+- name: 'phase:5'
+  color: 'e4e669'
+  description: 'Roadmap phase 5: growth'
+- name: 'status:blocked'
+  color: 'b60205'
+  description: Waiting on a decision or an external dependency

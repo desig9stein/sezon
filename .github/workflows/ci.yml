@@ -1,9 +1,9 @@
 name: CI
 
 on:
-  push:
-    branches: [main, 'claude/**']
   pull_request:
+  push:
+    branches: [main]
 
 permissions:
   contents: read
@@ -13,27 +13,97 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  quality:
+  format:
+    name: Prettier
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v3
         with:
-          node-version-file: .nvmrc
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+          cache: true
       - run: pnpm format:check
+
+  lint:
+    name: ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v3
+        with:
+          cache: true
       - run: pnpm lint
+
+  typecheck:
+    name: Types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v3
+        with:
+          cache: true
       - run: pnpm check
+
+  unit:
+    name: Unit tests and coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v3
+        with:
+          cache: true
       - run: pnpm test:coverage
+
+  build:
+    name: Build and HTML validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v3
+        with:
+          cache: true
       - run: pnpm build
       - run: pnpm validate:html
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist
+          if-no-files-found: error
+          retention-days: 1
+
+  e2e:
+    name: E2E and accessibility (axe)
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v3
+        with:
+          cache: true
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test:e2e
+
+  lighthouse:
+    name: Lighthouse 100
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v3
+        with:
+          cache: true
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist
       - run: pnpm lhci
       - if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: lighthouse-reports
           path: .lighthouseci/reports
+          include-hidden-files: true
+          if-no-files-found: error
