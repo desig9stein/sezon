@@ -16,15 +16,36 @@ test.describe('site essentials', () => {
     expect(sitemap).toContain('/sezon/noemvri</loc>');
     expect(sitemap).toContain('/zelenchutsi/zele</loc>');
     expect(sitemap).not.toContain('/404');
-    expect(existsSync(join(DIST, '_headers'))).toBe(true);
+    expect(existsSync(join(DIST, 'sitemap-index.xml'))).toBe(true);
+    const headers = readFileSync(join(DIST, '_headers'), 'utf8');
+    expect(headers).toMatch(
+      /Content-Security-Policy: default-src 'self';.*script-src 'self'.*form-action 'self'/,
+    );
+    expect(headers).toContain('Strict-Transport-Security: max-age=31536000');
+    expect(headers).toMatch(/\/_astro\/\*\n\s+Cache-Control: public, max-age=31536000, immutable/);
     expect(existsSync(join(DIST, 'favicon.svg'))).toBe(true);
   });
 
-  test('AC5: the 404 page helps the visitor and is accessible', async ({ page }) => {
+  test('AC5: the 404 page links home and to the current month', async ({ page }) => {
     await page.goto('/404');
     await expect(page.locator('h1')).toHaveCount(1);
     await expect(page.locator('main a[href="/"]')).toHaveCount(1);
-    await expect(page.locator('main a[href^="/sezon/"]')).toHaveCount(1);
-    await expectNoAxeViolations(page);
+    const notFoundMonth = await page.locator('main a[href^="/sezon/"]').getAttribute('href');
+    await page.goto('/');
+    const currentMonth = await page.locator('main a[href^="/sezon/"]').first().getAttribute('href');
+    expect(notFoundMonth).toBe(currentMonth);
   });
+
+  for (const colorScheme of ['light', 'dark'] as const) {
+    for (const width of [1280, 320]) {
+      test(`AC5: the 404 page has no axe violations (${colorScheme}, ${width}px)`, async ({
+        page,
+      }) => {
+        await page.setViewportSize({ width, height: 800 });
+        await page.emulateMedia({ colorScheme });
+        await page.goto('/404');
+        await expectNoAxeViolations(page);
+      });
+    }
+  }
 });
