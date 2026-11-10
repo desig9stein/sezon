@@ -83,3 +83,54 @@ export function itemListJsonLd(
     })),
   };
 }
+
+/** Input for {@link articleJsonLd}. */
+export interface ArticleJsonLdInput {
+  readonly siteUrl: string;
+  readonly path: string;
+  readonly headline: string;
+  readonly description: string;
+  readonly dateModified: Date;
+  readonly about: { readonly name: string; readonly alternateName?: string | undefined };
+  readonly citations: ReadonlyArray<{ readonly name: string; readonly url: string }>;
+}
+
+/** Returns schema.org `Article` data describing a page about one thing, with its citations. */
+export function articleJsonLd(input: ArticleJsonLdInput): JsonLd {
+  return {
+    '@context': SCHEMA_CONTEXT,
+    '@type': 'Article',
+    headline: input.headline,
+    description: input.description,
+    inLanguage: CONTENT_LANGUAGE,
+    dateModified: input.dateModified.toISOString().slice(0, 10),
+    mainEntityOfPage: absoluteUrl(input.siteUrl, input.path),
+    about: {
+      '@type': 'Thing',
+      name: input.about.name,
+      ...(input.about.alternateName === undefined
+        ? {}
+        : { alternateName: input.about.alternateName }),
+    },
+    citation: input.citations.map((citation) => ({
+      '@type': 'CreativeWork',
+      name: citation.name,
+      url: citation.url,
+    })),
+  };
+}
+
+/** Returns schema.org `FAQPage` data for question–answer pairs. */
+export function faqPageJsonLd(
+  items: ReadonlyArray<{ readonly question: string; readonly answer: string }>,
+): JsonLd {
+  return {
+    '@context': SCHEMA_CONTEXT,
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  };
+}

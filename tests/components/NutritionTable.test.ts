@@ -29,6 +29,6 @@ describe('NutritionTable', () => {
     expect(html).toMatch(
       /<a[^>]*href="https:\/\/fdc\.nal\.usda\.gov\/"[^>]*>USDA FoodData Central/,
     );
-    expect(html).toMatch(/<div[^>]*role="region"[^>]*tabindex="0"/);
+    expect(html).toMatch(/<section[^>]*aria-labelledby="nutrition-caption"[^>]*tabindex="0"/);
   });
 });

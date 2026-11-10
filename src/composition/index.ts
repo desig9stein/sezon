@@ -17,6 +17,7 @@ import { toRegion } from '@contexts/geography/infrastructure/mappers';
 import { BrokenReferenceError } from '@shared/domain/errors';
 import { IndexedRepository } from '@shared/infrastructure/IndexedRepository';
 import { findBrokenReferences, type ContentRecords } from './contentIntegrity';
+import { ProduceDetailsQuery } from './ProduceDetailsQuery';
 
 interface Content {
   readonly produce: ReadonlyArray<Produce>;
@@ -83,6 +84,15 @@ export const regionRepository: RegionRepository = new IndexedRepository(
 export const farmRepository: FarmRepository = new IndexedFarmRepository(
   async () => (await getContent()).farms,
 );
+
+/** Read model for produce detail pages. */
+export const produceDetailsQuery = new ProduceDetailsQuery({
+  produce: produceRepository,
+  groups: produceGroupRepository,
+  nutrients: nutrientRepository,
+  regions: regionRepository,
+  farms: farmRepository,
+});
 
 /** Season overview queries over the content produce. */
 export const seasonOverviewService = new SeasonOverviewService(produceRepository);

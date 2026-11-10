@@ -19,10 +19,14 @@ const regionNames = new Map([['plovdiv', 'Пловдив']]);
 describe('FarmList', () => {
   it('AC9: renders contact links with descriptive names and labels', async () => {
     const html = await render(FarmList, { farms: [sponsored, farm], regionNames });
-    expect(html).toMatch(/<a[^>]*href="https:\/\/example\.com"[^>]*>Уебсайт на Зелена долина<\/a>/);
-    expect(html).toMatch(/<a[^>]*href="mailto:farm@example\.com"[^>]*>Имейл до Зелена долина<\/a>/);
     expect(html).toMatch(
-      /<a[^>]*href="tel:\+359888123456"[^>]*>Телефон на Сад: \+359888123456<\/a>/,
+      /<a[^>]*href="https:\/\/example\.com"[^>]*>\s*Уебсайт на Зелена долина\s*<\/a>/,
+    );
+    expect(html).toMatch(
+      /<a[^>]*href="mailto:farm@example\.com"[^>]*>\s*Имейл до Зелена долина\s*<\/a>/,
+    );
+    expect(html).toMatch(
+      /<a[^>]*href="tel:\+359888123456"[^>]*aria-label="Телефон на Сад: \+359888123456"[^>]*>\s*\+359888123456\s*<\/a>/,
     );
     expect(html).toContain('Примерни данни');
     expect(html).toContain('Спонсорирано');

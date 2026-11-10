@@ -1,6 +1,6 @@
 import type { ProduceKind } from '@contexts/catalog';
 import type { Month, SeasonLevelValue } from '@contexts/seasonality';
-import { characterCount, DESCRIPTION_MAX_LENGTH } from '@shared/seo';
+import { characterCount, DESCRIPTION_MAX_LENGTH, TITLE_MAX_LENGTH } from '@shared/seo';
 
 /** Name of the website. */
 export const SITE_NAME = 'Сезон';
@@ -24,6 +24,46 @@ const MONTH_NAMES = [
 /** Returns the Bulgarian name of `month` in lowercase (e.g. „ноември“), as used inside sentences. */
 export function monthNameLower(month: Month): string {
   return monthName(month).toLocaleLowerCase('bg');
+}
+
+const TITLE_SUFFIX_LENGTH = characterCount(` | ${SITE_NAME}`);
+const MAX_FRACTION_DIGITS = 2;
+
+const numberFormat = new Intl.NumberFormat('bg', {
+  maximumFractionDigits: MAX_FRACTION_DIGITS,
+  useGrouping: 'min2',
+});
+const dateFormat = new Intl.DateTimeFormat('bg', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+
+/** Formats a number the Bulgarian way: decimal comma, at most two decimals. */
+export function formatNumber(value: number): string {
+  return numberFormat.format(value);
+}
+
+/** Formats a calendar date in Bulgarian, e.g. „10 ноември 2026 г.“. */
+export function formatDate(date: Date): string {
+  return dateFormat.format(date);
+}
+
+/**
+ * Returns the page title of a produce: the longest variant that fits 60 characters together
+ * with the site-name suffix.
+ */
+export function produceTitle(name: string): string {
+  const variants = [
+    `${name} – сезон, хранителни стойности и ферми`,
+    `${name} – сезон и хранителни стойности`,
+    name,
+  ];
+  return (
+    variants.find((title) => characterCount(title) + TITLE_SUFFIX_LENGTH <= TITLE_MAX_LENGTH) ??
+    name
+  );
 }
 
 function monthPageDescription(month: Month, produceNames: ReadonlyArray<string>): string {
@@ -85,6 +125,59 @@ export const ui = {
     empty: 'Няма данни за този месец.',
     listName: (month: Month) => `В сезон през ${monthNameLower(month)}`,
     fromMonth: (month: Month, level: string) => `От ${monthNameLower(month)}: ${level}`,
+  },
+  produce: {
+    family: (name: string, latinName: string) => `Семейство: ${name} (${latinName})`,
+    now: (month: string, level: string) => `През ${month}: ${level}`,
+    outOfSeason: 'Извън сезона',
+    outOfSeasonLower: 'извън сезона',
+    outOfSeasonIcon: '○',
+    headings: {
+      season: 'Сезон по месеци',
+      varieties: 'Сортове',
+      nutrition: 'Хранителни стойности',
+      preparation: 'Как да го приготвим, за да запази хранителните си вещества',
+      traditional: 'Традиционна употреба',
+      regions: 'Откъде е най-добре да се купува',
+      farms: 'Местни ферми',
+      choose: 'Как да изберем',
+      storage: 'Как да съхраняваме',
+      faq: 'Често задавани въпроси',
+      sources: 'Източници',
+    },
+    nutrition: {
+      caption: 'Хранителни стойности на 100 г',
+      nutrient: 'Хранително вещество',
+      amount: 'Количество',
+      percent: '% РСП',
+      energy: 'Енергия',
+      protein: 'Белтъчини',
+      fat: 'Мазнини',
+      carbohydrate: 'Въглехидрати',
+      sugars: 'от които захари',
+      fiber: 'Фибри',
+      sourcePrefix: 'Източник:',
+      referenceNote: 'РСП е референтният прием за възрастни според Регламент (ЕС) № 1169/2011.',
+    },
+    traditional: {
+      disclaimer:
+        'Тук описваме традиции, а не доказани ефекти. Информацията не е медицински съвет – при здравословни проблеми се консултирайте с лекар.',
+      sourcePrefix: 'източник:',
+      systems: { ayurveda: 'Аюрведа', folk: 'Народна медицина' },
+    },
+    farms: {
+      empty: 'Все още няма добавени ферми за този продукт.',
+      placeholder: 'Примерни данни',
+      sponsored: 'Спонсорирано',
+      website: (farm: string) => `Уебсайт на ${farm}`,
+      email: (farm: string) => `Имейл до ${farm}`,
+      phoneLabel: 'Телефон:',
+      phone: (farm: string, phone: string) => `Телефон на ${farm}: ${phone}`,
+    },
+    sources: {
+      updated: 'Обновено на',
+      draft: 'Данните очакват редакторска проверка.',
+    },
   },
   monthPager: {
     label: 'Други месеци',

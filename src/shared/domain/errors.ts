@@ -72,3 +72,8 @@ export class InvalidProduceError extends DomainError {
 export class InvalidConfigurationError extends DomainError {
   readonly code = 'INVALID_CONFIGURATION';
 }
+
+/** Thrown when no produce exists for a requested slug. */
+export class ProduceNotFoundError extends DomainError {
+  readonly code = 'PRODUCE_NOT_FOUND';
+}

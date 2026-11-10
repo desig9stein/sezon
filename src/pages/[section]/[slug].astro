@@ -1,0 +1,216 @@
+---
+import type { GetStaticPaths } from 'astro';
+import FarmList from '@components/produce/FarmList.astro';
+import NutritionTable from '@components/produce/NutritionTable.astro';
+import SeasonCalendarList from '@components/produce/SeasonCalendarList.astro';
+import SourceList from '@components/produce/SourceList.astro';
+import TraditionalUses from '@components/produce/TraditionalUses.astro';
+import { routes } from '@components/layout/routes';
+import { buildMonth } from '@composition/clock';
+import { produceDetailsQuery, produceRepository } from '@composition/index';
+import { requireSiteUrl } from '@composition/site';
+import { monthNameLower, produceTitle, ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { articleJsonLd, faqPageJsonLd } from '@shared/seo';
+
+export const getStaticPaths = (async () =>
+  (await produceRepository.all()).map((produce) => ({
+    params: { section: routes.produceSection(produce.kind), slug: produce.slug },
+  }))) satisfies GetStaticPaths;
+
+const details = await produceDetailsQuery.forSlug(Astro.params.slug);
+const { produce, group } = details;
+const path = routes.produce(produce);
+const siteUrl = requireSiteUrl(Astro.site);
+const labels = ui.produce;
+const currentLevel = produce.levelIn(buildMonth);
+const regionNames = new Map(details.growingRegions.map(({ region }) => [region.slug, region.name]));
+const jsonLd = [
+  articleJsonLd({
+    siteUrl,
+    path,
+    headline: produce.name,
+    description: produce.summary,
+    dateModified: produce.updatedAt,
+    about: { name: produce.name, alternateName: produce.latinName },
+    citations: details.sources,
+  }),
+  ...(produce.faq.length > 0 ? [faqPageJsonLd(produce.faq)] : []),
+];
+---
+
+<BaseLayout
+  title={produceTitle(produce.name)}
+  description={produce.summary}
+  path={path}
+  type="article"
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: produce.name, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <article class="produce">
+    <header class="produce__header">
+      <h1>{produce.name}</h1>
+      <p class="produce__meta">
+        <i lang="la">{produce.latinName}</i>
+        <span>{ui.produceKinds[produce.kind]}</span>
+        <span>{labels.family(group.name, group.latinName)}</span>
+      </p>
+      <p class="produce__summary">{produce.summary}</p>
+      <p class="produce__now">
+        {labels.now(
+          monthNameLower(buildMonth),
+          currentLevel === undefined
+            ? labels.outOfSeasonLower
+            : ui.seasonLevels[currentLevel.value],
+        )}
+      </p>
+    </header>
+
+    <section aria-labelledby="season">
+      <h2 id="season">{labels.headings.season}</h2>
+      <SeasonCalendarList produce={produce} currentMonth={buildMonth} />
+    </section>
+
+    {produce.varieties.length > 0 && (
+      <section aria-labelledby="varieties">
+        <h2 id="varieties">{labels.headings.varieties}</h2>
+        <ul>
+          {produce.varieties.map((variety) => (
+            <li>
+              {variety.name}
+              {variety.note !== undefined && ` – ${variety.note}`}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section aria-labelledby="nutrition">
+      <h2 id="nutrition">{labels.headings.nutrition}</h2>
+      <NutritionTable nutrition={produce.nutrition} micronutrients={details.micronutrients} />
+    </section>
+
+    <section aria-labelledby="preparation">
+      <h2 id="preparation">{labels.headings.preparation}</h2>
+      <dl class="preparation">
+        {produce.preparation.map((tip) => (
+          <>
+            <dt>{tip.method}</dt>
+            <dd>{tip.tip}</dd>
+          </>
+        ))}
+      </dl>
+    </section>
+
+    {produce.traditionalUses.length > 0 && (
+      <section aria-labelledby="traditional">
+        <h2 id="traditional">{labels.headings.traditional}</h2>
+        <TraditionalUses uses={produce.traditionalUses} />
+      </section>
+    )}
+
+    <section aria-labelledby="regions">
+      <h2 id="regions">{labels.headings.regions}</h2>
+      <ul>
+        {details.growingRegions.map(({ region, note }) => (
+          <li>
+            <strong>{region.name}</strong> – {note}
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section aria-labelledby="farms">
+      <h2 id="farms">{labels.headings.farms}</h2>
+      <FarmList farms={details.farms} regionNames={regionNames} />
+    </section>
+
+    <section aria-labelledby="choose">
+      <h2 id="choose">{labels.headings.choose}</h2>
+      <p>{produce.howToChoose}</p>
+    </section>
+
+    <section aria-labelledby="storage">
+      <h2 id="storage">{labels.headings.storage}</h2>
+      <p>{produce.storage}</p>
+    </section>
+
+    {produce.faq.length > 0 && (
+      <section aria-labelledby="faq">
+        <h2 id="faq">{labels.headings.faq}</h2>
+        {produce.faq.map((item) => (
+          <>
+            <h3>{item.question}</h3>
+            <p>{item.answer}</p>
+          </>
+        ))}
+      </section>
+    )}
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">{labels.headings.sources}</h2>
+      <SourceList
+        sources={details.sources}
+        updatedAt={produce.updatedAt}
+        isDraft={produce.reviewStatus === 'draft'}
+      />
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .produce {
+    display: grid;
+    gap: var(--space-8);
+    margin-top: var(--space-6);
+  }
+
+  .produce section {
+    display: grid;
+    gap: var(--space-3);
+    max-width: var(--reading-width);
+  }
+
+  .produce section:has(.calendar),
+  .produce section:has(.farms) {
+    max-width: none;
+  }
+
+  .produce__header {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .produce__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    color: var(--color-text-muted);
+  }
+
+  .produce__summary {
+    max-width: var(--reading-width);
+    font-size: var(--font-size-lg);
+  }
+
+  .produce__now {
+    font-weight: 600;
+  }
+
+  .produce ul {
+    display: grid;
+    gap: var(--space-1);
+    padding-inline-start: var(--space-6);
+  }
+
+  .preparation dt {
+    font-weight: 700;
+  }
+
+  .preparation dd {
+    margin: 0 0 var(--space-3);
+  }
+</style>

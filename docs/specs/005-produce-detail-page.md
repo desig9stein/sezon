@@ -77,7 +77,8 @@ sources. The page is the main SEO landing page for queries such as „ябълк
   („Аюрведа“, „Народна медицина“) and a source link.
 - **Regions:** heading „Откъде е най-добре да се купува“; list of region names with notes.
 - **Farms:** heading „Местни ферми“; each farm with name, region name, description and links:
-  website (`rel="noopener"`, opens in the same tab), `mailto:`, `tel:`. Placeholder farms show
+  website (`rel="noopener"`, opens in the same tab), `mailto:`, and „Телефон:“ followed by a `tel:`
+  link whose visible text is the number (kept on one line) and whose `aria-label` names the farm. Placeholder farms show
   the label „Примерни данни“; sponsored farms show „Спонсорирано“. With no farms:
   „Все още няма добавени ферми за този продукт.“
 - **How to choose / storage:** headings „Как да изберем“ and „Как да съхраняваме“.
@@ -92,7 +93,7 @@ sources. The page is the main SEO landing page for queries such as „ябълк
 - One `h1`; sections are `<section aria-labelledby>` with `h2`; no skipped levels (FAQ uses `h3`).
 - Latin names marked `lang="la"` (WCAG 3.1.2).
 - Nutrition table: `<caption>`, `<th scope="col">` headers, `<th scope="row">` for each nutrient
-  row; numbers right-aligned; the table scrolls inside a focusable, labelled region on narrow
+  row; numbers right-aligned; the table scrolls inside a focusable `<section>` labelled by the caption on narrow
   screens instead of causing page overflow (WCAG 1.4.10).
 - Season calendar months: level conveyed by text, not only colour or icon (1.4.1).
 - Links have descriptive text: „Уебсайт на <ферма>“, „Имейл до <ферма>“, „Телефон на <ферма>:
