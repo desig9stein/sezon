@@ -46,7 +46,8 @@ You receive a spec path (`docs/specs/NNN-*.md`) and a list of changed files
 - Works without JavaScript. Meaningful `alt`.
 - Readable and usable without CSS (spec 009): the source order is the reading order, CSS never
   hides (except `.visually-hidden`), reveals or reorders content, and icons have explicit size
-  attributes. Grid placement (`grid-row`, `grid-column`, `grid-area`) does not reorder content.
+  attributes. Grid placement (`grid-row`, `grid-column`, `grid-area`,
+  `grid-template-areas`) and absolute positioning do not reorder content.
 
 **SEO**
 

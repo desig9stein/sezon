@@ -44,30 +44,33 @@ content. Automated checks make this a quality gate for every page template, so t
 
 None. Test helpers only:
 
-- `removeAllCss(page)`: deletes `link[rel~="stylesheet"]`, `<style>` and every `style`
-  attribute, then waits for layout.
-- `hiddenByCss(page)`: CSS selectors of elements in `<body>` whose computed `display` is `none`
-  or `visibility` is `hidden`, excluding `script`, `style`, `template`, `noscript`, elements
-  with the `hidden` attribute and `.visually-hidden` elements, and their descendants.
-- `reorderedByCss(page)`: selectors of elements with a non-zero `order`, a `*-reverse` flex
-  direction, `wrap-reverse`, or a `dense` grid auto-flow.
+- `removeAllCss(page)`: deletes `link[rel~="stylesheet"]`, `<style>`, adopted style sheets and
+  every `style` attribute, asserts that no author style sheet is left, then waits for layout.
+- `hiddenByCss(page)`: descriptions of elements in `<body>` that CSS hides: `display: none`,
+  `visibility: hidden | collapse`, `opacity: 0`, `content-visibility: hidden`, a `clip-path`, a
+  zero-size box that clips text, or a box entirely outside the document. Exempt: `script`,
+  `style`, `template`, `noscript`, `[hidden]`, `.visually-hidden`, the `.skip-link` and their
+  descendants. A `[hidden]` element that CSS displays is reported as revealed.
+- `reorderedByCss(page)`: descriptions of elements with a non-zero `order`, a `*-reverse` flex
+  direction, `wrap-reverse`, a `dense` grid auto-flow, `direction: rtl` (the site is always left
+  to right), or a right float on an element with element siblings.
 
 ## 5. Behaviour and edge cases
 
 - **With CSS (the site as shipped):**
-  - No content is hidden by CSS alone. Exceptions are `.visually-hidden` text, elements with
-    the `hidden` attribute, and the skip link, which is moved off screen with a transform and
-    is not hidden.
+  - No content is hidden by CSS alone, and CSS never reveals a `[hidden]` element. Exceptions
+    are `.visually-hidden` text, elements with the `hidden` attribute, and the skip link, which
+    is moved off screen until focused.
   - No element is reordered by CSS.
   - No element has a positive `tabindex`, so the keyboard order is the DOM order.
 - **Without CSS:**
   - The first focusable element is the skip link to `#main`.
   - Landmarks appear in this order: `header`, then the main navigation, then `main`, then
     `footer`.
-  - The first heading inside `main` is the only `h1`.
+  - The first heading of the document is the only `h1`, and it is inside `main`.
   - Heading levels never skip a level.
-  - Every `img`, `svg`, `video` and `iframe` either has `width` and `height` attributes
-    (content media) or renders at most 128 × 128 CSS px (icons), so no icon fills the screen.
+  - Every `img`, `svg`, `video`, `iframe`, `object`, `embed` and `canvas` either has numeric
+    `width` and `height` attributes (content media) or renders at most 128 × 128 CSS px (icons), so no icon fills the screen.
   - The desktop page has no horizontal scroll.
   - axe reports zero violations, except `target-size` (WCAG 2.5.8 user-agent exception: without
     author CSS the browser sets every target size).
@@ -94,18 +97,18 @@ None directly. Crawlers read the same HTML; a logical source order also helps th
 1. **AC1:** Given any page template with CSS, no element is hidden by CSS except `.visually-hidden`, `[hidden]`, non-rendered elements and their descendants.
 2. **AC2:** Given any page template with CSS, no element uses `order`, a reversed flex direction, `wrap-reverse` or `dense` grid auto-flow.
 3. **AC3:** Given any page template, no element has a positive `tabindex`.
-4. **AC4:** Given any page template without CSS, the skip link to `#main` is the first focusable element, landmarks follow header → main navigation → main → footer, the first heading in `main` is the only `h1`, and heading levels never skip.
+4. **AC4:** Given any page template without CSS, the skip link to `#main` is the first focusable element, landmarks follow header → main navigation → main → footer, the first heading of the document is the only `h1` and is inside `main`, and heading levels never skip.
 5. **AC5:** Given any page template without CSS, every image, SVG, video and iframe has `width` and `height` attributes or renders within 128 × 128 px, and on desktop the page does not scroll horizontally.
 6. **AC6:** Given any page template without CSS, axe reports zero WCAG violations, except `target-size`: WCAG 2.5.8 exempts targets whose size is determined by the user agent, which is every target once author CSS is removed.
 7. **AC7:** The `qa-reviewer` checklist includes readability without CSS.
-8. **AC8:** Given the produce page without CSS, the Latin name, the kind and the botanical family are separate list items, not one run-on line.
+8. **AC8:** Given the produce page without CSS, the Latin name, the kind and the botanical family are separate list items, not one run-on line; with CSS on desktop they stay on one wrapping row.
 
 ## 9. Test plan
 
-| AC           | Type | Test file                                                     |
-| ------------ | ---- | ------------------------------------------------------------- |
-| AC1–AC6, AC8 | e2e  | `tests/e2e/readable-without-css.spec.ts` (desktop and mobile) |
-| AC7          | unit | `tests/unit/repo/qa-checklist.test.ts`                        |
+| AC           | Type | Test file                                                                                                   |
+| ------------ | ---- | ----------------------------------------------------------------------------------------------------------- |
+| AC1–AC6, AC8 | e2e  | `tests/e2e/readable-without-css.spec.ts` (desktop and mobile); helpers in `tests/e2e/noCss-helpers.spec.ts` |
+| AC7          | unit | `tests/unit/repo/qa-checklist.test.ts`                                                                      |
 
 ## 10. Third-party documentation consulted
 

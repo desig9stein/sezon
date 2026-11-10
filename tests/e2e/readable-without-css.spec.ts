@@ -55,10 +55,10 @@ for (const { name, path } of PAGES) {
 
       const inOrder = await page.evaluate(() => {
         const landmarks = [
-          document.querySelector('body header'),
-          document.querySelector('body header nav'),
-          document.querySelector('main#main'),
-          document.querySelector('main#main ~ footer'),
+          document.querySelector('body > header'),
+          document.querySelector('body > header nav[aria-label]'),
+          document.querySelector('body > main#main'),
+          document.querySelector('body > main#main ~ footer'),
         ];
         if (landmarks.some((landmark) => landmark === null)) return false;
         return landmarks.every((landmark, index) => {
@@ -76,10 +76,11 @@ for (const { name, path } of PAGES) {
       await expect(page.locator('h1')).toHaveCount(1);
       expect(
         await page
-          .locator('main :is(h1, h2, h3, h4, h5, h6)')
+          .locator(':is(h1, h2, h3, h4, h5, h6)')
           .first()
           .evaluate((h) => h.tagName),
       ).toBe('H1');
+      await expect(page.locator('main#main h1')).toHaveCount(1);
       const levels = await headingLevels(page);
       const skips = levels.filter(
         (level, index) => index > 0 && level > (levels[index - 1] ?? 0) + 1,
@@ -92,17 +93,24 @@ for (const { name, path } of PAGES) {
     }, testInfo) => {
       await removeAllCss(page);
 
-      const oversized = await page.locator('img, svg, video, iframe').evaluateAll(
-        (elements, max) =>
-          elements
-            .filter((element) => !(element.hasAttribute('width') && element.hasAttribute('height')))
-            .filter((element) => {
-              const box = element.getBoundingClientRect();
-              return box.width > max || box.height > max;
-            })
-            .map((element) => element.outerHTML.slice(0, 80)),
-        MAX_ICON_SIZE,
-      );
+      const oversized = await page
+        .locator('img, svg, video, iframe, object, embed, canvas')
+        .evaluateAll(
+          (elements, max) =>
+            elements
+              .filter(
+                (element) =>
+                  !['width', 'height'].every((name) =>
+                    /^\d+$/.test(element.getAttribute(name) ?? ''),
+                  ),
+              )
+              .filter((element) => {
+                const box = element.getBoundingClientRect();
+                return box.width > max || box.height > max;
+              })
+              .map((element) => element.outerHTML.slice(0, 80)),
+          MAX_ICON_SIZE,
+        );
       expect(oversized).toEqual([]);
 
       if (testInfo.project.name === 'desktop') {
