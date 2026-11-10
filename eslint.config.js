@@ -4,6 +4,85 @@ import tseslint from 'typescript-eslint';
 import astro from 'eslint-plugin-astro';
 import globals from 'globals';
 
+const ASTRO = {
+  group: ['astro', 'astro:*', 'astro/*'],
+  message: 'Domain code must not depend on Astro.',
+};
+const DEEP_CONTEXT_IMPORTS = {
+  group: [
+    '@contexts/*/*/**',
+    '**/contexts/*/domain/**',
+    '**/contexts/*/application/**',
+    '**/contexts/*/infrastructure/**',
+  ],
+  message: 'Import other bounded contexts only through their public index.ts.',
+};
+const OUTER_LAYERS = {
+  group: ['**/infrastructure/**', '**/application/**', '@composition/*', '**/composition/**'],
+  message: 'Domain must not import outer layers.',
+};
+const APP_LAYERS = {
+  group: ['@contexts/*', '@i18n/*', '@composition/*', '@components/*', '@layouts/*', '@design/*'],
+  message: 'The shared kernel must not depend on contexts, UI or composition.',
+};
+const UPSTREAM_CONTEXTS = { catalog: ['seasonality'], farms: [], geography: [], seasonality: [] };
+
+/** Builds `no-restricted-imports` blocks that enforce the dependency rules in AGENTS.md section 6. */
+function architectureRules() {
+  const restrict = (files, patterns) => ({
+    files,
+    rules: { 'no-restricted-imports': ['error', { patterns }] },
+  });
+  const domainBlocks = Object.entries(UPSTREAM_CONTEXTS).map(([context, upstreams]) =>
+    restrict(
+      [`src/contexts/${context}/domain/**/*.ts`],
+      [
+        ASTRO,
+        OUTER_LAYERS,
+        DEEP_CONTEXT_IMPORTS,
+        {
+          group: ['@contexts/*', ...upstreams.map((upstream) => `!@contexts/${upstream}`)],
+          message: `The ${context} domain may import only these upstream contexts: ${upstreams.join(', ') || 'none'}.`,
+        },
+      ],
+    ),
+  );
+  return [
+    restrict(['src/shared/domain/**/*.ts'], [ASTRO, OUTER_LAYERS, APP_LAYERS]),
+    restrict(['src/shared/infrastructure/**/*.ts'], [APP_LAYERS]),
+    ...domainBlocks,
+    restrict(
+      ['src/contexts/*/application/**/*.ts'],
+      [
+        DEEP_CONTEXT_IMPORTS,
+        {
+          group: ['**/infrastructure/**', '@composition/*', 'astro:*'],
+          message: 'Application code must not import infrastructure.',
+        },
+      ],
+    ),
+    restrict(['src/contexts/*/infrastructure/**/*.ts'], [DEEP_CONTEXT_IMPORTS]),
+    restrict(
+      ['src/contexts/*/index.ts'],
+      [
+        {
+          group: ['./infrastructure/**'],
+          message: 'A context index.ts must not export infrastructure.',
+        },
+      ],
+    ),
+    restrict(
+      ['src/pages/**', 'src/components/**', 'src/layouts/**'],
+      [
+        {
+          ...DEEP_CONTEXT_IMPORTS,
+          message: 'Use services from src/composition and types from the context public index.ts.',
+        },
+      ],
+    ),
+  ];
+}
+
 export default defineConfig([
   globalIgnores([
     'dist/',
@@ -35,48 +114,5 @@ export default defineConfig([
       '@typescript-eslint/no-non-null-assertion': 'error',
     },
   },
-  {
-    files: ['src/contexts/*/domain/**/*.ts', 'src/shared/domain/**/*.ts'],
-    rules: {
-      'no-restricted-imports': [
-        'error',
-        {
-          patterns: [
-            {
-              group: ['astro', 'astro:*', 'astro/*'],
-              message: 'Domain code must not depend on Astro.',
-            },
-            {
-              group: ['**/infrastructure/**', '**/application/**', '**/composition/**'],
-              message: 'Domain must not import outer layers.',
-            },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    files: ['src/pages/**', 'src/components/**', 'src/layouts/**'],
-    rules: {
-      'no-restricted-imports': [
-        'error',
-        {
-          patterns: [
-            {
-              group: [
-                '**/contexts/*/domain/**',
-                '**/contexts/*/application/**',
-                '**/contexts/*/infrastructure/**',
-                '@contexts/*/domain/**',
-                '@contexts/*/application/**',
-                '@contexts/*/infrastructure/**',
-              ],
-              message:
-                'Use services from src/composition and types from the context public index.ts.',
-            },
-          ],
-        },
-      ],
-    },
-  },
+  ...architectureRules(),
 ]);

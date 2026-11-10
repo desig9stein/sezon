@@ -92,6 +92,17 @@ by Bulgarian name (`localeCompare(..., 'bg')`).
 - **Placeholder farms:** `isPlaceholder: true`, contacts on `example.com` / `+359000…`.
 - **Seed data status:** every seed product has `reviewStatus: draft` until a human verifies
   values against the cited source.
+- Schemas are strict: unknown keys (typos such as `sumary`) are rejected at every level.
+- `updatedAt` is a YAML date or an ISO `YYYY-MM-DD` string; anything else is rejected.
+- `summary` is a single line. `sugarsG` must not exceed `carbohydrateG`.
+- URLs are `https:` with a dotted hostname; phones are Bulgarian E.164 (`+359…`).
+- `ContactInfo` rejects blank or malformed values; `Nutrient` requires a positive finite
+  reference intake and non-negative amounts (`InvalidNutrientError`); `Produce` rejects an
+  invalid `updatedAt` (`InvalidProduceError`) and returns a new `Date` on every read.
+- Repositories retry the loader after a failed load and break name ties by slug.
+- Seed text (summaries, preparation tips, FAQ, traditional uses) contains no health-effect
+  wording; a test rejects words such as „лекува“, „действие“, „полезн…“.
+- Placeholder farms use only `example.com` and `+359000…` contacts.
 - Mappers throw the spec 001 `DomainError`s for invalid values; `ContactInfo` without any
   contact throws `InvalidContactInfoError`; negative nutrition values throw
   `InvalidNutritionFactsError`.
@@ -133,7 +144,7 @@ Not applicable (no UI). Content rules that later affect accessibility: names are
 | AC4      | unit  | `tests/unit/contexts/catalog/domain/NutritionFacts.test.ts`  |
 | AC5      | unit  | `tests/unit/contexts/catalog/domain/Nutrient.test.ts`        |
 | AC6–AC7  | unit  | `tests/unit/contexts/farms/domain/Farm.test.ts`              |
-| AC8      | unit  | `tests/unit/fixtures/repositories.test.ts`                   |
+| AC8      | unit  | `tests/unit/shared/infrastructure/IndexedRepository.test.ts` |
 | AC9–AC12 | unit  | `tests/unit/content/seed-data.test.ts`                       |
 | AC13     | build | `pnpm build` in CI                                           |
 

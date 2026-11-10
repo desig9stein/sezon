@@ -1,3 +1,4 @@
+import { InvalidProduceError } from '@shared/domain/errors';
 import { frozenList, frozenRecords } from '@shared/domain/freeze';
 import type { Month, SeasonCalendar, SeasonLevel } from '@contexts/seasonality';
 import type { NutritionFacts } from './NutritionFacts';
@@ -76,8 +77,8 @@ export class Produce {
   readonly howToChoose: string;
   readonly storage: string;
   readonly faq: ReadonlyArray<FaqItem>;
-  readonly updatedAt: Date;
   readonly reviewStatus: ReviewStatus;
+  private readonly updatedAtEpochMs: number;
 
   private constructor(input: ProduceInput) {
     this.slug = input.slug;
@@ -99,14 +100,25 @@ export class Produce {
     this.howToChoose = input.howToChoose;
     this.storage = input.storage;
     this.faq = frozenRecords(input.faq);
-    this.updatedAt = new Date(input.updatedAt.getTime());
+    this.updatedAtEpochMs = input.updatedAt.getTime();
     this.reviewStatus = input.reviewStatus;
     Object.freeze(this);
   }
 
-  /** Creates a produce entity. */
+  /**
+   * Creates a produce entity.
+   * @throws InvalidProduceError when `updatedAt` is not a valid date.
+   */
   static create(input: ProduceInput): Produce {
+    if (Number.isNaN(input.updatedAt.getTime())) {
+      throw new InvalidProduceError(`Produce "${input.slug}" has an invalid updatedAt date.`);
+    }
     return new Produce(input);
+  }
+
+  /** Date of the last content update. Returns a new `Date` on every call. */
+  get updatedAt(): Date {
+    return new Date(this.updatedAtEpochMs);
   }
 
   /** Returns the season level in `month`, or `undefined` when out of season. */

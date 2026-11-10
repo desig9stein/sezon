@@ -1,7 +1,8 @@
 import { InvalidSlugError } from './errors';
 import { transliterate } from './transliterate';
 
-const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+/** Pattern every slug matches: lowercase Latin letters and digits joined by single hyphens. */
+export const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const NON_SLUG_CHARACTERS = /[^a-z0-9]+/g;
 const EDGE_HYPHENS = /^-+|-+$/g;
 

@@ -2,7 +2,7 @@ import { z } from 'astro/zod';
 import { text } from '@shared/infrastructure/schemaPrimitives';
 
 /** Schema of a `regions` content entry. */
-export const regionSchema = z.object({
+export const regionSchema = z.strictObject({
   name: text(),
 });
 

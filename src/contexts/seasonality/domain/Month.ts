@@ -16,7 +16,10 @@ const MONTH_SLUGS = [
 ] as const;
 
 const MONTHS_IN_YEAR = 12;
-const FIRST_MONTH_NUMBER = 1;
+/** Number of the first calendar month (January). */
+export const FIRST_MONTH_NUMBER = 1;
+/** Number of the last calendar month (December). */
+export const LAST_MONTH_NUMBER = MONTHS_IN_YEAR;
 
 const monthFormatters = new Map<string, Intl.DateTimeFormat>();
 

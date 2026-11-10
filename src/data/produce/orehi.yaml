@@ -32,7 +32,7 @@ nutrition:
   micronutrients:
     - { nutrient: magneziy, amount: 158 }
     - { nutrient: mangan, amount: 3.41 }
-    - { nutrient: med, amount: 1.59 }
+    - { nutrient: med-cu, amount: 1.59 }
     - { nutrient: folat, amount: 98 }
     - { nutrient: fosfor, amount: 346 }
   source:

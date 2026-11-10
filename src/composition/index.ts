@@ -55,7 +55,10 @@ async function loadContent(): Promise<Content> {
 let content: Promise<Content> | undefined;
 
 function getContent(): Promise<Content> {
-  content ??= loadContent();
+  content ??= loadContent().catch((error: unknown) => {
+    content = undefined;
+    throw error;
+  });
   return content;
 }
 

@@ -1,8 +1,16 @@
 import { z } from 'astro/zod';
-import { httpsUrl, slugReference, text, uniqueBy } from '@shared/infrastructure/schemaPrimitives';
+import {
+  bulgarianPhone,
+  email,
+  httpsUrl,
+  slugReference,
+  text,
+  uniqueBy,
+} from '@shared/infrastructure/schemaPrimitives';
+import { CONTACT_REQUIRED_MESSAGE } from '../domain/ContactInfo';
 
 /** Schema of a `farms` content entry. */
-export const farmSchema = z.object({
+export const farmSchema = z.strictObject({
   name: text(),
   region: slugReference(),
   produce: z
@@ -11,13 +19,13 @@ export const farmSchema = z.object({
     .superRefine(uniqueBy((slug) => slug, 'produce')),
   description: text(),
   contact: z
-    .object({
+    .strictObject({
       website: httpsUrl().optional(),
-      email: z.email().optional(),
-      phone: z.e164().optional(),
+      email: email().optional(),
+      phone: bulgarianPhone().optional(),
     })
     .refine((contact) => Object.values(contact).some((value) => value !== undefined), {
-      message: 'A farm needs a website, an email or a phone number.',
+      message: CONTACT_REQUIRED_MESSAGE,
     }),
   address: text().optional(),
   isPlaceholder: z.boolean(),

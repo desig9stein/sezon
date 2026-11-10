@@ -2,6 +2,8 @@ import { InvalidNutritionFactsError } from '@shared/domain/errors';
 import { frozenRecords } from '@shared/domain/freeze';
 import type { Source } from './Source';
 
+declare const nominal: unique symbol;
+
 /** Amount of one micronutrient per 100 g, in the unit defined by the nutrient. */
 export interface MicronutrientAmount {
   readonly nutrientSlug: string;
@@ -30,6 +32,7 @@ export class NutritionFacts {
   readonly sugarsG: number | undefined;
   readonly micronutrients: ReadonlyArray<MicronutrientAmount>;
   readonly source: Source;
+  declare private readonly [nominal]: 'NutritionFacts';
 
   private constructor(input: NutritionFactsInput) {
     this.energyKcal = input.energyKcal;

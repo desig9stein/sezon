@@ -1,8 +1,9 @@
 # Content guide
 
 All site content lives in `src/data/<collection>/<id>.yaml`, one file per entry.
-The schemas are in `src/contexts/<context>/infrastructure/schemas.ts`; `pnpm test` and
-`pnpm build` reject invalid content. The full contract is in `docs/specs/002-content-model-and-seed-data.md`.
+The schemas are in `src/contexts/<context>/infrastructure/schemas.ts`. `pnpm build` rejects
+entries that do not match their schema, including unknown keys (typos). References between
+entries are checked by `pnpm test` and whenever a page loads content during the build. The full contract is in `docs/specs/002-content-model-and-seed-data.md`.
 
 ## Rules for every entry
 
@@ -12,7 +13,8 @@ The schemas are in `src/contexts/<context>/infrastructure/schemas.ts`; `pnpm tes
   If unsure, run `pnpm test`: the seed-data test prints the expected file name.
 - References use the id of another entry (`group: rozotsvetni`, `region: plovdiv`).
 - Text values are in Bulgarian. Keys are in English.
-- URLs must start with `https://`.
+- URLs must start with `https://` and use a real domain name.
+- Dates use the ISO form `YYYY-MM-DD` (not `10.11.2026`).
 
 ## Add a produce (`src/data/produce/`)
 
@@ -61,6 +63,10 @@ reviewStatus: draft # draft | reviewed
 ### Health content (YMYL)
 
 - Take nutrition values from USDA FoodData Central (SR Legacy, raw) or EFSA, and cite the item.
+  Prefer the item page URL `https://fdc.nal.usda.gov/food-details/<fdcId>/nutrients`.
+- Vitamin A amounts are in µg RAE (USDA). The EU reference intake (800 µg) is defined in
+  retinol equivalents (RE); for plant foods RAE is about half of RE, so the % shown is conservative.
+- Do not write that a food is „полезен“, „лекува“ or has an „действие“; a test rejects such words.
 - Traditional uses describe tradition, not effects. Always start with
   „Традиционно се използва …“. Never write that a food cures, treats or prevents a disease
   (EU Regulation 1924/2006).
@@ -85,6 +91,8 @@ sponsored: false # optional, default false
 ## Seed data status
 
 All seed produce entries are `reviewStatus: draft`: nutrition values were entered from
-USDA FoodData Central SR Legacy and must be re-checked item by item. Traditional uses cite
+USDA FoodData Central SR Legacy and must be re-checked item by item. Their source URL is the
+FoodData Central home page, because the item pages could not be reached while seeding; replace
+each with the item page during review. Traditional uses cite
 Wikipedia as a starting point and should be replaced with primary sources.
 All farms are placeholders (`isPlaceholder: true`) on `example.com`.

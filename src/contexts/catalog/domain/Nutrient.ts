@@ -1,3 +1,5 @@
+import { InvalidNutrientError } from '@shared/domain/errors';
+
 /** Nutrient kinds as stored in content. */
 export const NUTRIENT_KINDS = ['vitamin', 'mineral'] as const;
 /** Units in which nutrient amounts are expressed. */
@@ -37,13 +39,27 @@ export class Nutrient {
     Object.freeze(this);
   }
 
-  /** Creates a nutrient. */
+  /**
+   * Creates a nutrient.
+   * @throws InvalidNutrientError when `referenceIntake` is not a positive finite number.
+   */
   static create(input: NutrientInput): Nutrient {
+    if (!(Number.isFinite(input.referenceIntake) && input.referenceIntake > 0)) {
+      throw new InvalidNutrientError(
+        `Reference intake of "${input.slug}" must be a positive number.`,
+      );
+    }
     return new Nutrient(input);
   }
 
-  /** Returns `amount` as a percentage of the reference intake, rounded to an integer. */
+  /**
+   * Returns `amount` as a percentage of the reference intake, rounded to an integer.
+   * @throws InvalidNutrientError when `amount` is negative or not finite.
+   */
   percentOfReferenceIntake(amount: number): number {
+    if (!(Number.isFinite(amount) && amount >= 0)) {
+      throw new InvalidNutrientError(`Amount ${amount} must be a non-negative number.`);
+    }
     return Math.round((amount / this.referenceIntake) * PERCENT);
   }
 }

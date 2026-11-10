@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { Nutrient, NutritionFacts } from '@contexts/catalog';
+import type { NutritionFacts } from '@contexts/catalog';
+import { Nutrient } from '@contexts/catalog';
 import { produceSchema } from '@contexts/catalog/infrastructure/schemas';
 import { toProduce } from '@contexts/catalog/infrastructure/mappers';
 import { ContactInfo } from '@contexts/farms';

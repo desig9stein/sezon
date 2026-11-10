@@ -57,3 +57,13 @@ export class BrokenReferenceError extends DomainError {
 export class InvalidPageMetaError extends DomainError {
   readonly code = 'INVALID_PAGE_META';
 }
+
+/** Thrown when a nutrient's reference intake or an amount is not a valid non-negative number. */
+export class InvalidNutrientError extends DomainError {
+  readonly code = 'INVALID_NUTRIENT';
+}
+
+/** Thrown when produce data violates an entity invariant (e.g. an invalid date). */
+export class InvalidProduceError extends DomainError {
+  readonly code = 'INVALID_PRODUCE';
+}

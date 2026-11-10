@@ -10,6 +10,7 @@ varieties:
   - name: Ранет
     note: Стар сорт, подходящ за печене и компоти.
 season:
+  - { month: 7, level: available }
   - { month: 8, level: available }
   - { month: 9, level: peak }
   - { month: 10, level: peak }
