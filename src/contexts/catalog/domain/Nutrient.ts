@@ -76,10 +76,7 @@ export class Nutrient {
    * @throws InvalidNutrientError when `amount` is negative or not finite.
    */
   percentOfReferenceIntake(amount: number): number {
-    if (!(Number.isFinite(amount) && amount >= 0)) {
-      throw new InvalidNutrientError(`Amount ${amount} must be a non-negative number.`);
-    }
-    return Math.round((amount / this.referenceIntake) * PERCENT);
+    return Math.round(this.exactPercentOfReferenceIntake(amount));
   }
 
   /**
@@ -90,11 +87,19 @@ export class Nutrient {
    * @throws InvalidNutrientError when `amountPer100g` is negative or not finite.
    */
   claimLevel(amountPer100g: number): ClaimLevel | undefined {
-    if (!(Number.isFinite(amountPer100g) && amountPer100g >= 0)) {
-      throw new InvalidNutrientError(`Amount ${amountPer100g} must be a non-negative number.`);
-    }
-    const percent = (amountPer100g / this.referenceIntake) * PERCENT;
+    const percent = this.exactPercentOfReferenceIntake(amountPer100g);
     if (percent >= HIGH_PERCENT) return 'high';
     return percent >= SOURCE_PERCENT ? 'source' : undefined;
+  }
+
+  /**
+   * Returns `amount` as an unrounded percentage of the reference intake.
+   * @throws InvalidNutrientError when `amount` is negative or not finite.
+   */
+  exactPercentOfReferenceIntake(amount: number): number {
+    if (!(Number.isFinite(amount) && amount >= 0)) {
+      throw new InvalidNutrientError(`Amount ${amount} must be a non-negative number.`);
+    }
+    return (amount / this.referenceIntake) * PERCENT;
   }
 }

@@ -14,8 +14,8 @@ export function produceRecord(overrides: Partial<ProduceRecord> = {}): ProduceRe
     kind: 'vegetable',
     group: 'krastotsvetni',
     summary:
-      'Зелето е най-сладко и хрупкаво през есента. Богато е на витамин C и K и се съхранява дълго.',
-    varieties: [{ name: 'Бяло зеле' }, { name: 'Червено зеле', note: 'По-богато на антоцианини.' }],
+      'Зелето е най-сладко и хрупкаво през есента. Има високо съдържание на витамин C и K и се съхранява дълго.',
+    varieties: [{ name: 'Бяло зеле' }, { name: 'Червено зеле', note: 'Съдържа антоцианини.' }],
     season: [
       { month: 9, level: 'peak' },
       { month: 10, level: 'peak' },

@@ -1,108 +1,105 @@
 ---
 import { routes } from '@components/layout/routes';
 import SeasonBadge from '@components/season/SeasonBadge.astro';
-import type { NutrientRanking } from '@contexts/catalog';
+import ScrollTable from '@components/ui/ScrollTable.astro';
+import {
+  HIGH_PERCENT,
+  SOURCE_PERCENT,
+  type NutrientRanking,
+  type NutrientRankingEntry,
+} from '@contexts/catalog';
 import { formatNumber, monthNameLower, ui } from '@i18n/bg';
 
 /**
  * Ranking of produce by the amount of one nutrient per 100 g: amount, % of the reference intake,
- * the nutrition claim the amount allows and the season level in the ranking's month.
+ * the nutrition claim the amount allows and the season level in the ranking's month. Renders the
+ * empty-state text when no produce lists the nutrient.
  */
 interface Props {
   ranking: NutrientRanking;
 }
 
+const TENTHS = 10;
 const { ranking } = Astro.props;
 const { nutrient, month } = ranking;
 const labels = ui.nutrients;
 const nutrition = ui.produce.nutrition;
 const captionId = `ranking-${nutrient.slug}`;
+
+/**
+ * Returns the percentage as shown: an integer, or one decimal (rounded down) when the integer
+ * would reach a claim threshold that the exact value does not reach.
+ */
+const percentText = (entry: NutrientRankingEntry): string => {
+  const rounded = entry.percentOfReferenceIntake;
+  const misleading =
+    (entry.claimLevel === undefined && rounded >= SOURCE_PERCENT) ||
+    (entry.claimLevel === 'source' && rounded >= HIGH_PERCENT);
+  if (!misleading) return `${rounded}%`;
+  const exact = nutrient.exactPercentOfReferenceIntake(entry.amount);
+  return `${formatNumber(Math.floor(exact * TENTHS) / TENTHS)}%`;
+};
 ---
 
-<section class="table-scroll" aria-labelledby={captionId} tabindex="0">
-  <table class="ranking">
-    <caption id={captionId}>{labels.caption(nutrient.name)}</caption>
-    <thead>
-      <tr>
-        <th scope="col">{labels.produceColumn}</th>
-        <th scope="col">{nutrition.amount}</th>
-        <th scope="col">
-          {nutrition.percent}
-          <abbr title={nutrition.percentTitle}>{nutrition.percentAbbreviation}</abbr>
-        </th>
-        <th scope="col">{labels.claimColumn}</th>
-        <th scope="col">{labels.seasonColumn(monthNameLower(month))}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {ranking.entries.map((entry) => (
+{ranking.entries.length === 0 ? (
+  <p>{labels.empty(nutrient.name)}</p>
+) : (
+  <ScrollTable captionId={captionId}>
+    <table class="ranking">
+      <caption id={captionId}>{labels.caption(nutrient.name)}</caption>
+      <thead>
         <tr>
-          <th scope="row">
-            <a href={routes.produce(entry.produce)}>{entry.produce.name}</a>
+          <th scope="col">{labels.produceColumn}</th>
+          <th scope="col">{nutrition.amount}</th>
+          <th scope="col">
+            {nutrition.percent}
+            <abbr title={nutrition.percentTitle}>{nutrition.percentAbbreviation}</abbr>
           </th>
-          <td>{`${formatNumber(entry.amount)} ${nutrition.units[nutrient.unit]}`}</td>
-          <td>{`${entry.percentOfReferenceIntake}%`}</td>
-          <td class="ranking__text">
-            {entry.claimLevel === undefined ? (
-              <>
-                <span aria-hidden="true">–</span>
-                <span class="visually-hidden">{labels.noClaim}</span>
-              </>
-            ) : (
-              labels.claimLabels[entry.claimLevel](nutrient.name)
-            )}
-          </td>
-          <td class="ranking__text">
-            {entry.seasonLevel === undefined ? (
-              <>
-                <span aria-hidden="true">{ui.produce.outOfSeasonIcon}</span>{' '}
-                {ui.produce.outOfSeason}
-              </>
-            ) : (
-              <SeasonBadge level={entry.seasonLevel} />
-            )}
-          </td>
+          <th scope="col">{labels.claimColumn}</th>
+          <th scope="col">{labels.seasonColumn(monthNameLower(month))}</th>
         </tr>
-      ))}
-    </tbody>
-  </table>
-</section>
+      </thead>
+      <tbody>
+        {ranking.entries.map((entry) => (
+          <tr>
+            <th scope="row">
+              <a href={routes.produce(entry.produce)}>{entry.produce.name}</a>
+            </th>
+            <td>{`${formatNumber(entry.amount)} ${nutrition.units[nutrient.unit]}`}</td>
+            <td>{percentText(entry)}</td>
+            <td class="ranking__text">
+              {entry.claimLevel === undefined ? (
+                <>
+                  <span aria-hidden="true">–</span>
+                  <span class="visually-hidden">{labels.noClaim}</span>
+                </>
+              ) : (
+                labels.claimLabels[entry.claimLevel](nutrient.name)
+              )}
+            </td>
+            <td class="ranking__text">
+              {entry.seasonLevel === undefined ? (
+                <>
+                  <span aria-hidden="true">{ui.produce.outOfSeasonIcon}</span>{' '}
+                  {ui.produce.outOfSeason}
+                </>
+              ) : (
+                <SeasonBadge level={entry.seasonLevel} />
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </ScrollTable>
+)}
 
 <style>
-  .table-scroll {
-    position: relative;
-    overflow-x: auto;
-  }
-
   .ranking {
-    width: 100%;
     min-width: 36rem;
-    border-collapse: collapse;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .ranking caption {
-    text-align: start;
-    font-weight: 700;
-    padding-bottom: var(--space-2);
-  }
-
-  .ranking th,
-  .ranking td {
-    padding: var(--space-2) var(--space-3);
-    border-bottom: 1px solid var(--color-border);
-    text-align: start;
-  }
-
-  .ranking td {
-    text-align: end;
   }
 
   .ranking .ranking__text {
     text-align: start;
-  }
-
-  .ranking abbr {
-    text-decoration: none;
   }
 </style>

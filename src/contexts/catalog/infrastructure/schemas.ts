@@ -90,7 +90,9 @@ export const nutrientSchema = z.strictObject({
   kind: z.enum(NUTRIENT_KINDS),
   unit: z.enum(NUTRIENT_UNITS),
   referenceIntake: z.number().positive(),
-  claims: z.array(text()).min(1),
+  claims: z
+    .array(text().refine((claim) => !claim.endsWith('.'), 'Claims are stored without a full stop.'))
+    .min(1),
   claimsSource: sourceSchema,
   note: text().optional(),
 });

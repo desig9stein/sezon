@@ -81,18 +81,23 @@ by Bulgarian name. `rankingFor` throws `NutrientNotFoundError` for an unknown sl
   „Все още няма продукти с данни за <име>.“
 - Claim labels follow Regulation (EC) No 1924/2006, Annex. The thresholds are 15 % and 30 % of
   the reference value per 100 g, from Regulation (EU) No 1169/2011, Annex XIII, Part A, point 2:
-  - „С високо съдържание на <име>“ for 30 % and above;
+  - „Високо съдържание на <име>“ for 30 % and above (the Annex heading „ВИСОКО СЪДЪРЖАНИЕ НА …“);
   - „Източник на <име>“ for 15 % and above;
   - „–“ with hidden text „под прага за претенция“ below 15 %.
-- The word „богат на“ is never used, because it carries the same meaning as „с високо
-  съдържание“.
+- The word „богат на“ is never used, because it carries the same meaning as „високо
+  съдържание“. Produce texts use „има високо съдържание на …“ only where the 30 % condition holds
+  (seed content reworded in this feature).
 - **Page layout:**
-  - `h1` „<Име> в сезонните плодове и зеленчуци“.
+  - `h1` „<Име> в сезонните храни“.
   - Section „Какво прави <име>“: the claims as a list. Each claim is a sentence ending in a full
     stop. Below the list:
+    - the statement required by Regulation (EC) No 1924/2006, Article 10(2)(a): „Важно е
+      храненето да е разнообразно и балансирано, както и да се води здравословен начин на живот.“
     - a sentence saying the wording is authorised by Regulation (EU) No 432/2012 and applies to
       foods that are at least a source of the nutrient;
     - the source link;
+    - under the table, the quantity note (Article 10(2)(b)): amounts are per 100 g of raw edible
+      portion, and the claim thresholds are 15 % and 30 % of the reference intake;
     - the `note`, when present;
     - the site's general health disclaimer (the footer text: education, not medical advice).
   - Section „В сезон сега“, rendered only when `inSeason` is not empty: the produce names as
@@ -100,12 +105,13 @@ by Bulgarian name. `rankingFor` throws `NutrientNotFoundError` for an unknown sl
   - Section „Съдържание на 100 г“: a ranking table with caption „<Име> на 100 г“. The columns are:
     - produce (row header, a link);
     - amount with unit;
-    - % РСП (`<abbr>`, as on produce pages);
+    - % РСП (`<abbr>`, as on produce pages). It is an integer, but when the integer would reach a
+      claim threshold that the exact value does not, it shows one decimal rounded down (e.g. 14,8 %);
     - claim;
     - level in the current month (text and icon, or „Извън сезона“).
-- **Title:** „<Име> в сезонни плодове и зеленчуци“. If the full title with the site suffix is
-  longer than 60 characters, fall back to „<Име> в сезонните храни“, then „<Име>“.
-- **Description:** „Кои сезонни плодове и зеленчуци от България съдържат най-много <име> на 100 г,
+- **Title:** „<Име> в сезонните храни от България“. If the full title with the site suffix is
+  longer than 60 characters, fall back to „<Име> в сезонните храни“, then „<Име>“. The pages say „храни“, because the rankings include herbs and nuts.
+- **Description:** „Кои сезонни храни от България съдържат най-много <име> на 100 г,
   колко от референтния прием покриват и кои са в сезон сега.“ It is 70–160 characters for every
   nutrient.
 - **Produce page:** the micronutrient row header becomes a link to `routes.nutrient(slug)`. The
@@ -142,7 +148,7 @@ by Bulgarian name. `rankingFor` throws `NutrientNotFoundError` for an unknown sl
 1. **AC1:** Given a nutrient with a reference intake of 80, `claimLevel` returns `high` for 24 (30 %), `source` for 12 (15 %) and `undefined` for 11.9.
 2. **AC2:** Given produce with and without a nutrient, `rankingFor(slug, month)` lists only produce that contains it, highest amount first (ties in repository order), with percentage, claim level and the season level in `month`. `inSeason` holds the peak or available entries that have a claim level.
 3. **AC3:** Given an unknown slug, `rankingFor` throws `NutrientNotFoundError`. `allNutrients` returns every nutrient.
-4. **AC4:** The nutrient schema requires a non-empty `claims` list and a `claimsSource`, accepts an optional `note`, and rejects `description`. Every seed nutrient passes. Each of its claims appears verbatim in Regulation (EU) No 432/2012, checked against the list in the test.
+4. **AC4:** The nutrient schema requires a non-empty `claims` list (no claim ends in a full stop) and a `claimsSource`, accepts an optional `note`, and rejects `description`. No content file uses „богат“. Every seed nutrient passes. Each of its claims appears verbatim in Regulation (EU) No 432/2012, checked against the list in the test.
 5. **AC5:** `routes.nutrient('vitamin-c')` returns `/nutrienti/vitamin-c`.
 6. **AC6:** For every seed nutrient, the title with the site suffix is at most 60 characters and the description is 70–160 characters.
 7. **AC7:** `NutrientRankingTable` renders a caption, column and row headers, formatted amounts, % РСП, claim labels (or „–“ with hidden text) and the season level text, and links each produce.

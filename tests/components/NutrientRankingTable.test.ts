@@ -82,7 +82,12 @@ describe('NutrientRankingTable', () => {
       ranking: await service.rankingFor('vitamin-c', Month.of(11)),
     });
     expect(html).toContain('14,8%');
-    expect(html).not.toMatch(/>\s*15%\s*</);
+    const tikvaRow = html.slice(
+      html.indexOf('Тиква'),
+      html.indexOf('</tr>', html.indexOf('Тиква')),
+    );
+    expect(tikvaRow).toContain('14,8%');
+    expect(tikvaRow).not.toMatch(/>\s*15%\s*</);
   });
 
   it('QA 011: renders the empty-state text when no produce lists the nutrient', async () => {

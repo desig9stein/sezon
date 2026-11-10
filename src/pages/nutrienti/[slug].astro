@@ -1,5 +1,6 @@
 ---
 import type { GetStaticPaths } from 'astro';
+import NutrientInSeason from '@components/nutrients/NutrientInSeason.astro';
 import NutrientRankingTable from '@components/nutrients/NutrientRankingTable.astro';
 import { routes } from '@components/layout/routes';
 import { buildMonth } from '@composition/clock';
@@ -51,6 +52,7 @@ const jsonLd = [
           <li>{`${claim}.`}</li>
         ))}
       </ul>
+      <p>{labels.balancedDiet}</p>
       <p class="nutrient__note">
         {labels.claimsNote(nutrient.name)} {ui.produce.nutrition.sourcePrefix}
         <a href={nutrient.claimsSource.url}>{nutrient.claimsSource.name}</a>.
@@ -59,28 +61,12 @@ const jsonLd = [
       <p class="nutrient__note">{ui.footer.disclaimer}</p>
     </section>
 
-    {ranking.inSeason.length > 0 && (
-      <section aria-labelledby="in-season">
-        <h2 id="in-season">{labels.inSeasonHeading}</h2>
-        <ul class="nutrient__in-season" role="list">
-          {ranking.inSeason.map((entry) => (
-            <li>
-              <a href={routes.produce(entry.produce)}>{entry.produce.name}</a>
-              {entry.claimLevel !== undefined &&
-                ` – ${labels.claimLabels[entry.claimLevel](nutrient.name)}`}
-            </li>
-          ))}
-        </ul>
-      </section>
-    )}
+    <NutrientInSeason ranking={ranking} />
 
     <section aria-labelledby="ranking">
       <h2 id="ranking">{labels.rankingHeading}</h2>
-      {ranking.entries.length === 0 ? (
-        <p>{labels.empty(nutrient.name)}</p>
-      ) : (
-        <NutrientRankingTable ranking={ranking} />
-      )}
+      <NutrientRankingTable ranking={ranking} />
+      <p class="nutrient__note">{labels.quantityNote}</p>
       <p class="nutrient__note">{ui.produce.nutrition.referenceNote}</p>
     </section>
   </article>
@@ -103,8 +89,7 @@ const jsonLd = [
     max-width: none;
   }
 
-  .nutrient__claims,
-  .nutrient__in-season {
+  .nutrient__claims {
     display: grid;
     gap: var(--space-1);
     padding-inline-start: var(--space-6);

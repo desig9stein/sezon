@@ -219,10 +219,10 @@ export const ui = {
   } satisfies Record<SeasonLevelValue, string>,
   nutrients: {
     title: (name: string) =>
-      fittingTitle([`${name} в сезонни плодове и зеленчуци`, `${name} в сезонните храни`, name]),
+      fittingTitle([`${name} в сезонните храни от България`, `${name} в сезонните храни`, name]),
     description: (name: string) =>
-      `Кои сезонни плодове и зеленчуци от България съдържат най-много ${inSentence(name)} на 100 г, колко от референтния прием покриват и кои са в сезон сега.`,
-    heading: (name: string) => `${name} в сезонните плодове и зеленчуци`,
+      `Кои сезонни храни от България съдържат най-много ${inSentence(name)} на 100 г, колко от референтния прием покриват и кои са в сезон сега.`,
+    heading: (name: string) => `${name} в сезонните храни`,
     claimsHeading: (name: string) => `Какво прави ${inSentence(name)}`,
     claimsNote: (name: string) =>
       `Формулировките са разрешени здравни претенции по Регламент (ЕС) № 432/2012 и се отнасят за храни, които са поне източник на ${inSentence(name)}.`,
@@ -233,10 +233,15 @@ export const ui = {
     claimColumn: 'Претенция',
     seasonColumn: (monthName: string) => `През ${monthName}`,
     claimLabels: {
-      high: (name: string) => `С високо съдържание на ${inSentence(name)}`,
+      high: (name: string) => `Високо съдържание на ${inSentence(name)}`,
       source: (name: string) => `Източник на ${inSentence(name)}`,
     },
     noClaim: 'под прага за претенция',
+    labelSeparator: ' – ',
+    balancedDiet:
+      'Важно е храненето да е разнообразно и балансирано, както и да се води здравословен начин на живот.',
+    quantityNote:
+      'Количествата са на 100 г сурова ядлива част. Претенцията „Източник на“ изисква поне 15 %, а „Високо съдържание на“ – поне 30 % от референтния прием на 100 г.',
     empty: (name: string) => `Все още няма продукти с данни за ${inSentence(name)}.`,
   },
   produceKinds: {

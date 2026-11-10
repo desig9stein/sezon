@@ -19,7 +19,7 @@ export async function removeAllCss(page: Page): Promise<void> {
  * Returns a short description (tag and classes) of each element in `<body>` that CSS hides:
  * `display: none`, `visibility: hidden | collapse`, `opacity: 0`, `content-visibility: hidden`,
  * a `clip-path`, a zero-size box that clips its content, or a box outside the document
- * (unless it sits in a scroll container, where scrolling reaches it).
+ * or, inside a scroll container (other than `html` and `body`), outside its scrollable area.
  * `[hidden]` elements that CSS reveals are reported with the suffix ` (revealed)`.
  * Non-rendered elements, `[hidden]`, `.visually-hidden`, `.skip-link` and their descendants are exempt.
  */
@@ -32,12 +32,27 @@ export async function hiddenByCss(page: Page): Promise<string[]> {
     const documentHeight = document.documentElement.scrollHeight;
 
     const scrolls = (value: string): boolean => value === 'auto' || value === 'scroll';
-    const insideScrollContainer = (element: Element): boolean => {
-      for (let parent = element.parentElement; parent !== null; parent = parent.parentElement) {
+    const scrollContainerOf = (element: Element): Element | undefined => {
+      for (
+        let parent = element.parentElement;
+        parent !== null && parent !== document.body && parent !== document.documentElement;
+        parent = parent.parentElement
+      ) {
         const style = getComputedStyle(parent);
-        if (scrolls(style.overflowX) || scrolls(style.overflowY)) return true;
+        if (scrolls(style.overflowX) || scrolls(style.overflowY)) return parent;
       }
-      return false;
+      return undefined;
+    };
+    const reachableInContainer = (box: DOMRect, container: Element): boolean => {
+      const frame = container.getBoundingClientRect();
+      const left = frame.left - container.scrollLeft;
+      const top = frame.top - container.scrollTop;
+      return (
+        box.right > left &&
+        box.bottom > top &&
+        box.left < left + container.scrollWidth &&
+        box.top < top + container.scrollHeight
+      );
     };
 
     const isHidden = (element: Element): boolean => {
@@ -48,7 +63,8 @@ export async function hiddenByCss(page: Page): Promise<string[]> {
       const box = element.getBoundingClientRect();
       const clipsContent = style.overflow !== 'visible' && element.textContent?.trim() !== '';
       if (clipsContent && (box.width === 0 || box.height === 0)) return true;
-      if (insideScrollContainer(element)) return false;
+      const container = scrollContainerOf(element);
+      if (container !== undefined) return box.width > 0 && !reachableInContainer(box, container);
       const left = box.left + window.scrollX;
       const top = box.top + window.scrollY;
       return (
