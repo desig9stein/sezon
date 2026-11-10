@@ -69,7 +69,10 @@ None. Test helpers only:
   - Every `img`, `svg`, `video` and `iframe` either has `width` and `height` attributes
     (content media) or renders at most 128 × 128 CSS px (icons), so no icon fills the screen.
   - The desktop page has no horizontal scroll.
-  - axe reports zero violations.
+  - axe reports zero violations, except `target-size` (WCAG 2.5.8 user-agent exception: without
+    author CSS the browser sets every target size).
+- Groups of short, separate facts (such as the Latin name, kind and family under a produce
+  title) are list items, so they do not run together into one line without CSS.
 - `.visually-hidden` text becomes visible without CSS. That is accepted: the text is written
   to read naturally in place (e.g. „Сезон:“ before a badge).
 
@@ -93,15 +96,16 @@ None directly. Crawlers read the same HTML; a logical source order also helps th
 3. **AC3:** Given any page template, no element has a positive `tabindex`.
 4. **AC4:** Given any page template without CSS, the skip link to `#main` is the first focusable element, landmarks follow header → main navigation → main → footer, the first heading in `main` is the only `h1`, and heading levels never skip.
 5. **AC5:** Given any page template without CSS, every image, SVG, video and iframe has `width` and `height` attributes or renders within 128 × 128 px, and on desktop the page does not scroll horizontally.
-6. **AC6:** Given any page template without CSS, axe reports zero WCAG violations.
+6. **AC6:** Given any page template without CSS, axe reports zero WCAG violations, except `target-size`: WCAG 2.5.8 exempts targets whose size is determined by the user agent, which is every target once author CSS is removed.
 7. **AC7:** The `qa-reviewer` checklist includes readability without CSS.
+8. **AC8:** Given the produce page without CSS, the Latin name, the kind and the botanical family are separate list items, not one run-on line.
 
 ## 9. Test plan
 
-| AC      | Type | Test file                                                     |
-| ------- | ---- | ------------------------------------------------------------- |
-| AC1–AC6 | e2e  | `tests/e2e/readable-without-css.spec.ts` (desktop and mobile) |
-| AC7     | unit | `tests/unit/repo/qa-checklist.test.ts`                        |
+| AC           | Type | Test file                                                     |
+| ------------ | ---- | ------------------------------------------------------------- |
+| AC1–AC6, AC8 | e2e  | `tests/e2e/readable-without-css.spec.ts` (desktop and mobile) |
+| AC7          | unit | `tests/unit/repo/qa-checklist.test.ts`                        |
 
 ## 10. Third-party documentation consulted
 

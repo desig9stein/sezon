@@ -11,6 +11,9 @@ const PAGES = [
 
 const MAX_ICON_SIZE = 128;
 
+/** WCAG 2.5.8 exempts targets whose size the user agent sets, which is every target without CSS. */
+const RULES_EXEMPT_WITHOUT_CSS = ['target-size'] as const;
+
 /** Returns the heading levels (1–6) of the page in document order. */
 const headingLevels = (page: Page): Promise<number[]> =>
   page
@@ -110,9 +113,27 @@ for (const { name, path } of PAGES) {
       }
     });
 
-    test('AC6: without CSS axe reports no violations', async ({ page }) => {
+    test('AC6: without CSS axe reports no violations (target size is set by the browser)', async ({
+      page,
+    }) => {
       await removeAllCss(page);
-      await expectNoAxeViolations(page);
+      await expectNoAxeViolations(page, RULES_EXEMPT_WITHOUT_CSS);
     });
   });
 }
+
+test('AC8: without CSS the produce facts under the title are separate list items', async ({
+  page,
+}) => {
+  await page.goto('/zelenchutsi/zele');
+  await removeAllCss(page);
+
+  const facts = page.locator('article header ul > li');
+  await expect(facts).toHaveCount(3);
+  await expect(facts.nth(0).locator('i[lang="la"]')).toHaveText('Brassica oleracea var. capitata');
+  await expect(facts.nth(2)).toContainText('Brassicaceae');
+  const tops = await facts.evaluateAll((items) =>
+    items.map((item) => Math.round(item.getBoundingClientRect().top)),
+  );
+  expect(new Set(tops).size).toBe(3);
+});
