@@ -53,6 +53,9 @@ describe('nutrient claims', () => {
     expect(
       nutrientSchema.safeParse({ ...base, ...NUTRIENT_CLAIMS, description: 'Описание.' }).success,
     ).toBe(false);
+    expect(
+      nutrientSchema.safeParse({ ...base, ...NUTRIENT_CLAIMS, claims: ['Твърдение.'] }).success,
+    ).toBe(false);
   });
 
   for (const { file, record } of seeds) {
@@ -62,4 +65,13 @@ describe('nutrient claims', () => {
       expect(parsed.claimsSource.url).toContain('CELEX:32012R0432');
     });
   }
+
+  it('QA 011: no content uses „богат на“ (same meaning as „високо съдържание на“)', () => {
+    const dataRoot = join(process.cwd(), 'src', 'data');
+    const offending = readdirSync(dataRoot, { recursive: true })
+      .map(String)
+      .filter((file) => file.endsWith('.yaml'))
+      .filter((file) => /богат/i.test(readFileSync(join(dataRoot, file), 'utf8')));
+    expect(offending).toEqual([]);
+  });
 });

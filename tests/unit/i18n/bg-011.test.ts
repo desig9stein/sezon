@@ -28,14 +28,20 @@ describe('nutrient page texts', () => {
   }
 
   it('AC6: falls back to shorter titles for long names', () => {
-    expect(ui.nutrients.title('Витамин C')).toBe('Витамин C в сезонни плодове и зеленчуци');
-    const long = 'Б'.repeat(25);
-    expect(ui.nutrients.title(long)).toBe(`${long} в сезонните храни`);
+    expect(ui.nutrients.title('Витамин C')).toBe('Витамин C в сезонните храни от България');
+    expect(ui.nutrients.title('Б'.repeat(30))).toBe(`${'Б'.repeat(30)} в сезонните храни`);
     expect(ui.nutrients.title('Б'.repeat(45))).toBe('Б'.repeat(45));
   });
 
-  it('AC7: words claim labels after Regulation (EC) No 1924/2006', () => {
-    expect(ui.nutrients.claimLabels.high('витамин C')).toBe('С високо съдържание на витамин C');
+  it('AC7: words claim labels as in the Annex of Regulation (EC) No 1924/2006', () => {
+    expect(ui.nutrients.claimLabels.high('витамин C')).toBe('Високо съдържание на витамин C');
     expect(ui.nutrients.claimLabels.source('витамин C')).toBe('Източник на витамин C');
+  });
+
+  it('QA 011: states the importance of a varied diet (Regulation (EC) No 1924/2006, Art. 10(2))', () => {
+    expect(ui.nutrients.balancedDiet).toBe(
+      'Важно е храненето да е разнообразно и балансирано, както и да се води здравословен начин на живот.',
+    );
+    expect(ui.nutrients.quantityNote).toContain('100 г');
   });
 });

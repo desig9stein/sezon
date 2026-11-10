@@ -30,6 +30,14 @@ test.describe('nutrient pages', () => {
       const types = (await jsonLdOf(page)).map((block) => (block as { '@type': string })['@type']);
       expect(types).toEqual(expect.arrayContaining(['ItemList', 'BreadcrumbList']));
       await expect(page.locator('main a[href*="CELEX:32012R0432"]')).toHaveCount(1);
+      const claims = await page
+        .locator('section[aria-labelledby="claims"] > ul > li')
+        .allTextContents();
+      expect(claims.length).toBeGreaterThan(0);
+      for (const claim of claims) expect(claim.trim()).toMatch(/[^.]\.$/);
+      await expect(page.locator('section[aria-labelledby="claims"]')).toContainText(
+        'Важно е храненето да е разнообразно и балансирано',
+      );
       const amounts = await page.locator('main table tbody tr td:nth-of-type(1)').allTextContents();
       const numbers = amounts.map(amountOf);
       expect(numbers).toEqual([...numbers].sort((a, b) => b - a));

@@ -50,6 +50,37 @@ test.describe('no-CSS helpers', () => {
     expect(await hiddenByCss(browser)).toEqual([]);
   });
 
+  const unreachableInScrollContainers = [
+    [
+      'left offset inside a scroll container',
+      '.s { overflow: auto } .x { position: relative; left: -9999px }',
+    ],
+    [
+      'transform inside an x-scroll container',
+      '.s { overflow-x: auto } .x { transform: translateX(-200vw) }',
+    ],
+    [
+      'top offset inside a y-scroll container',
+      '.s { position: relative; overflow-y: auto; height: 50px } .x { position: absolute; top: -9999px }',
+    ],
+    [
+      'off screen under a scrolling body',
+      'body { overflow: auto } .x { position: absolute; left: -9999px }',
+    ],
+    [
+      'off screen under a scrolling html',
+      'html { overflow-y: scroll } .x { position: absolute; left: -9999px }',
+    ],
+  ] as const;
+
+  for (const [name, style] of unreachableInScrollContainers) {
+    test(`hiddenByCss detects ${name}`, async ({ page: browser }) => {
+      await browser.setViewportSize({ width: 320, height: 400 });
+      await browser.setContent(page(style, '<div class="s"><p>А</p><p class="x">Б</p></div>'));
+      expect(await hiddenByCss(browser)).toContain('p.x');
+    });
+  }
+
   const reorderPatterns = [
     ['float: right on siblings', '.r > * { float: right }'],
     ['direction: rtl', '.r { display: flex; direction: rtl }'],

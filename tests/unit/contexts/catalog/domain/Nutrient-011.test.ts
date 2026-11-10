@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { Nutrient } from '@contexts/catalog';
+import { InvalidNutrientError } from '@shared/domain/errors';
 import { NUTRIENT_CLAIMS } from '@tests/fixtures/records';
 
 const vitaminC = Nutrient.create({
@@ -29,5 +30,9 @@ describe('Nutrient (spec 011)', () => {
     expect(vitaminC.claimsSource).toEqual(NUTRIENT_CLAIMS.claimsSource);
     expect(vitaminC.note).toBe('Бележка.');
     expect(Object.isFrozen(vitaminC.claims)).toBe(true);
+  });
+
+  it.each([-1, Number.NaN])('QA 011: claimLevel rejects %s', (amount) => {
+    expect(() => vitaminC.claimLevel(amount)).toThrow(InvalidNutrientError);
   });
 });
