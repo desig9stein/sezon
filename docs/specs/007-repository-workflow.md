@@ -50,25 +50,34 @@ None.
 
 ## 5. Behaviour and edge cases
 
-- **CI triggers:** `pull_request` to `main` and `push` to `main`. Concurrency cancels outdated
+- **CI triggers:** every `pull_request` (including stacked PRs) and `push` to `main`. Concurrency cancels outdated
   runs of the same ref. Permissions: `contents: read`.
-- **Jobs:** each job checks out, sets up pnpm (version from `packageManager`) and Node (from
-  `.nvmrc`) with the pnpm cache, and runs `pnpm install --frozen-lockfile`.
+- **Package manager:** pnpm 12 (latest). Settings live in `pnpm-workspace.yaml` (`overrides`,
+  `allowBuilds`); pnpm 12's default `minimumReleaseAge` (1 day) rejects packages published in the
+  last 24 hours, which protects against compromised releases.
+- **Jobs:** each job checks out and runs `pnpm/setup@v3` with `cache: true`, which installs pnpm
+  (from `packageManager`), Node (from `.nvmrc`) and runs a frozen `pnpm install`.
   `format` → `pnpm format:check`; `lint` → `pnpm lint`; `typecheck` → `pnpm check`;
   `unit` → `pnpm test:coverage`; `build` → `pnpm build` + `pnpm validate:html` and uploads
   `dist/`; `e2e` (needs `build`) downloads `dist/`, installs Chromium and runs `pnpm test:e2e`;
-  `lighthouse` (needs `build`) downloads `dist/` and runs `pnpm lhci`, uploading reports on failure.
+  `lighthouse` (needs `build`) downloads `dist/` and runs `pnpm lhci`, uploading
+  `.lighthouseci/reports` on failure (`include-hidden-files: true`, `if-no-files-found: error`).
+  Upload and download use the same artifact name and path.
 - **Pre-commit:** `lint-staged` runs `prettier --write` on staged supported files and
   `eslint --fix` on staged `*.{ts,astro,js,mjs,cjs}`. The hook installs on `pnpm install`
   (`prepare` script). It never runs tests (fast commits); CI runs them.
 - **Labels:** types (`type:feature`, `type:bug`, `type:content`, `type:docs`, `type:chore`),
   areas (`area:seo`, `area:a11y`, `area:performance`, `area:content`, `area:ci`), phases
   (`phase:2` … `phase:5`) and `status:blocked`. The sync workflow runs on changes to
-  `.github/labels.yml` and on demand; it creates or updates labels and never deletes others.
+  `.github/labels.yml` and on demand with `contents: read` and `issues: write`; it creates or
+  updates labels and never deletes others.
 - **Templates:** issue forms require a summary and acceptance criteria (feature), steps to
   reproduce and expected/actual result (bug), or the produce/farm and sources (content).
   The PR template contains Summary, Linked issue and spec, Changes, Verification checklist
-  (Definition of Done items from AGENTS.md section 11), Screenshots, Notes for the reviewer.
+  (Definition of Done items from AGENTS.md section 11), UI checklist (keyboard and focus,
+  contrast tokens, title ≤ 60 and description 70–160, valid JSON-LD), Screenshots, Notes for the
+  reviewer. The content form's Sources field is optional (required only for health content,
+  enforced in review and by the schema).
 
 ## 6. Accessibility requirements
 
@@ -82,31 +91,33 @@ description, JSON-LD, Lighthouse SEO = 100).
 
 ## 8. Acceptance criteria
 
-1. **AC1:** `ci.yml` defines the jobs `format`, `lint`, `typecheck`, `unit`, `build`, `e2e`, `lighthouse`; `e2e` and `lighthouse` need `build`; each job runs its command from section 5.
-2. **AC2:** `ci.yml` runs on pull requests and pushes to `main` with `contents: read` permissions and per-ref concurrency.
-3. **AC3:** The PR template contains every section from section 5 and every Definition of Done item from AGENTS.md section 11.
+1. **AC1:** `ci.yml` defines the jobs `format`, `lint`, `typecheck`, `unit`, `build`, `e2e`, `lighthouse`; every job uses `pnpm/setup@v3` with the cache; `e2e` and `lighthouse` need `build` and download the same artifact name/path that `build` uploads; each job runs its commands from section 5; the Lighthouse report upload includes hidden files.
+2. **AC2:** `ci.yml` runs on every pull request and on pushes to `main` with `contents: read` permissions and per-ref concurrency.
+3. **AC3:** The PR template contains every section from section 5, every Definition of Done item from AGENTS.md section 11 and the UI checklist items.
 4. **AC4:** Each issue form is valid YAML with `name`, `description`, `labels` and at least one required field; `config.yml` disables blank issues.
-5. **AC5:** `labels.yml` lists every label from section 5 with a 6-digit hex colour and a description; the `labels` workflow syncs them with `gh label create --force`.
+5. **AC5:** `labels.yml` lists every label from section 5 with a 6-digit hex colour and a description; the `labels` workflow syncs them with `gh label create --force` and has `contents: read` and `issues: write` permissions.
 6. **AC6:** `package.json` configures a `pre-commit` hook that runs `lint-staged`, a `prepare` script that installs it, and `lint-staged` rules for Prettier and ESLint.
-7. **AC7:** `docs/PROJECT-BOARD.md` describes the columns (Backlog, Ready, In progress, In review, Done), the auto-add workflow and the branch-protection steps.
+7. **AC8:** `packageManager` is pnpm 12; `pnpm-workspace.yaml` holds the overrides and `allowBuilds`; `package.json` has no `pnpm` field.
+8. **AC7:** `docs/PROJECT-BOARD.md` notes that rulesets on private repositories need a paid plan and describes the columns (Backlog, Ready, In progress, In review, Done), the auto-add workflow and the branch-protection steps.
 
 ## 9. Test plan
 
 | AC      | Type | Test file                                     |
 | ------- | ---- | --------------------------------------------- |
-| AC1–AC7 | unit | `tests/unit/repo/repository-workflow.test.ts` |
+| AC1–AC8 | unit | `tests/unit/repo/repository-workflow.test.ts` |
 
 ## 10. Third-party documentation consulted
 
-| Package / source          | Version | Source                                                   | Topic                                                               |
-| ------------------------- | ------- | -------------------------------------------------------- | ------------------------------------------------------------------- |
-| actions/checkout          | v7      | `git ls-remote` tags; README                             | Checkout                                                            |
-| actions/setup-node        | v7      | raw.githubusercontent.com/actions/setup-node README      | `node-version-file`, `cache: pnpm`                                  |
-| pnpm/action-setup         | v6      | raw.githubusercontent.com/pnpm/action-setup README       | Version from `packageManager` (pnpm 10; `pnpm/setup` needs pnpm 11) |
-| actions/upload-artifact   | v7      | README                                                   | `if-no-files-found`, `retention-days`                               |
-| actions/download-artifact | v8      | `git ls-remote` tags                                     | Downloading `dist/`                                                 |
-| simple-git-hooks          | 2.14.0  | npm README                                               | `simple-git-hooks` config in package.json                           |
-| lint-staged               | 17.6.0  | npm README                                               | Config in package.json                                              |
-| GitHub issue forms        | current | docs.github.com: syntax for issue forms, `config.yml`    | Form schema                                                         |
-| GitHub Projects           | current | docs.github.com: built-in automations, auto-add workflow | Board setup                                                         |
-| GitHub CLI                | current | `gh label create --force`                                | Label sync                                                          |
+| Package / source          | Version | Source                                                               | Topic                                                     |
+| ------------------------- | ------- | -------------------------------------------------------------------- | --------------------------------------------------------- |
+| actions/checkout          | v7      | `git ls-remote` tags; README                                         | Checkout                                                  |
+| actions/setup-node        | v7      | raw.githubusercontent.com/actions/setup-node README                  | `node-version-file`, `cache: pnpm`                        |
+| pnpm/setup                | v3.1.2  | raw.githubusercontent.com/pnpm/setup README                          | pnpm + Node from `.nvmrc`, automatic install, cache       |
+| pnpm                      | 12.18.0 | Context7 `/pnpm/pnpm/v12.15.0` (migration, settings/build, lockfile) | `pnpm-workspace.yaml`, `allowBuilds`, `minimumReleaseAge` |
+| actions/upload-artifact   | v7      | README                                                               | `if-no-files-found`, `retention-days`                     |
+| actions/download-artifact | v8      | `git ls-remote` tags                                                 | Downloading `dist/`                                       |
+| simple-git-hooks          | 2.14.0  | npm README                                                           | `simple-git-hooks` config in package.json                 |
+| lint-staged               | 17.6.0  | npm README                                                           | Config in package.json                                    |
+| GitHub issue forms        | current | docs.github.com: syntax for issue forms, `config.yml`                | Form schema                                               |
+| GitHub Projects           | current | docs.github.com: built-in automations, auto-add workflow             | Board setup                                               |
+| GitHub CLI                | current | `gh label create --force`                                            | Label sync                                                |

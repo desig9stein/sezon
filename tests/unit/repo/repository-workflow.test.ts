@@ -34,6 +34,7 @@ describe('CI workflow', () => {
     ['lint', 'pnpm lint'],
     ['typecheck', 'pnpm check'],
     ['unit', 'pnpm test:coverage'],
+    ['build', 'pnpm build'],
     ['build', 'pnpm validate:html'],
     ['e2e', 'pnpm test:e2e'],
     ['lighthouse', 'pnpm lhci'],
@@ -41,10 +42,35 @@ describe('CI workflow', () => {
     expect(runs(ci.jobs[job])).toContain(command);
   });
 
-  it('AC1: every job installs with the frozen lockfile', () => {
+  it('AC1: every job sets up pnpm, Node and dependencies with pnpm/setup and its cache', () => {
     for (const job of Object.values(ci.jobs)) {
-      expect(runs(job)).toContain('pnpm install --frozen-lockfile');
+      const setup = job.steps.find((step) => step.uses?.startsWith('pnpm/setup@'));
+      expect(setup?.uses).toBe('pnpm/setup@v3');
+      expect(setup?.with?.cache).toBe(true);
     }
+  });
+
+  it('AC1: e2e and lighthouse download exactly what build uploads', () => {
+    const upload = ci.jobs.build?.steps.find((step) =>
+      step.uses?.startsWith('actions/upload-artifact'),
+    );
+    for (const name of ['e2e', 'lighthouse']) {
+      const download = ci.jobs[name]?.steps.find((step) =>
+        step.uses?.startsWith('actions/download-artifact'),
+      );
+      expect(download?.with?.name).toBe(upload?.with?.name);
+      expect(download?.with?.path).toBe(upload?.with?.path);
+    }
+  });
+
+  it('AC1: uploads hidden Lighthouse reports on failure', () => {
+    const reports = ci.jobs.lighthouse?.steps.find(
+      (step) =>
+        step.uses?.startsWith('actions/upload-artifact') &&
+        step.with?.path === '.lighthouseci/reports',
+    );
+    expect(reports?.with?.['include-hidden-files']).toBe(true);
+    expect(reports?.with?.['if-no-files-found']).toBe('error');
   });
 
   it('AC1: e2e and lighthouse reuse the build output', () => {
@@ -60,7 +86,7 @@ describe('CI workflow', () => {
   });
 
   it('AC2: runs on pull requests and pushes to main with read-only permissions', () => {
-    expect(ci.on).toEqual({ pull_request: { branches: ['main'] }, push: { branches: ['main'] } });
+    expect(ci.on).toEqual({ pull_request: null, push: { branches: ['main'] } });
     expect(ci.permissions).toEqual({ contents: 'read' });
     expect(ci.concurrency?.['cancel-in-progress']).toBe(true);
     expect(ci.concurrency?.group).toContain('github.ref');
@@ -101,6 +127,19 @@ interface IssueForm {
   readonly labels: string[];
   readonly body: { type: string; validations?: { required?: boolean } }[];
 }
+
+describe('pull request template UI checklist', () => {
+  const template = read('.github/pull_request_template.md');
+
+  it.each([
+    'Keyboard and visible focus',
+    'Contrast uses design tokens',
+    'Title ≤ 60 and description 70–160 characters',
+    'JSON-LD is valid',
+  ])('AC3: has UI item "%s"', (item) => {
+    expect(template).toContain(item);
+  });
+});
 
 describe('issue forms', () => {
   it.each(['feature', 'bug', 'content'])(
@@ -165,6 +204,8 @@ describe('labels', () => {
     expect(workflow).toContain('gh label create');
     expect(workflow).toContain('--force');
     expect(workflow).toContain('.github/labels.yml');
+    const parsed = parse(workflow) as { permissions: Record<string, string> };
+    expect(parsed.permissions).toEqual({ contents: 'read', issues: 'write' });
   });
 });
 
@@ -196,5 +237,20 @@ describe('project board guide', () => {
     }
     expect(guide).toMatch(/auto-add/i);
     expect(guide).toMatch(/branch protection|ruleset/i);
+    expect(guide).toMatch(/private repositor.*(Pro|Team|paid)/i);
+  });
+});
+
+describe('package manager', () => {
+  it('AC8: uses pnpm 12 with settings in pnpm-workspace.yaml', () => {
+    const pkg = JSON.parse(read('package.json')) as { packageManager: string; pnpm?: unknown };
+    expect(pkg.packageManager).toMatch(/^pnpm@12\./);
+    expect(pkg.pnpm).toBeUndefined();
+    const workspace = readYaml<{
+      overrides: Record<string, string>;
+      allowBuilds: Record<string, boolean>;
+    }>('pnpm-workspace.yaml');
+    expect(workspace.overrides['@puppeteer/browsers']).toBeDefined();
+    expect(workspace.allowBuilds['simple-git-hooks']).toBe(false);
   });
 });
