@@ -57,10 +57,19 @@ Each list is sorted by Bulgarian name and frozen. `SeasonOverviewService` takes 
 - December's `comingSoon` uses January (wrap-around).
 - Produce whose next month is only `storage` is not "coming soon".
 - `freshCount` = `peak.length + available.length`.
+- Group headings: „В разгара на сезона“ (peak), „Също в сезон“ (available), „Идват скоро“,
+  „От хранилище“.
+- Coming-soon cards show next month's level with an explicit prefix, e.g.
+  „От декември: Разгар на сезона“, so a card never claims a status that is false for the page's month.
+- `ItemList` JSON-LD is omitted when nothing is fresh.
+- The description builder skips names that do not fit and keeps trying shorter later names;
+  length limits come from `@shared/seo` and are counted in code points.
+- Produce names are unique (seed-data test).
 - Empty groups are not rendered. If all groups are empty, the page shows
   „Няма данни за този месец.“
-- Home page: `<h1>` „В сезон през <месец>“ (month in lowercase), intro paragraph, the overview,
-  and a link to the month page of the next month.
+- Home page: `<h1>` „В сезон през <месец>“ (month in lowercase), intro paragraph, only the
+  peak and coming-soon groups (a highlight, not a copy of the month page), a link
+  „Вижте всичко в сезон през <месец>“ to the current month page, and a link to next month's page.
 - Month page: `<h1>` „Какво е в сезон през <месец>“, the overview, and `MonthPager` with links
   to the previous and next month (wrap-around), each with an accessible name such as
   „Предишен месец: Октомври“.

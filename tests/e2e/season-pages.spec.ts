@@ -28,6 +28,12 @@ test.describe('season pages', () => {
       const types = (await jsonLdOf(page)).map((block) => (block as { '@type': string })['@type']);
       expect(types).toContain('ItemList');
       expect(types).toContain(path === '/' ? 'WebSite' : 'BreadcrumbList');
+      const itemList = (await jsonLdOf(page)).find(
+        (block) => (block as { '@type': string })['@type'] === 'ItemList',
+      ) as { itemListElement: { url: string }[] };
+      for (const item of itemList.itemListElement) {
+        expect(item.url).toMatch(/^https:\/\//);
+      }
     });
   }
 
@@ -41,15 +47,17 @@ test.describe('season pages', () => {
     }
   }
 
-  test('AC12: the home page reflows at 320px without horizontal scrolling', async ({ page }) => {
-    await page.setViewportSize({ width: 320, height: 640 });
-    await page.goto('/');
-    const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
-    );
-    expect(overflow).toBeLessThanOrEqual(0);
-    await expectNoAxeViolations(page);
-  });
+  for (const path of ['/', '/sezon/noemvri']) {
+    test(`AC12: ${path} reflows at 320px without horizontal scrolling`, async ({ page }) => {
+      await page.setViewportSize({ width: 320, height: 640 });
+      await page.goto(path);
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      );
+      expect(overflow).toBeLessThanOrEqual(0);
+      await expectNoAxeViolations(page);
+    });
+  }
 
   test('AC12: the skip link is the first focusable element and moves focus to main', async ({
     page,
