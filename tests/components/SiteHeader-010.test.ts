@@ -27,4 +27,18 @@ describe('SiteHeader (spec 010)', () => {
     expect(html).toMatch(/href="\/zelenchutsi"[^>]*aria-current="true"/);
     expect(html).not.toMatch(/aria-current="page"/);
   });
+
+  const navCurrents = (html: string) =>
+    [
+      ...(html.match(/<nav[\s\S]*?<\/nav>/)?.[0] ?? '').matchAll(
+        /href="([^"]+)"[^>]*aria-current="(\w+)"/g,
+      ),
+    ].map((m) => `${m[1]} ${m[2]}`);
+
+  it('AC7: never marks home as the section of a nested page', async () => {
+    expect(navCurrents(await render(SiteHeader, { currentPath: '/zelenchutsi/zele' }))).toEqual([
+      '/zelenchutsi true',
+    ]);
+    expect(navCurrents(await render(SiteHeader, { currentPath: '/sezon/noemvri' }))).toEqual([]);
+  });
 });

@@ -64,6 +64,13 @@ test.describe('section pages', () => {
     });
   }
 
+  test('AC10: /plodove has no axe violations at 320px in dark mode', async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'dark' });
+    await page.setViewportSize({ width: 320, height: 640 });
+    await page.goto('/plodove');
+    await expectNoAxeViolations(page);
+  });
+
   test('AC10: /plodove reflows at 320px with the six navigation links', async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 640 });
     await page.goto('/plodove');
