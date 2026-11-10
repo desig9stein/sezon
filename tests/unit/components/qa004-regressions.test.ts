@@ -50,8 +50,8 @@ describe('QA 004 regressions', () => {
     expect(overview.comingSoon).toEqual([]);
   });
 
-  it('the routes helper exposes no unused section helper', () => {
-    expect(Object.keys(routes).sort()).toEqual(['home', 'month', 'produce']);
+  it('the routes helper exposes only route builders in use', () => {
+    expect(Object.keys(routes).sort()).toEqual(['home', 'month', 'produce', 'produceSection']);
   });
 
   it('page strings use the month name', () => {

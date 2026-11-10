@@ -16,4 +16,13 @@ describe('routes', () => {
     expect(routes.home).toBe('/');
     expect(routes.month(Month.of(11))).toBe('/sezon/noemvri');
   });
+
+  it.each([
+    ['fruit', 'plodove'],
+    ['vegetable', 'zelenchutsi'],
+    ['herb', 'podpravki'],
+    ['nut', 'yadki'],
+  ] as const)('AC10 (spec 005): returns the URL section for kind %s', (kind, section) => {
+    expect(routes.produceSection(kind)).toBe(section);
+  });
 });
