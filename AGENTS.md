@@ -37,7 +37,7 @@ The full roadmap is in `docs/PLAN.md`.
 | Performance     | Lighthouse CI (`lighthouserc.cjs`), all categories must be 1.0                                         |
 | Lint / format   | ESLint (typescript-eslint, eslint-plugin-astro, jsx-a11y), Prettier                                    |
 | HTML validity   | html-validate on `dist/`                                                                               |
-| Package manager | pnpm (see `packageManager` in `package.json`)                                                          |
+| Package manager | pnpm 12 (see `packageManager`; settings in `pnpm-workspace.yaml`)                                      |
 
 Exact versions are pinned in `package.json`. Do not upgrade a major version without an ADR.
 

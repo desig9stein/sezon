@@ -40,6 +40,9 @@ Labels are defined in `.github/labels.yml`. After the first merge into `main`, r
 
 ## Protect `main` (once)
 
+Rulesets and required status checks on **private repositories** need GitHub Pro, Team or
+Enterprise (on GitHub Free they work only for public repositories).
+
 Repository → **Settings → Rules → Rulesets → New branch ruleset**:
 
 - Target: default branch (`main`).

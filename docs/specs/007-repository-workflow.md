@@ -97,8 +97,8 @@ description, JSON-LD, Lighthouse SEO = 100).
 4. **AC4:** Each issue form is valid YAML with `name`, `description`, `labels` and at least one required field; `config.yml` disables blank issues.
 5. **AC5:** `labels.yml` lists every label from section 5 with a 6-digit hex colour and a description; the `labels` workflow syncs them with `gh label create --force` and has `contents: read` and `issues: write` permissions.
 6. **AC6:** `package.json` configures a `pre-commit` hook that runs `lint-staged`, a `prepare` script that installs it, and `lint-staged` rules for Prettier and ESLint.
-7. **AC8:** `packageManager` is pnpm 12; `pnpm-workspace.yaml` holds the overrides and `allowBuilds`; `package.json` has no `pnpm` field.
-8. **AC7:** `docs/PROJECT-BOARD.md` notes that rulesets on private repositories need a paid plan and describes the columns (Backlog, Ready, In progress, In review, Done), the auto-add workflow and the branch-protection steps.
+7. **AC7:** `docs/PROJECT-BOARD.md` notes that rulesets on private repositories need a paid plan and describes the columns (Backlog, Ready, In progress, In review, Done), the auto-add workflow and the branch-protection steps.
+8. **AC8:** `packageManager` is pnpm 12; `pnpm-workspace.yaml` holds the overrides and `allowBuilds`; `package.json` has no `pnpm` field.
 
 ## 9. Test plan
 

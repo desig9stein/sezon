@@ -33,6 +33,6 @@ body:
     id: sources
     attributes:
       label: Sources
-      description: Links for nutrition values (USDA FoodData Central or EFSA) and traditional uses. Required for health-related content.
+      description: Links for nutrition values (USDA FoodData Central or EFSA) and traditional uses. Required for health-related content; optional for farm corrections.
     validations:
-      required: true
+      required: false

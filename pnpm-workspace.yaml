@@ -1,0 +1,7 @@
+# pnpm settings (pnpm 11+ no longer reads the "pnpm" field of package.json).
+overrides:
+  # @lhci/cli@0.16.0 requires @puppeteer/browsers@3.2.7, whose tarball is not downloadable.
+  '@puppeteer/browsers': 3.2.6
+allowBuilds:
+  # Its postinstall only installs git hooks; the `prepare` script already does that.
+  simple-git-hooks: false

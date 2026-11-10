@@ -22,6 +22,13 @@
 - [ ] No UI string outside `src/i18n/bg.ts` or `src/data/**`.
 - [ ] Comments follow the comment policy.
 
+### UI changes
+
+- [ ] Keyboard and visible focus checked (Tab through the page, skip link, no traps).
+- [ ] Contrast uses design tokens; information is not conveyed by colour alone.
+- [ ] Title ≤ 60 and description 70–160 characters, unique per page.
+- [ ] JSON-LD is valid and matches the visible content.
+
 ## Screenshots
 
 <!-- UI changes: before/after, mobile and desktop, light and dark. Delete for non-UI changes. -->
