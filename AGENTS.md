@@ -55,7 +55,7 @@ pnpm format:check     # Prettier check
 pnpm build            # static build into dist/
 pnpm validate:html    # html-validate on dist/
 pnpm test:e2e         # Playwright + axe against the built site (runs preview)
-pnpm lhci             # Lighthouse CI against the built site
+pnpm lhci             # Lighthouse CI against the built site (locally set CHROME_PATH to a Chrome binary)
 pnpm verify           # lint + check + test + build + validate:html + test:e2e
 ```
 

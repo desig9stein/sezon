@@ -16,3 +16,4 @@ export {
   websiteJsonLd,
 } from './jsonLd';
 export type { ArticleJsonLdInput, BreadcrumbItem, JsonLd } from './jsonLd';
+export { robotsTxt } from './robots';
