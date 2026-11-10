@@ -1,0 +1,81 @@
+import { getCollection } from 'astro:content';
+import type {
+  Nutrient,
+  NutrientRepository,
+  Produce,
+  ProduceGroup,
+  ProduceGroupRepository,
+  ProduceRepository,
+} from '@contexts/catalog';
+import { toNutrient, toProduce, toProduceGroup } from '@contexts/catalog/infrastructure/mappers';
+import type { Farm, FarmRepository } from '@contexts/farms';
+import { IndexedFarmRepository } from '@contexts/farms/infrastructure/IndexedFarmRepository';
+import { toFarm } from '@contexts/farms/infrastructure/mappers';
+import type { Region, RegionRepository } from '@contexts/geography';
+import { toRegion } from '@contexts/geography/infrastructure/mappers';
+import { BrokenReferenceError } from '@shared/domain/errors';
+import { IndexedRepository } from '@shared/infrastructure/IndexedRepository';
+import { findBrokenReferences, type ContentRecords } from './contentIntegrity';
+
+interface Content {
+  readonly produce: ReadonlyArray<Produce>;
+  readonly groups: ReadonlyArray<ProduceGroup>;
+  readonly nutrients: ReadonlyArray<Nutrient>;
+  readonly regions: ReadonlyArray<Region>;
+  readonly farms: ReadonlyArray<Farm>;
+}
+
+function byId<T>(entries: ReadonlyArray<{ id: string; data: T }>): ReadonlyMap<string, T> {
+  return new Map(entries.map((entry) => [entry.id, entry.data]));
+}
+
+async function loadContent(): Promise<Content> {
+  const records: ContentRecords = {
+    produce: byId(await getCollection('produce')),
+    groups: byId(await getCollection('groups')),
+    nutrients: byId(await getCollection('nutrients')),
+    regions: byId(await getCollection('regions')),
+    farms: byId(await getCollection('farms')),
+  };
+  const broken = findBrokenReferences(records);
+  if (broken.length > 0) {
+    throw new BrokenReferenceError(`Broken content references:\n${broken.join('\n')}`);
+  }
+  const map = <R, E>(entries: ReadonlyMap<string, R>, mapper: (id: string, record: R) => E) =>
+    [...entries].map(([id, record]) => mapper(id, record));
+  return {
+    produce: map(records.produce, toProduce),
+    groups: map(records.groups, toProduceGroup),
+    nutrients: map(records.nutrients, toNutrient),
+    regions: map(records.regions, toRegion),
+    farms: map(records.farms, toFarm),
+  };
+}
+
+let content: Promise<Content> | undefined;
+
+function getContent(): Promise<Content> {
+  content ??= loadContent();
+  return content;
+}
+
+/** Produce entities loaded from content collections. */
+export const produceRepository: ProduceRepository = new IndexedRepository(
+  async () => (await getContent()).produce,
+);
+/** Botanical groups loaded from content collections. */
+export const produceGroupRepository: ProduceGroupRepository = new IndexedRepository(
+  async () => (await getContent()).groups,
+);
+/** Nutrients loaded from content collections. */
+export const nutrientRepository: NutrientRepository = new IndexedRepository(
+  async () => (await getContent()).nutrients,
+);
+/** Provinces loaded from content collections. */
+export const regionRepository: RegionRepository = new IndexedRepository(
+  async () => (await getContent()).regions,
+);
+/** Farms loaded from content collections. */
+export const farmRepository: FarmRepository = new IndexedFarmRepository(
+  async () => (await getContent()).farms,
+);

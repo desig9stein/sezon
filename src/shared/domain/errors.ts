@@ -32,3 +32,23 @@ export class InvalidSeasonCalendarError extends DomainError {
 export class InvalidTimeZoneError extends DomainError {
   readonly code = 'INVALID_TIME_ZONE';
 }
+
+/** Thrown when nutrition values are negative, not finite, or list a nutrient twice. */
+export class InvalidNutritionFactsError extends DomainError {
+  readonly code = 'INVALID_NUTRITION_FACTS';
+}
+
+/** Thrown when contact information has no website, email or phone. */
+export class InvalidContactInfoError extends DomainError {
+  readonly code = 'INVALID_CONTACT_INFO';
+}
+
+/** Thrown when two entities in one collection share a slug. */
+export class DuplicateEntityError extends DomainError {
+  readonly code = 'DUPLICATE_ENTITY';
+}
+
+/** Thrown when content references an entry that does not exist. */
+export class BrokenReferenceError extends DomainError {
+  readonly code = 'BROKEN_REFERENCE';
+}

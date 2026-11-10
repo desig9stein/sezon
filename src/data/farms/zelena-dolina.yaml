@@ -1,0 +1,8 @@
+name: Зелена долина
+region: plovdiv
+produce: [zele, praz, spanak, morkovi]
+description: Примерна семейна ферма за зеленчуци. Данните са илюстративни, докато не бъдат добавени реални ферми.
+contact:
+  website: https://example.com/zelena-dolina
+  email: zelena-dolina@example.com
+isPlaceholder: true

@@ -1,0 +1,49 @@
+name: Тиква
+latinName: Cucurbita maxima
+kind: vegetable
+group: tikvovi
+summary: Тиквата е символ на есента. Богата е на бета-каротин, съхранява се месеци наред и е основа на баницата тиквеник.
+varieties:
+  - name: Цигулка
+    note: Удължена форма, сладка и подходяща за печене.
+  - name: Хокайдо
+season:
+  - { month: 8, level: available }
+  - { month: 9, level: peak }
+  - { month: 10, level: peak }
+  - { month: 11, level: available }
+  - { month: 12, level: storage }
+  - { month: 1, level: storage }
+  - { month: 2, level: storage }
+regions:
+  - region: plovdiv
+    note: Тракийската низина дава големи добиви от тикви.
+  - region: ruse
+    note: Плодородните почви по поречието на Дунав са подходящи за тикви.
+nutrition:
+  energyKcal: 26
+  proteinG: 1
+  fatG: 0.1
+  carbohydrateG: 6.5
+  fiberG: 0.5
+  sugarsG: 2.76
+  micronutrients:
+    - { nutrient: vitamin-a, amount: 426 }
+    - { nutrient: vitamin-c, amount: 9 }
+    - { nutrient: kaliy, amount: 340 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Pumpkin, raw'
+    url: https://fdc.nal.usda.gov/
+preparation:
+  - method: Печена
+    tip: Печете с малко мазнина – бета-каротинът се усвоява по-добре с мазнини.
+  - method: Крем супа
+    tip: Варете кратко и пасирайте с бульона, за да не губите минералите.
+traditionalUses: []
+howToChoose: Изберете тежка тиква с твърда кора без пукнатини и с изсъхнала дръжка.
+storage: Цяла тиква издържа месеци на хладно и сухо място; нарязаната се пази в хладилник до пет дни.
+faq:
+  - question: Колко дълго се съхранява тиквата?
+    answer: Цяла и неповредена тиква издържа от два до шест месеца на хладно и сухо място.
+updatedAt: 2026-11-10
+reviewStatus: draft

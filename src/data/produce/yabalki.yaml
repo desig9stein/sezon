@@ -1,0 +1,52 @@
+name: Ябълки
+latinName: Malus domestica
+kind: fruit
+group: rozotsvetni
+summary: Българските ябълки са в разгара си през септември и октомври, а сортовете за зимуване се съхраняват до пролетта.
+varieties:
+  - name: Айдаред
+  - name: Златна превъзходна
+  - name: Флорина
+  - name: Ранет
+    note: Стар сорт, подходящ за печене и компоти.
+season:
+  - { month: 8, level: available }
+  - { month: 9, level: peak }
+  - { month: 10, level: peak }
+  - { month: 11, level: available }
+  - { month: 12, level: storage }
+  - { month: 1, level: storage }
+  - { month: 2, level: storage }
+  - { month: 3, level: storage }
+  - { month: 4, level: storage }
+regions:
+  - region: kyustendil
+    note: Кюстендилско е известно като „овощната градина на България“.
+  - region: plovdiv
+    note: В подножието на Родопите има големи овощни масиви.
+nutrition:
+  energyKcal: 52
+  proteinG: 0.26
+  fatG: 0.17
+  carbohydrateG: 13.81
+  fiberG: 2.4
+  sugarsG: 10.39
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 4.6 }
+    - { nutrient: kaliy, amount: 107 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Apples, raw, with skin'
+    url: https://fdc.nal.usda.gov/
+preparation:
+  - method: Сурови с кората
+    tip: Голяма част от фибрите и полифенолите са в кората – измийте добре и не я белете.
+  - method: Печени
+    tip: Печенето запазва фибрите, но намалява витамин C.
+traditionalUses: []
+howToChoose: Плодът трябва да е твърд, без меки места и с приятен аромат при дръжката.
+storage: В хладилник ябълките остават свежи няколко седмици; дръжте ги отделно от другите плодове.
+faq:
+  - question: Кога е сезонът на ябълките?
+    answer: Беритбата е от август до октомври, а складираните ябълки се предлагат до пролетта.
+updatedAt: 2026-11-10
+reviewStatus: draft

@@ -1,0 +1,49 @@
+name: Копър
+latinName: Anethum graveolens
+kind: herb
+group: sennikotsvetni
+summary: Копърът е подправка на лятото – в сезон е от май до септември. Свежият му аромат е задължителен за таратор и млади картофи.
+varieties:
+  - name: Обикновен копър
+season:
+  - { month: 4, level: available }
+  - { month: 5, level: peak }
+  - { month: 6, level: peak }
+  - { month: 7, level: available }
+  - { month: 8, level: available }
+  - { month: 9, level: available }
+regions:
+  - region: plovdiv
+    note: Ранният пролетен копър идва от Пловдивско.
+  - region: pazardzhik
+    note: Подправките са традиционна култура в региона.
+nutrition:
+  energyKcal: 43
+  proteinG: 3.46
+  fatG: 1.12
+  carbohydrateG: 7.02
+  fiberG: 2.1
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 85 }
+    - { nutrient: vitamin-a, amount: 386 }
+    - { nutrient: mangan, amount: 1.26 }
+    - { nutrient: zhelyazo, amount: 6.59 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Dill weed, fresh'
+    url: https://fdc.nal.usda.gov/
+preparation:
+  - method: Пресен
+    tip: Нарязвайте го непосредствено преди сервиране – ароматните масла се изпаряват бързо.
+traditionalUses:
+  - system: ayurveda
+    use: Традиционно се използва в аюрведа (семената, наречени „шатапушпа“) при подуване и храносмилателен дискомфорт.
+    source:
+      name: 'Wikipedia: Dill'
+      url: https://en.wikipedia.org/wiki/Dill
+howToChoose: Изберете ярко зелени, ароматни стръкове без пожълтяване.
+storage: Увит във влажна хартия в хладилника издържа три–четири дни; може да се замрази нарязан.
+faq:
+  - question: Може ли копърът да се замразява?
+    answer: Да. Нарязан и замразен, той запазва аромата си по-добре от изсушения.
+updatedAt: 2026-11-10
+reviewStatus: draft

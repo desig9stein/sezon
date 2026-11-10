@@ -1,0 +1,7 @@
+name: Орехова гора
+region: veliko-tarnovo
+produce: [orehi, tikva]
+description: Примерно стопанство за орехи и тикви. Данните са илюстративни, докато не бъдат добавени реални ферми.
+contact:
+  phone: '+359000000003'
+isPlaceholder: true

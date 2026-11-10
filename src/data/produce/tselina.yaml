@@ -1,0 +1,47 @@
+name: Целина
+latinName: Apium graveolens var. rapaceum
+kind: vegetable
+group: sennikotsvetni
+summary: Целината (кореновата) е в разгара си през октомври и ноември. С ароматния си вкус е основа на есенните супи и яхнии.
+varieties:
+  - name: Коренова целина
+  - name: Листна целина
+    note: Отглежда се заради листата, които се използват като подправка.
+season:
+  - { month: 9, level: available }
+  - { month: 10, level: peak }
+  - { month: 11, level: peak }
+  - { month: 12, level: available }
+  - { month: 1, level: storage }
+  - { month: 2, level: storage }
+regions:
+  - region: plovdiv
+    note: Целината изисква влага и плодородна почва, каквито има в Тракийската низина.
+nutrition:
+  energyKcal: 42
+  proteinG: 1.5
+  fatG: 0.3
+  carbohydrateG: 9.2
+  fiberG: 1.8
+  sugarsG: 1.6
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 41 }
+    - { nutrient: vitamin-c, amount: 8 }
+    - { nutrient: fosfor, amount: 115 }
+    - { nutrient: kaliy, amount: 300 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Celeriac, raw'
+    url: https://fdc.nal.usda.gov/
+preparation:
+  - method: В супа
+    tip: Варете я в супата и консумирайте и бульона, в който остават минералите.
+  - method: Сурова салата
+    tip: Настъргана сурова с лимонов сок запазва витамин C и не потъмнява.
+traditionalUses: []
+howToChoose: Изберете тежък, твърд корен без кухини; по-малките корени са по-нежни.
+storage: Цял корен се пази в хладилник до три седмици.
+faq:
+  - question: Каква е разликата между коренова и листна целина?
+    answer: Кореновата се отглежда заради удебеления корен, а листната – заради ароматните листа.
+updatedAt: 2026-11-10
+reviewStatus: draft

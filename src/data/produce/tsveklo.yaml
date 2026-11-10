@@ -1,0 +1,50 @@
+name: Цвекло
+latinName: Beta vulgaris
+kind: vegetable
+group: shtirovi
+summary: Червеното цвекло е в сезон от лятото до есента и се съхранява през зимата. Богато е на фолат и има наситен сладък вкус.
+varieties:
+  - name: Бордо
+  - name: Детройт
+season:
+  - { month: 6, level: available }
+  - { month: 7, level: available }
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+  - { month: 10, level: peak }
+  - { month: 11, level: available }
+  - { month: 12, level: storage }
+  - { month: 1, level: storage }
+  - { month: 2, level: storage }
+regions:
+  - region: plovdiv
+    note: Цвеклото е честа култура в зеленчуковите градини на Пловдивско.
+  - region: pazardzhik
+    note: Плодородните алувиални почви са подходящи за кореноплодни.
+nutrition:
+  energyKcal: 43
+  proteinG: 1.61
+  fatG: 0.17
+  carbohydrateG: 9.56
+  fiberG: 2.8
+  sugarsG: 6.76
+  micronutrients:
+    - { nutrient: folat, amount: 109 }
+    - { nutrient: kaliy, amount: 325 }
+    - { nutrient: mangan, amount: 0.33 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Beets, raw'
+    url: https://fdc.nal.usda.gov/
+preparation:
+  - method: Печено цяло
+    tip: Печете го с кората – така губи по-малко водоразтворими витамини, отколкото при варене.
+  - method: Сурово настъргано
+    tip: Сурово в салата запазва най-много фолат.
+traditionalUses: []
+howToChoose: Изберете твърди корени с гладка кожа; ако има листа, те трябва да са свежи.
+storage: Отрежете листата и пазете корените в хладилник до три седмици.
+faq:
+  - question: Защо урината почервенява след цвекло?
+    answer: Това е безвреден ефект от пигмента бетанин и се наблюдава при част от хората.
+updatedAt: 2026-11-10
+reviewStatus: draft

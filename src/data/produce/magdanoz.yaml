@@ -1,0 +1,54 @@
+name: Магданоз
+latinName: Petroselinum crispum
+kind: herb
+group: sennikotsvetni
+summary: Магданозът е в сезон от пролетта до късна есен. Само шепа свежи листа съдържа много витамин K и витамин C.
+varieties:
+  - name: Гладколистен магданоз
+  - name: Къдрав магданоз
+season:
+  - { month: 4, level: available }
+  - { month: 5, level: peak }
+  - { month: 6, level: peak }
+  - { month: 7, level: available }
+  - { month: 8, level: available }
+  - { month: 9, level: peak }
+  - { month: 10, level: peak }
+  - { month: 11, level: available }
+regions:
+  - region: plovdiv
+    note: Отглежда се целогодишно в открити площи и оранжерии в Пловдивско.
+  - region: pazardzhik
+    note: Пресните подправки са традиционна култура в региона.
+nutrition:
+  energyKcal: 36
+  proteinG: 2.97
+  fatG: 0.79
+  carbohydrateG: 6.33
+  fiberG: 3.3
+  sugarsG: 0.85
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 1640 }
+    - { nutrient: vitamin-c, amount: 133 }
+    - { nutrient: vitamin-a, amount: 421 }
+    - { nutrient: folat, amount: 152 }
+    - { nutrient: zhelyazo, amount: 6.2 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Parsley, fresh'
+    url: https://fdc.nal.usda.gov/
+preparation:
+  - method: Пресен
+    tip: Добавяйте го накрая, след като свалите ястието от огъня – витамин C се разгражда при нагряване.
+traditionalUses:
+  - system: folk
+    use: Традиционно се използва в народната медицина като отвара с отводняващо действие.
+    source:
+      name: 'Wikipedia: Parsley'
+      url: https://en.wikipedia.org/wiki/Parsley
+howToChoose: Изберете яркозелени, стегнати връзки без увехнали или пожълтели листа.
+storage: Поставете стъблата в чаша с вода в хладилника или увийте във влажна хартия – издържа до седмица.
+faq:
+  - question: Колко витамин K има в магданоза?
+    answer: Около 1640 µg на 100 г – само 5 г пресен магданоз покриват дневната референтна стойност.
+updatedAt: 2026-11-10
+reviewStatus: draft

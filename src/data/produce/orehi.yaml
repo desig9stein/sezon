@@ -1,0 +1,53 @@
+name: Орехи
+latinName: Juglans regia
+kind: nut
+group: orehovi
+summary: Орехите се берат през септември и октомври. Сушени, те се съхраняват до следващото лято и са богати на магнезий и мед.
+varieties:
+  - name: Шейново
+    note: Български сорт с едри плодове и тънка черупка.
+  - name: Извор 10
+season:
+  - { month: 9, level: peak }
+  - { month: 10, level: peak }
+  - { month: 11, level: available }
+  - { month: 12, level: storage }
+  - { month: 1, level: storage }
+  - { month: 2, level: storage }
+  - { month: 3, level: storage }
+  - { month: 4, level: storage }
+  - { month: 5, level: storage }
+regions:
+  - region: veliko-tarnovo
+    note: Предбалканът има подходящ климат за орехови насаждения.
+  - region: lovech
+    note: Орехът е традиционно дърво в селата на Ловешко.
+nutrition:
+  energyKcal: 654
+  proteinG: 15.23
+  fatG: 65.21
+  carbohydrateG: 13.71
+  fiberG: 6.7
+  sugarsG: 2.61
+  micronutrients:
+    - { nutrient: magneziy, amount: 158 }
+    - { nutrient: mangan, amount: 3.41 }
+    - { nutrient: med, amount: 1.59 }
+    - { nutrient: folat, amount: 98 }
+    - { nutrient: fosfor, amount: 346 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Nuts, walnuts, english'
+    url: https://fdc.nal.usda.gov/
+preparation:
+  - method: Сурови
+    tip: Суровите орехи запазват полиненаситените мазнини, които се окисляват при силно печене.
+  - method: Накиснати
+    tip: Накисването за няколко часа ги прави по-меки и по-лесни за смилане.
+traditionalUses: []
+howToChoose: Изберете тежки орехи с цяла черупка, без пукнатини и мухъл; ядката трябва да е светла.
+storage: С черупка – на сухо и хладно място до година; обелени – в хладилник или фризер, защото гранясват.
+faq:
+  - question: Колко ореха на ден е разумно да се ядат?
+    answer: Шепа орехи (около 30 г) е обичайна порция; те са калорични – около 650 kcal на 100 г.
+updatedAt: 2026-11-10
+reviewStatus: draft

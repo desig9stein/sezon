@@ -1,0 +1,64 @@
+name: Зеле
+latinName: Brassica oleracea var. capitata
+kind: vegetable
+group: krastotsvetni
+summary: Есенното зеле е най-хрупкаво и сладко. Богато е на витамин C и K, съхранява се дълго и е основа на туршиите и киселото зеле.
+varieties:
+  - name: Бяло зеле
+  - name: Червено зеле
+    note: Съдържа антоцианини, които му придават лилавия цвят.
+  - name: Савойско зеле
+    note: С нагънати листа и по-нежна текстура.
+season:
+  - { month: 6, level: available }
+  - { month: 7, level: available }
+  - { month: 8, level: available }
+  - { month: 9, level: peak }
+  - { month: 10, level: peak }
+  - { month: 11, level: peak }
+  - { month: 12, level: available }
+  - { month: 1, level: storage }
+  - { month: 2, level: storage }
+  - { month: 3, level: storage }
+regions:
+  - region: plovdiv
+    note: Тракийската низина е основният зеленчуков район в страната.
+  - region: pazardzhik
+    note: Поливните площи около Пазарджик са традиционни за ранно и късно зеле.
+nutrition:
+  energyKcal: 25
+  proteinG: 1.28
+  fatG: 0.1
+  carbohydrateG: 5.8
+  fiberG: 2.5
+  sugarsG: 3.2
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 36.6 }
+    - { nutrient: vitamin-k, amount: 76 }
+    - { nutrient: folat, amount: 43 }
+    - { nutrient: kaliy, amount: 170 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Cabbage, raw'
+    url: https://fdc.nal.usda.gov/
+preparation:
+  - method: Сурово
+    tip: Нарязано на салата непосредствено преди сервиране запазва най-много витамин C.
+  - method: Задушено
+    tip: Кратко задушаване с малко вода губи по-малко водоразтворими витамини от варенето.
+  - method: Кисело зеле
+    tip: Ферментацията запазва голяма част от витамин C и добавя полезни млечнокисели бактерии.
+traditionalUses:
+  - system: folk
+    use: Традиционно се използва в българската народна медицина под формата на компреси от зелеви листа.
+    source:
+      name: 'Wikipedia: Cabbage'
+      url: https://en.wikipedia.org/wiki/Cabbage
+howToChoose: Изберете плътна и тежка за размера си глава с лъскави, плътно прилепнали листа без петна.
+storage: Цяла глава се пази в хладилник до две седмици; нарязаното зеле е най-добре да се изяде до два дни.
+faq:
+  - question: Кога е сезонът на зелето в България?
+    answer: Най-доброто зеле е от септември до ноември. През зимата се предлага от хранилища.
+  - question: С какво е полезно зелето?
+    answer: Съдържа витамин C и витамин K, фибри и малко калории – около 25 kcal на 100 г.
+updatedAt: 2026-11-10
+reviewStatus: draft

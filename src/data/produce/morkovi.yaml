@@ -1,0 +1,51 @@
+name: Моркови
+latinName: Daucus carota subsp. sativus
+kind: vegetable
+group: sennikotsvetni
+summary: Морковите се берат от лятото до късна есен и се съхраняват през зимата. Богати са на бета-каротин, от който тялото прави витамин A.
+varieties:
+  - name: Нантски
+  - name: Шантане
+season:
+  - { month: 6, level: available }
+  - { month: 7, level: peak }
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+  - { month: 10, level: peak }
+  - { month: 11, level: available }
+  - { month: 12, level: storage }
+  - { month: 1, level: storage }
+  - { month: 2, level: storage }
+  - { month: 3, level: storage }
+regions:
+  - region: plovdiv
+    note: Леките почви в Тракийската низина дават гладки и сладки корени.
+  - region: pazardzhik
+    note: Традиционен район за кореноплодни зеленчуци.
+nutrition:
+  energyKcal: 41
+  proteinG: 0.93
+  fatG: 0.24
+  carbohydrateG: 9.58
+  fiberG: 2.8
+  sugarsG: 4.74
+  micronutrients:
+    - { nutrient: vitamin-a, amount: 835 }
+    - { nutrient: vitamin-k, amount: 13.2 }
+    - { nutrient: kaliy, amount: 320 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Carrots, raw'
+    url: https://fdc.nal.usda.gov/
+preparation:
+  - method: Задушени с мазнина
+    tip: Бета-каротинът е мастноразтворим и се усвоява по-добре с малко зехтин или масло.
+  - method: Сурови
+    tip: Настърганите сурови моркови запазват витамин C и хрупкавостта си.
+traditionalUses: []
+howToChoose: Изберете твърди, гладки моркови с наситен оранжев цвят, без пукнатини.
+storage: Махнете зелените части и пазете морковите в хладилник до три седмици.
+faq:
+  - question: По-полезни ли са сварените моркови от суровите?
+    answer: При готвене с малко мазнина бета-каротинът се усвоява по-добре, а суровите запазват повече витамин C.
+updatedAt: 2026-11-10
+reviewStatus: draft

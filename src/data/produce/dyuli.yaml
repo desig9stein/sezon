@@ -1,0 +1,44 @@
+name: Дюли
+latinName: Cydonia oblonga
+kind: fruit
+group: rozotsvetni
+summary: Дюлите узряват през октомври. Ароматни и твърди, те рядко се ядат сурови, но са чудесни печени, в сладко и в компот.
+varieties:
+  - name: Ябълковидна дюля
+  - name: Крушовидна дюля
+season:
+  - { month: 9, level: available }
+  - { month: 10, level: peak }
+  - { month: 11, level: available }
+  - { month: 12, level: storage }
+  - { month: 1, level: storage }
+regions:
+  - region: plovdiv
+    note: Дюлите се отглеждат масово в дворове и градини в Тракийската низина.
+  - region: stara-zagora
+    note: Топлото лято благоприятства натрупването на аромат в плодовете.
+nutrition:
+  energyKcal: 57
+  proteinG: 0.4
+  fatG: 0.1
+  carbohydrateG: 15.3
+  fiberG: 1.9
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 15 }
+    - { nutrient: kaliy, amount: 197 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Quinces, raw'
+    url: https://fdc.nal.usda.gov/
+preparation:
+  - method: Печени
+    tip: Печенето омекотява плода и запазва фибрите; не е нужно много подсладител.
+  - method: Сладко и компот
+    tip: Дюлите са богати на пектин и сгъстяват естествено сладката.
+traditionalUses: []
+howToChoose: Изберете жълти, ароматни плодове без кафяви петна; лекият мъх по кората е нормален.
+storage: На хладно място дюлите издържат няколко седмици; не ги дръжте до други плодове, защото поемат аромата им.
+faq:
+  - question: Могат ли дюлите да се ядат сурови?
+    answer: Могат, но са твърди и стипчиви. Затова най-често се пекат или се правят на сладко.
+updatedAt: 2026-11-10
+reviewStatus: draft

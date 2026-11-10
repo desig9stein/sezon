@@ -1,0 +1,48 @@
+name: Круши
+latinName: Pyrus communis
+kind: fruit
+group: rozotsvetni
+summary: Крушите узряват от юли до октомври. Сочни и сладки, те са добър източник на фибри и се съхраняват кратко след беритбата.
+varieties:
+  - name: Вилямова
+  - name: Конференция
+  - name: Абат Фетел
+season:
+  - { month: 7, level: available }
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+  - { month: 11, level: storage }
+  - { month: 12, level: storage }
+regions:
+  - region: kyustendil
+    note: Мекият климат на Кюстендилската котловина е подходящ за крушови градини.
+  - region: plovdiv
+    note: Тракийската низина има традиция в отглеждането на круши.
+nutrition:
+  energyKcal: 57
+  proteinG: 0.36
+  fatG: 0.14
+  carbohydrateG: 15.23
+  fiberG: 3.1
+  sugarsG: 9.75
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 4.3 }
+    - { nutrient: vitamin-k, amount: 4.4 }
+    - { nutrient: kaliy, amount: 116 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Pears, raw'
+    url: https://fdc.nal.usda.gov/
+preparation:
+  - method: Сурови
+    tip: Яжте ги с кората – там е голяма част от фибрите.
+  - method: Задушени
+    tip: Кратко задушени без захар са лек десерт, който запазва фибрите.
+traditionalUses: []
+howToChoose: Узрялата круша поддава леко при натиск около дръжката.
+storage: Твърдите круши дозряват на стайна температура; узрелите се пазят в хладилник до пет дни.
+faq:
+  - question: Как да разбера дали крушата е узряла?
+    answer: Натиснете леко около дръжката – ако поддава, крушата е готова за ядене.
+updatedAt: 2026-11-10
+reviewStatus: draft

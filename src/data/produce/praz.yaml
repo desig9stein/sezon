@@ -1,0 +1,51 @@
+name: Праз
+latinName: Allium ampeloprasum var. porrum
+kind: vegetable
+group: amarilisovi
+summary: Празът е зеленчук за студените месеци. Издържа на слана и се бере от есента до пролетта, а вкусът му е по-мек от лука.
+varieties:
+  - name: Летен праз
+    note: По-тънък и по-нежен, бере се до есента.
+  - name: Зимен праз
+    note: По-дебел, издържа на ниски температури и се бере през зимата.
+season:
+  - { month: 9, level: available }
+  - { month: 10, level: peak }
+  - { month: 11, level: peak }
+  - { month: 12, level: available }
+  - { month: 1, level: available }
+  - { month: 2, level: available }
+  - { month: 3, level: available }
+regions:
+  - region: plovdiv
+    note: Празът е традиционна есенно-зимна култура в Пловдивско.
+  - region: pazardzhik
+    note: Поливните площи позволяват отглеждане до късна есен.
+nutrition:
+  energyKcal: 61
+  proteinG: 1.5
+  fatG: 0.3
+  carbohydrateG: 14.15
+  fiberG: 1.8
+  sugarsG: 3.9
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 47 }
+    - { nutrient: vitamin-c, amount: 12 }
+    - { nutrient: folat, amount: 64 }
+    - { nutrient: zhelyazo, amount: 2.1 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Leeks (bulb and lower leaf-portion), raw'
+    url: https://fdc.nal.usda.gov/
+preparation:
+  - method: Задушен
+    tip: Задушете кратко на слаб огън, за да запази сладостта и витамините си.
+  - method: В ястия
+    tip: Добавете зелените части в края на готвенето – те са най-богати на витамин K.
+traditionalUses: []
+howToChoose: Изберете стъбла с плътна бяла част и свежи, тъмнозелени листа без пожълтяване.
+storage: Неизмит праз се пази в хладилник до две седмици, увит в хартия.
+faq:
+  - question: Как се почиства празът?
+    answer: Разрежете го надлъжно и изплакнете между листата, където често има пръст.
+updatedAt: 2026-11-10
+reviewStatus: draft

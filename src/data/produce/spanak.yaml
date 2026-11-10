@@ -1,0 +1,51 @@
+name: Спанак
+latinName: Spinacia oleracea
+kind: vegetable
+group: shtirovi
+summary: Спанакът има два сезона – пролетен и есенен. Хладното време го прави сладък и крехък, а листата са богати на витамин K.
+varieties:
+  - name: Матадор
+  - name: Виролей
+season:
+  - { month: 3, level: available }
+  - { month: 4, level: peak }
+  - { month: 5, level: available }
+  - { month: 9, level: available }
+  - { month: 10, level: peak }
+  - { month: 11, level: available }
+regions:
+  - region: plovdiv
+    note: Спанакът се сее рано напролет и наесен в Тракийската низина.
+  - region: pazardzhik
+    note: Поливните площи позволяват два сезона годишно.
+nutrition:
+  energyKcal: 23
+  proteinG: 2.86
+  fatG: 0.39
+  carbohydrateG: 3.63
+  fiberG: 2.2
+  sugarsG: 0.42
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 482.9 }
+    - { nutrient: vitamin-a, amount: 469 }
+    - { nutrient: folat, amount: 194 }
+    - { nutrient: vitamin-c, amount: 28.1 }
+    - { nutrient: zhelyazo, amount: 2.71 }
+    - { nutrient: magneziy, amount: 79 }
+    - { nutrient: kaliy, amount: 558 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Spinach, raw'
+    url: https://fdc.nal.usda.gov/
+preparation:
+  - method: Пресен в салата
+    tip: Суровите листа запазват витамин C и фолата.
+  - method: Бланширан
+    tip: Бланширането за 1–2 минути намалява оксалатите; комбинирайте с храна, богата на витамин C, за по-добро усвояване на желязото.
+traditionalUses: []
+howToChoose: Изберете свежи, тъмнозелени и стегнати листа без пожълтяване и слуз.
+storage: Неизмит спанак се пази в хладилник до четири дни в хартиен плик.
+faq:
+  - question: Кога е сезонът на спанака?
+    answer: Има пролетен сезон (март–май) и есенен сезон (септември–ноември).
+updatedAt: 2026-11-10
+reviewStatus: draft
