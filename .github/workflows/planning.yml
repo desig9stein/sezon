@@ -1,0 +1,28 @@
+name: Planning
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/planning.yml', 'scripts/planning/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: planning
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync planning to the project and milestones
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v3
+      - name: Convert the plan to JSON
+        run: yq -o=json '.' .github/planning.yml > "$RUNNER_TEMP/plan.json"
+      - name: Apply the plan
+        env:
+          PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+        run: node scripts/planning/sync.ts "$RUNNER_TEMP/plan.json"

@@ -95,6 +95,7 @@ None. No page is produced.
 6. **AC6:** Given a fake `fetch`, `GitHubPlanningClient` adds an issue to the project when it is not an item, updates its fields, and sets its milestone, sending the token only in the `Authorization` header.
 7. **AC7:** Given a GraphQL `errors` response, the client throws an error with the GraphQL message.
 8. **AC8:** `syncPlan` creates missing milestones, then for each issue ensures the project item, applies every field update and sets the milestone; when any issue has an invalid field it throws before the first write.
+9. **AC9:** `.github/planning.yml` in the repository is a valid plan (checked by the unit tests in CI, so an invalid plan fails the pull request).
 
 ## 9. Test plan
 
@@ -103,6 +104,7 @@ None. No page is produced.
 | AC1–AC5 | unit | `tests/unit/scripts/planning/plan.test.ts`                 |
 | AC6–AC7 | unit | `tests/unit/scripts/planning/GitHubPlanningClient.test.ts` |
 | AC8     | unit | `tests/unit/scripts/planning/syncPlan.test.ts`             |
+| AC9     | unit | `tests/unit/scripts/planning/planningFile.test.ts`         |
 
 ## 10. Third-party documentation consulted
 
