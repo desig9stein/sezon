@@ -55,13 +55,6 @@ issues:
     estimate: 1
     start: '2026-11-10'
     target: '2026-11-12'
-  43:
-    status: In development
-    priority: High
-    impact: Big
-    estimate: 2
-    start: '2026-11-12'
-    target: '2026-11-13'
   36:
     status: Backlog
     priority: High
