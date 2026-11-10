@@ -30,3 +30,23 @@ describe('toProduce', () => {
     expect(() => toProduce('Зеле', produceRecord())).toThrow();
   });
 });
+
+describe('toProduceGroup and toRegion', () => {
+  it('map records to frozen entities', async () => {
+    const { toProduceGroup } = await import('@contexts/catalog/infrastructure/mappers');
+    const { toRegion } = await import('@contexts/geography/infrastructure/mappers');
+    const group = toProduceGroup('rozotsvetni', {
+      name: 'Розоцветни',
+      latinName: 'Rosaceae',
+      description: 'Описание.',
+    });
+    const region = toRegion('plovdiv', { name: 'Пловдив' });
+    expect([group.slug, group.name, group.latinName]).toEqual([
+      'rozotsvetni',
+      'Розоцветни',
+      'Rosaceae',
+    ]);
+    expect([region.slug, region.name]).toEqual(['plovdiv', 'Пловдив']);
+    expect(Object.isFrozen(group) && Object.isFrozen(region)).toBe(true);
+  });
+});

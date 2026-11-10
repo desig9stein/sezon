@@ -134,3 +134,10 @@ describe('health wording', () => {
     expect(offending).toEqual([]);
   });
 });
+
+describe('produce names', () => {
+  it('QA 004: are unique', () => {
+    const names = [...records.produce.values()].map((item) => item.name);
+    expect(new Set(names).size).toBe(names.length);
+  });
+});

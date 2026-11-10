@@ -1,0 +1,105 @@
+---
+import type { Farm } from '@contexts/farms';
+import { ui } from '@i18n/bg';
+
+/** Farms that sell a produce, with region, description, contact links and labels. */
+interface Props {
+  farms: ReadonlyArray<Farm>;
+  regionNames: ReadonlyMap<string, string>;
+}
+
+const { farms, regionNames } = Astro.props;
+const labels = ui.produce.farms;
+---
+
+{farms.length === 0 && <p>{labels.empty}</p>}
+{farms.length > 0 && (
+  <ul class="farms" role="list">
+    {farms.map((farm) => (
+      <li class="farm">
+        <h3 class="farm__name">{farm.name}</h3>
+        <p class="farm__meta">
+          <span>{regionNames.get(farm.regionSlug) ?? farm.regionSlug}</span>
+          {farm.sponsored && <span class="farm__tag">{labels.sponsored}</span>}
+          {farm.isPlaceholder && <span class="farm__tag">{labels.placeholder}</span>}
+        </p>
+        <p>{farm.description}</p>
+        <ul class="farm__contacts" role="list">
+          {farm.contact.website !== undefined && (
+            <li>
+              <a href={farm.contact.website} rel="noopener">
+                {labels.website(farm.name)}
+              </a>
+            </li>
+          )}
+          {farm.contact.email !== undefined && (
+            <li>
+              <a href={`mailto:${farm.contact.email}`}>{labels.email(farm.name)}</a>
+            </li>
+          )}
+          {farm.contact.phone !== undefined && (
+            <li>
+              {labels.phoneLabel}{' '}
+              <a
+                class="farm__phone"
+                href={`tel:${farm.contact.phone}`}
+                aria-label={labels.phone(farm.name, farm.contact.phone)}
+              >
+                {farm.contact.phone}
+              </a>
+            </li>
+          )}
+        </ul>
+      </li>
+    ))}
+  </ul>
+)}
+
+<style>
+  .farms {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-4);
+    padding: 0;
+    list-style: none;
+  }
+
+  .farm {
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+
+  .farm__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .farm__tag {
+    padding: 0 var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .farm__contacts {
+    padding: 0;
+    list-style: none;
+  }
+
+  .farm__contacts a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+  }
+
+  .farm__phone {
+    white-space: nowrap;
+  }
+</style>

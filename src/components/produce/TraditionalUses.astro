@@ -1,0 +1,46 @@
+---
+import type { TraditionalUse } from '@contexts/catalog';
+import { ui } from '@i18n/bg';
+
+/** Traditional (Ayurveda, folk) uses with their sources, preceded by a disclaimer. */
+interface Props {
+  uses: ReadonlyArray<TraditionalUse>;
+}
+
+const { uses } = Astro.props;
+---
+
+{uses.length > 0 && (
+  <>
+    <p class="traditional__disclaimer">{ui.produce.traditional.disclaimer}</p>
+    <ul class="traditional">
+      {uses.map((use) => (
+        <li>
+          <strong>{ui.produce.traditional.systems[use.system]}:</strong> {use.use}{' '}
+          <span class="traditional__source">
+            ({ui.produce.traditional.sourcePrefix} <a href={use.source.url}>{use.source.name}</a>)
+          </span>
+        </li>
+      ))}
+    </ul>
+  </>
+)}
+
+<style>
+  .traditional__disclaimer {
+    padding: var(--space-3) var(--space-4);
+    border-inline-start: 4px solid var(--color-accent);
+    background: var(--color-surface);
+  }
+
+  .traditional {
+    display: grid;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  .traditional__source {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+</style>

@@ -15,7 +15,7 @@ const lastIndex = items.length - 1;
 ---
 
 <nav class="breadcrumbs container" aria-label={ui.breadcrumbs.label}>
-  <ol>
+  <ol role="list">
     {items.map((item, index) => (
       <li>
         {index === lastIndex ? (

@@ -22,7 +22,7 @@ const links = [
       {ui.siteName}
     </a>
     <nav aria-label={ui.nav.label}>
-      <ul class="site-header__nav">
+      <ul class="site-header__nav" role="list">
         {links.map((link) => (
           <li>
             <a href={link.href} aria-current={link.href === currentPath ? 'page' : undefined}>

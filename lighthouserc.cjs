@@ -2,7 +2,7 @@
 module.exports = {
   ci: {
     collect: {
-      startServerCommand: 'pnpm astro preview --port 4323',
+      startServerCommand: 'pnpm astro preview --port 4323 --ignore-lock',
       startServerReadyPattern: 'localhost:4323',
       url: [
         'http://localhost:4323/',

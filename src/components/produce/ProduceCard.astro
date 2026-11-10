@@ -1,0 +1,67 @@
+---
+import SeasonBadge from '@components/season/SeasonBadge.astro';
+import { routes } from '@components/layout/routes';
+import type { Produce } from '@contexts/catalog';
+import type { Month, SeasonLevel } from '@contexts/seasonality';
+import { ui } from '@i18n/bg';
+
+/**
+ * Summary card for one produce: linked name, kind, optional season badge and summary.
+ * `levelFrom` marks the badge level as applying from a later month.
+ */
+interface Props {
+  produce: Produce;
+  level?: SeasonLevel | undefined;
+  levelFrom?: Month | undefined;
+  headingLevel?: 2 | 3 | 4;
+}
+
+const { produce, level, levelFrom, headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as const;
+---
+
+<article class="produce-card">
+  <Heading class="produce-card__name">
+    <a href={routes.produce(produce)}>{produce.name}</a>
+  </Heading>
+  <p class="produce-card__meta">
+    <span>{ui.produceKinds[produce.kind]}</span>
+    {level !== undefined && <SeasonBadge level={level} fromMonth={levelFrom} />}
+  </p>
+  <p class="produce-card__summary">{produce.summary}</p>
+</article>
+
+<style>
+  .produce-card {
+    display: grid;
+    gap: var(--space-2);
+    height: 100%;
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .produce-card__name {
+    font-size: var(--font-size-lg);
+  }
+
+  .produce-card__name a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+  }
+
+  .produce-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .produce-card__summary {
+    color: var(--color-text-muted);
+  }
+</style>

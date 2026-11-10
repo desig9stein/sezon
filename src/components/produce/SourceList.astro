@@ -1,0 +1,39 @@
+---
+import type { Source } from '@contexts/catalog';
+import { formatDate, ui } from '@i18n/bg';
+
+/** Sources of a page's facts, the last update date and the editorial review note. */
+interface Props {
+  sources: ReadonlyArray<Source>;
+  updatedAt: Date;
+  isDraft: boolean;
+}
+
+const { sources, updatedAt, isDraft } = Astro.props;
+const isoDate = updatedAt.toISOString().slice(0, 10);
+---
+
+<ul>
+  {sources.map((source) => (
+    <li>
+      <a href={source.url}>{source.name}</a>
+    </li>
+  ))}
+</ul>
+<p class="sources__meta">
+  {ui.produce.sources.updated} <time datetime={isoDate}>{formatDate(updatedAt)}</time>.
+  {isDraft && ` ${ui.produce.sources.draft}`}
+</p>
+
+<style>
+  ul {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .sources__meta {
+    margin-top: var(--space-3);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+</style>

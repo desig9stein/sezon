@@ -1,0 +1,94 @@
+---
+import type { NutritionFacts } from '@contexts/catalog';
+import type { ResolvedMicronutrient } from '@composition/ProduceDetailsQuery';
+import { formatNumber, ui } from '@i18n/bg';
+
+/** Nutrition values per 100 g with % of the EU reference intake and the data source. */
+interface Props {
+  nutrition: NutritionFacts;
+  micronutrients: ReadonlyArray<ResolvedMicronutrient>;
+}
+
+const { nutrition, micronutrients } = Astro.props;
+const labels = ui.produce.nutrition;
+const grams = (value: number) => `${formatNumber(value)} g`;
+const macroRows = [
+  { label: labels.energy, value: `${formatNumber(nutrition.energyKcal)} kcal` },
+  { label: labels.protein, value: grams(nutrition.proteinG) },
+  { label: labels.fat, value: grams(nutrition.fatG) },
+  { label: labels.carbohydrate, value: grams(nutrition.carbohydrateG) },
+  ...(nutrition.sugarsG === undefined
+    ? []
+    : [{ label: labels.sugars, value: grams(nutrition.sugarsG) }]),
+  { label: labels.fiber, value: grams(nutrition.fiberG) },
+];
+---
+
+<section class="table-scroll" aria-labelledby="nutrition-caption" tabindex="0">
+  <table class="nutrition">
+    <caption id="nutrition-caption">{labels.caption}</caption>
+    <thead>
+      <tr>
+        <th scope="col">{labels.nutrient}</th>
+        <th scope="col">{labels.amount}</th>
+        <th scope="col">{labels.percent}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {macroRows.map((row) => (
+        <tr>
+          <th scope="row">{row.label}</th>
+          <td>{row.value}</td>
+          <td />
+        </tr>
+      ))}
+      {micronutrients.map(({ nutrient, amount, percentOfReferenceIntake }) => (
+        <tr>
+          <th scope="row">{nutrient.name}</th>
+          <td>{`${formatNumber(amount)} ${nutrient.unit}`}</td>
+          <td>{`${percentOfReferenceIntake}%`}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</section>
+<p class="nutrition__note">
+  {labels.sourcePrefix} <a href={nutrition.source.url}>{nutrition.source.name}</a>.{' '}
+  {labels.referenceNote}
+</p>
+
+<style>
+  .table-scroll {
+    overflow-x: auto;
+  }
+
+  .nutrition {
+    width: 100%;
+    min-width: 18rem;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .nutrition caption {
+    text-align: start;
+    font-weight: 700;
+    padding-bottom: var(--space-2);
+  }
+
+  .nutrition th,
+  .nutrition td {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+    text-align: start;
+  }
+
+  .nutrition td {
+    text-align: end;
+  }
+
+  .nutrition__note {
+    margin-top: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+</style>

@@ -8,7 +8,8 @@ export default getViteConfig({
     coverage: {
       provider: 'v8',
       include: ['src/**/*.ts'],
-      exclude: ['src/**/*.d.ts', 'src/content.config.ts'],
+      // Astro wiring (content collections) is covered by the build and e2e tests.
+      exclude: ['src/**/*.d.ts', 'src/content.config.ts', 'src/composition/index.ts'],
       thresholds: { lines: 90, functions: 90, branches: 90, statements: 90 },
     },
   },

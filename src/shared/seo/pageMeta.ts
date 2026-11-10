@@ -1,9 +1,12 @@
 import { InvalidPageMetaError } from '@shared/domain/errors';
 
 const TITLE_SEPARATOR = ' | ';
-const TITLE_MAX_LENGTH = 60;
-const DESCRIPTION_MIN_LENGTH = 70;
-const DESCRIPTION_MAX_LENGTH = 160;
+/** Maximum length of a full page title, in characters. */
+export const TITLE_MAX_LENGTH = 60;
+/** Minimum length of a meta description, in characters. */
+export const DESCRIPTION_MIN_LENGTH = 70;
+/** Maximum length of a meta description, in characters. */
+export const DESCRIPTION_MAX_LENGTH = 160;
 const PATH_PATTERN = /^\/(?:[a-z0-9-]+(?:\/[a-z0-9-]+)*)?$/;
 const WHITESPACE_RUN = /\s+/g;
 const OG_LOCALE = 'bg_BG';
@@ -32,7 +35,8 @@ export interface PageMeta {
   readonly siteName: string;
 }
 
-const characterCount = (text: string): number => [...text].length;
+/** Returns the number of Unicode code points in `text`. */
+export const characterCount = (text: string): number => [...text].length;
 const collapseWhitespace = (text: string): string => text.replace(WHITESPACE_RUN, ' ').trim();
 
 /**

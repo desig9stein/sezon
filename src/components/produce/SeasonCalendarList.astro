@@ -1,0 +1,84 @@
+---
+import { routes } from '@components/layout/routes';
+import type { Produce } from '@contexts/catalog';
+import { Month } from '@contexts/seasonality';
+import { monthName, ui } from '@i18n/bg';
+
+/** Twelve-month season calendar of one produce; each month links to its month page. */
+interface Props {
+  produce: Produce;
+  currentMonth: Month;
+}
+
+const { produce, currentMonth } = Astro.props;
+const months = Month.all().map((month) => ({ month, level: produce.levelIn(month) }));
+---
+
+<ul class="calendar" role="list">
+  {months.map(({ month, level }) => (
+    <li class="calendar__month" data-level={level?.value ?? 'none'}>
+      <a href={routes.month(month)} aria-current={month === currentMonth ? 'date' : undefined}>
+        <span class="calendar__name">{monthName(month)}</span>
+        <span class="calendar__level">
+          <span aria-hidden="true">
+            {level === undefined ? ui.produce.outOfSeasonIcon : ui.seasonLevelIcons[level.value]}
+          </span>
+          {level === undefined ? ui.produce.outOfSeason : ui.seasonLevels[level.value]}
+        </span>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .calendar {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 9rem), 1fr));
+    gap: var(--space-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .calendar__month a {
+    display: grid;
+    gap: var(--space-1);
+    min-height: var(--target-min);
+    height: 100%;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-on-badge);
+    background: var(--color-surface);
+    text-decoration: none;
+  }
+
+  .calendar__month[data-level='none'] a {
+    color: var(--color-text-muted);
+  }
+
+  .calendar__month[data-level='peak'] a {
+    background: var(--color-peak);
+  }
+
+  .calendar__month[data-level='available'] a {
+    background: var(--color-available);
+  }
+
+  .calendar__month[data-level='storage'] a {
+    background: var(--color-storage);
+  }
+
+  .calendar__month a[aria-current='date'] {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 1px;
+  }
+
+  .calendar__name {
+    font-weight: 700;
+    text-decoration: underline;
+  }
+
+  .calendar__level {
+    font-size: var(--font-size-sm);
+  }
+</style>
