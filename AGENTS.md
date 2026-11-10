@@ -267,7 +267,11 @@ tests/
   `<type>` is a Conventional Commits type. No tool-generated or random branch names.
 - The owner reviews and merges. Delete the branch after the merge.
 - Work starts from an issue (forms in `.github/ISSUE_TEMPLATE/`) and is tracked on the GitHub
-  Projects board (see `docs/PROJECT-BOARD.md`). PRs use `.github/pull_request_template.md` and
+  Projects board (see `docs/PROJECT-BOARD.md`).
+- Every issue is assigned to the owner (`desig9stein`) when it is created.
+- Large work is an **epic**: an issue titled `epic: …` whose parts are GitHub **sub-issues**.
+  Split an issue into sub-issues when it needs more than one pull request. Each roadmap phase
+  has an epic; a sub-issue can itself have sub-issues (e.g. the redesign). PRs use `.github/pull_request_template.md` and
   link the issue with `Closes #<n>`.
 - CI runs separate checks (Prettier, ESLint, Types, Unit tests and coverage, Build and HTML
   validation, E2E and accessibility, Lighthouse 100); all must pass before merging.
