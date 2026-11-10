@@ -128,7 +128,8 @@ src/
         domain/               Entities, value objects, repository interfaces. Pure TS.
         application/          Use cases / query services. Depends on domain only.
         infrastructure/       Adapters (Astro content collections, mappers).
-        index.ts              The only module other code may import from.
+        index.ts              Public API (domain + application). No infrastructure exports.
+  composition/                Composition root: wires infrastructure adapters into services.
   content.config.ts           Astro collections + Zod schemas (data shape contract)
   data/<collection>/*.yaml    Content, one file per entry
   i18n/bg.ts                  All UI strings (keys in English, values in Bulgarian)
@@ -145,12 +146,18 @@ tests/
 
 ### Dependency rules (enforced by review and ESLint `no-restricted-imports`)
 
-1. `domain/` imports nothing outside `src/shared/domain` and its own context. No Astro, no I/O.
+1. `domain/` imports only `src/shared/domain`, its own context, and the public `index.ts` of an
+   upstream context (allowed upstreams: `catalog` → `seasonality`; `farms` → none). No Astro, no I/O.
 2. `application/` imports only `domain/` (own context and `shared`), plus other contexts'
    public `index.ts`.
-3. `infrastructure/` may import `astro:content`.
-4. Pages and components import contexts **only** through `src/contexts/<context>/index.ts`.
-5. No circular dependencies between contexts.
+3. `infrastructure/` may import `astro:content` and `astro/zod`. It is imported only by
+   `src/content.config.ts` (schemas) and by the composition root `src/composition/`.
+4. A context's `index.ts` exports its domain and application API only (never infrastructure),
+   so it stays importable without Astro.
+5. Pages and components get services from `src/composition/` and types from
+   `src/contexts/<context>/index.ts`. They never import `domain/`, `application/` or
+   `infrastructure/` paths directly.
+6. No circular dependencies between contexts.
 
 ### Design principles
 

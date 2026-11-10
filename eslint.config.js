@@ -47,7 +47,7 @@ export default defineConfig([
               message: 'Domain code must not depend on Astro.',
             },
             {
-              group: ['**/infrastructure/**', '**/application/**'],
+              group: ['**/infrastructure/**', '**/application/**', '**/composition/**'],
               message: 'Domain must not import outer layers.',
             },
           ],
@@ -67,8 +67,12 @@ export default defineConfig([
                 '**/contexts/*/domain/**',
                 '**/contexts/*/application/**',
                 '**/contexts/*/infrastructure/**',
+                '@contexts/*/domain/**',
+                '@contexts/*/application/**',
+                '@contexts/*/infrastructure/**',
               ],
-              message: 'Import bounded contexts only through their public index.ts.',
+              message:
+                'Use services from src/composition and types from the context public index.ts.',
             },
           ],
         },
