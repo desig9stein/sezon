@@ -37,3 +37,5 @@ export { SeasonOverviewService } from './application/SeasonOverviewService';
 export type { SeasonOverview } from './application/SeasonOverviewService';
 export { NutrientRankingService } from './application/NutrientRankingService';
 export type { NutrientRanking, NutrientRankingEntry } from './application/NutrientRankingService';
+export { SectionIndexService } from './application/SectionIndexService';
+export type { SectionIndex } from './application/SectionIndexService';

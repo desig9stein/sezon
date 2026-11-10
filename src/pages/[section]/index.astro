@@ -1,0 +1,58 @@
+---
+import type { GetStaticPaths } from 'astro';
+import SectionIndex from '@components/produce/SectionIndex.astro';
+import { routes } from '@components/layout/routes';
+import { buildMonth } from '@composition/clock';
+import { sectionIndexService } from '@composition/index';
+import { requireSiteUrl } from '@composition/site';
+import { PRODUCE_KINDS, type ProduceKind } from '@contexts/catalog';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { collectionPageJsonLd } from '@shared/seo';
+
+export const getStaticPaths = (() =>
+  PRODUCE_KINDS.map((kind) => ({
+    params: { section: routes.produceSection(kind) },
+    props: { kind },
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  kind: ProduceKind;
+}
+
+const { kind } = Astro.props;
+const siteUrl = requireSiteUrl(Astro.site);
+const section = await sectionIndexService.sectionFor(kind, buildMonth);
+const path = routes.section(kind);
+const name = ui.sections.names[kind];
+const description = ui.sections.description(kind, buildMonth);
+const jsonLd = [
+  collectionPageJsonLd({
+    siteUrl,
+    path,
+    name,
+    description,
+    items: section.all.map((produce) => ({ name: produce.name, path: routes.produce(produce) })),
+  }),
+];
+---
+
+<BaseLayout
+  title={ui.sections.title(kind)}
+  description={description}
+  path={path}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <h1>{name}</h1>
+  <SectionIndex section={section} />
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-top: var(--space-6);
+  }
+</style>
