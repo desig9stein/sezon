@@ -126,16 +126,48 @@ describe('GitHubPlanningClient', () => {
     );
   });
 
-  it('AC6: never calls the REST API', async () => {
-    const { fetchImpl, requests } = fakeFetch(() => ({ json: issueResponse([]) }));
+  it('AC6: sends every request to the GraphQL endpoint', async () => {
+    const { fetchImpl, requests } = fakeFetch((request) => {
+      const query = graphqlQuery(request);
+      if (query.includes('projectsV2')) return { json: projectsResponse() };
+      if (query.includes('addProjectV2ItemById')) {
+        return { json: { data: { addProjectV2ItemById: { item: { id: 'PVTI_new' } } } } };
+      }
+      if (query.includes('updateProjectV2ItemFieldValue')) {
+        return {
+          json: { data: { updateProjectV2ItemFieldValue: { projectV2Item: { id: 'x' } } } },
+        };
+      }
+      return { json: issueResponse([]) };
+    });
+    const github = client(fetchImpl);
 
-    const github = client(fetchImpl) as unknown as Record<string, unknown>;
+    await github.findProject('desig9stein', 'Planing');
+    await github.issueItem('P_plan', 35);
+    await github.updateField('P_plan', 'PVTI_new', { fieldId: 'F', value: { number: 1 } });
 
-    expect(github['listMilestones']).toBeUndefined();
-    expect(github['setMilestone']).toBeUndefined();
-    expect(requests).toEqual([]);
+    expect(requests).toHaveLength(4);
+    for (const request of requests) {
+      expect(`${request.method} ${request.url}`).toBe('POST https://api.github.com/graphql');
+    }
   });
 
+  it('throws instead of adding a duplicate item when the issue has more than 100 project items', async () => {
+    const { fetchImpl, requests } = fakeFetch(() => {
+      const response = issueResponse([{ id: 'PVTI_elsewhere', projectId: 'P_other' }]);
+      const issue = response.data.repository.issue as Record<string, unknown>;
+      issue['projectItems'] = {
+        ...(issue['projectItems'] as object),
+        pageInfo: { hasNextPage: true },
+      };
+      return { json: response };
+    });
+
+    await expect(client(fetchImpl).issueItem('P_plan', 35)).rejects.toThrow(
+      /#35.*more than 100 project items/,
+    );
+    expect(requests).toHaveLength(1);
+  });
   it('AC6: adds an open issue to the project when it is not an item yet', async () => {
     const { fetchImpl, requests } = fakeFetch((request) =>
       graphqlQuery(request).includes('addProjectV2ItemById')
@@ -226,7 +258,7 @@ describe('GitHubPlanningClient', () => {
     });
   });
 
-  it('AC6: sends the token only in the Authorization header, also for GraphQL and errors', async () => {
+  it('AC6: sends the token only in the Authorization header, also on errors', async () => {
     const { fetchImpl, requests } = fakeFetch((request) =>
       graphqlQuery(request).includes('projectsV2')
         ? { json: projectsResponse() }
