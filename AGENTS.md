@@ -261,6 +261,13 @@ tests/
   or `<type>/<kebab-topic>` otherwise (e.g. `docs/content-guide-sources`, `fix/calendar-focus`).
   `<type>` is a Conventional Commits type. No tool-generated or random branch names.
 - The owner reviews and merges. Delete the branch after the merge.
+- Work starts from an issue (forms in `.github/ISSUE_TEMPLATE/`) and is tracked on the GitHub
+  Projects board (see `docs/PROJECT-BOARD.md`). PRs use `.github/pull_request_template.md` and
+  link the issue with `Closes #<n>`.
+- CI runs separate checks (Prettier, ESLint, Types, Unit tests and coverage, Build and HTML
+  validation, E2E and accessibility, Lighthouse 100); all must pass before merging.
+- A pre-commit hook (`simple-git-hooks` + `lint-staged`, installed by `pnpm install`) runs
+  ESLint `--fix` and Prettier on staged files. Do not bypass it with `--no-verify`.
 - The PR title is a Conventional Commits summary; the body lists the specs, what changed and how
   it was verified (`pnpm verify`, `pnpm lhci`).
 
