@@ -1,0 +1,21 @@
+name: Daily rebuild
+
+on:
+  schedule:
+    # 00:05 Europe/Sofia: 21:05 UTC in summer (EEST) and 22:05 UTC in winter (EET).
+    - cron: '5 21 * * *'
+    - cron: '5 22 * * *'
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages deploy hook
+        env:
+          CF_DEPLOY_HOOK: ${{ secrets.CF_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$CF_DEPLOY_HOOK" ]; then
+            echo "CF_DEPLOY_HOOK secret is not set; skipping." && exit 0
+          fi
+          curl --fail --silent --show-error -X POST "$CF_DEPLOY_HOOK"
