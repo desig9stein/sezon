@@ -134,3 +134,28 @@ export function faqPageJsonLd(
     })),
   };
 }
+
+/** Input for {@link collectionPageJsonLd}. */
+export interface CollectionPageJsonLdInput {
+  readonly siteUrl: string;
+  readonly path: string;
+  readonly name: string;
+  readonly description: string;
+  readonly mainEntity: JsonLd;
+}
+
+/** Returns schema.org `CollectionPage` data whose main entity is the given list (without its `@context`). */
+export function collectionPageJsonLd(input: CollectionPageJsonLdInput): JsonLd {
+  const mainEntity = Object.fromEntries(
+    Object.entries(input.mainEntity).filter(([key]) => key !== '@context'),
+  );
+  return {
+    '@context': SCHEMA_CONTEXT,
+    '@type': 'CollectionPage',
+    name: input.name,
+    description: input.description,
+    url: absoluteUrl(input.siteUrl, input.path),
+    inLanguage: CONTENT_LANGUAGE,
+    mainEntity,
+  };
+}

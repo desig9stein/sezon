@@ -13,6 +13,7 @@ export const routes = {
   home: '/',
   month: (month: Month) => `/sezon/${month.slug}`,
   produceSection: (kind: ProduceKind) => PRODUCE_SECTIONS[kind],
+  section: (kind: ProduceKind) => `/${PRODUCE_SECTIONS[kind]}`,
   produce: (produce: { readonly kind: ProduceKind; readonly slug: string }) =>
     `/${PRODUCE_SECTIONS[produce.kind]}/${produce.slug}`,
 } as const;

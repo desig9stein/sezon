@@ -31,6 +31,7 @@ describe('SectionIndexService', () => {
     expect(slugs(section.storage)).toEqual(['tsveklo']);
     expect(slugs(section.outOfSeason)).toEqual(['spanak']);
     expect(section.count).toBe(5);
+    expect(slugs(section.all)).toEqual(['zele', 'morkovi', 'praz', 'spanak', 'tsveklo']);
     expect(Object.isFrozen(section)).toBe(true);
     expect(Object.isFrozen(section.peak)).toBe(true);
   });

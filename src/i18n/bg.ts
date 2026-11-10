@@ -79,6 +79,13 @@ function monthPageDescription(month: Month, produceNames: ReadonlyArray<string>)
   return listed.length === 0 ? `${intro}? ${closing}` : withNames(listed);
 }
 
+const SECTION_NAMES: Readonly<Record<ProduceKind, string>> = {
+  fruit: 'Плодове',
+  vegetable: 'Зеленчуци',
+  herb: 'Подправки',
+  nut: 'Ядки',
+};
+
 /** All user-facing UI strings. */
 export const ui = {
   siteName: SITE_NAME,
@@ -209,6 +216,16 @@ export const ui = {
     available: '●',
     storage: '◐',
   } satisfies Record<SeasonLevelValue, string>,
+  sections: {
+    names: SECTION_NAMES,
+    title: (kind: ProduceKind) => `${SECTION_NAMES[kind]} по сезони`,
+    description: (kind: ProduceKind, month: Month) =>
+      `${SECTION_NAMES[kind]} в България: кои са в разгара на сезона през ${monthNameLower(month)}, кои са в сезон и кои идват от хранилище. Хранителни стойности и местни ферми.`,
+    intro: (kind: ProduceKind, month: Month) =>
+      `Всички ${SECTION_NAMES[kind].toLowerCase()} в каталога, подредени по сезона през ${monthNameLower(month)}.`,
+    outOfSeason: (month: Month) => `Извън сезона през ${monthNameLower(month)}`,
+    empty: 'Все още няма добавени продукти в този раздел.',
+  },
   produceKinds: {
     fruit: 'Плод',
     vegetable: 'Зеленчук',

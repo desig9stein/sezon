@@ -50,6 +50,7 @@ navigation, and rank for broad queries such as „сезонни зеленчу�
 | `available`   | … level `available`.                                            |
 | `storage`     | … level `storage`.                                              |
 | `outOfSeason` | … with no level in `month`.                                     |
+| `all`         | Every produce of the kind (for the `ItemList`).                 |
 | `count`       | Total number of produce of the kind.                            |
 
 Each list keeps the repository order (sorted by Bulgarian name). `SectionIndexService` takes a

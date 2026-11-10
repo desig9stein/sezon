@@ -1,0 +1,66 @@
+---
+import ProduceCard from '@components/produce/ProduceCard.astro';
+import type { Produce, SectionIndex } from '@contexts/catalog';
+import type { SeasonLevel } from '@contexts/seasonality';
+import { ui } from '@i18n/bg';
+
+/**
+ * Every produce of one kind in labelled groups: peak, available, storage, out of season.
+ * Seasonal cards carry a season badge; empty groups are not rendered.
+ */
+interface Props {
+  section: SectionIndex;
+}
+
+interface Group {
+  readonly id: string;
+  readonly heading: string;
+  readonly items: ReadonlyArray<Produce>;
+  readonly withLevel: boolean;
+}
+
+const { section } = Astro.props;
+const { month } = section;
+const groups: ReadonlyArray<Group> = [
+  { id: 'peak', heading: ui.overview.peak, items: section.peak, withLevel: true },
+  { id: 'available', heading: ui.overview.available, items: section.available, withLevel: true },
+  { id: 'storage', heading: ui.overview.storage, items: section.storage, withLevel: true },
+  {
+    id: 'out-of-season',
+    heading: ui.sections.outOfSeason(month),
+    items: section.outOfSeason,
+    withLevel: false,
+  },
+].filter((group) => group.items.length > 0);
+const levelOf = (produce: Produce, group: Group): SeasonLevel | undefined =>
+  group.withLevel ? produce.levelIn(month) : undefined;
+---
+
+{section.count === 0 && <p>{ui.sections.empty}</p>}
+{groups.map((group) => (
+  <section class="section-group" aria-labelledby={`section-${group.id}`}>
+    <h2 id={`section-${group.id}`}>{group.heading}</h2>
+    <ul class="section-group__list" role="list">
+      {group.items.map((produce) => (
+        <li>
+          <ProduceCard produce={produce} level={levelOf(produce, group)} />
+        </li>
+      ))}
+    </ul>
+  </section>
+))}
+
+<style>
+  .section-group {
+    margin-top: var(--space-8);
+  }
+
+  .section-group__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+    padding: 0;
+    list-style: none;
+  }
+</style>

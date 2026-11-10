@@ -12,7 +12,7 @@ describe('SiteHeader (spec 010)', () => {
     const html = await render(SiteHeader, { currentPath: '/' });
 
     expect(linkOrder(html).slice(-4)).toEqual(['/plodove', '/zelenchutsi', '/podpravki', '/yadki']);
-    expect(html).toContain('>Зеленчуци<');
+    expect(html).toMatch(/>\s*Зеленчуци\s*</);
   });
 
   it('AC7: marks the current section page with aria-current="page"', async () => {

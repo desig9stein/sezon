@@ -45,6 +45,7 @@ const jsonLd = [
   type="article"
   breadcrumbs={[
     { name: ui.breadcrumbs.home, path: routes.home },
+    { name: ui.sections.names[produce.kind], path: routes.section(produce.kind) },
     { name: produce.name, path },
   ]}
   jsonLd={jsonLd}
