@@ -69,6 +69,12 @@ in a given month". Without these, URLs, the "current season" and every list are 
   (`Щ` → `Sht`); if the whole word is uppercase, the output is fully uppercase (`ЩИТ` → `SHTIT`).
 - Characters that are not Bulgarian Cyrillic (Latin letters, digits, punctuation, spaces)
   are returned unchanged.
+- Input is normalised to Unicode NFC first, so a decomposed `й` (`и` + U+0306) is treated as `й`.
+  Combining marks that remain after a Cyrillic letter (e.g. stress accents `и́`) are removed.
+- `ѝ` (U+045D) is transliterated as `i`.
+- A word ends where the next character is not a letter (space, punctuation, hyphen, digit or
+  end of text). The unit for case detection and for the `България` exception is the
+  contiguous run of Cyrillic letters; mixed-script words are out of scope.
 
 ### Slug
 
@@ -84,7 +90,7 @@ in a given month". Without these, URLs, the "current season" and every list are 
 
 - `Month.of(n)`: `n` must be an integer 1–12, otherwise `InvalidMonthError`.
 - `Month.fromDate(date, timeZone = 'Europe/Sofia')`: the calendar month of `date` in that
-  timezone. Example: `2026-10-31T22:30:00Z` → November (00:30 EET on 1 November).
+  timezone. An unknown time zone throws `InvalidTimeZoneError`. Example: `2026-10-31T22:30:00Z` → November (00:30 EET on 1 November).
 - `Month.fromSlug(slug)`: inverse of `month.slug`; unknown slug → `InvalidMonthError`.
 - `month.next()` / `month.previous()` wrap around (December → January, January → December).
 - `month.slug`: Latin slugs from the transliterated Bulgarian names:
@@ -136,6 +142,9 @@ handled in spec 003.
 12. **AC12:** Given an empty or duplicate-month entry list, `SeasonCalendar.from` throws `InvalidSeasonCalendarError`.
 13. **AC13:** Given a valid calendar, `levelIn`, `isFreshIn`, `months` and `freshMonths` return values per section 5.
 14. **AC14:** All errors extend `DomainError` and expose a stable `code`.
+15. **AC15:** Given decomposed (NFD) input, stress accents or `ѝ`, when transliterated, then the output equals that of the plain NFC letters.
+16. **AC16:** Given an unknown time zone, `Month.fromDate` throws `InvalidTimeZoneError`.
+17. **AC17:** Given any value object instance, it is frozen and cannot be mutated at runtime.
 
 ## 9. Test plan
 
@@ -147,6 +156,9 @@ handled in spec 003.
 | AC11      | unit | `tests/unit/contexts/seasonality/domain/SeasonLevel.test.ts`    |
 | AC12–AC13 | unit | `tests/unit/contexts/seasonality/domain/SeasonCalendar.test.ts` |
 | AC14      | unit | `tests/unit/shared/domain/errors.test.ts`                       |
+| AC15      | unit | `tests/unit/shared/domain/transliterate.test.ts`                |
+| AC16      | unit | `tests/unit/contexts/seasonality/domain/Month.test.ts`          |
+| AC17      | unit | `tests/unit/**/{Slug,Month,SeasonLevel,SeasonCalendar}.test.ts` |
 
 ## 10. Third-party documentation consulted
 

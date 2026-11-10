@@ -76,4 +76,40 @@ describe('transliterate', () => {
     expect(transliterate('')).toBe('');
     expect(transliterate('„Зелен лук“ (пресен)')).toBe('„Zelen luk“ (presen)');
   });
+
+  it.each([
+    ['А', 'A'],
+    ['Ж', 'Zh'],
+    ['Й', 'Y'],
+    ['Ц', 'Ts'],
+    ['Ч', 'Ch'],
+    ['Ш', 'Sh'],
+    ['Щ', 'Sht'],
+    ['Ъ', 'A'],
+    ['Ь', 'Y'],
+    ['Ю', 'Yu'],
+    ['Я', 'Ya'],
+  ])('AC1/AC3: transliterates uppercase %s as %s', (cyrillic, latin) => {
+    expect(transliterate(cyrillic)).toBe(latin);
+  });
+
+  it('AC2: treats a hyphen or a digit after "ия" as the end of the word', () => {
+    expect(transliterate('София-град')).toBe('Sofia-grad');
+    expect(transliterate('София2')).toBe('Sofia2');
+  });
+
+  it('AC15: treats decomposed "й" like the composed letter', () => {
+    expect(transliterate('май'.normalize('NFD'))).toBe('may');
+    expect(transliterate('Двойка'.normalize('NFD'))).toBe('Dvoyka');
+  });
+
+  it('AC15: ignores stress accents on Cyrillic letters', () => {
+    expect(transliterate('Мари\u0301я')).toBe('Maria');
+    expect(transliterate('я\u0301бълка')).toBe('yabalka');
+  });
+
+  it('AC15: transliterates "ѝ" as "i"', () => {
+    expect(transliterate('ѝ')).toBe('i');
+    expect(transliterate('Ѝ')).toBe('I');
+  });
 });

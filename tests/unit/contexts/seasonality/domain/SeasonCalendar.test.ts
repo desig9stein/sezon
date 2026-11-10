@@ -55,4 +55,8 @@ describe('SeasonCalendar', () => {
     expect(calendar.months().map((m) => m.number)).toEqual([1, 9, 10, 11, 12]);
     expect(calendar.freshMonths().map((m) => m.number)).toEqual([9, 10, 11]);
   });
+
+  it('AC17: is frozen', () => {
+    expect(Object.isFrozen(calendar)).toBe(true);
+  });
 });

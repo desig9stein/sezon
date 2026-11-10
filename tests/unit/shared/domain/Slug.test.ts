@@ -25,7 +25,7 @@ describe('Slug', () => {
     expect(slug.equals(Slug.parse('sofia'))).toBe(false);
   });
 
-  it.each(['', '   ', ' — ', '!!!'])(
+  it.each(['', '   ', '  —  ', '!!!'])(
     'AC6: rejects input "%s" that yields an empty slug',
     (input) => {
       expect(() => Slug.fromBulgarian(input)).toThrow(InvalidSlugError);
@@ -38,4 +38,12 @@ describe('Slug', () => {
       expect(() => Slug.parse(input)).toThrow(InvalidSlugError);
     },
   );
+
+  it('AC15: creates the same slug from decomposed input', () => {
+    expect(Slug.fromBulgarian('Чай'.normalize('NFD')).value).toBe('chay');
+  });
+
+  it('AC17: is frozen', () => {
+    expect(Object.isFrozen(Slug.parse('zele'))).toBe(true);
+  });
 });

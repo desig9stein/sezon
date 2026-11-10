@@ -5,6 +5,7 @@ import {
   InvalidSeasonCalendarError,
   InvalidSeasonLevelError,
   InvalidSlugError,
+  InvalidTimeZoneError,
 } from '@shared/domain/errors';
 
 describe('domain errors', () => {
@@ -13,6 +14,7 @@ describe('domain errors', () => {
     [new InvalidMonthError('x'), 'INVALID_MONTH'],
     [new InvalidSeasonLevelError('x'), 'INVALID_SEASON_LEVEL'],
     [new InvalidSeasonCalendarError('x'), 'INVALID_SEASON_CALENDAR'],
+    [new InvalidTimeZoneError('x'), 'INVALID_TIME_ZONE'],
   ])('AC14: %o extends DomainError with code %s', (error, code) => {
     expect(error).toBeInstanceOf(DomainError);
     expect(error).toBeInstanceOf(Error);

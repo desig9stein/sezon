@@ -26,4 +26,8 @@ describe('SeasonLevel', () => {
     expect(SeasonLevel.AVAILABLE.isFresh()).toBe(true);
     expect(SeasonLevel.STORAGE.isFresh()).toBe(false);
   });
+
+  it('AC17: levels are frozen', () => {
+    expect(Object.isFrozen(SeasonLevel.PEAK)).toBe(true);
+  });
 });

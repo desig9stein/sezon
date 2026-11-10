@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { Month } from '@contexts/seasonality/domain/Month';
-import { InvalidMonthError } from '@shared/domain/errors';
+import { InvalidMonthError, InvalidTimeZoneError } from '@shared/domain/errors';
 
 const SLUGS = [
   'yanuari',
@@ -33,6 +33,7 @@ describe('Month', () => {
     ['2026-10-31T22:00:00Z', 11],
     ['2026-03-31T20:59:59Z', 3],
     ['2026-03-31T21:00:00Z', 4],
+    ['2026-12-31T21:59:59Z', 12],
     ['2026-12-31T22:00:00Z', 1],
   ])('AC8: %s is month %i in Europe/Sofia', (iso, expected) => {
     expect(Month.fromDate(new Date(iso)).number).toBe(expected);
@@ -68,5 +69,20 @@ describe('Month', () => {
     const first = Month.all();
     expect(first).toHaveLength(12);
     expect(Month.all()).not.toBe(first);
+  });
+
+  it('AC16: rejects an unknown time zone with InvalidTimeZoneError', () => {
+    expect(() => Month.fromDate(new Date('2026-11-10T12:00:00Z'), 'Mars/Phobos')).toThrow(
+      InvalidTimeZoneError,
+    );
+  });
+
+  it('AC17: shared month instances are frozen and cannot be mutated', () => {
+    const may = Month.of(5);
+    expect(Object.isFrozen(may)).toBe(true);
+    expect(() => {
+      (may as unknown as { number: number }).number = 9;
+    }).toThrow(TypeError);
+    expect(Month.of(5).number).toBe(5);
   });
 });
