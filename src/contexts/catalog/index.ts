@@ -23,3 +23,5 @@ export type {
   ProduceGroupRepository,
   ProduceRepository,
 } from './domain/repositories';
+export { SeasonOverviewService } from './application/SeasonOverviewService';
+export type { SeasonOverview } from './application/SeasonOverviewService';

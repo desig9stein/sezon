@@ -1,0 +1,73 @@
+---
+import ProduceCard from '@components/produce/ProduceCard.astro';
+import type { Produce, SeasonOverview } from '@contexts/catalog';
+import type { SeasonLevel } from '@contexts/seasonality';
+import { ui } from '@i18n/bg';
+
+/** Produce of one month grouped into labelled sections: peak, available, coming soon, storage. */
+interface Props {
+  overview: SeasonOverview;
+}
+
+interface Group {
+  readonly id: string;
+  readonly heading: string;
+  readonly items: ReadonlyArray<Produce>;
+  readonly levelOf: (produce: Produce) => SeasonLevel | undefined;
+}
+
+const { overview } = Astro.props;
+const { month } = overview;
+const next = month.next();
+const allGroups: ReadonlyArray<Group> = [
+  { id: 'peak', heading: ui.overview.peak, items: overview.peak, levelOf: (p) => p.levelIn(month) },
+  {
+    id: 'available',
+    heading: ui.overview.available,
+    items: overview.available,
+    levelOf: (p) => p.levelIn(month),
+  },
+  {
+    id: 'coming-soon',
+    heading: ui.overview.comingSoon,
+    items: overview.comingSoon,
+    levelOf: (p) => p.levelIn(next),
+  },
+  {
+    id: 'storage',
+    heading: ui.overview.storage,
+    items: overview.storage,
+    levelOf: (p) => p.levelIn(month),
+  },
+];
+const groups = allGroups.filter((group) => group.items.length > 0);
+---
+
+{groups.length === 0 && <p>{ui.overview.empty}</p>}
+{groups.map((group) => (
+  <section class="season-group" aria-labelledby={`group-${group.id}`}>
+    <h2 id={`group-${group.id}`}>{group.heading}</h2>
+    <ul class="season-group__list" role="list">
+      {group.items.map((produce) => (
+        <li>
+          <ProduceCard produce={produce} level={group.levelOf(produce)} />
+        </li>
+      ))}
+    </ul>
+  </section>
+))}
+
+<style>
+  .season-group {
+    margin-top: var(--space-8);
+  }
+
+  .season-group__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+    padding: 0;
+    list-style: none;
+  }
+</style>

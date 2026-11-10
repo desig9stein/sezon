@@ -1,0 +1,51 @@
+---
+import { routes } from '@components/layout/routes';
+import type { Month } from '@contexts/seasonality';
+import { monthName, ui } from '@i18n/bg';
+
+/** Links to the previous and next month pages, wrapping around the year. */
+interface Props {
+  month: Month;
+}
+
+const { month } = Astro.props;
+const previous = month.previous();
+const next = month.next();
+---
+
+<nav class="month-pager" aria-label={ui.monthPager.label}>
+  <a href={routes.month(previous)} rel="prev">
+    <span class="month-pager__direction">{ui.monthPager.previous}:</span>
+    {monthName(previous)}
+  </a>
+  <a href={routes.month(next)} rel="next">
+    <span class="month-pager__direction">{ui.monthPager.next}:</span>
+    {monthName(next)}
+  </a>
+</nav>
+
+<style>
+  .month-pager {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-top: var(--space-12);
+  }
+
+  .month-pager a {
+    display: inline-flex;
+    flex-direction: column;
+    min-height: var(--target-min);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+  }
+
+  .month-pager__direction {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: 400;
+  }
+</style>

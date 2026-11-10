@@ -1,16 +1,56 @@
 ---
+import { routes } from '@components/layout/routes';
+import SeasonOverview from '@components/season/SeasonOverview.astro';
+import { freshProduceItemList } from '@components/season/seasonJsonLd';
+import { buildMonth } from '@composition/clock';
+import { seasonOverviewService } from '@composition/index';
+import { requireSiteUrl } from '@composition/site';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { websiteJsonLd } from '@shared/seo';
+
+const siteUrl = requireSiteUrl(Astro.site);
+const overview = await seasonOverviewService.overviewFor(buildMonth);
+const nextMonth = buildMonth.next();
 ---
 
-<!doctype html>
-<html lang="bg">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Сезон</title>
-  </head>
-  <body>
-    <main>
-      <h1>Сезон</h1>
-    </main>
-  </body>
-</html>
+<BaseLayout
+  title={ui.home.title}
+  description={ui.home.description(buildMonth)}
+  path={routes.home}
+  jsonLd={[
+    websiteJsonLd({ siteUrl, name: ui.siteName, description: ui.siteDescription }),
+    freshProduceItemList(overview, siteUrl),
+  ]}
+>
+  <h1>{ui.home.heading(buildMonth)}</h1>
+  <p class="lead">{ui.home.intro}</p>
+  <SeasonOverview overview={overview} />
+  <p class="next-month">
+    <a href={routes.month(nextMonth)}>{ui.home.nextMonthLink(nextMonth)}</a>
+  </p>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-top: var(--space-8);
+  }
+
+  .lead {
+    max-width: var(--reading-width);
+    margin-top: var(--space-3);
+    font-size: var(--font-size-lg);
+    color: var(--color-text-muted);
+  }
+
+  .next-month {
+    margin-top: var(--space-12);
+  }
+
+  .next-month a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    font-weight: 600;
+  }
+</style>

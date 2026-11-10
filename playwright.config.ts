@@ -16,7 +16,8 @@ export default defineConfig({
     { name: 'mobile', use: { ...devices['Pixel 7'] } },
   ],
   webServer: {
-    command: `pnpm astro preview --port ${PORT}`,
+    // --ignore-lock keeps the server in the foreground when Astro detects an AI agent.
+    command: `pnpm astro preview --port ${PORT} --ignore-lock`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
   },

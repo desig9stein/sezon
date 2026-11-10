@@ -1,0 +1,42 @@
+---
+import type { SeasonLevel } from '@contexts/seasonality';
+import { ui } from '@i18n/bg';
+
+/** Season level shown as a decorative icon plus a visible text label on a level-coloured badge. */
+interface Props {
+  level: SeasonLevel;
+}
+
+const { level } = Astro.props;
+---
+
+<span class="season-badge" data-level={level.value}>
+  <span aria-hidden="true">{ui.seasonLevelIcons[level.value]}</span>
+  {ui.seasonLevels[level.value]}
+</span>
+
+<style>
+  .season-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    color: var(--color-on-badge);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .season-badge[data-level='peak'] {
+    background: var(--color-peak);
+  }
+
+  .season-badge[data-level='available'] {
+    background: var(--color-available);
+  }
+
+  .season-badge[data-level='storage'] {
+    background: var(--color-storage);
+  }
+</style>

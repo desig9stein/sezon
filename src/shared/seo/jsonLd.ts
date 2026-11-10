@@ -8,7 +8,7 @@ const SCRIPT_UNSAFE_CHARACTERS = /[<>&\u2028\u2029]/g;
 /** A JSON-LD object. */
 export type JsonLd = Readonly<Record<string, unknown>>;
 
-/** A breadcrumb entry with a site-relative path. */
+/** A named link with a site-relative path (breadcrumbs, list items). */
 export interface BreadcrumbItem {
   readonly name: string;
   readonly path: string;
@@ -60,6 +60,26 @@ export function breadcrumbListJsonLd(
       position: index + 1,
       name: item.name,
       item: absoluteUrl(siteUrl, item.path),
+    })),
+  };
+}
+
+/** Returns schema.org `ItemList` data with 1-based positions and absolute item URLs. */
+export function itemListJsonLd(
+  name: string,
+  items: ReadonlyArray<BreadcrumbItem>,
+  siteUrl: string,
+): JsonLd {
+  return {
+    '@context': SCHEMA_CONTEXT,
+    '@type': 'ItemList',
+    name,
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      url: absoluteUrl(siteUrl, item.path),
     })),
   };
 }

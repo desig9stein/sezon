@@ -5,6 +5,7 @@
     "attribute-boolean-style": "off",
     "doctype-style": "off",
     "void-style": "off",
-    "no-trailing-whitespace": "off"
+    "no-trailing-whitespace": "off",
+    "no-redundant-role": "off"
   }
 }

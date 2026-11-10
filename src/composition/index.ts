@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import { SeasonOverviewService } from '@contexts/catalog';
 import type {
   Nutrient,
   NutrientRepository,
@@ -82,3 +83,6 @@ export const regionRepository: RegionRepository = new IndexedRepository(
 export const farmRepository: FarmRepository = new IndexedFarmRepository(
   async () => (await getContent()).farms,
 );
+
+/** Season overview queries over the content produce. */
+export const seasonOverviewService = new SeasonOverviewService(produceRepository);

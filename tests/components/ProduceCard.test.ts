@@ -14,14 +14,14 @@ const produce = aProduce({
 describe('ProduceCard', () => {
   it('AC6: renders a heading link to the produce page, the kind and the badge', async () => {
     const html = await render(ProduceCard, { produce, level: SeasonLevel.PEAK });
-    expect(html).toMatch(/<h3[^>]*><a[^>]*href="\/plodove\/yabalki"[^>]*>Ябълки<\/a><\/h3>/);
+    expect(html).toMatch(/<h3[^>]*>\s*<a[^>]*href="\/plodove\/yabalki"[^>]*>Ябълки<\/a>\s*<\/h3>/);
     expect(html).toContain('Плод');
     expect(html).toContain('Разгар на сезона');
   });
 
   it('AC6: uses the configured heading level and omits the badge without a level', async () => {
     const html = await render(ProduceCard, { produce, headingLevel: 2 });
-    expect(html).toMatch(/<h2[^>]*><a[^>]*href="\/plodove\/yabalki"/);
+    expect(html).toMatch(/<h2[^>]*>\s*<a[^>]*href="\/plodove\/yabalki"/);
     expect(html).not.toContain('data-level=');
   });
 });

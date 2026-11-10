@@ -1,0 +1,42 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { routes } from '@components/layout/routes';
+import MonthPager from '@components/season/MonthPager.astro';
+import SeasonOverview from '@components/season/SeasonOverview.astro';
+import { freshProduceItemList } from '@components/season/seasonJsonLd';
+import { seasonOverviewService } from '@composition/index';
+import { requireSiteUrl } from '@composition/site';
+import { Month } from '@contexts/seasonality';
+import { monthName, ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+export const getStaticPaths = (() =>
+  Month.all().map((month) => ({ params: { month: month.slug } }))) satisfies GetStaticPaths;
+
+const month = Month.fromSlug(Astro.params.month);
+const siteUrl = requireSiteUrl(Astro.site);
+const overview = await seasonOverviewService.overviewFor(month);
+const freshNames = [...overview.peak, ...overview.available].map((produce) => produce.name);
+const path = routes.month(month);
+---
+
+<BaseLayout
+  title={ui.monthPage.title(month)}
+  description={ui.monthPage.description(month, freshNames)}
+  path={path}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: monthName(month), path },
+  ]}
+  jsonLd={[freshProduceItemList(overview, siteUrl)]}
+>
+  <h1>{ui.monthPage.heading(month)}</h1>
+  <SeasonOverview overview={overview} />
+  <MonthPager month={month} />
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-top: var(--space-6);
+  }
+</style>
