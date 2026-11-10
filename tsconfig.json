@@ -17,7 +17,8 @@
       "@layouts/*": ["./src/layouts/*"],
       "@i18n/*": ["./src/i18n/*"],
       "@tests/*": ["./tests/*"],
-      "@composition/*": ["./src/composition/*"]
+      "@composition/*": ["./src/composition/*"],
+      "@design/*": ["./src/design/*"]
     }
   }
 }
