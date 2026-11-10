@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   sync:
-    name: Sync planning to the project and milestones
+    name: Sync planning to the project
     # The PROJECT_TOKEN secret is only used for the reviewed plan on main.
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest

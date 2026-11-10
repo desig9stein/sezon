@@ -81,7 +81,8 @@ Only projects owned by a user account are supported (`user(login:)` in GraphQL).
   the first write) → for each issue: skip it with a log line when it is closed (its board
   status is left to the project's own workflows); add it to the project if it is not an item
   yet; warn when the item is archived; write the changed fields.
-- The sync needs only the `project` scope on `PROJECT_TOKEN`; it never writes to the repository.
+- With a classic token, the sync needs only the `project` scope on `PROJECT_TOKEN` (plus `repo`
+  if the repository is private); it never writes to the repository.
 - The sync logs one line per issue and exits non-zero on the first API error, printing the
   GraphQL message, or the HTTP status when the body is not JSON. The
   token is sent only in the `Authorization` header and never logged.

@@ -30,6 +30,7 @@ const FIND_ISSUE = `query($owner: String!, $name: String!, $number: Int!) {
       id
       state
       projectItems(first: ${PAGE_SIZE}) {
+        pageInfo { hasNextPage }
         nodes {
           id
           isArchived
@@ -90,6 +91,7 @@ interface FindIssueData {
       readonly id: string;
       readonly state: string;
       readonly projectItems: {
+        readonly pageInfo: { readonly hasNextPage: boolean };
         readonly nodes: ReadonlyArray<{
           readonly id: string;
           readonly isArchived: boolean;
@@ -184,7 +186,7 @@ export class GitHubPlanningClient implements PlanningClient {
   /**
    * Returns the project item of an open issue with its current field values,
    * adding the issue to the project first when needed. Closed issues are not added.
-   * @throws {GitHubApiError} When the issue does not exist.
+   * @throws {GitHubApiError} When the issue does not exist, or its item may be on a later page.
    */
   async issueItem(projectId: string, issueNumber: number): Promise<IssueItem> {
     const data = await this.#graphql<FindIssueData>(FIND_ISSUE, {
@@ -198,6 +200,11 @@ export class GitHubPlanningClient implements PlanningClient {
     }
     if (issue.state !== 'OPEN') return { closed: true };
     const existing = issue.projectItems.nodes.find((item) => item.project.id === projectId);
+    if (existing === undefined && issue.projectItems.pageInfo.hasNextPage) {
+      throw new GitHubApiError(
+        `#${issueNumber} is in more than ${PAGE_SIZE} project items; pagination is not supported`,
+      );
+    }
     if (existing !== undefined) {
       return {
         closed: false,

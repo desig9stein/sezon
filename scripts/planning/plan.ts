@@ -68,14 +68,6 @@ const ISSUE_NUMBER = /^[1-9]\d*$/;
 const TEXT_KEYS = ['status', 'priority', 'impact'] as const;
 const ROOT_KEYS: ReadonlyArray<string> = ['project', 'issues'];
 const PROJECT_KEYS: ReadonlyArray<string> = ['owner', 'title'];
-const ISSUE_KEYS: ReadonlyArray<string> = [
-  'status',
-  'priority',
-  'impact',
-  'estimate',
-  'start',
-  'target',
-];
 const DATE_KEYS = ['start', 'target'] as const;
 
 type FieldKind = 'SINGLE_SELECT' | 'NUMBER' | 'DATE';
@@ -93,6 +85,8 @@ const FIELD_MAP: ReadonlyArray<{
   { key: 'target', name: 'Target date', kind: 'DATE' },
 ];
 
+const ISSUE_KEYS: ReadonlyArray<string> = FIELD_MAP.map(({ key }) => key);
+
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
 
@@ -103,7 +97,7 @@ const isNonEmptyString = (value: unknown): value is string =>
  * Returns whether the value is a `YYYY-MM-DD` string naming a real calendar date.
  * @param value - Value to check.
  */
-export function isIsoDate(value: unknown): value is IsoDate {
+function isIsoDate(value: unknown): value is IsoDate {
   if (typeof value !== 'string' || !ISO_DATE.test(value)) return false;
   const parsed = new Date(`${value}T00:00:00Z`);
   return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;

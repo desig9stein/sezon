@@ -52,6 +52,7 @@ const issueResponse = (items: ReadonlyArray<ItemFixture>, extra: { state?: strin
         id: 'I_35',
         state: extra.state ?? 'OPEN',
         projectItems: {
+          pageInfo: { hasNextPage: false },
           nodes: items.map((item) => ({
             id: item.id,
             isArchived: item.isArchived ?? false,
