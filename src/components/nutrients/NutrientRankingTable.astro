@@ -1,0 +1,108 @@
+---
+import { routes } from '@components/layout/routes';
+import SeasonBadge from '@components/season/SeasonBadge.astro';
+import type { NutrientRanking } from '@contexts/catalog';
+import { formatNumber, monthNameLower, ui } from '@i18n/bg';
+
+/**
+ * Ranking of produce by the amount of one nutrient per 100 g: amount, % of the reference intake,
+ * the nutrition claim the amount allows and the season level in the ranking's month.
+ */
+interface Props {
+  ranking: NutrientRanking;
+}
+
+const { ranking } = Astro.props;
+const { nutrient, month } = ranking;
+const labels = ui.nutrients;
+const nutrition = ui.produce.nutrition;
+const captionId = `ranking-${nutrient.slug}`;
+---
+
+<section class="table-scroll" aria-labelledby={captionId} tabindex="0">
+  <table class="ranking">
+    <caption id={captionId}>{labels.caption(nutrient.name)}</caption>
+    <thead>
+      <tr>
+        <th scope="col">{labels.produceColumn}</th>
+        <th scope="col">{nutrition.amount}</th>
+        <th scope="col">
+          {nutrition.percent}
+          <abbr title={nutrition.percentTitle}>{nutrition.percentAbbreviation}</abbr>
+        </th>
+        <th scope="col">{labels.claimColumn}</th>
+        <th scope="col">{labels.seasonColumn(monthNameLower(month))}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {ranking.entries.map((entry) => (
+        <tr>
+          <th scope="row">
+            <a href={routes.produce(entry.produce)}>{entry.produce.name}</a>
+          </th>
+          <td>{`${formatNumber(entry.amount)} ${nutrition.units[nutrient.unit]}`}</td>
+          <td>{`${entry.percentOfReferenceIntake}%`}</td>
+          <td class="ranking__text">
+            {entry.claimLevel === undefined ? (
+              <>
+                <span aria-hidden="true">–</span>
+                <span class="visually-hidden">{labels.noClaim}</span>
+              </>
+            ) : (
+              labels.claimLabels[entry.claimLevel](nutrient.name)
+            )}
+          </td>
+          <td class="ranking__text">
+            {entry.seasonLevel === undefined ? (
+              <>
+                <span aria-hidden="true">{ui.produce.outOfSeasonIcon}</span>{' '}
+                {ui.produce.outOfSeason}
+              </>
+            ) : (
+              <SeasonBadge level={entry.seasonLevel} />
+            )}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</section>
+
+<style>
+  .table-scroll {
+    position: relative;
+    overflow-x: auto;
+  }
+
+  .ranking {
+    width: 100%;
+    min-width: 36rem;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ranking caption {
+    text-align: start;
+    font-weight: 700;
+    padding-bottom: var(--space-2);
+  }
+
+  .ranking th,
+  .ranking td {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+    text-align: start;
+  }
+
+  .ranking td {
+    text-align: end;
+  }
+
+  .ranking .ranking__text {
+    text-align: start;
+  }
+
+  .ranking abbr {
+    text-decoration: none;
+  }
+</style>

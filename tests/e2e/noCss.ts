@@ -18,7 +18,8 @@ export async function removeAllCss(page: Page): Promise<void> {
 /**
  * Returns a short description (tag and classes) of each element in `<body>` that CSS hides:
  * `display: none`, `visibility: hidden | collapse`, `opacity: 0`, `content-visibility: hidden`,
- * a `clip-path`, a zero-size box that clips its content, or a box outside the document.
+ * a `clip-path`, a zero-size box that clips its content, or a box outside the document
+ * (unless it sits in a scroll container, where scrolling reaches it).
  * `[hidden]` elements that CSS reveals are reported with the suffix ` (revealed)`.
  * Non-rendered elements, `[hidden]`, `.visually-hidden`, `.skip-link` and their descendants are exempt.
  */
@@ -30,6 +31,15 @@ export async function hiddenByCss(page: Page): Promise<string[]> {
     const documentWidth = document.documentElement.scrollWidth;
     const documentHeight = document.documentElement.scrollHeight;
 
+    const scrolls = (value: string): boolean => value === 'auto' || value === 'scroll';
+    const insideScrollContainer = (element: Element): boolean => {
+      for (let parent = element.parentElement; parent !== null; parent = parent.parentElement) {
+        const style = getComputedStyle(parent);
+        if (scrolls(style.overflowX) || scrolls(style.overflowY)) return true;
+      }
+      return false;
+    };
+
     const isHidden = (element: Element): boolean => {
       const style = getComputedStyle(element);
       if (style.display === 'none' || style.visibility !== 'visible') return true;
@@ -38,6 +48,7 @@ export async function hiddenByCss(page: Page): Promise<string[]> {
       const box = element.getBoundingClientRect();
       const clipsContent = style.overflow !== 'visible' && element.textContent?.trim() !== '';
       if (clipsContent && (box.width === 0 || box.height === 0)) return true;
+      if (insideScrollContainer(element)) return false;
       const left = box.left + window.scrollX;
       const top = box.top + window.scrollY;
       return (

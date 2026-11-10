@@ -1,0 +1,117 @@
+---
+import type { GetStaticPaths } from 'astro';
+import NutrientRankingTable from '@components/nutrients/NutrientRankingTable.astro';
+import { routes } from '@components/layout/routes';
+import { buildMonth } from '@composition/clock';
+import { nutrientRankingService } from '@composition/index';
+import { requireSiteUrl } from '@composition/site';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { itemListJsonLd } from '@shared/seo';
+
+export const getStaticPaths = (async () =>
+  (await nutrientRankingService.allNutrients()).map((nutrient) => ({
+    params: { slug: nutrient.slug },
+  }))) satisfies GetStaticPaths;
+
+const ranking = await nutrientRankingService.rankingFor(Astro.params.slug, buildMonth);
+const { nutrient } = ranking;
+const labels = ui.nutrients;
+const path = routes.nutrient(nutrient.slug);
+const siteUrl = requireSiteUrl(Astro.site);
+const jsonLd = [
+  itemListJsonLd(
+    labels.caption(nutrient.name),
+    ranking.entries.map((entry) => ({
+      name: entry.produce.name,
+      path: routes.produce(entry.produce),
+    })),
+    siteUrl,
+  ),
+];
+---
+
+<BaseLayout
+  title={labels.title(nutrient.name)}
+  description={labels.description(nutrient.name)}
+  path={path}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: nutrient.name, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <article class="nutrient">
+    <h1>{labels.heading(nutrient.name)}</h1>
+
+    <section aria-labelledby="claims">
+      <h2 id="claims">{labels.claimsHeading(nutrient.name)}</h2>
+      <ul class="nutrient__claims">
+        {nutrient.claims.map((claim) => (
+          <li>{`${claim}.`}</li>
+        ))}
+      </ul>
+      <p class="nutrient__note">
+        {labels.claimsNote(nutrient.name)} {ui.produce.nutrition.sourcePrefix}
+        <a href={nutrient.claimsSource.url}>{nutrient.claimsSource.name}</a>.
+      </p>
+      {nutrient.note !== undefined && <p class="nutrient__note">{nutrient.note}</p>}
+      <p class="nutrient__note">{ui.footer.disclaimer}</p>
+    </section>
+
+    {ranking.inSeason.length > 0 && (
+      <section aria-labelledby="in-season">
+        <h2 id="in-season">{labels.inSeasonHeading}</h2>
+        <ul class="nutrient__in-season" role="list">
+          {ranking.inSeason.map((entry) => (
+            <li>
+              <a href={routes.produce(entry.produce)}>{entry.produce.name}</a>
+              {entry.claimLevel !== undefined &&
+                ` – ${labels.claimLabels[entry.claimLevel](nutrient.name)}`}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section aria-labelledby="ranking">
+      <h2 id="ranking">{labels.rankingHeading}</h2>
+      {ranking.entries.length === 0 ? (
+        <p>{labels.empty(nutrient.name)}</p>
+      ) : (
+        <NutrientRankingTable ranking={ranking} />
+      )}
+      <p class="nutrient__note">{ui.produce.nutrition.referenceNote}</p>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .nutrient {
+    display: grid;
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+  }
+
+  .nutrient section {
+    display: grid;
+    gap: var(--space-3);
+    max-width: var(--reading-width);
+  }
+
+  .nutrient section:last-child {
+    max-width: none;
+  }
+
+  .nutrient__claims,
+  .nutrient__in-season {
+    display: grid;
+    gap: var(--space-1);
+    padding-inline-start: var(--space-6);
+  }
+
+  .nutrient__note {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+</style>

@@ -48,7 +48,8 @@ None. Test helpers only:
   every `style` attribute, asserts that no author style sheet is left, then waits for layout.
 - `hiddenByCss(page)`: descriptions of elements in `<body>` that CSS hides: `display: none`,
   `visibility: hidden | collapse`, `opacity: 0`, `content-visibility: hidden`, a `clip-path`, a
-  zero-size box that clips text, or a box entirely outside the document. Exempt: `script`,
+  zero-size box that clips text, or a box entirely outside the document (except inside a
+  scroll container, where scrolling reaches it). Exempt: `script`,
   `style`, `template`, `noscript`, `[hidden]`, `.visually-hidden`, the `.skip-link` and their
   descendants. A `[hidden]` element that CSS displays is reported as revealed.
 - `reorderedByCss(page)`: descriptions of elements with a non-zero `order`, a `*-reverse` flex

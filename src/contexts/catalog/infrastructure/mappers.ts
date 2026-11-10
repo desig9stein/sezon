@@ -59,6 +59,8 @@ export function toNutrient(id: string, record: NutrientRecord): Nutrient {
     kind: record.kind,
     unit: record.unit,
     referenceIntake: record.referenceIntake,
-    description: record.description,
+    claims: record.claims,
+    claimsSource: record.claimsSource,
+    note: record.note,
   });
 }

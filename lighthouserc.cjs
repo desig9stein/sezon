@@ -8,6 +8,7 @@ module.exports = {
         'http://localhost:4323/',
         'http://localhost:4323/sezon/noemvri',
         'http://localhost:4323/zelenchutsi/zele',
+        'http://localhost:4323/nutrienti/vitamin-c',
       ],
       numberOfRuns: 3,
       settings: {

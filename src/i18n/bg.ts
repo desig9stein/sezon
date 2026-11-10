@@ -50,21 +50,29 @@ export function formatDate(date: Date): string {
   return dateFormat.format(date);
 }
 
+/** Returns the first title that fits 60 characters with the site-name suffix, else the last. */
+function fittingTitle(variants: ReadonlyArray<string>): string {
+  const fallback = variants[variants.length - 1] ?? '';
+  return (
+    variants.find((title) => characterCount(title) + TITLE_SUFFIX_LENGTH <= TITLE_MAX_LENGTH) ??
+    fallback
+  );
+}
+
 /**
  * Returns the page title of a produce: the longest variant that fits 60 characters together
  * with the site-name suffix.
  */
 export function produceTitle(name: string): string {
-  const variants = [
+  return fittingTitle([
     `${name} – сезон, хранителни стойности и ферми`,
     `${name} – сезон и хранителни стойности`,
     name,
-  ];
-  return (
-    variants.find((title) => characterCount(title) + TITLE_SUFFIX_LENGTH <= TITLE_MAX_LENGTH) ??
-    name
-  );
+  ]);
 }
+
+/** Returns a nutrient name for use inside a sentence (first letter in lower case). */
+const inSentence = (name: string): string => name.charAt(0).toLowerCase() + name.slice(1);
 
 function monthPageDescription(month: Month, produceNames: ReadonlyArray<string>): string {
   const intro = `Какво е в сезон в България през ${monthNameLower(month)}`;
@@ -209,6 +217,28 @@ export const ui = {
     available: '●',
     storage: '◐',
   } satisfies Record<SeasonLevelValue, string>,
+  nutrients: {
+    title: (name: string) =>
+      fittingTitle([`${name} в сезонни плодове и зеленчуци`, `${name} в сезонните храни`, name]),
+    description: (name: string) =>
+      `Кои сезонни плодове и зеленчуци от България съдържат най-много ${inSentence(name)} на 100 г, колко от референтния прием покриват и кои са в сезон сега.`,
+    heading: (name: string) => `${name} в сезонните плодове и зеленчуци`,
+    claimsHeading: (name: string) => `Какво прави ${inSentence(name)}`,
+    claimsNote: (name: string) =>
+      `Формулировките са разрешени здравни претенции по Регламент (ЕС) № 432/2012 и се отнасят за храни, които са поне източник на ${inSentence(name)}.`,
+    inSeasonHeading: 'В сезон сега',
+    rankingHeading: 'Съдържание на 100 г',
+    caption: (name: string) => `${name} на 100 г`,
+    produceColumn: 'Продукт',
+    claimColumn: 'Претенция',
+    seasonColumn: (monthName: string) => `През ${monthName}`,
+    claimLabels: {
+      high: (name: string) => `С високо съдържание на ${inSentence(name)}`,
+      source: (name: string) => `Източник на ${inSentence(name)}`,
+    },
+    noClaim: 'под прага за претенция',
+    empty: (name: string) => `Все още няма продукти с данни за ${inSentence(name)}.`,
+  },
   produceKinds: {
     fruit: 'Плод',
     vegetable: 'Зеленчук',

@@ -90,7 +90,9 @@ export const nutrientSchema = z.strictObject({
   kind: z.enum(NUTRIENT_KINDS),
   unit: z.enum(NUTRIENT_UNITS),
   referenceIntake: z.number().positive(),
-  description: text(),
+  claims: z.array(text()).min(1),
+  claimsSource: sourceSchema,
+  note: text().optional(),
 });
 
 export type ProduceRecord = z.infer<typeof produceSchema>;

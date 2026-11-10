@@ -94,7 +94,7 @@ by Bulgarian name. `rankingFor` throws `NutrientNotFoundError` for an unknown sl
       foods that are at least a source of the nutrient;
     - the source link;
     - the `note`, when present;
-    - the health disclaimer (shared with produce pages).
+    - the site's general health disclaimer (the footer text: education, not medical advice).
   - Section „В сезон сега“, rendered only when `inSeason` is not empty: the produce names as
     links, with the claim label.
   - Section „Съдържание на 100 г“: a ranking table with caption „<Име> на 100 г“. The columns are:

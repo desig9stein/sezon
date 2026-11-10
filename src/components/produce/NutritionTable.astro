@@ -1,9 +1,13 @@
 ---
 import type { Macronutrient, NutritionFacts } from '@contexts/catalog';
 import type { ResolvedMicronutrient } from '@composition/ProduceDetailsQuery';
+import { routes } from '@components/layout/routes';
 import { formatNumber, ui } from '@i18n/bg';
 
-/** Nutrition values per 100 g with % of the EU reference intake and the data source. */
+/**
+ * Nutrition values per 100 g with % of the EU reference intake and the data source.
+ * Micronutrient rows link to their nutrient page.
+ */
 interface Props {
   nutrition: NutritionFacts;
   micronutrients: ReadonlyArray<ResolvedMicronutrient>;
@@ -13,6 +17,7 @@ interface Row {
   readonly label: string;
   readonly value: string;
   readonly percent: number | undefined;
+  readonly href?: string;
 }
 
 const { nutrition, micronutrients } = Astro.props;
@@ -39,6 +44,7 @@ const rows: ReadonlyArray<Row> = [
   ...macroRow('fiberG', labels.fiber, units.g),
   ...micronutrients.map(({ nutrient, amount, percentOfReferenceIntake }) => ({
     label: nutrient.name,
+    href: routes.nutrient(nutrient.slug),
     value: `${formatNumber(amount)} ${units[nutrient.unit]}`,
     percent: percentOfReferenceIntake,
   })),
@@ -60,7 +66,9 @@ const rows: ReadonlyArray<Row> = [
     <tbody>
       {rows.map((row) => (
         <tr>
-          <th scope="row">{row.label}</th>
+          <th scope="row">
+            {row.href === undefined ? row.label : <a href={row.href}>{row.label}</a>}
+          </th>
           <td>{row.value}</td>
           <td>
             {row.percent === undefined ? (
