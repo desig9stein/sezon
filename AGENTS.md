@@ -107,6 +107,11 @@ A feature is **done** only after Step 4. See the Definition of Done in section 1
 - Record every consulted source (URL or Context7 ID + package version) in the spec's
   "Third-party documentation consulted" section.
 
+### Skills
+
+Official Claude skills are vendored in `.claude/skills/`. `docs/SKILLS.md` says which to use
+for which task (e.g. `frontend-design` before new UI, `webapp-testing` during QA).
+
 ## 6. Architecture
 
 Domain-Driven Design as a **modular monolith**. Each bounded context is isolated behind a

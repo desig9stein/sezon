@@ -92,6 +92,7 @@ export default defineConfig([
     '.lighthouseci/',
     'playwright-report/',
     'test-results/',
+    '.claude/skills/',
   ]),
   js.configs.recommended,
   ...tseslint.configs.strict,

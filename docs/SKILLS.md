@@ -1,0 +1,21 @@
+# Skills for this project
+
+The official skills are vendored in `.claude/skills/` (see its README). This page lists the
+ones that help with Sezon and when to use them. Skills not listed here are available but have
+no planned use in this project.
+
+| Skill             | Use in Sezon                                                                                                                                                                           | When                                                                                                                                         |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `frontend-design` | Visual direction, typography and layout for new pages and the redesign. Its own checklist flags the current look (warm cream background, identical rounded cards) as generic defaults. | Before the spec of any new UI and for the visual redesign issue. Combine with AGENTS.md section 8: the a11y and Lighthouse rules always win. |
+| `webapp-testing`  | Ad-hoc Playwright checks against `pnpm preview` (screenshots, console logs, keyboard flows) while building UI.                                                                         | During implementation and QA. Permanent checks still go into `tests/e2e/`.                                                                   |
+| `skill-creator`   | Create project skills that encode our workflows: adding a produce entry (`docs/CONTENT-GUIDE.md`), running the spec → red → green → QA flow.                                           | When a task repeats; see the issue about project skills.                                                                                     |
+| `doc-coauthoring` | Writing specs, ADRs and content guides with the owner.                                                                                                                                 | Step 1 (Spec) of the workflow, ADRs.                                                                                                         |
+| `canvas-design`   | Static visuals: Open Graph image templates, printable seasonal posters.                                                                                                                | Phase 5 OG images issue; printable calendar.                                                                                                 |
+| `pdf`             | A printable PDF of the seasonal calendar; reading source PDFs (e.g. EU regulations, agrarian reports) while reviewing content.                                                         | Calendar and content-review issues.                                                                                                          |
+| `xlsx`            | Importing or exporting produce data and nutrition tables from spreadsheets during content work.                                                                                        | Catalog expansion and content review.                                                                                                        |
+| `theme-factory`   | Quick theme variations of artifacts and mock pages when exploring the redesign.                                                                                                        | Design exploration only; final tokens live in `src/design/tokens.ts`.                                                                        |
+| `mcp-builder`     | Only if we later build an MCP server (e.g. for the CMS or farm data).                                                                                                                  | Not planned.                                                                                                                                 |
+
+Not used for Sezon: `algorithmic-art`, `slack-gif-creator`, `brand-guidelines` (Anthropic's brand),
+`internal-comms`, `web-artifacts-builder` (claude.ai artifacts, not this site), `docx`, `pptx`,
+`claude-api`, `academy-guide`, `discernment-nudge`.
