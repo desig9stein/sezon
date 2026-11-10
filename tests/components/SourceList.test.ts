@@ -9,7 +9,7 @@ describe('SourceList (QA 005)', () => {
       updatedAt: new Date('2026-11-10'),
       isDraft: true,
     });
-    expect(html).toMatch(/<time datetime="2026-11-10">10 ноември 2026 г\.<\/time>(?!\.)/);
+    expect(html).toMatch(/<time datetime="2026-11-10"[^>]*>10 ноември 2026 г\.<\/time>(?!\.)/);
     expect(html).toContain('Данните очакват редакторска проверка.');
   });
 });

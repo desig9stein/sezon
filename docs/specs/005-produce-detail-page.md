@@ -65,7 +65,10 @@ sources. The page is the main SEO landing page for queries such as „ябълк
 - **Now:** status for the build month: „През <месец>: <level label>“ or „През <месец>: извън сезона“.
 - **Season calendar:** a list of the 12 months; each month links to its month page and shows the
   level label (or „Извън сезона“) as text plus icon; the build month is marked `aria-current="date"`.
-- **Nutrition table:** caption „Хранителни стойности на 100 г“; rows for energy (kcal), protein,
+- **Nutrition table:** units in Bulgarian (г, ккал, мг, мкг); % РСП for energy, fat,
+  carbohydrates, sugars and protein from the EU reference intakes (Annex XIII Part B) and for
+  vitamins and minerals; fibre shows „–“ with hidden text „няма референтен прием“; „РСП“ is an
+  `<abbr>`. Caption „Хранителни стойности на 100 г“; rows for energy (kcal), protein,
   fat, carbohydrates, of which sugars (if present), fibre (g); then each micronutrient with
   amount + unit and „% РСП“ (reference intake). Numbers use Bulgarian formatting (decimal comma,
   at most 2 decimals; percentages as integers). Below: source link and a note that РСП is the
@@ -85,7 +88,7 @@ sources. The page is the main SEO landing page for queries such as „ябълк
 - **FAQ:** heading „Често задавани въпроси“; each question as `<h3>`, answer as paragraph;
   rendered only when present.
 - **Sources and freshness:** heading „Източници“; the unique sources; „Обновено на
-  <дата>“ in a `<time datetime>`; when `reviewStatus` is `draft`, the note
+  <дата>“ in a `<time datetime>` (no extra full stop after „г.“); when `reviewStatus` is `draft`, the note
   „Данните очакват редакторска проверка.“
 
 ## 6. Accessibility requirements
@@ -96,6 +99,8 @@ sources. The page is the main SEO landing page for queries such as „ябълк
   row; numbers right-aligned; the table scrolls inside a focusable `<section>` labelled by the caption on narrow
   screens instead of causing page overflow (WCAG 1.4.10).
 - Season calendar months: level conveyed by text, not only colour or icon (1.4.1).
+- The current month in the calendar is marked with a ring (box-shadow) so the focus outline
+  stays visible (WCAG 2.4.7).
 - Links have descriptive text: „Уебсайт на <ферма>“, „Имейл до <ферма>“, „Телефон на <ферма>:
   <номер>“; source links use the source name.
 - Disclaimer for traditional uses is plain visible text placed before the list.
@@ -128,8 +133,8 @@ sources. The page is the main SEO landing page for queries such as „ябълк
 | AC      | Type      | Test file                                            |
 | ------- | --------- | ---------------------------------------------------- |
 | AC1–AC2 | unit      | `tests/unit/composition/ProduceDetailsQuery.test.ts` |
-| AC3–AC4 | unit      | `tests/unit/i18n/bg.test.ts`                         |
-| AC5     | unit      | `tests/unit/shared/seo/jsonLd.test.ts`               |
+| AC3–AC4 | unit      | `tests/unit/i18n/bg-005.test.ts`                     |
+| AC5     | unit      | `tests/unit/shared/seo/jsonLd-005.test.ts`           |
 | AC6     | component | `tests/components/SeasonCalendarList.test.ts`        |
 | AC7     | component | `tests/components/NutritionTable.test.ts`            |
 | AC8     | component | `tests/components/TraditionalUses.test.ts`           |

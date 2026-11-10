@@ -149,7 +149,11 @@ export const ui = {
       caption: 'Хранителни стойности на 100 г',
       nutrient: 'Хранително вещество',
       amount: 'Количество',
-      percent: '% РСП',
+      percent: '%',
+      percentAbbreviation: 'РСП',
+      percentTitle: 'референтен прием',
+      noReferenceIntake: 'няма референтен прием',
+      units: { g: 'г', kcal: 'ккал', mg: 'мг', µg: 'мкг' },
       energy: 'Енергия',
       protein: 'Белтъчини',
       fat: 'Мазнини',
@@ -157,7 +161,8 @@ export const ui = {
       sugars: 'от които захари',
       fiber: 'Фибри',
       sourcePrefix: 'Източник:',
-      referenceNote: 'РСП е референтният прием за възрастни според Регламент (ЕС) № 1169/2011.',
+      referenceNote:
+        'РСП е референтният прием за възрастен човек (8400 kJ/2000 ккал) според Регламент (ЕС) № 1169/2011.',
     },
     traditional: {
       disclaimer:

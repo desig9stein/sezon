@@ -24,13 +24,19 @@ export interface ResolvedGrowingRegion {
   readonly note: string;
 }
 
+/** A farm with its province resolved. */
+export interface FarmWithRegion {
+  readonly farm: Farm;
+  readonly region: Region;
+}
+
 /** Everything the produce page shows, resolved across bounded contexts. */
 export interface ProduceDetails {
   readonly produce: Produce;
   readonly group: ProduceGroup;
   readonly micronutrients: ReadonlyArray<ResolvedMicronutrient>;
   readonly growingRegions: ReadonlyArray<ResolvedGrowingRegion>;
-  readonly farms: ReadonlyArray<Farm>;
+  readonly farms: ReadonlyArray<FarmWithRegion>;
   readonly sources: ReadonlyArray<Source>;
 }
 
@@ -47,11 +53,11 @@ async function resolve<T>(
   find: (slug: string) => Promise<T | undefined>,
   slug: string,
   label: string,
-  owner: string,
+  from: string,
 ): Promise<T> {
   const entity = await find(slug);
   if (entity === undefined) {
-    throw new BrokenReferenceError(`produce/${owner} → ${label}/${slug}`);
+    throw new BrokenReferenceError(`${from} → ${label}/${slug}`);
   }
   return entity;
 }
@@ -91,10 +97,15 @@ export class ProduceDetailsQuery {
     const find = <T>(repository: { findBySlug(slug: string): Promise<T | undefined> }) =>
       repository.findBySlug.bind(repository);
 
-    const group = await resolve(find(groups), produce.groupSlug, 'groups', slug);
+    const group = await resolve(find(groups), produce.groupSlug, 'groups', `produce/${slug}`);
     const micronutrients = await Promise.all(
       produce.nutrition.micronutrients.map(async ({ nutrientSlug, amount }) => {
-        const nutrient = await resolve(find(nutrients), nutrientSlug, 'nutrients', slug);
+        const nutrient = await resolve(
+          find(nutrients),
+          nutrientSlug,
+          'nutrients',
+          `produce/${slug}`,
+        );
         return Object.freeze({
           nutrient,
           amount,
@@ -104,21 +115,32 @@ export class ProduceDetailsQuery {
     );
     const growingRegions = await Promise.all(
       produce.growingRegions.map(async ({ regionSlug, note }) =>
-        Object.freeze({ region: await resolve(find(regions), regionSlug, 'regions', slug), note }),
+        Object.freeze({
+          region: await resolve(find(regions), regionSlug, 'regions', `produce/${slug}`),
+          note,
+        }),
       ),
     );
     const sellers = await farms.findByProduce(slug);
-    const sortedFarms = [
+    const sponsoredFirst = [
       ...sellers.filter((farm) => farm.sponsored),
       ...sellers.filter((farm) => !farm.sponsored),
     ];
+    const farmsWithRegions = await Promise.all(
+      sponsoredFirst.map(async (farm) =>
+        Object.freeze({
+          farm,
+          region: await resolve(find(regions), farm.regionSlug, 'regions', `farms/${farm.slug}`),
+        }),
+      ),
+    );
 
     return Object.freeze({
       produce,
       group,
       micronutrients: Object.freeze(micronutrients),
       growingRegions: Object.freeze(growingRegions),
-      farms: Object.freeze(sortedFarms),
+      farms: Object.freeze(farmsWithRegions),
       sources: Object.freeze(
         uniqueSources([
           produce.nutrition.source,

@@ -107,7 +107,8 @@ export default defineConfig([
       '@typescript-eslint/consistent-type-imports': 'error',
       // Lists styled with `list-style: none` keep `role="list"` so Safari/VoiceOver announces them.
       'astro/jsx-a11y/no-redundant-roles': ['error', { ul: ['list'], ol: ['list'] }],
-      // Scrollable regions (e.g. wide tables) must be focusable so keyboard users can scroll them.
+      // A labelled <section> is a region; scroll containers (e.g. wide tables) must be focusable
+      // so keyboard users can scroll them. Do not add tabindex to other sections.
       'astro/jsx-a11y/no-noninteractive-tabindex': [
         'error',
         { roles: ['region'], tags: ['section'] },
@@ -120,6 +121,10 @@ export default defineConfig([
     rules: {
       '@typescript-eslint/no-non-null-assertion': 'error',
     },
+  },
+  {
+    files: ['tests/**'],
+    rules: { '@typescript-eslint/no-non-null-assertion': 'off' },
   },
   ...architectureRules(),
 ]);
