@@ -1,6 +1,9 @@
 {
   "extends": "astro/tsconfigs/strictest",
-  "include": [".astro/types.d.ts", "**/*"],
+  "include": [
+    ".astro/types.d.ts",
+    "**/*"
+  ],
   "exclude": [
     "dist",
     "node_modules",
@@ -11,12 +14,27 @@
   ],
   "compilerOptions": {
     "paths": {
-      "@shared/*": ["./src/shared/*"],
-      "@contexts/*": ["./src/contexts/*"],
-      "@components/*": ["./src/components/*"],
-      "@layouts/*": ["./src/layouts/*"],
-      "@i18n/*": ["./src/i18n/*"],
-      "@tests/*": ["./tests/*"]
+      "@shared/*": [
+        "./src/shared/*"
+      ],
+      "@contexts/*": [
+        "./src/contexts/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@layouts/*": [
+        "./src/layouts/*"
+      ],
+      "@i18n/*": [
+        "./src/i18n/*"
+      ],
+      "@tests/*": [
+        "./tests/*"
+      ],
+      "@composition/*": [
+        "./src/composition/*"
+      ]
     }
   }
 }
