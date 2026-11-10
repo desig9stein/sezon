@@ -25,4 +25,8 @@ describe('routes', () => {
   ] as const)('AC10 (spec 005): returns the URL section for kind %s', (kind, section) => {
     expect(routes.produceSection(kind)).toBe(section);
   });
+
+  it('AC5 (spec 011): returns the nutrient page path', () => {
+    expect(routes.nutrient('vitamin-c')).toBe('/nutrienti/vitamin-c');
+  });
 });

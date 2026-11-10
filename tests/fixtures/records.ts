@@ -53,6 +53,15 @@ export function produceRecord(overrides: Partial<ProduceRecord> = {}): ProduceRe
   };
 }
 
+/** Authorised claim fields shared by test nutrients (Regulation (EU) No 432/2012). */
+export const NUTRIENT_CLAIMS = {
+  claims: ['Витамин С допринася за нормалната функция на имунната система'],
+  claimsSource: {
+    name: 'Регламент (ЕС) № 432/2012',
+    url: 'https://eur-lex.europa.eu/legal-content/BG/TXT/?uri=CELEX:32012R0432',
+  },
+};
+
 /** Returns a valid farm record; `overrides` replace top-level fields. */
 export function farmRecord(overrides: Partial<FarmRecord> = {}): FarmRecord {
   return {

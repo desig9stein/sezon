@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { NUTRIENT_CLAIMS } from '@tests/fixtures/records';
 import NutritionTable from '@components/produce/NutritionTable.astro';
 import { toNutrient } from '@contexts/catalog/infrastructure/mappers';
 import { aProduce } from '@tests/fixtures/produce';
@@ -10,7 +11,7 @@ const vitaminC = toNutrient('vitamin-c', {
   kind: 'vitamin',
   unit: 'mg',
   referenceIntake: 80,
-  description: 'Описание.',
+  ...NUTRIENT_CLAIMS,
 });
 
 describe('NutritionTable', () => {
@@ -35,5 +36,16 @@ describe('NutritionTable', () => {
       /<a[^>]*href="https:\/\/fdc\.nal\.usda\.gov\/"[^>]*>USDA FoodData Central/,
     );
     expect(html).toMatch(/<section[^>]*aria-labelledby="nutrition-caption"[^>]*tabindex="0"/);
+  });
+
+  it('AC8 (spec 011): links micronutrient rows to their nutrient page', async () => {
+    const html = await render(NutritionTable, {
+      nutrition: produce.nutrition,
+      micronutrients: [{ nutrient: vitaminC, amount: 36.6, percentOfReferenceIntake: 46 }],
+    });
+    expect(html).toMatch(
+      /<th[^>]*scope="row"[^>]*>\s*<a href="\/nutrienti\/vitamin-c"[^>]*>Витамин C<\/a>\s*<\/th>/,
+    );
+    expect(html).toMatch(/<th[^>]*scope="row"[^>]*>\s*Енергия\s*<\/th>/);
   });
 });
