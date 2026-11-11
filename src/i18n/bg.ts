@@ -154,6 +154,7 @@ export const ui = {
     now: (month: string, level: string) => `През ${month}: ${level}`,
     outOfSeason: 'Извън сезона',
     outOfSeasonLower: 'извън сезона',
+    photoCredit: 'Снимка:',
     headings: {
       season: 'Сезон по месеци',
       varieties: 'Сортове',

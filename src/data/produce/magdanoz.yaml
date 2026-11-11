@@ -52,3 +52,11 @@ faq:
     answer: Около 1640 µg на 100 г – само 5 г пресен магданоз покриват дневната референтна стойност.
 updatedAt: 2026-11-10
 reviewStatus: draft
+photo:
+  src: ../../assets/produce/magdanoz.jpg
+  alt: 'Гъста леха с тревистозелени нарязани листа магданоз на открито'
+  credit:
+    author: 'Georgi Zvezdov'
+    authorUrl: https://unsplash.com/@gzvezdov
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-bunch-of-green-plants-in-a-field-LHHEX3vG01o

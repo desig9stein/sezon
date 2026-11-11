@@ -4,9 +4,9 @@ import type { Produce } from '@contexts/catalog';
 import type { Month, SeasonLevel } from '@contexts/seasonality';
 
 /**
- * One labelled group of produce: `plate` shows surface panels with the first one larger,
+ * One labelled group of produce: `plate` shows surface panels of equal size,
  * `index` shows quiet rows on hairlines. `levelOf` gives each card's badge level and
- * `levelFrom` marks it as applying from a later month.
+ * `levelFrom` marks it as applying from a later month. The first plate's photo loads eagerly.
  */
 interface Props {
   id: string;
@@ -23,13 +23,14 @@ const { id, heading, items, variant, levelOf, levelFrom } = Astro.props;
 <section class="group" aria-labelledby={id} data-variant={variant}>
   <h2 id={id}>{heading}</h2>
   <ul class="group__list" role="list">
-    {items.map((produce) => (
+    {items.map((produce, index) => (
       <li>
         <ProduceCard
           produce={produce}
           level={levelOf(produce)}
           levelFrom={levelFrom}
           variant={variant}
+          priority={index === 0}
         />
       </li>
     ))}
@@ -49,7 +50,7 @@ const { id, heading, items, variant, levelOf, levelFrom } = Astro.props;
   }
 
   .group[data-variant='plate'] .group__list {
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
     gap: var(--space-4);
   }
 
@@ -58,15 +59,6 @@ const { id, heading, items, variant, levelOf, levelFrom } = Astro.props;
   }
 
   @media (min-width: 40rem) {
-    .group[data-variant='plate'] .group__list > li:first-child {
-      grid-column: span 2;
-      grid-row: span 2;
-    }
-
-    .group[data-variant='plate'] .group__list > li:first-child :global(.produce-card) {
-      min-height: 20rem;
-    }
-
     .group[data-variant='index'] .group__list {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }

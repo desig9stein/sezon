@@ -62,7 +62,8 @@ None. Design tokens only.
 
 - **Font loading:**
   - Every face uses `font-display: swap`.
-  - Variable weight ranges are 100–900 for Piazzolla and 1–1000 for Sofia Sans.
+  - Variable weight ranges are 100–900 for Piazzolla and 1–1000 for Sofia Sans. Spec 015
+    narrows them to the weights in use and subsets the files (`pnpm fonts:build`).
   - A subset downloads only when the page uses characters in its range.
 - **Preload:** the upright Cyrillic and Latin files of both families (four files). Every page
   needs both subsets, because the Latin subset also holds digits, spaces and punctuation. The

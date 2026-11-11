@@ -49,3 +49,11 @@ faq:
     answer: Разрежете го надлъжно и изплакнете между листата, където често има пръст.
 updatedAt: 2026-11-10
 reviewStatus: draft
+photo:
+  src: ../../assets/produce/praz.jpg
+  alt: 'Плътно подредени стебла праз с бели основи и синкавозелени листа'
+  credit:
+    author: 'Anastasiya Badun'
+    authorUrl: https://unsplash.com/@badun
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/fresh-leeks-stacked-closely-together-ready-for-sale-uj3uG7tIg8s

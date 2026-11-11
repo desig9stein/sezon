@@ -1,0 +1,80 @@
+---
+import { Picture } from 'astro:assets';
+import type { ProducePhoto } from '@contexts/catalog';
+import { ui } from '@i18n/bg';
+import { creditHref, displayHeight } from './photo';
+
+/**
+ * The produce page's photo plate: a responsive AVIF/WebP picture loaded eagerly as the page's
+ * largest image, captioned with the Latin name and the linked photo credit (with Unsplash referral
+ * parameters).
+ */
+interface Props {
+  photo: ProducePhoto;
+  latinName: string;
+}
+
+const DISPLAY_WIDTH = 800;
+const WIDTHS = [320, 480, 640, 800, 1200];
+const SIZES = '(min-width: 48rem) min(28rem, 40vw), calc(100vw - 3.5rem)';
+
+const { photo, latinName } = Astro.props;
+const { image, alt, credit } = photo;
+---
+
+<figure class="produce-photo">
+  <Picture
+    src={image}
+    alt={alt}
+    formats={['avif', 'webp']}
+    width={DISPLAY_WIDTH}
+    height={displayHeight(image, DISPLAY_WIDTH)}
+    widths={WIDTHS}
+    sizes={SIZES}
+    quality={40}
+    loading="eager"
+    fetchpriority="high"
+  />
+  <figcaption>
+    <i lang="la">{latinName}</i>
+    <span class="produce-photo__credit">
+      {ui.produce.photoCredit} <a href={creditHref(credit.authorUrl)}>{credit.author}</a> /{' '}
+      <a href={creditHref(credit.sourceUrl)}>{credit.sourceName}</a>
+    </span>
+  </figcaption>
+</figure>
+
+<style>
+  .produce-photo {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding: var(--space-3);
+    background: var(--color-surface);
+    border-radius: var(--radius-sm);
+  }
+
+  .produce-photo :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-sm);
+  }
+
+  figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-1) var(--space-4);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  figcaption [lang='la'] {
+    font-size: var(--font-size-base);
+  }
+
+  .produce-photo__credit a {
+    color: var(--color-text-muted);
+  }
+</style>

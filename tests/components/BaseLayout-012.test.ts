@@ -43,3 +43,22 @@ describe('BaseLayout (spec 012)', () => {
     }
   });
 });
+
+describe('BaseLayout fonts (spec 015)', () => {
+  it('QA 015: italic faces never swap after first paint, upright faces swap', async () => {
+    const html = await render(BaseLayout, {
+      title: 'Сезон',
+      description:
+        'Кои плодове и зеленчуци са в сезон в България сега, откъде да ги купите и как да ги приготвите.',
+      path: '/',
+    });
+    const faces = (html.match(/@font-face\s*\{[^}]*\}/g) ?? []).filter((rule) =>
+      /url\(/.test(rule),
+    );
+    const italic = faces.filter((rule) => /font-style:\s*italic/.test(rule));
+    const upright = faces.filter((rule) => /font-style:\s*normal/.test(rule));
+    expect(italic.length).toBeGreaterThan(0);
+    for (const rule of italic) expect(rule).toMatch(/font-display:\s*optional/);
+    for (const rule of upright) expect(rule).toMatch(/font-display:\s*swap/);
+  });
+});

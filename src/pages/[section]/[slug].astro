@@ -1,6 +1,8 @@
 ---
 import type { GetStaticPaths } from 'astro';
+import { getImage } from 'astro:assets';
 import FarmList from '@components/produce/FarmList.astro';
+import ProducePhoto from '@components/produce/ProducePhoto.astro';
 import NutritionTable from '@components/produce/NutritionTable.astro';
 import SeasonCalendarList from '@components/produce/SeasonCalendarList.astro';
 import SourceList from '@components/produce/SourceList.astro';
@@ -24,6 +26,11 @@ const path = routes.produce(produce);
 const siteUrl = requireSiteUrl(Astro.site);
 const labels = ui.produce;
 const currentLevel = produce.levelIn(buildMonth);
+const SHARE_IMAGE_WIDTH = 1200;
+const shareImage =
+  produce.photo === undefined
+    ? undefined
+    : await getImage({ src: produce.photo.image, width: SHARE_IMAGE_WIDTH, format: 'jpg' });
 const jsonLd = [
   articleJsonLd({
     siteUrl,
@@ -33,6 +40,7 @@ const jsonLd = [
     dateModified: produce.updatedAt,
     about: { name: produce.name, alternateName: produce.latinName },
     citations: details.sources,
+    imagePath: shareImage?.src,
   }),
   ...(produce.faq.length > 0 ? [faqPageJsonLd(produce.faq)] : []),
 ];
@@ -69,6 +77,9 @@ const jsonLd = [
             : ui.seasonLevels[currentLevel.value],
         )}
       </p>
+      {produce.photo !== undefined && (
+        <ProducePhoto photo={produce.photo} latinName={produce.latinName} />
+      )}
     </header>
 
     <section class="produce__wide" aria-labelledby="season">
@@ -183,6 +194,25 @@ const jsonLd = [
   .produce__header {
     display: grid;
     gap: var(--space-3);
+  }
+
+  @media (min-width: 48rem) {
+    .produce__header:has(> :global(.produce-photo)) {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      grid-template-rows: auto auto auto 1fr;
+      column-gap: var(--space-8);
+      align-items: start;
+    }
+
+    .produce__header > h1,
+    .produce__header > .produce__meta {
+      grid-column: 1 / -1;
+    }
+
+    .produce__header > :global(.produce-photo) {
+      grid-column: 2;
+      grid-row: 3 / -1;
+    }
   }
 
   .produce__header h1 {

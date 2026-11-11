@@ -43,3 +43,11 @@ faq:
     answer: Обелете дебелата кора с нож и веднага поставете нарязаната целина във вода с лимон, за да не потъмнее.
 updatedAt: 2026-11-10
 reviewStatus: draft
+photo:
+  src: ../../assets/produce/tselina.jpg
+  alt: 'Грапав светъл корен целина с вдлъбнатини и тънки коренчета върху тъмен фон'
+  credit:
+    author: 'Nadja Thöner'
+    authorUrl: https://unsplash.com/@nadja_thoener
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-single-celeriac-root-on-a-dark-background-UpM9Z7c2-1s

@@ -63,3 +63,11 @@ faq:
     answer: Съдържа витамин C и витамин K, фибри и малко калории – около 25 kcal на 100 г.
 updatedAt: 2026-11-10
 reviewStatus: draft
+photo:
+  src: ../../assets/produce/zele.jpg
+  alt: 'Зелка със светлозелена глава и широки синкавозелени листа, растяща в тъмна почва'
+  credit:
+    author: 'Everest Louis'
+    authorUrl: https://unsplash.com/@ever73
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-large-green-cabbage-growing-in-the-soil-AS3M6jI1fP0

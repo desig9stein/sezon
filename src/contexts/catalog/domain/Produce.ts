@@ -3,6 +3,7 @@ import { frozenList, frozenRecords } from '@shared/domain/freeze';
 import type { Month, SeasonCalendar, SeasonLevel } from '@contexts/seasonality';
 import type { NutritionFacts } from './NutritionFacts';
 import type { ProduceKind } from './ProduceKind';
+import type { ProducePhoto } from './ProducePhoto';
 import type { Source } from './Source';
 
 /** Traditional systems whose uses are described. */
@@ -58,6 +59,7 @@ export interface ProduceInput {
   readonly faq: ReadonlyArray<FaqItem>;
   readonly updatedAt: Date;
   readonly reviewStatus: ReviewStatus;
+  readonly photo?: ProducePhoto | undefined;
 }
 
 /** A fruit, vegetable, herb or nut grown in Bulgaria, identified by its slug. */
@@ -78,6 +80,7 @@ export class Produce {
   readonly storage: string;
   readonly faq: ReadonlyArray<FaqItem>;
   readonly reviewStatus: ReviewStatus;
+  readonly photo: ProducePhoto | undefined;
   private readonly updatedAtEpochMs: number;
 
   private constructor(input: ProduceInput) {
@@ -102,16 +105,28 @@ export class Produce {
     this.faq = frozenRecords(input.faq);
     this.updatedAtEpochMs = input.updatedAt.getTime();
     this.reviewStatus = input.reviewStatus;
+    this.photo =
+      input.photo === undefined
+        ? undefined
+        : Object.freeze({
+            image: input.photo.image,
+            alt: input.photo.alt,
+            credit: Object.freeze({ ...input.photo.credit }),
+          });
     Object.freeze(this);
   }
 
   /**
    * Creates a produce entity.
-   * @throws InvalidProduceError when `updatedAt` is not a valid date.
+   * @throws InvalidProduceError when `updatedAt` is not a valid date or the photo has an empty
+   * `alt`.
    */
   static create(input: ProduceInput): Produce {
     if (Number.isNaN(input.updatedAt.getTime())) {
       throw new InvalidProduceError(`Produce "${input.slug}" has an invalid updatedAt date.`);
+    }
+    if (input.photo !== undefined && input.photo.alt.trim() === '') {
+      throw new InvalidProduceError(`Produce "${input.slug}" has a photo without alt text.`);
     }
     return new Produce(input);
   }

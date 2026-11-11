@@ -11,17 +11,19 @@ export interface ProduceOptions {
   readonly kind?: ProduceRecord['kind'];
   readonly season: ProduceRecord['season'];
   readonly micronutrients?: ProduceRecord['nutrition']['micronutrients'];
+  readonly photo?: ProduceRecord['photo'];
 }
 
-/** Builds a valid {@link Produce} with the given identity, kind, season and micronutrients. */
+/** Builds a valid {@link Produce} with the given identity, kind, season, micronutrients and photo. */
 export function aProduce({
   slug,
   name,
   kind = 'vegetable',
   season,
   micronutrients,
+  photo,
 }: ProduceOptions): Produce {
-  const base = produceRecord({ name, kind, season });
+  const base = produceRecord({ name, kind, season, photo });
   const nutrition =
     micronutrients === undefined ? base.nutrition : { ...base.nutrition, micronutrients };
   return toProduce(slug, { ...base, nutrition });

@@ -49,3 +49,11 @@ faq:
     answer: При готвене с малко мазнина бета-каротинът се усвоява по-добре, а суровите запазват повече витамин C.
 updatedAt: 2026-11-10
 reviewStatus: draft
+photo:
+  src: ../../assets/produce/morkovi.jpg
+  alt: 'Връзки оранжеви моркови със свежи зелени перести листа, подредени една до друга'
+  credit:
+    author: 'Nick Fewings'
+    authorUrl: https://unsplash.com/@jannerboy62
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-pile-of-carrots-with-green-tops-and-leaves-IZq1FV87qpM

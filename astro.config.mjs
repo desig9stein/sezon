@@ -1,63 +1,41 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import fontsourceRanges from '@fontsource-variable/sofia-sans/unicode.json' with { type: 'json' };
+import {
+  FONT_FACES,
+  FONT_OUTPUT_DIR,
+  FONT_SUBSETS,
+  subsetFile,
+} from './src/design/fontSubsets.mjs';
 
 const NOT_FOUND_PATH = '/404';
 const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://sezon.example';
 
-/** Fontsource unicode ranges per subset (identical for both families). */
-const RANGES = /** @type {Record<'latin' | 'cyrillic', string>} */ (fontsourceRanges);
-
 /**
- * Splits a Fontsource unicode-range string into a non-empty list of ranges.
+ * Splits a unicode-range string into a non-empty list of ranges.
  * @param {string} ranges - Comma-separated ranges, e.g. `U+0400-045F,U+2116`.
  */
 const rangeList = (ranges) => /** @type {[string, ...string[]]} */ (ranges.split(','));
 
 /**
- * Returns the Latin and Cyrillic local font variants for a Fontsource variable font file pattern.
+ * Returns the Latin and Cyrillic local font variants of a generated face (`pnpm fonts:build`).
  * Latin comes first: Astro measures the fallback metrics from the first file, and those metrics
  * need Latin letters.
- * @param {string} pkg - Package name, e.g. `@fontsource-variable/piazzolla`.
- * @param {string} file - File name with a `{subset}` placeholder.
- * @param {{ weight: string; style: 'normal' | 'italic' }} face - Weight range and style.
+ * @param {(typeof FONT_FACES)[number]} face - Face from `src/design/fontSubsets.mjs`.
  */
-const subsets = (pkg, file, face) => {
-  /** @param {string} subset @param {[string, ...string[]]} unicodeRange */
-  const variant = (subset, unicodeRange) => ({
-    ...face,
-    display: /** @type {const} */ ('swap'),
-    unicodeRange,
-    src: /** @type {[string]} */ ([`${pkg}/files/${file.replace('{subset}', subset)}`]),
+const variants = (face) => {
+  /** @param {keyof typeof FONT_SUBSETS} subset */
+  const variant = (subset) => ({
+    weight: `${face.weight.min} ${face.weight.max}`,
+    style: face.style,
+    display: /** @type {'optional' | 'swap'} */ (face.style === 'italic' ? 'optional' : 'swap'),
+    unicodeRange: rangeList(FONT_SUBSETS[subset]),
+    src: /** @type {[string]} */ ([`./${FONT_OUTPUT_DIR}/${subsetFile(face.file, subset)}`]),
   });
-  return {
-    latin: variant('latin', rangeList(RANGES.latin)),
-    cyrillic: variant('cyrillic', rangeList(RANGES.cyrillic)),
-  };
+  return /** @type {const} */ ([variant('latin'), variant('cyrillic')]);
 };
 
-const PIAZZOLLA = subsets(
-  '@fontsource-variable/piazzolla',
-  'piazzolla-{subset}-wght-normal.woff2',
-  {
-    weight: '100 900',
-    style: 'normal',
-  },
-);
-const PIAZZOLLA_ITALIC = subsets(
-  '@fontsource-variable/piazzolla',
-  'piazzolla-{subset}-wght-italic.woff2',
-  { weight: '100 900', style: 'italic' },
-);
-const SOFIA_SANS = subsets(
-  '@fontsource-variable/sofia-sans',
-  'sofia-sans-{subset}-wght-normal.woff2',
-  {
-    weight: '1 1000',
-    style: 'normal',
-  },
-);
+const [PIAZZOLLA, PIAZZOLLA_ITALIC, SOFIA_SANS] = FONT_FACES;
 
 export default defineConfig({
   site: SITE_URL,
@@ -75,12 +53,7 @@ export default defineConfig({
       cssVariable: '--font-piazzolla',
       fallbacks: ['Georgia', 'serif'],
       options: {
-        variants: [
-          PIAZZOLLA.latin,
-          PIAZZOLLA.cyrillic,
-          PIAZZOLLA_ITALIC.latin,
-          PIAZZOLLA_ITALIC.cyrillic,
-        ],
+        variants: [...variants(PIAZZOLLA), ...variants(PIAZZOLLA_ITALIC)],
       },
     },
     {
@@ -89,7 +62,7 @@ export default defineConfig({
       cssVariable: '--font-sofia-sans',
       fallbacks: ['system-ui', 'sans-serif'],
       options: {
-        variants: [SOFIA_SANS.latin, SOFIA_SANS.cyrillic],
+        variants: [...variants(SOFIA_SANS)],
       },
     },
   ],

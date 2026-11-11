@@ -47,3 +47,11 @@ faq:
     answer: Да. Нарязан и замразен, той запазва аромата си по-добре от изсушения.
 updatedAt: 2026-11-10
 reviewStatus: draft
+photo:
+  src: ../../assets/produce/kopar.jpg
+  alt: 'Гъсти връзки свеж зелен копър с тънки нишковидни листа'
+  credit:
+    author: 'engin akyurt'
+    authorUrl: https://unsplash.com/@enginakyurt
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-close-up-of-a-bunch-of-green-grass-kgb34f0HRSc

@@ -23,6 +23,8 @@ export type {
   TraditionalUse,
   Variety,
 } from './domain/Produce';
+export { IMAGE_FORMATS } from './domain/ProducePhoto';
+export type { ImageAsset, ImageFormat, PhotoCredit, ProducePhoto } from './domain/ProducePhoto';
 export { ProduceGroup } from './domain/ProduceGroup';
 export type { ProduceGroupInput } from './domain/ProduceGroup';
 export { PRODUCE_KINDS } from './domain/ProduceKind';

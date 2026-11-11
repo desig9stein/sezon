@@ -3,12 +3,13 @@ import type { z } from 'astro/zod';
 import {
   groupSchema,
   nutrientSchema,
-  produceSchema,
+  produceSchemaWith,
 } from '@contexts/catalog/infrastructure/schemas';
 import { regionSchema } from '@contexts/geography/infrastructure/schemas';
 import { farmSchema } from '@contexts/farms/infrastructure/schemas';
 import { findBrokenReferences, type ContentRecords } from '@composition/contentIntegrity';
 import { Slug } from '@shared/domain/Slug';
+import { testImage } from '@tests/fixtures/photos';
 import { readSeedCollection } from '@tests/fixtures/seedData';
 
 function parseCollection<T extends z.ZodType>(collection: string, schema: T) {
@@ -19,7 +20,7 @@ function parseCollection<T extends z.ZodType>(collection: string, schema: T) {
 }
 
 const collections = {
-  produce: parseCollection('produce', produceSchema),
+  produce: parseCollection('produce', produceSchemaWith({ image: testImage })),
   groups: parseCollection('groups', groupSchema),
   nutrients: parseCollection('nutrients', nutrientSchema),
   regions: parseCollection('regions', regionSchema),
@@ -77,7 +78,7 @@ describe('seed data', () => {
 
 describe('findBrokenReferences', () => {
   it('AC11: reports every kind of reference to a missing entry', () => {
-    const produce = produceSchema.parse({
+    const produce = produceSchemaWith({ image: testImage }).parse({
       ...(readSeedCollection('produce').find(({ id }) => id === 'zele')?.data as object),
       group: 'missing-group',
     });

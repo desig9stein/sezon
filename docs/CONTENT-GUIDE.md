@@ -60,6 +60,35 @@ updatedAt: 2026-11-10
 reviewStatus: draft # draft | reviewed
 ```
 
+### Photo
+
+Every produce has a photo: a close-up of the produce itself, without people, text or logos.
+
+1. Put the image in `src/assets/produce/<slug>.jpg`: cropped to 4:3, 1600 × 1200 px, JPEG at
+   quality about 80, without EXIF. The build makes the AVIF, WebP and smaller sizes, so do not
+   add them yourself.
+2. Add the `photo` block to the produce YAML:
+
+   ```yaml
+   photo:
+     src: ../../assets/produce/zele.jpg
+     alt: 'Глава бяло зеле с външни зелени листа върху дървена маса'
+     credit:
+       author: 'Име на автора'
+       authorUrl: https://unsplash.com/@username
+       sourceName: Unsplash
+       sourceUrl: https://unsplash.com/photos/<photo-id>
+   ```
+
+   - `alt` is one Bulgarian sentence of 10–120 characters that describes what is in the photo
+     (colour, shape, setting), not only the produce name.
+   - For your own photo, use your name and site in `author` and `authorUrl`, and the same page
+     or your site in `sourceName` and `sourceUrl`.
+   - Photos from Unsplash fall under the Unsplash License. Download them through the Unsplash
+     download link, so the download is counted for the photographer.
+
+To replace a photo, overwrite the JPEG with the same file name and update `alt` and `credit`.
+
 ### Health content (YMYL)
 
 - Take nutrition values from USDA FoodData Central (SR Legacy, raw) or EFSA, and cite the item.

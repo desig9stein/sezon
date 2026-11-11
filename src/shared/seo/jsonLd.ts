@@ -100,9 +100,13 @@ export interface ArticleJsonLdInput {
   readonly dateModified: Date;
   readonly about: { readonly name: string; readonly alternateName?: string | undefined };
   readonly citations: ReadonlyArray<{ readonly name: string; readonly url: string }>;
+  readonly imagePath?: string | undefined;
 }
 
-/** Returns schema.org `Article` data describing a page about one thing, with its citations. */
+/**
+ * Returns schema.org `Article` data describing a page about one thing, with its citations and,
+ * when `imagePath` is given, its absolute image URL.
+ */
 export function articleJsonLd(input: ArticleJsonLdInput): JsonLd {
   return {
     '@context': SCHEMA_CONTEXT,
@@ -112,6 +116,9 @@ export function articleJsonLd(input: ArticleJsonLdInput): JsonLd {
     inLanguage: CONTENT_LANGUAGE,
     dateModified: input.dateModified.toISOString().slice(0, 10),
     mainEntityOfPage: absoluteUrl(input.siteUrl, input.path),
+    ...(input.imagePath === undefined
+      ? {}
+      : { image: absoluteUrl(input.siteUrl, input.imagePath) }),
     about: {
       '@type': 'Thing',
       name: input.about.name,

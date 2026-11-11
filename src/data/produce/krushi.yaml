@@ -46,3 +46,11 @@ faq:
     answer: Натиснете леко около дръжката – ако поддава, крушата е готова за ядене.
 updatedAt: 2026-11-10
 reviewStatus: draft
+photo:
+  src: ../../assets/produce/krushi.jpg
+  alt: 'Купчина продълговати зелени круши с ръждивокафяви петна, огрени от слънцето'
+  credit:
+    author: 'Zoshua Colah'
+    authorUrl: https://unsplash.com/@zoshuacolah
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/ripe-pears-in-bright-sunlight-znr18rfIHoc
