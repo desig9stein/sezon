@@ -15,5 +15,6 @@ export function toFarm(id: string, record: FarmRecord): Farm {
     address: record.address,
     isPlaceholder: record.isPlaceholder,
     sponsored: record.sponsored,
+    organic: record.organic,
   });
 }

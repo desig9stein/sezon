@@ -74,3 +74,15 @@ growing:
       url: https://www.bgfermer.bg/Article/19918522
     - name: 'Agrozona.bg – Августовска градина: Кои зеленчуци можем да засадим за есенна реколта'
       url: https://agrozona.bg/avgustovska-gradina-koi-zelenchutsi-mozhem-da-zasadim-za-esenna-rekolta/
+organic:
+  availability: available
+  note: 'Биологичен спанак отглеждат стопанства, които посочват, че са сертифицирани, напр. „Софина“ и „БГ Туинс“.'
+  sources:
+    - name: 'Евростат – org_cropar (биологични площи по култури)'
+      url: https://ec.europa.eu/eurostat/databrowser/view/org_cropar/default/table
+    - name: 'Био-Ферма Софина: Зеленчуци - производство „Софина“'
+      url: https://www.sofinabio.com/bg-catalog-details-4.html
+    - name: 'Био-Ферма Софина: За нас'
+      url: https://www.sofinabio.com/about-us.html
+    - name: 'Agrozona.bg – Био градина БГ „Туинс“: Модерен подход за био земеделие и къси вериги (21.04.2024)'
+      url: https://agrozona.bg/bio-gradina-bg-tuins-moderen-podhod-za-bio-zemedelie-i-kasi-verigi/

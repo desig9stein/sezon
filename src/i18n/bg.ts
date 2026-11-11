@@ -1,4 +1,4 @@
-import type { GrowingActivity, ProduceKind } from '@contexts/catalog';
+import type { GrowingActivity, OrganicAvailability, ProduceKind } from '@contexts/catalog';
 import { LAST_MONTH_NUMBER, Month, type SeasonLevelValue } from '@contexts/seasonality';
 import { InvalidMonthError } from '@shared/domain/errors';
 import { characterCount, DESCRIPTION_MAX_LENGTH, TITLE_MAX_LENGTH } from '@shared/seo';
@@ -225,6 +225,14 @@ export const ui = {
       empty: 'Все още няма добавени ферми за този продукт.',
       placeholder: 'Примерни данни',
       sponsored: 'Спонсорирано',
+      organic: (certifier: string) => `Био · ${certifier}`,
+      organicGroup: 'Сертифицирани био ферми',
+      otherGroup: 'Други ферми',
+      organicStatusLabel: 'Био в България:',
+      organicStatus: {
+        available: 'има сертифицирано производство.',
+        limited: 'има ограничено сертифицирано производство.',
+      } satisfies Record<OrganicAvailability, string>,
       website: (farm: string) => `Уебсайт на ${farm}`,
       email: (farm: string) => `Имейл до ${farm}`,
       phoneLabel: 'Телефон:',

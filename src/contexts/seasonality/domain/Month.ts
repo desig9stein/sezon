@@ -1,3 +1,4 @@
+import { DEFAULT_TIME_ZONE } from '@shared/domain/calendarDay';
 import { InvalidMonthError, InvalidTimeZoneError } from '@shared/domain/errors';
 
 const MONTH_SLUGS = [
@@ -40,8 +41,7 @@ function monthFormatter(timeZone: string): Intl.DateTimeFormat {
   }
 }
 
-/** Time zone used to decide the current month for visitors in Bulgaria. */
-export const DEFAULT_TIME_ZONE = 'Europe/Sofia';
+export { DEFAULT_TIME_ZONE };
 
 /** A calendar month (1 = January … 12 = December). Instances are shared and immutable. */
 export class Month {

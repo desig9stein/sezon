@@ -9,7 +9,7 @@ import SeasonCalendarList from '@components/produce/SeasonCalendarList.astro';
 import SourceList from '@components/produce/SourceList.astro';
 import TraditionalUses from '@components/produce/TraditionalUses.astro';
 import { routes } from '@components/layout/routes';
-import { buildMonth } from '@composition/clock';
+import { BUILD_DATE, buildMonth } from '@composition/clock';
 import { produceDetailsQuery, produceRepository } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
 import { monthNameLower, produceTitle, ui } from '@i18n/bg';
@@ -22,7 +22,7 @@ export const getStaticPaths = (async () =>
     params: { section: routes.produceSection(produce.kind), slug: produce.slug },
   }))) satisfies GetStaticPaths;
 
-const details = await produceDetailsQuery.forSlug(Astro.params.slug);
+const details = await produceDetailsQuery.forSlug(Astro.params.slug, BUILD_DATE);
 const { produce, group } = details;
 const path = routes.produce(produce);
 const siteUrl = requireSiteUrl(Astro.site);
@@ -145,7 +145,7 @@ const jsonLd = [
 
     <section class="produce__wide" aria-labelledby="farms">
       <h2 id="farms">{labels.headings.farms}</h2>
-      <FarmList farms={details.farms} />
+      <FarmList farms={details.farms} organic={produce.organic} />
     </section>
 
     <section aria-labelledby="choose">

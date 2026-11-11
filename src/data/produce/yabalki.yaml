@@ -83,3 +83,13 @@ growing:
       url: https://www.bgfermer.bg/Article/7672749
     - name: 'Български фермер – Есенното засаждане на дръвчета - за и против'
       url: https://www.bgfermer.bg/Article/12974658
+organic:
+  availability: available
+  note: 'През 2024 г. в България има 615 ха ябълкови насаждения, напълно преминали към биологично производство (Евростат).'
+  sources:
+    - name: 'Евростат – org_cropar (биологични площи по култури)'
+      url: https://ec.europa.eu/eurostat/databrowser/view/org_cropar/default/table
+    - name: 'Agrozona.bg – Значителен ръст в биологичното производство в България (29.08.2024)'
+      url: https://agrozona.bg/znachitelen-rast-v-biologichnoto-proizvodstvo-v-balgariq/
+    - name: 'Agrozona.bg – 6 биоферми отварят врати в Седмицата на биохраните'
+      url: https://agrozona.bg/6-biofermi-otvaryat-vrati-v-sdmitsata-na-biohranite/
