@@ -107,7 +107,8 @@ growing:
 ```
 
 Every month and tip must come from a cited Bulgarian source (gardening portals such as
-agrozona.bg, bgfermer.bg or gradinata.bg). Never write „богат на“, even about soil.
+agrozona.bg, bgfermer.bg or gradinata.bg). Tips address the reader with „ти“ („Сей“,
+„Поливай“), as `PRODUCT.md` asks. Never write „богат на“, even about soil.
 
 ### Health content (YMYL)
 
