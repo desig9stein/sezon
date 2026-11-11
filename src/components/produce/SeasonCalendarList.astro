@@ -1,5 +1,6 @@
 ---
 import { routes } from '@components/layout/routes';
+import LevelMark from '@components/season/LevelMark.astro';
 import MonthAbbr from '@components/season/MonthAbbr.astro';
 import type { Produce } from '@contexts/catalog';
 import { Month } from '@contexts/seasonality';
@@ -26,8 +27,8 @@ const months = Month.all().map((month) => ({ month, level: produce.levelIn(month
         <span class="calendar__name">
           <MonthAbbr month={month} />
         </span>
-        <span class="calendar__glyph" aria-hidden="true">
-          {level === undefined ? ui.produce.outOfSeasonIcon : ui.seasonLevelIcons[level.value]}
+        <span class="calendar__glyph">
+          <LevelMark level={level} />
         </span>
         <span class="calendar__level">
           {level === undefined ? ui.produce.outOfSeason : ui.seasonLevels[level.value]}

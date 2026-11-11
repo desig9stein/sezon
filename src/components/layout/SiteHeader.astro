@@ -14,6 +14,7 @@ const links = [
   { href: routes.home, label: ui.nav.now },
   { href: routes.month(buildMonth.next()), label: ui.nav.next(monthName(buildMonth.next())) },
   ...PRODUCE_KINDS.map((kind) => ({ href: routes.section(kind), label: ui.sections.names[kind] })),
+  { href: routes.calendar, label: ui.calendar.navLabel },
 ];
 
 /** `page` for the current page, `true` for the section that contains it, otherwise nothing. */

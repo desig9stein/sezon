@@ -1,6 +1,7 @@
 import { getCollection } from 'astro:content';
 import {
   NutrientRankingService,
+  SeasonCalendarService,
   SeasonOverviewService,
   SectionIndexService,
 } from '@contexts/catalog';
@@ -107,3 +108,5 @@ export const nutrientRankingService = new NutrientRankingService(
 );
 /** Lists the produce of one kind for its section page. */
 export const sectionIndexService = new SectionIndexService(produceRepository);
+/** Builds the year-at-a-glance calendar of the catalogue. */
+export const seasonCalendarService = new SeasonCalendarService(produceRepository);

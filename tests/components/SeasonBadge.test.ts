@@ -10,7 +10,7 @@ describe('SeasonBadge', () => {
     [SeasonLevel.STORAGE, 'От хранилище'],
   ])('AC5: renders a hidden icon and the label for %o', async (level, label) => {
     const html = await render(SeasonBadge, { level });
-    expect(html).toMatch(/<span[^>]*aria-hidden="true"[^>]*>/);
+    expect(html).toMatch(/<svg[^>]*aria-hidden="true"[^>]*>/);
     expect(html).toContain(label);
     expect(html).toContain(`data-level="${level.value}"`);
   });
