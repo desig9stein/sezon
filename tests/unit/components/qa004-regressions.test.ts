@@ -58,6 +58,7 @@ describe('QA 004 regressions', () => {
       'nutrient',
       'produce',
       'produceSection',
+      'search',
       'section',
     ]);
   });

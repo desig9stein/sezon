@@ -12,6 +12,7 @@ const PRODUCE_SECTIONS: Readonly<Record<ProduceKind, string>> = {
 export const routes = {
   home: '/',
   calendar: '/kalendar',
+  search: '/tarsene',
   month: (month: Month) => `/sezon/${month.slug}`,
   nutrient: (slug: string) => `/nutrienti/${slug}`,
   produceSection: (kind: ProduceKind) => PRODUCE_SECTIONS[kind],

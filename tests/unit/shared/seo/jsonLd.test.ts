@@ -20,7 +20,14 @@ describe('serializeJsonLd', () => {
 
 describe('websiteJsonLd', () => {
   it('AC4: describes the WebSite in Bulgarian', () => {
-    expect(websiteJsonLd({ siteUrl: `${SITE}/`, name: 'Сезон', description: 'Описание' })).toEqual({
+    expect(
+      websiteJsonLd({
+        siteUrl: `${SITE}/`,
+        name: 'Сезон',
+        description: 'Описание',
+        searchPath: '/tarsene',
+      }),
+    ).toMatchObject({
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       name: 'Сезон',

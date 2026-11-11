@@ -21,7 +21,12 @@ const itemList = freshProduceItemList(overview, siteUrl);
   description={ui.home.description(buildMonth)}
   path={routes.home}
   jsonLd={[
-    websiteJsonLd({ siteUrl, name: ui.siteName, description: ui.siteDescription }),
+    websiteJsonLd({
+      siteUrl,
+      name: ui.siteName,
+      description: ui.siteDescription,
+      searchPath: routes.search,
+    }),
     ...(itemList === undefined ? [] : [itemList]),
   ]}
 >

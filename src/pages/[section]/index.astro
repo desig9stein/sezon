@@ -9,6 +9,7 @@ import { PRODUCE_KINDS, type ProduceKind } from '@contexts/catalog';
 import { ui } from '@i18n/bg';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { collectionPageJsonLd } from '@shared/seo';
+import { searchHeadingAttributes } from '@components/search/searchAttributes';
 
 export const getStaticPaths = (() =>
   PRODUCE_KINDS.map((kind) => ({
@@ -47,7 +48,9 @@ const jsonLd = [
   ]}
   jsonLd={jsonLd}
 >
-  <h1>{name}</h1>
+  <div data-pagefind-body>
+    <h1 {...searchHeadingAttributes(name)}>{name}</h1>
+  </div>
   <SectionIndex section={section} />
 </BaseLayout>
 

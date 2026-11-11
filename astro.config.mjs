@@ -67,4 +67,8 @@ export default defineConfig({
     },
   ],
   integrations: [sitemap({ filter: (page) => !page.endsWith(NOT_FOUND_PATH) })],
+  vite: {
+    // Never inline page scripts: the CSP allows only same-origin script files.
+    build: { assetsInlineLimit: 0 },
+  },
 });
