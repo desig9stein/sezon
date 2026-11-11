@@ -12,6 +12,7 @@ const PRODUCE_SECTIONS: Readonly<Record<ProduceKind, string>> = {
 export const routes = {
   home: '/',
   month: (month: Month) => `/sezon/${month.slug}`,
+  nutrient: (slug: string) => `/nutrienti/${slug}`,
   produceSection: (kind: ProduceKind) => PRODUCE_SECTIONS[kind],
   section: (kind: ProduceKind) => `/${PRODUCE_SECTIONS[kind]}`,
   produce: (produce: { readonly kind: ProduceKind; readonly slug: string }) =>

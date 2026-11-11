@@ -6,7 +6,7 @@ import { toFarm } from '@contexts/farms/infrastructure/mappers';
 import { toRegion } from '@contexts/geography/infrastructure/mappers';
 import { BrokenReferenceError, ProduceNotFoundError } from '@shared/domain/errors';
 import { IndexedRepository } from '@shared/infrastructure/IndexedRepository';
-import { farmRecord, produceRecord } from '@tests/fixtures/records';
+import { farmRecord, produceRecord, NUTRIENT_CLAIMS } from '@tests/fixtures/records';
 
 const repositoryOf = <T extends { slug: string; name: string }>(items: T[]) =>
   new IndexedRepository(async () => items);
@@ -16,7 +16,7 @@ const nutrientRecord = (name: string, referenceIntake: number) => ({
   kind: 'vitamin' as const,
   unit: 'mg' as const,
   referenceIntake,
-  description: 'Описание.',
+  ...NUTRIENT_CLAIMS,
 });
 
 function buildQuery(overrides: { groups?: boolean; nutrients?: boolean; regions?: boolean } = {}) {
