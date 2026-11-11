@@ -13,7 +13,7 @@ import { produceDetailsQuery, produceRepository } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
 import { monthNameLower, produceTitle, ui } from '@i18n/bg';
 import BaseLayout from '@layouts/BaseLayout.astro';
-import { articleJsonLd, faqPageJsonLd } from '@shared/seo';
+import { articleJsonLd, faqPageJsonLd, latinSearchText } from '@shared/seo';
 
 export const getStaticPaths = (async () =>
   (await produceRepository.all()).map((produce) => ({
@@ -58,9 +58,14 @@ const jsonLd = [
   ]}
   jsonLd={jsonLd}
 >
-  <article class="produce">
+  <article class="produce" data-pagefind-body>
     <header class="produce__header">
-      <h1>{produce.name}</h1>
+      <h1
+        data-search-latin={latinSearchText(produce.name)}
+        data-pagefind-index-attrs="data-search-latin"
+      >
+        {produce.name}
+      </h1>
       <ul class="produce__meta" role="list">
         <li>
           <i lang="la">{produce.latinName}</i>

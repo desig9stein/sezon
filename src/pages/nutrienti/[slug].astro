@@ -8,7 +8,7 @@ import { nutrientRankingService } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
 import { ui } from '@i18n/bg';
 import BaseLayout from '@layouts/BaseLayout.astro';
-import { itemListJsonLd } from '@shared/seo';
+import { itemListJsonLd, latinSearchText } from '@shared/seo';
 
 export const getStaticPaths = (async () =>
   (await nutrientRankingService.allNutrients()).map((nutrient) => ({
@@ -42,8 +42,13 @@ const jsonLd = [
   ]}
   jsonLd={jsonLd}
 >
-  <article class="nutrient">
-    <h1>{labels.heading(nutrient.name)}</h1>
+  <article class="nutrient" data-pagefind-body>
+    <h1
+      data-search-latin={latinSearchText(nutrient.name)}
+      data-pagefind-index-attrs="data-search-latin"
+    >
+      {labels.heading(nutrient.name)}
+    </h1>
 
     <section aria-labelledby="claims">
       <h2 id="claims">{labels.claimsHeading(nutrient.name)}</h2>

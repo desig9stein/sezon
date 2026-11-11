@@ -71,7 +71,7 @@ test.describe('section pages', () => {
     await expectNoAxeViolations(page);
   });
 
-  test('AC10: /plodove reflows at 320px with the seven navigation links', async ({ page }) => {
+  test('AC10: /plodove reflows at 320px with the eight navigation links', async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 640 });
     await page.goto('/plodove');
     const overflow = await page.evaluate(
@@ -80,7 +80,7 @@ test.describe('section pages', () => {
     expect(overflow).toBeLessThanOrEqual(0);
     await expect(
       page.getByRole('navigation', { name: 'Основна навигация' }).locator('a'),
-    ).toHaveCount(7);
+    ).toHaveCount(8);
     await expectNoAxeViolations(page);
   });
 });

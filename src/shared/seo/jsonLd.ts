@@ -1,5 +1,6 @@
 import { InvalidPageMetaError } from '@shared/domain/errors';
 import { absoluteUrl } from './pageMeta';
+import { SEARCH_PATH } from './searchText';
 
 const SCHEMA_CONTEXT = 'https://schema.org';
 const CONTENT_LANGUAGE = 'bg';
@@ -38,6 +39,14 @@ export function websiteJsonLd(input: {
     description: input.description,
     url: absoluteUrl(input.siteUrl, '/'),
     inLanguage: CONTENT_LANGUAGE,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${absoluteUrl(input.siteUrl, SEARCH_PATH)}?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
   };
 }
 

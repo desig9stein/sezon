@@ -23,3 +23,4 @@ export type {
   JsonLd,
 } from './jsonLd';
 export { robotsTxt } from './robots';
+export { latinSearchText, SEARCH_PATH } from './searchText';

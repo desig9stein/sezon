@@ -117,7 +117,10 @@ test.describe('site search without JavaScript', () => {
 
   test('AC9: shows the noscript note and the browse links', async ({ page }) => {
     await page.goto(SEARCH);
-    await expect(page.getByText('Търсенето изисква JavaScript')).toBeVisible();
+    // Chromium's script-disabled mode still parses <noscript> as raw text, so check its markup.
+    expect(await page.locator('main noscript').innerHTML()).toContain(
+      'Търсенето изисква JavaScript',
+    );
     await expect(page.locator('main a[href="/plodove"]')).toHaveCount(1);
     await expect(page.locator('main a[href="/kalendar"]')).toHaveCount(1);
   });

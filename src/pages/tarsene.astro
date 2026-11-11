@@ -1,0 +1,36 @@
+---
+import { routes } from '@components/layout/routes';
+import SiteSearch from '@components/search/SiteSearch.astro';
+import { PRODUCE_KINDS } from '@contexts/catalog';
+import { nutrientRankingService } from '@composition/index';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const labels = ui.search;
+const nutrients = await nutrientRankingService.allNutrients();
+const browse = [
+  ...PRODUCE_KINDS.map((kind) => ({ href: routes.section(kind), label: ui.sections.names[kind] })),
+  { href: routes.calendar, label: ui.calendar.heading },
+  ...nutrients.map((nutrient) => ({ href: routes.nutrient(nutrient.slug), label: nutrient.name })),
+];
+---
+
+<BaseLayout
+  title={labels.title}
+  description={labels.description}
+  path={routes.search}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: labels.heading, path: routes.search },
+  ]}
+  noindex
+>
+  <h1>{labels.heading}</h1>
+  <SiteSearch browse={browse} />
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-block: var(--space-6) var(--space-4);
+  }
+</style>

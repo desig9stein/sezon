@@ -33,11 +33,11 @@ JavaScript, and only that page; every other page stays script-free.
   - a `<noscript>` note that search needs JavaScript.
 - **Header:** a „Търсене“ link to `/tarsene` as the last item of the main navigation.
 - **Index (build):** `pagefind --site dist` after `astro build`, writing `dist/pagefind/`.
-  Indexed pages: produce, section and nutrient pages (`data-pagefind-body` on their `main`
-  content). Home, month, calendar, search and error pages are not indexed, because they repeat
+  Indexed pages: produce and nutrient pages (`data-pagefind-body` on their `article`) and
+  section pages (only their heading, so a section does not outrank the produce it lists). Home, month, calendar, search and error pages are not indexed, because they repeat
   produce names and would crowd the results.
 - **Latin queries:** every indexed page's `h1` carries `data-search-latin` with the Latin
-  transliteration of its heading (the site's own `Slug` rules, words separated by spaces), and
+  transliteration of the produce, section or nutrient name (the site's own `Slug` rules, words separated by spaces), and
   `data-pagefind-index-attrs="data-search-latin"` so Pagefind indexes it.
 - **SEO:** `SearchAction` in the `WebSite` JSON-LD, pointing to `/tarsene?q={search_term_string}`.
 - **CSP:** `script-src` gains `'wasm-unsafe-eval'`, which the Pagefind WebAssembly needs.

@@ -1,0 +1,152 @@
+---
+import { ui } from '@i18n/bg';
+import { SEARCH_PATH } from '@shared/seo';
+
+/**
+ * Site search: a GET form in a `<search>` landmark, a polite status line and the result list
+ * that `siteSearch.ts` fills from the Pagefind index, plus browse links that also serve as the
+ * fallback without JavaScript.
+ */
+interface Props {
+  browse: ReadonlyArray<{ readonly href: string; readonly label: string }>;
+}
+
+const { browse } = Astro.props;
+const labels = ui.search;
+const inputId = 'search-query';
+const hintId = 'search-hint';
+---
+
+<div
+  class="site-search"
+  data-site-search
+  data-loading={labels.loading}
+  data-found={labels.found}
+  data-none={labels.none}
+  data-failed={labels.failed}
+>
+  <search>
+    <form class="site-search__form" method="get" action={SEARCH_PATH}>
+      <label for={inputId}>{labels.label}</label>
+      <p id={hintId} class="site-search__hint">
+        {labels.hint}
+      </p>
+      <div class="site-search__row">
+        <input
+          id={inputId}
+          type="search"
+          name="q"
+          autocomplete="off"
+          spellcheck="false"
+          aria-describedby={hintId}
+        />
+        <button type="submit">{labels.submit}</button>
+      </div>
+    </form>
+  </search>
+  <noscript>
+    <p class="site-search__note">{labels.noscript}</p>
+  </noscript>
+  <p class="site-search__status" role="status"></p>
+  <ol class="site-search__results" role="list" data-search-results></ol>
+  <section class="site-search__browse" aria-labelledby="search-browse">
+    <h2 id="search-browse">{labels.browseHeading}</h2>
+    <ul role="list">
+      {browse.map((link) => (
+        <li>
+          <a href={link.href}>{link.label}</a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</div>
+
+<script>
+  import { initSiteSearch } from './siteSearch';
+
+  const root = document.querySelector<HTMLElement>('[data-site-search]');
+  if (root !== null) initSiteSearch(root);
+</script>
+
+<style>
+  .site-search {
+    display: grid;
+    gap: var(--space-4);
+    max-width: var(--reading-width);
+  }
+
+  .site-search__form {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .site-search__form label {
+    font-weight: 600;
+  }
+
+  .site-search__hint {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .site-search__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .site-search__row input {
+    flex: 1 1 14rem;
+    min-height: 2.75rem;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    background: var(--color-background);
+    font: inherit;
+  }
+
+  .site-search__row button {
+    min-height: 2.75rem;
+    padding: var(--space-2) var(--space-4);
+    border: 0;
+    border-radius: var(--radius-sm);
+    color: var(--color-accent-text);
+    background: var(--color-accent);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .site-search__results {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-search__results :global(a) {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-lg);
+  }
+
+  .site-search__results :global(p) {
+    margin-top: var(--space-1);
+    color: var(--color-text-muted);
+  }
+
+  .site-search__results :global(mark) {
+    color: var(--color-on-badge);
+    background: var(--color-available);
+  }
+
+  .site-search__browse ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+    margin-top: var(--space-2);
+    padding: 0;
+    list-style: none;
+  }
+</style>

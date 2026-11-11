@@ -1,5 +1,6 @@
 import type { ProduceKind } from '@contexts/catalog';
 import type { Month } from '@contexts/seasonality';
+import { SEARCH_PATH } from '@shared/seo';
 
 const PRODUCE_SECTIONS: Readonly<Record<ProduceKind, string>> = {
   fruit: 'plodove',
@@ -12,6 +13,7 @@ const PRODUCE_SECTIONS: Readonly<Record<ProduceKind, string>> = {
 export const routes = {
   home: '/',
   calendar: '/kalendar',
+  search: SEARCH_PATH,
   month: (month: Month) => `/sezon/${month.slug}`,
   nutrient: (slug: string) => `/nutrienti/${slug}`,
   produceSection: (kind: ProduceKind) => PRODUCE_SECTIONS[kind],
