@@ -18,10 +18,15 @@ test.describe('typography', () => {
     expect(families.heading).toMatch(/Piazzolla/);
     expect(families.body).toMatch(/Sofia Sans/);
 
-    const loaded = await page.evaluate(() => ({
-      display: document.fonts.check('600 32px Piazzolla', 'Зеле'),
-      base: document.fonts.check('400 16px "Sofia Sans"', 'Есенното зеле'),
-    }));
+    const loaded = await page.evaluate(() => {
+      const firstFamily = (element: Element) => getComputedStyle(element).fontFamily.split(',')[0];
+      const display = firstFamily(document.querySelector('h1') as Element);
+      const base = firstFamily(document.body);
+      return {
+        display: document.fonts.check(`600 32px ${display}`, 'Зеле'),
+        base: document.fonts.check(`400 16px ${base}`, 'Есенното зеле'),
+      };
+    });
     expect(loaded).toEqual({ display: true, base: true });
 
     expect(fontRequests.length).toBeGreaterThan(0);

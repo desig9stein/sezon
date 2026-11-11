@@ -36,8 +36,7 @@ at 100. Layout and component restyling are #37 and out of scope here.
   - the type scale (`sm`, `base`, `lg`, `xl`, `2xl`, `3xl`, `display`) and line heights.
 - `astro.config.mjs`: the Astro Fonts API with the local provider, loading files from the
   `@fontsource-variable/piazzolla` and `@fontsource-variable/sofia-sans` packages.
-- `src/layouts/BaseLayout.astro`: one `<Font>` per family, preloading only the Cyrillic
-  upright files.
+- `src/layouts/BaseLayout.astro`: one `<Font>` per family, preloading the upright files.
 - `src/styles/base.css`:
   - body text in the base family;
   - headings and `[lang="la"]` text in the display family;
@@ -65,8 +64,10 @@ None. Design tokens only.
   - Every face uses `font-display: swap`.
   - Variable weight ranges are 100–900 for Piazzolla and 1–1000 for Sofia Sans.
   - A subset downloads only when the page uses characters in its range.
-- **Preload:** only `piazzolla-cyrillic-opsz-normal` and `sofia-sans-cyrillic-wght-normal`,
-  which every page uses.
+- **Preload:** the upright Cyrillic and Latin files of both families (four files). Every page
+  needs both subsets, because the Latin subset also holds digits, spaces and punctuation. The
+  italic files are not preloaded. Local fonts carry no subset metadata, so the preload filter
+  selects by style.
 - **Fallbacks:**
   - Piazzolla: `Georgia, serif`. Sofia Sans: `system-ui, sans-serif`.
   - Astro generates metric-adjusted fallback faces (`size-adjust`), so swapping in the real
@@ -108,7 +109,7 @@ None. Design tokens only.
    - focus on background and surface: 3;
    - border on background: 3.
 3. **AC3:** `tokensToCss()` emits the font-family tokens, which reference the font CSS variables with the system fallbacks, the type scale including `3xl` and `display`, and every colour for both schemes.
-4. **AC4:** `BaseLayout` renders the font styles and exactly two font preload links (`as="font"`, `type="font/woff2"`, `crossorigin`).
+4. **AC4:** `BaseLayout` renders the font styles and exactly four font preload links, all upright (`as="font"`, `type="font/woff2"`, `crossorigin`).
 5. **AC5:** In the built site:
    - `h1` computes to the Piazzolla family and `body` to Sofia Sans;
    - `document.fonts.check` confirms the Bulgarian text renders with the loaded faces;
