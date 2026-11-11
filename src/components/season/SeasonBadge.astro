@@ -17,7 +17,9 @@ const word = ui.stamp[level.value];
 ---
 
 <span class="season-badge season-stamp" data-level={level.value}>
-  {fromMonth === undefined ? word : ui.overview.fromMonth(fromMonth, word)}
+  <span class="season-stamp__word">
+    {fromMonth === undefined ? word : ui.overview.fromMonth(fromMonth, word)}
+  </span>
 </span>
 
 <style>
@@ -44,12 +46,18 @@ const word = ui.stamp[level.value];
   }
 
   .season-stamp[data-level='storage'] {
+    padding: 0.2em;
     color: var(--color-text);
     background: repeating-linear-gradient(
       135deg,
-      var(--color-surface) 0 3px,
-      var(--color-storage) 3px 6px
+      var(--color-accent) 0 1px,
+      var(--color-surface) 1px 5px
     );
+  }
+
+  .season-stamp[data-level='storage'] .season-stamp__word {
+    padding-inline: 0.3em;
+    background: var(--color-surface);
   }
 
   @media print {

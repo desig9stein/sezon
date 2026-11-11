@@ -28,14 +28,15 @@ ADR-0006: its form carries the level (solid, outlined, hatched) next to the word
   `accent` text; „От хранилище“ hatched (accent lines on surface) with a solid outline and `text`.
   The coming-soon form keeps its „От <месец>:“ prefix. The decorative level mark is dropped from
   the stamp (the form replaces it).
-- **Year strip (`YearStrip`):** 12 cells for a produce, January to December: peak solid red,
-  available solid blue, storage hatched, out of season empty; the current month outlined in ink.
-  It is an image with a text alternative that lists the months of each level in ranges.
+- **Year strip (`YearStrip`):** an inline SVG of 12 cells, January to December, where the form
+  carries the level: peak solid, available outlined, storage outlined with hatch lines, out of
+  season a thin baseline; the current month framed in ink. It has a `<title>` and a text
+  alternative listing the months of each level in ranges, and keeps its size without CSS.
 - **In-season list (`SeasonList`):** one list for a month, peak first, then available, then
   storage (repository order inside each), each row: name, Latin name, kind, stamp, year strip.
   Heading „В сезон през <месец> (<брой>)“.
-- **Legend (`SeasonLegend`):** the three stamps with plain words (brief §4), and „Извън сезона —
-  вероятно е внос“.
+- **Legend (`SeasonLegend`):** each stamp followed by its plain-words meaning (brief §4), the
+  out-of-season baseline with „Извън сезона: вероятно е внос“, and how to read the strip.
 - **Home:** a compact heading „В сезон през <месец>“, then the list, the legend, coming soon (rows)
   and the existing links. The „Табло … от …“ line, the hero year ribbon and the photo plates go
   (the footer year strip and the month pages remain).
@@ -55,6 +56,9 @@ No domain change. The strip reads `produce.levelIn(month)` for the 12 months.
 ## 5. Behaviour and edge cases
 
 - A month with no in-season produce shows the existing empty text instead of the list.
+- The first-screen target is a 390 × 844 phone (ten rows); on shorter or narrower screens the
+  list starts on the first screen and continues below. Below 23rem the strip moves to the second
+  line of each row so nothing overlaps or is cut.
 - The strip's text alternative omits levels with no months; a produce in season all year reads
   „януари – декември“ for that level.
 - Print: stamps and strip cells print in ink (fills dropped, forms kept by borders and hatching).

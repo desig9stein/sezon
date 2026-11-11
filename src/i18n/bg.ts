@@ -258,10 +258,11 @@ export const ui = {
   } satisfies Record<SeasonLevelValue, string>,
   legend: {
     label: 'Какво значат печатите',
-    peak: 'Разгар — прясно от полето',
-    available: 'В сезон',
-    storage: 'От хранилище — от последната бера',
-    outOfSeason: 'Извън сезона — вероятно е внос',
+    peak: 'прясно от полето, в пика на сезона',
+    available: 'бере се в България сега',
+    storage: 'от последната бера, съхранявано',
+    outOfSeason: 'Извън сезона: вероятно е внос',
+    strip: 'Лентата е годината от януари до декември; текущият месец е в рамка.',
   },
   yearStrip: {
     part: (level: string, ranges: string) => `${level}: ${ranges}`,
@@ -270,6 +271,7 @@ export const ui = {
   },
   seasonList: {
     heading: (month: Month, count: number) => `В сезон през ${monthNameLower(month)} (${count})`,
+    countHeading: (count: number) => `Всичко в сезон (${count})`,
   },
   seasonLevels: {
     peak: 'Разгар на сезона',

@@ -3,11 +3,15 @@ import { expectNoAxeViolations } from './a11y';
 
 const FIRST_ROWS = 10;
 const LEGEND = [
-  'Разгар — прясно от полето',
-  'В сезон',
-  'От хранилище — от последната бера',
-  'Извън сезона — вероятно е внос',
+  'Разгар прясно от полето',
+  'В сезон бере се в България сега',
+  'От хранилище от последната бера',
+  'Извън сезона: вероятно е внос',
 ];
+const BUILD_MONTH = new Intl.DateTimeFormat('bg-BG', {
+  month: 'long',
+  timeZone: 'Europe/Sofia',
+}).format(new Date());
 
 test.describe('season stamp and in-season list (spec 024)', () => {
   test('AC4: the home page opens on the in-season list', async ({ page }) => {
@@ -16,11 +20,10 @@ test.describe('season stamp and in-season list (spec 024)', () => {
     await page.evaluate(() => document.fonts.ready);
     await expect(page.getByText(/Табло/)).toHaveCount(0);
     await expect(page.locator('main').getByRole('navigation', { name: 'Месеци' })).toHaveCount(0);
-    await expect(page.locator('h1')).toContainText(
-      /(януари|февруари|март|април|май|юни|юли|август|септември|октомври|ноември|декември)/i,
-    );
+    await expect(page.locator('h1')).toContainText(BUILD_MONTH, { ignoreCase: true });
     const legend = page.locator('.season-legend');
-    for (const entry of LEGEND) await expect(legend).toContainText(entry);
+    const legendText = ((await legend.textContent()) ?? '').replace(/\s+/g, ' ').toLowerCase();
+    for (const entry of LEGEND) expect(legendText).toContain(entry.toLowerCase());
     const bottoms = await page
       .locator('.season-list li')
       .evaluateAll(

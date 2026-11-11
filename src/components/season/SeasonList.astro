@@ -7,14 +7,16 @@ import YearStrip from './YearStrip.astro';
 
 /**
  * Everything in season in one month as one compact list: peak first, then available, then
- * storage. Each row has the produce link and its stamp, then the Latin name, the kind and the
- * produce's year strip, under a heading with the count.
+ * storage. Each row has the produce link, its year strip and its stamp, then the Latin name and
+ * the kind, under a heading with the count.
  */
 interface Props {
   overview: SeasonOverview;
+  /** Heading text; defaults to „В сезон през <месец> (<брой>)“. */
+  heading?: string | undefined;
 }
 
-const { overview } = Astro.props;
+const { overview, heading } = Astro.props;
 const { month } = overview;
 const items = [...overview.peak, ...overview.available, ...overview.storage];
 const headingId = 'season-list-heading';
@@ -24,7 +26,7 @@ const headingId = 'season-list-heading';
   <p>{ui.overview.empty}</p>
 ) : (
   <section class="season-list" aria-labelledby={headingId}>
-    <h2 id={headingId}>{ui.seasonList.heading(month, items.length)}</h2>
+    <h2 id={headingId}>{heading ?? ui.seasonList.heading(month, items.length)}</h2>
     <ul class="season-list__rows" role="list">
       {items.map((produce) => {
         const level = produce.levelIn(month);
@@ -33,11 +35,11 @@ const headingId = 'season-list-heading';
             <a class="season-row__name" href={routes.produce(produce)}>
               {produce.name}
             </a>
+            <YearStrip produce={produce} current={month} />
             {level !== undefined && <SeasonBadge level={level} />}
             <span class="season-row__meta">
               <i lang="la">{produce.latinName}</i> · {ui.produceKinds[produce.kind]}
             </span>
-            <YearStrip produce={produce} current={month} />
           </li>
         );
       })}
@@ -60,7 +62,7 @@ const headingId = 'season-list-heading';
 
   .season-row {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto 7rem;
     align-items: center;
     gap: 0 var(--space-3);
     padding-block: var(--space-1);
@@ -82,15 +84,31 @@ const headingId = 'season-list-heading';
   }
 
   .season-row__meta {
-    overflow: hidden;
+    grid-column: 1 / -1;
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
-  .season-row :global(.year-strip) {
-    justify-self: end;
+  @media (max-width: 23rem) {
+    .season-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .season-row :global(.season-stamp) {
+      grid-row: 1;
+      grid-column: 2;
+    }
+
+    .season-row :global(.year-strip) {
+      grid-row: 2;
+      grid-column: 2;
+      justify-self: end;
+    }
+
+    .season-row__meta {
+      grid-row: 2;
+      grid-column: 1;
+    }
   }
 
   @media (min-width: 48rem) {

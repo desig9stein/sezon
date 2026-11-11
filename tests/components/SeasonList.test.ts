@@ -20,7 +20,7 @@ describe('SeasonList (spec 024)', () => {
     const html = await render(SeasonList, { overview });
     expect(html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ')).toContain('В сезон през ноември (4)');
     const rows = [...html.matchAll(/<li[\s\S]*?<\/li>/g)].map((match) => match[0]);
-    expect(rows.map((row) => /data-level="(\w+)"/.exec(row)?.[1])).toEqual([
+    expect(rows.map((row) => /season-stamp" data-level="(\w+)"/.exec(row)?.[1])).toEqual([
       'peak',
       'peak',
       'available',

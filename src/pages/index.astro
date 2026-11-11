@@ -35,7 +35,12 @@ const itemList = freshProduceItemList(overview, siteUrl);
     <span class="home-heading__lead">{ui.home.headingLead}</span>
     <span class="home-heading__month">{monthNameLower(buildMonth)}</span>
   </h1>
-  <SeasonList overview={overview} />
+  <SeasonList
+    overview={overview}
+    heading={ui.seasonList.countHeading(
+      overview.peak.length + overview.available.length + overview.storage.length,
+    )}
+  />
   <SeasonLegend />
   <p class="home-intro">{ui.home.intro}</p>
   <SeasonOverview overview={overview} groups={['comingSoon']} stripMonth={buildMonth} />
@@ -70,10 +75,6 @@ const itemList = freshProduceItemList(overview, siteUrl);
     font-size: var(--font-size-3xl);
     line-height: 0.9;
     overflow-wrap: anywhere;
-  }
-
-  :global(.season-legend) {
-    margin-top: var(--space-6);
   }
 
   .home-intro {

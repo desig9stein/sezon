@@ -3,7 +3,10 @@ import { SeasonLevel } from '@contexts/seasonality';
 import { ui } from '@i18n/bg';
 import SeasonBadge from './SeasonBadge.astro';
 
-/** Explains the season stamps in plain words, plus what „out of season“ means. */
+/**
+ * Explains the season stamps in plain words after each stamp, what „out of season“ means, and how
+ * to read the year strip.
+ */
 const entries = [
   { level: SeasonLevel.PEAK, text: ui.legend.peak },
   { level: SeasonLevel.AVAILABLE, text: ui.legend.available },
@@ -20,13 +23,28 @@ const entries = [
       </li>
     ))}
     <li>
-      <span class="season-legend__none" aria-hidden="true"></span>
+      <svg
+        class="season-legend__cell"
+        width="12"
+        height="16"
+        viewBox="0 0 12 16"
+        aria-hidden="true"
+      >
+        <rect x="2" y="12" width="8" height="2" />
+      </svg>
       <span class="season-legend__text">{ui.legend.outOfSeason}</span>
+    </li>
+    <li>
+      <span class="season-legend__text">{ui.legend.strip}</span>
     </li>
   </ul>
 </aside>
 
 <style>
+  .season-legend {
+    margin-top: var(--space-6);
+  }
+
   .season-legend ul {
     display: grid;
     gap: var(--space-2);
@@ -42,11 +60,8 @@ const entries = [
     gap: var(--space-2);
   }
 
-  .season-legend__none {
-    display: inline-block;
-    width: 2.5rem;
-    height: 1.4rem;
-    border: 1px dashed var(--color-border);
+  .season-legend__cell rect {
+    fill: var(--color-border);
   }
 
   .season-legend__text {

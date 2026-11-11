@@ -38,13 +38,16 @@ describe('YearStrip (spec 024)', () => {
       [11, 'none'],
       [12, 'storage'],
     ]);
-    expect(html.match(/data-current="true"/g)).toHaveLength(1);
-    expect(html).toMatch(/data-month="11"[^>]*data-current="true"/);
+    expect(html.match(/year-strip__current/g)).toHaveLength(1);
+    expect(html).toMatch(/data-month="11"[^>]*>(?:(?!data-month)[\s\S])*year-strip__current/);
   });
 
   it('AC1: has a text alternative listing the months of each level', async () => {
     const html = await render(YearStrip, { produce, current: Month.of(11) });
-    expect(html).toMatch(/role="img"/);
+    expect(html).toMatch(/<svg[^>]*role="img"/);
+    expect(html).toContain(
+      '<title>Разгар: септември – октомври; В сезон: август; От хранилище: декември – март</title>',
+    );
     expect(html).toContain(
       'aria-label="Разгар: септември – октомври; В сезон: август; От хранилище: декември – март"',
     );
