@@ -54,3 +54,29 @@ photo:
     authorUrl: https://unsplash.com/@zoshuacolah
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/ripe-pears-in-bright-sunlight-znr18rfIHoc
+growing:
+  sow: []
+  transplant: []
+  plant: [3, 10, 11, 12]
+  plantingNote: 'В студените северни райони неустойчивите на студ сортове е по-добре да се засаждат напролет.'
+  tips:
+    - 'Крушата иска проветрива, плодородна почва, дълбока поне 1 м; избягвайте засолени и преовлажнени места.'
+    - 'Сортовете не се самоопрашват – засадете поне два, които цъфтят по едно и също време.'
+    - 'Изкопайте ямка около 90 см широка и 40 см дълбока 3–4 седмици преди есенното засаждане.'
+    - 'Поливайте обилно през юли и август – крушата има нужда от много повече вода, отколкото дават валежите.'
+    - 'Берете, когато кожицата започне да пожълтява, дръжката се отделя лесно и семките потъмнеят.'
+  sources:
+    - name: 'Agrozona.bg – 5 задачи в градината, които трябва да решите през октомври'
+      url: https://agrozona.bg/5-zadachi-v-gradinata-koito-tryabva-da-reshite-prez-oktomvri/
+    - name: 'Български фермер – Ноември е най-подходящият месец за есенно засаждане на нови дръвчета'
+      url: https://www.bgfermer.bg/Article/15941772
+    - name: 'Български фермер – Купете фиданки за пролетно засаждане'
+      url: https://www.bgfermer.bg/Article/17307642
+    - name: 'Gradinata.bg – Крушата'
+      url: https://www.gradinata.bg/index.php?page=article&article_id=225
+    - name: 'Български фермер – Как да подготвите ямките за засаждане на ябълки и круши'
+      url: https://www.bgfermer.bg/Article/23517118
+    - name: 'Български фермер – Основни грижи за крушите в градината'
+      url: https://www.bgfermer.bg/Article/16457006
+    - name: 'Български фермер – Есенното засаждане на дръвчета - за и против'
+      url: https://www.bgfermer.bg/Article/12974658

@@ -59,3 +59,27 @@ photo:
     authorUrl: https://unsplash.com/@carmen18forever
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/three-red-apples-on-a-white-background-ZHN9VmPUtdk
+growing:
+  sow: []
+  transplant: []
+  plant: [3, 10, 11, 12]
+  plantingNote: 'В студените северни райони неустойчивите на студ сортове е по-добре да се засаждат напролет.'
+  tips:
+    - 'Изберете дълбока (поне 1 м), плодородна и проветрива почва, която задържа влага.'
+    - 'Не засаждайте в суха, замръзнала или подгизнала почва; след засаждане полейте с около 20 л вода.'
+    - 'Засадете поне два сорта с едновременен цъфтеж – ябълковите сортове не се самоопрашват.'
+    - 'Подреждайте дръвчетата в редове север–юг, за да се огрява добре короната.'
+    - 'Късните сортове се берат в началото на октомври и се съхраняват на хладно при 0–5 °C.'
+  sources:
+    - name: 'Agrozona.bg – 5 задачи в градината, които трябва да решите през октомври'
+      url: https://agrozona.bg/5-zadachi-v-gradinata-koito-tryabva-da-reshite-prez-oktomvri/
+    - name: 'Български фермер – Ноември е най-подходящият месец за есенно засаждане на нови дръвчета'
+      url: https://www.bgfermer.bg/Article/15941772
+    - name: 'Български фермер – Купете фиданки за пролетно засаждане'
+      url: https://www.bgfermer.bg/Article/17307642
+    - name: 'Gradinata.bg – Ябълката'
+      url: https://www.gradinata.bg/index.php?page=article&article_id=109
+    - name: 'Български фермер – Есенното засаждане ябълки е препоръчително'
+      url: https://www.bgfermer.bg/Article/7672749
+    - name: 'Български фермер – Есенното засаждане на дръвчета - за и против'
+      url: https://www.bgfermer.bg/Article/12974658

@@ -51,3 +51,20 @@ photo:
     authorUrl: https://unsplash.com/@nadja_thoener
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/a-single-celeriac-root-on-a-dark-background-UpM9Z7c2-1s
+growing:
+  sow: [3]
+  transplant: [6]
+  plant: []
+  tips:
+    - 'Целината иска дълбока, хумусна и влагозадържаща почва; избягвайте леки песъчливи и студени глинести.'
+    - 'Не торете с пресен оборски тор и не я връщайте на същото място по-рано от 3–4 години.'
+    - 'Разсаждайте растения с 4–5 листа, без да затрупвате връхната пъпка; кореноплодната – на 25–30 см в реда.'
+    - 'Поливайте редовно и не допускайте засушаване – целината се отглежда само с поливане.'
+    - 'Не бързайте с прибирането – целината расте най-добре в хладните есенни дни.'
+  sources:
+    - name: 'Gradinata.bg – Целина'
+      url: https://www.gradinata.bg/index.php?page=article&article_id=368
+    - name: 'Gradinata.bg – Целината не е капризна, ако е сита'
+      url: https://www.gradinata.bg/index.php?page=article&article_id=585
+    - name: 'Български фермер – Разсадът от целина да е 70-дневен'
+      url: https://www.bgfermer.bg/Article/7466953

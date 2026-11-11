@@ -145,7 +145,7 @@ export class ProduceDetailsQuery {
         uniqueSources([
           produce.nutrition.source,
           ...produce.traditionalUses.map((use) => use.source),
-          ...(produce.growing === undefined ? [] : [produce.growing.source]),
+          ...(produce.growing?.sources ?? []),
         ]),
       ),
     });

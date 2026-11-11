@@ -89,6 +89,26 @@ Every produce has a photo: a close-up of the produce itself, without people, tex
 
 To replace a photo, overwrite the JPEG with the same file name and update `alt` and `credit`.
 
+### Growing guide
+
+The optional `growing` block tells home gardeners when to sow and plant:
+
+```yaml
+growing:
+  sow: [2, 3] # sowing, for seedlings or directly in the bed
+  transplant: [4] # setting seedlings out
+  plant: [] # planting saplings, sets or plants
+  plantingNote: 'Optional single line, e.g. for trees or a regional caveat.'
+  tips:
+    - 'Three to five tips, each at most 140 characters, in your own words.'
+  sources:
+    - name: 'Site – article title'
+      url: https://example.bg/article
+```
+
+Every month and tip must come from a cited Bulgarian source (gardening portals such as
+agrozona.bg, bgfermer.bg or gradinata.bg). Never write „богат на“, even about soil.
+
 ### Health content (YMYL)
 
 - Take nutrition values from USDA FoodData Central (SR Legacy, raw) or EFSA, and cite the item.

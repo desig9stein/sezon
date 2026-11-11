@@ -55,3 +55,18 @@ photo:
     authorUrl: https://unsplash.com/@enginakyurt
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/a-close-up-of-a-bunch-of-green-grass-kgb34f0HRSc
+growing:
+  sow: [2, 3, 8, 9, 10]
+  transplant: []
+  plant: []
+  tips:
+    - 'Изберете открито, слънчево място – на сянка копърът расте по-слабо и губи аромата си.'
+    - 'Сейте на всеки 7–8 дни, за да имате непрекъснато свеж копър.'
+    - 'Поливайте редовно през лятото – при жега и суша растенията бързо избиват на цвят.'
+    - 'Сейте до зеле и лук, но далеч от моркови и домати.'
+    - 'Режете листата, когато растенията стигнат 10–12 см височина.'
+  sources:
+    - name: 'Gradinata.bg – Копър за летни и зимни гозби'
+      url: https://www.gradinata.bg/index.php?page=article&article_id=239
+    - name: 'Agrozona.bg – Засейте през юли копъра за есенните консерви'
+      url: https://agrozona.bg/zaseyte-prez-yuli-kopara-za-esennite-konservi/

@@ -56,3 +56,26 @@ photo:
     authorUrl: https://unsplash.com/@webdesignnewcastle
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/turnips-on-brown-wooden-surface-udo5pIvRfrA
+growing:
+  sow: [3, 5, 6]
+  transplant: [7]
+  plant: []
+  tips:
+    - 'Сейте в топла, слънчева леха с плодородна, рохкава почва без буци.'
+    - 'Сейте в редове през 25–30 см, с 8–10 см между растенията; при гъст посев прореждайте.'
+    - 'Накиснете семената в топла вода за 8–12 часа преди сеитбата.'
+    - 'Поддържайте почвата умерено влажна и спрете поливането 10–15 дни преди изваждане.'
+    - 'Добри предшественици са картофи, краставици, моркови и бобови; не внасяйте пресен оборски тор.'
+  sources:
+    - name: 'Български фермер – Кога се сее салатното цвекло'
+      url: https://www.bgfermer.bg/Article/8295800
+    - name: 'Български фермер – Директна сеитба на цвекло'
+      url: https://www.bgfermer.bg/Article/7467994
+    - name: 'Agrozona.bg – През юли късното зеле и червеното цвекло отиват в градината'
+      url: https://agrozona.bg/prez-yuli-kasnoto-zele-i-chervenoto-tsveklo-otivat-v-gradinata/
+    - name: 'Български фермер – Салатното цвекло – полезно и много лесно за отглеждане'
+      url: https://www.bgfermer.bg/Article/22618583
+    - name: 'Gradinata.bg – Цвеклото капризничи до образуване на листата'
+      url: https://www.gradinata.bg/index.php?page=article&article_id=824
+    - name: 'Български фермер – Късна сеитба на салатно цвекло'
+      url: https://www.bgfermer.bg/Article/23307042

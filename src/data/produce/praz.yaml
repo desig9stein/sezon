@@ -57,3 +57,18 @@ photo:
     authorUrl: https://unsplash.com/@badun
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/fresh-leeks-stacked-closely-together-ready-for-sale-uj3uG7tIg8s
+growing:
+  sow: [3, 4]
+  transplant: [6]
+  plant: []
+  tips:
+    - 'Празът иска дълбока и влагоемна почва с много органично вещество, наторена още наесен.'
+    - 'Поливайте редовно – през юни, юли и август поне веднъж седмично, при суша и по-често.'
+    - 'Разсаждайте, когато разсадът е висок около 30 см и стъблото е дебело 8–9 мм.'
+    - 'При директна сеитба проредете растенията на 12–15 см едно от друго.'
+    - 'Прибирайте в края на октомври и през ноември – празът понася добре студа.'
+  sources:
+    - name: 'Уикипедия – Праз'
+      url: https://bg.wikipedia.org/wiki/%D0%9F%D1%80%D0%B0%D0%B7
+    - name: 'Gradinata.bg – Късни тиквички и праз ще берете преди снега'
+      url: https://www.gradinata.bg/index.php?page=article&article_id=576

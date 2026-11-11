@@ -59,3 +59,25 @@ photo:
     authorUrl: https://unsplash.com/@stacysuxx
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/a-pile-of-whole-and-shelled-walnuts-OMmreP1OIfY
+growing:
+  sow: []
+  transplant: []
+  plant: [9, 10, 11]
+  plantingNote: 'Орехът се засажда наесен – от края на септември до средата на ноември, докато времето е топло.'
+  tips:
+    - 'Засадете присадено дръвче – ражда след 3–5 години, а орех от семе – едва след 10–15.'
+    - 'Орехът иска много светлина и дълбока, пропусклива почва без високи подпочвени води.'
+    - 'Короната става 15–20 м – засадете го в северната част на двора и далеч от оградата на съседа.'
+    - 'Сравнително сухоустойчив е, но поливане след цъфтежа и през лятото подобрява ядките.'
+    - 'Берете през септември–октомври; най-добре изчакайте орехите да паднат сами.'
+  sources:
+    - name: 'Gradinata.bg – Орехът'
+      url: https://www.gradinata.bg/index.php?page=article&article_id=35
+    - name: 'Български фермер – Орехът - желано дърво за всеки двор'
+      url: https://www.bgfermer.bg/Article/14204200
+    - name: 'Български фермер – Кога се берат орехите'
+      url: https://www.bgfermer.bg/Article/7658569
+    - name: 'Български фермер – Време е за засаждане на овошки. Орехът е изключение'
+      url: https://www.bgfermer.bg/Article/12969715
+    - name: 'Български фермер – Есенното засаждане на дръвчета - за и против'
+      url: https://www.bgfermer.bg/Article/12974658

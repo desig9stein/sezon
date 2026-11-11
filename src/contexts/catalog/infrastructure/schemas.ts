@@ -105,7 +105,7 @@ const TIP_MAX_LENGTH = 140;
 const monthNumber = () => z.number().int().min(FIRST_MONTH_NUMBER).max(LAST_MONTH_NUMBER);
 const monthList = () => z.array(monthNumber()).superRefine(uniqueBy((month) => month, 'month'));
 
-/** Schema of a produce's home-garden guide: month windows, an optional note, tips and source. */
+/** Schema of a produce's home-garden guide: month windows, an optional note, tips and sources. */
 export const growingSchema = z
   .strictObject({
     sow: monthList(),
@@ -113,7 +113,7 @@ export const growingSchema = z
     plant: monthList(),
     plantingNote: singleLineText().optional(),
     tips: z.array(singleLineText().max(TIP_MAX_LENGTH)).min(TIPS_MIN).max(TIPS_MAX),
-    source: sourceSchema,
+    sources: z.array(sourceSchema).min(1),
   })
   .refine(
     (growing) =>
