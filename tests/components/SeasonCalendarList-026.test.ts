@@ -34,7 +34,7 @@ describe('SeasonCalendarList garden row (spec 026)', () => {
     expect(items[4]).toBe('Май Разсаждане');
     expect(items.filter((item) => item.endsWith('– нищо'))).toHaveLength(9);
     expect(html).toMatch(
-      /<span aria-hidden="true">–<\/span>\s*<span class="visually-hidden">нищо<\/span>/,
+      /<span aria-hidden="true"[^>]*>–<\/span>\s*<span class="visually-hidden"[^>]*>нищо<\/span>/,
     );
   });
 

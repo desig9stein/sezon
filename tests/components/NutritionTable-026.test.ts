@@ -10,8 +10,9 @@ const nutrient = (slug: string, name: string) =>
   toNutrient(slug, { name, kind: 'vitamin', unit: 'mg', referenceIntake: 80, ...NUTRIENT_CLAIMS });
 
 const rowOf = (html: string, name: string) =>
-  new RegExp(`<tr>(?:(?!</tr>)[\\s\\S])*>${name}<(?:(?!</tr>)[\\s\\S])*</tr>`).exec(html)?.[0] ??
-  '';
+  new RegExp(`<tr\\b[^>]*>(?:(?!</tr>)[\\s\\S])*>${name}<(?:(?!</tr>)[\\s\\S])*</tr>`).exec(
+    html,
+  )?.[0] ?? '';
 
 describe('NutritionTable bars (spec 026)', () => {
   it('AC8: draws a decorative bar capped at 100 and none without a reference intake', async () => {

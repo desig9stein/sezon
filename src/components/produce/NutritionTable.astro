@@ -3,11 +3,13 @@ import type { Macronutrient, NutritionFacts } from '@contexts/catalog';
 import type { ResolvedMicronutrient } from '@composition/ProduceDetailsQuery';
 import { routes } from '@components/layout/routes';
 import ScrollTable from '@components/ui/ScrollTable.astro';
+import { palettes } from '@design/tokens';
 import { formatNumber, ui } from '@i18n/bg';
 
 /**
  * Nutrition values per 100 g with % of the EU reference intake and the data source.
- * Micronutrient rows link to their nutrient page.
+ * Micronutrient rows link to their nutrient page. Each percentage is followed by a decorative bar
+ * filled to the percentage, capped at 100.
  */
 interface Props {
   nutrition: NutritionFacts;
@@ -20,6 +22,11 @@ interface Row {
   readonly percent: number | undefined;
   readonly href?: string;
 }
+
+const BAR_SCALE = 100;
+const BAR_HEIGHT = 8;
+const BAR_WIDTH = 64;
+const ink = palettes.light;
 
 const { nutrition, micronutrients } = Astro.props;
 const labels = ui.produce.nutrition;
@@ -78,7 +85,31 @@ const rows: ReadonlyArray<Row> = [
                 <span class="visually-hidden">{labels.noReferenceIntake}</span>
               </>
             ) : (
-              `${row.percent}%`
+              <span class="nutrition__percent">
+                {`${row.percent}%`}
+                <svg
+                  class="nutrition__bar"
+                  aria-hidden="true"
+                  focusable="false"
+                  width={BAR_WIDTH}
+                  height={BAR_HEIGHT}
+                  viewBox={`0 0 ${BAR_SCALE} ${BAR_HEIGHT}`}
+                  preserveAspectRatio="none"
+                >
+                  <rect
+                    class="nutrition__bar-track"
+                    width={BAR_SCALE}
+                    height={BAR_HEIGHT}
+                    fill={ink.rule}
+                  />
+                  <rect
+                    class="nutrition__bar-fill"
+                    width={Math.min(row.percent, BAR_SCALE)}
+                    height={BAR_HEIGHT}
+                    fill={ink.accent}
+                  />
+                </svg>
+              </span>
             )}
           </td>
         </tr>
@@ -94,6 +125,32 @@ const rows: ReadonlyArray<Row> = [
 <style>
   .nutrition {
     min-width: 18rem;
+  }
+
+  .nutrition__percent {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .nutrition__bar-track {
+    fill: var(--color-rule);
+  }
+
+  .nutrition__bar-fill {
+    fill: var(--color-accent);
+  }
+
+  @media print {
+    .nutrition__bar-track {
+      fill: none;
+      stroke: var(--print-ink);
+    }
+
+    .nutrition__bar-fill {
+      fill: var(--print-ink);
+    }
   }
 
   .nutrition__note {

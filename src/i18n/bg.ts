@@ -175,6 +175,17 @@ export const ui = {
       plant: 'Засаждане',
     } satisfies Record<GrowingActivity, string>,
     toc: 'На тази страница',
+    garden: { label: 'В градината', none: 'нищо', separator: ', ' },
+    map: {
+      label: (regions: ReadonlyArray<string>) =>
+        regions.length === 0
+          ? 'Карта на България. Няма отбелязани области'
+          : `Карта на България. Отбелязани области: ${regions.join(', ')}`,
+      creditPrefix: 'Граници на областите:',
+      creditName: 'Natural Earth',
+      creditUrl: 'https://www.naturalearthdata.com/',
+      creditSuffix: '(обществено достояние).',
+    },
     farmsLink: 'Местни ферми, които го продават',
     nowIn: (month: string) => `през ${month}`,
     outOfSeasonIn: (month: string) => `Извън сезона през ${month}`,

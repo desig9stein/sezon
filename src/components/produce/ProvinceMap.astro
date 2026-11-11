@@ -1,0 +1,101 @@
+---
+import type { Region } from '@contexts/geography';
+import { palettes } from '@design/tokens';
+import { ui } from '@i18n/bg';
+import { BrokenReferenceError } from '@shared/domain/errors';
+import provinceMap from '../../assets/map/provinces.json';
+
+/**
+ * Map of Bulgaria's 28 provinces as an inline SVG, with `regions` filled in the accent colour and
+ * the rest in the rule colour, and a caption crediting Natural Earth. The SVG has a title and a
+ * text alternative naming the marked regions, and keeps its size without CSS.
+ * @throws BrokenReferenceError when a region has no province on the map.
+ */
+interface Props {
+  regions: ReadonlyArray<Region>;
+}
+
+/** Rendered size without CSS, in the ratio of the map's viewBox. */
+const WIDTH = 320;
+const HEIGHT = 209;
+const ink = palettes.light;
+const paths: Readonly<Record<string, string>> = provinceMap.provinces;
+
+const { regions } = Astro.props;
+const marked = new Set(regions.map((region) => region.slug));
+for (const slug of marked) {
+  if (paths[slug] === undefined) throw new BrokenReferenceError(`No province on the map: ${slug}`);
+}
+const label = ui.produce.map.label(regions.map((region) => region.name));
+const labels = ui.produce.map;
+---
+
+<figure class="province-map">
+  <svg
+    role="img"
+    aria-label={label}
+    width={WIDTH}
+    height={HEIGHT}
+    viewBox={provinceMap.viewBox}
+    stroke={ink.surface}
+    stroke-width="1.5"
+    stroke-linejoin="round"
+  >
+    <title>{label}</title>
+    {Object.entries(paths).map(([slug, d]) => (
+      <path
+        class="province-map__province"
+        data-region={slug}
+        data-marked={marked.has(slug) ? 'true' : 'false'}
+        fill={marked.has(slug) ? ink.accent : ink.rule}
+        d={d}
+      />
+    ))}
+  </svg>
+  <figcaption>
+    {labels.creditPrefix} <a href={labels.creditUrl}>{labels.creditName}</a>
+    {labels.creditSuffix}
+  </figcaption>
+</figure>
+
+<style>
+  .province-map {
+    display: grid;
+    gap: var(--space-2);
+    max-width: 30rem;
+    margin: 0;
+  }
+
+  .province-map svg {
+    width: 100%;
+    height: auto;
+    stroke: var(--color-surface);
+  }
+
+  .province-map__province {
+    fill: var(--color-rule);
+  }
+
+  .province-map__province[data-marked='true'] {
+    fill: var(--color-accent);
+  }
+
+  .province-map figcaption {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  @media print {
+    .province-map svg {
+      stroke: var(--print-ink);
+    }
+
+    .province-map__province {
+      fill: none;
+    }
+
+    .province-map__province[data-marked='true'] {
+      fill: var(--print-ink);
+    }
+  }
+</style>
