@@ -53,8 +53,9 @@ practical tips, on the produce page. Every month and tip comes from a cited Bulg
   month number), `plantingNote?`, `tips`, `source`, and `activitiesIn(month)`.
 - `Produce.growing: GrowingGuide | undefined`, frozen. `Produce.create` rejects a guide with
   no months and no note (`InvalidProduceError`).
-- `monthRanges(months)` (i18n helper): groups consecutive months into „от – до“ ranges, wrapping
-  December to January, e.g. 11, 12, 1 → „ноември – януари“.
+- `monthRanges(months)` (i18n helper): groups consecutive months into ranges of `[first]` or
+  `[first, last]`, wrapping December to January (11, 12, 1 → `[ноември, януари]`); the component
+  renders each range as „first – last“ with both ends linked, and joins ranges with commas.
 
 ## 5. Behaviour and edge cases
 
@@ -85,8 +86,8 @@ practical tips, on the produce page. Every month and tip comes from a cited Bulg
 2. **AC2:** `toProduce` maps `growing` to `produce.growing` with `Month` values sorted by
    number; `activitiesIn(Month.of(3))` lists the activities due in March;
    `produce.growing` is `undefined` without the block.
-3. **AC3:** `monthRanges` returns „март“, „март – май“, „февруари – март, октомври – ноември“
-   and „ноември – януари“ for the matching inputs, and an empty string for none.
+3. **AC3:** `monthRanges` returns `[3]`, `[3–5]`, `[2–3], [10–11]` and `[11–1]` for the matching
+   inputs, and no ranges for none.
 4. **AC4:** The `GrowingGuide` component renders an `h2` „Отглеждане в градината“, a `dl` with
    only the activities that have months, month links to `/sezon/<month>`, the planting note and
    the tips.
