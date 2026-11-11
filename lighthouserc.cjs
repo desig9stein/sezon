@@ -14,6 +14,7 @@ module.exports = {
         'http://localhost:4323/zelenchutsi/zele',
         'http://localhost:4323/nutrienti/vitamin-c',
         'http://localhost:4323/tarsene',
+        'http://localhost:4323/grupi/krastotsvetni',
         'http://localhost:4323/kalendar',
       ],
       numberOfRuns: 3,
