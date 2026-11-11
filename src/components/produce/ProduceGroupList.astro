@@ -1,0 +1,74 @@
+---
+import ProduceCard from '@components/produce/ProduceCard.astro';
+import type { Produce } from '@contexts/catalog';
+import type { Month, SeasonLevel } from '@contexts/seasonality';
+
+/**
+ * One labelled group of produce: `plates` shows surface panels with the first one larger,
+ * `index` shows quiet rows on hairlines. `levelOf` gives each card's badge level and
+ * `levelFrom` marks it as applying from a later month.
+ */
+interface Props {
+  id: string;
+  heading: string;
+  items: ReadonlyArray<Produce>;
+  variant: 'plates' | 'index';
+  levelOf: (produce: Produce) => SeasonLevel | undefined;
+  levelFrom?: Month | undefined;
+}
+
+const { id, heading, items, variant, levelOf, levelFrom } = Astro.props;
+---
+
+<section class="group" aria-labelledby={id} data-variant={variant}>
+  <h2 id={id}>{heading}</h2>
+  <ul class="group__list" role="list">
+    {items.map((produce) => (
+      <li>
+        <ProduceCard
+          produce={produce}
+          level={levelOf(produce)}
+          levelFrom={levelFrom}
+          variant={variant === 'plates' ? 'plate' : 'index'}
+        />
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .group {
+    margin-top: var(--space-12);
+  }
+
+  .group__list {
+    display: grid;
+    margin-top: var(--space-4);
+    padding: 0;
+    list-style: none;
+  }
+
+  .group[data-variant='plates'] .group__list {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+    gap: var(--space-4);
+  }
+
+  .group[data-variant='index'] .group__list {
+    column-gap: var(--space-8);
+  }
+
+  @media (min-width: 40rem) {
+    .group[data-variant='plates'] .group__list > li:first-child {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    .group[data-variant='plates'] .group__list > li:first-child :global(.produce-card) {
+      min-height: 20rem;
+    }
+
+    .group[data-variant='index'] .group__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

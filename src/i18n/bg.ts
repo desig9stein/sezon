@@ -93,7 +93,9 @@ export const ui = {
     'Кои плодове и зеленчуци са в сезон в България сега, откъде да ги купите и как да ги приготвите.',
   skipLink: 'Към основното съдържание',
   homeLinkLabel: `${SITE_NAME} – начална страница`,
-  logoGlyph: '🌱',
+  ribbon: {
+    label: 'Месеци',
+  },
   nav: {
     label: 'Основна навигация',
     now: 'Сезонът сега',
@@ -110,8 +112,11 @@ export const ui = {
     copyright: (year: number) => `© ${year} ${SITE_NAME}`,
   },
   home: {
+    plate: (month: Month) =>
+      `Табло ${romanNumeral(month.number)} от ${romanNumeral(MONTHS_IN_YEAR)}`,
     title: 'Какво е в сезон сега',
     heading: (month: Month) => `В сезон през ${monthNameLower(month)}`,
+    headingLead: 'В сезон през',
     intro:
       'Сезонните плодове и зеленчуци са най-вкусни, най-евтини и идват от по-близо. Ето какво се бере в България този месец.',
     description: (month: Month) =>
@@ -241,4 +246,30 @@ export function monthName(month: Month): string {
     throw new RangeError(`No name for month ${month.number}.`);
   }
   return name;
+}
+
+const ABBREVIATION_LENGTH = 3;
+const MONTHS_IN_YEAR = 12;
+const ROMAN_NUMERALS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+
+/** Returns the first three letters of the month name (e.g. „Ное“). */
+export function monthAbbreviation(month: Month): string {
+  return monthName(month).slice(0, ABBREVIATION_LENGTH);
+}
+
+/** Returns the letters of the month name after its abbreviation (e.g. „мври“), or „“. */
+export function monthRest(month: Month): string {
+  return monthName(month).slice(ABBREVIATION_LENGTH);
+}
+
+/**
+ * Returns `value` (1–12) as a Roman numeral.
+ * @throws RangeError when `value` is outside 1–12.
+ */
+export function romanNumeral(value: number): string {
+  const numeral = ROMAN_NUMERALS[value - 1];
+  if (numeral === undefined) {
+    throw new RangeError(`No Roman numeral for ${value}.`);
+  }
+  return numeral;
 }

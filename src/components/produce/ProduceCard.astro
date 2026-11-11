@@ -6,43 +6,61 @@ import type { Month, SeasonLevel } from '@contexts/seasonality';
 import { ui } from '@i18n/bg';
 
 /**
- * Summary card for one produce: linked name, kind, optional season badge and summary.
- * `levelFrom` marks the badge level as applying from a later month.
+ * One produce as a plate (name, Latin name, kind, badge and summary on a surface panel) or as an
+ * index row (name, Latin name and badge on a hairline). `levelFrom` marks the badge level as
+ * applying from a later month.
  */
 interface Props {
   produce: Produce;
   level?: SeasonLevel | undefined;
   levelFrom?: Month | undefined;
   headingLevel?: 2 | 3 | 4;
+  variant?: 'plate' | 'index';
 }
 
-const { produce, level, levelFrom, headingLevel = 3 } = Astro.props;
+const { produce, level, levelFrom, headingLevel = 3, variant = 'plate' } = Astro.props;
 const Heading = `h${headingLevel}` as const;
 ---
 
-<article class="produce-card">
+<article class="produce-card" data-variant={variant}>
   <Heading class="produce-card__name">
     <a href={routes.produce(produce)}>{produce.name}</a>
   </Heading>
   <p class="produce-card__meta">
+    <i lang="la">{produce.latinName}</i>
     <span>{ui.produceKinds[produce.kind]}</span>
     {level !== undefined && <SeasonBadge level={level} fromMonth={levelFrom} />}
   </p>
-  <p class="produce-card__summary">{produce.summary}</p>
+  {variant === 'plate' && <p class="produce-card__summary">{produce.summary}</p>}
 </article>
 
 <style>
   .produce-card {
     display: grid;
+    align-content: end;
     gap: var(--space-2);
     height: 100%;
-    padding: var(--space-4);
+  }
+
+  .produce-card[data-variant='plate'] {
+    min-height: 13rem;
+    padding: var(--space-6) var(--space-4) var(--space-4);
     background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-sm);
+  }
+
+  .produce-card[data-variant='index'] {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--color-rule);
   }
 
   .produce-card__name {
+    font-size: var(--font-size-xl);
+  }
+
+  .produce-card[data-variant='index'] .produce-card__name {
     font-size: var(--font-size-lg);
   }
 
@@ -50,18 +68,20 @@ const Heading = `h${headingLevel}` as const;
     display: inline-flex;
     align-items: center;
     min-height: var(--target-min);
+    color: var(--color-text);
   }
 
   .produce-card__meta {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--space-1) var(--space-3);
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
   }
 
   .produce-card__summary {
+    max-width: 42ch;
     color: var(--color-text-muted);
   }
 </style>
