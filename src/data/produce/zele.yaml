@@ -87,3 +87,19 @@ growing:
       url: https://www.gradinata.bg/index.php?page=article&article_id=238
     - name: 'Agrozona.bg – Сложете до зелето магданоз, невенът пази от кореново гниене'
       url: https://agrozona.bg/slozhete-do-zeleto-magdanoz-nevenat-pazi-ot-korenovo-gniene/
+organic:
+  availability: available
+  note: 'Биологично зеле отглеждат няколко сертифицирани стопанства в България, сред тях „Софина“ и „Био Гардън Терзиев“.'
+  sources:
+    - name: 'Eurostat, org_cropar (Organic crop area by agricultural production methods and crops)'
+      url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/org_cropar?geo=BG&lang=EN
+    - name: 'Био-Ферма Софина: Зеленчуци - производство „Софина“'
+      url: https://www.sofinabio.com/bg-catalog-details-4.html
+    - name: 'Био-Ферма Софина: За нас'
+      url: https://www.sofinabio.com/about-us.html
+    - name: 'Био Гардън Терзиев (биологично сертифициран производител)'
+      url: https://www.biogardenterziev.com/
+    - name: 'EkoConnect: Доклад за биологичното производство България 2023'
+      url: https://orgprints.org/id/eprint/54869/1/Doklad%20za%20biologichnoto%20proizvodstvo%20Blgarija%20EkoConnect%202023.pdf
+    - name: 'Agrozona.bg: Ден на отворените врати: Be Organic представя семейство Телкеджийски'
+      url: https://agrozona.bg/den-na-otvorenite-vrati-be-organic-predstavya-dobriyat-primer-na-semeystvo-telkedzhiyski-biogradina-i-ekohotel/

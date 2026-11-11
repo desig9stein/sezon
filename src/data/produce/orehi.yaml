@@ -83,3 +83,13 @@ growing:
       url: https://www.bgfermer.bg/Article/12974658
     - name: 'Български фермер – Орехът – гигант в градината'
       url: https://www.bgfermer.bg/Article/12820531
+organic:
+  availability: available
+  note: 'През 2024 г. в България има 8 235 ха биологични ядкови насаждения, сред които и орехи (Евростат, EkoConnect).'
+  sources:
+    - name: 'Eurostat, org_cropar (Organic crop area by agricultural production methods and crops)'
+      url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/org_cropar?geo=BG&lang=EN
+    - name: 'EkoConnect: Доклад за биологичното производство България 2023'
+      url: https://orgprints.org/id/eprint/54869/1/Doklad%20za%20biologichnoto%20proizvodstvo%20Blgarija%20EkoConnect%202023.pdf
+    - name: 'Agrozona.bg: Био орехи по най-висок стандарт: Историята на Сортови семена Елит 2001 ЕООД (28.10.2023)'
+      url: https://agrozona.bg/bio-orehi-po-nay-visok-standart-istoriyata-na-sortovi-semena-elit-2001-eood/

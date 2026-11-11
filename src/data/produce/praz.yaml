@@ -72,3 +72,11 @@ growing:
       url: https://bg.wikipedia.org/wiki/%D0%9F%D1%80%D0%B0%D0%B7
     - name: 'Gradinata.bg – Късни тиквички и праз ще берете преди снега'
       url: https://www.gradinata.bg/index.php?page=article&article_id=576
+organic:
+  availability: limited
+  note: 'Биологичен праз се предлага от отделни сертифицирани стопанства, напр. „Софина“ край Елин Пелин.'
+  sources:
+    - name: 'Био-Ферма Софина: Зеленчуци - производство „Софина“'
+      url: https://www.sofinabio.com/bg-catalog-details-4.html
+    - name: 'Био-Ферма Софина: За нас'
+      url: https://www.sofinabio.com/about-us.html

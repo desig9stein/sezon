@@ -110,6 +110,25 @@ Every month and tip must come from a cited Bulgarian source (gardening portals s
 agrozona.bg, bgfermer.bg or gradinata.bg). Tips address the reader with „ти“ („Сей“,
 „Поливай“), as `PRODUCT.md` asks. Never write „богат на“, even about soil.
 
+### Organic production
+
+The optional `organic` block says whether certified organic production of the produce exists in
+Bulgaria:
+
+```yaml
+organic:
+  availability: available # or limited
+  note: 'One factual sentence, at most 160 characters, e.g. areas from Eurostat org_cropar.'
+  sources:
+    - name: 'Евростат – org_cropar'
+      url: https://ec.europa.eu/eurostat/databrowser/view/org_cropar/default/table
+```
+
+Leave the block out when no source states it (no „unknown“ is shown). Organic is a production
+method: never write it as a health or quality claim. A farm gets an `organic` block
+(`certifier`, `certificateId`, `validUntil`) only with a real certificate; placeholder farms never
+do.
+
 ### Health content (YMYL)
 
 - Take nutrition values from USDA FoodData Central (SR Legacy, raw) or EFSA, and cite the item.

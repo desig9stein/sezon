@@ -75,3 +75,13 @@ growing:
       url: https://www.gradinata.bg/index.php?page=article&article_id=904
     - name: 'Agrozona.bg – Спасете реколтата: Как да предпазим тиквите от гниене в градината?'
       url: https://agrozona.bg/spasete-rekoltata-kak-da-predpazim-tikvite-ot-gniene-v-gradinata/
+organic:
+  availability: limited
+  note: 'Биологична тиква се среща в сезонната кошница на сертифицираната биоферма „Софина“; няма отделна статистика.'
+  sources:
+    - name: 'Био-Ферма Софина: Сезонна кошница'
+      url: https://www.sofinabio.com/sezonna-koshnitza.html
+    - name: 'Био-Ферма Софина: За нас'
+      url: https://www.sofinabio.com/about-us.html
+    - name: 'Eurostat, org_cropar (Organic crop area by agricultural production methods and crops)'
+      url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/org_cropar?geo=BG&lang=EN
