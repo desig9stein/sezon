@@ -11,6 +11,7 @@ const PRODUCE_SECTIONS: Readonly<Record<ProduceKind, string>> = {
 /** Site-relative paths of all routes. */
 export const routes = {
   home: '/',
+  catalog: '/katalog',
   calendar: '/kalendar',
   search: '/tarsene',
   month: (month: Month) => `/sezon/${month.slug}`,

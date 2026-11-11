@@ -53,6 +53,7 @@ describe('QA 004 regressions', () => {
   it('the routes helper exposes only route builders in use', () => {
     expect(Object.keys(routes).sort()).toEqual([
       'calendar',
+      'catalog',
       'group',
       'home',
       'month',

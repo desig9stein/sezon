@@ -38,7 +38,7 @@ reaches what is in season faster because the header takes less of the first scre
     the sitemap.
 - **Footer (`SiteFooter`):**
   - the month list becomes a year strip of 12 month links in one row from 48rem (6 per row
-    below), with the build month marked (`aria-current="date"`, marker fill with `onMarker`
+    from 30rem, 4 below, so 320 px does not scroll sideways), with the build month marked (`aria-current="date"`, marker fill with `onMarker`
     text and an ink border);
   - then the calendar link, the disclaimer and the copyright.
 - **Strings:** new strings in `bg.ts`; the „Какво идва“ header link goes (the next month stays

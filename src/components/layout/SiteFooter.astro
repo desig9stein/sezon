@@ -1,25 +1,27 @@
 ---
 import { Month } from '@contexts/seasonality';
-import { buildYear } from '@composition/clock';
+import { buildMonth, buildYear } from '@composition/clock';
 import { monthName, ui } from '@i18n/bg';
 import { routes } from './routes';
 
-/** Site footer with links to every month page and the calendar, and the health disclaimer. */
+/**
+ * Site footer: a year strip of links to every month page with the build month marked, then the
+ * calendar link, the health disclaimer and the copyright.
+ */
 ---
 
 <footer class="site-footer">
   <div class="container site-footer__inner">
-    <nav aria-labelledby="footer-months-heading">
-      <h2 id="footer-months-heading" class="site-footer__heading">
-        {ui.footer.monthsHeading}
-      </h2>
-      <ul class="site-footer__months" role="list">
+    <nav aria-label={ui.footer.monthsLabel}>
+      <ol class="site-footer__months" role="list">
         {Month.all().map((month) => (
           <li>
-            <a href={routes.month(month)}>{monthName(month)}</a>
+            <a href={routes.month(month)} aria-current={month === buildMonth ? 'date' : undefined}>
+              {monthName(month)}
+            </a>
           </li>
         ))}
-      </ul>
+      </ol>
     </nav>
     <p>
       <a href={routes.calendar}>{ui.calendar.heading}</a>
@@ -41,30 +43,54 @@ import { routes } from './routes';
   .site-footer__inner {
     display: grid;
     gap: var(--space-4);
-    padding-block: var(--space-8);
-  }
-
-  .site-footer__heading {
-    font-size: var(--font-size-base);
-    color: var(--color-text);
-    margin-bottom: var(--space-2);
+    padding-block: var(--space-6) var(--space-8);
   }
 
   .site-footer__months {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
-    gap: var(--space-1) var(--space-4);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2px;
     padding: 0;
     list-style: none;
   }
 
   .site-footer__months a {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: center;
     min-height: var(--target-min);
+    padding-inline: var(--space-1);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    background: var(--color-background);
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .site-footer__months a:hover {
+    text-decoration: underline;
+  }
+
+  .site-footer__months a[aria-current='date'] {
+    border-color: var(--color-text);
+    color: var(--color-on-marker);
+    background: var(--color-marker);
+    font-weight: 700;
   }
 
   .site-footer__disclaimer {
     max-width: var(--reading-width);
+  }
+
+  @media (min-width: 30rem) {
+    .site-footer__months {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .site-footer__months {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
   }
 </style>
