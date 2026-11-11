@@ -17,8 +17,8 @@ describe('seed organic data', () => {
     }
   });
 
-  it('AC6: no placeholder farm claims an organic certificate', () => {
+  it('AC6: no seed farm claims an organic certificate without verification', () => {
     const farms = readSeedCollection('farms').map(({ data }) => farmSchema.parse(data));
-    expect(farms.filter((farm) => farm.isPlaceholder && farm.organic !== undefined)).toEqual([]);
+    expect(farms.filter((farm) => farm.organic !== undefined)).toEqual([]);
   });
 });

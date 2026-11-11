@@ -42,13 +42,13 @@ describe('FarmList organic information', () => {
 });
 
 describe('FarmList organic labels (QA 019)', () => {
-  it('AC5: keeps the sponsored and placeholder labels next to the organic label', async () => {
+  it('AC5: keeps the sponsored label next to the organic label', async () => {
     const sponsored = toFarm(
       'sponsor',
       farmRecord({
         name: 'Спонсор',
         sponsored: true,
-        isPlaceholder: true,
+
         organic: certificateRecord(),
       }),
     );
@@ -56,6 +56,6 @@ describe('FarmList organic labels (QA 019)', () => {
       organic,
       farms: [{ farm: sponsored, region: plovdiv, certifiedOrganic: true }],
     });
-    expect(html).toMatch(/Био · Балкан Биосерт[\s\S]*Спонсорирано[\s\S]*Примерни данни/);
+    expect(html).toMatch(/Био · Балкан Биосерт[\s\S]*Спонсорирано/);
   });
 });

@@ -28,7 +28,6 @@ describe('Farm', () => {
   it('maps the record into a frozen entity', () => {
     expect(farm.slug).toBe('zelena-dolina');
     expect(farm.regionSlug).toBe('plovdiv');
-    expect(farm.isPlaceholder).toBe(true);
     expect(farm.contact.email).toBe('farm@example.com');
     expect(Object.isFrozen(farm)).toBe(true);
   });
