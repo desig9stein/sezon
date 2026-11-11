@@ -10,7 +10,7 @@ import {
 } from '@design/fontSubsets.mjs';
 
 /** Byte budget of the upright files the layout preloads, so a photo can still be the fast LCP. */
-const PRELOAD_BUDGET_BYTES = 80_000;
+const PRELOAD_BUDGET_BYTES = 75_000;
 const SUBSETS = Object.keys(FONT_SUBSETS) as FontSubset[];
 
 describe('self-hosted font subsets', () => {

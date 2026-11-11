@@ -53,7 +53,7 @@ const photo = variant === 'plate' ? produce.photo : undefined;
       height={displayHeight(photo.image, PLATE_DISPLAY_WIDTH)}
       widths={PLATE_WIDTHS}
       sizes={priority ? LEAD_PLATE_SIZES : PLATE_SIZES}
-      quality={50}
+      quality={40}
       loading={priority ? 'eager' : 'lazy'}
       fetchpriority={priority ? 'high' : undefined}
     />

@@ -2,11 +2,12 @@
 
 /**
  * Characters kept in each self-hosted font subset, as CSS `unicode-range` values. Latin keeps
- * Latin-1 (accented names in photo credits), general punctuation („“ – — …), € and the minus;
- * Cyrillic keeps the basic block (Bulgarian, Russian, Serbian letters) and №.
+ * ASCII, the Latin-1 symbols (no-break space, ©, µ, °, ·, «», ×, ÷), general punctuation
+ * („“ – — …), € and the minus; accented Latin letters fall back to the system font. Cyrillic
+ * keeps the basic block (Bulgarian, Russian, Serbian letters) and №.
  */
 export const FONT_SUBSETS = /** @type {const} */ ({
-  latin: 'U+0000-00FF,U+0131,U+0152-0153,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212',
+  latin: 'U+0020-007E,U+00A0-00BF,U+00D7,U+00F7,U+2010-2027,U+2030-203A,U+20AC,U+2212',
   cyrillic: 'U+0400-045F,U+2116',
 });
 
