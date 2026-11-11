@@ -72,6 +72,27 @@ reviewStatus: draft # draft | reviewed
   (EU Regulation 1924/2006).
 - Set `reviewStatus: reviewed` only after a human has checked every value against the source.
 
+## Add a nutrient (`src/data/nutrients/`)
+
+```yaml
+name: Витамин C
+kind: vitamin # vitamin | mineral
+unit: mg # mg | µg
+referenceIntake: 80 # EU adult NRV, Regulation (EU) No 1169/2011, Annex XIII Part A
+claims: # authorised health claims, verbatim, without the final full stop
+  - Витамин С допринася за нормалната функция на имунната система
+claimsSource:
+  name: Регламент (ЕС) № 432/2012 на Комисията (списък на разрешените здравни претенции)
+  url: https://eur-lex.europa.eu/legal-content/BG/TXT/?uri=CELEX:32012R0432
+note: Optional editorial note, e.g. the unit basis. # optional
+```
+
+- Copy each claim **verbatim** from the Bulgarian text of Regulation (EU) No 432/2012 on
+  EUR-Lex. Never paraphrase, shorten or combine claims. Add the sentence to the list of authorised
+  claims in `tests/unit/contexts/catalog/infrastructure/nutrientClaims.test.ts`.
+- The page labels a produce „Източник на …“ from 15 % and „С високо съдържание на …“ from 30 % of
+  the reference intake per 100 g (Regulation (EC) No 1924/2006). Never write „богат на …“.
+
 ## Add a farm (`src/data/farms/`)
 
 ```yaml

@@ -14,8 +14,8 @@ export function produceRecord(overrides: Partial<ProduceRecord> = {}): ProduceRe
     kind: 'vegetable',
     group: 'krastotsvetni',
     summary:
-      'Зелето е най-сладко и хрупкаво през есента. Богато е на витамин C и K и се съхранява дълго.',
-    varieties: [{ name: 'Бяло зеле' }, { name: 'Червено зеле', note: 'По-богато на антоцианини.' }],
+      'Зелето е най-сладко и хрупкаво през есента. Има високо съдържание на витамин C и K и се съхранява дълго.',
+    varieties: [{ name: 'Бяло зеле' }, { name: 'Червено зеле', note: 'Съдържа антоцианини.' }],
     season: [
       { month: 9, level: 'peak' },
       { month: 10, level: 'peak' },
@@ -52,6 +52,15 @@ export function produceRecord(overrides: Partial<ProduceRecord> = {}): ProduceRe
     ...overrides,
   };
 }
+
+/** Authorised claim fields shared by test nutrients (Regulation (EU) No 432/2012). */
+export const NUTRIENT_CLAIMS = {
+  claims: ['Витамин С допринася за нормалната функция на имунната система'],
+  claimsSource: {
+    name: 'Регламент (ЕС) № 432/2012',
+    url: 'https://eur-lex.europa.eu/legal-content/BG/TXT/?uri=CELEX:32012R0432',
+  },
+};
 
 /** Returns a valid farm record; `overrides` replace top-level fields. */
 export function farmRecord(overrides: Partial<FarmRecord> = {}): FarmRecord {

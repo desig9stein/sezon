@@ -11,7 +11,7 @@ import {
   InvalidNutrientError,
   InvalidProduceError,
 } from '@shared/domain/errors';
-import { farmRecord, produceRecord } from '@tests/fixtures/records';
+import { farmRecord, produceRecord, NUTRIENT_CLAIMS } from '@tests/fixtures/records';
 
 describe('QA 002 regressions', () => {
   describe('updatedAt', () => {
@@ -111,7 +111,7 @@ describe('QA 002 regressions', () => {
             kind: 'vitamin',
             unit: 'mg',
             referenceIntake,
-            description: 'x',
+            ...NUTRIENT_CLAIMS,
           }),
         ).toThrow(InvalidNutrientError);
       },
@@ -124,7 +124,7 @@ describe('QA 002 regressions', () => {
         kind: 'vitamin',
         unit: 'mg',
         referenceIntake: 80,
-        description: 'x',
+        ...NUTRIENT_CLAIMS,
       });
       expect(() => nutrient.percentOfReferenceIntake(amount)).toThrow(InvalidNutrientError);
     });

@@ -77,3 +77,8 @@ export class InvalidConfigurationError extends DomainError {
 export class ProduceNotFoundError extends DomainError {
   readonly code = 'PRODUCE_NOT_FOUND';
 }
+
+/** Thrown when no nutrient exists for a requested slug. */
+export class NutrientNotFoundError extends DomainError {
+  readonly code = 'NUTRIENT_NOT_FOUND';
+}

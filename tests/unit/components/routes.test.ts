@@ -26,6 +26,10 @@ describe('routes', () => {
     expect(routes.produceSection(kind)).toBe(section);
   });
 
+  it('AC5 (spec 011): returns the nutrient page path', () => {
+    expect(routes.nutrient('vitamin-c')).toBe('/nutrienti/vitamin-c');
+  });
+
   it.each([
     ['fruit', '/plodove'],
     ['vegetable', '/zelenchutsi'],

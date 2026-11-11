@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { NUTRIENT_CLAIMS } from '@tests/fixtures/records';
 import { Nutrient } from '@contexts/catalog';
 
 const vitaminC = Nutrient.create({
@@ -7,7 +8,7 @@ const vitaminC = Nutrient.create({
   kind: 'vitamin',
   unit: 'mg',
   referenceIntake: 80,
-  description: 'Допринася за нормалната функция на имунната система.',
+  ...NUTRIENT_CLAIMS,
 });
 
 describe('Nutrient', () => {

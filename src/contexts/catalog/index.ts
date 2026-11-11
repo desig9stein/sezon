@@ -1,5 +1,11 @@
-export { Nutrient, NUTRIENT_KINDS, NUTRIENT_UNITS } from './domain/Nutrient';
-export type { NutrientInput, NutrientKind, NutrientUnit } from './domain/Nutrient';
+export {
+  HIGH_PERCENT,
+  Nutrient,
+  NUTRIENT_KINDS,
+  NUTRIENT_UNITS,
+  SOURCE_PERCENT,
+} from './domain/Nutrient';
+export type { ClaimLevel, NutrientInput, NutrientKind, NutrientUnit } from './domain/Nutrient';
 export { NutritionFacts } from './domain/NutritionFacts';
 export type {
   Macronutrient,
@@ -29,5 +35,7 @@ export type {
 } from './domain/repositories';
 export { SeasonOverviewService } from './application/SeasonOverviewService';
 export type { SeasonOverview } from './application/SeasonOverviewService';
+export { NutrientRankingService } from './application/NutrientRankingService';
+export type { NutrientRanking, NutrientRankingEntry } from './application/NutrientRankingService';
 export { SectionIndexService } from './application/SectionIndexService';
 export type { SectionIndex } from './application/SectionIndexService';

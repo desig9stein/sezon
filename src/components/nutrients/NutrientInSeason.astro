@@ -1,0 +1,36 @@
+---
+import { routes } from '@components/layout/routes';
+import type { NutrientRanking } from '@contexts/catalog';
+import { ui } from '@i18n/bg';
+
+/** Produce that is fresh now and carries a claim for the nutrient; renders nothing otherwise. */
+interface Props {
+  ranking: NutrientRanking;
+}
+
+const { ranking } = Astro.props;
+const labels = ui.nutrients;
+---
+
+{ranking.inSeason.length > 0 && (
+  <section aria-labelledby="in-season">
+    <h2 id="in-season">{labels.inSeasonHeading}</h2>
+    <ul class="in-season" role="list">
+      {ranking.inSeason.map((entry) => (
+        <li>
+          <a href={routes.produce(entry.produce)}>{entry.produce.name}</a>
+          {entry.claimLevel !== undefined &&
+            `${labels.labelSeparator}${labels.claimLabels[entry.claimLevel](ranking.nutrient.name)}`}
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+<style>
+  .in-season {
+    display: grid;
+    gap: var(--space-1);
+    padding-inline-start: var(--space-6);
+  }
+</style>

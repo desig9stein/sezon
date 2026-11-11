@@ -54,6 +54,7 @@ describe('QA 004 regressions', () => {
     expect(Object.keys(routes).sort()).toEqual([
       'home',
       'month',
+      'nutrient',
       'produce',
       'produceSection',
       'section',
