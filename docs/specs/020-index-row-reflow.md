@@ -19,8 +19,9 @@ at any width from 320 px up.
 
 ### In scope
 
-- The CSS of the `index` variant of `ProduceCard`: the name keeps at least its own width; the
-  meta line (Latin name, kind, badge) takes the remaining space and wraps.
+- The CSS of the `index` variant of `ProduceCard`: the row becomes a wrapping flex line. The name
+  comes first; the meta line (Latin name, kind, badge) sits at the end of the row and moves under
+  the name when it does not fit beside it.
 
 ### Out of scope
 
@@ -32,7 +33,8 @@ No change.
 
 ## 5. Behaviour and edge cases
 
-- Long Latin names (e.g. „Daucus carota subsp. sativus“) wrap inside the meta column.
+- Long Latin names (e.g. „Daucus carota subsp. sativus“) and long produce names wrap or move the
+  meta line to the next line; text never overlaps.
 - Source order and markup are unchanged, so the page reads the same without CSS (spec 009).
 
 ## 6. Accessibility requirements
@@ -46,19 +48,24 @@ No change.
 
 ## 8. Acceptance criteria
 
-1. **AC1:** Given the month, section and group pages at 320 px and 390 px wide, when they render,
-   then no two text boxes of any index row (name link, Latin name, kind, badge) intersect.
+1. **AC1:** Given the month, section and group pages at 320, 390 and 768 px wide, when they
+   render, then no two text boxes of any index row (name link, Latin name, kind, badge) intersect
+   and the page has no horizontal scroll.
+2. **AC2:** Given an index row whose produce name is long (e.g. „Брюкселско зеле (кълнове) от
+   планината“), when the month page renders at 320, 390 and 768 px, then its text boxes do not
+   intersect.
 
 ## 9. Test plan
 
 | AC  | Type | Test file                            |
 | --- | ---- | ------------------------------------ |
 | AC1 | e2e  | `tests/e2e/index-row-reflow.spec.ts` |
+| AC2 | e2e  | `tests/e2e/index-row-reflow.spec.ts` |
 
 ## 10. Third-party documentation consulted
 
-| Package / source | Version | Source                                                   | Topic                |
-| ---------------- | ------- | -------------------------------------------------------- | -------------------- |
-| CSS Grid         | current | MDN `grid-template-columns`, `minmax()` (track sizing)   | Column sizing        |
-| @playwright/test | 1.63.0  | Context7 `/microsoft/playwright` (`locator.boundingBox`) | Measuring text boxes |
-| WCAG 2.2         | current | Understanding SC 1.4.10 Reflow                           | Acceptance threshold |
+| Package / source | Version | Source                                                                 | Topic                |
+| ---------------- | ------- | ---------------------------------------------------------------------- | -------------------- |
+| CSS Grid         | current | MDN `flex-wrap`, `margin-inline-start: auto` (flex layout)             | Row layout           |
+| @playwright/test | 1.63.0  | Context7 `/microsoft/playwright` (`page.evaluate`, `locator.evaluate`) | Measuring text boxes |
+| WCAG 2.2         | current | Understanding SC 1.4.10 Reflow                                         | Acceptance threshold |
