@@ -14,8 +14,8 @@ interface Props {
 
 const { growing } = Astro.props;
 const labels = ui.produce;
-const RANGE_SEPARATOR = ', ';
-const RANGE_DASH = ' – ';
+const RANGE_SEPARATOR = labels.monthListSeparator;
+const RANGE_DASH = labels.monthRangeDash;
 
 /** A month link or the text between links, in reading order. */
 type Token = { readonly month: Month } | { readonly text: string };

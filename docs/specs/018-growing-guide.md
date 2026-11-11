@@ -36,7 +36,7 @@ practical tips, on the produce page. Every month and tip comes from a cited Bulg
 - **Produce page:** an „Отглеждане в градината“ section after „Как да съхраняваме“:
   - a definition list with one row per activity that has months („Сеитба“, „Разсаждане“,
     „Засаждане“), each giving its months as ranges of month names linked to the month pages
-    (e.g. „март – април“, „ноември, март“);
+    (e.g. „март – април“, „март, ноември – декември“);
   - the planting note;
   - the tips as a bulleted list;
   - the growing sources added to the page's sources list.
@@ -52,10 +52,10 @@ practical tips, on the produce page. Every month and tip comes from a cited Bulg
 ## 4. Domain model
 
 - `GrowingActivity`: `'sow' | 'transplant' | 'plant'`.
-- `GrowingGuide` (interface): `sow`, `transplant`, `plant` (`ReadonlyArray<Month>`, sorted by
+- `GrowingGuide` (class with a validating `create`): `sow`, `transplant`, `plant` (`ReadonlyArray<Month>`, sorted by
   month number), `plantingNote?`, `tips`, `sources`, and `activitiesIn(month)`.
-- `Produce.growing: GrowingGuide | undefined`, frozen. `Produce.create` rejects a guide with
-  no months and no note (`InvalidProduceError`).
+- `Produce.growing: GrowingGuide | undefined`, frozen. `GrowingGuide.create` rejects a guide with
+  no months and no note, or no sources (`InvalidProduceError`), and keeps each month once.
 - `monthRanges(months)` (i18n helper): groups consecutive months into ranges of `[first]` or
   `[first, last]`, wrapping December to January (11, 12, 1 → `[ноември, януари]`); the component
   renders each range as „first – last“ with both ends linked, and joins ranges with commas.
@@ -67,7 +67,12 @@ practical tips, on the produce page. Every month and tip comes from a cited Bulg
 - Ranges: a single month is its name; two or more consecutive months are „first – last“;
   separate ranges are joined by commas, in calendar order starting from the earliest month that
   does not continue a December range (e.g. 2, 3, 10, 11 → „февруари – март, октомври – ноември“).
-- Month names in ranges are links to the month pages; in a range both ends link.
+- Month names in ranges are links to the month pages; in a range both ends link. The list
+  separator and the range dash are UI strings in `src/i18n/bg.ts`.
+- Data notes (QA 018): walnut is planted from late September to late October, because a cited
+  source names walnut as the exception to November planting; the apple and pear note follows
+  bgfermer 12974658 (non-hardy varieties in spring; in the north, also saplings from southern
+  nurseries).
 
 ## 6. Accessibility requirements
 

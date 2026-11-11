@@ -28,7 +28,7 @@ export class GrowingGuide {
 
   private constructor(input: GrowingGuideInput) {
     const months = (numbers: ReadonlyArray<number>) =>
-      frozenList([...numbers].sort((a, b) => a - b).map((number) => Month.of(number)));
+      frozenList([...new Set(numbers)].sort((a, b) => a - b).map((number) => Month.of(number)));
     this.sow = months(input.sow);
     this.transplant = months(input.transplant);
     this.plant = months(input.plant);

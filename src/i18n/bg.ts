@@ -175,6 +175,8 @@ export const ui = {
     outOfSeason: 'Извън сезона',
     outOfSeasonLower: 'извън сезона',
     photoCredit: 'Снимка:',
+    monthListSeparator: ', ',
+    monthRangeDash: ' – ',
     growingActivities: {
       sow: 'Сеитба',
       transplant: 'Разсаждане',
