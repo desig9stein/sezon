@@ -17,8 +17,8 @@ and which local farms sell them.
 - **Repository language:** English. Code, identifiers, comments, commit messages, specs,
   ADRs, file names and data keys are in English. Bulgarian appears only in content values
   (`src/data/**`) and UI strings (`src/i18n/bg.ts`).
-- **Quality bar:** Lighthouse **100/100** in Performance, Accessibility, Best Practices and SEO
-  on every page template. WCAG 2.2 AA. Zero axe violations.
+- **Quality bar:** Lighthouse **100** in Accessibility, Best Practices and SEO, and at least
+  **95** in Performance, on every page template (ADR-0005). WCAG 2.2 AA. Zero axe violations.
 - **Business model:** non-intrusive advertising (direct sponsors first, lazy AdSense second).
   See `docs/ADR/0003-hybrid-advertising.md`.
 
@@ -255,7 +255,7 @@ tests/
 - [ ] All acceptance criteria have a passing test.
 - [ ] `qa-reviewer` ran and every confirmed finding is fixed.
 - [ ] `pnpm verify` passes (lint, types, unit, build, html-validate, e2e + axe).
-- [ ] For UI changes: `pnpm lhci` reports 100 in all four categories.
+- [ ] For UI changes: `pnpm lhci` reports Performance ≥ 95 and 100 in the other three categories.
 - [ ] No UI string outside `src/i18n/bg.ts` or `src/data/**`.
 - [ ] Comments follow the comment policy.
 
@@ -282,7 +282,7 @@ tests/
   has an epic; a sub-issue can itself have sub-issues (e.g. the redesign). PRs use `.github/pull_request_template.md` and
   link the issue with `Closes #<n>`.
 - CI runs separate checks (Prettier, ESLint, Types, Unit tests and coverage, Build and HTML
-  validation, E2E and accessibility, Lighthouse 100); all must pass before merging.
+  validation, E2E and accessibility, Lighthouse); all must pass before merging.
 - A pre-commit hook (`simple-git-hooks` + `lint-staged`, installed by `pnpm install`) runs
   ESLint `--fix` and Prettier on staged files. Do not bypass it with `--no-verify`.
 - The PR title is a Conventional Commits summary; the body lists the specs, what changed and how
