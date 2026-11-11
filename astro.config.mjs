@@ -1,37 +1,24 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import fontsourceRanges from '@fontsource-variable/sofia-sans/unicode.json' with { type: 'json' };
 
 const NOT_FOUND_PATH = '/404';
+const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://sezon.example';
 
-/** Fontsource unicode ranges of the Cyrillic and Latin subsets. */
-/** @type {[string, ...string[]]} */
-const CYRILLIC = ['U+0301', 'U+0400-045F', 'U+0490-0491', 'U+04B0-04B1', 'U+2116'];
-/** @type {[string, ...string[]]} */
-const LATIN = [
-  'U+0000-00FF',
-  'U+0131',
-  'U+0152-0153',
-  'U+02BB-02BC',
-  'U+02C6',
-  'U+02DA',
-  'U+02DC',
-  'U+0304',
-  'U+0308',
-  'U+0329',
-  'U+2000-206F',
-  'U+20AC',
-  'U+2122',
-  'U+2191',
-  'U+2193',
-  'U+2212',
-  'U+2215',
-  'U+FEFF',
-  'U+FFFD',
-];
+/** Fontsource unicode ranges per subset (identical for both families). */
+const RANGES = /** @type {Record<'latin' | 'cyrillic', string>} */ (fontsourceRanges);
 
 /**
- * Returns the Cyrillic and Latin local font variants for a Fontsource variable font file pattern.
+ * Splits a Fontsource unicode-range string into a non-empty list of ranges.
+ * @param {string} ranges - Comma-separated ranges, e.g. `U+0400-045F,U+2116`.
+ */
+const rangeList = (ranges) => /** @type {[string, ...string[]]} */ (ranges.split(','));
+
+/**
+ * Returns the Latin and Cyrillic local font variants for a Fontsource variable font file pattern.
+ * Latin comes first: Astro measures the fallback metrics from the first file, and those metrics
+ * need Latin letters.
  * @param {string} pkg - Package name, e.g. `@fontsource-variable/piazzolla`.
  * @param {string} file - File name with a `{subset}` placeholder.
  * @param {{ weight: string; style: 'normal' | 'italic' }} face - Weight range and style.
@@ -44,12 +31,15 @@ const subsets = (pkg, file, face) => {
     unicodeRange,
     src: /** @type {[string]} */ ([`${pkg}/files/${file.replace('{subset}', subset)}`]),
   });
-  return { cyrillic: variant('cyrillic', CYRILLIC), latin: variant('latin', LATIN) };
+  return {
+    latin: variant('latin', rangeList(RANGES.latin)),
+    cyrillic: variant('cyrillic', rangeList(RANGES.cyrillic)),
+  };
 };
 
 const PIAZZOLLA = subsets(
   '@fontsource-variable/piazzolla',
-  'piazzolla-{subset}-opsz-normal.woff2',
+  'piazzolla-{subset}-wght-normal.woff2',
   {
     weight: '100 900',
     style: 'normal',
@@ -68,7 +58,6 @@ const SOFIA_SANS = subsets(
     style: 'normal',
   },
 );
-const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://sezon.example';
 
 export default defineConfig({
   site: SITE_URL,
@@ -87,10 +76,10 @@ export default defineConfig({
       fallbacks: ['Georgia', 'serif'],
       options: {
         variants: [
-          PIAZZOLLA.cyrillic,
           PIAZZOLLA.latin,
-          PIAZZOLLA_ITALIC.cyrillic,
+          PIAZZOLLA.cyrillic,
           PIAZZOLLA_ITALIC.latin,
+          PIAZZOLLA_ITALIC.cyrillic,
         ],
       },
     },
@@ -100,7 +89,7 @@ export default defineConfig({
       cssVariable: '--font-sofia-sans',
       fallbacks: ['system-ui', 'sans-serif'],
       options: {
-        variants: [SOFIA_SANS.cyrillic, SOFIA_SANS.latin],
+        variants: [SOFIA_SANS.latin, SOFIA_SANS.cyrillic],
       },
     },
   ],

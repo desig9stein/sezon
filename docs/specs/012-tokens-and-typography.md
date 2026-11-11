@@ -55,7 +55,7 @@ None. Design tokens only.
 
 | Family     | Files (Fontsource 5.3.0)                                                                 | `unicode-range`                        |
 | ---------- | ---------------------------------------------------------------------------------------- | -------------------------------------- |
-| Piazzolla  | `cyrillic-opsz-normal`, `latin-opsz-normal`, `cyrillic-wght-italic`, `latin-wght-italic` | Fontsource's Cyrillic and Latin ranges |
+| Piazzolla  | `latin-wght-normal`, `cyrillic-wght-normal`, `latin-wght-italic`, `cyrillic-wght-italic` | Fontsource's Cyrillic and Latin ranges |
 | Sofia Sans | `cyrillic-wght-normal`, `latin-wght-normal`                                              | Fontsource's Cyrillic and Latin ranges |
 
 ## 5. Behaviour and edge cases
@@ -68,6 +68,9 @@ None. Design tokens only.
   needs both subsets, because the Latin subset also holds digits, spaces and punctuation. The
   italic files are not preloaded. Local fonts carry no subset metadata, so the preload filter
   selects by style.
+- **Subset order:** Latin before Cyrillic in every family, because Astro measures the fallback
+  metrics from the first file and the measurement needs Latin letters. The unicode ranges are
+  read from the package's `unicode.json`.
 - **Fallbacks:**
   - Piazzolla: `Georgia, serif`. Sofia Sans: `system-ui, sans-serif`.
   - Astro generates metric-adjusted fallback faces (`size-adjust`), so swapping in the real
@@ -114,7 +117,7 @@ None. Design tokens only.
    - `h1` computes to the Piazzolla family and `body` to Sofia Sans;
    - `document.fonts.check` confirms the Bulgarian text renders with the loaded faces;
    - every font request is same-origin under `/_astro/fonts/` (e2e).
-6. **AC6:** Lighthouse scores 100 in all four categories, with CLS 0 (LHCI, existing gate).
+6. **AC6:** Lighthouse scores 100 in all four categories, and the `cumulative-layout-shift` audit is 0 (LHCI assertion). The generated fallback faces keep `size-adjust` within 85–115 % (component test).
 
 ## 9. Test plan
 
@@ -130,6 +133,6 @@ None. Design tokens only.
 | Package / source                | Version | Source                                                                                                                                                                                                                                          | Topic                             |
 | ------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
 | astro                           | 7.4.8   | Context7 `/withastro/docs` (guides/fonts; reference/font-provider-reference: local provider, variants, `unicodeRange`, `display`; reference/modules/astro-assets: `<Font preload>`; configuration-reference: `fallbacks`, `optimizedFallbacks`) | Fonts API                         |
-| @fontsource-variable/piazzolla  | 5.3.0   | `node_modules/@fontsource-variable/piazzolla/{opsz,wght-italic}.css`                                                                                                                                                                            | File names, axes, `unicode-range` |
+| @fontsource-variable/piazzolla  | 5.3.0   | `node_modules/@fontsource-variable/piazzolla/{wght,wght-italic}.css`, `unicode.json`                                                                                                                                                            | File names, axes, `unicode-range` |
 | @fontsource-variable/sofia-sans | 5.3.0   | `node_modules/@fontsource-variable/sofia-sans/wght.css`                                                                                                                                                                                         | File names, axes, `unicode-range` |
 | WCAG 2.2                        | 2023    | Understanding 1.4.3, 1.4.11, 1.4.12                                                                                                                                                                                                             | Contrast, text spacing            |
