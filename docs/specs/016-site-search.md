@@ -74,12 +74,22 @@ None. One pure helper in `src/shared/seo/` (or `src/i18n/`):
     removes the `.html` suffix so links match the site's canonical URLs.
   - The excerpt is Pagefind's `excerpt` (HTML-encoded, with `<mark>` around matches). Titles are
     inserted as text, never as HTML.
-- **Status (`role="status"`, polite):** „Търсене…“ while loading, „Намерени резултати: N за
-  „…““ or „Няма резултати за „…“.“ after a search, and „Търсенето не може да се зареди.“ if
+- **Status (`role="status"`, polite):** „Търсене…“ while loading, „Резултати: N за „…““ or „Няма резултати за „…“.“ after a search, and „Търсенето не може да се зареди.“ if
   the Pagefind bundle fails to load.
 - **Without JavaScript.** The form submits but nothing runs. The `<noscript>` note says
   „Търсенето изисква JavaScript. Разгледайте каталога по-долу.“ and the browse list is there.
 - **Partial words.** Pagefind matches word prefixes, so „ябъл“ finds „Ябълки“.
+  Pagefind has no Bulgarian stemming, so the singular „ябълка“ and informal spellings such as
+  „yabulki“ do not find the plural page; a follow-up can add search terms per produce.
+- **Count.** The status counts the results shown (at most 10), so a screen-reader user hears
+  the number of links they can reach.
+- **Latin label.** Pagefind adds the indexed `data-search-latin` text to the page content. The
+  heading also stores it as `latin` metadata (`data-pagefind-meta="latin[data-search-latin]"`),
+  and the script removes it from the start of each excerpt.
+- **Load failure.** A failed Pagefind load shows the failure status and is retried on the next
+  query.
+- **JSON-LD.** `websiteJsonLd` takes the search path as input; the path lives in `routes.ts`
+  with the other routes.
 
 ## 6. Accessibility requirements
 
@@ -97,7 +107,7 @@ None. One pure helper in `src/shared/seo/` (or `src/i18n/`):
 
 ## 7. SEO requirements
 
-- Title „Търсене в Сезон“ (≤ 60 characters) and a 70–160 character description.
+- Title „Търсене“ (with the site suffix, ≤ 60 characters) and a 70–160 character description.
 - `/tarsene` is `noindex, follow` without a canonical URL, like the 404 page: search result
   pages have no content of their own. It is not in the sitemap.
 - `WebSite` JSON-LD gets `potentialAction` `SearchAction` with
@@ -133,24 +143,30 @@ None. One pure helper in `src/shared/seo/` (or `src/i18n/`):
 
 ## 9. Test plan
 
-| AC   | Type       | Test file                                                                   |
-| ---- | ---------- | --------------------------------------------------------------------------- |
-| AC1  | unit       | `tests/unit/shared/seo/latinSearchText.test.ts`                             |
-| AC2  | unit       | `tests/unit/shared/seo/jsonLd-016.test.ts`                                  |
-| AC3  | component  | `tests/components/SearchPage-016.test.ts`                                   |
-| AC4  | e2e        | `tests/e2e/search.spec.ts`                                                  |
-| AC5  | component  | `tests/components/SiteHeader-016.test.ts`, existing `atlas-restyle.spec.ts` |
-| AC6  | e2e        | `tests/e2e/search.spec.ts`                                                  |
-| AC7  | e2e        | `tests/e2e/search.spec.ts`                                                  |
-| AC8  | e2e        | `tests/e2e/search.spec.ts`                                                  |
-| AC9  | e2e        | `tests/e2e/search.spec.ts`, `readable-without-css.spec.ts`                  |
-| AC10 | unit, LHCI | `tests/unit/repo/headers-016.test.ts`, `lighthouserc.cjs`                   |
+| AC   | Type           | Test file                                                                   |
+| ---- | -------------- | --------------------------------------------------------------------------- |
+| AC1  | unit           | `tests/unit/shared/seo/latinSearchText.test.ts`                             |
+| AC2  | unit           | `tests/unit/shared/seo/jsonLd-016.test.ts`                                  |
+| AC3  | component, e2e | `tests/components/SiteSearch.test.ts`, `tests/e2e/search.spec.ts`           |
+| AC4  | e2e            | `tests/e2e/search.spec.ts`                                                  |
+| AC5  | component      | `tests/components/SiteHeader-016.test.ts`, existing `atlas-restyle.spec.ts` |
+| AC6  | e2e            | `tests/e2e/search.spec.ts`                                                  |
+| AC7  | e2e            | `tests/e2e/search.spec.ts`                                                  |
+| AC8  | e2e            | `tests/e2e/search.spec.ts`                                                  |
+| AC9  | e2e            | `tests/e2e/search.spec.ts`, `readable-without-css.spec.ts`                  |
+| AC10 | unit, LHCI     | `tests/unit/repo/headers-016.test.ts`, `lighthouserc.cjs`                   |
+
+QA regression tests (`QA 016`): `tests/unit/components/search/siteSearch.test.ts` (happy-dom:
+templates, `.html` suffix, Latin label, shown count, empty query, retry after a failed load,
+race between queries, `?q=` on start), `searchAttributes.test.ts`, and in `search.spec.ts` the
+empty-page axe scan, the 24 px browse links and the excerpt without the Latin label.
 
 ## 10. Third-party documentation consulted
 
-| Package / source | Version | Source                                                                                                                                                                                                         | Topic                      |
-| ---------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| pagefind         | 1.5.2   | Context7 `/pagefind/pagefind` (docs: api.md `init`, `options`, `search`, `result.data()`; indexing.md `data-pagefind-body`, `data-pagefind-index-attrs`; config-options.md; hosting.md CSP `wasm-unsafe-eval`) | JS API, indexing, CLI, CSP |
-| astro            | 7.4.8   | Context7 `/withastro/docs` (guides/client-side-scripts: `<script>` processing)                                                                                                                                 | Page script                |
-| WCAG 2.2 / HTML  | current | `<search>` element (WHATWG HTML), Understanding 4.1.3 Status Messages, 3.3.2                                                                                                                                   | Landmark, status, labels   |
-| schema.org       | current | `SearchAction`, `potentialAction`                                                                                                                                                                              | Sitelinks search box       |
+| Package / source | Version | Source                                                                                                                                                                                                         | Topic                          |
+| ---------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+| pagefind         | 1.5.2   | Context7 `/pagefind/pagefind` (docs: api.md `init`, `options`, `search`, `result.data()`; indexing.md `data-pagefind-body`, `data-pagefind-index-attrs`; config-options.md; hosting.md CSP `wasm-unsafe-eval`) | JS API, indexing, CLI, CSP     |
+| vitest           | 5.1.0   | Context7 `/vitest-dev/vitest` (guide/environment: `@vitest-environment` per file; happy-dom 21.0.4)                                                                                                            | DOM tests of the search script |
+| astro            | 7.4.8   | Context7 `/withastro/docs` (guides/client-side-scripts: `<script>` processing)                                                                                                                                 | Page script                    |
+| WCAG 2.2 / HTML  | current | `<search>` element (WHATWG HTML), Understanding 4.1.3 Status Messages, 3.3.2                                                                                                                                   | Landmark, status, labels       |
+| schema.org       | current | `SearchAction`, `potentialAction`                                                                                                                                                                              | Sitelinks search box           |

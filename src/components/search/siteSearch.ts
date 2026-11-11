@@ -22,7 +22,7 @@ export interface PagefindApi {
 
 /**
  * Replaces `{name}` placeholders in a status template.
- * @param template - Text such as „Намерени резултати: {count} за „{query}“.“.
+ * @param template - Text such as „Резултати: {count} за „{query}“.“.
  * @param values - Placeholder values by name.
  */
 export function fillTemplate(template: string, values: Readonly<Record<string, string>>): string {
