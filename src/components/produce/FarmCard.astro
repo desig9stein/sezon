@@ -5,7 +5,7 @@ import { ui } from '@i18n/bg';
 
 /**
  * One farm as a list item: name (heading at `headingLevel`), province, labels (organic with the
- * certifier when `certifiedOrganic`, sponsored, placeholder), description and contact links.
+ * certifier when `certifiedOrganic`, sponsored), description and contact links.
  */
 interface Props {
   farm: Farm;
@@ -27,7 +27,6 @@ const labels = ui.produce.farms;
       <span class="farm__tag">{labels.organic(farm.organic.certifier)}</span>
     )}
     {farm.sponsored && <span class="farm__tag">{labels.sponsored}</span>}
-    {farm.isPlaceholder && <span class="farm__tag">{labels.placeholder}</span>}
   </p>
   <p>{farm.description}</p>
   <ul class="farm__contacts" role="list">

@@ -1,8 +1,0 @@
-name: Слънчев сад
-region: kyustendil
-produce: [yabalki, krushi]
-description: Примерна овощна градина. Данните са илюстративни, докато не бъдат добавени реални ферми.
-contact:
-  email: slanchev-sad@example.com
-  phone: '+359000000002'
-isPlaceholder: true

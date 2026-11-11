@@ -126,8 +126,7 @@ organic:
 
 Leave the block out when no source states it (no „unknown“ is shown). Organic is a production
 method: never write it as a health or quality claim. A farm gets an `organic` block
-(`certifier`, `certificateId`, `validUntil`) only with a real certificate; placeholder farms never
-do. When the only evidence is a producer's own website, write that the producer states it is
+(`certifier`, `certificateId`, `validUntil`) only with a real certificate. When the only evidence is a producer's own website, write that the producer states it is
 certified („посочва, че е сертифицирана“), credit each figure only to the source that gives it,
 and do not name individual products or offers.
 
@@ -175,10 +174,17 @@ contact: # at least one of website, email, phone
   website: https://…
   email: farm@example.bg
   phone: '+359888123456' # E.164 format, quoted
-address: Optional address
-isPlaceholder: false
+address: Optional address (no private flat numbers)
 sponsored: false # optional, default false
+sources: # pages the facts come from, https, at least one
+  - https://…
 ```
+
+Only real farms, never invented examples. Every fact (province, produce, description, contacts)
+comes from the farm's own published pages, listed in `sources`. List only seed produce the farm
+says it grows or sells. Write the description in the third person; what a farm says about
+itself that the site has not checked (e.g. „сертифицирана“ without a certifier, number and
+expiry) starts with „По данни на фермата …“. Note paused sales with the month of the check.
 
 ## Seed data status
 
@@ -192,4 +198,5 @@ All seed produce entries are `reviewStatus: draft`.
   sources, and traditional uses, which cite Wikipedia as a starting point and should get
   primary sources.
 
-All farms are placeholders (`isPlaceholder: true`) on `example.com`.
+- **Farms (checked 2026-11-11, #16):** 10 real farms from their own websites. None publishes a
+  full organic certificate, so none has an `organic` block.

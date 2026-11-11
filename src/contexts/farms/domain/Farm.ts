@@ -21,7 +21,6 @@ export interface FarmInput {
   readonly description: string;
   readonly contact: ContactInfo;
   readonly address?: string | undefined;
-  readonly isPlaceholder: boolean;
   readonly sponsored: boolean;
   readonly organic?: OrganicCertificate | undefined;
 }
@@ -35,7 +34,6 @@ export class Farm {
   readonly description: string;
   readonly contact: ContactInfo;
   readonly address: string | undefined;
-  readonly isPlaceholder: boolean;
   readonly sponsored: boolean;
   readonly organic: OrganicCertificate | undefined;
 
@@ -47,7 +45,6 @@ export class Farm {
     this.description = input.description;
     this.contact = input.contact;
     this.address = input.address;
-    this.isPlaceholder = input.isPlaceholder;
     this.sponsored = input.sponsored;
     this.organic =
       input.organic === undefined

@@ -140,7 +140,7 @@ issues:
     start: '2027-01-19'
     target: '2027-01-20'
   16:
-    status: Backlog
+    status: In development
     priority: Medium
     impact: Big
     estimate: 5

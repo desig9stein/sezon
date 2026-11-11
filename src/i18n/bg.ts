@@ -223,7 +223,6 @@ export const ui = {
     },
     farms: {
       empty: 'Все още няма добавени ферми за този продукт.',
-      placeholder: 'Примерни данни',
       sponsored: 'Спонсорирано',
       organic: (certifier: string) => `Био · ${certifier}`,
       organicGroup: 'Сертифицирани био ферми',

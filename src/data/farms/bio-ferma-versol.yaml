@@ -1,0 +1,13 @@
+name: 'Био ферма „Версол“'
+region: vratsa
+produce: [dyuli, krushi, morkovi, yabalki]
+description: 'Семейна ферма, създадена през 2012 г. край с. Лик, с овощна градина и зеленчуци на открито. Предлага сезонни плодове и зеленчуци чрез „Семейна кошница“ и абонамент с доставка от фермата, но към ноември 2026 г. сайтът съобщава, че в момента няма доставки и абонаменти. По данни на фермата стопанството е биологично сертифицирано.'
+contact:
+  website: https://versol.bg/
+  email: versol_eood@abv.bg
+  phone: '+359886665454'
+address: 'с. Лик, общ. Мездра, местност „Койкина бара“'
+sources:
+  - https://versol.bg/
+  - https://versol.bg/bg/za-nas/fermata
+  - https://versol.bg/bg/bio-magazin

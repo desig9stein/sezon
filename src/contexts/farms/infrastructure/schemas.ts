@@ -29,8 +29,11 @@ export const farmSchema = z.strictObject({
       message: CONTACT_REQUIRED_MESSAGE,
     }),
   address: text().optional(),
-  isPlaceholder: z.boolean(),
   sponsored: z.boolean().default(false),
+  sources: z
+    .array(httpsUrl())
+    .min(1)
+    .superRefine(uniqueBy((url) => url, 'sources')),
   organic: z
     .strictObject({ certifier: text(), certificateId: text(), validUntil: isoDate() })
     .optional(),
