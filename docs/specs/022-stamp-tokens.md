@@ -55,6 +55,11 @@ No domain change. `Palette` gains `shell`, `onShell`, `focusOnShell`, `onPeak`, 
   text; it is used for Latin names only.
 - The condensed face's metric fallback (Arial) needs a smaller `size-adjust` (about 69 %); the
   spec 012 fallback check allows 55–100 % for it and keeps 85–115 % for Sofia Sans.
+- `marker` is only a fill under `onMarker` text; it is not a 3:1 boundary on light surfaces
+  (1.7:1), so the stamp slice (#93) must pair any marker outline with an ink edge.
+- `focus` on a `peak` tile is below 3:1 (1.2:1 light); the calendar tile's focus ring therefore
+  carries a 2px background halo, so the ring always borders the background.
+- In print, „Разгар“ badges and calendar tiles drop their fill and use print ink with a border.
 - Italic loads with `font-display: optional` (no layout shift); upright faces with `swap`, sized
   fallbacks from Astro's font API.
 
@@ -72,7 +77,8 @@ No change to titles, descriptions or structured data.
 
 ## 8. Acceptance criteria
 
-1. **AC1:** Given the design tokens, the light and dark palettes equal the ADR-0006 values.
+1. **AC1:** Given the design tokens, the light and dark palettes equal the values set by this spec
+   (derived from the ADR-0006 sketch and recorded in `DESIGN.md`).
 2. **AC2:** Given each palette, every pair in the required contrast list meets its minimum,
    including `onShell` on `shell`, `focusOnShell` on `shell`, `onPeak` on `peak` and `onMarker`
    on `marker`.

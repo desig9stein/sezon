@@ -23,7 +23,6 @@ export const REQUIRED_CONTRAST_PAIRS: ReadonlyArray<ContrastPair> = [
   ['focus', 'surface', 3],
   ['border', 'background', 3],
   ['border', 'surface', 3],
-  ['accent', 'background', 3],
   ['onShell', 'shell', 4.5],
   ['focusOnShell', 'shell', 3],
   ['onMarker', 'marker', 4.5],

@@ -46,4 +46,13 @@ const label = ui.seasonLevels[level.value];
   .season-badge[data-level='storage'] {
     background: var(--color-storage);
   }
+
+  @media print {
+    .season-badge,
+    .season-badge[data-level] {
+      border: 1px solid var(--print-ink);
+      color: var(--print-ink);
+      background: none;
+    }
+  }
 </style>
