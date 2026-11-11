@@ -6,239 +6,718 @@
     "colorMeta": {
       "background": {
         "role": "neutral",
-        "displayName": "Herbarium",
-        "canonical": "#ffffff",
+        "displayName": "Label Paper",
+        "canonical": "#f4f6fb",
+        "cssVariable": "--color-background",
         "darkCounterpart": "background-dark",
-        "darkValue": "#111a14",
-        "cssVariable": "--color-background"
+        "darkValue": "#0d1430",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#232425",
+          "#3f4042",
+          "#5c5d61",
+          "#7e8084",
+          "#a3a4a8",
+          "#cacacc",
+          "#eeeeef"
+        ]
       },
       "background-dark": {
         "role": "neutral",
-        "displayName": "Herbarium (dark)",
-        "canonical": "#111a14",
+        "displayName": "Label Paper (dark)",
+        "canonical": "#0d1430",
+        "cssVariable": "--color-background",
         "mediaQuery": "(prefers-color-scheme: dark)",
-        "cssVariable": "--color-background"
+        "tonalRamp": [
+          "#0a0b0f",
+          "#20242f",
+          "#383f54",
+          "#525c7c",
+          "#737fa3",
+          "#9ba4be",
+          "#c5cada",
+          "#eceef4"
+        ]
       },
       "surface": {
         "role": "neutral",
-        "displayName": "Plate",
-        "canonical": "#eef3ea",
+        "displayName": "Label White",
+        "canonical": "#ffffff",
+        "cssVariable": "--color-surface",
         "darkCounterpart": "surface-dark",
-        "darkValue": "#1a251e",
-        "cssVariable": "--color-surface"
+        "darkValue": "#141c3d",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
       },
       "surface-dark": {
         "role": "neutral",
-        "displayName": "Plate (dark)",
-        "canonical": "#1a251e",
+        "displayName": "Label White (dark)",
+        "canonical": "#141c3d",
+        "cssVariable": "--color-surface",
         "mediaQuery": "(prefers-color-scheme: dark)",
-        "cssVariable": "--color-surface"
+        "tonalRamp": [
+          "#0a0b0f",
+          "#1f2331",
+          "#373f57",
+          "#515c80",
+          "#727fa7",
+          "#9aa4c1",
+          "#c4cadc",
+          "#eceef5"
+        ]
       },
       "text": {
         "role": "neutral",
-        "displayName": "Ink",
-        "canonical": "#16241b",
+        "displayName": "Stencil Black",
+        "canonical": "#141a2e",
+        "cssVariable": "--color-text",
         "darkCounterpart": "text-dark",
-        "darkValue": "#e7eee6",
-        "cssVariable": "--color-text"
+        "darkValue": "#eef1fb",
+        "tonalRamp": [
+          "#0a0b0e",
+          "#21242c",
+          "#3a3f4e",
+          "#555d74",
+          "#777f99",
+          "#9ea4b7",
+          "#c6cad5",
+          "#edeef3"
+        ]
       },
       "text-dark": {
         "role": "neutral",
-        "displayName": "Ink (dark)",
-        "canonical": "#e7eee6",
+        "displayName": "Stencil Black (dark)",
+        "canonical": "#eef1fb",
+        "cssVariable": "--color-text",
         "mediaQuery": "(prefers-color-scheme: dark)",
-        "cssVariable": "--color-text"
+        "tonalRamp": [
+          "#0b0b0c",
+          "#232427",
+          "#3e3f45",
+          "#5b5d65",
+          "#7d8089",
+          "#a2a4ab",
+          "#c9cace",
+          "#eeeef0"
+        ]
       },
       "text-muted": {
         "role": "neutral",
-        "displayName": "Graphite",
-        "canonical": "#4a5b50",
+        "displayName": "Faded Ink",
+        "canonical": "#4a5270",
+        "cssVariable": "--color-text-muted",
         "darkCounterpart": "text-muted-dark",
-        "darkValue": "#a8b8ac",
-        "cssVariable": "--color-text-muted"
+        "darkValue": "#a9b1d1",
+        "tonalRamp": [
+          "#0a0b0e",
+          "#21242e",
+          "#393f52",
+          "#545c79",
+          "#767f9f",
+          "#9da4bb",
+          "#c6cad8",
+          "#edeef4"
+        ]
       },
       "text-muted-dark": {
         "role": "neutral",
-        "displayName": "Graphite (dark)",
-        "canonical": "#a8b8ac",
+        "displayName": "Faded Ink (dark)",
+        "canonical": "#a9b1d1",
+        "cssVariable": "--color-text-muted",
         "mediaQuery": "(prefers-color-scheme: dark)",
-        "cssVariable": "--color-text-muted"
+        "tonalRamp": [
+          "#0a0b0e",
+          "#21232d",
+          "#3a3f51",
+          "#565c77",
+          "#777f9d",
+          "#9ea4ba",
+          "#c6cad7",
+          "#edeef3"
+        ]
       },
       "accent": {
         "role": "primary",
-        "displayName": "Carmine",
-        "canonical": "#8a1c3f",
+        "displayName": "Stamp Ultramarine",
+        "canonical": "#1c3faa",
+        "cssVariable": "--color-accent",
         "darkCounterpart": "accent-dark",
-        "darkValue": "#f29ab2",
-        "cssVariable": "--color-accent"
+        "darkValue": "#9db3ff",
+        "tonalRamp": [
+          "#060b16",
+          "#132246",
+          "#203a7e",
+          "#2e54ba",
+          "#4c78e8",
+          "#7fa2f2",
+          "#b4caf9",
+          "#e6efff"
+        ]
       },
       "accent-dark": {
         "role": "primary",
-        "displayName": "Carmine (dark)",
-        "canonical": "#f29ab2",
+        "displayName": "Stamp Ultramarine (dark)",
+        "canonical": "#9db3ff",
+        "cssVariable": "--color-accent",
         "mediaQuery": "(prefers-color-scheme: dark)",
-        "cssVariable": "--color-accent"
+        "tonalRamp": [
+          "#090b12",
+          "#1c233a",
+          "#313d67",
+          "#485899",
+          "#687bc3",
+          "#92a2d6",
+          "#c0cae9",
+          "#eaeefa"
+        ]
       },
       "accent-text": {
         "role": "primary",
-        "displayName": "On Carmine",
+        "displayName": "On Ultramarine",
         "canonical": "#ffffff",
+        "cssVariable": "--color-accent-text",
         "darkCounterpart": "accent-text-dark",
-        "darkValue": "#2a0b16",
-        "cssVariable": "--color-accent-text"
+        "darkValue": "#0d1430",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
       },
       "accent-text-dark": {
         "role": "primary",
-        "displayName": "On Carmine (dark)",
-        "canonical": "#2a0b16",
+        "displayName": "On Ultramarine (dark)",
+        "canonical": "#0d1430",
+        "cssVariable": "--color-accent-text",
         "mediaQuery": "(prefers-color-scheme: dark)",
-        "cssVariable": "--color-accent-text"
+        "tonalRamp": [
+          "#0a0b0f",
+          "#20242f",
+          "#383f54",
+          "#525c7c",
+          "#737fa3",
+          "#9ba4be",
+          "#c5cada",
+          "#eceef4"
+        ]
       },
       "border": {
         "role": "neutral",
-        "displayName": "Border",
-        "canonical": "#7c8c80",
+        "displayName": "Pad Grey",
+        "canonical": "#6b7395",
+        "cssVariable": "--color-border",
         "darkCounterpart": "border-dark",
-        "darkValue": "#6f8174",
-        "cssVariable": "--color-border"
+        "darkValue": "#7480ad",
+        "tonalRamp": [
+          "#0a0b0f",
+          "#21232f",
+          "#3a3e53",
+          "#555c7b",
+          "#767ea1",
+          "#9da3bd",
+          "#c6cad9",
+          "#edeef4"
+        ]
       },
       "border-dark": {
         "role": "neutral",
-        "displayName": "Border (dark)",
-        "canonical": "#6f8174",
+        "displayName": "Pad Grey (dark)",
+        "canonical": "#7480ad",
+        "cssVariable": "--color-border",
         "mediaQuery": "(prefers-color-scheme: dark)",
-        "cssVariable": "--color-border"
+        "tonalRamp": [
+          "#0a0b10",
+          "#1f2332",
+          "#373e59",
+          "#515b83",
+          "#727eab",
+          "#9aa3c4",
+          "#c4cadd",
+          "#eceef6"
+        ]
       },
       "rule": {
         "role": "neutral",
-        "displayName": "Rule (decorative hairline)",
-        "canonical": "#c9d2c6",
+        "displayName": "Hairline",
+        "canonical": "#c9cfe2",
+        "cssVariable": "--color-rule",
         "darkCounterpart": "rule-dark",
-        "darkValue": "#2c3a31",
-        "cssVariable": "--color-rule"
+        "darkValue": "#2b3666",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#222429",
+          "#3c3f4a",
+          "#585d6d",
+          "#7a8091",
+          "#a0a4b1",
+          "#c8cad2",
+          "#edeef1"
+        ]
       },
       "rule-dark": {
         "role": "neutral",
-        "displayName": "Rule (decorative hairline) (dark)",
-        "canonical": "#2c3a31",
+        "displayName": "Hairline (dark)",
+        "canonical": "#2b3666",
+        "cssVariable": "--color-rule",
         "mediaQuery": "(prefers-color-scheme: dark)",
-        "cssVariable": "--color-rule"
+        "tonalRamp": [
+          "#090b11",
+          "#1e2335",
+          "#353e5e",
+          "#4d5a8b",
+          "#6e7db3",
+          "#97a3cb",
+          "#c2cae1",
+          "#ebeef7"
+        ]
       },
       "focus": {
         "role": "neutral",
-        "displayName": "Focus",
-        "canonical": "#1f5fa8",
+        "displayName": "Focus Amber",
+        "canonical": "#b45309",
+        "cssVariable": "--color-focus",
         "darkCounterpart": "focus-dark",
-        "darkValue": "#8cc2ff",
-        "cssVariable": "--color-focus"
+        "darkValue": "#ffc23d",
+        "tonalRamp": [
+          "#130804",
+          "#3a1a07",
+          "#672c01",
+          "#983f00",
+          "#c36120",
+          "#d9916a",
+          "#ebc0aa",
+          "#fcebe2"
+        ]
       },
       "focus-dark": {
         "role": "neutral",
-        "displayName": "Focus (dark)",
-        "canonical": "#8cc2ff",
+        "displayName": "Focus Amber (dark)",
+        "canonical": "#ffc23d",
+        "cssVariable": "--color-focus",
         "mediaQuery": "(prefers-color-scheme: dark)",
-        "cssVariable": "--color-focus"
+        "tonalRamp": [
+          "#100a02",
+          "#332000",
+          "#5a3800",
+          "#865100",
+          "#ad7400",
+          "#c69e4e",
+          "#dfc79d",
+          "#f6eddd"
+        ]
       },
       "peak": {
-        "role": "tertiary",
-        "displayName": "Season: Peak",
-        "canonical": "#b9dca3",
+        "role": "secondary",
+        "displayName": "Stamp Red",
+        "canonical": "#c8102e",
+        "cssVariable": "--color-peak",
         "darkCounterpart": "peak-dark",
-        "darkValue": "#446f3b",
-        "cssVariable": "--color-peak"
+        "darkValue": "#ff6b7f",
+        "tonalRamp": [
+          "#160606",
+          "#440d10",
+          "#790c1a",
+          "#b20023",
+          "#e13542",
+          "#f27c7a",
+          "#fcb6b2",
+          "#ffe7e5"
+        ]
       },
       "peak-dark": {
-        "role": "tertiary",
-        "displayName": "Season: Peak (dark)",
-        "canonical": "#446f3b",
+        "role": "secondary",
+        "displayName": "Stamp Red (dark)",
+        "canonical": "#ff6b7f",
+        "cssVariable": "--color-peak",
         "mediaQuery": "(prefers-color-scheme: dark)",
-        "cssVariable": "--color-peak"
+        "tonalRamp": [
+          "#150608",
+          "#401219",
+          "#72192b",
+          "#a81e3e",
+          "#d6455d",
+          "#e8828b",
+          "#f6b8bc",
+          "#ffe8e9"
+        ]
+      },
+      "on-peak": {
+        "role": "secondary",
+        "displayName": "On Stamp Red",
+        "canonical": "#ffffff",
+        "cssVariable": "--color-on-peak",
+        "darkCounterpart": "on-peak-dark",
+        "darkValue": "#0d1430",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "on-peak-dark": {
+        "role": "secondary",
+        "displayName": "On Stamp Red (dark)",
+        "canonical": "#0d1430",
+        "cssVariable": "--color-on-peak",
+        "mediaQuery": "(prefers-color-scheme: dark)",
+        "tonalRamp": [
+          "#0a0b0f",
+          "#20242f",
+          "#383f54",
+          "#525c7c",
+          "#737fa3",
+          "#9ba4be",
+          "#c5cada",
+          "#eceef4"
+        ]
       },
       "available": {
         "role": "tertiary",
-        "displayName": "Season: Available",
-        "canonical": "#dfe9c8",
+        "displayName": "Blue Wash",
+        "canonical": "#e3e9fb",
+        "cssVariable": "--color-available",
         "darkCounterpart": "available-dark",
-        "darkValue": "#3f5a3a",
-        "cssVariable": "--color-available"
+        "darkValue": "#26346e",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#222429",
+          "#3c3f49",
+          "#585d6c",
+          "#7a8090",
+          "#a0a4b0",
+          "#c8cad1",
+          "#edeef1"
+        ]
       },
       "available-dark": {
         "role": "tertiary",
-        "displayName": "Season: Available (dark)",
-        "canonical": "#3f5a3a",
+        "displayName": "Blue Wash (dark)",
+        "canonical": "#26346e",
+        "cssVariable": "--color-available",
         "mediaQuery": "(prefers-color-scheme: dark)",
-        "cssVariable": "--color-available"
+        "tonalRamp": [
+          "#090b12",
+          "#1c2338",
+          "#323d64",
+          "#495a94",
+          "#697dbd",
+          "#93a3d2",
+          "#c0cae6",
+          "#eaeef9"
+        ]
       },
       "storage": {
         "role": "tertiary",
-        "displayName": "Season: From Storage",
-        "canonical": "#dcd6e6",
+        "displayName": "Lilac Wash",
+        "canonical": "#ebe6f5",
+        "cssVariable": "--color-storage",
         "darkCounterpart": "storage-dark",
-        "darkValue": "#4a4560",
-        "cssVariable": "--color-storage"
+        "darkValue": "#352d5c",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#252327",
+          "#413e46",
+          "#5f5b67",
+          "#827e8b",
+          "#a6a3ac",
+          "#cbc9cf",
+          "#efeef0"
+        ]
       },
       "storage-dark": {
         "role": "tertiary",
-        "displayName": "Season: From Storage (dark)",
-        "canonical": "#4a4560",
+        "displayName": "Lilac Wash (dark)",
+        "canonical": "#352d5c",
+        "cssVariable": "--color-storage",
         "mediaQuery": "(prefers-color-scheme: dark)",
-        "cssVariable": "--color-storage"
+        "tonalRamp": [
+          "#0b0a10",
+          "#232133",
+          "#3f3b5b",
+          "#5c5686",
+          "#7e78ae",
+          "#a39fc7",
+          "#c9c8df",
+          "#eeedf6"
+        ]
       },
       "on-badge": {
         "role": "tertiary",
-        "displayName": "On Season Tint",
-        "canonical": "#16241b",
+        "displayName": "On Wash",
+        "canonical": "#141a2e",
+        "cssVariable": "--color-on-badge",
         "darkCounterpart": "on-badge-dark",
-        "darkValue": "#f1f5ef",
-        "cssVariable": "--color-on-badge"
+        "darkValue": "#eef1fb",
+        "tonalRamp": [
+          "#0a0b0e",
+          "#21242c",
+          "#3a3f4e",
+          "#555d74",
+          "#777f99",
+          "#9ea4b7",
+          "#c6cad5",
+          "#edeef3"
+        ]
       },
       "on-badge-dark": {
         "role": "tertiary",
-        "displayName": "On Season Tint (dark)",
-        "canonical": "#f1f5ef",
+        "displayName": "On Wash (dark)",
+        "canonical": "#eef1fb",
+        "cssVariable": "--color-on-badge",
         "mediaQuery": "(prefers-color-scheme: dark)",
-        "cssVariable": "--color-on-badge"
+        "tonalRamp": [
+          "#0b0b0c",
+          "#232427",
+          "#3e3f45",
+          "#5b5d65",
+          "#7d8089",
+          "#a2a4ab",
+          "#c9cace",
+          "#eeeef0"
+        ]
+      },
+      "shell": {
+        "role": "primary",
+        "displayName": "Shell Ultramarine",
+        "canonical": "#1c3faa",
+        "cssVariable": "--color-shell",
+        "darkCounterpart": "shell-dark",
+        "darkValue": "#22337a",
+        "tonalRamp": [
+          "#060b16",
+          "#132246",
+          "#203a7e",
+          "#2e54ba",
+          "#4c78e8",
+          "#7fa2f2",
+          "#b4caf9",
+          "#e6efff"
+        ],
+        "status": "token shipped; component use planned in #92"
+      },
+      "shell-dark": {
+        "role": "primary",
+        "displayName": "Shell Ultramarine (dark)",
+        "canonical": "#22337a",
+        "cssVariable": "--color-shell",
+        "mediaQuery": "(prefers-color-scheme: dark)",
+        "tonalRamp": [
+          "#080b13",
+          "#1a233c",
+          "#2e3d6b",
+          "#43589f",
+          "#627bc9",
+          "#8ea3db",
+          "#bdcaec",
+          "#e9eefb"
+        ]
+      },
+      "on-shell": {
+        "role": "primary",
+        "displayName": "On Shell",
+        "canonical": "#ffffff",
+        "cssVariable": "--color-on-shell",
+        "darkCounterpart": "on-shell-dark",
+        "darkValue": "#ffffff",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ],
+        "status": "token shipped; component use planned in #92"
+      },
+      "on-shell-dark": {
+        "role": "primary",
+        "displayName": "On Shell (dark)",
+        "canonical": "#ffffff",
+        "cssVariable": "--color-on-shell",
+        "mediaQuery": "(prefers-color-scheme: dark)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "focus-on-shell": {
+        "role": "primary",
+        "displayName": "Focus On Shell",
+        "canonical": "#ffb000",
+        "cssVariable": "--color-focus-on-shell",
+        "darkCounterpart": "focus-on-shell-dark",
+        "darkValue": "#ffc23d",
+        "tonalRamp": [
+          "#110a02",
+          "#361e00",
+          "#613400",
+          "#8f4a00",
+          "#b86d00",
+          "#cf9a45",
+          "#e4c599",
+          "#f9eddc"
+        ],
+        "status": "token shipped; component use planned in #92"
+      },
+      "focus-on-shell-dark": {
+        "role": "primary",
+        "displayName": "Focus On Shell (dark)",
+        "canonical": "#ffc23d",
+        "cssVariable": "--color-focus-on-shell",
+        "mediaQuery": "(prefers-color-scheme: dark)",
+        "tonalRamp": [
+          "#100a02",
+          "#332000",
+          "#5a3800",
+          "#865100",
+          "#ad7400",
+          "#c69e4e",
+          "#dfc79d",
+          "#f6eddd"
+        ]
+      },
+      "marker": {
+        "role": "tertiary",
+        "displayName": "Marker Yellow",
+        "canonical": "#ffb000",
+        "cssVariable": "--color-marker",
+        "darkCounterpart": "marker-dark",
+        "darkValue": "#ffc23d",
+        "tonalRamp": [
+          "#110a02",
+          "#361e00",
+          "#613400",
+          "#8f4a00",
+          "#b86d00",
+          "#cf9a45",
+          "#e4c599",
+          "#f9eddc"
+        ],
+        "status": "token shipped; component use planned in #93"
+      },
+      "marker-dark": {
+        "role": "tertiary",
+        "displayName": "Marker Yellow (dark)",
+        "canonical": "#ffc23d",
+        "cssVariable": "--color-marker",
+        "mediaQuery": "(prefers-color-scheme: dark)",
+        "tonalRamp": [
+          "#100a02",
+          "#332000",
+          "#5a3800",
+          "#865100",
+          "#ad7400",
+          "#c69e4e",
+          "#dfc79d",
+          "#f6eddd"
+        ]
+      },
+      "on-marker": {
+        "role": "tertiary",
+        "displayName": "On Marker",
+        "canonical": "#141a2e",
+        "cssVariable": "--color-on-marker",
+        "darkCounterpart": "on-marker-dark",
+        "darkValue": "#0d1430",
+        "tonalRamp": [
+          "#0a0b0e",
+          "#21242c",
+          "#3a3f4e",
+          "#555d74",
+          "#777f99",
+          "#9ea4b7",
+          "#c6cad5",
+          "#edeef3"
+        ],
+        "status": "token shipped; component use planned in #93"
+      },
+      "on-marker-dark": {
+        "role": "tertiary",
+        "displayName": "On Marker (dark)",
+        "canonical": "#0d1430",
+        "cssVariable": "--color-on-marker",
+        "mediaQuery": "(prefers-color-scheme: dark)",
+        "tonalRamp": [
+          "#0a0b0f",
+          "#20242f",
+          "#383f54",
+          "#525c7c",
+          "#737fa3",
+          "#9ba4be",
+          "#c5cada",
+          "#eceef4"
+        ]
       }
     },
     "typographyMeta": {
       "display": {
-        "displayName": "Display (month word)",
-        "purpose": "Home hero month name only; font-size min(var(--font-size-display), 16.5vw)."
+        "displayName": "Display",
+        "purpose": "The home hero month word only; appears once."
       },
       "headline": {
-        "displayName": "Headline (produce title)",
-        "purpose": "Produce name on the produce page (--font-size-3xl)."
+        "displayName": "Headline",
+        "purpose": "The produce name on a produce page."
       },
       "title-lg": {
         "displayName": "Title large",
-        "purpose": "h1 and h2 (--font-size-2xl)."
+        "purpose": "Every other h1."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "h3, plate names, logo in italic (--font-size-xl)."
+        "purpose": "h2 and produce-plate names."
+      },
+      "title-sm": {
+        "displayName": "Title small",
+        "purpose": "h3 and index-row names."
       },
       "lede": {
         "displayName": "Lede",
-        "purpose": "Page intros, summaries, descriptions (--font-size-lg)."
+        "purpose": "Page intros and summaries."
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Running text (--font-size-base, --line-height-base)."
+        "purpose": "Running text, capped at 42rem."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Meta, captions, badges, breadcrumbs, footer (--font-size-sm)."
+        "purpose": "Meta lines, captions, badges, pager links."
       },
-      "latin-binomial": {
-        "displayName": "Latin binomial",
-        "purpose": "Any [lang='la'] fragment, Piazzolla italic."
+      "latin-name": {
+        "displayName": "Latin name",
+        "purpose": "Sofia Sans italic 400 via [lang=la]."
       }
     },
     "shadows": [
       {
         "name": "current-month-ring",
         "value": "inset 0 0 0 2px var(--color-background), inset 0 0 0 5px var(--color-accent)",
-        "purpose": "Structural outline marking the current month in a produce's season calendar; the only box-shadow, not elevation."
+        "purpose": "Structural outline marking the current month in a produce's calendar; the only box-shadow, not elevation."
       }
     ],
     "motion": [
@@ -263,126 +742,160 @@
       }
     ],
     "otherTokens": {
-      "line-height-base": "1.55",
-      "line-height-heading": "1.15",
       "content-width": "72rem",
       "reading-width": "42rem",
       "focus-width": "3px",
       "target-min": "2.75rem",
-      "font-family-display": "var(--font-piazzolla),Georgia,serif",
-      "font-family-base": "var(--font-sofia-sans),system-ui,sans-serif"
+      "line-height-base": "1.55",
+      "line-height-heading": "1.15"
     },
-    "fonts": {
-      "source": "src/design/fontSubsets.mjs + astro.config fonts (fontProviders.local)",
-      "faces": [
-        "Piazzolla roman wght 400-600",
-        "Piazzolla italic wght 400-600",
-        "Sofia Sans roman wght 400-700"
-      ],
-      "subsets": {
-        "latin": "U+0020-007E,U+00A0-00BF,U+00D7,U+00F7,U+2010-2027,U+2030-203A,U+20AC,U+2212",
-        "cyrillic": "U+0400-045F,U+2116"
+    "fonts": [
+      {
+        "family": "Sofia Sans Extra Condensed",
+        "style": "normal",
+        "weight": "800",
+        "subsets": ["latin", "cyrillic"],
+        "preload": true,
+        "cssVariable": "--font-sofia-sans-extra-condensed"
       },
-      "preload": "upright faces only"
-    }
+      {
+        "family": "Sofia Sans",
+        "style": "normal",
+        "weight": "400 700",
+        "subsets": ["latin", "cyrillic"],
+        "preload": true,
+        "cssVariable": "--font-sofia-sans"
+      },
+      {
+        "family": "Sofia Sans",
+        "style": "italic",
+        "weight": "400",
+        "subsets": ["latin"],
+        "preload": false,
+        "fontDisplay": "optional",
+        "cssVariable": "--font-sofia-sans"
+      }
+    ],
+    "planned": [
+      {
+        "name": "Season stamp",
+        "issue": "#93",
+        "description": "Solid „Разгар“, outlined „В сезон“, hatched „От хранилище“; no stamp out of season; text label always present. Upright in lists; only the produce-page hero stamp is tilted. Not yet built."
+      },
+      {
+        "name": "Year strip",
+        "issue": "#93",
+        "description": "Twelve months in the same three stamp forms, current month outlined in marker yellow. Not yet built."
+      },
+      {
+        "name": "Shell header",
+        "issue": "#92",
+        "description": "Header bar on shell with on-shell text and focus-on-shell focus rings. Not yet built."
+      }
+    ]
   },
   "components": [
     {
       "name": "Season Badge (peak / available / storage)",
       "kind": "chip",
       "refersTo": "season-badge-peak",
-      "description": "Season level as tint + SVG mark + text label.",
-      "html": "<span class=\"ds-badge\" data-level=\"peak\"><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><polygon fill=\"currentColor\" points=\"8,0.8 10.2,5.7 15.5,6.2 11.5,9.7 12.7,14.9 8,12.2 3.3,14.9 4.5,9.7 0.5,6.2 5.8,5.7\"/></svg>Разгар на сезона</span> <span class=\"ds-badge\" data-level=\"available\"><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.5\" fill=\"currentColor\"/></svg>В сезон</span> <span class=\"ds-badge\" data-level=\"storage\"><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M8 2a6 6 0 0 0 0 12z\" fill=\"currentColor\"/></svg>От хранилище</span>",
-      "css": ".ds-badge{display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);color:var(--color-on-badge);font-family:var(--font-family-base);font-size:var(--font-size-sm);font-weight:600;line-height:1.2}.ds-badge[data-level=peak]{background:var(--color-peak)}.ds-badge[data-level=available]{background:var(--color-available)}.ds-badge[data-level=storage]{background:var(--color-storage)}.ds-mark{width:1em;height:1em;flex:none}"
+      "description": "Season level as fill + SVG mark + text label; stamp red only for „Разгар“. Replaced by the season stamp in #93.",
+      "html": "<span class=\"ds-badge\" data-level=\"peak\"><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><polygon fill=\"currentColor\" points=\"8,0.8 10.2,5.7 15.5,6.2 11.5,9.7 12.7,14.9 8,12.2 3.3,14.9 4.5,9.7 0.5,6.2 5.8,5.7\"/></svg>Разгар</span> <span class=\"ds-badge\" data-level=\"available\"><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.5\" fill=\"currentColor\"/></svg>В сезон</span> <span class=\"ds-badge\" data-level=\"storage\"><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M8 2a6 6 0 0 0 0 12z\" fill=\"currentColor\"/></svg>От хранилище</span>",
+      "css": ".ds-badge{display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);color:var(--color-on-badge);font-family:var(--font-family-base);font-size:var(--font-size-sm);font-weight:600;line-height:1.2}.ds-badge[data-level=peak]{color:var(--color-on-peak);background:var(--color-peak)}.ds-badge[data-level=available]{background:var(--color-available)}.ds-badge[data-level=storage]{background:var(--color-storage)}.ds-mark{width:1em;height:1em;flex:none}"
     },
     {
       "name": "Produce Plate",
       "kind": "card",
       "refersTo": "produce-plate",
-      "description": "One produce on a sage panel: photo, Piazzolla name, Latin binomial, badge, summary.",
-      "html": "<article class=\"ds-plate\"><div class=\"ds-plate__photo\"></div><h3 class=\"ds-plate__name\"><a href=\"#\">Зеле</a></h3><p class=\"ds-plate__meta\"><span lang=\"la\">Brassica oleracea var. capitata</span> Зеленчук</p><p class=\"ds-plate__summary\">Есенното зеле е най-хрупкаво и сладко.</p></article>",
-      "css": ".ds-plate{display:grid;gap:var(--space-2);min-height:13rem;padding:var(--space-6) var(--space-4) var(--space-4);background:var(--color-surface);border-radius:var(--radius-sm);font-family:var(--font-family-base);color:var(--color-text)}.ds-plate__photo{aspect-ratio:4/3;background:var(--color-peak);border-radius:var(--radius-sm);margin-bottom:var(--space-2)}.ds-plate__name{font-family:var(--font-family-display);font-weight:600;font-size:var(--font-size-xl);line-height:1.15;margin:0}.ds-plate__name a{color:var(--color-text);text-underline-offset:.2em}.ds-plate__name a:hover{text-decoration-thickness:2px}.ds-plate__name a:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}.ds-plate__meta{margin:0;color:var(--color-text-muted);font-size:var(--font-size-sm)}.ds-plate [lang=la]{font-family:var(--font-family-display);font-style:italic}.ds-plate__summary{margin:0;max-width:42ch;color:var(--color-text-muted)}"
+      "description": "Surface panel with photo, condensed-capitals name, meta row and muted summary.",
+      "html": "<article class=\"ds-plate\"><h3 class=\"ds-plate-name\"><a href=\"#\">Ябълки</a></h3><p class=\"ds-plate-meta\"><i lang=\"la\">Malus domestica</i> <span class=\"ds-badge\" data-level=\"peak\"><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><polygon fill=\"currentColor\" points=\"8,0.8 10.2,5.7 15.5,6.2 11.5,9.7 12.7,14.9 8,12.2 3.3,14.9 4.5,9.7 0.5,6.2 5.8,5.7\"/></svg>Разгар</span></p><p class=\"ds-plate-summary\">Хрупкави есенни сортове от Кюстендилско.</p></article>",
+      "css": ".ds-badge{display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);color:var(--color-on-badge);font-family:var(--font-family-base);font-size:var(--font-size-sm);font-weight:600;line-height:1.2}.ds-badge[data-level=peak]{color:var(--color-on-peak);background:var(--color-peak)}.ds-badge[data-level=available]{background:var(--color-available)}.ds-badge[data-level=storage]{background:var(--color-storage)}.ds-mark{width:1em;height:1em;flex:none}.ds-plate{display:grid;gap:var(--space-2);min-height:13rem;align-content:start;padding:var(--space-6) var(--space-4) var(--space-4);background:var(--color-surface);color:var(--color-text);border-radius:var(--radius-sm);font-family:var(--font-family-base)}.ds-plate-name{margin:0;font-family:var(--font-family-display);font-weight:800;font-size:var(--font-size-xl);line-height:1.15;letter-spacing:.02em;text-transform:uppercase}.ds-plate-name a{display:inline-flex;align-items:center;min-height:var(--target-min);color:var(--color-text);text-underline-offset:.2em}.ds-plate-name a:hover{text-decoration-thickness:2px}.ds-plate-name a:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}.ds-plate-meta{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-1) var(--space-3);margin:0;color:var(--color-text-muted);font-size:var(--font-size-sm)}.ds-plate-meta [lang=la]{font-style:italic;font-weight:400}.ds-plate-summary{margin:0;max-width:42ch;color:var(--color-text-muted)}"
     },
     {
       "name": "Search Submit Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The only filled button: carmine search submit.",
-      "html": "<button class=\"ds-btn\" type=\"button\">Търси</button>",
-      "css": ".ds-btn{min-height:2.75rem;padding:var(--space-2) var(--space-4);border:0;border-radius:var(--radius-sm);color:var(--color-accent-text);background:var(--color-accent);font-family:var(--font-family-base);font-size:var(--font-size-base);font-weight:600;cursor:pointer}.ds-btn:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}"
+      "description": "The one solid primary action: ultramarine with accent-text.",
+      "html": "<button class=\"ds-btn-primary\" type=\"submit\">Търси</button>",
+      "css": ".ds-btn-primary{min-height:2.75rem;padding:var(--space-2) var(--space-4);border:0;border-radius:var(--radius-sm);color:var(--color-accent-text);background:var(--color-accent);font-family:var(--font-family-base);font-size:var(--font-size-base);font-weight:600;cursor:pointer}.ds-btn-primary:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}"
     },
     {
       "name": "Search Input",
       "kind": "input",
       "refersTo": "input-search",
-      "description": "Bordered text field on the page background.",
-      "html": "<input class=\"ds-input\" type=\"search\" aria-label=\"Търсене\" placeholder=\"ябълки\">",
-      "css": ".ds-input{min-height:2.75rem;padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-sm);color:var(--color-text);background:var(--color-background);font-family:var(--font-family-base);font-size:var(--font-size-base)}.ds-input:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}"
+      "description": "Text field with a 1px border on the page colour.",
+      "html": "<input class=\"ds-input-search\" type=\"search\" placeholder=\"напр. ябълки\" aria-label=\"Търсене\">",
+      "css": ".ds-input-search{min-height:2.75rem;padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-sm);color:var(--color-text);background:var(--color-background);font-family:var(--font-family-base);font-size:var(--font-size-base)}.ds-input-search:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}"
     },
     {
       "name": "Year Ribbon",
       "kind": "nav",
-      "refersTo": "year-ribbon-month-current",
-      "description": "Twelve-month strip between hairlines; current month in solid carmine.",
-      "html": "<ol class=\"ds-ribbon\"><li><a href=\"#\">Окт</a></li><li><a href=\"#\" aria-current=\"date\">Ное</a></li><li><a href=\"#\">Дек</a></li></ol>",
-      "css": ".ds-ribbon{display:grid;grid-template-columns:repeat(3,1fr);padding:0;margin:0;list-style:none;border-block:1px solid var(--color-rule);font-family:var(--font-family-base)}.ds-ribbon li+li{border-inline-start:1px solid var(--color-rule)}.ds-ribbon a{display:flex;align-items:center;justify-content:center;min-height:2.75rem;color:var(--color-text-muted);text-decoration:none}.ds-ribbon a:hover{color:var(--color-text);text-decoration:underline}.ds-ribbon a:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}.ds-ribbon a[aria-current=date]{color:var(--color-accent-text);background:var(--color-accent);font-weight:700}"
+      "refersTo": "year-ribbon-month",
+      "description": "Twelve-cell month strip between hairlines; current month solid ultramarine. Superseded by the year strip in #93.",
+      "html": "<ol class=\"ds-ribbon\"><li><a href=\"#\">яну</a></li><li><a href=\"#\">фев</a></li><li><a href=\"#\">мар</a></li><li><a href=\"#\">апр</a></li><li><a href=\"#\">май</a></li><li><a href=\"#\">юни</a></li><li><a href=\"#\">юли</a></li><li><a href=\"#\">авг</a></li><li><a href=\"#\">сеп</a></li><li><a href=\"#\">окт</a></li><li><a href=\"#\" aria-current=\"date\">ное</a></li><li><a href=\"#\">дек</a></li></ol>",
+      "css": ".ds-ribbon{display:grid;grid-template-columns:repeat(12,1fr);margin:0;padding:0;list-style:none;border-block:1px solid var(--color-rule);font-family:var(--font-family-base)}.ds-ribbon li+li{border-inline-start:1px solid var(--color-rule)}.ds-ribbon a{display:flex;align-items:center;justify-content:center;min-height:2.75rem;color:var(--color-text-muted);text-decoration:none}.ds-ribbon a:hover{color:var(--color-text);text-decoration:underline}.ds-ribbon a:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}.ds-ribbon a[aria-current=date]{color:var(--color-accent-text);background:var(--color-accent);font-weight:700}"
     },
     {
       "name": "Site Header Navigation",
       "kind": "nav",
-      "refersTo": null,
-      "description": "Italic Piazzolla logo with underlined ink nav; current page in carmine with a 3px underline.",
-      "html": "<header class=\"ds-header\"><a class=\"ds-header__logo\" href=\"#\">Сезон</a><ul class=\"ds-header__nav\"><li><a href=\"#\" aria-current=\"page\">Сезонът сега</a></li><li><a href=\"#\">Плодове</a></li><li><a href=\"#\">Календар</a></li></ul></header>",
-      "css": ".ds-header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:var(--space-1) var(--space-6);padding-block:var(--space-3);border-bottom:1px solid var(--color-rule);background:var(--color-background)}.ds-header__logo{font-family:var(--font-family-display);font-size:var(--font-size-xl);font-style:italic;font-weight:600;color:var(--color-text);text-decoration:none}.ds-header__nav{display:flex;flex-wrap:wrap;gap:0 var(--space-4);margin:0;padding:0;list-style:none;font-family:var(--font-family-base)}.ds-header__nav a{display:inline-flex;align-items:center;min-height:var(--target-min);color:var(--color-text);font-weight:500;text-underline-offset:.2em}.ds-header__nav a:hover{text-decoration-thickness:2px}.ds-header a:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}.ds-header__nav a[aria-current]{color:var(--color-accent);text-decoration-thickness:3px}"
+      "refersTo": "site-header",
+      "description": "As built: page-colour bar with a hairline and underlined text links; moves to the shell colours in #92.",
+      "html": "<header class=\"ds-header\"><a class=\"ds-logo\" href=\"#\">Сезон</a><ul class=\"ds-nav\"><li><a href=\"#\" aria-current=\"page\">Сега</a></li><li><a href=\"#\">Плодове</a></li><li><a href=\"#\">Зеленчуци</a></li><li><a href=\"#\">Календар</a></li></ul></header>",
+      "css": ".ds-header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:var(--space-1) var(--space-6);padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--color-rule);background:var(--color-background);font-family:var(--font-family-base)}.ds-logo{display:inline-flex;align-items:center;min-height:var(--target-min);font-family:var(--font-family-display);font-weight:800;font-size:var(--font-size-xl);text-transform:uppercase;color:var(--color-text);text-decoration:none}.ds-nav{display:flex;flex-wrap:wrap;gap:0 var(--space-4);margin:0;padding:0;list-style:none}.ds-nav a{display:inline-flex;align-items:center;min-height:var(--target-min);color:var(--color-text);font-weight:500;text-underline-offset:.2em}.ds-nav a:hover{text-decoration-thickness:2px}.ds-nav a:focus-visible,.ds-logo:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}.ds-nav a[aria-current]{color:var(--color-accent);text-decoration-thickness:3px}"
     },
     {
       "name": "Farm Card",
       "kind": "card",
       "refersTo": "farm-card",
-      "description": "Sage card with outlined tags and tall contact links.",
-      "html": "<article class=\"ds-farm\"><h3>Слънчев сад</h3><p class=\"ds-farm__meta\">Кюстендил <span class=\"ds-farm__tag\">Примерна ферма</span></p><a href=\"#\">Имейл до Слънчев сад</a></article>",
-      "css": ".ds-farm{display:grid;gap:var(--space-2);padding:var(--space-4);border-radius:var(--radius-sm);background:var(--color-surface);color:var(--color-text);font-family:var(--font-family-base)}.ds-farm h3{margin:0;font-family:var(--font-family-display);font-weight:600;font-size:var(--font-size-xl);line-height:1.15}.ds-farm__meta{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:0;color:var(--color-text-muted);font-size:var(--font-size-sm)}.ds-farm__tag{padding:0 var(--space-2);border:1px solid var(--color-border);border-radius:var(--radius-sm)}.ds-farm a{display:inline-flex;align-items:center;min-height:var(--target-min);color:var(--color-accent);text-underline-offset:.2em}.ds-farm a:hover{text-decoration-thickness:2px}.ds-farm a:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}"
+      "description": "Surface card with outlined tags and tall contact links.",
+      "html": "<article class=\"ds-farm\"><h3 class=\"ds-farm-name\">Ферма</h3><p class=\"ds-farm-meta\"><span class=\"ds-farm-tag\">Пловдив</span><span class=\"ds-farm-tag\">Био</span></p><ul class=\"ds-farm-contacts\"><li><a href=\"#\">Уебсайт</a></li></ul></article>",
+      "css": ".ds-farm{display:grid;gap:var(--space-2);padding:var(--space-4);border-radius:var(--radius-sm);background:var(--color-surface);color:var(--color-text);font-family:var(--font-family-base)}.ds-farm-name{margin:0;font-family:var(--font-family-display);font-weight:800;font-size:var(--font-size-lg);letter-spacing:.02em;text-transform:uppercase;line-height:1.15}.ds-farm-meta{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:0;color:var(--color-text-muted);font-size:var(--font-size-sm)}.ds-farm-tag{padding:0 var(--space-2);border:1px solid var(--color-border);border-radius:var(--radius-sm)}.ds-farm-contacts{margin:0;padding:0;list-style:none}.ds-farm-contacts a{display:inline-flex;align-items:center;min-height:var(--target-min);color:var(--color-accent);text-underline-offset:.2em}.ds-farm-contacts a:hover{text-decoration-thickness:2px}.ds-farm-contacts a:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}"
     },
     {
       "name": "Produce Calendar Tile",
       "kind": "custom",
-      "refersTo": null,
-      "description": "Month tile in a produce's 12-tile season calendar; current month gets the inset carmine ring.",
-      "html": "<ol class=\"ds-cal\"><li data-level=\"storage\"><a href=\"#\">Окт<small>От хранилище</small></a></li><li data-level=\"available\"><a href=\"#\" aria-current=\"date\">Ное<small>В сезон</small></a></li><li><a href=\"#\">Дек<small>Извън сезона</small></a></li></ol>",
-      "css": ".ds-cal{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:0;padding:0;list-style:none;font-family:var(--font-family-base)}.ds-cal a{display:grid;justify-items:center;gap:var(--space-1);min-height:2.75rem;padding:var(--space-2) var(--space-1);color:var(--color-text-muted);background:var(--color-surface);text-align:center;font-weight:600}.ds-cal small{font-size:var(--font-size-sm);font-weight:400;line-height:1.2}.ds-cal [data-level=available] a{color:var(--color-on-badge);background:var(--color-available)}.ds-cal [data-level=storage] a{color:var(--color-on-badge);background:var(--color-storage)}.ds-cal a[aria-current=date]{box-shadow:inset 0 0 0 2px var(--color-background),inset 0 0 0 5px var(--color-accent);font-weight:700}.ds-cal a:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}"
+      "refersTo": "calendar-cell-peak",
+      "description": "Linked month tile carrying the level fill; current month gets the inset ultramarine ring.",
+      "html": "<ol class=\"ds-cal\"><li data-level=\"available\"><a href=\"#\"><span class=\"ds-cal-name\">окт</span><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.5\" fill=\"currentColor\"/></svg><span class=\"ds-cal-level\">В сезон</span></a></li><li data-level=\"peak\"><a href=\"#\" aria-current=\"date\"><span class=\"ds-cal-name\">ное</span><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><polygon fill=\"currentColor\" points=\"8,0.8 10.2,5.7 15.5,6.2 11.5,9.7 12.7,14.9 8,12.2 3.3,14.9 4.5,9.7 0.5,6.2 5.8,5.7\"/></svg><span class=\"ds-cal-level\">Разгар</span></a></li><li data-level=\"storage\"><a href=\"#\"><span class=\"ds-cal-name\">дек</span><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M8 2a6 6 0 0 0 0 12z\" fill=\"currentColor\"/></svg><span class=\"ds-cal-level\">От хранилище</span></a></li></ol>",
+      "css": ".ds-cal{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:0;padding:0;list-style:none;font-family:var(--font-family-base)}.ds-cal a{display:grid;justify-items:center;gap:var(--space-1);min-height:2.75rem;padding:var(--space-2) var(--space-1);color:var(--color-text-muted);background:var(--color-surface);text-align:center;text-decoration:none}.ds-cal [data-level=peak] a{color:var(--color-on-peak);background:var(--color-peak)}.ds-cal [data-level=available] a{color:var(--color-on-badge);background:var(--color-available)}.ds-cal [data-level=storage] a{color:var(--color-on-badge);background:var(--color-storage)}.ds-cal a[aria-current=date]{box-shadow:inset 0 0 0 2px var(--color-background),inset 0 0 0 5px var(--color-accent);font-weight:700}.ds-cal a:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}.ds-cal-name{font-weight:600;text-decoration:underline}.ds-cal-level{font-size:var(--font-size-sm);line-height:1.2}.ds-mark{width:1em;height:1em}"
     }
   ],
   "narrative": {
-    "northStar": "The Botanical Atlas",
-    "overview": "**Creative North Star: \"The Botanical Atlas\"**\n\nThe north star is the owner's chosen direction recorded in ADR-0004: each page is a plate in an atlas. A large serif name sits over its italic Latin binomial, with a photograph mounted on a pale sage panel and precise tabular data below. The home page carries the system's one loud gesture: the current month name set as a giant Piazzolla display word over a twelve-cell year ribbon. Everything else is quiet. The sheet is white (or deep forest green in dark mode), the type is dark green ink, and the hairlines are pale.\n\nDensity is moderate and editorial. The content column is capped at 72rem, prose at 42rem, and sections are separated by generous vertical space (3rem between groups, 4rem before the footer). There are no shadows, gradients or motion. Depth comes from two tonal layers, the page and the sage plate. Colour carries meaning in two places only: carmine marks \"now\" and links, and three pale season tints carry the season level, always alongside a text label and an SVG mark.\n\nLight and dark palettes are both first-class. They switch with `prefers-color-scheme` and nothing else. Every text, focus and border pair is unit-tested for WCAG AA contrast with `src/design/contrast.ts`. Tokens are generated from `src/design/tokens.ts` and inlined as CSS custom properties (`--color-*`, `--space-*`, `--font-size-*`, `--radius-*`, and others).",
+    "northStar": "The Stamp of Origin",
+    "overview": "The north star is the owner's chosen direction recorded in ADR-0006: stencilled produce crates and the rubber stamps of origin and grade on them, translated into a working interface for a shopper at the stall, on a phone. The world is ultramarine stamp ink on near-white label paper, stencil-black text, condensed heavy capitals for names and headings, and a plain humanist sans for everything that is read or operated. Stamp red is spent on one thing, the „Разгар“ (peak) level, and one marker yellow is reserved for the current month. Dark mode is its own scale, a deep ink-blue ground with lighter stamp inks, not an inversion.\n\nThe world is calm by decision. Capitals appear only in headings and (once built) stamps, the surfaces are flat, separation comes from hairline rules, and there is no motion beyond the global reduced-motion guard. Density is moderate: the content column is capped at 72rem, prose at 42rem, and sections are separated by 2–4rem.\n\nThis file describes the system as built after slice 1 (spec 022, tokens and typography). The palette, the faces and the global heading styles are shipped. The components below still carry their pre-redesign layouts, now rendered in the new tokens; the shell (#92), the season stamp and year strip (#93), the produce page (#94) and the data visuals (#95) are later slices. Anything marked **planned** is decided in ADR-0006 but not yet in the code. Tokens are generated from `src/design/tokens.ts` and inlined as CSS custom properties (`--color-*`, `--space-*`, `--font-size-*`, `--radius-*`, and others); light values sit on `:root` and dark values override them under `prefers-color-scheme: dark`.",
     "keyCharacteristics": [
-      "Serif display (Piazzolla) for names and headings; humanist sans (Sofia Sans) for everything read or operated.",
-      "Latin binomials are always Piazzolla italic, through the global `[lang='la']` rule.",
-      "Flat surfaces: white page, sage plates, pale hairline rules, no shadows.",
-      "One accent (carmine) for links, the current month and primary actions.",
-      "Season level = tint + SVG mark + Bulgarian text label, never colour alone.",
-      "Small, uniform corner radius (0.375rem) on every rounded element.",
+      "Sofia Sans Extra Condensed 800 in capitals for headings; Sofia Sans for body, navigation, lists and tables.",
+      "Latin names in Sofia Sans italic 400, through the global `[lang='la']` rule.",
+      "Ultramarine ink on label paper; stamp red only for „Разгар“; marker yellow only for the current month.",
+      "Season level = fill + SVG mark + Bulgarian text label, never colour alone.",
+      "Flat surfaces and hairline rules, no shadows, no motion.",
+      "One small corner radius (0.375rem) on every rounded element.",
       "Touch targets of at least 2.75rem on primary links and controls."
     ],
     "rules": [
       {
-        "name": "The Carmine Means Now Rule",
-        "body": "Carmine marks links, the current month and primary actions (plus the disclaimer bar). Green is reserved for the season tints and is never used as a site-wide brand tint.",
+        "name": "The Red Means Разгар Rule",
+        "body": "Stamp red is the „Разгар“ level and nothing else: not errors, not links, not emphasis. Text on it is always `on-peak`.",
         "section": "colors"
       },
       {
-        "name": "The Three Signals Rule",
-        "body": "A season level is always shown as tint, `LevelMark` SVG (star for peak, filled circle for available, half-filled circle for storage, empty circle for out of season) and a text label together.",
+        "name": "The One Marker Rule",
+        "body": "Marker yellow marks the current month and nothing else. It is a fill with `on-marker` text, never a line or a text colour on the light page.",
         "section": "colors"
       },
       {
         "name": "The Tested Pair Rule",
-        "body": "A colour is used on a background only when that pair is in the tested contrast set above. Use tokens only; components contain no literal colours.",
+        "body": "A colour is used on a background only when that pair is in the tested contrast set. Components take colours from tokens only and contain no literal colours.",
         "section": "colors"
       },
       {
-        "name": "The Two Voices Rule",
-        "body": "Piazzolla names things (headings, produce names, the month, Latin binomials, search-result titles). Sofia Sans says and operates everything else.",
+        "name": "The Capitals Are Headings Rule",
+        "body": "Sofia Sans Extra Condensed in capitals is for the logo, `h1`–`h3` and (planned, #93) stamps. Capitals come from `text-transform`, so the source text and reading order are unchanged without CSS. Body, navigation, lists and tables stay in Sofia Sans, in sentence case.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Weight Rule",
+        "body": "The condensed face exists at 800 only. Never set it at another weight or in italic; the browser would synthesise it.",
         "section": "typography"
       },
       {
@@ -391,28 +904,28 @@
         "section": "typography"
       },
       {
-        "name": "The Flat Plate Rule",
-        "body": "Surfaces never lift. A panel is distinguished only by the `surface` tint, never by shadow.",
+        "name": "The Ink On Paper Rule",
+        "body": "Surfaces never lift. A panel is set apart by its tone or a hairline, never by a shadow or gradient.",
         "section": "elevation"
       }
     ],
     "dos": [
-      "**Do** take every colour, space step, font size and radius from the custom properties generated by `src/design/tokens.ts`, and add any new colour pair to the contrast tests.",
-      "**Do** show season level as tint + `LevelMark` + text label, using `on-badge` text on the tint.",
-      "**Do** set produce and section names in Piazzolla 600, and Latin binomials with `lang=\"la\"` so they render in Piazzolla italic.",
-      "**Do** frame produce imagery as a plate: sage `surface` panel, `radius-sm`, photo inside.",
-      "**Do** keep links and controls at least 2.75rem tall (`--target-min`), with the 3px `focus` outline.",
-      "**Do** cap prose at `--reading-width` (42rem) and the page at `--content-width` (72rem).",
-      "**Do** use `rule` for decorative hairlines and `border` for control and data boundaries."
+      "Do take every colour, space step, font size and radius from the custom properties generated by `src/design/tokens.ts`, and add every new colour pair to `tests/fixtures/contrastPairs.ts`.",
+      "Do show the season level as fill (or, from #93, stamp form) + `LevelMark` + text label; use `on-peak` on stamp red and `on-badge` on the washes.",
+      "Do set headings in Sofia Sans Extra Condensed 800 through the global `h1`–`h3` rule, and mark Latin names with `lang=\"la\"` so they render in Sofia Sans italic.",
+      "Do keep links and controls at least 2.75rem tall (`--target-min`), with the 3px `focus` outline (`focus-on-shell` inside the shell).",
+      "Do cap prose at `--reading-width` (42rem) and the page at `--content-width` (72rem).",
+      "Do use `rule` for decorative hairlines and `border` for control and data boundaries."
     ],
     "donts": [
-      "**Don't** add shadows, gradients or elevated surfaces. The system is flat and tonal.",
-      "**Don't** use carmine beyond its incumbent roles: links, the current month, primary actions (search button, skip link) and the disclaimer bar.",
-      "**Don't** convey season level by colour alone.",
-      "**Don't** use `rule` for text or for control boundaries. It is below 3:1 by design.",
-      "**Don't** introduce a second display moment like the home month word. The display size appears once.",
-      "**Don't** use radii other than `radius-sm`.",
-      "**Don't** reorder content with CSS. Pages must read in source order without styles."
+      "Don't use stamp red for anything but „Разгар“, or marker yellow for anything but the current month.",
+      "Don't set body text, navigation, lists or tables in the condensed face or in capitals.",
+      "Don't add shadows, gradients or elevated surfaces, and don't add motion beyond the reduced-motion guard.",
+      "Don't tilt stamps in lists; only the large stamp at the top of the produce page is tilted.",
+      "Don't convey the season level by colour alone.",
+      "Don't add prices, calls to buy or shop styling to produce; the stamps mark origin and season, not a sale.",
+      "Don't use `rule` for text or control boundaries; it is below 3:1 by design.",
+      "Don't reorder content with CSS. Pages must read in source order without styles."
     ]
   }
 }
