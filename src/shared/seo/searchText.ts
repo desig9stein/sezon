@@ -1,8 +1,5 @@
 import { Slug } from '@shared/domain/Slug';
 
-/** Site-relative path of the search page; its `q` parameter holds the query. */
-export const SEARCH_PATH = '/tarsene';
-
 /**
  * Returns the Latin transliteration of a Bulgarian heading for the search index: lower case,
  * words separated by single spaces, e.g. „Витамин C“ → „vitamin c“.

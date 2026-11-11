@@ -1,6 +1,6 @@
 ---
 import { ui } from '@i18n/bg';
-import { SEARCH_PATH } from '@shared/seo';
+import { routes } from '@components/layout/routes';
 
 /**
  * Site search: a GET form in a `<search>` landmark, a polite status line and the result list
@@ -26,7 +26,7 @@ const hintId = 'search-hint';
   data-failed={labels.failed}
 >
   <search>
-    <form class="site-search__form" method="get" action={SEARCH_PATH}>
+    <form class="site-search__form" method="get" action={routes.search}>
       <label for={inputId}>{labels.label}</label>
       <p id={hintId} class="site-search__hint">
         {labels.hint}
@@ -139,6 +139,12 @@ const hintId = 'search-hint';
   .site-search__results :global(mark) {
     color: var(--color-on-badge);
     background: var(--color-available);
+  }
+
+  .site-search__browse a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
   }
 
   .site-search__browse ul {

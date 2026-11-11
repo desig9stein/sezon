@@ -9,11 +9,11 @@ const QUERY_PARAM = 'q';
 interface PagefindResultData {
   readonly url: string;
   readonly excerpt: string;
-  readonly meta: { readonly title?: string };
+  readonly meta: { readonly title?: string; readonly latin?: string };
 }
 
 /** The parts of the Pagefind browser API that the search page uses. */
-interface PagefindApi {
+export interface PagefindApi {
   init(): Promise<void>;
   search(query: string): Promise<{
     readonly results: ReadonlyArray<{ data(): Promise<PagefindResultData> }>;
@@ -38,13 +38,31 @@ export function canonicalResultUrl(url: string): string {
   return url.replace(HTML_SUFFIX, '');
 }
 
+/** Loads the Pagefind browser API. */
+export type PagefindLoader = () => Promise<PagefindApi>;
+
+const loadPagefind: PagefindLoader = () => import(/* @vite-ignore */ PAGEFIND_URL);
+
+/**
+ * Removes the indexed Latin label (e.g. „yabalki. “) that Pagefind puts at the start of a page's
+ * content, with or without `<mark>` tags around its words.
+ * @param excerpt - Pagefind excerpt (HTML-encoded, with `<mark>` tags).
+ * @param latin - The page's `latin` metadata.
+ */
+export function withoutLatinLabel(excerpt: string, latin: string | undefined): string {
+  if (latin === undefined || latin === '') return excerpt;
+  const words = latin.split(' ').map((word) => `(?:<mark>)?${word}(?:</mark>)?`);
+  return excerpt.replace(new RegExp(`^\\s*${words.join('\\s+')}\\.\\s*`), '');
+}
+
 /**
  * Wires the search form inside `root` to the Pagefind index: loads Pagefind on the first focus,
  * input or `?q=` query, searches while typing, keeps `?q=` in the address bar and announces the
  * outcome in the status line.
  * @param root - Element rendered by `SiteSearch.astro`, with the status templates as data attributes.
+ * @param loader - Loads the Pagefind API; a failed load is retried on the next query.
  */
-export function initSiteSearch(root: HTMLElement): void {
+export function initSiteSearch(root: HTMLElement, loader: PagefindLoader = loadPagefind): void {
   const form = root.querySelector('form');
   const input = root.querySelector<HTMLInputElement>('input[type="search"]');
   const status = root.querySelector<HTMLElement>('[role="status"]');
@@ -62,10 +80,15 @@ export function initSiteSearch(root: HTMLElement): void {
   let timer: ReturnType<typeof setTimeout> | undefined;
 
   const load = (): Promise<PagefindApi> => {
-    pagefind ??= import(/* @vite-ignore */ PAGEFIND_URL).then(async (module: PagefindApi) => {
-      await module.init();
-      return module;
-    });
+    pagefind ??= loader()
+      .then(async (api) => {
+        await api.init();
+        return api;
+      })
+      .catch((error: unknown) => {
+        pagefind = undefined;
+        throw error;
+      });
     return pagefind;
   };
 
@@ -77,7 +100,7 @@ export function initSiteSearch(root: HTMLElement): void {
         link.href = canonicalResultUrl(item.url);
         link.textContent = item.meta.title ?? link.href;
         const excerpt = document.createElement('p');
-        excerpt.innerHTML = item.excerpt;
+        excerpt.innerHTML = withoutLatinLabel(item.excerpt, item.meta.latin);
         li.append(link, excerpt);
         return li;
       }),
@@ -107,7 +130,7 @@ export function initSiteSearch(root: HTMLElement): void {
       status.textContent =
         items.length === 0
           ? fillTemplate(text.none, { query })
-          : fillTemplate(text.found, { count: String(results.length), query });
+          : fillTemplate(text.found, { count: String(items.length), query });
     } catch {
       if (id !== latest) return;
       list.replaceChildren();

@@ -4,8 +4,12 @@ import { websiteJsonLd } from '@shared/seo';
 describe('websiteJsonLd search action', () => {
   it('AC2: declares the site search with its URL template', () => {
     expect(
-      websiteJsonLd({ siteUrl: 'https://sezon.example', name: 'Сезон', description: 'Описание' })
-        .potentialAction,
+      websiteJsonLd({
+        siteUrl: 'https://sezon.example',
+        name: 'Сезон',
+        description: 'Описание',
+        searchPath: '/tarsene',
+      }).potentialAction,
     ).toEqual({
       '@type': 'SearchAction',
       target: {

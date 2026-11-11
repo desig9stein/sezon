@@ -1,6 +1,5 @@
 import { InvalidPageMetaError } from '@shared/domain/errors';
 import { absoluteUrl } from './pageMeta';
-import { SEARCH_PATH } from './searchText';
 
 const SCHEMA_CONTEXT = 'https://schema.org';
 const CONTENT_LANGUAGE = 'bg';
@@ -26,11 +25,15 @@ export function serializeJsonLd(value: unknown): string {
   );
 }
 
-/** Returns schema.org `WebSite` data for the home page. */
+/**
+ * Returns schema.org `WebSite` data for the home page, with a `SearchAction` for the search page
+ * at `searchPath`, whose `q` parameter holds the query.
+ */
 export function websiteJsonLd(input: {
   readonly siteUrl: string;
   readonly name: string;
   readonly description: string;
+  readonly searchPath: string;
 }): JsonLd {
   return {
     '@context': SCHEMA_CONTEXT,
@@ -43,7 +46,7 @@ export function websiteJsonLd(input: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${absoluteUrl(input.siteUrl, SEARCH_PATH)}?q={search_term_string}`,
+        urlTemplate: `${absoluteUrl(input.siteUrl, input.searchPath)}?q={search_term_string}`,
       },
       'query-input': 'required name=search_term_string',
     },
