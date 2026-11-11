@@ -223,13 +223,6 @@ issues:
     estimate: 9
     start: '2026-11-16'
     target: '2026-12-04'
-  68:
-    status: In development
-    priority: Medium
-    impact: Medium
-    estimate: 2
-    start: '2026-11-19'
-    target: '2026-11-23'
   69:
     status: Backlog
     priority: Medium
