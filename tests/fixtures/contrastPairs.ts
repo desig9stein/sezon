@@ -16,7 +16,7 @@ export const REQUIRED_CONTRAST_PAIRS: ReadonlyArray<ContrastPair> = [
   ['accent', 'background', 4.5],
   ['accent', 'surface', 4.5],
   ['accentText', 'accent', 4.5],
-  ['onBadge', 'peak', 4.5],
+  ['onPeak', 'peak', 4.5],
   ['onBadge', 'available', 4.5],
   ['onBadge', 'storage', 4.5],
   ['focus', 'background', 3],
@@ -24,4 +24,9 @@ export const REQUIRED_CONTRAST_PAIRS: ReadonlyArray<ContrastPair> = [
   ['border', 'background', 3],
   ['border', 'surface', 3],
   ['accent', 'background', 3],
+  ['onShell', 'shell', 4.5],
+  ['focusOnShell', 'shell', 3],
+  ['onMarker', 'marker', 4.5],
+  ['peak', 'surface', 3],
+  ['peak', 'background', 3],
 ];
