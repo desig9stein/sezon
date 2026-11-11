@@ -80,4 +80,25 @@ test.describe('produce page groups (spec 025)', () => {
       }
     });
   }
+
+  test('QA 025: the level comes before the season heading, and the stall links to the farms', async ({
+    page,
+  }) => {
+    await page.goto(APPLES);
+    const before = await page.evaluate(() => {
+      const now = document.querySelector('.produce-now');
+      const season = document.querySelector('h3#season');
+      return now !== null && season !== null
+        ? (now.compareDocumentPosition(season) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0
+        : false;
+    });
+    expect(before).toBe(true);
+    await expect(page.locator('section#stall a[href="#farms"]')).toHaveCount(1);
+  });
+
+  test('QA 025: the table of contents is not printed', async ({ page }) => {
+    await page.emulateMedia({ media: 'print' });
+    await page.goto(APPLES);
+    await expect(page.locator('nav.produce__toc')).toBeHidden();
+  });
 });
