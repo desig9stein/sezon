@@ -84,6 +84,9 @@ describe('stamp-of-origin tokens (spec 022)', () => {
       "--font-family-display:var(--font-sofia-sans-extra-condensed),'Arial Narrow',sans-serif-condensed,sans-serif;",
     );
     expect(css).toContain('--font-family-base:var(--font-sofia-sans),system-ui,sans-serif;');
+    for (const step of ['sm', 'base', 'lg', 'xl', '2xl', '3xl', 'display']) {
+      expect(css).toMatch(new RegExp(`--font-size-${step}:`));
+    }
     expect(css).toContain('--color-shell:#1c3faa;');
     expect(css.slice(css.indexOf('@media'))).toContain('--color-shell:#22337a;');
   });
