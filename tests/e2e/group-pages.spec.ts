@@ -12,6 +12,12 @@ test.describe('group pages', () => {
     await expect(page.locator('h1')).toHaveCount(1);
     await expect(page.locator('h1')).toHaveText('Кръстоцветни');
     await expect(page.locator('main [lang="la"]', { hasText: 'Brassicaceae' })).toHaveCount(1);
+    await expect(page.locator('.group-header__description')).toContainText('Семейство');
+    await expect(page.locator('h1')).toHaveAttribute('data-search-latin', 'krastotsvetni');
+    await expect(page.locator('h1')).toHaveAttribute(
+      'data-pagefind-index-attrs',
+      'data-search-latin',
+    );
     await expect(page.locator('main a[href="/zelenchutsi/zele"]').first()).toBeVisible();
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       'href',
@@ -24,7 +30,21 @@ test.describe('group pages', () => {
 
   test('AC6: the produce page links its family to the group page', async ({ page }) => {
     await page.goto('/zelenchutsi/zele');
-    await expect(page.locator(`main a[href="${GROUP}"]`)).toHaveCount(1);
+    const link = page.locator(`main a[href="${GROUP}"]`);
+    await expect(link).toHaveCount(1);
+    const [linkSize, latinSize] = await Promise.all([
+      link.evaluate((element) => getComputedStyle(element).fontSize),
+      link.locator('[lang="la"]').evaluate((element) => getComputedStyle(element).fontSize),
+    ]);
+    expect(latinSize).toBe(linkSize);
+  });
+
+  test('QA 017: a produce outranks its group in search', async ({ page }) => {
+    await page.goto('/tarsene?q=тикви');
+    await expect(page.locator('[data-search-results] a').first()).toHaveAttribute(
+      'href',
+      '/zelenchutsi/tikva',
+    );
   });
 
   for (const colorScheme of ['light', 'dark'] as const) {

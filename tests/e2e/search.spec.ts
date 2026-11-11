@@ -28,10 +28,15 @@ test.describe('site search', () => {
     expect(sitemap).toContain('/tarsene');
   });
 
-  test('AC4: only produce, section and nutrient pages are indexed, with Latin headings', async ({
+  test('AC4: only produce, section, nutrient and group pages are indexed, with Latin headings', async ({
     page,
   }) => {
-    for (const path of ['/plodove/yabalki', '/plodove', '/nutrienti/vitamin-c']) {
+    for (const path of [
+      '/plodove/yabalki',
+      '/plodove',
+      '/nutrienti/vitamin-c',
+      '/grupi/krastotsvetni',
+    ]) {
       await page.goto(path);
       await expect(page.locator('[data-pagefind-body]')).toHaveCount(1);
       const h1 = page.locator('h1');
