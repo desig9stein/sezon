@@ -45,7 +45,7 @@ typography:
     fontFamily: "'Sofia Sans Extra Condensed', 'Arial Narrow', sans-serif"
     fontSize: 'min(clamp(4.5rem, 1rem + 15vw, 13.5rem), 16.5vw)'
     fontWeight: 800
-    lineHeight: 0.82
+    lineHeight: 0.85
   headline:
     fontFamily: "'Sofia Sans Extra Condensed', 'Arial Narrow', sans-serif"
     fontSize: 'clamp(3.5rem, 2rem + 6vw, 6.5rem)'
@@ -277,7 +277,7 @@ Both are self-hosted through the Astro Fonts API (`fontProviders.local()`) as WO
 
 ### Hierarchy
 
-- **Display** (condensed 800, `display` token capped at `min(…, 16.5vw)`, line-height 0.82): appears once, as the month word in the home hero `h1`, with a Sofia Sans `lg` 500 lead line ("В сезон през") above it in the same heading.
+- **Display** (condensed 800, `display` token capped at `min(…, 16.5vw)`, line-height 0.85): appears once, as the month word in the home hero `h1`, with a Sofia Sans `lg` 500 lead line ("В сезон през") above it in the same heading.
 - **Headline** (condensed 800 capitals, `3xl`, line-height 0.95): the produce name on a produce page.
 - **Title-lg** (condensed 800 capitals, `2xl`, 1.15, tracking 0.02em, `text-wrap: balance`): every other `h1`.
 - **Title** (condensed 800 capitals, `xl`, 1.15, tracking 0.02em): `h2`, and produce-plate names.
@@ -295,7 +295,7 @@ Both are self-hosted through the Astro Fonts API (`fontProviders.local()`) as WO
 
 **The Tabular Rule.** Every table uses `font-variant-numeric: tabular-nums`.
 
-**Known drift, not part of the system:** three pre-redesign styles still render and break the rules above. Search-result titles and calendar row-group headers use the condensed face outside a heading, in mixed case; the home month word (`text-transform: capitalize`, tracking −0.035em) and the produce headline (tracking −0.03em) keep negative tracking from the old serif. The muted "Табло XI от XII" line above the home heading is a leftover eyebrow. These are for the shell and page slices (#92, #94) to remove, not patterns to copy.
+**Known drift, not part of the system:** the muted "Табло XI от XII" line above the home heading is a leftover eyebrow from the old design. The page slice (#94) removes it; it is not a pattern to copy.
 
 ## Layout
 
