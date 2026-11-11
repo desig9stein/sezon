@@ -6,13 +6,16 @@ import { monthNameLower, monthRanges, ui } from '@i18n/bg';
 
 /**
  * Home-garden guide of a produce: the months to sow, transplant and plant as linked month
- * ranges (only activities with months), the planting note and the tips.
+ * ranges (only activities with months), the planting note and the tips. The heading is an `h2`
+ * by default or `headingLevel` when nested in a group.
  */
 interface Props {
   growing: GrowingGuide;
+  headingLevel?: 2 | 3;
 }
 
-const { growing } = Astro.props;
+const { growing, headingLevel = 2 } = Astro.props;
+const Heading = `h${headingLevel}` as const;
 const labels = ui.produce;
 const RANGE_SEPARATOR = labels.monthListSeparator;
 const RANGE_DASH = labels.monthRangeDash;
@@ -34,7 +37,7 @@ const activities = GROWING_ACTIVITIES.map((activity) => ({
 ---
 
 <section class="growing" aria-labelledby="growing">
-  <h2 id="growing">{labels.headings.growing}</h2>
+  <Heading id="growing">{labels.headings.growing}</Heading>
   {activities.length > 0 && (
     <dl class="growing__months">
       {activities.map((activity) => (
