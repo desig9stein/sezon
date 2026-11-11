@@ -113,7 +113,7 @@ describe('pull request template', () => {
     'All acceptance criteria have a passing test',
     '`qa-reviewer` ran',
     '`pnpm verify` passes',
-    '`pnpm lhci` reports 100',
+    '`pnpm lhci` reports Performance ≥ 95',
     'No UI string outside `src/i18n/bg.ts`',
     'Comments follow the comment policy',
   ])('AC3: has Definition of Done item "%s"', (item) => {
