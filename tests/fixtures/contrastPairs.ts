@@ -23,4 +23,5 @@ export const REQUIRED_CONTRAST_PAIRS: ReadonlyArray<ContrastPair> = [
   ['focus', 'surface', 3],
   ['border', 'background', 3],
   ['border', 'surface', 3],
+  ['accent', 'background', 3],
 ];

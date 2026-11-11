@@ -42,3 +42,27 @@ test.describe('atlas restyle', () => {
     }
   });
 });
+
+test.describe('atlas restyle QA', () => {
+  test('QA 013: ribbon and calendar links are named with whole month words', async ({ page }) => {
+    await page.goto('/');
+    const ribbon = page.getByRole('navigation', { name: 'Месеци' });
+    for (const name of ['Януари', 'Септември', 'Декември', 'Май']) {
+      await expect(ribbon.getByRole('link', { name, exact: true })).toHaveCount(1);
+    }
+    await page.goto('/zelenchutsi/zele');
+    await expect(page.getByRole('link', { name: /^Октомври / })).toHaveCount(1);
+  });
+
+  test('QA 013: the longest month word stays on one line at 320px', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 640 });
+    await page.goto('/');
+    const lines = await page.locator('.hero__month').evaluate((element) => {
+      element.textContent = 'септември';
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      return new Set([...range.getClientRects()].map((rect) => Math.round(rect.top))).size;
+    });
+    expect(lines).toBe(1);
+  });
+});

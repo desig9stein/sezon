@@ -20,7 +20,7 @@ describe('SeasonOverview (spec 013)', () => {
     });
 
     const [peak = '', available = ''] = html.split('<section').slice(1);
-    expect(peak).toContain('data-variant="plates"');
+    expect(peak).toContain('data-variant="plate"');
     expect(peak.match(/produce-card__summary/g)).toHaveLength(2);
     expect(available).toContain('data-variant="index"');
     expect(available).not.toContain('produce-card__summary');

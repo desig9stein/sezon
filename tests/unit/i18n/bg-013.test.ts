@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { Month } from '@contexts/seasonality';
 import { monthAbbreviation, romanNumeral, ui } from '@i18n/bg';
+import { InvalidMonthError } from '@shared/domain/errors';
 
 describe('atlas texts (spec 013)', () => {
   it('AC1: abbreviates every month to three letters', () => {
@@ -37,5 +38,13 @@ describe('atlas texts (spec 013)', () => {
     ]);
     expect(ui.home.plate(Month.of(11))).toBe('Табло XI от XII');
     expect(ui.ribbon.label).toBe('Месеци');
+  });
+
+  it.each([0, 13])('QA 013: romanNumeral rejects %s', (value) => {
+    expect(() => romanNumeral(value)).toThrow(InvalidMonthError);
+  });
+
+  it('QA 013: builds the heading from its lead', () => {
+    expect(ui.home.heading(Month.of(11))).toBe(`${ui.home.headingLead} ноември`);
   });
 });

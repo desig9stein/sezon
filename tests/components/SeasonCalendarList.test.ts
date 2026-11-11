@@ -15,7 +15,7 @@ const produce = aProduce({
 });
 
 describe('SeasonCalendarList', () => {
-  it('AC6: renders 12 month links with level text', async () => {
+  it('AC6 (spec 005), AC7 (spec 013): renders 12 month links with level text', async () => {
     const html = await render(SeasonCalendarList, { produce, currentMonth: Month.of(11) });
     expect(html.match(/<li\b/g)).toHaveLength(12);
     const text = html.replace(/<[^>]+>/g, '');
