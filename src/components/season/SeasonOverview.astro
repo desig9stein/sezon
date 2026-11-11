@@ -9,11 +9,12 @@ type GroupId = 'peak' | 'available' | 'comingSoon' | 'storage';
 
 /**
  * Produce of one month grouped into labelled sections: peak, available, coming soon, storage.
- * `groups` limits and orders the sections; coming-soon badges name the month they apply from.
+ * `groups` limits and orders the sections; coming-soon badges name the month they apply from; `stripMonth` adds year strips.
  */
 interface Props {
   overview: SeasonOverview;
   groups?: ReadonlyArray<GroupId>;
+  stripMonth?: Month | undefined;
 }
 
 interface Group {
@@ -24,7 +25,11 @@ interface Group {
   readonly levelFrom?: Month;
 }
 
-const { overview, groups: selected = ['peak', 'available', 'comingSoon', 'storage'] } = Astro.props;
+const {
+  overview,
+  groups: selected = ['peak', 'available', 'comingSoon', 'storage'],
+  stripMonth,
+} = Astro.props;
 const { month } = overview;
 const next = month.next();
 const allGroups: ReadonlyArray<Group> = [
@@ -63,5 +68,6 @@ const groups = selected
     variant={group.id === 'peak' ? 'plate' : 'index'}
     levelOf={group.levelOf}
     levelFrom={group.levelFrom}
+    stripMonth={stripMonth}
   />
 ))}

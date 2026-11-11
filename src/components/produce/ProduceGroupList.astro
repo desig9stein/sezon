@@ -6,7 +6,8 @@ import type { Month, SeasonLevel } from '@contexts/seasonality';
 /**
  * One labelled group of produce: `plate` shows surface panels of equal size,
  * `index` shows quiet rows on hairlines. `levelOf` gives each card's badge level and
- * `levelFrom` marks it as applying from a later month. The first plate's photo loads eagerly.
+ * `levelFrom` marks it as applying from a later month; `stripMonth` adds each produce's
+ * year strip with that month marked. The first plate's photo loads eagerly.
  */
 interface Props {
   id: string;
@@ -15,9 +16,10 @@ interface Props {
   variant: 'plate' | 'index';
   levelOf: (produce: Produce) => SeasonLevel | undefined;
   levelFrom?: Month | undefined;
+  stripMonth?: Month | undefined;
 }
 
-const { id, heading, items, variant, levelOf, levelFrom } = Astro.props;
+const { id, heading, items, variant, levelOf, levelFrom, stripMonth } = Astro.props;
 ---
 
 <section class="group" aria-labelledby={id} data-variant={variant}>
@@ -31,6 +33,7 @@ const { id, heading, items, variant, levelOf, levelFrom } = Astro.props;
           levelFrom={levelFrom}
           variant={variant}
           priority={index === 0}
+          stripMonth={stripMonth}
         />
       </li>
     ))}

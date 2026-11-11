@@ -19,7 +19,7 @@ describe('QA 004 regressions (components)', () => {
   it("coming-soon cards label next month's level with the month", async () => {
     const html = await render(SeasonOverview, { overview: await service.overviewFor(Month.of(8)) });
     const comingSoon = html.slice(html.indexOf('Идват скоро'));
-    expect(comingSoon).toContain('От септември: Разгар на сезона');
+    expect(comingSoon).toContain('От септември: Разгар');
   });
 
   it('can limit the groups that are rendered', async () => {

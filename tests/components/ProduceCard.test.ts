@@ -16,7 +16,7 @@ describe('ProduceCard', () => {
     const html = await render(ProduceCard, { produce, level: SeasonLevel.PEAK });
     expect(html).toMatch(/<h3[^>]*>\s*<a[^>]*href="\/plodove\/yabalki"[^>]*>Ябълки<\/a>\s*<\/h3>/);
     expect(html).toContain('Плод');
-    expect(html).toContain('Разгар на сезона');
+    expect(html).toContain('Разгар');
   });
 
   it('AC6: uses the configured heading level and omits the badge without a level', async () => {

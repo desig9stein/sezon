@@ -43,18 +43,18 @@ test.describe('produce photos', () => {
     }
   }
 
-  test('AC7: the home page shows plate photos as AVIF', async ({ page }) => {
+  test('AC7: a section page shows plate photos as AVIF', async ({ page }) => {
     const avif = page.waitForResponse(
       (response) => response.request().resourceType() === 'image' && /\.avif$/.test(response.url()),
     );
-    await page.goto('/');
+    await page.goto('/zelenchutsi');
     expect((await avif).status()).toBe(200);
     expect(await page.locator('main picture img').count()).toBeGreaterThan(0);
   });
 
-  test('QA 015: all peak plates on the home page have the same size', async ({ page }) => {
+  test('QA 015: all peak plates on a section page have the same size', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
-    await page.goto('/');
+    await page.goto('/zelenchutsi');
     const sizes = await page.locator('.group[data-variant="plate"] li').evaluateAll((items) =>
       items.map((item) => {
         const box = item.getBoundingClientRect();

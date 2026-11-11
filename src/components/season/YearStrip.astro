@@ -1,0 +1,150 @@
+---
+import type { Produce } from '@contexts/catalog';
+import { palettes } from '@design/tokens';
+import { Month, type SeasonLevelValue } from '@contexts/seasonality';
+import { monthNameLower, monthRanges, ui } from '@i18n/bg';
+
+/**
+ * A produce's year as an inline SVG of 12 cells, January to December. The level is carried by
+ * form: peak a solid cell, available an outlined cell, storage an outlined cell with hatch lines,
+ * out of season a thin baseline; `current` is framed. The SVG has a title and a text alternative
+ * listing the months of each level in ranges, and keeps its size without CSS.
+ */
+interface Props {
+  produce: Produce;
+  current: Month;
+}
+
+const NONE = 'none';
+/** Order of the levels in the text alternative, freshest first. */
+const LABEL_ORDER: ReadonlyArray<SeasonLevelValue> = ['peak', 'available', 'storage'];
+const CELL_WIDTH = 8;
+const CELL_HEIGHT = 12;
+const STEP = 11;
+const PAD = 2;
+const WIDTH = STEP * 11 + CELL_WIDTH + PAD * 2;
+const HEIGHT = CELL_HEIGHT + PAD * 2;
+const STROKE = 1.5;
+const INSET = STROKE / 2;
+const BASELINE_HEIGHT = 2;
+const ink = palettes.light;
+
+const { produce, current } = Astro.props;
+const months = Month.all().map((month, index) => ({
+  month,
+  level: produce.levelIn(month)?.value ?? NONE,
+  x: PAD + index * STEP,
+}));
+const rangeText = (level: SeasonLevelValue) =>
+  monthRanges(months.filter((entry) => entry.level === level).map((entry) => entry.month))
+    .map((range) => range.map(monthNameLower).join(ui.produce.monthRangeDash))
+    .join(ui.produce.monthListSeparator);
+const parts = LABEL_ORDER.map((level) => ({ level, ranges: rangeText(level) }))
+  .filter((part) => part.ranges !== '')
+  .map((part) => ui.yearStrip.part(ui.stamp[part.level], part.ranges));
+const label = parts.length === 0 ? ui.yearStrip.outOfSeason : parts.join(ui.yearStrip.separator);
+const top = PAD;
+const bottom = PAD + CELL_HEIGHT;
+---
+
+<svg
+  class="year-strip"
+  role="img"
+  aria-label={label}
+  width={WIDTH}
+  height={HEIGHT}
+  viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+>
+  <title>{label}</title>
+  {months.map(({ month, level, x }) => (
+    <>
+      {level === NONE && (
+        <rect
+          class="year-strip__baseline"
+          x={x}
+          y={bottom - BASELINE_HEIGHT}
+          width={CELL_WIDTH}
+          height={BASELINE_HEIGHT}
+          fill={ink.border}
+        />
+      )}
+      <rect
+        class="year-strip__cell"
+        data-month={month.number}
+        data-level={level}
+        x={x + (level === 'peak' ? 0 : INSET)}
+        y={top + (level === 'peak' ? 0 : INSET)}
+        width={CELL_WIDTH - (level === 'peak' ? 0 : STROKE)}
+        height={CELL_HEIGHT - (level === 'peak' ? 0 : STROKE)}
+        fill={level === 'peak' ? ink.peak : 'none'}
+        stroke={level === 'available' || level === 'storage' ? ink.accent : 'none'}
+        stroke-width={STROKE}
+      />
+      {level === 'storage' && (
+        <path
+          class="year-strip__hatch"
+          data-hatch={month.number}
+          d={`M${x} ${top + 6}L${x + 6} ${top}M${x} ${bottom}L${x + CELL_WIDTH} ${top + 4}M${x + 2} ${bottom}L${x + CELL_WIDTH} ${bottom - 6}`}
+          stroke={ink.accent}
+          stroke-width="1"
+          fill="none"
+        />
+      )}
+      {month === current && (
+        <rect
+          class="year-strip__current"
+          x={x - PAD + INSET}
+          y={INSET}
+          width={CELL_WIDTH + PAD * 2 - STROKE}
+          height={CELL_HEIGHT + PAD * 2 - STROKE}
+          fill="none"
+          stroke={ink.text}
+          stroke-width={STROKE}
+        />
+      )}
+    </>
+  ))}
+</svg>
+
+<style>
+  .year-strip {
+    display: inline-block;
+    flex: none;
+    vertical-align: middle;
+  }
+
+  .year-strip__cell[data-level='peak'] {
+    fill: var(--color-peak);
+  }
+
+  .year-strip__cell[data-level='available'],
+  .year-strip__cell[data-level='storage'],
+  .year-strip__hatch {
+    stroke: var(--color-accent);
+  }
+
+  .year-strip__baseline {
+    fill: var(--color-border);
+  }
+
+  .year-strip__current {
+    stroke: var(--color-text);
+  }
+
+  @media print {
+    .year-strip__cell[data-level='peak'] {
+      fill: var(--print-ink);
+    }
+
+    .year-strip__cell[data-level='available'],
+    .year-strip__cell[data-level='storage'],
+    .year-strip__hatch,
+    .year-strip__current {
+      stroke: var(--print-ink);
+    }
+
+    .year-strip__baseline {
+      fill: var(--print-ink);
+    }
+  }
+</style>

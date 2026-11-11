@@ -1,6 +1,5 @@
 import type { GrowingActivity, OrganicAvailability, ProduceKind } from '@contexts/catalog';
 import { LAST_MONTH_NUMBER, Month, type SeasonLevelValue } from '@contexts/seasonality';
-import { InvalidMonthError } from '@shared/domain/errors';
 import { characterCount, DESCRIPTION_MAX_LENGTH, TITLE_MAX_LENGTH } from '@shared/seo';
 
 /** Name of the website. */
@@ -124,9 +123,6 @@ export const ui = {
     'Кои плодове и зеленчуци са в сезон в България сега, откъде да ги купите и как да ги приготвите.',
   skipLink: 'Към основното съдържание',
   homeLinkLabel: `${SITE_NAME} – начална страница`,
-  ribbon: {
-    label: 'Месеци',
-  },
   nav: {
     label: 'Основна навигация',
     now: 'Сега',
@@ -143,8 +139,6 @@ export const ui = {
     copyright: (year: number) => `© ${year} ${SITE_NAME}`,
   },
   home: {
-    plate: (month: Month) =>
-      `Табло ${romanNumeral(month.number)} от ${romanNumeral(LAST_MONTH_NUMBER)}`,
     title: 'Какво е в сезон сега',
     heading: (month: Month) => `${HOME_HEADING_LEAD} ${monthNameLower(month)}`,
     headingLead: HOME_HEADING_LEAD,
@@ -257,6 +251,28 @@ export const ui = {
     previous: 'Предишен месец',
     next: 'Следващ месец',
   },
+  stamp: {
+    peak: 'Разгар',
+    available: 'В сезон',
+    storage: 'От хранилище',
+  } satisfies Record<SeasonLevelValue, string>,
+  legend: {
+    label: 'Какво значат печатите',
+    peak: 'прясно от полето, в пика на сезона',
+    available: 'бере се в България сега',
+    storage: 'от последната бера, съхранявано',
+    outOfSeason: 'Извън сезона: вероятно е внос',
+    strip: 'Лентата е годината от януари до декември; текущият месец е в рамка.',
+  },
+  yearStrip: {
+    part: (level: string, ranges: string) => `${level}: ${ranges}`,
+    separator: '; ',
+    outOfSeason: 'Извън сезона през цялата година',
+  },
+  seasonList: {
+    heading: (month: Month, count: number) => `В сезон през ${monthNameLower(month)} (${count})`,
+    countHeading: (count: number) => `Всичко в сезон (${count})`,
+  },
   seasonLevels: {
     peak: 'Разгар на сезона',
     available: 'В сезон',
@@ -368,7 +384,6 @@ export function monthName(month: Month): string {
 }
 
 const ABBREVIATION_LENGTH = 3;
-const ROMAN_NUMERALS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
 
 /** Returns the first three letters of the month name (e.g. „Ное“). */
 export function monthAbbreviation(month: Month): string {
@@ -378,16 +393,4 @@ export function monthAbbreviation(month: Month): string {
 /** Returns the letters of the month name after its abbreviation (e.g. „мври“), or „“. */
 export function monthRest(month: Month): string {
   return monthName(month).slice(ABBREVIATION_LENGTH);
-}
-
-/**
- * Returns a month number (1–12) as a Roman numeral.
- * @throws InvalidMonthError when `value` is outside 1–12.
- */
-export function romanNumeral(value: number): string {
-  const numeral = ROMAN_NUMERALS[value - 1];
-  if (numeral === undefined) {
-    throw new InvalidMonthError(`No Roman numeral for month ${value}.`);
-  }
-  return numeral;
 }

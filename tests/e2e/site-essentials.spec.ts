@@ -33,7 +33,7 @@ test.describe('site essentials', () => {
     const notFoundMonth = await page.locator('main a[href^="/sezon/"]').getAttribute('href');
     await page.goto('/');
     const currentMonth = await page
-      .locator('main a[href^="/sezon/"][aria-current="date"]')
+      .locator('footer a[href^="/sezon/"][aria-current="date"]')
       .getAttribute('href');
     expect(notFoundMonth).toBe(currentMonth);
   });

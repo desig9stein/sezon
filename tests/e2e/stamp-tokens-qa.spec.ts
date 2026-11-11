@@ -31,7 +31,9 @@ test.describe('stamp-of-origin tokens, QA 022', () => {
     for (const path of ['/', '/plodove/yabalki']) {
       await page.goto(path);
       const h1 = await page.evaluate(() => {
-        const style = getComputedStyle(document.querySelector('h1 .hero__month, h1') as Element);
+        const style = getComputedStyle(
+          document.querySelector('h1 .home-heading__month, h1') as Element,
+        );
         return { transform: style.textTransform, spacing: parseFloat(style.letterSpacing) || 0 };
       });
       expect(h1.transform, path).toBe('uppercase');
