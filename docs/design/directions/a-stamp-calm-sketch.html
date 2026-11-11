@@ -1,53 +1,517 @@
-<!doctype html><html lang="bg"><head><meta charset="utf-8"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@400;600;700&family=Sofia+Sans+Extra+Condensed:wght@600;800&family=Sofia+Sans+Condensed:wght@500;700&family=PT+Serif:wght@400;700&family=Golos+Text:wght@400;600;700&family=Ubuntu+Mono&display=block" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0} body{display:flex;gap:40px;padding:32px;align-items:flex-start;background:#888}
-.phone{width:390px;height:844px;overflow:hidden;border-radius:28px;box-shadow:0 0 0 10px #111}
-ul{list-style:none} a{color:inherit} .strip{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;width:96px;height:12px} .c{display:block}
-/* A — Stamp of origin (crate stencil + export label) */
-:root{--ground:#f4f6fb;--paper:#fff;--ink:#141a2e;--muted:#4a5270;--stamp:#1c3faa;--stampInk:#fff;--peak:#c8102e;--rule:#c9cfe2;--now:#ffb000}
-@media (prefers-color-scheme:dark){:root{--ground:#0d1430;--paper:#141c3d;--ink:#eef1fb;--muted:#a9b1d1;--stamp:#8fa8ff;--stampInk:#0d1430;--peak:#ff6b7f;--rule:#2b3666;--now:#ffc23d}}
-.phone{background:var(--ground);color:var(--ink);font:16px/1.45 'Sofia Sans',sans-serif}
-.bar{background:var(--stamp);color:var(--stampInk);display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
-.logo{font:800 26px/1 'Sofia Sans Extra Condensed';letter-spacing:.06em;text-transform:uppercase}
-.bar nav{display:flex;gap:14px;font:700 15px 'Sofia Sans Condensed';text-transform:uppercase;letter-spacing:.04em}.bar nav .on{border-bottom:3px solid var(--now)}
-main{padding:14px 16px}
-.head h1{font:800 34px/1 'Sofia Sans Extra Condensed';text-transform:uppercase;letter-spacing:.02em}.head h1 small{display:block;font:600 15px 'Sofia Sans Condensed';color:var(--muted);letter-spacing:.08em}
-.meta{font:600 13px 'Sofia Sans Condensed';color:var(--muted);margin:6px 0 10px;text-transform:uppercase;letter-spacing:.05em}
-.list{background:var(--paper);border:2px solid var(--ink)}
-.row{display:grid;grid-template-columns:1fr auto;grid-template-areas:"nm st" "kd strip";gap:2px 8px;padding:7px 10px;border-bottom:1px dashed var(--rule)}
-.nm{grid-area:nm}.nm b{font:800 19px/1.1 'Sofia Sans Extra Condensed';text-transform:uppercase;letter-spacing:.03em}.nm em{font-size:12px;color:var(--muted);margin-left:6px}
-.kd{grid-area:kd;font:600 12px 'Sofia Sans Condensed';color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.row .strip{grid-area:strip;justify-self:end}
-.st{grid-area:st;justify-self:end;font:800 12px/1 'Sofia Sans Extra Condensed';text-transform:uppercase;letter-spacing:.08em;padding:4px 7px;border:2px solid var(--stamp);color:var(--stamp);transform:rotate(-2deg)}
-.st-peak{background:var(--peak);border-color:var(--peak);color:#fff}
-.st-storage{background:repeating-linear-gradient(135deg,transparent 0 3px,color-mix(in srgb,var(--stamp) 30%,transparent) 3px 5px)}
-.c{background:var(--rule)}.c.P{background:var(--peak)}.c.a{background:var(--stamp)}.c.s{background:repeating-linear-gradient(135deg,var(--stamp) 0 2px,transparent 2px 4px)}.c.now{outline:2px solid var(--now);outline-offset:1px}
-.crumbs{font:600 12px 'Sofia Sans Condensed';color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-.title h1{font:800 52px/1 'Sofia Sans Extra Condensed';text-transform:uppercase}.lat{color:var(--muted);font-size:14px}
-.toc{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}.toc a{font:700 13px 'Sofia Sans Condensed';text-transform:uppercase;padding:5px 8px;border:2px solid var(--ink)}.toc .on{background:var(--ink);color:var(--paper)}
-.stall{background:var(--paper);border:2px solid var(--ink);padding:12px}.stall h2{font:800 22px 'Sofia Sans Extra Condensed';text-transform:uppercase;letter-spacing:.04em;border-bottom:2px solid var(--ink);margin-bottom:8px}
-.now-level{display:flex;align-items:center;gap:8px;font-weight:600}.st.big{font-size:18px;padding:7px 10px;position:static;transform:rotate(-3deg)}
-.cal{margin:12px 0}.months{display:grid;grid-template-columns:repeat(12,1fr);font:700 12px 'Sofia Sans Condensed';text-align:center;text-transform:uppercase}.months .now{color:var(--peak)}
-.cal .strip{width:100%;height:18px}.cal2{margin-top:4px}.lbl{font:600 11px 'Sofia Sans Condensed';text-transform:uppercase;color:var(--muted)}.sow .c.P{background:#2e7d32}
-dl dt{font:800 15px 'Sofia Sans Extra Condensed';text-transform:uppercase;letter-spacing:.06em;margin-top:8px;color:var(--stamp)}dd{font-size:15px}
-/* calmer: caps only in headings and stamps; list stamps upright; one accent for now */
-.nm b{font:700 18px/1.15 'Sofia Sans';text-transform:none;letter-spacing:0}
-.kd{text-transform:none;letter-spacing:0;font:500 13px 'Sofia Sans'}
-.row .st{transform:none}
-.bar nav{text-transform:none;font:600 15px 'Sofia Sans';letter-spacing:0}
-.meta{text-transform:none;letter-spacing:0;font:500 14px 'Sofia Sans'}
-.crumbs{text-transform:none;letter-spacing:0;font:500 13px 'Sofia Sans'}
-.toc a{text-transform:none;font:600 14px 'Sofia Sans';border-width:1px}
-.list{border-width:1px;border-color:var(--rule)}
-.title h1{font-size:46px}
-</style></head><body><section class="phone home"><header class="bar"><a class="logo">Сезон</a><nav><a class="on">Сега</a><a>Каталог</a><a>Календар</a><a>Търсене</a></nav></header><main><div class="head"><h1><small>В сезон през</small> ноември</h1><p class="meta">12 продукта · 3 в разгар · 8 в сезон · 1 от хранилище</p></div><ul class="list"><li class="row lv-peak"><span class="nm"><b>Праз</b><em lang="la">Allium ampeloprasum</em></span><span class="kd">Зеленчук</span><span class="strip" aria-hidden="true"><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c P"></i><i class="c P now"></i><i class="c a"></i></span><span class="st st-peak">Разгар</span></li><li class="row lv-peak"><span class="nm"><b>Целина</b><em lang="la">Apium graveolens</em></span><span class="kd">Зеленчук</span><span class="strip" aria-hidden="true"><i class="c s"></i><i class="c s"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c P"></i><i class="c P now"></i><i class="c a"></i></span><span class="st st-peak">Разгар</span></li><li class="row lv-peak"><span class="nm"><b>Зеле</b><em lang="la">Brassica oleracea</em></span><span class="kd">Зеленчук</span><span class="strip" aria-hidden="true"><i class="c s"></i><i class="c s"></i><i class="c s"></i><i class="c o"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c P"></i><i class="c P"></i><i class="c P now"></i><i class="c a"></i></span><span class="st st-peak">Разгар</span></li><li class="row lv-available"><span class="nm"><b>Ябълки</b><em lang="la">Malus domestica</em></span><span class="kd">Плод</span><span class="strip" aria-hidden="true"><i class="c s"></i><i class="c s"></i><i class="c s"></i><i class="c s"></i><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c a"></i><i class="c P"></i><i class="c P"></i><i class="c a now"></i><i class="c s"></i></span><span class="st st-available">В сезон</span></li><li class="row lv-available"><span class="nm"><b>Дюли</b><em lang="la">Cydonia oblonga</em></span><span class="kd">Плод</span><span class="strip" aria-hidden="true"><i class="c s"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c P"></i><i class="c a now"></i><i class="c s"></i></span><span class="st st-available">В сезон</span></li><li class="row lv-available"><span class="nm"><b>Моркови</b><em lang="la">Daucus carota</em></span><span class="kd">Зеленчук</span><span class="strip" aria-hidden="true"><i class="c s"></i><i class="c s"></i><i class="c s"></i><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c P"></i><i class="c P"></i><i class="c P"></i><i class="c P"></i><i class="c a now"></i><i class="c s"></i></span><span class="st st-available">В сезон</span></li><li class="row lv-available"><span class="nm"><b>Цвекло</b><em lang="la">Beta vulgaris</em></span><span class="kd">Зеленчук</span><span class="strip" aria-hidden="true"><i class="c s"></i><i class="c s"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c a"></i><i class="c P"></i><i class="c P"></i><i class="c P"></i><i class="c a now"></i><i class="c s"></i></span><span class="st st-available">В сезон</span></li><li class="row lv-available"><span class="nm"><b>Тиква</b><em lang="la">Cucurbita spp.</em></span><span class="kd">Зеленчук</span><span class="strip" aria-hidden="true"><i class="c s"></i><i class="c s"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c P"></i><i class="c P"></i><i class="c a now"></i><i class="c s"></i></span><span class="st st-available">В сезон</span></li><li class="row lv-available"><span class="nm"><b>Спанак</b><em lang="la">Spinacia oleracea</em></span><span class="kd">Зеленчук</span><span class="strip" aria-hidden="true"><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c P"></i><i class="c a"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c P"></i><i class="c a now"></i><i class="c o"></i></span><span class="st st-available">В сезон</span></li><li class="row lv-available"><span class="nm"><b>Магданоз</b><em lang="la">Petroselinum crispum</em></span><span class="kd">Подправка</span><span class="strip" aria-hidden="true"><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c P"></i><i class="c P"></i><i class="c a"></i><i class="c a"></i><i class="c P"></i><i class="c P"></i><i class="c a now"></i><i class="c o"></i></span><span class="st st-available">В сезон</span></li><li class="row lv-available"><span class="nm"><b>Орехи</b><em lang="la">Juglans regia</em></span><span class="kd">Ядка</span><span class="strip" aria-hidden="true"><i class="c s"></i><i class="c s"></i><i class="c s"></i><i class="c s"></i><i class="c s"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c P"></i><i class="c P"></i><i class="c a now"></i><i class="c s"></i></span><span class="st st-available">В сезон</span></li><li class="row lv-storage"><span class="nm"><b>Круши</b><em lang="la">Pyrus communis</em></span><span class="kd">Плод</span><span class="strip" aria-hidden="true"><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c P"></i><i class="c P"></i><i class="c a"></i><i class="c s now"></i><i class="c s"></i></span><span class="st st-storage">От хранилище</span></li></ul></main></section><section class="phone prod"><header class="bar"><a class="logo">Сезон</a><nav><a class="on">Сега</a><a>Каталог</a><a>Календар</a><a>Търсене</a></nav></header><main>
-<p class="crumbs">Каталог › Плодове</p>
-<div class="title"><h1>Ябълки</h1><p class="lat"><em lang="la">Malus domestica</em> · Плод · Розоцветни</p></div>
-<nav class="toc"><a class="on">На сергията</a><a>Яж</a><a>Отгледай</a><a>Ферми</a><a>Източници</a></nav>
-<section class="stall"><h2>На сергията</h2>
-<p class="now-level"><span class="st st-available big">В сезон</span> през ноември</p>
-<div class="cal"><div class="months"><span class="m">я</span><span class="m">ф</span><span class="m">м</span><span class="m">а</span><span class="m">м</span><span class="m">ю</span><span class="m">ю</span><span class="m">а</span><span class="m">с</span><span class="m">о</span><span class="m now">н</span><span class="m">д</span></div><span class="strip" aria-hidden="true"><i class="c s"></i><i class="c s"></i><i class="c s"></i><i class="c s"></i><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c a"></i><i class="c P"></i><i class="c P"></i><i class="c a now"></i><i class="c s"></i></span><div class="cal2"><span class="lbl">Сеитба/засаждане</span><span class="strip sow" aria-hidden="true"><i class="c o"></i><i class="c o"></i><i class="c P"></i><i class="c P"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c P"></i><i class="c P now"></i><i class="c o"></i></span></div></div>
-<dl><dt>Как да избереш</dt><dd>Плодът трябва да е твърд, без меки места и с приятен аромат при дръжката.</dd>
-<dt>Как да съхраниш</dt><dd>В хладилник остават свежи няколко седмици; дръж ги отделно от другите плодове.</dd>
-<dt>Откъде</dt><dd><a>Кюстендил</a> · <a>Пловдив</a></dd></dl></section>
-</main></section></body></html>
+<!doctype html>
+<html lang="bg">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@400;600;700&family=Sofia+Sans+Extra+Condensed:wght@600;800&family=Sofia+Sans+Condensed:wght@500;700&family=PT+Serif:wght@400;700&family=Golos+Text:wght@400;600;700&family=Ubuntu+Mono&display=block"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        display: flex;
+        gap: 40px;
+        padding: 32px;
+        align-items: flex-start;
+        background: #888;
+      }
+      .phone {
+        width: 390px;
+        height: 844px;
+        overflow: hidden;
+        border-radius: 28px;
+        box-shadow: 0 0 0 10px #111;
+      }
+      ul {
+        list-style: none;
+      }
+      a {
+        color: inherit;
+      }
+      .strip {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 2px;
+        width: 96px;
+        height: 12px;
+      }
+      .c {
+        display: block;
+      }
+      /* A — Stamp of origin (crate stencil + export label) */
+      :root {
+        --ground: #f4f6fb;
+        --paper: #fff;
+        --ink: #141a2e;
+        --muted: #4a5270;
+        --stamp: #1c3faa;
+        --stampInk: #fff;
+        --peak: #c8102e;
+        --rule: #c9cfe2;
+        --now: #ffb000;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --ground: #0d1430;
+          --paper: #141c3d;
+          --ink: #eef1fb;
+          --muted: #a9b1d1;
+          --stamp: #8fa8ff;
+          --stampInk: #0d1430;
+          --peak: #ff6b7f;
+          --rule: #2b3666;
+          --now: #ffc23d;
+        }
+      }
+      .phone {
+        background: var(--ground);
+        color: var(--ink);
+        font:
+          16px/1.45 'Sofia Sans',
+          sans-serif;
+      }
+      .bar {
+        background: var(--stamp);
+        color: var(--stampInk);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+      }
+      .logo {
+        font: 800 26px/1 'Sofia Sans Extra Condensed';
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .bar nav {
+        display: flex;
+        gap: 14px;
+        font: 700 15px 'Sofia Sans Condensed';
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .bar nav .on {
+        border-bottom: 3px solid var(--now);
+      }
+      main {
+        padding: 14px 16px;
+      }
+      .head h1 {
+        font: 800 34px/1 'Sofia Sans Extra Condensed';
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+      }
+      .head h1 small {
+        display: block;
+        font: 600 15px 'Sofia Sans Condensed';
+        color: var(--muted);
+        letter-spacing: 0.08em;
+      }
+      .meta {
+        font: 600 13px 'Sofia Sans Condensed';
+        color: var(--muted);
+        margin: 6px 0 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .list {
+        background: var(--paper);
+        border: 2px solid var(--ink);
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-areas: 'nm st' 'kd strip';
+        gap: 2px 8px;
+        padding: 7px 10px;
+        border-bottom: 1px dashed var(--rule);
+      }
+      .nm {
+        grid-area: nm;
+      }
+      .nm b {
+        font: 800 19px/1.1 'Sofia Sans Extra Condensed';
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+      .nm em {
+        font-size: 12px;
+        color: var(--muted);
+        margin-left: 6px;
+      }
+      .kd {
+        grid-area: kd;
+        font: 600 12px 'Sofia Sans Condensed';
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .row .strip {
+        grid-area: strip;
+        justify-self: end;
+      }
+      .st {
+        grid-area: st;
+        justify-self: end;
+        font: 800 12px/1 'Sofia Sans Extra Condensed';
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 4px 7px;
+        border: 2px solid var(--stamp);
+        color: var(--stamp);
+        transform: rotate(-2deg);
+      }
+      .st-peak {
+        background: var(--peak);
+        border-color: var(--peak);
+        color: #fff;
+      }
+      .st-storage {
+        background: repeating-linear-gradient(
+          135deg,
+          transparent 0 3px,
+          color-mix(in srgb, var(--stamp) 30%, transparent) 3px 5px
+        );
+      }
+      .c {
+        background: var(--rule);
+      }
+      .c.P {
+        background: var(--peak);
+      }
+      .c.a {
+        background: var(--stamp);
+      }
+      .c.s {
+        background: repeating-linear-gradient(135deg, var(--stamp) 0 2px, transparent 2px 4px);
+      }
+      .c.now {
+        outline: 2px solid var(--now);
+        outline-offset: 1px;
+      }
+      .crumbs {
+        font: 600 12px 'Sofia Sans Condensed';
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .title h1 {
+        font: 800 52px/1 'Sofia Sans Extra Condensed';
+        text-transform: uppercase;
+      }
+      .lat {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .toc {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin: 12px 0;
+      }
+      .toc a {
+        font: 700 13px 'Sofia Sans Condensed';
+        text-transform: uppercase;
+        padding: 5px 8px;
+        border: 2px solid var(--ink);
+      }
+      .toc .on {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .stall {
+        background: var(--paper);
+        border: 2px solid var(--ink);
+        padding: 12px;
+      }
+      .stall h2 {
+        font: 800 22px 'Sofia Sans Extra Condensed';
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        border-bottom: 2px solid var(--ink);
+        margin-bottom: 8px;
+      }
+      .now-level {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+      }
+      .st.big {
+        font-size: 18px;
+        padding: 7px 10px;
+        position: static;
+        transform: rotate(-3deg);
+      }
+      .cal {
+        margin: 12px 0;
+      }
+      .months {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        font: 700 12px 'Sofia Sans Condensed';
+        text-align: center;
+        text-transform: uppercase;
+      }
+      .months .now {
+        color: var(--peak);
+      }
+      .cal .strip {
+        width: 100%;
+        height: 18px;
+      }
+      .cal2 {
+        margin-top: 4px;
+      }
+      .lbl {
+        font: 600 11px 'Sofia Sans Condensed';
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .sow .c.P {
+        background: #2e7d32;
+      }
+      dl dt {
+        font: 800 15px 'Sofia Sans Extra Condensed';
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-top: 8px;
+        color: var(--stamp);
+      }
+      dd {
+        font-size: 15px;
+      }
+      /* calmer: caps only in headings and stamps; list stamps upright; one accent for now */
+      .nm b {
+        font: 700 18px/1.15 'Sofia Sans';
+        text-transform: none;
+        letter-spacing: 0;
+      }
+      .kd {
+        text-transform: none;
+        letter-spacing: 0;
+        font: 500 13px 'Sofia Sans';
+      }
+      .row .st {
+        transform: none;
+      }
+      .bar nav {
+        text-transform: none;
+        font: 600 15px 'Sofia Sans';
+        letter-spacing: 0;
+      }
+      .meta {
+        text-transform: none;
+        letter-spacing: 0;
+        font: 500 14px 'Sofia Sans';
+      }
+      .crumbs {
+        text-transform: none;
+        letter-spacing: 0;
+        font: 500 13px 'Sofia Sans';
+      }
+      .toc a {
+        text-transform: none;
+        font: 600 14px 'Sofia Sans';
+        border-width: 1px;
+      }
+      .list {
+        border-width: 1px;
+        border-color: var(--rule);
+      }
+      .title h1 {
+        font-size: 46px;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="phone home">
+      <header class="bar">
+        <a class="logo">Сезон</a>
+        <nav><a class="on">Сега</a><a>Каталог</a><a>Календар</a><a>Търсене</a></nav>
+      </header>
+      <main>
+        <div class="head">
+          <h1><small>В сезон през</small> ноември</h1>
+          <p class="meta">12 продукта · 3 в разгар · 8 в сезон · 1 от хранилище</p>
+        </div>
+        <ul class="list">
+          <li class="row lv-peak">
+            <span class="nm"><b>Праз</b><em lang="la">Allium ampeloprasum</em></span
+            ><span class="kd">Зеленчук</span
+            ><span class="strip" aria-hidden="true"
+              ><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c o"></i
+              ><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i
+              ><i class="c a"></i><i class="c P"></i><i class="c P now"></i
+              ><i class="c a"></i></span
+            ><span class="st st-peak">Разгар</span>
+          </li>
+          <li class="row lv-peak">
+            <span class="nm"><b>Целина</b><em lang="la">Apium graveolens</em></span
+            ><span class="kd">Зеленчук</span
+            ><span class="strip" aria-hidden="true"
+              ><i class="c s"></i><i class="c s"></i><i class="c o"></i><i class="c o"></i
+              ><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i
+              ><i class="c a"></i><i class="c P"></i><i class="c P now"></i
+              ><i class="c a"></i></span
+            ><span class="st st-peak">Разгар</span>
+          </li>
+          <li class="row lv-peak">
+            <span class="nm"><b>Зеле</b><em lang="la">Brassica oleracea</em></span
+            ><span class="kd">Зеленчук</span
+            ><span class="strip" aria-hidden="true"
+              ><i class="c s"></i><i class="c s"></i><i class="c s"></i><i class="c o"></i
+              ><i class="c a"></i><i class="c a"></i><i class="c a"></i><i class="c a"></i
+              ><i class="c P"></i><i class="c P"></i><i class="c P now"></i
+              ><i class="c a"></i></span
+            ><span class="st st-peak">Разгар</span>
+          </li>
+          <li class="row lv-available">
+            <span class="nm"><b>Ябълки</b><em lang="la">Malus domestica</em></span
+            ><span class="kd">Плод</span
+            ><span class="strip" aria-hidden="true"
+              ><i class="c s"></i><i class="c s"></i><i class="c s"></i><i class="c s"></i
+              ><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c a"></i
+              ><i class="c P"></i><i class="c P"></i><i class="c a now"></i
+              ><i class="c s"></i></span
+            ><span class="st st-available">В сезон</span>
+          </li>
+          <li class="row lv-available">
+            <span class="nm"><b>Дюли</b><em lang="la">Cydonia oblonga</em></span
+            ><span class="kd">Плод</span
+            ><span class="strip" aria-hidden="true"
+              ><i class="c s"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i
+              ><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i
+              ><i class="c a"></i><i class="c P"></i><i class="c a now"></i
+              ><i class="c s"></i></span
+            ><span class="st st-available">В сезон</span>
+          </li>
+          <li class="row lv-available">
+            <span class="nm"><b>Моркови</b><em lang="la">Daucus carota</em></span
+            ><span class="kd">Зеленчук</span
+            ><span class="strip" aria-hidden="true"
+              ><i class="c s"></i><i class="c s"></i><i class="c s"></i><i class="c o"></i
+              ><i class="c o"></i><i class="c a"></i><i class="c P"></i><i class="c P"></i
+              ><i class="c P"></i><i class="c P"></i><i class="c a now"></i
+              ><i class="c s"></i></span
+            ><span class="st st-available">В сезон</span>
+          </li>
+          <li class="row lv-available">
+            <span class="nm"><b>Цвекло</b><em lang="la">Beta vulgaris</em></span
+            ><span class="kd">Зеленчук</span
+            ><span class="strip" aria-hidden="true"
+              ><i class="c s"></i><i class="c s"></i><i class="c o"></i><i class="c o"></i
+              ><i class="c o"></i><i class="c a"></i><i class="c a"></i><i class="c P"></i
+              ><i class="c P"></i><i class="c P"></i><i class="c a now"></i
+              ><i class="c s"></i></span
+            ><span class="st st-available">В сезон</span>
+          </li>
+          <li class="row lv-available">
+            <span class="nm"><b>Тиква</b><em lang="la">Cucurbita spp.</em></span
+            ><span class="kd">Зеленчук</span
+            ><span class="strip" aria-hidden="true"
+              ><i class="c s"></i><i class="c s"></i><i class="c o"></i><i class="c o"></i
+              ><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c a"></i
+              ><i class="c P"></i><i class="c P"></i><i class="c a now"></i
+              ><i class="c s"></i></span
+            ><span class="st st-available">В сезон</span>
+          </li>
+          <li class="row lv-available">
+            <span class="nm"><b>Спанак</b><em lang="la">Spinacia oleracea</em></span
+            ><span class="kd">Зеленчук</span
+            ><span class="strip" aria-hidden="true"
+              ><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c P"></i
+              ><i class="c a"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i
+              ><i class="c a"></i><i class="c P"></i><i class="c a now"></i
+              ><i class="c o"></i></span
+            ><span class="st st-available">В сезон</span>
+          </li>
+          <li class="row lv-available">
+            <span class="nm"><b>Магданоз</b><em lang="la">Petroselinum crispum</em></span
+            ><span class="kd">Подправка</span
+            ><span class="strip" aria-hidden="true"
+              ><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c a"></i
+              ><i class="c P"></i><i class="c P"></i><i class="c a"></i><i class="c a"></i
+              ><i class="c P"></i><i class="c P"></i><i class="c a now"></i
+              ><i class="c o"></i></span
+            ><span class="st st-available">В сезон</span>
+          </li>
+          <li class="row lv-available">
+            <span class="nm"><b>Орехи</b><em lang="la">Juglans regia</em></span
+            ><span class="kd">Ядка</span
+            ><span class="strip" aria-hidden="true"
+              ><i class="c s"></i><i class="c s"></i><i class="c s"></i><i class="c s"></i
+              ><i class="c s"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i
+              ><i class="c P"></i><i class="c P"></i><i class="c a now"></i
+              ><i class="c s"></i></span
+            ><span class="st st-available">В сезон</span>
+          </li>
+          <li class="row lv-storage">
+            <span class="nm"><b>Круши</b><em lang="la">Pyrus communis</em></span
+            ><span class="kd">Плод</span
+            ><span class="strip" aria-hidden="true"
+              ><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i
+              ><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c P"></i
+              ><i class="c P"></i><i class="c a"></i><i class="c s now"></i
+              ><i class="c s"></i></span
+            ><span class="st st-storage">От хранилище</span>
+          </li>
+        </ul>
+      </main>
+    </section>
+    <section class="phone prod">
+      <header class="bar">
+        <a class="logo">Сезон</a>
+        <nav><a class="on">Сега</a><a>Каталог</a><a>Календар</a><a>Търсене</a></nav>
+      </header>
+      <main>
+        <p class="crumbs">Каталог › Плодове</p>
+        <div class="title">
+          <h1>Ябълки</h1>
+          <p class="lat"><em lang="la">Malus domestica</em> · Плод · Розоцветни</p>
+        </div>
+        <nav class="toc">
+          <a class="on">На сергията</a><a>Яж</a><a>Отгледай</a><a>Ферми</a><a>Източници</a>
+        </nav>
+        <section class="stall">
+          <h2>На сергията</h2>
+          <p class="now-level"><span class="st st-available big">В сезон</span> през ноември</p>
+          <div class="cal">
+            <div class="months">
+              <span class="m">я</span><span class="m">ф</span><span class="m">м</span
+              ><span class="m">а</span><span class="m">м</span><span class="m">ю</span
+              ><span class="m">ю</span><span class="m">а</span><span class="m">с</span
+              ><span class="m">о</span><span class="m now">н</span><span class="m">д</span>
+            </div>
+            <span class="strip" aria-hidden="true"
+              ><i class="c s"></i><i class="c s"></i><i class="c s"></i><i class="c s"></i
+              ><i class="c o"></i><i class="c o"></i><i class="c a"></i><i class="c a"></i
+              ><i class="c P"></i><i class="c P"></i><i class="c a now"></i><i class="c s"></i
+            ></span>
+            <div class="cal2">
+              <span class="lbl">Сеитба/засаждане</span
+              ><span class="strip sow" aria-hidden="true"
+                ><i class="c o"></i><i class="c o"></i><i class="c P"></i><i class="c P"></i
+                ><i class="c o"></i><i class="c o"></i><i class="c o"></i><i class="c o"></i
+                ><i class="c o"></i><i class="c P"></i><i class="c P now"></i><i class="c o"></i
+              ></span>
+            </div>
+          </div>
+          <dl>
+            <dt>Как да избереш</dt>
+            <dd>Плодът трябва да е твърд, без меки места и с приятен аромат при дръжката.</dd>
+            <dt>Как да съхраниш</dt>
+            <dd>В хладилник остават свежи няколко седмици; дръж ги отделно от другите плодове.</dd>
+            <dt>Откъде</dt>
+            <dd><a>Кюстендил</a> · <a>Пловдив</a></dd>
+          </dl>
+        </section>
+      </main>
+    </section>
+  </body>
+</html>
