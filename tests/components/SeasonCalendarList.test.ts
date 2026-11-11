@@ -15,11 +15,13 @@ const produce = aProduce({
 });
 
 describe('SeasonCalendarList', () => {
-  it('AC6: renders 12 month links with level text', async () => {
+  it('AC6 (spec 005), AC7 (spec 013): renders 12 month links with level text', async () => {
     const html = await render(SeasonCalendarList, { produce, currentMonth: Month.of(11) });
     expect(html.match(/<li\b/g)).toHaveLength(12);
-    expect(html).toMatch(/href="\/sezon\/oktomvri"[\s\S]*?Октомври[\s\S]*?Разгар на сезона/);
-    expect(html).toMatch(/href="\/sezon\/yanuari"[\s\S]*?Януари[\s\S]*?От хранилище/);
+    const text = html.replace(/<[^>]+>/g, '');
+    expect(html).toContain('href="/sezon/oktomvri"');
+    expect(text).toMatch(/Октомври[\s\S]*?Разгар на сезона/);
+    expect(text).toMatch(/Януари[\s\S]*?От хранилище/);
     expect(html.match(/Извън сезона/g)).toHaveLength(9);
   });
 
@@ -29,5 +31,13 @@ describe('SeasonCalendarList', () => {
     expect(html).toMatch(
       /<a[^>]*href="\/sezon\/noemvri"[^>]*aria-current="date"|<a[^>]*aria-current="date"[^>]*href="\/sezon\/noemvri"/,
     );
+  });
+
+  it('AC7 (spec 013): shows the abbreviation with the rest of the month name visually hidden', async () => {
+    const html = await render(SeasonCalendarList, { produce, currentMonth: Month.of(11) });
+    expect(html).toMatch(
+      /Окт<span class="visually-hidden-inline"[^>]*>омври<\/span>[\s\S]*?Разгар на сезона/,
+    );
+    expect(html).not.toMatch(/aria-label=/);
   });
 });

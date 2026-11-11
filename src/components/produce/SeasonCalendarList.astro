@@ -1,10 +1,15 @@
 ---
 import { routes } from '@components/layout/routes';
+import MonthAbbr from '@components/season/MonthAbbr.astro';
 import type { Produce } from '@contexts/catalog';
 import { Month } from '@contexts/seasonality';
-import { monthName, ui } from '@i18n/bg';
+import { ui } from '@i18n/bg';
 
-/** Twelve-month season calendar of one produce; each month links to its month page. */
+/**
+ * Twelve-month season strip of one produce: each month links to its month page and shows its
+ * abbreviation, the level glyph and the level text on the level's tint; the current month is
+ * outlined.
+ */
 interface Props {
   produce: Produce;
   currentMonth: Month;
@@ -18,11 +23,13 @@ const months = Month.all().map((month) => ({ month, level: produce.levelIn(month
   {months.map(({ month, level }) => (
     <li class="calendar__month" data-level={level?.value ?? 'none'}>
       <a href={routes.month(month)} aria-current={month === currentMonth ? 'date' : undefined}>
-        <span class="calendar__name">{monthName(month)}</span>
+        <span class="calendar__name">
+          <MonthAbbr month={month} />
+        </span>
+        <span class="calendar__glyph" aria-hidden="true">
+          {level === undefined ? ui.produce.outOfSeasonIcon : ui.seasonLevelIcons[level.value]}
+        </span>
         <span class="calendar__level">
-          <span aria-hidden="true">
-            {level === undefined ? ui.produce.outOfSeasonIcon : ui.seasonLevelIcons[level.value]}
-          </span>
           {level === undefined ? ui.produce.outOfSeason : ui.seasonLevels[level.value]}
         </span>
       </a>
@@ -33,27 +40,24 @@ const months = Month.all().map((month) => ({ month, level: produce.levelIn(month
 <style>
   .calendar {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 9rem), 1fr));
-    gap: var(--space-2);
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2px;
     padding: 0;
     list-style: none;
   }
 
   .calendar__month a {
     display: grid;
+    align-content: start;
+    justify-items: center;
     gap: var(--space-1);
-    min-height: var(--target-min);
     height: 100%;
-    padding: var(--space-2) var(--space-3);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    color: var(--color-text);
-    background: var(--color-surface);
-    text-decoration: none;
-  }
-
-  .calendar__month[data-level='none'] a {
+    min-height: 2.75rem;
+    padding: var(--space-2) var(--space-1);
     color: var(--color-text-muted);
+    background: var(--color-surface);
+    text-align: center;
+    text-decoration: none;
   }
 
   .calendar__month[data-level='peak'] a {
@@ -73,16 +77,36 @@ const months = Month.all().map((month) => ({ month, level: produce.levelIn(month
 
   .calendar__month a[aria-current='date'] {
     box-shadow:
-      0 0 0 2px var(--color-background),
-      0 0 0 5px var(--color-accent);
+      inset 0 0 0 2px var(--color-background),
+      inset 0 0 0 5px var(--color-accent);
+    font-weight: 700;
+  }
+
+  .calendar__month a:focus-visible {
+    outline: var(--focus-width) solid var(--color-focus);
+    outline-offset: 2px;
   }
 
   .calendar__name {
-    font-weight: 700;
+    font-weight: 600;
     text-decoration: underline;
   }
 
   .calendar__level {
     font-size: var(--font-size-sm);
+    line-height: 1.2;
+    hyphens: auto;
+  }
+
+  @media (max-width: 60rem) {
+    .calendar {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .calendar {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 </style>

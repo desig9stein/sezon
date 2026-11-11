@@ -1,5 +1,5 @@
 ---
-import ProduceCard from '@components/produce/ProduceCard.astro';
+import ProduceGroupList from '@components/produce/ProduceGroupList.astro';
 import type { Produce, SeasonOverview } from '@contexts/catalog';
 import type { Month, SeasonLevel } from '@contexts/seasonality';
 import { ui } from '@i18n/bg';
@@ -56,33 +56,12 @@ const groups = selected
 
 {groups.length === 0 && <p>{ui.overview.empty}</p>}
 {groups.map((group) => (
-  <section class="season-group" aria-labelledby={`group-${group.id}`}>
-    <h2 id={`group-${group.id}`}>{group.heading}</h2>
-    <ul class="season-group__list" role="list">
-      {group.items.map((produce) => (
-        <li>
-          <ProduceCard
-            produce={produce}
-            level={group.levelOf(produce)}
-            levelFrom={group.levelFrom}
-          />
-        </li>
-      ))}
-    </ul>
-  </section>
+  <ProduceGroupList
+    id={`group-${group.id}`}
+    heading={group.heading}
+    items={group.items}
+    variant={group.id === 'peak' ? 'plate' : 'index'}
+    levelOf={group.levelOf}
+    levelFrom={group.levelFrom}
+  />
 ))}
-
-<style>
-  .season-group {
-    margin-top: var(--space-8);
-  }
-
-  .season-group__list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
-    gap: var(--space-4);
-    margin-top: var(--space-4);
-    padding: 0;
-    list-style: none;
-  }
-</style>

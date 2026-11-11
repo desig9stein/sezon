@@ -172,7 +172,7 @@ Produce page:
 ```
 
 On phones every grid collapses to one column in source order (spec 009: CSS never reorders);
-the year ribbon shows initials with the current month spelled out.
+the year ribbon shows three-letter abbreviations in two rows of six (spec 013).
 
 ### Principles
 

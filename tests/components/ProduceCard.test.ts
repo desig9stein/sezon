@@ -24,4 +24,9 @@ describe('ProduceCard', () => {
     expect(html).toMatch(/<h2[^>]*>\s*<a[^>]*href="\/plodove\/yabalki"/);
     expect(html).not.toContain('data-level=');
   });
+
+  it('AC5 (spec 013): renders the Latin name in Latin', async () => {
+    const html = await render(ProduceCard, { produce });
+    expect(html).toMatch(/<i[^>]*lang="la"[^>]*>Brassica oleracea var\. capitata<\/i>/);
+  });
 });

@@ -1,5 +1,5 @@
 ---
-import ProduceCard from '@components/produce/ProduceCard.astro';
+import ProduceGroupList from '@components/produce/ProduceGroupList.astro';
 import type { Produce, SectionIndex } from '@contexts/catalog';
 import type { SeasonLevel } from '@contexts/seasonality';
 import { ui } from '@i18n/bg';
@@ -43,34 +43,18 @@ const levelOf = (produce: Produce, group: Group): SeasonLevel | undefined =>
   <p class="section-intro">{ui.sections.intro(section.kind, month)}</p>
 )}
 {groups.map((group) => (
-  <section class="section-group" aria-labelledby={`section-${group.id}`}>
-    <h2 id={`section-${group.id}`}>{group.heading}</h2>
-    <ul class="section-group__list" role="list">
-      {group.items.map((produce) => (
-        <li>
-          <ProduceCard produce={produce} level={levelOf(produce, group)} />
-        </li>
-      ))}
-    </ul>
-  </section>
+  <ProduceGroupList
+    id={`section-${group.id}`}
+    heading={group.heading}
+    items={group.items}
+    variant={group.id === 'peak' ? 'plate' : 'index'}
+    levelOf={(produce) => levelOf(produce, group)}
+  />
 ))}
 
 <style>
   .section-intro {
     max-width: var(--reading-width);
     font-size: var(--font-size-lg);
-  }
-
-  .section-group {
-    margin-top: var(--space-8);
-  }
-
-  .section-group__list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
-    gap: var(--space-4);
-    margin-top: var(--space-4);
-    padding: 0;
-    list-style: none;
   }
 </style>
