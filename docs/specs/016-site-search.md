@@ -97,10 +97,9 @@ None. One pure helper in `src/shared/seo/` (or `src/i18n/`):
 
 ## 7. SEO requirements
 
-- Title „Търсене в Сезон“ (≤ 60 characters) and a 70–160 character description; canonical
-  `/tarsene`.
-- `/tarsene` is `noindex, follow`: search result pages have no content of their own. It is not
-  in the sitemap.
+- Title „Търсене в Сезон“ (≤ 60 characters) and a 70–160 character description.
+- `/tarsene` is `noindex, follow` without a canonical URL, like the 404 page: search result
+  pages have no content of their own. It is not in the sitemap.
 - `WebSite` JSON-LD gets `potentialAction` `SearchAction` with
   `target: <site>/tarsene?q={search_term_string}` and
   `query-input: required name=search_term_string`.
@@ -111,10 +110,11 @@ None. One pure helper in `src/shared/seo/` (or `src/i18n/`):
 1. **AC1:** `latinSearchText` returns „yabalki“ for „Ябълки“, „vitamin c“ for „Витамин C“ and
    „zelenchutsi“ for „Зеленчуци“.
 2. **AC2:** `websiteJsonLd` includes the `SearchAction` with the search URL template.
-3. **AC3:** The search page renders an `h1`, a `<search>` landmark with a GET form to
+3. **AC3:** The `SiteSearch` component renders a `<search>` landmark with a GET form to
    `/tarsene`, a labelled `type="search"` input named `q` with a hint, a submit button, an empty
-   `role="status"` element, a results list, the browse list and the `<noscript>` note; it has
-   `noindex, follow`.
+   `role="status"` element, an empty results list, the browse list it is given and the
+   `<noscript>` note. The built `/tarsene` has one `h1`, `noindex, follow` and is not in the
+   sitemap (e2e).
 4. **AC4:** Produce, section and nutrient pages mark their content with `data-pagefind-body`,
    and their `h1` has `data-search-latin` and `data-pagefind-index-attrs="data-search-latin"`;
    the home, month, calendar and search pages have no `data-pagefind-body`.
