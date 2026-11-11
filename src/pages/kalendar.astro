@@ -1,0 +1,56 @@
+---
+import { routes } from '@components/layout/routes';
+import SeasonCalendarTable from '@components/season/SeasonCalendarTable.astro';
+import { buildMonth } from '@composition/clock';
+import { seasonCalendarService } from '@composition/index';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const calendar = await seasonCalendarService.calendar();
+const labels = ui.calendar;
+---
+
+<BaseLayout
+  title={labels.title}
+  description={labels.description}
+  path={routes.calendar}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: labels.heading, path: routes.calendar },
+  ]}
+>
+  <h1>{labels.heading}</h1>
+  <p class="calendar-intro">{labels.intro}</p>
+  {calendar.groups.length === 0 ? (
+    <p>{labels.empty}</p>
+  ) : (
+    <SeasonCalendarTable calendar={calendar} currentMonth={buildMonth} />
+  )}
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-top: var(--space-6);
+  }
+
+  .calendar-intro {
+    max-width: var(--reading-width);
+    font-size: var(--font-size-lg);
+  }
+
+  @media print {
+    @page {
+      size: A4 landscape;
+      margin: 10mm;
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 16pt;
+    }
+
+    .calendar-intro {
+      font-size: 10pt;
+    }
+  }
+</style>

@@ -121,3 +121,17 @@ main:focus {
     scroll-behavior: auto !important;
   }
 }
+
+@media print {
+  body > header,
+  body > footer,
+  .skip-link,
+  nav[aria-label='Път до страницата'] {
+    display: none;
+  }
+
+  body {
+    color: #000;
+    background: #fff;
+  }
+}

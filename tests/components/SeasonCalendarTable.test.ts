@@ -37,9 +37,11 @@ describe('SeasonCalendarTable', () => {
     expect(html.match(/aria-current="date"/g)).toHaveLength(1);
     expect(html.match(/<tbody/g)).toHaveLength(2);
     expect(html).toMatch(
-      /<th[^>]*scope="rowgroup"[^>]*colspan="13"[^>]*>\s*<a href="\/plodove">Плодове<\/a>/,
+      /<th[^>]*scope="rowgroup"[^>]*colspan="13"[^>]*>\s*<a href="\/plodove"[^>]*>Плодове<\/a>/,
     );
-    expect(html).toMatch(/<th[^>]*scope="row"[^>]*>\s*<a href="\/zelenchutsi\/zele">Зеле<\/a>/);
+    expect(html).toMatch(
+      /<th[^>]*scope="row"[^>]*>\s*<a href="\/zelenchutsi\/zele"[^>]*>Зеле<\/a>/,
+    );
     const zeleRow = html.slice(
       html.indexOf('/zelenchutsi/zele'),
       html.indexOf('</tr>', html.indexOf('/zelenchutsi/zele')),
@@ -48,7 +50,7 @@ describe('SeasonCalendarTable', () => {
     expect(zeleRow).toContain('Разгар на сезона');
     expect(zeleRow).toContain('От хранилище');
     expect(zeleRow).toContain('Извън сезона');
-    expect(zeleRow).toMatch(/<span aria-hidden="true"[^>]*>★<\/span>/);
+    expect(zeleRow).toMatch(/<span aria-hidden="true"[^>]*>\s*★\s*<\/span>/);
   });
 
   it('AC4: lists the four levels with their glyphs in the legend', async () => {

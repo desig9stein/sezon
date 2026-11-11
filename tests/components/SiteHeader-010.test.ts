@@ -11,7 +11,12 @@ describe('SiteHeader (spec 010)', () => {
   it('AC7: links to the four sections after the season links', async () => {
     const html = await render(SiteHeader, { currentPath: '/' });
 
-    expect(linkOrder(html).slice(-4)).toEqual(['/plodove', '/zelenchutsi', '/podpravki', '/yadki']);
+    expect(linkOrder(html).slice(2, 6)).toEqual([
+      '/plodove',
+      '/zelenchutsi',
+      '/podpravki',
+      '/yadki',
+    ]);
     expect(html).toMatch(/>\s*Зеленчуци\s*</);
   });
 
