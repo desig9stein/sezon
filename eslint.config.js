@@ -93,6 +93,7 @@ export default defineConfig([
     'playwright-report/',
     'test-results/',
     '.claude/skills/',
+    '.github/skills/',
   ]),
   js.configs.recommended,
   ...tseslint.configs.strict,
