@@ -29,21 +29,43 @@ const LATIN = [
 ];
 
 /**
- * Returns one local font variant per subset for a Fontsource variable font file pattern.
+ * Returns the Cyrillic and Latin local font variants for a Fontsource variable font file pattern.
  * @param {string} pkg - Package name, e.g. `@fontsource-variable/piazzolla`.
- * @param {string} file - File name with `{subset}` placeholder.
+ * @param {string} file - File name with a `{subset}` placeholder.
  * @param {{ weight: string; style: 'normal' | 'italic' }} face - Weight range and style.
  */
-const subsets = (pkg, file, face) =>
-  [
-    { subset: 'cyrillic', unicodeRange: CYRILLIC },
-    { subset: 'latin', unicodeRange: LATIN },
-  ].map(({ subset, unicodeRange }) => ({
+const subsets = (pkg, file, face) => {
+  /** @param {string} subset @param {string[]} unicodeRange */
+  const variant = (subset, unicodeRange) => ({
     ...face,
     display: /** @type {const} */ ('swap'),
     unicodeRange,
-    src: [`${pkg}/files/${file.replace('{subset}', subset)}`],
-  }));
+    src: /** @type {[string]} */ ([`${pkg}/files/${file.replace('{subset}', subset)}`]),
+  });
+  return { cyrillic: variant('cyrillic', CYRILLIC), latin: variant('latin', LATIN) };
+};
+
+const PIAZZOLLA = subsets(
+  '@fontsource-variable/piazzolla',
+  'piazzolla-{subset}-opsz-normal.woff2',
+  {
+    weight: '100 900',
+    style: 'normal',
+  },
+);
+const PIAZZOLLA_ITALIC = subsets(
+  '@fontsource-variable/piazzolla',
+  'piazzolla-{subset}-wght-italic.woff2',
+  { weight: '100 900', style: 'italic' },
+);
+const SOFIA_SANS = subsets(
+  '@fontsource-variable/sofia-sans',
+  'sofia-sans-{subset}-wght-normal.woff2',
+  {
+    weight: '1 1000',
+    style: 'normal',
+  },
+);
 const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://sezon.example';
 
 export default defineConfig({
@@ -63,14 +85,10 @@ export default defineConfig({
       fallbacks: ['Georgia', 'serif'],
       options: {
         variants: [
-          ...subsets('@fontsource-variable/piazzolla', 'piazzolla-{subset}-opsz-normal.woff2', {
-            weight: '100 900',
-            style: 'normal',
-          }),
-          ...subsets('@fontsource-variable/piazzolla', 'piazzolla-{subset}-wght-italic.woff2', {
-            weight: '100 900',
-            style: 'italic',
-          }),
+          PIAZZOLLA.cyrillic,
+          PIAZZOLLA.latin,
+          PIAZZOLLA_ITALIC.cyrillic,
+          PIAZZOLLA_ITALIC.latin,
         ],
       },
     },
@@ -80,14 +98,7 @@ export default defineConfig({
       cssVariable: '--font-sofia-sans',
       fallbacks: ['system-ui', 'sans-serif'],
       options: {
-        variants: subsets(
-          '@fontsource-variable/sofia-sans',
-          'sofia-sans-{subset}-wght-normal.woff2',
-          {
-            weight: '1 1000',
-            style: 'normal',
-          },
-        ),
+        variants: [SOFIA_SANS.cyrillic, SOFIA_SANS.latin],
       },
     },
   ],
