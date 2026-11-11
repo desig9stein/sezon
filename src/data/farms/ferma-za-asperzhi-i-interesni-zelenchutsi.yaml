@@ -1,0 +1,14 @@
+name: 'Ферма за аспержи и интересни зеленчуци'
+region: veliko-tarnovo
+produce: [morkovi, tsveklo, zele]
+description: 'Семейна ферма в с. Джулюница, създадена през 2017 г., която отглежда аспержи, ревен и сезонни зеленчуци. Продава онлайн с куриерска доставка, със седмични кошници по абонамент и на фермерски пазари в София, Варна и Велико Търново. По данни на фермата полето е в преход към биологично земеделие.'
+contact:
+  website: https://fermazaasperzhi.com/
+  email: contact@fermazaasperzhi.com
+  phone: '+359889052777'
+address: 'с. Джулюница, ул. Стефан Панов 9, общ. Лясковец, обл. Велико Търново'
+sources:
+  - https://fermazaasperzhi.com/
+  - https://fermazaasperzhi.com/za-nas.html
+  - https://fermazaasperzhi.com/esenni-zelenchuci.html
+  - https://fermazaasperzhi.com/kontakti.html

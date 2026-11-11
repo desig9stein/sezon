@@ -13,7 +13,6 @@ export function toFarm(id: string, record: FarmRecord): Farm {
     description: record.description,
     contact: ContactInfo.create(record.contact),
     address: record.address,
-    isPlaceholder: record.isPlaceholder,
     sponsored: record.sponsored,
     organic: record.organic,
   });

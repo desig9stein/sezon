@@ -1,0 +1,13 @@
+name: 'Био градини Алваново'
+region: targovishte
+produce: [orehi]
+description: 'Сдружение на земеделски производители с овощни градини в с. Алваново: около 90 декара сини сливи и 100 декара орехи. Продава орехи, сушени сливи и преработени продукти през собствен онлайн магазин с куриерска доставка. По данни на фермата градините имат биологични сертификати от 2014 г.'
+contact:
+  website: https://biogradini.com/
+  email: office@biogradini.com
+  phone: '+359885905550'
+address: 'с. Алваново, ул. „Йордан Миндов“ 3, обл. Търговище'
+sources:
+  - https://biogradini.com/
+  - https://biogradini.com/about-us/
+  - https://biogradini.com/produkt-cena/bio-orehi-yadka/

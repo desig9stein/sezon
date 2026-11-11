@@ -10,7 +10,6 @@ const sponsored = toFarm(
   'sad',
   farmRecord({
     name: 'Сад',
-    isPlaceholder: false,
     sponsored: true,
     contact: { phone: '+359888123456' },
   }),
@@ -33,7 +32,6 @@ describe('FarmList', () => {
     expect(html).toMatch(
       /<a[^>]*href="tel:\+359888123456"[^>]*aria-label="Телефон на Сад: \+359888123456"[^>]*>\s*\+359888123456\s*<\/a>/,
     );
-    expect(html).toContain('Примерни данни');
     expect(html).toContain('Спонсорирано');
     expect(html).toContain('Пловдив');
     expect(html).toMatch(/<a[^>]*href="https:\/\/example\.com"[^>]*rel="noopener"/);

@@ -1,0 +1,13 @@
+name: 'Газянов ЕООД'
+region: pleven
+produce: [orehi]
+description: 'Стопанство край Славяново с около 70 декара орехи и лешници и собствен цех за тахан и халва. Продава ядки и преработени продукти през собствен онлайн магазин и по телефон. По данни на фермата ядките са биологично сертифицирани.'
+contact:
+  website: https://gazyanov.bg/
+  email: pacho_pg@abv.bg
+  phone: '+359888267204'
+address: 'гр. Славяново, ул. „Александър Стамболийски“ 1'
+sources:
+  - https://gazyanov.bg/
+  - https://gazyanov.bg/blog/
+  - https://gazyanov.bg/produkt-kategoriya/%d1%8f%d0%b4%d0%ba%d0%b8/bio-surovi-yadki/

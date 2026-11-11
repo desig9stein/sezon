@@ -70,8 +70,8 @@ export function farmRecord(overrides: Partial<FarmRecord> = {}): FarmRecord {
     produce: ['zele', 'praz'],
     description: 'Примерна семейна ферма за зеленчуци.',
     contact: { website: 'https://example.com', email: 'farm@example.com', phone: '+359000000001' },
-    isPlaceholder: true,
     sponsored: false,
+    sources: ['https://example.org/ferma'],
     ...overrides,
   };
 }

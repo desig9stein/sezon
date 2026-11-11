@@ -64,10 +64,9 @@ describe('seed data', () => {
     expect(findBrokenReferences(records)).toEqual([]);
   });
 
-  it('AC12: has 28 regions, at least 12 produce and only placeholder farms', () => {
+  it('AC12: has 28 regions and at least 12 produce', () => {
     expect(records.regions.size).toBe(28);
     expect(records.produce.size).toBeGreaterThanOrEqual(12);
-    expect([...records.farms.values()].every((farm) => farm.isPlaceholder)).toBe(true);
     expect(
       [...records.produce.values()].every((item) =>
         ['draft', 'reviewed'].includes(item.reviewStatus),
@@ -103,18 +102,6 @@ describe('findBrokenReferences', () => {
       'farms/ferma → regions/missing-region',
       'farms/ferma → produce/missing-produce',
     ]);
-  });
-});
-
-describe('placeholder farms', () => {
-  it('AC12: use only example.com and +359000 contacts', () => {
-    for (const farm of records.farms.values()) {
-      if (!farm.isPlaceholder) continue;
-      const { website, email, phone } = farm.contact;
-      if (website !== undefined) expect(new URL(website).hostname).toBe('example.com');
-      if (email !== undefined) expect(email).toMatch(/@example\.com$/);
-      if (phone !== undefined) expect(phone).toMatch(/^\+359000/);
-    }
   });
 });
 

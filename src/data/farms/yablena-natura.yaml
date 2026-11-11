@@ -1,0 +1,14 @@
+name: 'Яблена Натура'
+region: sofiyska
+produce: [krushi, yabalki]
+description: 'Овощно стопанство в полите на Стара планина край Ботевград, което отглежда ябълки, круши и вишни на над 2000 декара. Продава през собствен онлайн магазин с куриерска доставка в България. По данни на фермата производството е биологично.'
+contact:
+  website: https://yablenanatura.com/
+  email: yablenanatura@gmail.com
+  phone: '+359888306070'
+address: 'Ботевград, пл. „Саранск“ 2А (офис); градини в землищата на с. Радотина, Краево и Новачене'
+sources:
+  - https://yablenanatura.com/
+  - https://yablenanatura.com/contacts/
+  - https://yablenanatura.com/za-nas/
+  - https://yablenanatura.com/delivery/
