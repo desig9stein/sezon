@@ -21,6 +21,11 @@ describe('Produce photo', () => {
     expect(Object.isFrozen(produce.photo?.credit)).toBe(true);
   });
 
+  it('QA 015: keeps the image metadata object as given, so the build emits no unused original', () => {
+    const photo = photoRecord();
+    expect(toProduce('zele', produceRecord({ photo })).photo?.image).toBe(photo.src);
+  });
+
   it('AC3: has no photo when the record has none', () => {
     expect(toProduce('zele', produceRecord()).photo).toBeUndefined();
   });

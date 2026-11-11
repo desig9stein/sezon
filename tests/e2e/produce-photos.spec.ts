@@ -43,8 +43,12 @@ test.describe('produce photos', () => {
     }
   }
 
-  test('AC7: the home page shows plate photos', async ({ page }) => {
+  test('AC7: the home page shows plate photos as AVIF', async ({ page }) => {
+    const avif = page.waitForResponse(
+      (response) => response.request().resourceType() === 'image' && /\.avif$/.test(response.url()),
+    );
     await page.goto('/');
+    expect((await avif).status()).toBe(200);
     expect(await page.locator('main picture img').count()).toBeGreaterThan(0);
   });
 });

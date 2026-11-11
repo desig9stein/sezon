@@ -5,6 +5,7 @@ import { routes } from '@components/layout/routes';
 import type { Produce } from '@contexts/catalog';
 import type { Month, SeasonLevel } from '@contexts/seasonality';
 import { ui } from '@i18n/bg';
+import { displayHeight } from './photo';
 
 /**
  * One produce as a plate (name, Latin name, kind, badge and summary on a surface panel) or as an
@@ -22,8 +23,12 @@ interface Props {
 }
 
 const PLATE_DISPLAY_WIDTH = 640;
-const PLATE_WIDTHS = [320, 640, 960];
-const PLATE_SIZES = '(min-width: 60rem) 36rem, (min-width: 40rem) 50vw, calc(100vw - 2rem)';
+const PLATE_WIDTHS = [320, 480, 640, 720, 960];
+/** `sizes` of the first plate, which spans two grid columns from 40 rem. */
+const LEAD_PLATE_SIZES =
+  '(min-width: 60rem) 34rem, (min-width: 40rem) calc(100vw - 6rem), calc(100vw - 4rem)';
+/** `sizes` of the other plates, one 17 rem grid column from 40 rem. */
+const PLATE_SIZES = '(min-width: 40rem) 15rem, calc(100vw - 4rem)';
 
 const {
   produce,
@@ -45,9 +50,10 @@ const photo = variant === 'plate' ? produce.photo : undefined;
       alt=""
       formats={['avif', 'webp']}
       width={PLATE_DISPLAY_WIDTH}
-      height={Math.round((PLATE_DISPLAY_WIDTH * photo.image.height) / photo.image.width)}
+      height={displayHeight(photo.image, PLATE_DISPLAY_WIDTH)}
       widths={PLATE_WIDTHS}
-      sizes={PLATE_SIZES}
+      sizes={priority ? LEAD_PLATE_SIZES : PLATE_SIZES}
+      quality={50}
       loading={priority ? 'eager' : 'lazy'}
       fetchpriority={priority ? 'high' : undefined}
     />

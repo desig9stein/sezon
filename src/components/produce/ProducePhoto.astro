@@ -2,10 +2,12 @@
 import { Picture } from 'astro:assets';
 import type { ProducePhoto } from '@contexts/catalog';
 import { ui } from '@i18n/bg';
+import { creditHref, displayHeight } from './photo';
 
 /**
  * The produce page's photo plate: a responsive AVIF/WebP picture loaded eagerly as the page's
- * largest image, captioned with the Latin name and the linked photo credit.
+ * largest image, captioned with the Latin name and the linked photo credit (with Unsplash referral
+ * parameters).
  */
 interface Props {
   photo: ProducePhoto;
@@ -13,12 +15,11 @@ interface Props {
 }
 
 const DISPLAY_WIDTH = 800;
-const WIDTHS = [400, 800, 1200];
-const SIZES = '(min-width: 48rem) min(28rem, 40vw), calc(100vw - 2rem)';
+const WIDTHS = [320, 480, 640, 800, 1200];
+const SIZES = '(min-width: 48rem) min(28rem, 40vw), calc(100vw - 3.5rem)';
 
 const { photo, latinName } = Astro.props;
 const { image, alt, credit } = photo;
-const displayHeight = Math.round((DISPLAY_WIDTH * image.height) / image.width);
 ---
 
 <figure class="produce-photo">
@@ -27,17 +28,18 @@ const displayHeight = Math.round((DISPLAY_WIDTH * image.height) / image.width);
     alt={alt}
     formats={['avif', 'webp']}
     width={DISPLAY_WIDTH}
-    height={displayHeight}
+    height={displayHeight(image, DISPLAY_WIDTH)}
     widths={WIDTHS}
     sizes={SIZES}
+    quality={50}
     loading="eager"
     fetchpriority="high"
   />
   <figcaption>
     <i lang="la">{latinName}</i>
     <span class="produce-photo__credit">
-      {ui.produce.photoCredit} <a href={credit.authorUrl}>{credit.author}</a> /{' '}
-      <a href={credit.sourceUrl}>{credit.sourceName}</a>
+      {ui.produce.photoCredit} <a href={creditHref(credit.authorUrl)}>{credit.author}</a> /{' '}
+      <a href={creditHref(credit.sourceUrl)}>{credit.sourceName}</a>
     </span>
   </figcaption>
 </figure>

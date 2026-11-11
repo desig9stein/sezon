@@ -39,4 +39,16 @@ describe('ProduceCard photos', () => {
     expect(index).not.toContain('<img');
     expect(plain).not.toContain('<img');
   });
+
+  it('QA 015: the lead plate and the other plates get sizes for their own widths', async () => {
+    const sizesOf = (html: string) => html.match(/<img[^>]*sizes="([^"]+)"/)?.[1];
+    const lead = await render(ProduceCard, {
+      produce: withPhoto,
+      variant: 'plate',
+      priority: true,
+    });
+    const other = await render(ProduceCard, { produce: withPhoto, variant: 'plate' });
+    expect(sizesOf(lead)).toMatch(/34rem/);
+    expect(sizesOf(other)).toMatch(/15rem/);
+  });
 });

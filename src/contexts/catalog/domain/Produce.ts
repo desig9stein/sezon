@@ -109,7 +109,7 @@ export class Produce {
       input.photo === undefined
         ? undefined
         : Object.freeze({
-            image: Object.freeze({ ...input.photo.image }),
+            image: input.photo.image,
             alt: input.photo.alt,
             credit: Object.freeze({ ...input.photo.credit }),
           });

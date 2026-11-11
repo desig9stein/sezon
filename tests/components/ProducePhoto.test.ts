@@ -32,9 +32,11 @@ describe('ProducePhoto', () => {
     const caption = html.slice(html.indexOf('<figcaption'));
     expect(caption).toMatch(/<i lang="la"[^>]*>Brassica oleracea<\/i>/);
     expect(caption).toMatch(/Снимка:/);
-    expect(caption).toMatch(/<a href="https:\/\/unsplash.com\/@natskov"[^>]*>Natasha Skov<\/a>/);
     expect(caption).toMatch(
-      /<a href="https:\/\/unsplash.com\/photos\/ujh4hU9S-KA"[^>]*>Unsplash<\/a>/,
+      /<a href="https:\/\/unsplash.com\/@natskov\?utm_source=sezon&(?:amp;)?utm_medium=referral"[^>]*>Natasha Skov<\/a>/,
+    );
+    expect(caption).toMatch(
+      /<a href="https:\/\/unsplash.com\/photos\/ujh4hU9S-KA\?utm_source=sezon&(?:amp;)?utm_medium=referral"[^>]*>Unsplash<\/a>/,
     );
   });
 });
