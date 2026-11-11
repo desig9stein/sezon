@@ -46,7 +46,7 @@ test.describe('site search', () => {
       await page.goto(SEARCH);
       await search(page, query);
       expect((await resultLinks(page))[0]).toBe('/plodove/yabalki');
-      await expect(page.getByRole('status')).toContainText(/Намерени резултати: \d+/);
+      await expect(page.getByRole('status')).toContainText(/Резултати: \d+/);
     });
   }
 
@@ -99,6 +99,27 @@ test.describe('site search', () => {
       await expectNoAxeViolations(page);
     });
   }
+
+  test('QA 016: the empty search page has no axe violations', async ({ page }) => {
+    await page.goto(SEARCH);
+    await expectNoAxeViolations(page);
+  });
+
+  test('QA 016: browse links are at least 24px tall', async ({ page }) => {
+    await page.goto(SEARCH);
+    const heights = await page
+      .locator('.site-search__browse a')
+      .evaluateAll((links) => links.map((link) => link.getBoundingClientRect().height));
+    expect(heights.length).toBeGreaterThan(0);
+    expect(Math.min(...heights)).toBeGreaterThanOrEqual(24);
+  });
+
+  test('QA 016: excerpts do not start with the Latin label', async ({ page }) => {
+    await page.goto(SEARCH);
+    await search(page, 'ябълки');
+    const first = await page.locator('[data-search-results] p').first().textContent();
+    expect(first).not.toMatch(/^yabalki/);
+  });
 
   test('AC9: at 320px /tarsene does not scroll sideways', async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 640 });
