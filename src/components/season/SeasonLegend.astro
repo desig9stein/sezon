@@ -1,0 +1,55 @@
+---
+import { SeasonLevel } from '@contexts/seasonality';
+import { ui } from '@i18n/bg';
+import SeasonBadge from './SeasonBadge.astro';
+
+/** Explains the season stamps in plain words, plus what „out of season“ means. */
+const entries = [
+  { level: SeasonLevel.PEAK, text: ui.legend.peak },
+  { level: SeasonLevel.AVAILABLE, text: ui.legend.available },
+  { level: SeasonLevel.STORAGE, text: ui.legend.storage },
+];
+---
+
+<aside class="season-legend" aria-label={ui.legend.label}>
+  <ul role="list">
+    {entries.map(({ level, text }) => (
+      <li>
+        <SeasonBadge level={level} />
+        <span class="season-legend__text">{text}</span>
+      </li>
+    ))}
+    <li>
+      <span class="season-legend__none" aria-hidden="true"></span>
+      <span class="season-legend__text">{ui.legend.outOfSeason}</span>
+    </li>
+  </ul>
+</aside>
+
+<style>
+  .season-legend ul {
+    display: grid;
+    gap: var(--space-2);
+    padding: 0;
+    list-style: none;
+    font-size: var(--font-size-sm);
+  }
+
+  .season-legend li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .season-legend__none {
+    display: inline-block;
+    width: 2.5rem;
+    height: 1.4rem;
+    border: 1px dashed var(--color-border);
+  }
+
+  .season-legend__text {
+    color: var(--color-text-muted);
+  }
+</style>

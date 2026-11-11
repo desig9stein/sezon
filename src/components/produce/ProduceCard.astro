@@ -1,6 +1,7 @@
 ---
 import { Picture } from 'astro:assets';
 import SeasonBadge from '@components/season/SeasonBadge.astro';
+import YearStrip from '@components/season/YearStrip.astro';
 import { routes } from '@components/layout/routes';
 import type { Produce } from '@contexts/catalog';
 import type { Month, SeasonLevel } from '@contexts/seasonality';
@@ -11,7 +12,8 @@ import { displayHeight } from './photo';
  * One produce as a plate (name, Latin name, kind, badge and summary on a surface panel) or as an
  * index row (name, Latin name and badge on a hairline). A plate shows the produce photo first, as
  * decoration because the name says what it shows; `priority` loads it eagerly for the first plate
- * of a page. `levelFrom` marks the badge level as applying from a later month.
+ * of a page. `levelFrom` marks the badge level as applying from a later month; with
+ * `stripMonth`, the produce's year strip follows the badge with that month marked.
  */
 interface Props {
   produce: Produce;
@@ -20,6 +22,7 @@ interface Props {
   headingLevel?: 2 | 3 | 4;
   variant?: 'plate' | 'index';
   priority?: boolean;
+  stripMonth?: Month | undefined;
 }
 
 const PLATE_DISPLAY_WIDTH = 640;
@@ -34,6 +37,7 @@ const {
   headingLevel = 3,
   variant = 'plate',
   priority = false,
+  stripMonth,
 } = Astro.props;
 const Heading = `h${headingLevel}` as const;
 const photo = variant === 'plate' ? produce.photo : undefined;
@@ -62,6 +66,7 @@ const photo = variant === 'plate' ? produce.photo : undefined;
     <i lang="la">{produce.latinName}</i>
     <span>{ui.produceKinds[produce.kind]}</span>
     {level !== undefined && <SeasonBadge level={level} fromMonth={levelFrom} />}
+    {stripMonth !== undefined && <YearStrip produce={produce} current={stripMonth} />}
   </p>
   {variant === 'plate' && <p class="produce-card__summary">{produce.summary}</p>}
 </article>

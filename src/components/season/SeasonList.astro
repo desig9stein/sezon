@@ -1,0 +1,102 @@
+---
+import { routes } from '@components/layout/routes';
+import type { SeasonOverview } from '@contexts/catalog';
+import { ui } from '@i18n/bg';
+import SeasonBadge from './SeasonBadge.astro';
+import YearStrip from './YearStrip.astro';
+
+/**
+ * Everything in season in one month as one compact list: peak first, then available, then
+ * storage. Each row has the produce link and its stamp, then the Latin name, the kind and the
+ * produce's year strip, under a heading with the count.
+ */
+interface Props {
+  overview: SeasonOverview;
+}
+
+const { overview } = Astro.props;
+const { month } = overview;
+const items = [...overview.peak, ...overview.available, ...overview.storage];
+const headingId = 'season-list-heading';
+---
+
+{items.length === 0 ? (
+  <p>{ui.overview.empty}</p>
+) : (
+  <section class="season-list" aria-labelledby={headingId}>
+    <h2 id={headingId}>{ui.seasonList.heading(month, items.length)}</h2>
+    <ul class="season-list__rows" role="list">
+      {items.map((produce) => {
+        const level = produce.levelIn(month);
+        return (
+          <li class="season-row">
+            <a class="season-row__name" href={routes.produce(produce)}>
+              {produce.name}
+            </a>
+            {level !== undefined && <SeasonBadge level={level} />}
+            <span class="season-row__meta">
+              <i lang="la">{produce.latinName}</i> · {ui.produceKinds[produce.kind]}
+            </span>
+            <YearStrip produce={produce} current={month} />
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+)}
+
+<style>
+  .season-list h2 {
+    margin-bottom: var(--space-1);
+    font-size: var(--font-size-lg);
+  }
+
+  .season-list__rows {
+    display: grid;
+    padding: 0;
+    border-top: 2px solid var(--color-text);
+    list-style: none;
+  }
+
+  .season-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0 var(--space-3);
+    padding-block: var(--space-1);
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .season-row__name {
+    display: inline-block;
+    justify-self: start;
+    padding-block: 0.125rem;
+    color: var(--color-text);
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .season-row :global(.season-stamp) {
+    justify-self: end;
+  }
+
+  .season-row__meta {
+    overflow: hidden;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .season-row :global(.year-strip) {
+    justify-self: end;
+  }
+
+  @media (min-width: 48rem) {
+    .season-list__rows {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-8);
+    }
+  }
+</style>

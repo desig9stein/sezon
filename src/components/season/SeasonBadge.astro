@@ -1,11 +1,11 @@
 ---
 import type { Month, SeasonLevel } from '@contexts/seasonality';
 import { ui } from '@i18n/bg';
-import LevelMark from './LevelMark.astro';
 
 /**
- * Season level shown as a decorative mark plus a visible text label on a level-coloured badge.
- * With `fromMonth`, the label states that the level applies from that month.
+ * Season level as a stamp (ADR-0006): the form carries the level, solid for peak, outlined for
+ * available, hatched for storage, and the short word is always shown. With `fromMonth`, the
+ * word states that the level applies from that month.
  */
 interface Props {
   level: SeasonLevel;
@@ -13,46 +13,59 @@ interface Props {
 }
 
 const { level, fromMonth } = Astro.props;
-const label = ui.seasonLevels[level.value];
+const word = ui.stamp[level.value];
 ---
 
-<span class="season-badge" data-level={level.value}>
-  <LevelMark level={level} />
-  {fromMonth === undefined ? label : ui.overview.fromMonth(fromMonth, label)}
+<span class="season-badge season-stamp" data-level={level.value}>
+  {fromMonth === undefined ? word : ui.overview.fromMonth(fromMonth, word)}
 </span>
 
 <style>
-  .season-badge {
+  .season-stamp {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1);
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-sm);
-    color: var(--color-on-badge);
+    padding: 0.2em 0.5em;
+    border: 2px solid var(--color-accent);
+    color: var(--color-accent);
+    background: var(--color-surface);
+    font-family: var(--font-family-display);
     font-size: var(--font-size-sm);
-    font-weight: 600;
-    line-height: 1.2;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
 
-  .season-badge[data-level='peak'] {
+  .season-stamp[data-level='peak'] {
+    border-color: var(--color-peak);
     color: var(--color-on-peak);
     background: var(--color-peak);
   }
 
-  .season-badge[data-level='available'] {
-    background: var(--color-available);
-  }
-
-  .season-badge[data-level='storage'] {
-    background: var(--color-storage);
+  .season-stamp[data-level='storage'] {
+    color: var(--color-text);
+    background: repeating-linear-gradient(
+      135deg,
+      var(--color-surface) 0 3px,
+      var(--color-storage) 3px 6px
+    );
   }
 
   @media print {
-    .season-badge,
-    .season-badge[data-level] {
-      border: 1px solid var(--print-ink);
+    .season-stamp,
+    .season-stamp[data-level] {
+      border-color: var(--print-ink);
       color: var(--print-ink);
       background: none;
+    }
+
+    .season-stamp[data-level='peak'] {
+      border-width: 3px;
+    }
+
+    .season-stamp[data-level='storage'] {
+      border-style: dashed;
     }
   }
 </style>

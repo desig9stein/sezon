@@ -70,7 +70,7 @@ describe('NutrientRankingTable', () => {
     expect(html).toContain('Високо съдържание на витамин C');
     expect(html).toContain('Източник на витамин C');
     expect(html).toContain('под прага за претенция');
-    expect(html).toContain('Разгар на сезона');
+    expect(html).toContain('Разгар');
     expect(html).toContain('Извън сезона');
     expect(html.indexOf('Зеле')).toBeLessThan(html.indexOf('Праз'));
     expect(html.indexOf('Праз')).toBeLessThan(html.indexOf('Моркови'));

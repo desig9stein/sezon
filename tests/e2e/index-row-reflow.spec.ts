@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-const PAGES = ['/sezon/noemvri', '/plodove', '/zelenchutsi', '/grupi/sennikotsvetni'];
+const PAGES = ['/plodove', '/zelenchutsi', '/podpravki', '/grupi/sennikotsvetni'];
 const WIDTHS = [320, 390, 768];
 const LONG_NAME = 'Брюкселско зеле (кълнове) от планината';
 const ROWS = 'article[data-variant="index"]';
@@ -53,7 +53,7 @@ test.describe('index rows', () => {
     }
 
     test(`AC2: a long produce name does not overlap its row at ${width}px`, async ({ page }) => {
-      await open(page, '/sezon/noemvri', width);
+      await open(page, '/zelenchutsi', width);
       await page
         .locator(`${ROWS} .produce-card__name a`)
         .first()

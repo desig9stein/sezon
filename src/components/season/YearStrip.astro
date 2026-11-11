@@ -1,0 +1,90 @@
+---
+import type { Produce } from '@contexts/catalog';
+import { Month, type SeasonLevelValue } from '@contexts/seasonality';
+import { monthNameLower, monthRanges, ui } from '@i18n/bg';
+
+/**
+ * A produce's year as 12 cells, January to December: peak solid red, available solid blue,
+ * storage hatched, out of season empty, with `current` outlined. Exposed as one image whose text
+ * alternative lists the months of each level in ranges.
+ */
+interface Props {
+  produce: Produce;
+  current: Month;
+}
+
+const NONE = 'none';
+/** Order of the levels in the text alternative, freshest first. */
+const LABEL_ORDER: ReadonlyArray<SeasonLevelValue> = ['peak', 'available', 'storage'];
+const { produce, current } = Astro.props;
+const months = Month.all().map((month) => ({ month, level: produce.levelIn(month)?.value }));
+const rangeText = (level: SeasonLevelValue) =>
+  monthRanges(months.filter((entry) => entry.level === level).map((entry) => entry.month))
+    .map((range) => range.map(monthNameLower).join(ui.produce.monthRangeDash))
+    .join(ui.produce.monthListSeparator);
+const parts = LABEL_ORDER.map((level) => ({ level, ranges: rangeText(level) }))
+  .filter((part) => part.ranges !== '')
+  .map((part) => ui.yearStrip.part(ui.stamp[part.level], part.ranges));
+const label = parts.length === 0 ? ui.yearStrip.outOfSeason : parts.join(ui.yearStrip.separator);
+---
+
+<span class="year-strip" role="img" aria-label={label}>
+  {months.map(({ month, level }) => (
+    <span
+      class="year-strip__cell"
+      data-month={month.number}
+      data-level={level ?? NONE}
+      data-current={month === current ? 'true' : undefined}
+    />
+  ))}
+</span>
+
+<style>
+  .year-strip {
+    display: inline-grid;
+    grid-template-columns: repeat(12, 0.5rem);
+    gap: 2px;
+    height: 0.75rem;
+    vertical-align: middle;
+  }
+
+  .year-strip__cell {
+    display: block;
+    background: var(--color-rule);
+  }
+
+  .year-strip__cell[data-level='peak'] {
+    background: var(--color-peak);
+  }
+
+  .year-strip__cell[data-level='available'] {
+    background: var(--color-accent);
+  }
+
+  .year-strip__cell[data-level='storage'] {
+    background: repeating-linear-gradient(
+      135deg,
+      var(--color-accent) 0 2px,
+      var(--color-surface) 2px 4px
+    );
+  }
+
+  .year-strip__cell[data-current='true'] {
+    outline: 2px solid var(--color-text);
+    outline-offset: 1px;
+  }
+
+  @media print {
+    .year-strip__cell,
+    .year-strip__cell[data-level] {
+      border: 1px solid var(--print-ink);
+      background: none;
+    }
+
+    .year-strip__cell[data-level='peak'],
+    .year-strip__cell[data-level='available'] {
+      background: var(--print-ink);
+      print-color-adjust: exact;
+    }
+  }
+</style>

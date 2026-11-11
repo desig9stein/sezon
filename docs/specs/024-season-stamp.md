@@ -44,7 +44,8 @@ ADR-0006: its form carries the level (solid, outlined, hatched) next to the word
 ### Out of scope
 
 - „What changes this month“ (start, end, sow) block: follow-up issue.
-- Section and group pages keep their plates and rows (they gain the strip through `ProduceCard`).
+- Section and group pages keep their plates and rows; `ProduceCard` gains an optional strip, used
+  by the coming-soon rows.
 - The produce page (#94) and data visuals (#95).
 
 ## 4. Domain model
@@ -83,21 +84,21 @@ No domain change. The strip reads `produce.levelIn(month)` for the 12 months.
 4. **AC4:** Given the built home page, it has no „Табло“ line and no hero year ribbon, the `h1`
    names the build month, the legend lists the four plain-word levels, and at 390 × 844 the first
    ten in-season rows (or all, if fewer) end above the bottom of the viewport.
-5. **AC5:** Given a built month page, it shows the in-season list, the legend, coming soon and the
-   pager.
+5. **AC5:** Given a built month page, it shows the in-season list, the legend, coming soon (when
+   any produce becomes fresh next month) and the pager.
 6. **AC6:** Home and a month page pass axe in light and dark mode, and in print the stamps use
    ink.
 
 ## 9. Test plan
 
-| AC  | Type      | Test file                                  |
-| --- | --------- | ------------------------------------------ |
-| AC1 | component | `tests/components/YearStrip.test.ts`       |
-| AC2 | component | `tests/components/SeasonBadge-024.test.ts` |
-| AC3 | component | `tests/components/SeasonList.test.ts`      |
-| AC4 | e2e       | `tests/e2e/season-stamp.spec.ts`           |
-| AC5 | e2e       | `tests/e2e/season-stamp.spec.ts`           |
-| AC6 | e2e       | `tests/e2e/season-stamp.spec.ts`           |
+| AC  | Type      | Test file                                                               |
+| --- | --------- | ----------------------------------------------------------------------- |
+| AC1 | component | `tests/components/YearStrip.test.ts`                                    |
+| AC2 | component | `tests/components/SeasonBadge-024.test.ts`                              |
+| AC3 | component | `tests/components/SeasonList.test.ts`, `tests/e2e/season-stamp.spec.ts` |
+| AC4 | e2e       | `tests/e2e/season-stamp.spec.ts`                                        |
+| AC5 | e2e       | `tests/e2e/season-stamp.spec.ts`                                        |
+| AC6 | e2e       | `tests/e2e/season-stamp.spec.ts`                                        |
 
 ## 10. Third-party documentation consulted
 
