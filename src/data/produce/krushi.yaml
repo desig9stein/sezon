@@ -32,7 +32,7 @@ nutrition:
     - { nutrient: kaliy, amount: 116 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Pears, raw'
-    url: https://fdc.nal.usda.gov/
+    url: https://fdc.nal.usda.gov/food-details/169118/nutrients
 preparation:
   - method: Сурови
     tip: Яжте ги с кората – там е голяма част от фибрите.

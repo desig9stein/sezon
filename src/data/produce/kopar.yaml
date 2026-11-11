@@ -26,11 +26,11 @@ nutrition:
   micronutrients:
     - { nutrient: vitamin-c, amount: 85 }
     - { nutrient: vitamin-a, amount: 386 }
-    - { nutrient: mangan, amount: 1.26 }
+    - { nutrient: mangan, amount: 1.264 }
     - { nutrient: zhelyazo, amount: 6.59 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Dill weed, fresh'
-    url: https://fdc.nal.usda.gov/
+    url: https://fdc.nal.usda.gov/food-details/172233/nutrients
 preparation:
   - method: Пресен
     tip: Нарязвайте го непосредствено преди сервиране – ароматните масла се изпаряват бързо.

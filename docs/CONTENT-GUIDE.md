@@ -140,9 +140,14 @@ sponsored: false # optional, default false
 
 ## Seed data status
 
-All seed produce entries are `reviewStatus: draft`: nutrition values were entered from
-USDA FoodData Central SR Legacy and must be re-checked item by item. Their source URL is the
-FoodData Central home page, because the item pages could not be reached while seeding; replace
-each with the item page during review. Traditional uses cite
-Wikipedia as a starting point and should be replaced with primary sources.
+All seed produce entries are `reviewStatus: draft`.
+
+- **Nutrition (checked 2026-11-11, #10):** every value was compared with the USDA FoodData
+  Central SR Legacy release (April 2018, CSV download) and matches it. Four rounded
+  micronutrient values were replaced by the exact figures. Each `nutrition.source.url` points to
+  the item page (`https://fdc.nal.usda.gov/food-details/<fdcId>/nutrients`).
+- **Still to review before `reviewed`:** season months and growing regions against Bulgarian
+  sources, and traditional uses, which cite Wikipedia as a starting point and should get
+  primary sources.
+
 All farms are placeholders (`isPlaceholder: true`) on `example.com`.

@@ -28,7 +28,7 @@ nutrition:
     - { nutrient: kaliy, amount: 197 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Quinces, raw'
-    url: https://fdc.nal.usda.gov/
+    url: https://fdc.nal.usda.gov/food-details/168163/nutrients
 preparation:
   - method: Печени
     tip: Печенето омекотява плода и запазва фибрите; не е нужно много подсладител.
