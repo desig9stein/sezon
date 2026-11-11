@@ -55,3 +55,23 @@ photo:
     authorUrl: https://unsplash.com/@personal_graphic
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/a-small-orange-pumpkin-on-a-white-background-CC6X_13kuFQ
+growing:
+  sow: []
+  transplant: []
+  plant: []
+  plantingNote: 'Сей, когато почвата трайно се затопли над 12–14 °C.'
+  tips:
+    - 'Тиквата е много топлолюбива – не бързай със сеитбата, докато почвата не се затопли.'
+    - 'Сей семената направо на постоянно място, по 2–3 в гнездо на 5–6 см дълбочина.'
+    - 'Остави много място: около 3 × 2 м за едроплодните и 2,5 × 1 м за дребноплодните сортове.'
+    - 'Натори обилно с угнил оборски тор; една-две поливки увеличават чувствително реколтата.'
+    - 'Подложи зреещите плодове на дъска или стиропор и намали поливането, когато започнат да променят цвета си.'
+  sources:
+    - name: 'Български фермер – Тиквите цигулки искат топла почва'
+      url: https://www.bgfermer.bg/Article/4764945
+    - name: 'Български фермер – Засейте тикви'
+      url: https://www.bgfermer.bg/Article/6204014
+    - name: 'Gradinata.bg – Тиквите – вкусните дебелани'
+      url: https://www.gradinata.bg/index.php?page=article&article_id=904
+    - name: 'Agrozona.bg – Спасете реколтата: Как да предпазим тиквите от гниене в градината?'
+      url: https://agrozona.bg/spasete-rekoltata-kak-da-predpazim-tikvite-ot-gniene-v-gradinata/

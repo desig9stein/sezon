@@ -57,3 +57,16 @@ photo:
     authorUrl: https://unsplash.com/@jannerboy62
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/a-pile-of-carrots-with-green-tops-and-leaves-IZq1FV87qpM
+growing:
+  sow: [2, 3, 6, 12]
+  transplant: []
+  plant: []
+  tips:
+    - 'Сей на най-огряваното място в рохкава, неутрална почва; на кисела почва корените се деформират.'
+    - 'Не тори с пресен оборски тор; добри предшественици са картофи, домати, краставици, лук и зеле.'
+    - 'Поливай на 5–7 дни, като мокриш почвата до дълбочината на корените; избягвай суша и преовлажняване.'
+    - 'Сей в редове през 15 см и прореждай – първо до 3 см, после до около 6 см между растенията.'
+    - 'Спри поливането месец преди изваждане и вади корените в сух, топъл ден.'
+  sources:
+    - name: 'Agrozona.bg – Отглеждане на моркови – подробна инструкция за начинаещи'
+      url: https://agrozona.bg/vsichko-za-otglezhdaneto-na-morkovi-podrobna-instruktsiya-za-nachinaeshti/

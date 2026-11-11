@@ -1,5 +1,5 @@
-import type { ProduceKind } from '@contexts/catalog';
-import { LAST_MONTH_NUMBER, type Month, type SeasonLevelValue } from '@contexts/seasonality';
+import type { GrowingActivity, ProduceKind } from '@contexts/catalog';
+import { LAST_MONTH_NUMBER, Month, type SeasonLevelValue } from '@contexts/seasonality';
 import { InvalidMonthError } from '@shared/domain/errors';
 import { characterCount, DESCRIPTION_MAX_LENGTH, TITLE_MAX_LENGTH } from '@shared/seo';
 
@@ -49,6 +49,26 @@ export function formatNumber(value: number): string {
 /** Formats a calendar date in Bulgarian, e.g. „10 ноември 2026 г.“. */
 export function formatDate(date: Date): string {
   return dateFormat.format(date);
+}
+
+/**
+ * Groups months into ranges of consecutive months, wrapping December to January: each range is
+ * `[month]` or `[first, last]`, ordered by their first month (e.g. 11, 12, 1 → `[[11, 1]]`).
+ * @param months - Distinct months, in any order.
+ */
+export function monthRanges(months: ReadonlyArray<Month>): ReadonlyArray<ReadonlyArray<Month>> {
+  const numbers = new Set(months.map((month) => month.number));
+  if (numbers.size === LAST_MONTH_NUMBER) return [[Month.of(1), Month.of(LAST_MONTH_NUMBER)]];
+  const next = (number: number) => (number % LAST_MONTH_NUMBER) + 1;
+  const previous = (number: number) => ((number + LAST_MONTH_NUMBER - 2) % LAST_MONTH_NUMBER) + 1;
+  return [...numbers]
+    .filter((number) => !numbers.has(previous(number)))
+    .sort((a, b) => a - b)
+    .map((first) => {
+      let last = first;
+      while (numbers.has(next(last))) last = next(last);
+      return last === first ? [Month.of(first)] : [Month.of(first), Month.of(last)];
+    });
 }
 
 /** Returns the first title that fits 60 characters with the site-name suffix, else the last. */
@@ -155,6 +175,13 @@ export const ui = {
     outOfSeason: 'Извън сезона',
     outOfSeasonLower: 'извън сезона',
     photoCredit: 'Снимка:',
+    monthListSeparator: ', ',
+    monthRangeDash: ' – ',
+    growingActivities: {
+      sow: 'Сеитба',
+      transplant: 'Разсаждане',
+      plant: 'Засаждане',
+    } satisfies Record<GrowingActivity, string>,
     headings: {
       season: 'Сезон по месеци',
       varieties: 'Сортове',
@@ -165,6 +192,7 @@ export const ui = {
       farms: 'Местни ферми',
       choose: 'Как да изберем',
       storage: 'Как да съхраняваме',
+      growing: 'Отглеждане в градината',
       faq: 'Често задавани въпроси',
       sources: 'Източници',
     },

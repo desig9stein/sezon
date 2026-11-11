@@ -1,6 +1,7 @@
 import { Slug } from '@shared/domain/Slug';
 import { SeasonCalendar } from '@contexts/seasonality';
 import { Nutrient } from '../domain/Nutrient';
+import { GrowingGuide } from '../domain/GrowingGuide';
 import { NutritionFacts } from '../domain/NutritionFacts';
 import { Produce } from '../domain/Produce';
 import { ProduceGroup } from '../domain/ProduceGroup';
@@ -47,6 +48,7 @@ export function toProduce(id: string, record: ProduceRecord): Produce {
       record.photo === undefined
         ? undefined
         : { image: record.photo.src, alt: record.photo.alt, credit: record.photo.credit },
+    growing: record.growing === undefined ? undefined : GrowingGuide.create(record.growing),
   });
 }
 

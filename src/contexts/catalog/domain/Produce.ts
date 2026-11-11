@@ -3,6 +3,7 @@ import { frozenList, frozenRecords } from '@shared/domain/freeze';
 import type { Month, SeasonCalendar, SeasonLevel } from '@contexts/seasonality';
 import type { NutritionFacts } from './NutritionFacts';
 import type { ProduceKind } from './ProduceKind';
+import type { GrowingGuide } from './GrowingGuide';
 import type { ProducePhoto } from './ProducePhoto';
 import type { Source } from './Source';
 
@@ -60,6 +61,7 @@ export interface ProduceInput {
   readonly updatedAt: Date;
   readonly reviewStatus: ReviewStatus;
   readonly photo?: ProducePhoto | undefined;
+  readonly growing?: GrowingGuide | undefined;
 }
 
 /** A fruit, vegetable, herb or nut grown in Bulgaria, identified by its slug. */
@@ -81,6 +83,7 @@ export class Produce {
   readonly faq: ReadonlyArray<FaqItem>;
   readonly reviewStatus: ReviewStatus;
   readonly photo: ProducePhoto | undefined;
+  readonly growing: GrowingGuide | undefined;
   private readonly updatedAtEpochMs: number;
 
   private constructor(input: ProduceInput) {
@@ -113,6 +116,7 @@ export class Produce {
             alt: input.photo.alt,
             credit: Object.freeze({ ...input.photo.credit }),
           });
+    this.growing = input.growing;
     Object.freeze(this);
   }
 

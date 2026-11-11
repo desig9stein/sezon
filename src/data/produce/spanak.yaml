@@ -57,3 +57,20 @@ photo:
     authorUrl: https://unsplash.com/@shutterspherecollective
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/fresh-green-spinach-leaves-6AAptb2kBak
+growing:
+  sow: [2, 3, 8, 9]
+  transplant: []
+  plant: []
+  tips:
+    - 'Сей на слънчево място; спанакът понася полусянка, но там расте по-слабо.'
+    - 'Подготви плодородна почва с хумус или угнил оборски тор.'
+    - 'Сей в плитки бразди през 15 см и на етапи през 7–10 дни за по-дълга беритба.'
+    - 'Поливай 2–3 пъти седмично – спанакът страда силно от суша и жега.'
+    - 'Бери, когато розетката има 8–10 листа, обикновено 40–50 дни след поникване.'
+  sources:
+    - name: 'Agrozona.bg – Засаждането на спанака през септември гарантира качествени растения'
+      url: https://agrozona.bg/zasazhdaneto-na-spanaka-prez-septemvri-garantira-kachestveni-rasteniya/
+    - name: 'Български фермер – Спанакът се сее в края на февруари - началото на март'
+      url: https://www.bgfermer.bg/Article/19918522
+    - name: 'Agrozona.bg – Августовска градина: Кои зеленчуци можем да засадим за есенна реколта'
+      url: https://agrozona.bg/avgustovska-gradina-koi-zelenchutsi-mozhem-da-zasadim-za-esenna-rekolta/

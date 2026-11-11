@@ -60,3 +60,20 @@ photo:
     authorUrl: https://unsplash.com/@gzvezdov
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/a-bunch-of-green-plants-in-a-field-LHHEX3vG01o
+growing:
+  sow: [2, 8, 9]
+  transplant: []
+  plant: []
+  tips:
+    - 'Избери слънчево място – на сянка листата пожълтяват и ароматът отслабва.'
+    - 'Сей в чиста от плевели почва – семената никнат бавно и лесно се задушават.'
+    - 'Не тори с пресен оборски тор; подходящи предшественици са наторени окопни и бобови култури.'
+    - 'Сей плитко, на 1–2 см, в редове през 15–20 см.'
+    - 'Режи листата няколко пъти, без да засягаш връхчетата; последната беритба – месец преди зимата.'
+  sources:
+    - name: 'Gradinata.bg – Магданоз - вкусно по български'
+      url: https://www.gradinata.bg/index.php?page=article&article_id=246
+    - name: 'Agrozona.bg – Разсадите: Най-полезните съвети кога какво трябва да направите'
+      url: https://agrozona.bg/razsadite-nay-poleznite-saveti-koga-kakvo-tryabva-da-napravite/
+    - name: 'Agrozona.bg – В зеленчуковата градина през септември'
+      url: https://agrozona.bg/v-zelenchukovata-gradina-prez-septemvri/

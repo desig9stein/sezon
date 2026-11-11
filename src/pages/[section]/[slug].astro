@@ -2,6 +2,7 @@
 import type { GetStaticPaths } from 'astro';
 import { getImage } from 'astro:assets';
 import FarmList from '@components/produce/FarmList.astro';
+import GrowingGuide from '@components/produce/GrowingGuide.astro';
 import ProducePhoto from '@components/produce/ProducePhoto.astro';
 import NutritionTable from '@components/produce/NutritionTable.astro';
 import SeasonCalendarList from '@components/produce/SeasonCalendarList.astro';
@@ -156,6 +157,8 @@ const jsonLd = [
       <h2 id="storage">{labels.headings.storage}</h2>
       <p>{produce.storage}</p>
     </section>
+
+    {produce.growing !== undefined && <GrowingGuide growing={produce.growing} />}
 
     {produce.faq.length > 0 && (
       <section aria-labelledby="faq">
