@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-11T00:00:00Z",
+  "generatedAt": "2026-11-11T12:00:00Z",
   "title": "Design System: Sezon",
   "extensions": {
     "colorMeta": {
@@ -510,8 +510,7 @@
           "#7fa2f2",
           "#b4caf9",
           "#e6efff"
-        ],
-        "status": "token shipped; component use planned in #92"
+        ]
       },
       "shell-dark": {
         "role": "primary",
@@ -546,8 +545,7 @@
           "#a4a4a4",
           "#cacaca",
           "#eeeeee"
-        ],
-        "status": "token shipped; component use planned in #92"
+        ]
       },
       "on-shell-dark": {
         "role": "primary",
@@ -582,8 +580,7 @@
           "#cf9a45",
           "#e4c599",
           "#f9eddc"
-        ],
-        "status": "token shipped; component use planned in #92"
+        ]
       },
       "focus-on-shell-dark": {
         "role": "primary",
@@ -619,7 +616,7 @@
           "#e4c599",
           "#f9eddc"
         ],
-        "status": "token shipped; component use planned in #93"
+        "status": "used by the build month in the footer month links"
       },
       "marker-dark": {
         "role": "tertiary",
@@ -654,8 +651,7 @@
           "#9ea4b7",
           "#c6cad5",
           "#edeef3"
-        ],
-        "status": "token shipped; component use planned in #93"
+        ]
       },
       "on-marker-dark": {
         "role": "tertiary",
@@ -676,13 +672,9 @@
       }
     },
     "typographyMeta": {
-      "display": {
-        "displayName": "Display",
-        "purpose": "The home hero month word only; appears once."
-      },
       "headline": {
         "displayName": "Headline",
-        "purpose": "The produce name on a produce page."
+        "purpose": "The produce name on a produce page and the month word of the home h1."
       },
       "title-lg": {
         "displayName": "Title large",
@@ -696,6 +688,10 @@
         "displayName": "Title small",
         "purpose": "h3 and index-row names."
       },
+      "stamp": {
+        "displayName": "Stamp",
+        "purpose": "The word on every season stamp; condensed capitals, no wrap."
+      },
       "lede": {
         "displayName": "Lede",
         "purpose": "Page intros and summaries."
@@ -706,7 +702,7 @@
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Meta lines, captions, badges, pager links."
+        "purpose": "Meta lines, captions, legend, pager links, the search button."
       },
       "latin-name": {
         "displayName": "Latin name",
@@ -717,7 +713,7 @@
       {
         "name": "current-month-ring",
         "value": "inset 0 0 0 2px var(--color-background), inset 0 0 0 5px var(--color-accent)",
-        "purpose": "Structural outline marking the current month in a produce's calendar; the only box-shadow, not elevation."
+        "purpose": "Structural outline marking the current month in a produce's calendar; the only box-shadow, not elevation. The storage stamp hatch (repeating-linear-gradient, hard stops) is ink lines, not shading."
       }
     ],
     "motion": [
@@ -729,11 +725,15 @@
     ],
     "breakpoints": [
       {
+        "name": "compact-row",
+        "value": "23rem"
+      },
+      {
         "name": "narrow",
         "value": "40rem"
       },
       {
-        "name": "two-column-header",
+        "name": "two-column",
         "value": "48rem"
       },
       {
@@ -747,7 +747,8 @@
       "focus-width": "3px",
       "target-min": "2.75rem",
       "line-height-base": "1.55",
-      "line-height-heading": "1.15"
+      "line-height-heading": "1.15",
+      "print-ink": "#000"
     },
     "fonts": [
       {
@@ -778,38 +779,28 @@
     ],
     "planned": [
       {
-        "name": "Season stamp",
-        "issue": "#93",
-        "description": "Solid „Разгар“, outlined „В сезон“, hatched „От хранилище“; no stamp out of season; text label always present. Upright in lists; only the produce-page hero stamp is tilted. Not yet built."
-      },
-      {
-        "name": "Year strip",
-        "issue": "#93",
-        "description": "Twelve months in the same three stamp forms, current month outlined in marker yellow. Not yet built."
-      },
-      {
-        "name": "Shell header",
-        "issue": "#92",
-        "description": "Header bar on shell with on-shell text and focus-on-shell focus rings. Not yet built."
+        "name": "Produce-page stamp",
+        "issue": "#94",
+        "description": "One large tilted stamp at the top of the produce page; the only tilted stamp. Not yet built."
       }
     ]
   },
   "components": [
     {
-      "name": "Season Badge (peak / available / storage)",
+      "name": "Season Stamp (peak / available / storage)",
       "kind": "chip",
-      "refersTo": "season-badge-peak",
-      "description": "Season level as fill + SVG mark + text label; stamp red only for „Разгар“. Replaced by the season stamp in #93.",
-      "html": "<span class=\"ds-badge\" data-level=\"peak\"><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><polygon fill=\"currentColor\" points=\"8,0.8 10.2,5.7 15.5,6.2 11.5,9.7 12.7,14.9 8,12.2 3.3,14.9 4.5,9.7 0.5,6.2 5.8,5.7\"/></svg>Разгар</span> <span class=\"ds-badge\" data-level=\"available\"><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.5\" fill=\"currentColor\"/></svg>В сезон</span> <span class=\"ds-badge\" data-level=\"storage\"><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M8 2a6 6 0 0 0 0 12z\" fill=\"currentColor\"/></svg>От хранилище</span>",
-      "css": ".ds-badge{display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);color:var(--color-on-badge);font-family:var(--font-family-base);font-size:var(--font-size-sm);font-weight:600;line-height:1.2}.ds-badge[data-level=peak]{color:var(--color-on-peak);background:var(--color-peak)}.ds-badge[data-level=available]{background:var(--color-available)}.ds-badge[data-level=storage]{background:var(--color-storage)}.ds-mark{width:1em;height:1em;flex:none}"
+      "refersTo": "season-stamp-peak",
+      "description": "Level as a stamp: solid „Разгар“, outlined „В сезон“, hatched „От хранилище“ with the word on a surface pad; condensed capitals, word always shown.",
+      "html": "<span class=\"ds-stamp\" data-level=\"peak\"><span class=\"ds-stamp-word\">Разгар</span></span> <span class=\"ds-stamp\" data-level=\"available\"><span class=\"ds-stamp-word\">В сезон</span></span> <span class=\"ds-stamp\" data-level=\"storage\"><span class=\"ds-stamp-word\">От хранилище</span></span>",
+      "css": ".ds-stamp{display:inline-flex;align-items:center;padding:.2em .5em;border:2px solid var(--color-accent);color:var(--color-accent);background:var(--color-surface);font-family:var(--font-family-display);font-size:var(--font-size-sm);font-weight:800;line-height:1.1;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}.ds-stamp[data-level=peak]{border-color:var(--color-peak);color:var(--color-on-peak);background:var(--color-peak)}.ds-stamp[data-level=storage]{padding:.2em;color:var(--color-text);background:repeating-linear-gradient(135deg,var(--color-accent) 0 1px,var(--color-surface) 1px 5px)}.ds-stamp[data-level=storage] .ds-stamp-word{padding-inline:.3em;background:var(--color-surface)}"
     },
     {
       "name": "Produce Plate",
       "kind": "card",
       "refersTo": "produce-plate",
-      "description": "Surface panel with photo, condensed-capitals name, meta row and muted summary.",
-      "html": "<article class=\"ds-plate\"><h3 class=\"ds-plate-name\"><a href=\"#\">Ябълки</a></h3><p class=\"ds-plate-meta\"><i lang=\"la\">Malus domestica</i> <span class=\"ds-badge\" data-level=\"peak\"><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><polygon fill=\"currentColor\" points=\"8,0.8 10.2,5.7 15.5,6.2 11.5,9.7 12.7,14.9 8,12.2 3.3,14.9 4.5,9.7 0.5,6.2 5.8,5.7\"/></svg>Разгар</span></p><p class=\"ds-plate-summary\">Хрупкави есенни сортове от Кюстендилско.</p></article>",
-      "css": ".ds-badge{display:inline-flex;align-items:center;gap:var(--space-1);padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);color:var(--color-on-badge);font-family:var(--font-family-base);font-size:var(--font-size-sm);font-weight:600;line-height:1.2}.ds-badge[data-level=peak]{color:var(--color-on-peak);background:var(--color-peak)}.ds-badge[data-level=available]{background:var(--color-available)}.ds-badge[data-level=storage]{background:var(--color-storage)}.ds-mark{width:1em;height:1em;flex:none}.ds-plate{display:grid;gap:var(--space-2);min-height:13rem;align-content:start;padding:var(--space-6) var(--space-4) var(--space-4);background:var(--color-surface);color:var(--color-text);border-radius:var(--radius-sm);font-family:var(--font-family-base)}.ds-plate-name{margin:0;font-family:var(--font-family-display);font-weight:800;font-size:var(--font-size-xl);line-height:1.15;letter-spacing:.02em;text-transform:uppercase}.ds-plate-name a{display:inline-flex;align-items:center;min-height:var(--target-min);color:var(--color-text);text-underline-offset:.2em}.ds-plate-name a:hover{text-decoration-thickness:2px}.ds-plate-name a:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}.ds-plate-meta{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-1) var(--space-3);margin:0;color:var(--color-text-muted);font-size:var(--font-size-sm)}.ds-plate-meta [lang=la]{font-style:italic;font-weight:400}.ds-plate-summary{margin:0;max-width:42ch;color:var(--color-text-muted)}"
+      "description": "Surface panel (section and group pages) with photo, condensed-capitals name, meta row with stamp, and muted summary.",
+      "html": "<article class=\"ds-plate\"><h3 class=\"ds-plate-name\"><a href=\"#\">Ябълки</a></h3><p class=\"ds-plate-meta\"><i lang=\"la\">Malus domestica</i> <span class=\"ds-stamp\" data-level=\"peak\"><span class=\"ds-stamp-word\">Разгар</span></span></p><p class=\"ds-plate-summary\">Хрупкави есенни сортове от Кюстендилско.</p></article>",
+      "css": ".ds-stamp{display:inline-flex;align-items:center;padding:.2em .5em;border:2px solid var(--color-accent);color:var(--color-accent);background:var(--color-surface);font-family:var(--font-family-display);font-size:var(--font-size-sm);font-weight:800;line-height:1.1;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}.ds-stamp[data-level=peak]{border-color:var(--color-peak);color:var(--color-on-peak);background:var(--color-peak)}.ds-stamp[data-level=storage]{padding:.2em;color:var(--color-text);background:repeating-linear-gradient(135deg,var(--color-accent) 0 1px,var(--color-surface) 1px 5px)}.ds-stamp[data-level=storage] .ds-stamp-word{padding-inline:.3em;background:var(--color-surface)}.ds-plate{display:grid;gap:var(--space-2);min-height:13rem;align-content:start;padding:var(--space-6) var(--space-4) var(--space-4);background:var(--color-surface);color:var(--color-text);border-radius:var(--radius-sm);font-family:var(--font-family-base)}.ds-plate-name{margin:0;font-family:var(--font-family-display);font-weight:800;font-size:var(--font-size-xl);line-height:1.15;letter-spacing:.02em;text-transform:uppercase}.ds-plate-name a{display:inline-flex;align-items:center;min-height:var(--target-min);color:var(--color-text);text-underline-offset:.2em}.ds-plate-name a:hover{text-decoration-thickness:2px}.ds-plate-name a:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}.ds-plate-meta{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-1) var(--space-3);margin:0;color:var(--color-text-muted);font-size:var(--font-size-sm)}.ds-plate-meta [lang=la]{font-style:italic;font-weight:400}.ds-plate-summary{margin:0;max-width:42ch;color:var(--color-text-muted)}"
     },
     {
       "name": "Search Submit Button",
@@ -828,20 +819,28 @@
       "css": ".ds-input-search{min-height:2.75rem;padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-sm);color:var(--color-text);background:var(--color-background);font-family:var(--font-family-base);font-size:var(--font-size-base)}.ds-input-search:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}"
     },
     {
-      "name": "Year Ribbon",
-      "kind": "nav",
-      "refersTo": "year-ribbon-month",
-      "description": "Twelve-cell month strip between hairlines; current month solid ultramarine. Superseded by the year strip in #93.",
-      "html": "<ol class=\"ds-ribbon\"><li><a href=\"#\">яну</a></li><li><a href=\"#\">фев</a></li><li><a href=\"#\">мар</a></li><li><a href=\"#\">апр</a></li><li><a href=\"#\">май</a></li><li><a href=\"#\">юни</a></li><li><a href=\"#\">юли</a></li><li><a href=\"#\">авг</a></li><li><a href=\"#\">сеп</a></li><li><a href=\"#\">окт</a></li><li><a href=\"#\" aria-current=\"date\">ное</a></li><li><a href=\"#\">дек</a></li></ol>",
-      "css": ".ds-ribbon{display:grid;grid-template-columns:repeat(12,1fr);margin:0;padding:0;list-style:none;border-block:1px solid var(--color-rule);font-family:var(--font-family-base)}.ds-ribbon li+li{border-inline-start:1px solid var(--color-rule)}.ds-ribbon a{display:flex;align-items:center;justify-content:center;min-height:2.75rem;color:var(--color-text-muted);text-decoration:none}.ds-ribbon a:hover{color:var(--color-text);text-decoration:underline}.ds-ribbon a:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}.ds-ribbon a[aria-current=date]{color:var(--color-accent-text);background:var(--color-accent);font-weight:700}"
+      "name": "Year Strip",
+      "kind": "custom",
+      "refersTo": "year-strip",
+      "description": "Inline SVG of 12 months in the stamp forms; out of season a baseline; current month framed in text; title and aria-label list the ranges.",
+      "html": "<svg class=\"ds-strip\" role=\"img\" aria-label=\"Разгар: юни – юли; В сезон: май, август; От хранилище: април, ноември – декември\" width=\"133\" height=\"16\" viewBox=\"0 0 133 16\"><title>Разгар: юни – юли; В сезон: май, август; От хранилище: април, ноември – декември</title><rect class=\"ds-strip-base\" x=\"2\" y=\"12\" width=\"8\" height=\"2\"/><rect class=\"ds-strip-cell\" data-level=\"none\" x=\"2.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-base\" x=\"13\" y=\"12\" width=\"8\" height=\"2\"/><rect class=\"ds-strip-cell\" data-level=\"none\" x=\"13.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-base\" x=\"24\" y=\"12\" width=\"8\" height=\"2\"/><rect class=\"ds-strip-cell\" data-level=\"none\" x=\"24.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-cell\" data-level=\"storage\" x=\"35.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><path class=\"ds-strip-hatch\" d=\"M35 8L41 2M35 14L43 6M37 14L43 8\" fill=\"none\" stroke-width=\"1\"/><rect class=\"ds-strip-cell\" data-level=\"available\" x=\"46.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-peak\" x=\"57\" y=\"2\" width=\"8\" height=\"12\"/><rect class=\"ds-strip-peak\" x=\"68\" y=\"2\" width=\"8\" height=\"12\"/><rect class=\"ds-strip-current\" x=\"66.75\" y=\"0.75\" width=\"10.5\" height=\"14.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-cell\" data-level=\"available\" x=\"79.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-base\" x=\"90\" y=\"12\" width=\"8\" height=\"2\"/><rect class=\"ds-strip-cell\" data-level=\"none\" x=\"90.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-base\" x=\"101\" y=\"12\" width=\"8\" height=\"2\"/><rect class=\"ds-strip-cell\" data-level=\"none\" x=\"101.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-cell\" data-level=\"storage\" x=\"112.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><path class=\"ds-strip-hatch\" d=\"M112 8L118 2M112 14L120 6M114 14L120 8\" fill=\"none\" stroke-width=\"1\"/><rect class=\"ds-strip-cell\" data-level=\"storage\" x=\"123.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><path class=\"ds-strip-hatch\" d=\"M123 8L129 2M123 14L131 6M125 14L131 8\" fill=\"none\" stroke-width=\"1\"/></svg>",
+      "css": ".ds-strip{display:inline-block;vertical-align:middle}.ds-strip-peak{fill:var(--color-peak)}.ds-strip-cell[data-level=none]{stroke:none}.ds-strip-cell[data-level=available],.ds-strip-cell[data-level=storage],.ds-strip-hatch{stroke:var(--color-accent)}.ds-strip-base{fill:var(--color-border)}.ds-strip-current{stroke:var(--color-text)}"
+    },
+    {
+      "name": "In-season List Row",
+      "kind": "card",
+      "refersTo": "season-list-row",
+      "description": "Compact row: name link, year strip, stamp in a 7rem column, muted meta line; under a 2px text rule.",
+      "html": "<ul class=\"ds-list\" role=\"list\"><li class=\"ds-row\"><a class=\"ds-row-name\" href=\"#\">Ябълки</a><svg class=\"ds-strip\" role=\"img\" aria-label=\"Разгар: юни – юли; В сезон: май, август; От хранилище: април, ноември – декември\" width=\"133\" height=\"16\" viewBox=\"0 0 133 16\"><title>Разгар: юни – юли; В сезон: май, август; От хранилище: април, ноември – декември</title><rect class=\"ds-strip-base\" x=\"2\" y=\"12\" width=\"8\" height=\"2\"/><rect class=\"ds-strip-cell\" data-level=\"none\" x=\"2.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-base\" x=\"13\" y=\"12\" width=\"8\" height=\"2\"/><rect class=\"ds-strip-cell\" data-level=\"none\" x=\"13.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-base\" x=\"24\" y=\"12\" width=\"8\" height=\"2\"/><rect class=\"ds-strip-cell\" data-level=\"none\" x=\"24.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-cell\" data-level=\"storage\" x=\"35.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><path class=\"ds-strip-hatch\" d=\"M35 8L41 2M35 14L43 6M37 14L43 8\" fill=\"none\" stroke-width=\"1\"/><rect class=\"ds-strip-cell\" data-level=\"available\" x=\"46.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-peak\" x=\"57\" y=\"2\" width=\"8\" height=\"12\"/><rect class=\"ds-strip-peak\" x=\"68\" y=\"2\" width=\"8\" height=\"12\"/><rect class=\"ds-strip-current\" x=\"66.75\" y=\"0.75\" width=\"10.5\" height=\"14.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-cell\" data-level=\"available\" x=\"79.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-base\" x=\"90\" y=\"12\" width=\"8\" height=\"2\"/><rect class=\"ds-strip-cell\" data-level=\"none\" x=\"90.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-base\" x=\"101\" y=\"12\" width=\"8\" height=\"2\"/><rect class=\"ds-strip-cell\" data-level=\"none\" x=\"101.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><rect class=\"ds-strip-cell\" data-level=\"storage\" x=\"112.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><path class=\"ds-strip-hatch\" d=\"M112 8L118 2M112 14L120 6M114 14L120 8\" fill=\"none\" stroke-width=\"1\"/><rect class=\"ds-strip-cell\" data-level=\"storage\" x=\"123.75\" y=\"2.75\" width=\"6.5\" height=\"10.5\" fill=\"none\" stroke-width=\"1.5\"/><path class=\"ds-strip-hatch\" d=\"M123 8L129 2M123 14L131 6M125 14L131 8\" fill=\"none\" stroke-width=\"1\"/></svg><span class=\"ds-stamp\" data-level=\"peak\"><span class=\"ds-stamp-word\">Разгар</span></span><span class=\"ds-row-meta\"><i lang=\"la\">Malus domestica</i> · Плод</span></li></ul>",
+      "css": ".ds-stamp{display:inline-flex;align-items:center;padding:.2em .5em;border:2px solid var(--color-accent);color:var(--color-accent);background:var(--color-surface);font-family:var(--font-family-display);font-size:var(--font-size-sm);font-weight:800;line-height:1.1;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}.ds-stamp[data-level=peak]{border-color:var(--color-peak);color:var(--color-on-peak);background:var(--color-peak)}.ds-stamp[data-level=storage]{padding:.2em;color:var(--color-text);background:repeating-linear-gradient(135deg,var(--color-accent) 0 1px,var(--color-surface) 1px 5px)}.ds-stamp[data-level=storage] .ds-stamp-word{padding-inline:.3em;background:var(--color-surface)}.ds-strip{display:inline-block;vertical-align:middle}.ds-strip-peak{fill:var(--color-peak)}.ds-strip-cell[data-level=none]{stroke:none}.ds-strip-cell[data-level=available],.ds-strip-cell[data-level=storage],.ds-strip-hatch{stroke:var(--color-accent)}.ds-strip-base{fill:var(--color-border)}.ds-strip-current{stroke:var(--color-text)}.ds-list{display:grid;margin:0;padding:0;border-top:2px solid var(--color-text);list-style:none;font-family:var(--font-family-base)}.ds-row{display:grid;grid-template-columns:minmax(0,1fr) auto 7rem;align-items:center;gap:0 var(--space-3);padding-block:var(--space-1);border-bottom:1px solid var(--color-rule)}.ds-row-name{justify-self:start;padding-block:.125rem;color:var(--color-text);font-size:var(--font-size-base);font-weight:700;line-height:1.3;text-underline-offset:.2em}.ds-row-name:hover{text-decoration-thickness:2px}.ds-row-name:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}.ds-row .ds-stamp{justify-self:end}.ds-row-meta{grid-column:1/-1;color:var(--color-text-muted);font-size:var(--font-size-sm)}.ds-row-meta [lang=la]{font-style:italic}"
     },
     {
       "name": "Site Header Navigation",
       "kind": "nav",
       "refersTo": "site-header",
-      "description": "As built: page-colour bar with a hairline and underlined text links; moves to the shell colours in #92.",
-      "html": "<header class=\"ds-header\"><a class=\"ds-logo\" href=\"#\">Сезон</a><ul class=\"ds-nav\"><li><a href=\"#\" aria-current=\"page\">Сега</a></li><li><a href=\"#\">Плодове</a></li><li><a href=\"#\">Зеленчуци</a></li><li><a href=\"#\">Календар</a></li></ul></header>",
-      "css": ".ds-header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:var(--space-1) var(--space-6);padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--color-rule);background:var(--color-background);font-family:var(--font-family-base)}.ds-logo{display:inline-flex;align-items:center;min-height:var(--target-min);font-family:var(--font-family-display);font-weight:800;font-size:var(--font-size-xl);text-transform:uppercase;color:var(--color-text);text-decoration:none}.ds-nav{display:flex;flex-wrap:wrap;gap:0 var(--space-4);margin:0;padding:0;list-style:none}.ds-nav a{display:inline-flex;align-items:center;min-height:var(--target-min);color:var(--color-text);font-weight:500;text-underline-offset:.2em}.ds-nav a:hover{text-decoration-thickness:2px}.ds-nav a:focus-visible,.ds-logo:focus-visible{outline:var(--focus-width) solid var(--color-focus);outline-offset:2px}.ds-nav a[aria-current]{color:var(--color-accent);text-decoration-thickness:3px}"
+      "description": "Shell bar: condensed-capitals logo and four 600-weight links; current page underlined 3px in focus-on-shell, containing area dotted.",
+      "html": "<header class=\"ds-header\"><a class=\"ds-logo\" href=\"#\">Сезон</a><ul class=\"ds-nav\"><li><a href=\"#\" aria-current=\"page\">Сега</a></li><li><a href=\"#\">Каталог</a></li><li><a href=\"#\" aria-current=\"true\">Календар</a></li><li><a href=\"#\">Търсене</a></li></ul></header>",
+      "css": ".ds-header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0 var(--space-4);padding:var(--space-1) var(--space-4);color:var(--color-on-shell);background:var(--color-shell);font-family:var(--font-family-base)}.ds-logo{display:inline-flex;align-items:center;min-height:var(--target-min);font-family:var(--font-family-display);font-size:var(--font-size-xl);font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:inherit;text-decoration:none}.ds-nav{display:flex;flex-wrap:wrap;gap:0 var(--space-4);margin:0;padding:0;list-style:none}.ds-nav a{display:inline-flex;align-items:center;min-height:var(--target-min);color:inherit;font-weight:600;text-decoration-color:transparent;text-underline-offset:.35em}.ds-nav a:hover{text-decoration-color:currentColor}.ds-nav a[aria-current]{text-decoration-color:var(--color-focus-on-shell);text-decoration-thickness:3px}.ds-nav a[aria-current=true]{text-decoration-style:dotted}.ds-header a:focus-visible{outline:var(--focus-width) solid var(--color-focus-on-shell);outline-offset:2px}"
     },
     {
       "name": "Farm Card",
@@ -862,15 +861,15 @@
   ],
   "narrative": {
     "northStar": "The Stamp of Origin",
-    "overview": "The north star is the owner's chosen direction recorded in ADR-0006: stencilled produce crates and the rubber stamps of origin and grade on them, translated into a working interface for a shopper at the stall, on a phone. The world is ultramarine stamp ink on near-white label paper, stencil-black text, condensed heavy capitals for names and headings, and a plain humanist sans for everything that is read or operated. Stamp red is spent on one thing, the „Разгар“ (peak) level, and one marker yellow is reserved for the current month. Dark mode is its own scale, a deep ink-blue ground with lighter stamp inks, not an inversion.\n\nThe world is calm by decision. Capitals appear only in headings and (once built) stamps, the surfaces are flat, separation comes from hairline rules, and there is no motion beyond the global reduced-motion guard. Density is moderate: the content column is capped at 72rem, prose at 42rem, and sections are separated by 2–4rem.\n\nThis file describes the system as built after slice 1 (spec 022, tokens and typography). The palette, the faces and the global heading styles are shipped. The components below still carry their pre-redesign layouts, now rendered in the new tokens; the shell (#92), the season stamp and year strip (#93), the produce page (#94) and the data visuals (#95) are later slices. Anything marked **planned** is decided in ADR-0006 but not yet in the code. Tokens are generated from `src/design/tokens.ts` and inlined as CSS custom properties (`--color-*`, `--space-*`, `--font-size-*`, `--radius-*`, and others); light values sit on `:root` and dark values override them under `prefers-color-scheme: dark`.",
+    "overview": "The north star is the owner's chosen direction recorded in ADR-0006: stencilled produce crates and the rubber stamps of origin and grade on them, translated into a working interface for a shopper at the stall, on a phone. The world is ultramarine stamp ink on near-white label paper, stencil-black text, condensed heavy capitals for names, headings and stamps, and a plain humanist sans for everything that is read or operated. Stamp red is spent on one thing, the „Разгар“ (peak) level, and one marker yellow is reserved for the current month in the footer's month links. Dark mode is its own scale, a deep ink-blue ground with lighter stamp inks, not an inversion.\n\nThe world is calm by decision. Capitals appear only in the logo, headings and stamps, the surfaces are flat, separation comes from hairline rules, and there is no motion beyond the global reduced-motion guard. Density is moderate on reading pages (content column capped at 72rem, prose at 42rem, sections 2–4rem apart) and deliberately compact in the in-season list, which fits about ten rows on the first screen of a phone.\n\nThis file describes the system as built after spec 024 (#93): the tokens and typography (spec 022), the shell header and footer (spec 023, #92), and the season stamp, year strip, legend and in-season list (spec 024). The produce page (#94) and the data visuals (#95) still carry their earlier layouts in the new tokens; anything marked **planned** is decided in ADR-0006 but not yet in the code. Tokens are generated from `src/design/tokens.ts` and inlined as CSS custom properties (`--color-*`, `--space-*`, `--font-size-*`, `--radius-*`, and others); light values sit on `:root` and dark values override them under `prefers-color-scheme: dark`. Print uses its own `--print-*` set from `src/styles/base.css` (black ink on white paper).",
     "keyCharacteristics": [
-      "Sofia Sans Extra Condensed 800 in capitals for headings; Sofia Sans for body, navigation, lists and tables.",
+      "Sofia Sans Extra Condensed 800 in capitals for the logo, headings and stamps; Sofia Sans for body, navigation, lists and tables.",
       "Latin names in Sofia Sans italic 400, through the global `[lang='la']` rule.",
       "Ultramarine ink on label paper; stamp red only for „Разгар“; marker yellow only for the current month.",
-      "Season level = fill + SVG mark + Bulgarian text label, never colour alone.",
+      "The season level is carried by form and word: a solid, outlined or hatched stamp with its short Bulgarian word, and the same three forms in the year strip. Never colour alone.",
       "Flat surfaces and hairline rules, no shadows, no motion.",
-      "One small corner radius (0.375rem) on every rounded element.",
-      "Touch targets of at least 2.75rem on primary links and controls."
+      "One small corner radius (0.375rem) on panels and controls; stamps and strip cells are square-cornered.",
+      "Touch targets of at least 2.75rem on primary links and controls; at least 24px in compact list rows."
     ],
     "rules": [
       {
@@ -890,7 +889,7 @@
       },
       {
         "name": "The Capitals Are Headings Rule",
-        "body": "Sofia Sans Extra Condensed in capitals is for the logo, `h1`–`h3` and (planned, #93) stamps. Capitals come from `text-transform`, so the source text and reading order are unchanged without CSS. Body, navigation, lists and tables stay in Sofia Sans, in sentence case.",
+        "body": "Sofia Sans Extra Condensed in capitals is for the logo, `h1`–`h3` and the season stamps. Capitals come from `text-transform`, so the source text and reading order are unchanged without CSS. Body, navigation, lists and tables stay in Sofia Sans, in sentence case.",
         "section": "typography"
       },
       {
@@ -905,24 +904,26 @@
       },
       {
         "name": "The Ink On Paper Rule",
-        "body": "Surfaces never lift. A panel is set apart by its tone or a hairline, never by a shadow or gradient.",
+        "body": "Surfaces never lift. A panel is set apart by its tone or a hairline, never by a shadow or a tonal gradient.",
         "section": "elevation"
       }
     ],
     "dos": [
       "Do take every colour, space step, font size and radius from the custom properties generated by `src/design/tokens.ts`, and add every new colour pair to `tests/fixtures/contrastPairs.ts`.",
-      "Do show the season level as fill (or, from #93, stamp form) + `LevelMark` + text label; use `on-peak` on stamp red and `on-badge` on the washes.",
+      "Do show the season level as a stamp (solid, outlined or hatched, always with its word) or a year-strip cell in the same forms; in the calendars, as fill + `LevelMark` + text label.",
       "Do set headings in Sofia Sans Extra Condensed 800 through the global `h1`–`h3` rule, and mark Latin names with `lang=\"la\"` so they render in Sofia Sans italic.",
-      "Do keep links and controls at least 2.75rem tall (`--target-min`), with the 3px `focus` outline (`focus-on-shell` inside the shell).",
+      "Do keep links and controls at least 2.75rem tall (`--target-min`), and never under 24px in compact list rows, with the 3px `focus` outline (`focus-on-shell` inside the shell).",
       "Do cap prose at `--reading-width` (42rem) and the page at `--content-width` (72rem).",
-      "Do use `rule` for decorative hairlines and `border` for control and data boundaries."
+      "Do use `rule` for decorative hairlines and `border` for control and data boundaries.",
+      "Do give every season graphic a print form in `--print-ink` that keeps the level legible without fills."
     ],
     "donts": [
       "Don't use stamp red for anything but „Разгар“, or marker yellow for anything but the current month.",
       "Don't set body text, navigation, lists or tables in the condensed face or in capitals.",
-      "Don't add shadows, gradients or elevated surfaces, and don't add motion beyond the reduced-motion guard.",
+      "Don't add shadows, tonal gradients or elevated surfaces, and don't add motion beyond the reduced-motion guard.",
       "Don't tilt stamps in lists; only the large stamp at the top of the produce page is tilted.",
       "Don't convey the season level by colour alone.",
+      "Don't run the hatch under a stamp's word; the word always sits on a solid ground.",
       "Don't add prices, calls to buy or shop styling to produce; the stamps mark origin and season, not a sale.",
       "Don't use `rule` for text or control boundaries; it is below 3:1 by design.",
       "Don't reorder content with CSS. Pages must read in source order without styles."

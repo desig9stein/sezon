@@ -41,11 +41,6 @@ colors:
   marker-dark: '#ffc23d'
   on-marker-dark: '#0d1430'
 typography:
-  display:
-    fontFamily: "'Sofia Sans Extra Condensed', 'Arial Narrow', sans-serif"
-    fontSize: 'min(clamp(4.5rem, 1rem + 15vw, 13.5rem), 16.5vw)'
-    fontWeight: 800
-    lineHeight: 0.85
   headline:
     fontFamily: "'Sofia Sans Extra Condensed', 'Arial Narrow', sans-serif"
     fontSize: 'clamp(3.5rem, 2rem + 6vw, 6.5rem)'
@@ -69,6 +64,12 @@ typography:
     fontWeight: 800
     lineHeight: 1.15
     letterSpacing: '0.02em'
+  stamp:
+    fontFamily: "'Sofia Sans Extra Condensed', 'Arial Narrow', sans-serif"
+    fontSize: '0.9375rem'
+    fontWeight: 800
+    lineHeight: 1.1
+    letterSpacing: '0.06em'
   lede:
     fontFamily: "'Sofia Sans', system-ui, sans-serif"
     fontSize: 'clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem)'
@@ -100,24 +101,27 @@ spacing:
   '12': '3rem'
   '16': '4rem'
 components:
-  season-badge-peak:
+  season-stamp-peak:
     backgroundColor: '{colors.peak}'
     textColor: '{colors.on-peak}'
-    typography: '{typography.label}'
-    rounded: '{rounded.radius-sm}'
-    padding: '0.25rem 0.5rem'
-  season-badge-available:
-    backgroundColor: '{colors.available}'
-    textColor: '{colors.on-badge}'
-    typography: '{typography.label}'
-    rounded: '{rounded.radius-sm}'
-    padding: '0.25rem 0.5rem'
-  season-badge-storage:
-    backgroundColor: '{colors.storage}'
-    textColor: '{colors.on-badge}'
-    typography: '{typography.label}'
-    rounded: '{rounded.radius-sm}'
-    padding: '0.25rem 0.5rem'
+    typography: '{typography.stamp}'
+    padding: '0.2em 0.5em'
+  season-stamp-available:
+    backgroundColor: '{colors.surface}'
+    textColor: '{colors.accent}'
+    typography: '{typography.stamp}'
+    padding: '0.2em 0.5em'
+  season-stamp-storage:
+    backgroundColor: '{colors.surface}'
+    textColor: '{colors.text}'
+    typography: '{typography.stamp}'
+    padding: '0.2em'
+  year-strip:
+    width: '133px'
+    height: '16px'
+  season-list-row:
+    textColor: '{colors.text}'
+    padding: '0.25rem 0'
   produce-plate:
     backgroundColor: '{colors.surface}'
     textColor: '{colors.text}'
@@ -153,13 +157,9 @@ components:
   calendar-cell-storage:
     backgroundColor: '{colors.storage}'
     textColor: '{colors.on-badge}'
-  year-ribbon-month:
-    backgroundColor: '{colors.background}'
-    textColor: '{colors.text-muted}'
-    height: '2.75rem'
-  year-ribbon-month-current:
-    backgroundColor: '{colors.accent}'
-    textColor: '{colors.accent-text}'
+  footer-month-current:
+    backgroundColor: '{colors.marker}'
+    textColor: '{colors.on-marker}'
     height: '2.75rem'
   month-pager-link:
     textColor: '{colors.accent}'
@@ -181,54 +181,54 @@ components:
 
 **Creative North Star: "The Stamp of Origin"**
 
-The north star is the owner's chosen direction recorded in ADR-0006: stencilled produce crates and the rubber stamps of origin and grade on them, translated into a working interface for a shopper at the stall, on a phone. The world is ultramarine stamp ink on near-white label paper, stencil-black text, condensed heavy capitals for names and headings, and a plain humanist sans for everything that is read or operated. Stamp red is spent on one thing, the „Разгар“ (peak) level, and one marker yellow is reserved for the current month. Dark mode is its own scale, a deep ink-blue ground with lighter stamp inks, not an inversion.
+The north star is the owner's chosen direction recorded in ADR-0006: stencilled produce crates and the rubber stamps of origin and grade on them, translated into a working interface for a shopper at the stall, on a phone. The world is ultramarine stamp ink on near-white label paper, stencil-black text, condensed heavy capitals for names, headings and stamps, and a plain humanist sans for everything that is read or operated. Stamp red is spent on one thing, the „Разгар“ (peak) level, and one marker yellow is reserved for the current month in the footer's month links. Dark mode is its own scale, a deep ink-blue ground with lighter stamp inks, not an inversion.
 
-The world is calm by decision. Capitals appear only in headings and (once built) stamps, the surfaces are flat, separation comes from hairline rules, and there is no motion beyond the global reduced-motion guard. Density is moderate: the content column is capped at 72rem, prose at 42rem, and sections are separated by 2–4rem.
+The world is calm by decision. Capitals appear only in the logo, headings and stamps, the surfaces are flat, separation comes from hairline rules, and there is no motion beyond the global reduced-motion guard. Density is moderate on reading pages (content column capped at 72rem, prose at 42rem, sections 2–4rem apart) and deliberately compact in the in-season list, which fits about ten rows on the first screen of a phone.
 
-This file describes the system as built after slice 1 (spec 022, tokens and typography). The palette, the faces and the global heading styles are shipped. The components below still carry their pre-redesign layouts, now rendered in the new tokens; the shell (#92), the season stamp and year strip (#93), the produce page (#94) and the data visuals (#95) are later slices. Anything marked **planned** is decided in ADR-0006 but not yet in the code. Tokens are generated from `src/design/tokens.ts` and inlined as CSS custom properties (`--color-*`, `--space-*`, `--font-size-*`, `--radius-*`, and others); light values sit on `:root` and dark values override them under `prefers-color-scheme: dark`.
+This file describes the system as built after spec 024 (#93): the tokens and typography (spec 022), the shell header and footer (spec 023, #92), and the season stamp, year strip, legend and in-season list (spec 024). The produce page (#94) and the data visuals (#95) still carry their earlier layouts in the new tokens; anything marked **planned** is decided in ADR-0006 but not yet in the code. Tokens are generated from `src/design/tokens.ts` and inlined as CSS custom properties (`--color-*`, `--space-*`, `--font-size-*`, `--radius-*`, and others); light values sit on `:root` and dark values override them under `prefers-color-scheme: dark`. Print uses its own `--print-*` set from `src/styles/base.css` (black ink on white paper).
 
 **Key Characteristics:**
 
-- Sofia Sans Extra Condensed 800 in capitals for headings; Sofia Sans for body, navigation, lists and tables.
+- Sofia Sans Extra Condensed 800 in capitals for the logo, headings and stamps; Sofia Sans for body, navigation, lists and tables.
 - Latin names in Sofia Sans italic 400, through the global `[lang='la']` rule.
 - Ultramarine ink on label paper; stamp red only for „Разгар“; marker yellow only for the current month.
-- Season level = fill + SVG mark + Bulgarian text label, never colour alone.
+- The season level is carried by form and word: a solid, outlined or hatched stamp with its short Bulgarian word, and the same three forms in the year strip. Never colour alone.
 - Flat surfaces and hairline rules, no shadows, no motion.
-- One small corner radius (0.375rem) on every rounded element.
-- Touch targets of at least 2.75rem on primary links and controls.
+- One small corner radius (0.375rem) on panels and controls; stamps and strip cells are square-cornered.
+- Touch targets of at least 2.75rem on primary links and controls; at least 24px in compact list rows.
 
 ## Colors
 
-Stamp inks on label paper: one ultramarine for the shell, links and actions, one stamp red for the peak level, one marker yellow for "now", and cool blue-grey neutrals. The `-dark` keys in the frontmatter are the `prefers-color-scheme: dark` overrides of the same role.
+Stamp inks on label paper: one ultramarine for the shell, links, actions and the outlined stamps, one stamp red for the peak level, one marker yellow for "now", and cool blue-grey neutrals. The `-dark` keys in the frontmatter are the `prefers-color-scheme: dark` overrides of the same role.
 
 ### Primary
 
-- **Stamp Ultramarine** (`accent`): links (the base `a` colour), the search submit button, the skip link, the current month in the year ribbon and the calendar table header, the current-month ring in a produce's calendar, and the 4px bar of the traditional-uses disclaimer. In dark mode it becomes a light periwinkle ink.
+- **Stamp Ultramarine** (`accent`): links (the base `a` colour), the search submit button, the outline and word of the „В сезон“ stamp, the outline and hatch of the „От хранилище“ stamp, the outlines and hatch lines of available and storage cells in the year strip, the current month in the calendar table header, the current-month ring in a produce's calendar, and the 4px bar of the traditional-uses disclaimer. In dark mode it becomes a light periwinkle ink.
 - **On Ultramarine** (`accent-text`): text on ultramarine fills; white in light mode, ink-blue ground in dark mode.
 - **Shell Ultramarine** (`shell`), **On Shell** (`on-shell`), **Focus On Shell** (`focus-on-shell`): the stamp-blue header bar, its text and its focus ring. In light mode `shell` equals `accent`; in dark mode it is a deeper blue so white text stays strong.
 
 ### Secondary
 
-- **Stamp Red** (`peak`): the „Разгар“ level only: season badges, produce-calendar tiles and calendar-table cells at peak. In dark mode it lightens to a coral red.
-- **On Stamp Red** (`on-peak`): text and the `LevelMark` on stamp red; white in light mode, ink-blue ground in dark mode.
+- **Stamp Red** (`peak`): the „Разгар“ level only: the solid peak stamp, solid peak cells in the year strip, produce-calendar tiles and calendar-table cells at peak. In dark mode it lightens to a coral red.
+- **On Stamp Red** (`on-peak`): the word on the peak stamp, and text and the `LevelMark` on red calendar fills; white in light mode, ink-blue ground in dark mode.
 
 ### Tertiary
 
-- **Marker Yellow** (`marker`), **On Marker** (`on-marker`): the highlight reserved for the current month. **Planned in #93:** no component uses it yet; the current month is still marked with ultramarine. It is a fill under `on-marker` text only, never a line on the light page (1.69:1 against `background`).
-- **Blue Wash** (`available`): the light tint for „В сезон“ (badges, calendar tiles and cells) and the highlight behind matched terms in search results.
-- **Lilac Wash** (`storage`): the light tint for „От хранилище“.
+- **Marker Yellow** (`marker`), **On Marker** (`on-marker`): the highlight reserved for the current month, used as the fill of the build month in the footer's month links. It is a fill under `on-marker` text only, never a line on the light page (1.69:1 against `background`); for that reason the year strip frames the current month in `text`, not in marker yellow as ADR-0006 first proposed.
+- **Blue Wash** (`available`): the level fill for „В сезон“ in the calendar table and the produce calendar, and the highlight behind matched terms in search results.
+- **Lilac Wash** (`storage`): the level fill for „От хранилище“ in the calendar table and the produce calendar.
 - **On Wash** (`on-badge`): text on either wash; equals `text`.
 
-The two washes are interim: spec 022 keeps them as light tints with ink text until the season stamp (#93) replaces them with outlined and hatched forms.
+The season stamp does not use the washes; it carries the level by form on `surface`. The washes remain the fills of the two calendars, which still pair fill with a `LevelMark` and a text label.
 
 ### Neutral
 
-- **Label Paper** (`background`): the page, sticky row headers in the calendar table, the year ribbon and the search input field.
-- **Label White** (`surface`): plates, the produce photo frame, farm cards, empty calendar tiles, the disclaimer callout and the footer. In light mode it is brighter than the page; in dark mode it is a lifted ink-blue.
-- **Stencil Black** (`text`): body text, headings, and produce-name links (the logo and navigation sit on the shell in `on-shell`).
-- **Faded Ink** (`text-muted`): meta lines, captions, hints, breadcrumbs, the footer body, out-of-season calendar cells and non-current ribbon months.
-- **Pad Grey** (`border`): control and data boundaries (inputs, pager links, farm tags, table row rules); at least 3:1 against page and surface.
-- **Hairline** (`rule`): decorative hairlines only (header and footer edges, ribbon dividers, index-row separators). Never text or a control boundary.
+- **Label Paper** (`background`): the page, sticky row headers in the calendar table, the footer's month cells and the search input field.
+- **Label White** (`surface`): plates, the produce photo frame, farm cards, empty calendar tiles, the disclaimer callout, the footer, the ground of the outlined stamp and the pad under the hatched stamp's word. In light mode it is brighter than the page; in dark mode it is a lifted ink-blue.
+- **Stencil Black** (`text`): body text, headings, produce-name links, the word on the hatched stamp, the 2px rule above the in-season list and the current-month frame in the year strip (the logo and navigation sit on the shell in `on-shell`).
+- **Faded Ink** (`text-muted`): meta lines, captions, hints, breadcrumbs, legend explanations, the home intro, the footer body and out-of-season calendar cells.
+- **Pad Grey** (`border`): control and data boundaries (inputs, pager links, farm tags, footer month cells, table row rules) and the out-of-season baseline in the year strip and legend; at least 3:1 against page and surface.
+- **Hairline** (`rule`): decorative hairlines only (header and footer edges, row separators in the in-season list and index rows). Never text or a control boundary.
 - **Focus Amber** (`focus`): the 3px focus outline on the page; burnt amber in light mode, bright amber in dark mode, distinct from ultramarine and stamp red.
 
 ### Contrast (computed with `contrastRatio` from `src/design/contrast.ts`)
@@ -256,7 +256,7 @@ The two washes are interim: spec 022 keeps them as light tints with ink text unt
 | peak on surface         | 5.88  | 6.07  | 3       |
 | rule on background      | 1.44  | 1.57  | none    |
 
-`rule` has no minimum because it is decorative only. Every pair above is in `tests/fixtures/contrastPairs.ts` and checked in both schemes.
+`rule` has no minimum because it is decorative only. Every pair above is in `tests/fixtures/contrastPairs.ts` and checked in both schemes. The stamps and the year strip use only tested pairs: `on-peak` on `peak`, `accent` and `text` on `surface`, and `peak`, `accent`, `border` and `text` as marks on the page.
 
 ### Named Rules
 
@@ -277,74 +277,87 @@ Both are self-hosted through the Astro Fonts API (`fontProviders.local()`) as WO
 
 ### Hierarchy
 
-- **Display** (condensed 800, `display` token capped at `min(…, 16.5vw)`, line-height 0.85): appears once, as the month word in the home hero `h1`, with a Sofia Sans `lg` 500 lead line ("В сезон през") above it in the same heading.
-- **Headline** (condensed 800 capitals, `3xl`, line-height 0.95): the produce name on a produce page.
+- **Headline** (condensed 800 capitals, `3xl`, line-height 0.95): the produce name on a produce page, and the month word of the home `h1` (line-height 0.9 there), under a Sofia Sans `base` 600 lead line ("В сезон през") in sentence case inside the same heading.
 - **Title-lg** (condensed 800 capitals, `2xl`, 1.15, tracking 0.02em, `text-wrap: balance`): every other `h1`.
-- **Title** (condensed 800 capitals, `xl`, 1.15, tracking 0.02em): `h2`, and produce-plate names.
+- **Title** (condensed 800 capitals, `xl`, 1.15, tracking 0.02em): `h2`, and produce-plate names. The in-season list's `h2` („Всичко в сезон (N)“, „В сезон през <месец> (N)“) is set one step down, at `lg`.
 - **Title-sm** (condensed 800 capitals, `lg`, 1.15, tracking 0.02em): `h3`, index-row names.
+- **Stamp** (condensed 800 capitals, `sm` 0.9375rem, line-height 1.1, tracking 0.06em, no wrap): the word on every season stamp: „Разгар“, „В сезон“, „От хранилище“, or „От <месец>: …“ on coming-soon rows.
 - **Lede** (Sofia Sans 400, `lg`): page intros, produce summaries, group descriptions; capped at the 42rem reading width.
-- **Body** (Sofia Sans 400, 1.0625rem / 1.55, `text-wrap: pretty`): running text, capped at `--reading-width` (42rem); plate summaries at 42ch.
-- **Label** (Sofia Sans, `sm` 0.9375rem): meta lines, captions, hints, breadcrumbs, footer. Weight 600 on season badges, pager links and the search button; navigation 600; captions and the current month 700.
+- **Body** (Sofia Sans 400, 1.0625rem / 1.55, `text-wrap: pretty`): running text, capped at `--reading-width` (42rem); plate summaries at 42ch. In-season list names are body size at 700, line-height 1.3.
+- **Label** (Sofia Sans, `sm` 0.9375rem): meta lines, captions, hints, breadcrumbs, the legend, footer. Weight 600 on pager links, the search button and the home "more" links; navigation 600; captions and the current month 700.
 - **Latin name** (Sofia Sans italic 400, through `[lang='la']`): wherever a Latin name appears, often one step larger (`lg`) than its meta line.
+
+`src/design/tokens.ts` still generates `--font-size-display` (`clamp(4.5rem, 1rem + 15vw, 13.5rem)`) for the old home hero; nothing uses it since spec 024, so it is not part of the hierarchy.
 
 ### Named Rules
 
-**The Capitals Are Headings Rule.** Sofia Sans Extra Condensed in capitals is for the logo, `h1`–`h3` and (planned, #93) stamps. Capitals come from `text-transform`, so the source text and reading order are unchanged without CSS. Body, navigation, lists and tables stay in Sofia Sans, in sentence case.
+**The Capitals Are Headings Rule.** Sofia Sans Extra Condensed in capitals is for the logo, `h1`–`h3` and the season stamps. Capitals come from `text-transform`, so the source text and reading order are unchanged without CSS. Body, navigation, lists and tables stay in Sofia Sans, in sentence case.
 
 **The One Weight Rule.** The condensed face exists at 800 only. Never set it at another weight or in italic; the browser would synthesise it.
 
 **The Tabular Rule.** Every table uses `font-variant-numeric: tabular-nums`.
 
-**Known drift, not part of the system:** the muted "Табло XI от XII" line above the home heading is a leftover eyebrow from the old design. The page slice (#94) removes it; it is not a pattern to copy.
-
 ## Layout
 
 - **Container:** one centred column, `min(100% − 2rem, 72rem)`. Header, breadcrumbs, main and footer all use it; there is no sidebar.
-- **Reading width:** 42rem for prose, ledes, search and the footer disclaimer. Tables and calendars opt out.
-- **Spacing rhythm:** a rem scale of steps 1, 2, 3, 4, 6, 8, 12, 16 (0.25–4rem). Within a block 0.25–0.75rem; between sections 1.5–2rem; before group headings and the month pager 3rem; before the footer 4rem.
-- **Grids:** produce plates use `auto-fill, minmax(min(100%, 20rem), 1fr)` with a 1rem gap; farm cards the same at 18rem. Index lists are one column, two from 40rem. The footer year strip is 3, 4, 6 or 12 equal columns (see Components).
-- **Year ribbon:** 12 equal columns, 6 under 40rem. The produce calendar: 12, 6 under 60rem, 4 under 40rem, 2px gaps.
+- **Reading width:** 42rem for prose, ledes, the home intro, search and the footer disclaimer. Tables, calendars and the in-season list opt out.
+- **Spacing rhythm:** a rem scale of steps 1, 2, 3, 4, 6, 8, 12, 16 (0.25–4rem). Within a block 0.25–0.75rem; between sections 1.5–2rem; before group headings, the month pager and the home links 3rem; before the footer 4rem.
+- **Home (`/`):** a compact two-line `h1` (margins 0.75rem above, 0.5rem below), then the in-season list „Всичко в сезон (N)“, the legend, the muted intro, the coming-soon index rows with year strips, and a wrapping row of links (this month, next month, calendar). No photos and no hero ribbon: the list starts on the first screen.
+- **Month pages (`/sezon/<месец>`):** `h1`, the in-season list „В сезон през <месец> (N)“, the legend, coming-soon rows with year strips, then the month pager.
+- **In-season list:** a 2px `text` rule on top, then rows on 1px `rule` hairlines with 0.25rem block padding. Each row is a grid `minmax(0, 1fr) auto 7rem` with a 0.75rem column gap: name, year strip, stamp (end-aligned in a fixed 7rem column so stamps line up), then the meta line (Latin name · kind) across the full row. Below 23rem the row becomes two columns: name and stamp on line 1, meta and strip on line 2. From 48rem the rows flow into two columns with a 2rem gap.
+- **Grids:** produce plates (section and group pages) use `auto-fill, minmax(min(100%, 20rem), 1fr)` with a 1rem gap; farm cards the same at 18rem. Index lists are one column, two from 40rem. The footer's month links are 3, 4, 6 or 12 equal columns (see Components).
+- **Produce calendar:** 12 columns, 6 under 60rem, 4 under 40rem, 2px gaps.
 - **Produce page header:** one column; from 48rem, with a photo, a 3fr/2fr grid with the photo on the right.
-- **Breakpoints in use:** 40rem, 48rem and 60rem, as literals in each component.
+- **Breakpoints in use:** 23rem, 40rem, 48rem and 60rem (plus 36rem and 64rem in the footer), as literals in each component.
 - **Wide tables** scroll horizontally inside `ScrollTable`; the calendar table's row headers are sticky on the inline start.
-- **Print:** header, footer, skip link and breadcrumbs are hidden; the calendar prints in black ink without fills, with the current month underlined.
+- **Print:** header, footer, skip link and breadcrumbs are hidden; everything prints in `--print-ink` on `--print-paper`. The calendar prints without fills with the current month underlined; stamps and strips keep their forms in ink (see Components).
 
 ## Elevation & Depth
 
-The system is flat, like ink on paper. No element casts a shadow. Depth is two tonal layers, the label-paper page and the `surface` panels (plates, photo frame, farm cards, disclaimer, footer), plus 1px `rule` hairlines. The only `box-shadow` is a structural inset double ring (`inset 0 0 0 2px background, inset 0 0 0 5px accent`) that outlines the current month in a produce's calendar; it draws a line, not elevation.
+The system is flat, like ink on paper. No element casts a shadow. Depth is two tonal layers, the label-paper page and the `surface` panels (plates, photo frame, farm cards, disclaimer, footer), plus 1px `rule` hairlines. The only `box-shadow` is a structural inset double ring (`inset 0 0 0 2px background, inset 0 0 0 5px accent`) that outlines the current month in a produce's calendar; it draws a line, not elevation. The only gradient is the storage stamp's hard-stop hatch (`repeating-linear-gradient(135deg, accent 0 1px, surface 1px 5px)`), which draws ink lines, not shading.
 
-**The Ink On Paper Rule.** Surfaces never lift. A panel is set apart by its tone or a hairline, never by a shadow or gradient.
+**The Ink On Paper Rule.** Surfaces never lift. A panel is set apart by its tone or a hairline, never by a shadow or a tonal gradient.
 
 ## Shapes
 
-All rounded elements use one small radius, `radius-sm` (0.375rem): plates and their photos, farm cards and tags, season badges, pager links, the search input and button, and the skip link. Plate photos are cropped 4:3; the produce-page photo keeps its ratio inside a 0.75rem mat. Rules are 1px; the disclaimer has a 4px ultramarine inline-start bar. Season marks are 16×16 viewBox SVGs at 1em: a five-point star (peak), a filled circle (available), a half-filled circle (storage), an empty circle (out of season).
+Panels and controls use one small radius, `radius-sm` (0.375rem): plates and their photos, farm cards and tags, pager links, the search input and button, and the skip link. Stamps and year-strip cells are square-cornered, like a rubber stamp's frame. Plate photos are cropped 4:3; the produce-page photo keeps its ratio inside a 0.75rem mat. Rules are 1px, except the 2px stamp outline and the 2px `text` rule over the in-season list; the disclaimer has a 4px ultramarine inline-start bar.
 
-**Planned in #93, not yet built:** the season stamp form language (solid, outlined, hatched) described under Components.
+The level forms are one language across stamp and strip: **solid** for „Разгар“, **outlined** for „В сезон“, **outlined and hatched** (diagonal lines at 135°) for „От хранилище“, and a thin **baseline** for out of season. The calendars still use `LevelMark`, 16×16 viewBox SVGs at 1em: a five-point star (peak), a filled circle (available), a half-filled circle (storage), an empty circle (out of season; also in the nutrient ranking table).
 
 ## Components
 
-Every component below is built and renders in the new tokens; layouts are unchanged from before the redesign until their slice ships.
+The season components and the shell are in their ADR-0006 form. The produce page, calendars, plates, farm cards and search keep their earlier layouts in the new tokens until #94 and #95.
 
-### Season badge
+### Season stamp (signature)
 
-The current level signal: an inline pill holding a `LevelMark` and the Bulgarian label.
+ADR-0006's signature move, built in `SeasonBadge`: the level as a stamp whose form carries the meaning, with the short word always present. It is used in the in-season list, the legend, plates and index rows, and the nutrient ranking table.
 
-- **Shape:** `radius-sm`, padding 0.25rem 0.5rem, gap 0.25rem; label style 600, line-height 1.2.
-- **Colour:** „Разгар“ is solid stamp red with `on-peak` text and mark; „В сезон“ and „От хранилище“ are the blue and lilac washes with `on-badge` text.
-- **Variant:** with `fromMonth`, the label reads "from <month>: <level>".
+- **Type:** the `stamp` style (condensed 800 capitals, `sm`, line-height 1.1, tracking 0.06em), no wrap.
+- **Frame:** 2px solid outline, square corners, padding 0.2em 0.5em, upright.
+- **„Разгар“:** solid `peak` fill and outline with the word in `on-peak`.
+- **„В сезон“:** `surface` ground with an `accent` outline and `accent` word.
+- **„От хранилище“:** `accent` outline over a 135° `accent` hatch on `surface` (1px lines every 5px); the word sits on a solid `surface` pad (0.3em inline padding, 0.2em frame padding) in `text`, so the hatch never runs under the letters.
+- **Out of season:** no stamp; the row or table says so in words.
+- **Coming soon:** with `fromMonth`, the word reads „От <месец>: <word>“ in the same stamp.
+- **Print:** fills dropped, outline and word in `--print-ink`; peak keeps the form with a 3px outline, storage with a dashed outline.
+- **Without CSS:** the stamp reads as its word.
 
-### Season stamp (signature, planned in #93, not yet built)
+### Year strip (signature)
 
-ADR-0006's signature move. The level becomes a stamp whose form carries the meaning: **solid** „Разгар“, **outlined** „В сезон“, **hatched** „От хранилище“; out of season has no stamp, only the words. The text label is always present. Stamps stand upright in lists; only the large stamp at the top of the produce page is tilted. It will replace the season badge and the two washes.
+A produce's year as an inline SVG, 133×16px, of 12 cells (8×12px, 11px step), January to December, in the stamp forms: peak a solid `peak` cell, available a 1.5px `accent` outline, storage the outline plus three diagonal `accent` hatch lines, out of season a 2px `border` baseline at the cell's foot. The current month is framed with a 1.5px `text` rectangle around its cell. The SVG has `role="img"`, a `<title>` and a matching `aria-label` listing the months of each level in ranges („Разгар: юни – юли; В сезон: …“), or „Извън сезона през цялата година“. Presentation attributes carry the light palette from `src/design/tokens.ts`, so the strip keeps its size and forms without CSS; CSS rebinds the colours to the custom properties for dark mode and to `--print-ink` in print. Used in in-season rows and coming-soon rows.
 
-### Year strip (planned in #93, not yet built)
+### In-season list
 
-A 12-month strip using the same three stamp forms, with the current month outlined in marker yellow. Until then the year ribbon and the produce calendar below remain.
+`SeasonList`: everything in season in one month, peak first, then available, then storage, under an `h2` with the count. Each row is a list item: the produce name as a link (body size, 700, `text`, at least 24px tall), the year strip, the stamp, and a muted `sm` meta line with the Latin name in italic and the kind. Layout in the Layout section. An empty month shows the plain empty text instead.
+
+### Season legend
+
+An `aside` labelled „Какво значат печатите“, 1.5rem below the list: a `sm` list with each stamp followed by its plain-words meaning in `text-muted`, the out-of-season baseline (a 12×16 SVG with the `border` bar) with „Извън сезона: вероятно е внос“, and a line on how to read the strip.
 
 ### Produce plate (card)
 
-- **Plate variant:** `surface` panel, `radius-sm`, padding 1.5rem 1rem 1rem, min-height 13rem: a 4:3 decorative photo, the name (condensed capitals `xl`, `text`, underlined link at least 2.75rem tall), a meta row (Latin name italic, kind, badge), and a muted summary capped at 42ch.
-- **Index variant:** no panel; a name | badge row over a 1px `rule` hairline, name at `lg`.
+- **Plate variant (section and group pages, peak group):** `surface` panel, `radius-sm`, padding 1.5rem 1rem 1rem, min-height 13rem: a 4:3 decorative photo, the name (condensed capitals `xl`, `text`, underlined link at least 2.75rem tall), a meta row (Latin name italic, kind, stamp), and a muted summary capped at 42ch.
+- **Index variant:** no panel; a name | meta row over a 1px `rule` hairline, name at `lg`, the meta (Latin name, kind, stamp and, with `stripMonth`, the year strip) pushed to the inline end.
 
 ### Produce photo (plate frame)
 
@@ -352,12 +365,8 @@ A `figure` on `surface` with a 0.75rem mat and `radius-sm` on frame and image; t
 
 ### Season calendar
 
-- **Calendar table (`/kalendar`):** a full-year table in `ScrollTable` with a legend above. The current-month column header is filled ultramarine. Level cells take the level fill (stamp red with `on-peak`, or a wash with `on-badge`); out-of-season cells are `text-muted`.
+- **Calendar table (`/kalendar`):** a full-year table in `ScrollTable` with a legend above. The current-month column header is filled ultramarine. Level cells take the level fill (stamp red with `on-peak`, or a wash with `on-badge`) with a `LevelMark`; out-of-season cells are `text-muted`.
 - **Produce calendar list:** 12 linked tiles (at least 2.75rem) with 2px gaps: underlined month abbreviation, mark, `sm` level label. Out-of-season tiles use `surface`. The current month gets the inset ultramarine ring and weight 700.
-
-### Year ribbon (home)
-
-A 12-cell strip between `rule` hairlines with `rule` dividers. Months are `text-muted` without underline, turning `text` with an underline on hover. The current month is a solid ultramarine cell, weight 700, in `accent-text`.
 
 ### Month pager
 
@@ -381,34 +390,40 @@ A no-JS form capped at the reading width: bold label, muted hint, then a wrappin
 - **Skip link:** a `surface` box with a `text` border and text, shown on focus over the shell with a `focus-on-shell` ring.
 - **Catalogue page (`/katalog`):** section cards on `shell` with `on-shell` text and a `border` edge (condensed capitals name, count below), then chip links for the botanical families (with counts) and the nutrients.
 - **Breadcrumbs:** `sm` muted trail with "/" separators.
-- **Footer:** `surface` band with a top `rule`. First a year strip: 12 month links as bordered cells (`border` edge, `background` fill, `text`), 3 per row, 4 from 23rem, 6 from 36rem, 12 from 64rem; the build month is `marker` with `on-marker` text, a `text` border and `aria-current="date"`; a focused cell rises above its neighbours so its ring shows. Then the calendar link, the disclaimer and the copyright in muted `sm`.
+- **Footer:** `surface` band with a top `rule`. First the month links: 12 bordered cells (`border` edge, `background` fill, `text`), 3 per row, 4 from 23rem, 6 from 36rem, 12 from 64rem; the build month is `marker` with `on-marker` text, a `text` border and `aria-current="date"`; a focused cell rises above its neighbours so its ring shows. Then the calendar link, the disclaimer and the copyright in muted `sm`.
 
 ### Links and focus
 
-Links are ultramarine and underlined (offset 0.2em); hover thickens the underline to 2px. Every focusable element shows a 3px solid `focus` outline at 2px offset. The skip link is an ultramarine pill that slides in on focus.
+Links are ultramarine and underlined (offset 0.2em); hover thickens the underline to 2px. Every focusable element shows a 3px solid `focus` outline at 2px offset. The skip link is a `surface` box with a `text` border that slides in on focus over the shell, with a `focus-on-shell` ring.
 
 ### Callout
 
 The traditional-uses disclaimer: a `surface` panel with a 4px ultramarine inline-start bar, padding 0.75rem 1rem.
+
+### Produce-page stamp (planned in #94, not yet built)
+
+One large stamp at the top of the produce page, the only tilted stamp in the system.
 
 ## Do's and Don'ts
 
 ### Do:
 
 - **Do** take every colour, space step, font size and radius from the custom properties generated by `src/design/tokens.ts`, and add every new colour pair to `tests/fixtures/contrastPairs.ts`.
-- **Do** show the season level as fill (or, from #93, stamp form) + `LevelMark` + text label; use `on-peak` on stamp red and `on-badge` on the washes.
+- **Do** show the season level as a stamp (solid, outlined or hatched, always with its word) or a year-strip cell in the same forms; in the calendars, as fill + `LevelMark` + text label.
 - **Do** set headings in Sofia Sans Extra Condensed 800 through the global `h1`–`h3` rule, and mark Latin names with `lang="la"` so they render in Sofia Sans italic.
-- **Do** keep links and controls at least 2.75rem tall (`--target-min`), with the 3px `focus` outline (`focus-on-shell` inside the shell).
+- **Do** keep links and controls at least 2.75rem tall (`--target-min`), and never under 24px in compact list rows, with the 3px `focus` outline (`focus-on-shell` inside the shell).
 - **Do** cap prose at `--reading-width` (42rem) and the page at `--content-width` (72rem).
 - **Do** use `rule` for decorative hairlines and `border` for control and data boundaries.
+- **Do** give every season graphic a print form in `--print-ink` that keeps the level legible without fills.
 
 ### Don't:
 
 - **Don't** use stamp red for anything but „Разгар“, or marker yellow for anything but the current month.
 - **Don't** set body text, navigation, lists or tables in the condensed face or in capitals.
-- **Don't** add shadows, gradients or elevated surfaces, and don't add motion beyond the reduced-motion guard.
+- **Don't** add shadows, tonal gradients or elevated surfaces, and don't add motion beyond the reduced-motion guard.
 - **Don't** tilt stamps in lists; only the large stamp at the top of the produce page is tilted.
 - **Don't** convey the season level by colour alone.
+- **Don't** run the hatch under a stamp's word; the word always sits on a solid ground.
 - **Don't** add prices, calls to buy or shop styling to produce; the stamps mark origin and season, not a sale.
 - **Don't** use `rule` for text or control boundaries; it is below 3:1 by design.
 - **Don't** reorder content with CSS. Pages must read in source order without styles.
