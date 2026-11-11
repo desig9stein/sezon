@@ -217,14 +217,14 @@ issues:
     start: '2026-11-12'
     target: '2026-11-14'
   66:
-    status: Backlog
+    status: In development
     priority: Medium
     impact: Big
     estimate: 9
     start: '2026-11-16'
     target: '2026-12-04'
   67:
-    status: Backlog
+    status: In development
     priority: Medium
     impact: Medium
     estimate: 2
