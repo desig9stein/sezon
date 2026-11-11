@@ -62,7 +62,7 @@ const months = Month.all().map((month) => ({ month, level: produce.levelIn(month
   }
 
   .calendar__month[data-level='peak'] a {
-    color: var(--color-on-badge);
+    color: var(--color-on-peak);
     background: var(--color-peak);
   }
 
@@ -86,6 +86,23 @@ const months = Month.all().map((month) => ({ month, level: produce.levelIn(month
   .calendar__month a:focus-visible {
     outline: var(--focus-width) solid var(--color-focus);
     outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--color-background);
+  }
+
+  .calendar__month a[aria-current='date']:focus-visible {
+    box-shadow:
+      0 0 0 2px var(--color-background),
+      inset 0 0 0 2px var(--color-background),
+      inset 0 0 0 5px var(--color-accent);
+  }
+
+  @media print {
+    .calendar__month a,
+    .calendar__month[data-level] a {
+      border: 1px solid var(--print-ink);
+      color: var(--print-ink);
+      background: none;
+    }
   }
 
   .calendar__name {

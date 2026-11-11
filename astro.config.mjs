@@ -18,9 +18,9 @@ const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://sezon.example';
 const rangeList = (ranges) => /** @type {[string, ...string[]]} */ (ranges.split(','));
 
 /**
- * Returns the Latin and Cyrillic local font variants of a generated face (`pnpm fonts:build`).
- * Latin comes first: Astro measures the fallback metrics from the first file, and those metrics
- * need Latin letters.
+ * Returns the local font variants of a generated face (`pnpm fonts:build`), one per subset in
+ * the face's `subsets`. Latin comes first: Astro measures the fallback metrics from the first
+ * file, and those metrics need Latin letters.
  * @param {(typeof FONT_FACES)[number]} face - Face from `src/design/fontSubsets.mjs`.
  */
 const variants = (face) => {
@@ -32,10 +32,12 @@ const variants = (face) => {
     unicodeRange: rangeList(FONT_SUBSETS[subset]),
     src: /** @type {[string]} */ ([`./${FONT_OUTPUT_DIR}/${subsetFile(face.file, subset)}`]),
   });
-  return /** @type {const} */ ([variant('latin'), variant('cyrillic')]);
+  return /** @type {[ReturnType<typeof variant>, ...ReturnType<typeof variant>[]]} */ (
+    face.subsets.map(variant)
+  );
 };
 
-const [PIAZZOLLA, PIAZZOLLA_ITALIC, SOFIA_SANS] = FONT_FACES;
+const [SOFIA_SANS, SOFIA_SANS_ITALIC, SOFIA_SANS_EXTRA_CONDENSED] = FONT_FACES;
 
 export default defineConfig({
   site: SITE_URL,
@@ -49,11 +51,11 @@ export default defineConfig({
   fonts: [
     {
       provider: fontProviders.local(),
-      name: 'Piazzolla',
-      cssVariable: '--font-piazzolla',
-      fallbacks: ['Georgia', 'serif'],
+      name: 'Sofia Sans Extra Condensed',
+      cssVariable: '--font-sofia-sans-extra-condensed',
+      fallbacks: ['Arial Narrow', 'sans-serif'],
       options: {
-        variants: [...variants(PIAZZOLLA), ...variants(PIAZZOLLA_ITALIC)],
+        variants: [...variants(SOFIA_SANS_EXTRA_CONDENSED)],
       },
     },
     {
@@ -62,7 +64,7 @@ export default defineConfig({
       cssVariable: '--font-sofia-sans',
       fallbacks: ['system-ui', 'sans-serif'],
       options: {
-        variants: [...variants(SOFIA_SANS)],
+        variants: [...variants(SOFIA_SANS), ...variants(SOFIA_SANS_ITALIC)],
       },
     },
   ],

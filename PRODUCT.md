@@ -53,16 +53,19 @@ and a reader who trusts the figures because every one of them is sourced.
   CSS never hides or reorders content (spec 009).
 - Season level is never shown by colour alone (text + mark + colour).
 - Content model, rules and sources: `AGENTS.md`, `docs/CONTENT-GUIDE.md`.
-- Open: the domain name, the consent management platform, real farms (placeholders today), and
-  whether the „От хранилище“ season level stays (issue #62).
+- Open: the domain name and the consent management platform.
+- Decided: farms are real growers with sourced facts (spec 021); the „От хранилище“ season level
+  stays, in plain words (redesign brief, #80).
 
 ## Brand Commitments
 
 - Name: **Сезон**, written as a typographic wordmark.
 - Voice: **informal „ти“, friendly and plain** (owner decision 2026-11-11). Existing UI strings
   still use „Вие“ forms („Вижте…“) and are to be migrated.
-- Visual identity: the „botanical atlas“ direction in `docs/ADR/0004-visual-identity.md`
-  (palette, Piazzolla + Sofia Sans, plates, Latin names) is binding until an ADR replaces it.
+- Visual identity: the „stamp of origin“ direction in
+  `docs/ADR/0006-visual-direction-stamp-of-origin.md` (stamp-blue shell, red only for „Разгар“,
+  Sofia Sans with Sofia Sans Extra Condensed capitals for headings and stamps), replacing the
+  botanical atlas of ADR-0004.
 
 ## Evidence on Hand
 

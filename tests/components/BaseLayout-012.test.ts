@@ -28,18 +28,21 @@ describe('BaseLayout (spec 012)', () => {
     }
   });
 
-  it('QA 012: metric-adjusted fallbacks stay within 85–115 % size-adjust', async () => {
+  it('QA 012: metric-adjusted fallbacks stay within a plausible size-adjust (022: condensed 55–100 %)', async () => {
     const html = await render(BaseLayout, {
       title: 'Сезон',
       description:
         'Кои плодове и зеленчуци са в сезон в България сега, откъде да ги купите и как да ги приготвите.',
       path: '/',
     });
-    const adjustments = [...html.matchAll(/size-adjust:\s*([\d.]+)%/g)].map((m) => Number(m[1]));
-    expect(adjustments.length).toBeGreaterThan(0);
-    for (const value of adjustments) {
-      expect(value).toBeGreaterThanOrEqual(85);
-      expect(value).toBeLessThanOrEqual(115);
+    const faces = [
+      ...html.matchAll(/font-family:\s*(?:"|&quot;|')?([^"';&]+)[^}]*?size-adjust:\s*([\d.]+)%/g),
+    ];
+    expect(faces.length).toBeGreaterThan(0);
+    for (const [, family = '', value] of faces) {
+      const [min, max] = family.startsWith('Sofia Sans Extra Condensed') ? [55, 100] : [85, 115];
+      expect(Number(value)).toBeGreaterThanOrEqual(min);
+      expect(Number(value)).toBeLessThanOrEqual(max);
     }
   });
 });
