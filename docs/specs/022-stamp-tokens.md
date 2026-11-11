@@ -53,6 +53,8 @@ No domain change. `Palette` gains `shell`, `onShell`, `focusOnShell`, `onPeak`, 
   light tints with ink text until the stamp slice (#93) replaces them.
 - A face without a Cyrillic subset (the italic) falls back to synthesised italic for Cyrillic
   text; it is used for Latin names only.
+- The condensed face's metric fallback (Arial) needs a smaller `size-adjust` (about 69 %); the
+  spec 012 fallback check allows 55–100 % for it and keeps 85–115 % for Sofia Sans.
 - Italic loads with `font-display: optional` (no layout shift); upright faces with `swap`, sized
   fallbacks from Astro's font API.
 

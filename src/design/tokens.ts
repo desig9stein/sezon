@@ -10,43 +10,64 @@ export interface Palette {
   /** Decorative hairline colour; never used for text or control boundaries. */
   readonly rule: string;
   readonly focus: string;
+  /** Stamp red for „Разгар“; text on it uses `onPeak`. */
   readonly peak: string;
+  readonly onPeak: string;
   readonly available: string;
   readonly storage: string;
   readonly onBadge: string;
+  /** Stamp-blue header bar, its text and its focus ring. */
+  readonly shell: string;
+  readonly onShell: string;
+  readonly focusOnShell: string;
+  /** Marker-yellow highlight reserved for the current month, and text on it. */
+  readonly marker: string;
+  readonly onMarker: string;
 }
 
-/** Light and dark colour palettes (ADR-0004). Contrast pairs are verified by unit tests. */
+/** Light and dark colour palettes (ADR-0006). Contrast pairs are verified by unit tests. */
 export const palettes: Readonly<Record<'light' | 'dark', Palette>> = {
   light: {
-    background: '#ffffff',
-    surface: '#eef3ea',
-    text: '#16241b',
-    textMuted: '#4a5b50',
-    accent: '#8a1c3f',
+    background: '#f4f6fb',
+    surface: '#ffffff',
+    text: '#141a2e',
+    textMuted: '#4a5270',
+    accent: '#1c3faa',
     accentText: '#ffffff',
-    border: '#7c8c80',
-    rule: '#c9d2c6',
-    focus: '#1f5fa8',
-    peak: '#b9dca3',
-    available: '#dfe9c8',
-    storage: '#dcd6e6',
-    onBadge: '#16241b',
+    border: '#6b7395',
+    rule: '#c9cfe2',
+    focus: '#b45309',
+    peak: '#c8102e',
+    onPeak: '#ffffff',
+    available: '#e3e9fb',
+    storage: '#ebe6f5',
+    onBadge: '#141a2e',
+    shell: '#1c3faa',
+    onShell: '#ffffff',
+    focusOnShell: '#ffb000',
+    marker: '#ffb000',
+    onMarker: '#141a2e',
   },
   dark: {
-    background: '#111a14',
-    surface: '#1a251e',
-    text: '#e7eee6',
-    textMuted: '#a8b8ac',
-    accent: '#f29ab2',
-    accentText: '#2a0b16',
-    border: '#6f8174',
-    rule: '#2c3a31',
-    focus: '#8cc2ff',
-    peak: '#446f3b',
-    available: '#3f5a3a',
-    storage: '#4a4560',
-    onBadge: '#f1f5ef',
+    background: '#0d1430',
+    surface: '#141c3d',
+    text: '#eef1fb',
+    textMuted: '#a9b1d1',
+    accent: '#9db3ff',
+    accentText: '#0d1430',
+    border: '#7480ad',
+    rule: '#2b3666',
+    focus: '#ffc23d',
+    peak: '#ff6b7f',
+    onPeak: '#0d1430',
+    available: '#26346e',
+    storage: '#352d5c',
+    onBadge: '#eef1fb',
+    shell: '#22337a',
+    onShell: '#ffffff',
+    focusOnShell: '#ffc23d',
+    marker: '#ffc23d',
+    onMarker: '#0d1430',
   },
 };
 
@@ -75,7 +96,8 @@ export const fontSize: Readonly<Record<string, string>> = {
 
 /** Non-colour design tokens. */
 export const misc: Readonly<Record<string, string>> = {
-  'font-family-display': 'var(--font-piazzolla),Georgia,serif',
+  'font-family-display':
+    "var(--font-sofia-sans-extra-condensed),'Arial Narrow',sans-serif-condensed,sans-serif",
   'font-family-base': 'var(--font-sofia-sans),system-ui,sans-serif',
   'line-height-base': '1.55',
   'line-height-heading': '1.15',

@@ -185,10 +185,10 @@ importers:
       '@eslint/js':
         specifier: 10.0.1
         version: 10.0.1(eslint@10.14.0(supports-color@8.1.1))
-      '@fontsource-variable/piazzolla':
+      '@fontsource-variable/sofia-sans':
         specifier: 5.3.0
         version: 5.3.0
-      '@fontsource-variable/sofia-sans':
+      '@fontsource-variable/sofia-sans-extra-condensed':
         specifier: 5.3.0
         version: 5.3.0
       '@lhci/cli':
@@ -552,8 +552,8 @@ packages:
     resolution: {integrity: sha512-IkO+/KEUvwbVpiURZg+P7zF74z5Jxe0UgJxVni+RtoHQ6IZieXaO02kmadomap/q+l6bc/jdPGGqTjhuZnuz1Q==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
-  '@fontsource-variable/piazzolla@5.3.0':
-    resolution: {integrity: sha512-YYyMODIV4awSYvmHYvhBCfnHRLdoB/TzbMe5FR2N6CKETkjzfOcbORm60AalYCfRgRq8SpMGpEc8iki6JXHEZg==}
+  '@fontsource-variable/sofia-sans-extra-condensed@5.3.0':
+    resolution: {integrity: sha512-WYzOY6O+GXeQ5j7mYP44yDMbAJlL7uJ9YucBgENcxKGuC2pOimhFDbX318W8ydtv6kUle40rrCXaAPsYFrJINg==}
 
   '@fontsource-variable/sofia-sans@5.3.0':
     resolution: {integrity: sha512-lVLpBgrjxSMjrrBF70Jr9qBLdFac5tDAvVn9oHlS+vAaVyhUN6dWmr0nNjWzwTh6tYIECP45h4zDfllQbXtqtA==}
@@ -4373,7 +4373,7 @@ snapshots:
       '@eslint/core': 1.2.1
       levn: 0.4.1
 
-  '@fontsource-variable/piazzolla@5.3.0': {}
+  '@fontsource-variable/sofia-sans-extra-condensed@5.3.0': {}
 
   '@fontsource-variable/sofia-sans@5.3.0': {}
 

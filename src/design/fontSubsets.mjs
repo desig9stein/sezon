@@ -14,28 +14,31 @@ export const FONT_SUBSETS = /** @type {const} */ ({
 /** @typedef {keyof typeof FONT_SUBSETS} FontSubset */
 
 /**
- * Variable font faces the site self-hosts, each instanced to the weight range in use. `file` is
- * the Fontsource file name with a `{subset}` placeholder; the generated file keeps that name in
- * `src/assets/fonts/`.
+ * Variable font faces the site self-hosts, each instanced to the weight range in use and generated
+ * for its `subsets`. `file` is the Fontsource file name with a `{subset}` placeholder; the
+ * generated file keeps that name in `src/assets/fonts/`.
  */
 export const FONT_FACES = /** @type {const} */ ([
-  {
-    pkg: '@fontsource-variable/piazzolla',
-    file: 'piazzolla-{subset}-wght-normal.woff2',
-    style: 'normal',
-    weight: { min: 400, max: 600 },
-  },
-  {
-    pkg: '@fontsource-variable/piazzolla',
-    file: 'piazzolla-{subset}-wght-italic.woff2',
-    style: 'italic',
-    weight: { min: 400, max: 600 },
-  },
   {
     pkg: '@fontsource-variable/sofia-sans',
     file: 'sofia-sans-{subset}-wght-normal.woff2',
     style: 'normal',
     weight: { min: 400, max: 700 },
+    subsets: ['latin', 'cyrillic'],
+  },
+  {
+    pkg: '@fontsource-variable/sofia-sans',
+    file: 'sofia-sans-{subset}-wght-italic.woff2',
+    style: 'italic',
+    weight: { min: 400, max: 400 },
+    subsets: ['latin'],
+  },
+  {
+    pkg: '@fontsource-variable/sofia-sans-extra-condensed',
+    file: 'sofia-sans-extra-condensed-{subset}-wght-normal.woff2',
+    style: 'normal',
+    weight: { min: 800, max: 800 },
+    subsets: ['latin', 'cyrillic'],
   },
 ]);
 

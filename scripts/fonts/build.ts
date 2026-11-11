@@ -33,11 +33,11 @@ function charactersOf(ranges: string): string {
     .join('');
 }
 
-/** Writes every face and subset, instanced to its weight range, as WOFF2 into the output dir. */
+/** Writes every face in each of its subsets, instanced to its weight range, as WOFF2 into the output dir. */
 async function build(): Promise<void> {
   await mkdir(FONT_OUTPUT_DIR, { recursive: true });
   for (const face of FONT_FACES) {
-    for (const subset of Object.keys(FONT_SUBSETS) as FontSubset[]) {
+    for (const subset of face.subsets as ReadonlyArray<FontSubset>) {
       const name = subsetFile(face.file, subset);
       const source = await readFile(require.resolve(`${face.pkg}/files/${name}`));
       const output = await subsetFont(source, charactersOf(FONT_SUBSETS[subset]), {

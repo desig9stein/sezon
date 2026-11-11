@@ -40,14 +40,17 @@ h1,
 h2,
 h3 {
   font-family: var(--font-family-display);
-  font-weight: 600;
+  font-weight: 800;
   line-height: var(--line-height-heading);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   text-wrap: balance;
 }
 
 [lang='la'] {
-  font-family: var(--font-family-display);
+  font-family: var(--font-family-base);
   font-style: italic;
+  font-weight: 400;
 }
 
 table {
@@ -59,11 +62,11 @@ h1 {
 }
 
 h2 {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl);
 }
 
 h3 {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
 }
 
 p {
