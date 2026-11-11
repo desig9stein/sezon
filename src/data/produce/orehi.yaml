@@ -51,3 +51,11 @@ faq:
     answer: Шепа орехи (около 30 г) е обичайна порция; те са калорични – около 650 kcal на 100 г.
 updatedAt: 2026-11-10
 reviewStatus: draft
+photo:
+  src: ../../assets/produce/orehi.jpg
+  alt: 'Цели орехи в черупка и натрошени ядки орех върху бяла дървена повърхност'
+  credit:
+    author: 'Stacy'
+    authorUrl: https://unsplash.com/@stacysuxx
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-pile-of-whole-and-shelled-walnuts-OMmreP1OIfY

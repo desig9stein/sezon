@@ -18,7 +18,7 @@ describe('ProduceCard photos', () => {
   it('AC5: the plate shows a decorative, lazy photo before the name', async () => {
     const html = await render(ProduceCard, { produce: withPhoto, variant: 'plate' });
     const img = html.match(/<img[^>]*>/)?.[0] ?? '';
-    expect(img).toMatch(/alt=""/);
+    expect(img).toMatch(/\salt(?:="")?[\s>]/);
     expect(img).toMatch(/loading="lazy"/);
     expect(html.indexOf('<picture')).toBeLessThan(html.indexOf('Зеле</a>'));
     expect(html).toMatch(/<source[^>]*type="image\/avif"/);

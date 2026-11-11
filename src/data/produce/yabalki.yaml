@@ -51,3 +51,11 @@ faq:
     answer: Беритбата е от август до октомври, а складираните ябълки се предлагат до пролетта.
 updatedAt: 2026-11-10
 reviewStatus: draft
+photo:
+  src: ../../assets/produce/yabalki.jpg
+  alt: 'Три червени ябълки с жълтеникави ивици върху светъл сив фон'
+  credit:
+    author: 'Carmen Nie'
+    authorUrl: https://unsplash.com/@carmen18forever
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/three-red-apples-on-a-white-background-ZHN9VmPUtdk

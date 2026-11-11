@@ -60,8 +60,7 @@ Bulgarian `alt` text and credits its photographer.
 
 - **Formats and sizes.**
   - `<Picture formats={['avif', 'webp']}>` with a JPEG fallback.
-  - Produce page widths: 400, 800 and 1200 px; `sizes` matches the figure column (half the
-    content width from 48 rem, the full width below).
+  - Produce page widths: 400, 800 and 1200 px; `sizes` matches the figure column (two fifths of the content width from 48 rem, the full width below).
   - Plate widths: 320, 640 and 960 px; `sizes` matches the plate columns.
   - The `img` `width` and `height` attributes give the 4:3 ratio at a display size of at most
     800 px, so without CSS the photo never overflows a desktop page (spec 009).
@@ -76,7 +75,7 @@ Bulgarian `alt` text and credits its photographer.
 - **Credit.** „Снимка: Natasha Skov / Unsplash“: the author links to `authorUrl` and the source
   name to `sourceUrl`. The links have no `target`.
 - **Layout.**
-  - Produce page: from 48 rem the header has two columns, text then figure. Below 48 rem the
+  - Produce page: from 48 rem the name and the facts row span the full width (so the facts stay on one row, spec 009 AC8), and below them the summary and the current-season line sit in the left column (3 fr) beside the figure (2 fr). Below 48 rem the
     figure follows the text. Source order is the reading order (spec 009): `h1`, meta, summary,
     the current-season line, then the figure.
   - Plates: the photo sits at the top of the plate in source order, in a 4:3 frame

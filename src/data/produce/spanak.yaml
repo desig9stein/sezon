@@ -49,3 +49,11 @@ faq:
     answer: Има пролетен сезон (март–май) и есенен сезон (септември–ноември).
 updatedAt: 2026-11-10
 reviewStatus: draft
+photo:
+  src: ../../assets/produce/spanak.jpg
+  alt: 'Купчина свежи зелени листа спанак с тънки дръжки'
+  credit:
+    author: 'Shutter Sphere Collective'
+    authorUrl: https://unsplash.com/@shutterspherecollective
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/fresh-green-spinach-leaves-6AAptb2kBak

@@ -42,3 +42,11 @@ faq:
     answer: Могат, но са твърди и стипчиви. Затова най-често се пекат или се правят на сладко.
 updatedAt: 2026-11-10
 reviewStatus: draft
+photo:
+  src: ../../assets/produce/dyuli.jpg
+  alt: 'Жълти зрели дюли с мъхеста кора сред зелени листа на клон под синьо небе'
+  credit:
+    author: 'Sergej *****'
+    authorUrl: https://unsplash.com/@skstrannik
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/three-ripe-quinces-hang-from-a-tree-branch-Px-MLp8RAts

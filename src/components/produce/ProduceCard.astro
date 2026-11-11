@@ -1,4 +1,5 @@
 ---
+import { Picture } from 'astro:assets';
 import SeasonBadge from '@components/season/SeasonBadge.astro';
 import { routes } from '@components/layout/routes';
 import type { Produce } from '@contexts/catalog';
@@ -7,8 +8,9 @@ import { ui } from '@i18n/bg';
 
 /**
  * One produce as a plate (name, Latin name, kind, badge and summary on a surface panel) or as an
- * index row (name, Latin name and badge on a hairline). `levelFrom` marks the badge level as
- * applying from a later month.
+ * index row (name, Latin name and badge on a hairline). A plate shows the produce photo first, as
+ * decoration because the name says what it shows; `priority` loads it eagerly for the first plate
+ * of a page. `levelFrom` marks the badge level as applying from a later month.
  */
 interface Props {
   produce: Produce;
@@ -16,13 +18,40 @@ interface Props {
   levelFrom?: Month | undefined;
   headingLevel?: 2 | 3 | 4;
   variant?: 'plate' | 'index';
+  priority?: boolean;
 }
 
-const { produce, level, levelFrom, headingLevel = 3, variant = 'plate' } = Astro.props;
+const PLATE_DISPLAY_WIDTH = 640;
+const PLATE_WIDTHS = [320, 640, 960];
+const PLATE_SIZES = '(min-width: 60rem) 36rem, (min-width: 40rem) 50vw, calc(100vw - 2rem)';
+
+const {
+  produce,
+  level,
+  levelFrom,
+  headingLevel = 3,
+  variant = 'plate',
+  priority = false,
+} = Astro.props;
 const Heading = `h${headingLevel}` as const;
+const photo = variant === 'plate' ? produce.photo : undefined;
 ---
 
 <article class="produce-card" data-variant={variant}>
+  {photo !== undefined && (
+    <Picture
+      class="produce-card__photo"
+      src={photo.image}
+      alt=""
+      formats={['avif', 'webp']}
+      width={PLATE_DISPLAY_WIDTH}
+      height={Math.round((PLATE_DISPLAY_WIDTH * photo.image.height) / photo.image.width)}
+      widths={PLATE_WIDTHS}
+      sizes={PLATE_SIZES}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : undefined}
+    />
+  )}
   <Heading class="produce-card__name">
     <a href={routes.produce(produce)}>{produce.name}</a>
   </Heading>
@@ -46,6 +75,16 @@ const Heading = `h${headingLevel}` as const;
     min-height: 13rem;
     padding: var(--space-6) var(--space-4) var(--space-4);
     background: var(--color-surface);
+    border-radius: var(--radius-sm);
+  }
+
+  .produce-card :global(.produce-card__photo) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    margin-bottom: var(--space-2);
+    object-fit: cover;
     border-radius: var(--radius-sm);
   }
 

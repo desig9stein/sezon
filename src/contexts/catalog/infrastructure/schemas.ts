@@ -1,5 +1,6 @@
 import { z } from 'astro/zod';
 import {
+  httpsUrl,
   isoDate,
   singleLineText,
   slugReference,
@@ -11,6 +12,7 @@ import { FIRST_MONTH_NUMBER, LAST_MONTH_NUMBER, SEASON_LEVEL_VALUES } from '@con
 import { NUTRIENT_KINDS, NUTRIENT_UNITS } from '../domain/Nutrient';
 import { REVIEW_STATUSES, TRADITIONAL_SYSTEMS } from '../domain/Produce';
 import { PRODUCE_KINDS } from '../domain/ProduceKind';
+import type { ImageAsset } from '../domain/ProducePhoto';
 
 const SUMMARY_MIN_LENGTH = 70;
 const SUMMARY_MAX_LENGTH = 160;
@@ -97,6 +99,32 @@ export const nutrientSchema = z.strictObject({
   note: text().optional(),
 });
 
-export type ProduceRecord = z.infer<typeof produceSchema>;
+/** Builds the schema of a local image: Astro's `image()` helper in the build, a stub in tests. */
+export type ImageSchemaFactory = () => z.ZodType<ImageAsset>;
+
+/**
+ * Schema of a produce photo: a local image, its Bulgarian alternative text and its credit.
+ * @param image - Factory of the image schema, e.g. Astro's `image()` helper.
+ */
+export const photoSchema = (image: ImageSchemaFactory) =>
+  z.strictObject({
+    src: image(),
+    alt: singleLineText(),
+    credit: z.strictObject({
+      author: text(),
+      authorUrl: httpsUrl(),
+      sourceName: text(),
+      sourceUrl: httpsUrl(),
+    }),
+  });
+
+/**
+ * Schema of a `produce` content entry including its optional photo.
+ * @param context - Provides the image schema factory (Astro's `SchemaContext`).
+ */
+export const produceSchemaWith = ({ image }: { image: ImageSchemaFactory }) =>
+  produceSchema.extend({ photo: photoSchema(image).optional() });
+
+export type ProduceRecord = z.infer<ReturnType<typeof produceSchemaWith>>;
 export type GroupRecord = z.infer<typeof groupSchema>;
 export type NutrientRecord = z.infer<typeof nutrientSchema>;

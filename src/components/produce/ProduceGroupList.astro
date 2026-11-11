@@ -6,7 +6,7 @@ import type { Month, SeasonLevel } from '@contexts/seasonality';
 /**
  * One labelled group of produce: `plate` shows surface panels with the first one larger,
  * `index` shows quiet rows on hairlines. `levelOf` gives each card's badge level and
- * `levelFrom` marks it as applying from a later month.
+ * `levelFrom` marks it as applying from a later month. The first plate's photo loads eagerly.
  */
 interface Props {
   id: string;
@@ -23,13 +23,14 @@ const { id, heading, items, variant, levelOf, levelFrom } = Astro.props;
 <section class="group" aria-labelledby={id} data-variant={variant}>
   <h2 id={id}>{heading}</h2>
   <ul class="group__list" role="list">
-    {items.map((produce) => (
+    {items.map((produce, index) => (
       <li>
         <ProduceCard
           produce={produce}
           level={levelOf(produce)}
           levelFrom={levelFrom}
           variant={variant}
+          priority={index === 0}
         />
       </li>
     ))}

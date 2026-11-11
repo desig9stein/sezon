@@ -47,3 +47,11 @@ faq:
     answer: Цяла и неповредена тиква издържа от два до шест месеца на хладно и сухо място.
 updatedAt: 2026-11-10
 reviewStatus: draft
+photo:
+  src: ../../assets/produce/tikva.jpg
+  alt: 'Кръгла оранжева тиква с изпъкнали ребра и дебела дръжка върху бял фон'
+  credit:
+    author: 'personalgraphic.com'
+    authorUrl: https://unsplash.com/@personal_graphic
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-small-orange-pumpkin-on-a-white-background-CC6X_13kuFQ

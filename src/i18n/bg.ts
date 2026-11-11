@@ -155,6 +155,7 @@ export const ui = {
     outOfSeason: 'Извън сезона',
     outOfSeasonLower: 'извън сезона',
     outOfSeasonIcon: '○',
+    photoCredit: 'Снимка:',
     headings: {
       season: 'Сезон по месеци',
       varieties: 'Сортове',
