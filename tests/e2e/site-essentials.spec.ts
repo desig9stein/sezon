@@ -32,7 +32,9 @@ test.describe('site essentials', () => {
     await expect(page.locator('main a[href="/"]')).toHaveCount(1);
     const notFoundMonth = await page.locator('main a[href^="/sezon/"]').getAttribute('href');
     await page.goto('/');
-    const currentMonth = await page.locator('main a[href^="/sezon/"]').first().getAttribute('href');
+    const currentMonth = await page
+      .locator('main a[href^="/sezon/"][aria-current="date"]')
+      .getAttribute('href');
     expect(notFoundMonth).toBe(currentMonth);
   });
 
