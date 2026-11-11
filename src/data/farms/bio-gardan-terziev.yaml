@@ -1,13 +1,14 @@
 name: 'Био Гардън Терзиев'
 region: varna
 produce: [kopar, magdanoz, morkovi, tsveklo, zele]
-description: 'Семейно стопанство във Варненско, което от 2014 г. преминава към биологично производство и отглежда зеленчуци, дини и пъпеши на 66 декара. Продава на щанд на пазар Чаталджа, с доставка във Варна и с куриер, както и на място във фермата. По данни на фермата тя има сертификат за биологично производство от 2018 г.'
+description: 'Стопанство във Варненско, което от 2014 г. преминава към биологично производство и отглежда зеленчуци, дини и пъпеши на 66 декара. Продава на щанд на пазар Чаталджа, с доставка във Варна и с куриер, както и на място във фермата. По данни на фермата тя има сертификат за биологично производство от 2018 г.'
 contact:
   website: https://www.biogardenterziev.com/
   email: info@biogardenterziev.com
   phone: '+359887880008'
 address: 'щанд на пазар Чаталджа, Варна'
 sources:
+  - https://www.biogardenterziev.com/gallery/big/img_20180717034352_286.jpg
   - https://www.biogardenterziev.com/
   - https://www.biogardenterziev.com/contacts
   - https://www.biogardenterziev.com/sertifikat-za-biologichno-proizvodstvo

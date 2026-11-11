@@ -246,7 +246,9 @@ tests/
   or EFSA, with URL).
 - Traditional uses (Ayurveda, folk) are worded as **„традиционно се използва при …“**,
   never as a medical or health claim (EU Regulation 1924/2006). Each has a `source`.
-- Placeholder data (e.g. example farms) must have `isPlaceholder: true` and is labelled in the UI.
+- No invented data anywhere, including example farms. Every farm is real and lists the pages its facts
+  come from in `sources`; what a farm says about itself unverified is worded „По данни на фермата …“
+  (see `docs/CONTENT-GUIDE.md`).
 - How to add an entry: see `docs/CONTENT-GUIDE.md`.
 
 ## 11. Definition of Done

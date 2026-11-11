@@ -48,7 +48,6 @@ describe('FarmList organic labels (QA 019)', () => {
       farmRecord({
         name: 'Спонсор',
         sponsored: true,
-
         organic: certificateRecord(),
       }),
     );

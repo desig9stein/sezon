@@ -17,7 +17,7 @@ describe('seed organic data', () => {
     }
   });
 
-  it('AC6: no seed farm claims an organic certificate without verification', () => {
+  it('AC6: no seed farm has an organic block until a certificate is verified (#16)', () => {
     const farms = readSeedCollection('farms').map(({ data }) => farmSchema.parse(data));
     expect(farms.filter((farm) => farm.organic !== undefined)).toEqual([]);
   });
