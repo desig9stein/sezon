@@ -6,13 +6,15 @@ import GrowingGuide from '@components/produce/GrowingGuide.astro';
 import ProducePhoto from '@components/produce/ProducePhoto.astro';
 import NutritionTable from '@components/produce/NutritionTable.astro';
 import SeasonCalendarList from '@components/produce/SeasonCalendarList.astro';
+import ProduceNow from '@components/produce/ProduceNow.astro';
+import { produceToc } from '@components/produce/produceToc';
 import SourceList from '@components/produce/SourceList.astro';
 import TraditionalUses from '@components/produce/TraditionalUses.astro';
 import { routes } from '@components/layout/routes';
 import { BUILD_DATE, buildMonth } from '@composition/clock';
 import { produceDetailsQuery, produceRepository } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
-import { monthNameLower, produceTitle, ui } from '@i18n/bg';
+import { produceTitle, ui } from '@i18n/bg';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { articleJsonLd, faqPageJsonLd } from '@shared/seo';
 import { searchHeadingAttributes } from '@components/search/searchAttributes';
@@ -27,7 +29,7 @@ const { produce, group } = details;
 const path = routes.produce(produce);
 const siteUrl = requireSiteUrl(Astro.site);
 const labels = ui.produce;
-const currentLevel = produce.levelIn(buildMonth);
+const toc = produceToc(produce);
 const SHARE_IMAGE_WIDTH = 1200;
 const shareImage =
   produce.photo === undefined
@@ -76,89 +78,100 @@ const jsonLd = [
         </li>
       </ul>
       <p class="produce__summary">{produce.summary}</p>
-      <p class="produce__now">
-        {labels.now(
-          monthNameLower(buildMonth),
-          currentLevel === undefined
-            ? labels.outOfSeasonLower
-            : ui.seasonLevels[currentLevel.value],
-        )}
-      </p>
       {produce.photo !== undefined && (
         <ProducePhoto photo={produce.photo} latinName={produce.latinName} />
       )}
     </header>
 
-    <section class="produce__wide" aria-labelledby="season">
-      <h2 id="season">{labels.headings.season}</h2>
-      <SeasonCalendarList produce={produce} currentMonth={buildMonth} />
-    </section>
-
-    {produce.varieties.length > 0 && (
-      <section aria-labelledby="varieties">
-        <h2 id="varieties">{labels.headings.varieties}</h2>
-        <ul>
-          {produce.varieties.map((variety) => (
-            <li>
-              {variety.name}
-              {variety.note !== undefined && ` – ${variety.note}`}
-            </li>
-          ))}
-        </ul>
-      </section>
-    )}
-
-    <section aria-labelledby="nutrition">
-      <h2 id="nutrition">{labels.headings.nutrition}</h2>
-      <NutritionTable nutrition={produce.nutrition} micronutrients={details.micronutrients} />
-    </section>
-
-    <section aria-labelledby="preparation">
-      <h2 id="preparation">{labels.headings.preparation}</h2>
-      <dl class="preparation">
-        {produce.preparation.map((tip) => (
-          <>
-            <dt>{tip.method}</dt>
-            <dd>{tip.tip}</dd>
-          </>
-        ))}
-      </dl>
-    </section>
-
-    {produce.traditionalUses.length > 0 && (
-      <section aria-labelledby="traditional">
-        <h2 id="traditional">{labels.headings.traditional}</h2>
-        <TraditionalUses uses={produce.traditionalUses} />
-      </section>
-    )}
-
-    <section aria-labelledby="regions">
-      <h2 id="regions">{labels.headings.regions}</h2>
-      <ul>
-        {details.growingRegions.map(({ region, note }) => (
+    <nav class="produce__toc" aria-label={labels.toc}>
+      <ul role="list">
+        {toc.map((entry) => (
           <li>
-            <strong>{region.name}</strong> – {note}
+            <a href={`#${entry.id}`}>{entry.label}</a>
           </li>
         ))}
       </ul>
+    </nav>
+
+    <section id="stall" class="produce__group produce__wide" aria-labelledby="stall-heading">
+      <h2 id="stall-heading">{labels.headings.stall}</h2>
+      <ProduceNow produce={produce} month={buildMonth} />
+      <section class="produce__wide" aria-labelledby="season">
+        <h3 id="season">{labels.headings.season}</h3>
+        <SeasonCalendarList produce={produce} currentMonth={buildMonth} />
+      </section>
+      <section aria-labelledby="choose">
+        <h3 id="choose">{labels.headings.choose}</h3>
+        <p>{produce.howToChoose}</p>
+      </section>
+      <section aria-labelledby="storage">
+        <h3 id="storage">{labels.headings.storage}</h3>
+        <p>{produce.storage}</p>
+      </section>
+      {produce.varieties.length > 0 && (
+        <section aria-labelledby="varieties">
+          <h3 id="varieties">{labels.headings.varieties}</h3>
+          <ul>
+            {produce.varieties.map((variety) => (
+              <li>
+                {variety.name}
+                {variety.note !== undefined && ` – ${variety.note}`}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+      <section aria-labelledby="regions">
+        <h3 id="regions">{labels.headings.regions}</h3>
+        <ul>
+          {details.growingRegions.map(({ region, note }) => (
+            <li>
+              <strong>{region.name}</strong> – {note}
+            </li>
+          ))}
+        </ul>
+        <p>
+          <a href="#farms">{labels.farmsLink}</a>
+        </p>
+      </section>
     </section>
+
+    <section id="eat" class="produce__group produce__wide" aria-labelledby="eat-heading">
+      <h2 id="eat-heading">{labels.headings.eat}</h2>
+      <section aria-labelledby="nutrition">
+        <h3 id="nutrition">{labels.headings.nutrition}</h3>
+        <NutritionTable nutrition={produce.nutrition} micronutrients={details.micronutrients} />
+      </section>
+      <section aria-labelledby="preparation">
+        <h3 id="preparation">{labels.headings.preparation}</h3>
+        <dl class="preparation">
+          {produce.preparation.map((tip) => (
+            <>
+              <dt>{tip.method}</dt>
+              <dd>{tip.tip}</dd>
+            </>
+          ))}
+        </dl>
+      </section>
+      {produce.traditionalUses.length > 0 && (
+        <section aria-labelledby="traditional">
+          <h3 id="traditional">{labels.headings.traditional}</h3>
+          <TraditionalUses uses={produce.traditionalUses} />
+        </section>
+      )}
+    </section>
+
+    {produce.growing !== undefined && (
+      <section id="grow" class="produce__group produce__wide" aria-labelledby="grow-heading">
+        <h2 id="grow-heading">{labels.headings.grow}</h2>
+        <GrowingGuide growing={produce.growing} headingLevel={3} />
+      </section>
+    )}
 
     <section class="produce__wide" aria-labelledby="farms">
       <h2 id="farms">{labels.headings.farms}</h2>
       <FarmList farms={details.farms} organic={produce.organic} />
     </section>
-
-    <section aria-labelledby="choose">
-      <h2 id="choose">{labels.headings.choose}</h2>
-      <p>{produce.howToChoose}</p>
-    </section>
-
-    <section aria-labelledby="storage">
-      <h2 id="storage">{labels.headings.storage}</h2>
-      <p>{produce.storage}</p>
-    </section>
-
-    {produce.growing !== undefined && <GrowingGuide growing={produce.growing} />}
 
     {produce.faq.length > 0 && (
       <section aria-labelledby="faq">
@@ -198,6 +211,42 @@ const jsonLd = [
 
   .produce .produce__wide {
     max-width: none;
+  }
+
+  @media print {
+    .produce__toc {
+      display: none;
+    }
+  }
+
+  .produce__toc ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .produce__toc a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    padding-inline: var(--space-3);
+    border: 1px solid var(--color-text);
+    color: var(--color-text);
+    background: var(--color-surface);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .produce__toc a:hover {
+    text-decoration: underline;
+  }
+
+  .produce .produce__group {
+    gap: var(--space-6);
+    padding-top: var(--space-2);
+    border-top: 2px solid var(--color-text);
   }
 
   .produce__header {
@@ -246,10 +295,6 @@ const jsonLd = [
   .produce__summary {
     max-width: var(--reading-width);
     font-size: var(--font-size-lg);
-  }
-
-  .produce__now {
-    font-weight: 600;
   }
 
   .produce section ul {

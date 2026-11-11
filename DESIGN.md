@@ -185,7 +185,7 @@ The north star is the owner's chosen direction recorded in ADR-0006: stencilled 
 
 The world is calm by decision. Capitals appear only in the logo, headings and stamps, the surfaces are flat, separation comes from hairline rules, and there is no motion beyond the global reduced-motion guard. Density is moderate on reading pages (content column capped at 72rem, prose at 42rem, sections 2–4rem apart) and deliberately compact in the in-season list, which fits about ten rows on the first screen of a phone.
 
-This file describes the system as built after spec 024 (#93): the tokens and typography (spec 022), the shell header and footer (spec 023, #92), and the season stamp, year strip, legend and in-season list (spec 024). The produce page (#94) and the data visuals (#95) still carry their earlier layouts in the new tokens; anything marked **planned** is decided in ADR-0006 but not yet in the code. Tokens are generated from `src/design/tokens.ts` and inlined as CSS custom properties (`--color-*`, `--space-*`, `--font-size-*`, `--radius-*`, and others); light values sit on `:root` and dark values override them under `prefers-color-scheme: dark`. Print uses its own `--print-*` set from `src/styles/base.css` (black ink on white paper).
+This file describes the system as built after spec 024 (#93): the tokens and typography (spec 022), the shell header and footer (spec 023, #92), and the season stamp, year strip, legend and in-season list (spec 024). The produce page is grouped (spec 025, #94); the data visuals (#95) still carry their earlier layouts in the new tokens; anything marked **planned** is decided in ADR-0006 but not yet in the code. Tokens are generated from `src/design/tokens.ts` and inlined as CSS custom properties (`--color-*`, `--space-*`, `--font-size-*`, `--radius-*`, and others); light values sit on `:root` and dark values override them under `prefers-color-scheme: dark`. Print uses its own `--print-*` set from `src/styles/base.css` (black ink on white paper).
 
 **Key Characteristics:**
 
@@ -326,7 +326,7 @@ The level forms are one language across stamp and strip: **solid** for „Раз
 
 ## Components
 
-The season components and the shell are in their ADR-0006 form. The produce page, calendars, plates, farm cards and search keep their earlier layouts in the new tokens until #94 and #95.
+The season components and the shell are in their ADR-0006 form. The produce page is grouped (spec 025). Calendars, plates, farm cards and search keep their earlier layouts in the new tokens until #95.
 
 ### Season stamp (signature)
 
@@ -400,9 +400,12 @@ Links are ultramarine and underlined (offset 0.2em); hover thickens the underlin
 
 The traditional-uses disclaimer: a `surface` panel with a 4px ultramarine inline-start bar, padding 0.75rem 1rem.
 
-### Produce-page stamp (planned in #94, not yet built)
+### Produce page (spec 025)
 
-One large stamp at the top of the produce page, the only tilted stamp in the system.
+- **Table of contents:** a labelled `nav` („На тази страница“) under the header, a wrapping row of chip links: 44px tall, `surface` fill, 1px `text` border, `text` colour, semibold, no underline (underline on hover). It is hidden in print.
+- **Groups:** „На сергията“, „Яж“ and „Отгледай“ are `h2` groups with a 2px `text` top rule, full container width; their `h3` subsections keep the 42rem reading width.
+- **Level now:** one large stamp (`lg`, tilted −3°, the only tilted stamp in the system) followed by „през <месец>“; out of season it is plain text „Извън сезона през <месец>“ with no stamp.
+- **Farms link:** „На сергията“ ends with an in-page link to the farms section.
 
 ## Do's and Don'ts
 

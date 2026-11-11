@@ -52,4 +52,9 @@ describe('GrowingGuide', () => {
     expect(html).not.toContain('<dl');
     expect(html).toContain('Сей при топла почва.');
   });
+
+  it('QA 025: renders its heading as h3 when nested in a group', async () => {
+    const html = await render(GrowingGuide, { growing: guideOf(), headingLevel: 3 });
+    expect(html).toMatch(/<h3[^>]*>\s*Отглеждане в градината\s*<\/h3>/);
+  });
 });
