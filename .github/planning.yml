@@ -70,7 +70,7 @@ issues:
     start: '2026-12-07'
     target: '2026-12-08'
   8:
-    status: Backlog
+    status: In development
     priority: Medium
     impact: Medium
     estimate: 2
