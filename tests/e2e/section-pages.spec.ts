@@ -80,7 +80,7 @@ test.describe('section pages', () => {
     expect(overflow).toBeLessThanOrEqual(0);
     await expect(
       page.getByRole('navigation', { name: 'Основна навигация' }).locator('a'),
-    ).toHaveCount(8);
+    ).toHaveCount(4);
     await expectNoAxeViolations(page);
   });
 });
