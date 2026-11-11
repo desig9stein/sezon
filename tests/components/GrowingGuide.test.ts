@@ -37,6 +37,6 @@ describe('GrowingGuide', () => {
       }),
     });
     expect(html).toContain('Засажда се наесен или рано напролет.');
-    expect(html).toMatch(/<a href="\/sezon\/noemvri"[^>]*>ноември<\/a>,\s*<a href="\/sezon\/mart"/);
+    expect(html).toMatch(/<a href="\/sezon\/mart"[^>]*>март<\/a>,\s*<a href="\/sezon\/noemvri"/);
   });
 });

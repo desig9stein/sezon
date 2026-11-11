@@ -1,0 +1,91 @@
+---
+import { routes } from '@components/layout/routes';
+import { GROWING_ACTIVITIES, type GrowingGuide } from '@contexts/catalog';
+import type { Month } from '@contexts/seasonality';
+import { monthNameLower, monthRanges, ui } from '@i18n/bg';
+
+/**
+ * Home-garden guide of a produce: the months to sow, transplant and plant as linked month
+ * ranges (only activities with months), the planting note and the tips.
+ */
+interface Props {
+  growing: GrowingGuide;
+}
+
+const { growing } = Astro.props;
+const labels = ui.produce;
+const RANGE_SEPARATOR = ', ';
+const RANGE_DASH = ' – ';
+
+/** A month link or the text between links, in reading order. */
+type Token = { readonly month: Month } | { readonly text: string };
+
+/** Flattens month ranges into links and separators: „март – април, ноември“. */
+const tokensOf = (ranges: ReadonlyArray<ReadonlyArray<Month>>): ReadonlyArray<Token> =>
+  ranges.flatMap((range, index) => [
+    ...(index > 0 ? [{ text: RANGE_SEPARATOR }] : []),
+    ...range.flatMap((month, end) => [...(end > 0 ? [{ text: RANGE_DASH }] : []), { month }]),
+  ]);
+
+const activities = GROWING_ACTIVITIES.map((activity) => ({
+  label: labels.growingActivities[activity],
+  tokens: tokensOf(monthRanges(growing.monthsOf(activity))),
+})).filter((activity) => activity.tokens.length > 0);
+---
+
+<section class="growing" aria-labelledby="growing">
+  <h2 id="growing">{labels.headings.growing}</h2>
+  {activities.length > 0 && (
+    <dl class="growing__months">
+      {activities.map((activity) => (
+        <>
+          <dt>{activity.label}</dt>
+          <dd>
+            {activity.tokens.map((token) =>
+              'month' in token ? (
+                <a href={routes.month(token.month)}>{monthNameLower(token.month)}</a>
+              ) : (
+                token.text
+              ),
+            )}
+          </dd>
+        </>
+      ))}
+    </dl>
+  )}
+  {growing.plantingNote !== undefined && <p>{growing.plantingNote}</p>}
+  <ul>
+    {growing.tips.map((tip) => (
+      <li>{tip}</li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .growing {
+    display: grid;
+    gap: var(--space-3);
+    max-width: var(--reading-width);
+  }
+
+  .growing ul {
+    display: grid;
+    gap: var(--space-1);
+    padding-inline-start: var(--space-6);
+  }
+
+  .growing__months {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--space-1) var(--space-4);
+    margin: 0;
+  }
+
+  .growing__months dt {
+    font-weight: 700;
+  }
+
+  .growing__months dd {
+    margin: 0;
+  }
+</style>

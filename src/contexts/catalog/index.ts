@@ -23,6 +23,8 @@ export type {
   TraditionalUse,
   Variety,
 } from './domain/Produce';
+export { GROWING_ACTIVITIES, GrowingGuide } from './domain/GrowingGuide';
+export type { GrowingActivity, GrowingGuideInput } from './domain/GrowingGuide';
 export { IMAGE_FORMATS } from './domain/ProducePhoto';
 export type { ImageAsset, ImageFormat, PhotoCredit, ProducePhoto } from './domain/ProducePhoto';
 export { ProduceGroup } from './domain/ProduceGroup';
