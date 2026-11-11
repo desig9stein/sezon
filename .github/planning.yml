@@ -279,10 +279,3 @@ issues:
     estimate: 7
     start: '2026-11-20'
     target: '2026-12-18'
-  83:
-    status: Backlog
-    priority: High
-    impact: Medium
-    estimate: 0.5
-    start: '2026-11-11'
-    target: '2026-11-12'
