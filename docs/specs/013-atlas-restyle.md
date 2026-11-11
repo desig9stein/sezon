@@ -47,7 +47,8 @@ Lighthouse 100 stay as they are.
     filled with the accent colour. The ribbon has 12 columns on wide screens and 6 × 2 on
     narrow ones.
 - **`SeasonOverview` and `SectionIndex`:**
-  - **Peak:** plates of different sizes. The first one is larger. Plates use the surface
+  - **Peak:** plates of different sizes. The first one is larger (spec 015 makes all plates
+    equal). Plates use the surface
     colour, have a small radius, and no border or shadow.
   - **Other groups (available, coming soon, storage, out of season):** a quiet index. Each row
     has the name, the season badge and a hairline rule. There is no summary.

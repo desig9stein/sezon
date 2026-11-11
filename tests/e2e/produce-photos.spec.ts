@@ -51,4 +51,17 @@ test.describe('produce photos', () => {
     expect((await avif).status()).toBe(200);
     expect(await page.locator('main picture img').count()).toBeGreaterThan(0);
   });
+
+  test('QA 015: all peak plates on the home page have the same size', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('/');
+    const sizes = await page.locator('.group[data-variant="plate"] li').evaluateAll((items) =>
+      items.map((item) => {
+        const box = item.getBoundingClientRect();
+        return `${Math.round(box.width)}`;
+      }),
+    );
+    expect(sizes.length).toBeGreaterThan(1);
+    expect(new Set(sizes).size).toBe(1);
+  });
 });

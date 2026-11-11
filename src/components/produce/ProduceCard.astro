@@ -24,11 +24,8 @@ interface Props {
 
 const PLATE_DISPLAY_WIDTH = 640;
 const PLATE_WIDTHS = [320, 480, 640, 720, 960];
-/** `sizes` of the first plate, which spans two grid columns from 40 rem. */
-const LEAD_PLATE_SIZES =
-  '(min-width: 60rem) 34rem, (min-width: 40rem) calc(100vw - 6rem), calc(100vw - 4rem)';
-/** `sizes` of the other plates, one 17 rem grid column from 40 rem. */
-const PLATE_SIZES = '(min-width: 40rem) 15rem, calc(100vw - 4rem)';
+const PLATE_SIZES =
+  '(min-width: 66rem) 22rem, (min-width: 44rem) calc(50vw - 4rem), calc(100vw - 4rem)';
 
 const {
   produce,
@@ -52,7 +49,7 @@ const photo = variant === 'plate' ? produce.photo : undefined;
       width={PLATE_DISPLAY_WIDTH}
       height={displayHeight(photo.image, PLATE_DISPLAY_WIDTH)}
       widths={PLATE_WIDTHS}
-      sizes={priority ? LEAD_PLATE_SIZES : PLATE_SIZES}
+      sizes={PLATE_SIZES}
       quality={40}
       loading={priority ? 'eager' : 'lazy'}
       fetchpriority={priority ? 'high' : undefined}
@@ -78,6 +75,7 @@ const photo = variant === 'plate' ? produce.photo : undefined;
   }
 
   .produce-card[data-variant='plate'] {
+    align-content: start;
     min-height: 13rem;
     padding: var(--space-6) var(--space-4) var(--space-4);
     background: var(--color-surface);
