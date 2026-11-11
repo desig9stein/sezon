@@ -1,0 +1,54 @@
+---
+import type { SeasonLevel } from '@contexts/seasonality';
+
+/**
+ * Decorative mark of a season level, drawn as an SVG so every level has the same size on screen
+ * and in print: a star for peak, a filled circle for available, a half-filled circle for storage
+ * and an empty circle when the produce is out of season (`level` undefined).
+ */
+interface Props {
+  level?: SeasonLevel | undefined;
+}
+
+const MARK_SIZE = 14;
+const OUT_OF_SEASON = 'none';
+const { level } = Astro.props;
+const mark = level?.value ?? OUT_OF_SEASON;
+---
+
+<svg
+  class="level-mark"
+  data-mark={mark}
+  width={MARK_SIZE}
+  height={MARK_SIZE}
+  viewBox="0 0 16 16"
+  aria-hidden="true"
+  focusable="false"
+>
+  {mark === 'peak' && (
+    <polygon
+      fill="currentColor"
+      points="8,0.8 10.2,5.7 15.5,6.2 11.5,9.7 12.7,14.9 8,12.2 3.3,14.9 4.5,9.7 0.5,6.2 5.8,5.7"
+    />
+  )}
+  {mark === 'available' && <circle cx="8" cy="8" r="6.5" fill="currentColor" />}
+  {mark === 'storage' && (
+    <>
+      <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5" />
+      <path d="M8 2a6 6 0 0 0 0 12z" fill="currentColor" />
+    </>
+  )}
+  {mark === OUT_OF_SEASON && (
+    <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5" />
+  )}
+</svg>
+
+<style>
+  .level-mark {
+    display: inline-block;
+    flex: none;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+  }
+</style>

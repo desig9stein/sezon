@@ -21,11 +21,7 @@ const labels = ui.calendar;
 >
   <h1>{labels.heading}</h1>
   <p class="calendar-intro">{labels.intro}</p>
-  {calendar.groups.length === 0 ? (
-    <p>{labels.empty}</p>
-  ) : (
-    <SeasonCalendarTable calendar={calendar} currentMonth={buildMonth} />
-  )}
+  <SeasonCalendarTable calendar={calendar} currentMonth={buildMonth} />
 </BaseLayout>
 
 <style>
@@ -46,11 +42,11 @@ const labels = ui.calendar;
 
     h1 {
       margin-top: 0;
-      font-size: 16pt;
+      font-size: var(--print-title-font-size);
     }
 
     .calendar-intro {
-      font-size: 10pt;
+      font-size: var(--print-font-size);
     }
   }
 </style>

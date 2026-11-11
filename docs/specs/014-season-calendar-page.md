@@ -7,8 +7,8 @@
 ## 1. Goal
 
 A year-at-a-glance page, `/kalendar`. It is a table of every produce against the 12 months, with
-the season level in each cell. It is grouped by kind, readable on a phone, and prints on one A4
-page in black and white.
+the season level in each cell. It is grouped by kind, readable on a phone, and prints on A4 in
+black and white.
 
 ## 2. User stories
 
@@ -51,12 +51,15 @@ constructor.
 ## 5. Behaviour and edge cases
 
 - **Cells:**
-  - The level glyph (★ ● ◐ ○) is decorative (`aria-hidden`).
+  - The level mark (star, filled circle, half-filled circle, empty circle) is a decorative
+    inline SVG (`aria-hidden`, `width` and `height` of 14 px so it never renders oversized
+    without CSS). The shared `LevelMark` component draws it, so every mark has the same size on
+    screen and in print; the text glyphs it replaces rendered „◐“ at a third of the others' size.
   - The level text („Разгар на сезона“, „В сезон“, „От хранилище“, „Извън сезона“) is in
-    `.visually-hidden` on screen. The glyph shapes and the legend carry the meaning visually,
+    `.visually-hidden` on screen. The mark shapes and the legend carry the meaning visually,
     so it is never colour alone.
-  - Without CSS, each cell reads as glyph plus text.
-- **Shading:** cells are tinted by level on screen. In print, glyphs only.
+  - Without CSS, each cell reads as mark plus text.
+- **Shading:** cells are tinted by level on screen. In print, marks only, in black.
 - **Current month:** its column header is marked `aria-current="date"` and shown with the accent
   fill.
 - **Group headers:** each kind's section starts with a header row. Its `<th scope="rowgroup"
@@ -66,13 +69,22 @@ colspan="13">` holds the section name (e.g. „Плодове“), and the name 
 - **Print:**
   - `@page { size: A4 landscape; margin: 10mm }`;
   - the site chrome is left out;
-  - the table uses a smaller font, so the current catalogue fits on one sheet.
+  - the table uses a smaller font and compact group headers, so the current catalogue fits on
+    one sheet; a longer catalogue continues on further pages, rows never split, and the
+    column headers repeat;
+  - text, links and legend print black on white in light and dark mode (print custom
+    properties in `base.css`);
+  - the current month is underlined in print.
+- **Narrow screens:** the produce column is sticky, so the produce name stays in view while the
+  months scroll.
 - **Texts:**
   - `h1`: „Сезонен календар“.
-  - Intro: one sentence.
+  - Intro: two sentences; it says the calendar is prepared for A4 landscape, not that it fits
+    one sheet.
   - Title: „Сезонен календар на плодовете и зеленчуците“.
   - Description: 70–160 characters.
-- **Empty catalogue:** the page shows „Няма данни за календара.“ instead of the table.
+- **Empty catalogue:** `SeasonCalendarTable` shows „Няма данни за календара.“ instead of the
+  legend and table.
 
 ## 6. Accessibility requirements
 
@@ -101,8 +113,8 @@ colspan="13">` holds the section name (e.g. „Плодове“), and the name 
    - 12 month column headers, with the current month marked `aria-current="date"`;
    - one `tbody` per kind, with a group header that links to the section;
    - row headers that link to each produce;
-   - in each cell, a decorative glyph and the level text.
-4. **AC4:** The legend lists the four levels with their glyphs.
+   - in each cell, a decorative mark and the level text.
+4. **AC4:** The legend lists the four levels, each with its mark.
 5. **AC5:** The site header, footer and home page link to `/kalendar`.
 6. **AC6:** The built `/kalendar` has:
    - one `h1`;
@@ -110,22 +122,23 @@ colspan="13">` holds the section name (e.g. „Плодове“), and the name 
    - zero axe violations in light and dark mode and at 320 px;
    - no horizontal page scroll at 320 px;
    - it passes the spec 009 checks (e2e).
-7. **AC7:** In print media at A4 landscape width, the header and footer are not displayed, and the table is no wider than the page (e2e).
+7. **AC7:** In print media at A4 landscape, the header, footer and breadcrumbs are not displayed, and the current catalogue prints on one page (e2e, PDF page count).
 
 ## 9. Test plan
 
-| AC      | Type      | Test file                                                                   |
-| ------- | --------- | --------------------------------------------------------------------------- |
-| AC1     | unit      | `tests/unit/contexts/catalog/application/SeasonCalendarService.test.ts`     |
-| AC2     | unit      | `tests/unit/i18n/bg-014.test.ts`, `tests/unit/components/routes.test.ts`    |
-| AC3–AC4 | component | `tests/components/SeasonCalendarTable.test.ts`                              |
-| AC5     | component | `tests/components/SiteHeader-014.test.ts`                                   |
-| AC6–AC7 | e2e       | `tests/e2e/calendar-page.spec.ts`, `tests/e2e/readable-without-css.spec.ts` |
+| AC      | Type      | Test file                                                                           |
+| ------- | --------- | ----------------------------------------------------------------------------------- |
+| AC1     | unit      | `tests/unit/contexts/catalog/application/SeasonCalendarService.test.ts`             |
+| AC2     | unit      | `tests/unit/i18n/bg-014.test.ts`, `tests/unit/components/qa004-regressions.test.ts` |
+| AC3–AC4 | component | `tests/components/SeasonCalendarTable.test.ts`                                      |
+| AC5     | component | `tests/components/SiteHeader-014.test.ts`, `tests/e2e/calendar-page.spec.ts`        |
+| AC6–AC7 | e2e       | `tests/e2e/calendar-page.spec.ts`, `tests/e2e/readable-without-css.spec.ts`         |
 
 ## 10. Third-party documentation consulted
 
-| Package / source | Version | Source                                                                     | Topic                           |
-| ---------------- | ------- | -------------------------------------------------------------------------- | ------------------------------- |
-| MDN              | current | `@page` `size`, `@media print`, `<th scope="rowgroup">`                    | Print layout, table headers     |
-| @playwright/test | 1.63.0  | Context7 `/microsoft/playwright` (`page.emulateMedia({ media: 'print' })`) | Print-media test                |
-| WCAG 2.2         | 2023    | Understanding 1.3.1, 1.4.1, 1.4.10 (tables exception)                      | Table semantics, colour, reflow |
+| Package / source | Version | Source                                                                                                        | Topic                            |
+| ---------------- | ------- | ------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| MDN              | current | `@page` `size`, `@media print`, `<th scope="rowgroup">`                                                       | Print layout, table headers      |
+| @playwright/test | 1.63.0  | Context7 `/microsoft/playwright` (`page.emulateMedia({ media: 'print' })`, `page.pdf({ preferCSSPageSize })`) | Print-media test, page count     |
+| MDN              | current | `position: sticky`, `break-inside`, SVG `aria-hidden` / `focusable`                                           | Sticky column, print rows, marks |
+| WCAG 2.2         | 2023    | Understanding 1.3.1, 1.4.1, 1.4.10 (tables exception)                                                         | Table semantics, colour, reflow  |

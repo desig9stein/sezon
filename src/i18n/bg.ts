@@ -154,7 +154,6 @@ export const ui = {
     now: (month: string, level: string) => `През ${month}: ${level}`,
     outOfSeason: 'Извън сезона',
     outOfSeasonLower: 'извън сезона',
-    outOfSeasonIcon: '○',
     headings: {
       season: 'Сезон по месеци',
       varieties: 'Сортове',
@@ -227,11 +226,6 @@ export const ui = {
     available: 'В сезон',
     storage: 'От хранилище',
   } satisfies Record<SeasonLevelValue, string>,
-  seasonLevelIcons: {
-    peak: '★',
-    available: '●',
-    storage: '◐',
-  } satisfies Record<SeasonLevelValue, string>,
   nutrients: {
     title: (name: string) =>
       fittingTitle([`${name} в сезонните храни от България`, `${name} в сезонните храни`, name]),
@@ -276,7 +270,7 @@ export const ui = {
     description:
       'Целогодишен календар на сезонните плодове, зеленчуци, подправки и ядки в България: кога са в разгара си, кога в сезон и кога от хранилище.',
     intro:
-      'Кога е сезонът на всеки продукт през годината. Календарът се разпечатва на един лист A4.',
+      'Кога е сезонът на всеки продукт през годината. Календарът е подготвен за разпечатване на A4 в хоризонтален формат.',
     caption: 'Сезон на всеки продукт по месеци',
     produceColumn: 'Продукт',
     legendHeading: 'Легенда',

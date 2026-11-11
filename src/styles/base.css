@@ -123,15 +123,25 @@ main:focus {
 }
 
 @media print {
+  :root {
+    --print-ink: #000;
+    --print-paper: #fff;
+    --print-font-size: 9pt;
+    --print-heading-font-size: 10pt;
+    --print-title-font-size: 16pt;
+    --print-cell-padding: 1pt 3pt;
+    --print-gap: 4pt;
+  }
+
   body > header,
   body > footer,
   .skip-link,
-  nav[aria-label='Път до страницата'] {
+  .breadcrumbs {
     display: none;
   }
 
   body {
-    color: #000;
-    background: #fff;
+    color: var(--print-ink);
+    background: var(--print-paper);
   }
 }

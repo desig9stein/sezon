@@ -4,11 +4,13 @@ import ScrollTable from '@components/ui/ScrollTable.astro';
 import type { SeasonCalendar } from '@contexts/catalog';
 import { Month, SeasonLevel } from '@contexts/seasonality';
 import { ui } from '@i18n/bg';
+import LevelMark from './LevelMark.astro';
 import MonthAbbr from './MonthAbbr.astro';
 
 /**
  * Year-at-a-glance table of every produce against the 12 months, grouped by kind. Each cell shows
- * the level glyph (decorative) and the level text (visually hidden); a legend explains the glyphs.
+ * the level mark (decorative) and the level text (visually hidden); a legend explains the marks.
+ * An empty calendar renders the empty message instead.
  */
 interface Props {
   calendar: SeasonCalendar;
@@ -19,71 +21,66 @@ const { calendar, currentMonth } = Astro.props;
 const labels = ui.calendar;
 const months = Month.all();
 const captionId = 'season-calendar-caption';
-const legend = [
-  ...[SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE].map((level) => ({
-    value: level.value,
-    glyph: ui.seasonLevelIcons[level.value],
-    label: ui.seasonLevels[level.value],
-  })),
-  { value: 'none', glyph: ui.produce.outOfSeasonIcon, label: ui.produce.outOfSeason },
-];
+const levelLabel = (level: SeasonLevel | undefined) =>
+  level === undefined ? ui.produce.outOfSeason : ui.seasonLevels[level.value];
+const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, undefined];
 ---
 
-<ul class="calendar-legend" role="list" aria-label={labels.legendHeading}>
-  {legend.map((item) => (
-    <li data-level={item.value}>
-      <span aria-hidden="true">{item.glyph}</span> {item.label}
-    </li>
-  ))}
-</ul>
-<ScrollTable captionId={captionId}>
-  <table class="year">
-    <caption id={captionId}>{labels.caption}</caption>
-    <thead>
-      <tr>
-        <th scope="col">{labels.produceColumn}</th>
-        {months.map((month) => (
-          <th scope="col" aria-current={month === currentMonth ? 'date' : undefined}>
-            <span>
-              <MonthAbbr month={month} />
-            </span>
-          </th>
-        ))}
-      </tr>
-    </thead>
-    {calendar.groups.map((group) => (
-      <tbody>
-        <tr>
-          <th scope="rowgroup" colspan={months.length + 1}>
-            <a href={routes.section(group.kind)}>{ui.sections.names[group.kind]}</a>
-          </th>
-        </tr>
-        {group.produce.map((produce) => (
+{calendar.groups.length === 0 ? (
+  <p>{labels.empty}</p>
+) : (
+  <>
+    <ul class="calendar-legend" role="list" aria-label={labels.legendHeading}>
+      {legend.map((level) => (
+        <li>
+          <LevelMark level={level} /> {levelLabel(level)}
+        </li>
+      ))}
+    </ul>
+    <ScrollTable captionId={captionId}>
+      <table class="year">
+        <caption id={captionId}>{labels.caption}</caption>
+        <thead>
           <tr>
-            <th scope="row">
-              <a href={routes.produce(produce)}>{produce.name}</a>
-            </th>
-            {months.map((month) => {
-              const level = produce.levelIn(month);
-              return (
-                <td data-level={level?.value ?? 'none'}>
-                  <span aria-hidden="true">
-                    {level === undefined
-                      ? ui.produce.outOfSeasonIcon
-                      : ui.seasonLevelIcons[level.value]}
-                  </span>
-                  <span class="visually-hidden">
-                    {level === undefined ? ui.produce.outOfSeason : ui.seasonLevels[level.value]}
-                  </span>
-                </td>
-              );
-            })}
+            <th scope="col">{labels.produceColumn}</th>
+            {months.map((month) => (
+              <th scope="col" aria-current={month === currentMonth ? 'date' : undefined}>
+                <span>
+                  <MonthAbbr month={month} />
+                </span>
+              </th>
+            ))}
           </tr>
+        </thead>
+        {calendar.groups.map((group) => (
+          <tbody>
+            <tr>
+              <th scope="rowgroup" colspan={months.length + 1}>
+                <a href={routes.section(group.kind)}>{ui.sections.names[group.kind]}</a>
+              </th>
+            </tr>
+            {group.produce.map((produce) => (
+              <tr>
+                <th scope="row">
+                  <a href={routes.produce(produce)}>{produce.name}</a>
+                </th>
+                {months.map((month) => {
+                  const level = produce.levelIn(month);
+                  return (
+                    <td data-level={level?.value ?? 'none'}>
+                      <LevelMark level={level} />
+                      <span class="visually-hidden">{levelLabel(level)}</span>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
         ))}
-      </tbody>
-    ))}
-  </table>
-</ScrollTable>
+      </table>
+    </ScrollTable>
+  </>
+)}
 
 <style>
   .calendar-legend {
@@ -98,6 +95,12 @@ const legend = [
 
   .year {
     min-width: 40rem;
+  }
+
+  .year th[scope='row'] {
+    position: sticky;
+    inset-inline-start: 0;
+    background: var(--color-background);
   }
 
   .year th[scope='col'] {
@@ -140,18 +143,42 @@ const legend = [
   }
 
   @media print {
+    .calendar-legend {
+      margin-block: var(--print-gap);
+      color: var(--print-ink);
+      font-size: var(--print-font-size);
+    }
+
     .year {
       min-width: 0;
-      font-size: 9pt;
+      font-size: var(--print-font-size);
+    }
+
+    .year a {
+      color: var(--print-ink);
+    }
+
+    .year tr {
+      break-inside: avoid;
     }
 
     .year th,
     .year td,
+    .year th[scope='row'],
+    .year th[scope='rowgroup'],
     .year th[aria-current='date'],
     .year td[data-level] {
-      padding: 1pt 3pt;
-      color: #000;
+      padding: var(--print-cell-padding);
+      color: var(--print-ink);
       background: none;
+    }
+
+    .year th[aria-current='date'] {
+      text-decoration: underline;
+    }
+
+    .year th[scope='rowgroup'] {
+      font-size: var(--print-heading-font-size);
     }
   }
 </style>
