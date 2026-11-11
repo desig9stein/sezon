@@ -41,11 +41,13 @@ const jsonLd = [
   ]}
   jsonLd={jsonLd}
 >
-  <header class="group-header" data-pagefind-body>
-    <h1 {...searchHeadingAttributes(group.name)}>{group.name}</h1>
-    <p class="group-header__latin">
-      <i lang="la">{group.latinName}</i>
-    </p>
+  <header class="group-header">
+    <div class="group-header__title" data-pagefind-body>
+      <h1 {...searchHeadingAttributes(group.name)}>{group.name}</h1>
+      <p class="group-header__latin">
+        <i lang="la">{group.latinName}</i>
+      </p>
+    </div>
     <p class="group-header__description">{group.description}</p>
   </header>
   <SeasonGroupsList
@@ -60,7 +62,12 @@ const jsonLd = [
   .group-header {
     display: grid;
     gap: var(--space-2);
-    margin-top: var(--space-6);
+    margin-block: var(--space-6) var(--space-4);
+  }
+
+  .group-header__title {
+    display: grid;
+    gap: var(--space-1);
   }
 
   .group-header__latin {

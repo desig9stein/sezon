@@ -29,9 +29,11 @@ produce page links to it.
 - **Page `/grupi/<slug>`:**
   - `h1` with the Bulgarian name, then the Latin name in `lang="la"` italics as a subtitle;
   - the group description;
-  - the produce in season groups, rendered by the existing `SectionIndex` component, which is
-    generalised to take any season grouping, an intro and an empty text;
-  - indexed for search (`data-pagefind-body` on the heading block, Latin heading attributes).
+  - the produce in season groups, rendered by `SeasonGroupsList` (extracted from `SectionIndex`,
+    which now wraps it): it takes any season grouping, an intro, an empty text and an `idPrefix`
+    that keeps heading ids unique per page;
+  - indexed for search by its heading and Latin name only (`data-pagefind-body` on the title
+    block, Latin heading attributes), so a family never outranks the produce it lists.
 - **Produce page:** the family fact („Семейство: Кръстоцветни (Brassicaceae)“) links to the
   group page.
 - **SEO:** unique title and description, `CollectionPage` + `BreadcrumbList` JSON-LD, sitemap.
