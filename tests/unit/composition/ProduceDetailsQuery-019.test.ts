@@ -54,12 +54,14 @@ describe('ProduceDetailsQuery organic information', () => {
     });
     const details = await query.forSlug('zele', new Date('2026-11-11'));
     const urls = details.sources.map((source) => source.url);
-    expect(details.farms.map(({ farm, organic }) => [farm.slug, organic])).toEqual([
+    expect(
+      details.farms.map(({ farm, certifiedOrganic }) => [farm.slug, certifiedOrganic]),
+    ).toEqual([
       ['bio', true],
       ['obiknovena', false],
     ]);
     const expired = await query.forSlug('zele', new Date('2027-01-01'));
-    expect(expired.farms.every(({ organic }) => !organic)).toBe(true);
+    expect(expired.farms.every(({ certifiedOrganic }) => !certifiedOrganic)).toBe(true);
     expect(urls).toEqual([
       base.nutrition.source.url,
       ...base.traditionalUses.map((use) => use.source.url),

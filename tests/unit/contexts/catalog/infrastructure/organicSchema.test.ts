@@ -27,3 +27,11 @@ describe('produce organic schema', () => {
     expect(valid(organic)).toBe(false);
   });
 });
+
+describe('produce organic schema (QA 019)', () => {
+  it('AC1: rejects a block without sources', () => {
+    const withoutSources: Partial<ReturnType<typeof organicRecord>> = organicRecord();
+    delete withoutSources.sources;
+    expect(valid(withoutSources)).toBe(false);
+  });
+});

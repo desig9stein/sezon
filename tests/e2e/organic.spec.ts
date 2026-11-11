@@ -7,9 +7,7 @@ test.describe('organic information', () => {
   test('AC6: the apple page shows the organic status line and passes axe', async ({ page }) => {
     await page.goto(APPLES);
     await expect(
-      page
-        .getByRole('region', { name: 'Местни ферми' })
-        .getByText('Биологично производство в България'),
+      page.getByRole('region', { name: 'Местни ферми' }).getByText('Био в България'),
     ).toBeVisible();
     await expectNoAxeViolations(page);
   });
