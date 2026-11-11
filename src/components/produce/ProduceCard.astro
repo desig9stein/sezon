@@ -93,7 +93,7 @@ const photo = variant === 'plate' ? produce.photo : undefined;
   }
 
   .produce-card[data-variant='index'] {
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: baseline;
     padding-block: var(--space-2);
     border-bottom: 1px solid var(--color-rule);
@@ -105,6 +105,11 @@ const photo = variant === 'plate' ? produce.photo : undefined;
 
   .produce-card[data-variant='index'] .produce-card__name {
     font-size: var(--font-size-lg);
+  }
+
+  .produce-card[data-variant='index'] .produce-card__meta {
+    justify-content: flex-end;
+    text-align: end;
   }
 
   .produce-card__name a {
