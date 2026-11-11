@@ -8,6 +8,8 @@ import { BrokenReferenceError, ProduceNotFoundError } from '@shared/domain/error
 import { IndexedRepository } from '@shared/infrastructure/IndexedRepository';
 import { farmRecord, produceRecord, NUTRIENT_CLAIMS } from '@tests/fixtures/records';
 
+const ON = new Date('2026-11-11T12:00:00+02:00');
+
 const repositoryOf = <T extends { slug: string; name: string }>(items: T[]) =>
   new IndexedRepository(async () => items);
 
@@ -56,7 +58,7 @@ function buildQuery(overrides: { groups?: boolean; nutrients?: boolean; regions?
 
 describe('ProduceDetailsQuery', () => {
   it('AC1: combines produce, group, nutrients, regions, farms and sources', async () => {
-    const details = await buildQuery().forSlug('zele');
+    const details = await buildQuery().forSlug('zele', ON);
     expect(details.produce.slug).toBe('zele');
     expect(details.group.name).toBe('Кръстоцветни');
     expect(
@@ -90,13 +92,13 @@ describe('ProduceDetailsQuery', () => {
   });
 
   it('AC2: throws ProduceNotFoundError for an unknown slug', async () => {
-    await expect(buildQuery().forSlug('missing')).rejects.toThrow(ProduceNotFoundError);
+    await expect(buildQuery().forSlug('missing', ON)).rejects.toThrow(ProduceNotFoundError);
   });
 
   it.each(['groups', 'nutrients', 'regions'] as const)(
     'AC2: throws BrokenReferenceError when %s are missing',
     async (missing) => {
-      await expect(buildQuery({ [missing]: false }).forSlug('zele')).rejects.toThrow(
+      await expect(buildQuery({ [missing]: false }).forSlug('zele', ON)).rejects.toThrow(
         BrokenReferenceError,
       );
     },
@@ -125,7 +127,7 @@ describe('ProduceDetailsQuery', () => {
         toFarm('gora', farmRecord({ name: 'Гора', region: 'veliko-tarnovo', produce: ['zele'] })),
       ]),
     });
-    const details = await query.forSlug('zele');
+    const details = await query.forSlug('zele', ON);
     expect(details.farms.map(({ region }) => region.name)).toEqual(['Велико Търново']);
   });
 
@@ -149,7 +151,7 @@ describe('ProduceDetailsQuery', () => {
         toFarm('gora', farmRecord({ name: 'Гора', region: 'missing', produce: ['zele'] })),
       ]),
     });
-    await expect(query.forSlug('zele')).rejects.toThrow(BrokenReferenceError);
+    await expect(query.forSlug('zele', ON)).rejects.toThrow(BrokenReferenceError);
   });
 
   it('QA 005: de-duplicates sources by URL and name', async () => {
@@ -179,7 +181,7 @@ describe('ProduceDetailsQuery', () => {
       regions: repositoryOf([toRegion('plovdiv', { name: 'Пловдив' })]),
       farms: new IndexedFarmRepository(async () => []),
     });
-    const { sources } = await query.forSlug('zele');
+    const { sources } = await query.forSlug('zele', ON);
     expect(sources.map((source) => source.name)).toEqual([
       record.nutrition.source.name,
       'Народна медицина',

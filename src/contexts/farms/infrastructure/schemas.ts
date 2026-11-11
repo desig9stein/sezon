@@ -3,6 +3,7 @@ import {
   bulgarianPhone,
   email,
   httpsUrl,
+  isoDate,
   slugReference,
   text,
   uniqueBy,
@@ -30,6 +31,9 @@ export const farmSchema = z.strictObject({
   address: text().optional(),
   isPlaceholder: z.boolean(),
   sponsored: z.boolean().default(false),
+  organic: z
+    .strictObject({ certifier: text(), certificateId: text(), validUntil: isoDate() })
+    .optional(),
 });
 
 export type FarmRecord = z.infer<typeof farmSchema>;

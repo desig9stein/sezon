@@ -70,3 +70,15 @@ growing:
   sources:
     - name: 'Agrozona.bg – Отглеждане на моркови – подробна инструкция за начинаещи'
       url: https://agrozona.bg/vsichko-za-otglezhdaneto-na-morkovi-podrobna-instruktsiya-za-nachinaeshti/
+organic:
+  availability: available
+  note: 'През 2024 г. в България има около 20 ха биологично отглеждани моркови (Евростат); предлагат ги биоферми като „Софина“.'
+  sources:
+    - name: 'Евростат – org_cropar (биологични площи по култури)'
+      url: https://ec.europa.eu/eurostat/databrowser/view/org_cropar/default/table
+    - name: 'Био-Ферма Софина: Зеленчуци - производство „Софина“'
+      url: https://www.sofinabio.com/bg-catalog-details-4.html
+    - name: 'Био-Ферма Софина: За нас'
+      url: https://www.sofinabio.com/about-us.html
+    - name: 'Agrozona.bg – Био градина БГ „Туинс“: Модерен подход за био земеделие и къси вериги (21.04.2024)'
+      url: https://agrozona.bg/bio-gradina-bg-tuins-moderen-podhod-za-bio-zemedelie-i-kasi-verigi/

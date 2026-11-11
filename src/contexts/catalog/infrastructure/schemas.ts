@@ -13,6 +13,7 @@ import { NUTRIENT_KINDS, NUTRIENT_UNITS } from '../domain/Nutrient';
 import { REVIEW_STATUSES, TRADITIONAL_SYSTEMS } from '../domain/Produce';
 import { PRODUCE_KINDS } from '../domain/ProduceKind';
 import type { ImageAsset } from '../domain/ProducePhoto';
+import { ORGANIC_AVAILABILITIES } from '../domain/OrganicProduction';
 
 const SUMMARY_MIN_LENGTH = 70;
 const SUMMARY_MAX_LENGTH = 160;
@@ -122,6 +123,15 @@ export const growingSchema = z
     { message: 'A growing guide needs a month or a planting note.' },
   );
 
+const ORGANIC_NOTE_MAX_LENGTH = 160;
+
+/** Schema of a produce's organic production in Bulgaria: availability, a note and sources. */
+export const organicSchema = z.strictObject({
+  availability: z.enum(ORGANIC_AVAILABILITIES),
+  note: singleLineText().max(ORGANIC_NOTE_MAX_LENGTH),
+  sources: z.array(sourceSchema).min(1),
+});
+
 /** Builds the schema of a local image: Astro's `image()` helper in the build, a stub in tests. */
 export type ImageSchemaFactory = () => z.ZodType<ImageAsset>;
 
@@ -149,6 +159,7 @@ export const produceSchemaWith = ({ image }: { image: ImageSchemaFactory }) =>
   produceSchema.extend({
     photo: photoSchema(image).optional(),
     growing: growingSchema.optional(),
+    organic: organicSchema.optional(),
   });
 
 export type ProduceRecord = z.infer<ReturnType<typeof produceSchemaWith>>;

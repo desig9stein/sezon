@@ -7,6 +7,8 @@ import { IndexedRepository } from '@shared/infrastructure/IndexedRepository';
 import { growingRecord } from '@tests/fixtures/growing';
 import { NUTRIENT_CLAIMS, produceRecord } from '@tests/fixtures/records';
 
+const ON = new Date('2026-11-11T12:00:00+02:00');
+
 const nutrient = (name: string) => ({
   name,
   kind: 'vitamin' as const,
@@ -45,7 +47,7 @@ describe('ProduceDetailsQuery growing source', () => {
       regions: new IndexedRepository(async () => [toRegion('plovdiv', { name: 'Пловдив' })]),
       farms: new IndexedFarmRepository(async () => []),
     });
-    const urls = (await query.forSlug('zele')).sources.map((source) => source.url);
+    const urls = (await query.forSlug('zele', ON)).sources.map((source) => source.url);
     expect(urls).toEqual([
       base.nutrition.source.url,
       ...base.traditionalUses.map((use) => use.source.url),
