@@ -39,8 +39,19 @@ svg {
 h1,
 h2,
 h3 {
-  line-height: 1.2;
+  font-family: var(--font-family-display);
+  font-weight: 600;
+  line-height: var(--line-height-heading);
   text-wrap: balance;
+}
+
+[lang='la'] {
+  font-family: var(--font-family-display);
+  font-style: italic;
+}
+
+table {
+  font-variant-numeric: tabular-nums;
 }
 
 h1 {

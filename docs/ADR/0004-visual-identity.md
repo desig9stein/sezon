@@ -88,10 +88,10 @@ tests keep enforcing them.
 Two families, clearly distinct, both open source (SIL OFL), self-hosted as WOFF2 subsets with
 Cyrillic and Latin only, from Fontsource packages:
 
-| Family                                   | Role                                                                              |
-| ---------------------------------------- | --------------------------------------------------------------------------------- |
-| **Piazzolla** (variable, `opsz`, `wght`) | Display and headings, the month word, produce names, Latin binomials in _italic_. |
-| **Sofia Sans** (variable, `wght`)        | Body text, navigation, labels, tables (tabular figures).                          |
+| Family                            | Role                                                                              |
+| --------------------------------- | --------------------------------------------------------------------------------- |
+| **Piazzolla** (variable, `wght`)  | Display and headings, the month word, produce names, Latin binomials in _italic_. |
+| **Sofia Sans** (variable, `wght`) | Body text, navigation, labels, tables (tabular figures).                          |
 
 Why these two:
 
@@ -107,12 +107,12 @@ Why these two:
   accent).
 - **Weight.** About 20–25 KB per Cyrillic subset. The plan is at most four files on a page
   (Piazzolla roman and italic, Sofia Sans roman; Latin subsets load only when needed via
-  `unicode-range`), with `font-display: swap`, the display font preloaded, and metric-adjusted
+  `unicode-range`), with `font-display: swap`, the upright files preloaded, and metric-adjusted
   fallbacks (`size-adjust`) to keep CLS at 0. #36 verifies Lighthouse stays at 100.
 
 **Type scale** (following Bringhurst's guidance on a small number of related sizes): body
 1.0625 rem / 1.55 Sofia Sans; lede 1.25–1.6 rem; h3 1.5–2.1 rem; h2 1.6–2.2 rem Piazzolla 600;
-produce title 3.5–6.5 rem; the month word 4.5–13.5 rem (`clamp`, `opsz` 72, tracking −0.035 em,
+produce title 3.5–6.5 rem; the month word 4.5–13.5 rem (`clamp`, tracking −0.035 em,
 leading 0.82). Body lines stay under 80 characters (`max-width` 34–40 ch for ledes).
 
 ### Imagery
@@ -216,10 +216,12 @@ Checked against the defaults listed in the frontend-design skill:
 
 - **Positive:** a recognisable identity tied to the subject; Bulgarian letterforms; the season
   levels stay text + glyph + tint; the plate structure gives photos a consistent frame.
-- **Negative:** web fonts add about 60–80 KB on first visit and a preload; #36 must prove
+- **Negative:** web fonts add about 115 KB on first visit (Cyrillic and Latin upright subsets of
+  both families, all preloaded; the Latin italic adds about 32 KB on pages with Latin names); #36 must prove
   Lighthouse 100 and CLS 0 with metric-adjusted fallbacks. Photos need sourcing and licences.
 - **Neutral:** the token names in `src/design/tokens.ts` stay; values change and one token
-  (`rule`) is added. The storage glyph becomes `◐`, because `◖` renders too small in Sofia Sans.
+  (`rule`) is added. The storage glyph becomes `◐`. Season glyphs are outside the font subsets and render in the
+  system font.
 - **Next:** #36 implements the tokens, fonts and fallbacks; #37 restyles the layout and
   components. Both are gated by spec 009 (readable without CSS) and the existing axe and
   Lighthouse checks.
