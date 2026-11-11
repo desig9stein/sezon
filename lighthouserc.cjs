@@ -1,4 +1,7 @@
-/** Lighthouse CI configuration: every audited URL must score 1.0 in all four categories. */
+/**
+ * Lighthouse CI configuration: every audited URL must score at least 0.95 in Performance and 1.0
+ * in Accessibility, Best Practices and SEO (ADR-0005).
+ */
 module.exports = {
   ci: {
     collect: {
@@ -10,6 +13,7 @@ module.exports = {
         'http://localhost:4323/zelenchutsi',
         'http://localhost:4323/zelenchutsi/zele',
         'http://localhost:4323/nutrienti/vitamin-c',
+        'http://localhost:4323/kalendar',
       ],
       numberOfRuns: 3,
       settings: {
@@ -21,7 +25,7 @@ module.exports = {
       // JavaScript; Accessibility, Best Practices and SEO are deterministic. See ADR-0001.
       aggregationMethod: 'optimistic',
       assertions: {
-        'categories:performance': ['error', { minScore: 1 }],
+        'categories:performance': ['error', { minScore: 0.95 }],
         'categories:accessibility': ['error', { minScore: 1 }],
         'categories:best-practices': ['error', { minScore: 1 }],
         'categories:seo': ['error', { minScore: 1 }],

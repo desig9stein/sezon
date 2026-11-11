@@ -1,5 +1,6 @@
 ---
 import { routes } from '@components/layout/routes';
+import LevelMark from '@components/season/LevelMark.astro';
 import SeasonBadge from '@components/season/SeasonBadge.astro';
 import ScrollTable from '@components/ui/ScrollTable.astro';
 import {
@@ -80,8 +81,7 @@ const percentText = (entry: NutrientRankingEntry): string => {
             <td class="ranking__text">
               {entry.seasonLevel === undefined ? (
                 <>
-                  <span aria-hidden="true">{ui.produce.outOfSeasonIcon}</span>{' '}
-                  {ui.produce.outOfSeason}
+                  <LevelMark /> {ui.produce.outOfSeason}
                 </>
               ) : (
                 <SeasonBadge level={entry.seasonLevel} />

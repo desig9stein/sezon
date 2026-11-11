@@ -8,6 +8,7 @@ const PAGES = [
   { name: 'section', path: '/zelenchutsi' },
   { name: 'produce', path: '/zelenchutsi/zele' },
   { name: 'nutrient', path: '/nutrienti/vitamin-c' },
+  { name: 'calendar', path: '/kalendar' },
   { name: 'not found', path: '/404' },
 ] as const;
 

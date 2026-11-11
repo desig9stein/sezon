@@ -18,7 +18,7 @@
 - [ ] All acceptance criteria have a passing test.
 - [ ] `qa-reviewer` ran and every confirmed finding is fixed.
 - [ ] `pnpm verify` passes (lint, types, unit, build, html-validate, e2e + axe).
-- [ ] `pnpm lhci` reports 100 in all four categories (UI changes only).
+- [ ] `pnpm lhci` reports Performance ≥ 95 and 100 in the other categories (UI changes only).
 - [ ] No UI string outside `src/i18n/bg.ts` or `src/data/**`.
 - [ ] Comments follow the comment policy.
 

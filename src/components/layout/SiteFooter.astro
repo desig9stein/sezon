@@ -4,7 +4,7 @@ import { buildYear } from '@composition/clock';
 import { monthName, ui } from '@i18n/bg';
 import { routes } from './routes';
 
-/** Site footer with links to every month page and the health disclaimer. */
+/** Site footer with links to every month page and the calendar, and the health disclaimer. */
 ---
 
 <footer class="site-footer">
@@ -21,6 +21,9 @@ import { routes } from './routes';
         ))}
       </ul>
     </nav>
+    <p>
+      <a href={routes.calendar}>{ui.calendar.heading}</a>
+    </p>
     <p class="site-footer__disclaimer">{ui.footer.disclaimer}</p>
     <p>{ui.footer.copyright(buildYear)}</p>
   </div>

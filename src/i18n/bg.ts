@@ -154,7 +154,6 @@ export const ui = {
     now: (month: string, level: string) => `През ${month}: ${level}`,
     outOfSeason: 'Извън сезона',
     outOfSeasonLower: 'извън сезона',
-    outOfSeasonIcon: '○',
     photoCredit: 'Снимка:',
     headings: {
       season: 'Сезон по месеци',
@@ -228,11 +227,6 @@ export const ui = {
     available: 'В сезон',
     storage: 'От хранилище',
   } satisfies Record<SeasonLevelValue, string>,
-  seasonLevelIcons: {
-    peak: '★',
-    available: '●',
-    storage: '◐',
-  } satisfies Record<SeasonLevelValue, string>,
   nutrients: {
     title: (name: string) =>
       fittingTitle([`${name} в сезонните храни от България`, `${name} в сезонните храни`, name]),
@@ -269,6 +263,20 @@ export const ui = {
       `Всички ${SECTION_NAMES[kind].toLowerCase()} в каталога, подредени по сезона през ${monthNameLower(month)}.`,
     outOfSeason: (month: Month) => `Извън сезона през ${monthNameLower(month)}`,
     empty: 'Все още няма добавени продукти в този раздел.',
+  },
+  calendar: {
+    navLabel: 'Календар',
+    title: 'Сезонен календар на плодовете и зеленчуците',
+    heading: 'Сезонен календар',
+    description:
+      'Целогодишен календар на сезонните плодове, зеленчуци, подправки и ядки в България: кога са в разгара си, кога в сезон и кога от хранилище.',
+    intro:
+      'Кога е сезонът на всеки продукт през годината. Календарът е подготвен за разпечатване на A4 в хоризонтален формат.',
+    caption: 'Сезон на всеки продукт по месеци',
+    produceColumn: 'Продукт',
+    legendHeading: 'Легенда',
+    empty: 'Няма данни за календара.',
+    homeLink: 'Целогодишен сезонен календар',
   },
   produceKinds: {
     fruit: 'Плод',
