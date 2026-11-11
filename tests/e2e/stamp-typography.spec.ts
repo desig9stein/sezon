@@ -25,4 +25,15 @@ test.describe('stamp-of-origin typography (spec 022)', () => {
     expect(styles.latin).toMatch(/^"?Sofia Sans(-[0-9a-f]+)?"?,/);
     expect(styles.latinStyle).toBe('italic');
   });
+
+  test('QA 022: the logo is upright condensed capitals, never a synthesised italic', async ({
+    page,
+  }) => {
+    await page.goto('/');
+    const logo = await page.evaluate(() => {
+      const style = getComputedStyle(document.querySelector('.site-header__logo') as Element);
+      return { style: style.fontStyle, transform: style.textTransform, weight: style.fontWeight };
+    });
+    expect(logo).toEqual({ style: 'normal', transform: 'uppercase', weight: '800' });
+  });
 });
