@@ -167,8 +167,8 @@ components:
     padding: '0.5rem 1rem'
     height: '2.75rem'
   site-header:
-    backgroundColor: '{colors.background}'
-    textColor: '{colors.text}'
+    backgroundColor: '{colors.shell}'
+    textColor: '{colors.on-shell}'
   site-footer:
     backgroundColor: '{colors.surface}'
     textColor: '{colors.text-muted}'
@@ -203,9 +203,9 @@ Stamp inks on label paper: one ultramarine for the shell, links and actions, one
 
 ### Primary
 
-- **Stamp Ultramarine** (`accent`): links (the base `a` colour), the search submit button, the skip link, the active header navigation item, the current month in the year ribbon and the calendar table header, the current-month ring in a produce's calendar, and the 4px bar of the traditional-uses disclaimer. In dark mode it becomes a light periwinkle ink.
+- **Stamp Ultramarine** (`accent`): links (the base `a` colour), the search submit button, the skip link, the current month in the year ribbon and the calendar table header, the current-month ring in a produce's calendar, and the 4px bar of the traditional-uses disclaimer. In dark mode it becomes a light periwinkle ink.
 - **On Ultramarine** (`accent-text`): text on ultramarine fills; white in light mode, ink-blue ground in dark mode.
-- **Shell Ultramarine** (`shell`), **On Shell** (`on-shell`), **Focus On Shell** (`focus-on-shell`): the stamp-blue header bar, its text and its focus ring. In light mode `shell` equals `accent`; in dark mode it is a deeper blue so white text stays strong. **Planned in #92:** the tokens exist and are contrast-tested, but the header still renders on `background`.
+- **Shell Ultramarine** (`shell`), **On Shell** (`on-shell`), **Focus On Shell** (`focus-on-shell`): the stamp-blue header bar, its text and its focus ring. In light mode `shell` equals `accent`; in dark mode it is a deeper blue so white text stays strong.
 
 ### Secondary
 
@@ -223,9 +223,9 @@ The two washes are interim: spec 022 keeps them as light tints with ink text unt
 
 ### Neutral
 
-- **Label Paper** (`background`): the page, sticky row headers in the calendar table, the header bar (until #92), the year ribbon and the search input field.
+- **Label Paper** (`background`): the page, sticky row headers in the calendar table, the year ribbon and the search input field.
 - **Label White** (`surface`): plates, the produce photo frame, farm cards, empty calendar tiles, the disclaimer callout and the footer. In light mode it is brighter than the page; in dark mode it is a lifted ink-blue.
-- **Stencil Black** (`text`): body text, headings, the logo, navigation and produce-name links.
+- **Stencil Black** (`text`): body text, headings, and produce-name links (the logo and navigation sit on the shell in `on-shell`).
 - **Faded Ink** (`text-muted`): meta lines, captions, hints, breadcrumbs, the footer body, out-of-season calendar cells and non-current ribbon months.
 - **Pad Grey** (`border`): control and data boundaries (inputs, pager links, farm tags, table row rules); at least 3:1 against page and surface.
 - **Hairline** (`rule`): decorative hairlines only (header and footer edges, ribbon dividers, index-row separators). Never text or a control boundary.
@@ -284,7 +284,7 @@ Both are self-hosted through the Astro Fonts API (`fontProviders.local()`) as WO
 - **Title-sm** (condensed 800 capitals, `lg`, 1.15, tracking 0.02em): `h3`, index-row names.
 - **Lede** (Sofia Sans 400, `lg`): page intros, produce summaries, group descriptions; capped at the 42rem reading width.
 - **Body** (Sofia Sans 400, 1.0625rem / 1.55, `text-wrap: pretty`): running text, capped at `--reading-width` (42rem); plate summaries at 42ch.
-- **Label** (Sofia Sans, `sm` 0.9375rem): meta lines, captions, hints, breadcrumbs, footer. Weight 600 on season badges, pager links and the search button; navigation 500; captions and the current month 700.
+- **Label** (Sofia Sans, `sm` 0.9375rem): meta lines, captions, hints, breadcrumbs, footer. Weight 600 on season badges, pager links and the search button; navigation 600; captions and the current month 700.
 - **Latin name** (Sofia Sans italic 400, through `[lang='la']`): wherever a Latin name appears, often one step larger (`lg`) than its meta line.
 
 ### Named Rules
@@ -302,7 +302,7 @@ Both are self-hosted through the Astro Fonts API (`fontProviders.local()`) as WO
 - **Container:** one centred column, `min(100% − 2rem, 72rem)`. Header, breadcrumbs, main and footer all use it; there is no sidebar.
 - **Reading width:** 42rem for prose, ledes, search and the footer disclaimer. Tables and calendars opt out.
 - **Spacing rhythm:** a rem scale of steps 1, 2, 3, 4, 6, 8, 12, 16 (0.25–4rem). Within a block 0.25–0.75rem; between sections 1.5–2rem; before group headings and the month pager 3rem; before the footer 4rem.
-- **Grids:** produce plates use `auto-fill, minmax(min(100%, 20rem), 1fr)` with a 1rem gap; farm cards the same at 18rem. Index lists are one column, two from 40rem. The footer month list is `auto-fill, minmax(7.5rem, 1fr)`.
+- **Grids:** produce plates use `auto-fill, minmax(min(100%, 20rem), 1fr)` with a 1rem gap; farm cards the same at 18rem. Index lists are one column, two from 40rem. The footer year strip is 3, 4, 6 or 12 equal columns (see Components).
 - **Year ribbon:** 12 equal columns, 6 under 40rem. The produce calendar: 12, 6 under 60rem, 4 under 40rem, 2px gaps.
 - **Produce page header:** one column; from 48rem, with a photo, a 3fr/2fr grid with the photo on the right.
 - **Breakpoints in use:** 40rem, 48rem and 60rem, as literals in each component.
@@ -377,9 +377,11 @@ A no-JS form capped at the reading width: bold label, muted hint, then a wrappin
 
 ### Navigation
 
-- **Header (as built):** a `background` bar with a `rule` bottom hairline, the logo "Сезон" in upright condensed capitals at `xl` (800, tracking 0.06em), and a wrapping list of underlined `text` links (500). The current page is ultramarine with a 3px underline; a section ancestor gets a dotted underline. Under 60rem the nav drops to `sm` with 2.25rem links. **Planned in #92:** the bar moves to `shell` with `on-shell` text and `focus-on-shell` focus rings.
+- **Header (spec 023):** a `shell` bar with `on-shell` text: the logo "Сезон" in upright condensed capitals at `xl` (800, tracking 0.06em) and four links (600): Сега, Каталог, Календар, Търсене. Links are 44px tall; the current page has a 3px `focus-on-shell` underline, the area containing the page (Каталог for sections, produce, groups and nutrients; Календар for month pages) a dotted one. Focus rings on the shell use `focus-on-shell`. Logo and links share one row from about 380px; below, the nav wraps under the logo.
+- **Skip link:** a `surface` box with a `text` border and text, shown on focus over the shell with a `focus-on-shell` ring.
+- **Catalogue page (`/katalog`):** section cards on `shell` with `on-shell` text and a `border` edge (condensed capitals name, count below), then chip links for the botanical families (with counts) and the nutrients.
 - **Breadcrumbs:** `sm` muted trail with "/" separators.
-- **Footer:** `surface` band with a top `rule`, holding the month grid of ultramarine links, the calendar link, the disclaimer and the copyright in muted `sm`.
+- **Footer:** `surface` band with a top `rule`. First a year strip: 12 month links as bordered cells (`border` edge, `background` fill, `text`), 3 per row, 4 from 23rem, 6 from 36rem, 12 from 64rem; the build month is `marker` with `on-marker` text, a `text` border and `aria-current="date"`; a focused cell rises above its neighbours so its ring shows. Then the calendar link, the disclaimer and the copyright in muted `sm`.
 
 ### Links and focus
 
