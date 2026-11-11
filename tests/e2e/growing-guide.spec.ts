@@ -20,4 +20,16 @@ test.describe('growing guide', () => {
       await expectNoAxeViolations(page);
     });
   }
+
+  test('QA 018: at 320px the section has no axe violations and no sideways scroll', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 320, height: 640 });
+    await page.goto(CARROTS);
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+    await expectNoAxeViolations(page);
+  });
 });

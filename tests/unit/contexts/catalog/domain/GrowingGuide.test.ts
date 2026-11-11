@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { toProduce } from '@contexts/catalog/infrastructure/mappers';
+import { GrowingGuide } from '@contexts/catalog';
 import { Month } from '@contexts/seasonality';
+import { InvalidProduceError } from '@shared/domain/errors';
 import { growingRecord } from '@tests/fixtures/growing';
 import { produceRecord } from '@tests/fixtures/records';
 
@@ -28,5 +30,24 @@ describe('GrowingGuide', () => {
 
   it('AC2: has no growing guide without the block', () => {
     expect(toProduce('zele', produceRecord()).growing).toBeUndefined();
+  });
+
+  it('QA 018: rejects a guide without months and note, or without sources', () => {
+    const input = { sow: [], transplant: [], plant: [], tips: ['а', 'б', 'в'], sources: [] };
+    expect(() =>
+      GrowingGuide.create({ ...input, sources: [{ name: 'x', url: 'https://x.bg' }] }),
+    ).toThrow(InvalidProduceError);
+    expect(() => GrowingGuide.create({ ...input, sow: [3] })).toThrow(InvalidProduceError);
+  });
+
+  it('QA 018: keeps each month once', () => {
+    const guide = GrowingGuide.create({
+      sow: [3, 3, 4],
+      transplant: [],
+      plant: [],
+      tips: ['а', 'б', 'в'],
+      sources: [{ name: 'x', url: 'https://x.bg' }],
+    });
+    expect(guide.sow.map((month) => month.number)).toEqual([3, 4]);
   });
 });

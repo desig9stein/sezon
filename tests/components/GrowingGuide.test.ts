@@ -39,4 +39,17 @@ describe('GrowingGuide', () => {
     expect(html).toContain('Засажда се наесен или рано напролет.');
     expect(html).toMatch(/<a href="\/sezon\/mart"[^>]*>март<\/a>,\s*<a href="\/sezon\/noemvri"/);
   });
+
+  it('QA 018: renders no list of months when no activity has months', async () => {
+    const html = await render(GrowingGuide, {
+      growing: guideOf({
+        sow: [],
+        transplant: [],
+        plant: [],
+        plantingNote: 'Сей при топла почва.',
+      }),
+    });
+    expect(html).not.toContain('<dl');
+    expect(html).toContain('Сей при топла почва.');
+  });
 });

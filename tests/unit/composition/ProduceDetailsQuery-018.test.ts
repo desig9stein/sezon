@@ -16,8 +16,19 @@ const nutrient = (name: string) => ({
 });
 
 describe('ProduceDetailsQuery growing source', () => {
-  it('AC5: adds the growing source to the page sources once', async () => {
-    const zele = toProduce('zele', produceRecord({ growing: growingRecord() }));
+  it('AC5: adds every growing source to the page sources once, after the others', async () => {
+    const base = produceRecord();
+    const zele = toProduce(
+      'zele',
+      produceRecord({
+        growing: growingRecord({
+          sources: [
+            { name: 'Агрозона – Отглеждане на зеле', url: 'https://agrozona.bg/zele' },
+            base.nutrition.source,
+          ],
+        }),
+      }),
+    );
     const query = new ProduceDetailsQuery({
       produce: new IndexedRepository(async () => [zele]),
       groups: new IndexedRepository(async () => [
@@ -35,6 +46,10 @@ describe('ProduceDetailsQuery growing source', () => {
       farms: new IndexedFarmRepository(async () => []),
     });
     const urls = (await query.forSlug('zele')).sources.map((source) => source.url);
-    expect(urls.filter((url) => url === 'https://agrozona.bg/zele')).toHaveLength(1);
+    expect(urls).toEqual([
+      base.nutrition.source.url,
+      ...base.traditionalUses.map((use) => use.source.url),
+      'https://agrozona.bg/zele',
+    ]);
   });
 });
