@@ -5,7 +5,9 @@ import sitemap from '@astrojs/sitemap';
 const NOT_FOUND_PATH = '/404';
 
 /** Fontsource unicode ranges of the Cyrillic and Latin subsets. */
+/** @type {[string, ...string[]]} */
 const CYRILLIC = ['U+0301', 'U+0400-045F', 'U+0490-0491', 'U+04B0-04B1', 'U+2116'];
+/** @type {[string, ...string[]]} */
 const LATIN = [
   'U+0000-00FF',
   'U+0131',
@@ -35,7 +37,7 @@ const LATIN = [
  * @param {{ weight: string; style: 'normal' | 'italic' }} face - Weight range and style.
  */
 const subsets = (pkg, file, face) => {
-  /** @param {string} subset @param {string[]} unicodeRange */
+  /** @param {string} subset @param {[string, ...string[]]} unicodeRange */
   const variant = (subset, unicodeRange) => ({
     ...face,
     display: /** @type {const} */ ('swap'),
