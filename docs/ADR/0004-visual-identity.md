@@ -1,6 +1,6 @@
 # ADR-0004: Visual identity, the botanical atlas
 
-- **Status:** Proposed
+- **Status:** Superseded in part by ADR-0006 (palette, typography roles, home opener)
 - **Date:** 2026-11-10
 - **Issue:** #35 (part of the redesign #28; implemented by #36 tokens and fonts, #37 restyle)
 
