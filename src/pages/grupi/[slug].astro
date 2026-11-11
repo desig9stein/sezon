@@ -1,0 +1,82 @@
+---
+import type { GetStaticPaths } from 'astro';
+import SeasonGroupsList from '@components/produce/SeasonGroupsList.astro';
+import { routes } from '@components/layout/routes';
+import { searchHeadingAttributes } from '@components/search/searchAttributes';
+import { buildMonth } from '@composition/clock';
+import { produceGroupIndexService } from '@composition/index';
+import { requireSiteUrl } from '@composition/site';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { collectionPageJsonLd } from '@shared/seo';
+
+export const getStaticPaths = (async () =>
+  (await produceGroupIndexService.allGroups()).map((group) => ({
+    params: { slug: group.slug },
+  }))) satisfies GetStaticPaths;
+
+const index = await produceGroupIndexService.groupFor(Astro.params.slug, buildMonth);
+const { group } = index;
+const labels = ui.groups;
+const path = routes.group(group.slug);
+const description = labels.description(group.description, buildMonth);
+const jsonLd = [
+  collectionPageJsonLd({
+    siteUrl: requireSiteUrl(Astro.site),
+    path,
+    name: group.name,
+    description,
+    items: index.all.map((produce) => ({ name: produce.name, path: routes.produce(produce) })),
+  }),
+];
+---
+
+<BaseLayout
+  title={labels.title(group.name, group.latinName)}
+  description={description}
+  path={path}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: group.name, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <header class="group-header">
+    <div class="group-header__title" data-pagefind-body>
+      <h1 {...searchHeadingAttributes(group.name)}>{group.name}</h1>
+      <p class="group-header__latin">
+        <i lang="la">{group.latinName}</i>
+      </p>
+    </div>
+    <p class="group-header__description">{group.description}</p>
+  </header>
+  <SeasonGroupsList
+    groups={index}
+    intro={labels.intro(group.name, buildMonth)}
+    empty={labels.empty}
+    idPrefix="group"
+  />
+</BaseLayout>
+
+<style>
+  .group-header {
+    display: grid;
+    gap: var(--space-2);
+    margin-block: var(--space-6) var(--space-4);
+  }
+
+  .group-header__title {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .group-header__latin {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-lg);
+  }
+
+  .group-header__description {
+    max-width: var(--reading-width);
+    font-size: var(--font-size-lg);
+  }
+</style>

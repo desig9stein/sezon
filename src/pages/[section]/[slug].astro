@@ -67,7 +67,12 @@ const jsonLd = [
           <i lang="la">{produce.latinName}</i>
         </li>
         <li>{ui.produceKinds[produce.kind]}</li>
-        <li>{labels.family(group.name, group.latinName)}</li>
+        <li>
+          {labels.familyLabel}{' '}
+          <a href={routes.group(group.slug)}>
+            {group.name} (<i lang="la">{group.latinName}</i>)
+          </a>
+        </li>
       </ul>
       <p class="produce__summary">{produce.summary}</p>
       <p class="produce__now">
@@ -232,7 +237,7 @@ const jsonLd = [
     color: var(--color-text-muted);
   }
 
-  .produce__meta [lang='la'] {
+  .produce__meta > li > [lang='la'] {
     font-size: var(--font-size-lg);
   }
 

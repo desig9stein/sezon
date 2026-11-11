@@ -150,7 +150,7 @@ export const ui = {
     fromMonth: (month: Month, level: string) => `От ${monthNameLower(month)}: ${level}`,
   },
   produce: {
-    family: (name: string, latinName: string) => `Семейство: ${name} (${latinName})`,
+    familyLabel: 'Семейство:',
     now: (month: string, level: string) => `През ${month}: ${level}`,
     outOfSeason: 'Извън сезона',
     outOfSeasonLower: 'извън сезона',
@@ -263,6 +263,15 @@ export const ui = {
       `Всички ${SECTION_NAMES[kind].toLowerCase()} в каталога, подредени по сезона през ${monthNameLower(month)}.`,
     outOfSeason: (month: Month) => `Извън сезона през ${monthNameLower(month)}`,
     empty: 'Все още няма добавени продукти в този раздел.',
+  },
+  groups: {
+    title: (name: string, latinName: string) =>
+      fittingTitle([`${name} (${latinName}) – сезонни продукти`, `${name} (${latinName})`, name]),
+    description: (description: string, month: Month) =>
+      `${description} Кои от тях са в сезон през ${monthNameLower(month)} и какви са хранителните им стойности.`,
+    intro: (name: string, month: Month) =>
+      `Продуктите от семейство ${name}, подредени по сезона през ${monthNameLower(month)}.`,
+    empty: 'Все още няма добавени продукти от това семейство.',
   },
   search: {
     navLabel: 'Търсене',

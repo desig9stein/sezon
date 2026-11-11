@@ -1,0 +1,59 @@
+---
+import ProduceGroupList from '@components/produce/ProduceGroupList.astro';
+import type { Produce, SeasonGroups } from '@contexts/catalog';
+import type { SeasonLevel } from '@contexts/seasonality';
+import { ui } from '@i18n/bg';
+
+/**
+ * Produce in labelled season groups: peak (plates), available, storage and out of season
+ * (index rows). Starts with `intro`, or `empty` when there is no produce. Seasonal cards carry a
+ * season badge; empty groups are not rendered. `idPrefix` keeps heading ids unique per page.
+ */
+interface Props {
+  groups: SeasonGroups;
+  intro: string;
+  empty: string;
+  idPrefix: string;
+}
+
+interface Group {
+  readonly id: string;
+  readonly heading: string;
+  readonly items: ReadonlyArray<Produce>;
+  readonly withLevel: boolean;
+}
+
+const { groups: index, intro, empty, idPrefix } = Astro.props;
+const { month } = index;
+const groups: ReadonlyArray<Group> = [
+  { id: 'peak', heading: ui.overview.peak, items: index.peak, withLevel: true },
+  { id: 'available', heading: ui.overview.available, items: index.available, withLevel: true },
+  { id: 'storage', heading: ui.overview.storage, items: index.storage, withLevel: true },
+  {
+    id: 'out-of-season',
+    heading: ui.sections.outOfSeason(month),
+    items: index.outOfSeason,
+    withLevel: false,
+  },
+].filter((group) => group.items.length > 0);
+const levelOf = (produce: Produce, group: Group): SeasonLevel | undefined =>
+  group.withLevel ? produce.levelIn(month) : undefined;
+---
+
+{index.count === 0 ? <p>{empty}</p> : <p class="season-groups__intro">{intro}</p>}
+{groups.map((group) => (
+  <ProduceGroupList
+    id={`${idPrefix}-${group.id}`}
+    heading={group.heading}
+    items={group.items}
+    variant={group.id === 'peak' ? 'plate' : 'index'}
+    levelOf={(produce) => levelOf(produce, group)}
+  />
+))}
+
+<style>
+  .season-groups__intro {
+    max-width: var(--reading-width);
+    font-size: var(--font-size-lg);
+  }
+</style>

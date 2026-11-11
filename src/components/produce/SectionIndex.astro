@@ -1,60 +1,22 @@
 ---
-import ProduceGroupList from '@components/produce/ProduceGroupList.astro';
-import type { Produce, SectionIndex } from '@contexts/catalog';
-import type { SeasonLevel } from '@contexts/seasonality';
+import SeasonGroupsList from '@components/produce/SeasonGroupsList.astro';
+import type { SectionIndex } from '@contexts/catalog';
 import { ui } from '@i18n/bg';
 
 /**
- * Every produce of one kind in labelled groups: peak, available, storage, out of season.
- * Starts with an intro, or the empty-state text when the kind has no produce. Seasonal cards
- * carry a season badge; empty groups are not rendered.
+ * Every produce of one kind in labelled season groups, introduced by the section intro, or the
+ * section empty text when the kind has no produce.
  */
 interface Props {
   section: SectionIndex;
 }
 
-interface Group {
-  readonly id: string;
-  readonly heading: string;
-  readonly items: ReadonlyArray<Produce>;
-  readonly withLevel: boolean;
-}
-
 const { section } = Astro.props;
-const { month } = section;
-const groups: ReadonlyArray<Group> = [
-  { id: 'peak', heading: ui.overview.peak, items: section.peak, withLevel: true },
-  { id: 'available', heading: ui.overview.available, items: section.available, withLevel: true },
-  { id: 'storage', heading: ui.overview.storage, items: section.storage, withLevel: true },
-  {
-    id: 'out-of-season',
-    heading: ui.sections.outOfSeason(month),
-    items: section.outOfSeason,
-    withLevel: false,
-  },
-].filter((group) => group.items.length > 0);
-const levelOf = (produce: Produce, group: Group): SeasonLevel | undefined =>
-  group.withLevel ? produce.levelIn(month) : undefined;
 ---
 
-{section.count === 0 ? (
-  <p>{ui.sections.empty}</p>
-) : (
-  <p class="section-intro">{ui.sections.intro(section.kind, month)}</p>
-)}
-{groups.map((group) => (
-  <ProduceGroupList
-    id={`section-${group.id}`}
-    heading={group.heading}
-    items={group.items}
-    variant={group.id === 'peak' ? 'plate' : 'index'}
-    levelOf={(produce) => levelOf(produce, group)}
-  />
-))}
-
-<style>
-  .section-intro {
-    max-width: var(--reading-width);
-    font-size: var(--font-size-lg);
-  }
-</style>
+<SeasonGroupsList
+  groups={section}
+  intro={ui.sections.intro(section.kind, section.month)}
+  empty={ui.sections.empty}
+  idPrefix="section"
+/>

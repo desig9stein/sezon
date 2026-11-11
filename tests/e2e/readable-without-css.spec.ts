@@ -10,6 +10,7 @@ const PAGES = [
   { name: 'nutrient', path: '/nutrienti/vitamin-c' },
   { name: 'calendar', path: '/kalendar' },
   { name: 'search', path: '/tarsene' },
+  { name: 'group', path: '/grupi/krastotsvetni' },
   { name: 'not found', path: '/404' },
 ] as const;
 

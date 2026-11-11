@@ -82,3 +82,8 @@ export class ProduceNotFoundError extends DomainError {
 export class NutrientNotFoundError extends DomainError {
   readonly code = 'NUTRIENT_NOT_FOUND';
 }
+
+/** Thrown when no produce group exists for a requested slug. */
+export class ProduceGroupNotFoundError extends DomainError {
+  readonly code = 'PRODUCE_GROUP_NOT_FOUND';
+}

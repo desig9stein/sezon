@@ -14,6 +14,7 @@ export const routes = {
   calendar: '/kalendar',
   search: '/tarsene',
   month: (month: Month) => `/sezon/${month.slug}`,
+  group: (slug: string) => `/grupi/${slug}`,
   nutrient: (slug: string) => `/nutrienti/${slug}`,
   produceSection: (kind: ProduceKind) => PRODUCE_SECTIONS[kind],
   section: (kind: ProduceKind) => `/${PRODUCE_SECTIONS[kind]}`,
