@@ -35,7 +35,7 @@ nutrition:
     - { nutrient: kaliy, amount: 558 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Spinach, raw'
-    url: https://fdc.nal.usda.gov/
+    url: https://fdc.nal.usda.gov/food-details/168462/nutrients
 preparation:
   - method: Пресен в салата
     tip: Суровите листа запазват витамин C и фолата.

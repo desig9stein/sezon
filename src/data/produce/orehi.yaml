@@ -31,13 +31,13 @@ nutrition:
   sugarsG: 2.61
   micronutrients:
     - { nutrient: magneziy, amount: 158 }
-    - { nutrient: mangan, amount: 3.41 }
-    - { nutrient: med-cu, amount: 1.59 }
+    - { nutrient: mangan, amount: 3.414 }
+    - { nutrient: med-cu, amount: 1.586 }
     - { nutrient: folat, amount: 98 }
     - { nutrient: fosfor, amount: 346 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Nuts, walnuts, english'
-    url: https://fdc.nal.usda.gov/
+    url: https://fdc.nal.usda.gov/food-details/170187/nutrients
 preparation:
   - method: Сурови
     tip: Суровите орехи запазват полиненаситените мазнини, които се окисляват при силно печене.

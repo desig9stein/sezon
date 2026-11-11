@@ -40,7 +40,7 @@ nutrition:
     - { nutrient: kaliy, amount: 170 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Cabbage, raw'
-    url: https://fdc.nal.usda.gov/
+    url: https://fdc.nal.usda.gov/food-details/169975/nutrients
 preparation:
   - method: Сурово
     tip: Нарязано на салата непосредствено преди сервиране запазва най-много витамин C.

@@ -29,7 +29,7 @@ nutrition:
     - { nutrient: kaliy, amount: 300 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Celeriac, raw'
-    url: https://fdc.nal.usda.gov/
+    url: https://fdc.nal.usda.gov/food-details/170400/nutrients
 preparation:
   - method: В супа
     tip: Варете я в супата и консумирайте и бульона, в който остават минералите.
