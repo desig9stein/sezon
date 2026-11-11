@@ -100,6 +100,12 @@ main:focus {
   border: 0;
 }
 
+/* Hides part of a word visually while keeping it inline, so the accessible name stays one word. */
+.visually-hidden-inline {
+  font-size: 0;
+  clip-path: inset(50%);
+}
+
 .container {
   width: min(100% - 2 * var(--space-4), var(--content-width));
   margin-inline: auto;

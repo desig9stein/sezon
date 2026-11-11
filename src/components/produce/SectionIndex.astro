@@ -47,7 +47,7 @@ const levelOf = (produce: Produce, group: Group): SeasonLevel | undefined =>
     id={`section-${group.id}`}
     heading={group.heading}
     items={group.items}
-    variant={group.id === 'peak' ? 'plates' : 'index'}
+    variant={group.id === 'peak' ? 'plate' : 'index'}
     levelOf={(produce) => levelOf(produce, group)}
   />
 ))}

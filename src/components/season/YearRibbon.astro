@@ -20,7 +20,9 @@ const { current } = Astro.props;
     {Month.all().map((month) => (
       <li>
         <a href={routes.month(month)} aria-current={month === current ? 'date' : undefined}>
-          <MonthAbbr month={month} />
+          <span>
+            <MonthAbbr month={month} />
+          </span>
         </a>
       </li>
     ))}
@@ -41,7 +43,6 @@ const { current } = Astro.props;
   }
 
   .ribbon__list a {
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;

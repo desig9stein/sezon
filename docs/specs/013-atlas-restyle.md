@@ -34,11 +34,16 @@ Lighthouse 100 stay as they are.
   - A plate number „Табло XI от XII“.
   - The `h1` „В сезон през ноември“. Its month word is set in the display size and capitalised
     by CSS (`text-transform: capitalize`), so without CSS it still reads as a sentence.
+    Phones get three-letter abbreviations in a 6 × 2 ribbon, not the initials ADR-0004
+    sketched, because initials repeat (Ю, А, М).
   - The intro.
   - The **year ribbon**, a new `YearRibbon` component: `<nav aria-label="Месеци">` with an
     ordered list of 12 month links. Each shows a three-letter abbreviation followed, in the same word, by
-    the rest of the name in `.visually-hidden` (e.g. „Яну<span class="visually-hidden">ари</span>“),
-    so screen readers and no-CSS readers get the full name. The current month is marked `aria-current="date"` and
+    the rest of the name in `.visually-hidden-inline` (e.g. „Яну<span class="visually-hidden-inline">ари</span>“),
+    so screen readers and no-CSS readers get the full name as one word. The new utility keeps the
+    fragment inline (`font-size: 0; clip-path: inset(50%)`), because `.visually-hidden`
+    (`position: absolute`) splits the accessible name into „Яну ари“. The fragment sits in a plain
+    `span`, because flex and grid containers would make its parts separate items. The current month is marked `aria-current="date"` and
     filled with the accent colour. The ribbon has 12 columns on wide screens and 6 × 2 on
     narrow ones.
 - **`SeasonOverview` and `SectionIndex`:**
@@ -84,10 +89,18 @@ None. Presentation only. Helpers in `src/i18n/bg.ts`:
 - **Plate variant.** It applies only to the peak group. When there is no peak produce, there are
   no plates.
 - **Empty states and JSON-LD.** Both are unchanged.
+- **Medium screens (≤ 60 rem):** the produce calendar uses 6 columns and the header navigation is
+  compact.
 - **Narrow screens (≤ 40 rem):**
-  - The ribbon uses 6 columns and the calendar 6 columns.
+  - The ribbon uses 6 columns and the calendar 4 columns, so level texts keep whole words.
   - Plates stack in one column.
-  - The header navigation uses smaller gaps and 2.25 rem targets.
+- **Month word size.** `min(display size, 16.5vw)`, so the longest name („Септември“) fits one line
+  at 320 px; leading 0.82 as in ADR-0004.
+- **Accessible name of the hero heading.** Chrome applies `text-transform: capitalize` to the
+  computed name („В сезон през Ноември“). This is accepted: the HTML and the no-CSS reading say
+  „ноември“.
+- **Current month in the calendar.** A two-tone inset ring (background, then accent), so the accent
+  ring always borders the page background (≥ 3:1) whatever the season tint.
 - **Focus.** It stays visible on every new element: an outline in the `focus` colour, which is
   not hidden by overflow.
 

@@ -14,7 +14,7 @@ describe('YearRibbon', () => {
     expect(links[0]?.[1]).toContain('href="/sezon/yanuari"');
     const text = (inner: string | undefined) => (inner ?? '').replace(/<[^>]+>/g, '').trim();
     expect(text(links[0]?.[2])).toBe('Януари');
-    expect(links[0]?.[2]).toMatch(/Яну<span class="visually-hidden"[^>]*>ари<\/span>/);
+    expect(links[0]?.[2]).toMatch(/Яну<span class="visually-hidden-inline"[^>]*>ари<\/span>/);
     expect(text(links[4]?.[2])).toBe('Май');
     expect(links[4]?.[2]).not.toContain('visually-hidden');
     expect(html.match(/aria-current="date"/g)).toHaveLength(1);

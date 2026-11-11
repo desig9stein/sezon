@@ -2,7 +2,10 @@
 import type { Month } from '@contexts/seasonality';
 import { monthAbbreviation, monthRest } from '@i18n/bg';
 
-/** The month's first three letters, followed by the rest of its name visually hidden. */
+/**
+ * The month's first three letters, followed by the rest of its name hidden inline, so the
+ * accessible name and the text without CSS are the whole month name.
+ */
 interface Props {
   month: Month;
 }
@@ -11,4 +14,4 @@ const { month } = Astro.props;
 const rest = monthRest(month);
 ---
 
-{[monthAbbreviation(month), rest && <span class="visually-hidden">{rest}</span>]}
+{[monthAbbreviation(month), rest && <span class="visually-hidden-inline">{rest}</span>]}

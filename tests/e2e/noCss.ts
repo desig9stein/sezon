@@ -21,11 +21,13 @@ export async function removeAllCss(page: Page): Promise<void> {
  * a `clip-path`, a zero-size box that clips its content, or a box outside the document
  * or, inside a scroll container (other than `html` and `body`), outside its scrollable area.
  * `[hidden]` elements that CSS reveals are reported with the suffix ` (revealed)`.
- * Non-rendered elements, `[hidden]`, `.visually-hidden`, `.skip-link` and their descendants are exempt.
+ * Non-rendered elements, `[hidden]`, `.visually-hidden`, `.visually-hidden-inline`, `.skip-link` and
+ * their descendants are exempt.
  */
 export async function hiddenByCss(page: Page): Promise<string[]> {
   return page.evaluate(() => {
-    const exempt = 'script, style, template, noscript, [hidden], .visually-hidden, .skip-link';
+    const exempt =
+      'script, style, template, noscript, [hidden], .visually-hidden, .visually-hidden-inline, .skip-link';
     const describe = (element: Element): string =>
       `${element.tagName.toLowerCase()}${[...element.classList].map((name) => `.${name}`).join('')}`;
     const documentWidth = document.documentElement.scrollWidth;

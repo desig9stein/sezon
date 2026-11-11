@@ -1,5 +1,6 @@
 import type { ProduceKind } from '@contexts/catalog';
-import type { Month, SeasonLevelValue } from '@contexts/seasonality';
+import { LAST_MONTH_NUMBER, type Month, type SeasonLevelValue } from '@contexts/seasonality';
+import { InvalidMonthError } from '@shared/domain/errors';
 import { characterCount, DESCRIPTION_MAX_LENGTH, TITLE_MAX_LENGTH } from '@shared/seo';
 
 /** Name of the website. */
@@ -94,6 +95,8 @@ const SECTION_NAMES: Readonly<Record<ProduceKind, string>> = {
   nut: 'Ядки',
 };
 
+const HOME_HEADING_LEAD = 'В сезон през';
+
 /** All user-facing UI strings. */
 export const ui = {
   siteName: SITE_NAME,
@@ -121,10 +124,10 @@ export const ui = {
   },
   home: {
     plate: (month: Month) =>
-      `Табло ${romanNumeral(month.number)} от ${romanNumeral(MONTHS_IN_YEAR)}`,
+      `Табло ${romanNumeral(month.number)} от ${romanNumeral(LAST_MONTH_NUMBER)}`,
     title: 'Какво е в сезон сега',
-    heading: (month: Month) => `В сезон през ${monthNameLower(month)}`,
-    headingLead: 'В сезон през',
+    heading: (month: Month) => `${HOME_HEADING_LEAD} ${monthNameLower(month)}`,
+    headingLead: HOME_HEADING_LEAD,
     intro:
       'Сезонните плодове и зеленчуци са най-вкусни, най-евтини и идват от по-близо. Ето какво се бере в България този месец.',
     description: (month: Month) =>
@@ -284,7 +287,6 @@ export function monthName(month: Month): string {
 }
 
 const ABBREVIATION_LENGTH = 3;
-const MONTHS_IN_YEAR = 12;
 const ROMAN_NUMERALS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
 
 /** Returns the first three letters of the month name (e.g. „Ное“). */
@@ -298,13 +300,13 @@ export function monthRest(month: Month): string {
 }
 
 /**
- * Returns `value` (1–12) as a Roman numeral.
- * @throws RangeError when `value` is outside 1–12.
+ * Returns a month number (1–12) as a Roman numeral.
+ * @throws InvalidMonthError when `value` is outside 1–12.
  */
 export function romanNumeral(value: number): string {
   const numeral = ROMAN_NUMERALS[value - 1];
   if (numeral === undefined) {
-    throw new RangeError(`No Roman numeral for ${value}.`);
+    throw new InvalidMonthError(`No Roman numeral for month ${value}.`);
   }
   return numeral;
 }

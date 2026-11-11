@@ -36,7 +36,7 @@ describe('SeasonCalendarList', () => {
   it('AC7 (spec 013): shows the abbreviation with the rest of the month name visually hidden', async () => {
     const html = await render(SeasonCalendarList, { produce, currentMonth: Month.of(11) });
     expect(html).toMatch(
-      /Окт<span class="visually-hidden"[^>]*>омври<\/span>[\s\S]*?Разгар на сезона/,
+      /Окт<span class="visually-hidden-inline"[^>]*>омври<\/span>[\s\S]*?Разгар на сезона/,
     );
     expect(html).not.toMatch(/aria-label=/);
   });

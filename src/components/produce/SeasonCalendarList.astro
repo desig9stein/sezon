@@ -76,8 +76,9 @@ const months = Month.all().map((month) => ({ month, level: produce.levelIn(month
   }
 
   .calendar__month a[aria-current='date'] {
-    outline: 3px solid var(--color-accent);
-    outline-offset: -3px;
+    box-shadow:
+      inset 0 0 0 2px var(--color-background),
+      inset 0 0 0 5px var(--color-accent);
     font-weight: 700;
   }
 
@@ -100,6 +101,12 @@ const months = Month.all().map((month) => ({ month, level: produce.levelIn(month
   @media (max-width: 60rem) {
     .calendar {
       grid-template-columns: repeat(6, 1fr);
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .calendar {
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 </style>
