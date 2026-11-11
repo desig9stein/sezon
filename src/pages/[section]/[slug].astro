@@ -6,14 +6,15 @@ import GrowingGuide from '@components/produce/GrowingGuide.astro';
 import ProducePhoto from '@components/produce/ProducePhoto.astro';
 import NutritionTable from '@components/produce/NutritionTable.astro';
 import SeasonCalendarList from '@components/produce/SeasonCalendarList.astro';
-import SeasonBadge from '@components/season/SeasonBadge.astro';
+import ProduceNow from '@components/produce/ProduceNow.astro';
+import { produceToc } from '@components/produce/produceToc';
 import SourceList from '@components/produce/SourceList.astro';
 import TraditionalUses from '@components/produce/TraditionalUses.astro';
 import { routes } from '@components/layout/routes';
 import { BUILD_DATE, buildMonth } from '@composition/clock';
 import { produceDetailsQuery, produceRepository } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
-import { monthNameLower, produceTitle, ui } from '@i18n/bg';
+import { produceTitle, ui } from '@i18n/bg';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { articleJsonLd, faqPageJsonLd } from '@shared/seo';
 import { searchHeadingAttributes } from '@components/search/searchAttributes';
@@ -28,15 +29,7 @@ const { produce, group } = details;
 const path = routes.produce(produce);
 const siteUrl = requireSiteUrl(Astro.site);
 const labels = ui.produce;
-const currentLevel = produce.levelIn(buildMonth);
-const toc = [
-  { id: 'stall', label: labels.headings.stall },
-  { id: 'eat', label: labels.headings.eat },
-  ...(produce.growing === undefined ? [] : [{ id: 'grow', label: labels.headings.grow }]),
-  { id: 'farms', label: labels.headings.farms },
-  ...(produce.faq.length > 0 ? [{ id: 'faq', label: labels.headings.faq }] : []),
-  { id: 'sources', label: labels.headings.sources },
-];
+const toc = produceToc(produce);
 const SHARE_IMAGE_WIDTH = 1200;
 const shareImage =
   produce.photo === undefined
@@ -102,16 +95,7 @@ const jsonLd = [
 
     <section id="stall" class="produce__group produce__wide" aria-labelledby="stall-heading">
       <h2 id="stall-heading">{labels.headings.stall}</h2>
-      <p class="produce-now">
-        {currentLevel === undefined ? (
-          <span class="produce-now__none">{labels.outOfSeasonIn(monthNameLower(buildMonth))}</span>
-        ) : (
-          <>
-            <SeasonBadge level={currentLevel} />
-            <span>{labels.nowIn(monthNameLower(buildMonth))}</span>
-          </>
-        )}
-      </p>
+      <ProduceNow produce={produce} month={buildMonth} />
       <section class="produce__wide" aria-labelledby="season">
         <h3 id="season">{labels.headings.season}</h3>
         <SeasonCalendarList produce={produce} currentMonth={buildMonth} />
@@ -146,10 +130,13 @@ const jsonLd = [
             </li>
           ))}
         </ul>
+        <p>
+          <a href="#farms">{labels.farmsLink}</a>
+        </p>
       </section>
     </section>
 
-    <section id="eat" class="produce__group" aria-labelledby="eat-heading">
+    <section id="eat" class="produce__group produce__wide" aria-labelledby="eat-heading">
       <h2 id="eat-heading">{labels.headings.eat}</h2>
       <section aria-labelledby="nutrition">
         <h3 id="nutrition">{labels.headings.nutrition}</h3>
@@ -175,7 +162,7 @@ const jsonLd = [
     </section>
 
     {produce.growing !== undefined && (
-      <section id="grow" class="produce__group" aria-labelledby="grow-heading">
+      <section id="grow" class="produce__group produce__wide" aria-labelledby="grow-heading">
         <h2 id="grow-heading">{labels.headings.grow}</h2>
         <GrowingGuide growing={produce.growing} headingLevel={3} />
       </section>
@@ -226,6 +213,12 @@ const jsonLd = [
     max-width: none;
   }
 
+  @media print {
+    .produce__toc {
+      display: none;
+    }
+  }
+
   .produce__toc ul {
     display: flex;
     flex-wrap: wrap;
@@ -254,20 +247,6 @@ const jsonLd = [
     gap: var(--space-6);
     padding-top: var(--space-2);
     border-top: 2px solid var(--color-text);
-  }
-
-  .produce-now {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-2);
-    font-size: var(--font-size-lg);
-    font-weight: 600;
-  }
-
-  .produce-now :global(.season-stamp) {
-    font-size: var(--font-size-lg);
-    transform: rotate(-3deg);
   }
 
   .produce__header {

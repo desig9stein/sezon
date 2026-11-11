@@ -175,6 +175,7 @@ export const ui = {
       plant: 'Засаждане',
     } satisfies Record<GrowingActivity, string>,
     toc: 'На тази страница',
+    farmsLink: 'Местни ферми, които го продават',
     nowIn: (month: string) => `през ${month}`,
     outOfSeasonIn: (month: string) => `Извън сезона през ${month}`,
     headings: {

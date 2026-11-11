@@ -26,7 +26,8 @@ varieties, where it grows), then „Яж“ (nutrition, preparation, traditional
 - **Table of contents:** a `nav` „На тази страница“ with anchor links to the groups present.
 - **„На сергията“ (`h2#stall`):** the current level as a large stamp with „през <месец>“ (or
   „Извън сезона през <месец>“), then `h3` sections: season by month (calendar), how to choose,
-  how to store, varieties (when any), where it grows (regions with notes).
+  how to store, varieties (when any), where it grows (regions with notes), and a link to the farms
+  section.
 - **„Яж“ (`h2#eat`):** `h3` nutrition, preparation, traditional uses (when any).
 - **„Отгледай“ (`h2#grow`):** the growing guide with its heading as `h3` (only when the produce has
   a guide).
@@ -46,6 +47,9 @@ No change.
 ## 5. Behaviour and edge cases
 
 - Groups and table-of-contents entries for absent content (no guide, no FAQ) are omitted.
+- The table of contents sits after the summary and photo (the brief says under the title): the
+  photo stays next to the title on wide screens, and the level and „Как да избереш“ stay within
+  two phone screens. It is not printed.
 - Section ids stay stable (`season`, `nutrition`, `growing`, `farms`, `faq`, `sources`), so old
   anchors keep working; new ids are `stall`, `eat`, `grow`.
 - Readable without CSS: the source order is the reading order; the table of contents is a list of

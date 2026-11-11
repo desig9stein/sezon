@@ -1,0 +1,45 @@
+---
+import SeasonBadge from '@components/season/SeasonBadge.astro';
+import type { Produce } from '@contexts/catalog';
+import type { Month } from '@contexts/seasonality';
+import { monthNameLower, ui } from '@i18n/bg';
+
+/**
+ * The produce's level in `month`: a large stamp followed by „през <месец>“, or plain words
+ * „Извън сезона през <месец>“ when it is out of season.
+ */
+interface Props {
+  produce: Produce;
+  month: Month;
+}
+
+const { produce, month } = Astro.props;
+const level = produce.levelIn(month);
+const labels = ui.produce;
+---
+
+<p class="produce-now">
+  {level === undefined ? (
+    <span class="produce-now__none">{labels.outOfSeasonIn(monthNameLower(month))}</span>
+  ) : (
+    <>
+      <SeasonBadge level={level} /> <span>{labels.nowIn(monthNameLower(month))}</span>
+    </>
+  )}
+</p>
+
+<style>
+  .produce-now {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+  }
+
+  .produce-now :global(.season-stamp) {
+    font-size: var(--font-size-lg);
+    transform: rotate(-3deg);
+  }
+</style>
