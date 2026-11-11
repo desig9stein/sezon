@@ -83,7 +83,11 @@ jobs:
         with:
           name: dist
           path: dist
-      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm exec playwright install chromium
+      - name: Install browser system dependencies
+        run: |
+          pnpm exec playwright install-deps chromium \
+            || echo "::warning::apt could not install the browser system packages; using the runner image's libraries."
       - run: pnpm test:e2e
 
   lighthouse:
