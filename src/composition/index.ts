@@ -1,5 +1,6 @@
 import { getCollection } from 'astro:content';
 import {
+  CatalogIndexService,
   NutrientRankingService,
   ProduceGroupIndexService,
   SeasonCalendarService,
@@ -113,6 +114,12 @@ export const sectionIndexService = new SectionIndexService(produceRepository);
 export const produceGroupIndexService = new ProduceGroupIndexService(
   produceRepository,
   produceGroupRepository,
+);
+/** Lists sections, groups and nutrients for the catalogue page. */
+export const catalogIndexService = new CatalogIndexService(
+  produceRepository,
+  produceGroupRepository,
+  nutrientRepository,
 );
 /** Builds the year-at-a-glance calendar of the catalogue. */
 export const seasonCalendarService = new SeasonCalendarService(produceRepository);

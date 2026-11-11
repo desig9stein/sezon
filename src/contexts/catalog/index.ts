@@ -51,3 +51,5 @@ export { SectionIndexService } from './application/SectionIndexService';
 export type { SectionIndex } from './application/SectionIndexService';
 export { SeasonCalendarService } from './application/SeasonCalendarService';
 export type { SeasonCalendar } from './application/SeasonCalendarService';
+export { CatalogIndexService } from './application/CatalogIndexService';
+export type { CatalogIndex } from './application/CatalogIndexService';

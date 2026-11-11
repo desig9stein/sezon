@@ -46,7 +46,7 @@ test.describe('atlas restyle', () => {
 test.describe('atlas restyle QA', () => {
   test('QA 013: ribbon and calendar links are named with whole month words', async ({ page }) => {
     await page.goto('/');
-    const ribbon = page.getByRole('navigation', { name: 'Месеци' });
+    const ribbon = page.getByRole('navigation', { name: 'Месеци', exact: true });
     for (const name of ['Януари', 'Септември', 'Декември', 'Май']) {
       await expect(ribbon.getByRole('link', { name, exact: true })).toHaveCount(1);
     }

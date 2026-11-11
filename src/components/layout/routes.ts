@@ -8,16 +8,31 @@ const PRODUCE_SECTIONS: Readonly<Record<ProduceKind, string>> = {
   nut: 'yadki',
 };
 
+const GROUPS_PREFIX = '/grupi';
+const NUTRIENTS_PREFIX = '/nutrienti';
+const MONTHS_PREFIX = '/sezon';
+
 /** Site-relative paths of all routes. */
 export const routes = {
   home: '/',
+  catalog: '/katalog',
   calendar: '/kalendar',
   search: '/tarsene',
-  month: (month: Month) => `/sezon/${month.slug}`,
-  group: (slug: string) => `/grupi/${slug}`,
-  nutrient: (slug: string) => `/nutrienti/${slug}`,
+  month: (month: Month) => `${MONTHS_PREFIX}/${month.slug}`,
+  group: (slug: string) => `${GROUPS_PREFIX}/${slug}`,
+  nutrient: (slug: string) => `${NUTRIENTS_PREFIX}/${slug}`,
   produceSection: (kind: ProduceKind) => PRODUCE_SECTIONS[kind],
   section: (kind: ProduceKind) => `/${PRODUCE_SECTIONS[kind]}`,
   produce: (produce: { readonly kind: ProduceKind; readonly slug: string }) =>
     `/${PRODUCE_SECTIONS[produce.kind]}/${produce.slug}`,
 } as const;
+
+/** Path prefixes of the pages the main navigation counts as part of the catalogue. */
+export const CATALOG_AREAS: ReadonlyArray<string> = [
+  ...Object.values(PRODUCE_SECTIONS).map((section) => `/${section}`),
+  GROUPS_PREFIX,
+  NUTRIENTS_PREFIX,
+];
+
+/** Path prefixes of the pages the main navigation counts as part of the calendar. */
+export const CALENDAR_AREAS: ReadonlyArray<string> = [MONTHS_PREFIX];

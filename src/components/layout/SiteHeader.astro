@@ -1,27 +1,31 @@
 ---
-import { PRODUCE_KINDS } from '@contexts/catalog';
-import { buildMonth } from '@composition/clock';
-import { monthName, ui } from '@i18n/bg';
-import { routes } from './routes';
+import { ui } from '@i18n/bg';
+import { CALENDAR_AREAS, CATALOG_AREAS, routes } from './routes';
 
-/** Site banner with the logo link and the main navigation. */
+/**
+ * Site banner on the stamp-blue shell: the logo link and four navigation links. The current page
+ * gets `aria-current="page"`; the link whose area contains the page gets `aria-current="true"`.
+ */
 interface Props {
   currentPath: string;
 }
 
 const { currentPath } = Astro.props;
+
 const links = [
-  { href: routes.home, label: ui.nav.now },
-  { href: routes.month(buildMonth.next()), label: ui.nav.next(monthName(buildMonth.next())) },
-  ...PRODUCE_KINDS.map((kind) => ({ href: routes.section(kind), label: ui.sections.names[kind] })),
-  { href: routes.calendar, label: ui.calendar.navLabel },
-  { href: routes.search, label: ui.search.navLabel },
+  { href: routes.home, label: ui.nav.now, areas: [] as ReadonlyArray<string> },
+  { href: routes.catalog, label: ui.nav.catalog, areas: CATALOG_AREAS },
+  { href: routes.calendar, label: ui.calendar.navLabel, areas: CALENDAR_AREAS },
+  { href: routes.search, label: ui.search.navLabel, areas: [] as ReadonlyArray<string> },
 ];
 
-/** `page` for the current page, `true` for the section that contains it, otherwise nothing. */
-const currentOf = (href: string): 'page' | 'true' | undefined => {
-  if (href === currentPath) return 'page';
-  return href !== routes.home && currentPath.startsWith(`${href}/`) ? 'true' : undefined;
+const within = (path: string, prefix: string) => path === prefix || path.startsWith(`${prefix}/`);
+
+/** `page` for the current page, `true` for the area that contains it, otherwise nothing. */
+const currentOf = (link: (typeof links)[number]): 'page' | 'true' | undefined => {
+  if (link.href === currentPath) return 'page';
+  if (link.href !== routes.home && within(currentPath, link.href)) return 'true';
+  return link.areas.some((area) => within(currentPath, area)) ? 'true' : undefined;
 };
 ---
 
@@ -34,7 +38,7 @@ const currentOf = (href: string): 'page' | 'true' | undefined => {
       <ul class="site-header__nav" role="list">
         {links.map((link) => (
           <li>
-            <a href={link.href} aria-current={currentOf(link.href)}>
+            <a href={link.href} aria-current={currentOf(link)}>
               {link.label}
             </a>
           </li>
@@ -46,17 +50,17 @@ const currentOf = (href: string): 'page' | 'true' | undefined => {
 
 <style>
   .site-header {
-    border-bottom: 1px solid var(--color-rule);
-    background: var(--color-background);
+    color: var(--color-on-shell);
+    background: var(--color-shell);
   }
 
   .site-header__inner {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
-    gap: var(--space-1) var(--space-6);
-    padding-block: var(--space-3);
+    gap: 0 var(--space-4);
+    padding-block: var(--space-1);
   }
 
   .site-header__logo {
@@ -68,7 +72,7 @@ const currentOf = (href: string): 'page' | 'true' | undefined => {
     font-weight: 800;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--color-text);
+    color: inherit;
     text-decoration: none;
   }
 
@@ -84,12 +88,18 @@ const currentOf = (href: string): 'page' | 'true' | undefined => {
     display: inline-flex;
     align-items: center;
     min-height: var(--target-min);
-    color: var(--color-text);
-    font-weight: 500;
+    color: inherit;
+    font-weight: 600;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.35em;
+  }
+
+  .site-header__nav a:hover {
+    text-decoration-color: currentColor;
   }
 
   .site-header__nav a[aria-current] {
-    color: var(--color-accent);
+    text-decoration-color: var(--color-focus-on-shell);
     text-decoration-thickness: 3px;
   }
 
@@ -97,18 +107,13 @@ const currentOf = (href: string): 'page' | 'true' | undefined => {
     text-decoration-style: dotted;
   }
 
-  @media (max-width: 60rem) {
-    .site-header__inner {
-      padding-block: var(--space-2);
-    }
+  .site-header a:focus-visible {
+    outline-color: var(--color-focus-on-shell);
+  }
 
+  @media (max-width: 26rem) {
     .site-header__nav {
       gap: 0 var(--space-3);
-      font-size: var(--font-size-sm);
-    }
-
-    .site-header__nav a {
-      min-height: 2.25rem;
     }
   }
 </style>

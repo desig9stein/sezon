@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('QA 005: the current month link shows the focus outline when focused', async ({ page }) => {
   await page.goto('/zelenchutsi/spanak');
-  const current = page.locator('a[aria-current="date"]');
+  const current = page.locator('main a[aria-current="date"]');
   const focusColour = await page.evaluate(() =>
     getComputedStyle(document.documentElement).getPropertyValue('--color-focus').trim(),
   );
