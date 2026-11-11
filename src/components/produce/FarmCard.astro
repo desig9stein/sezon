@@ -1,0 +1,99 @@
+---
+import type { Farm } from '@contexts/farms';
+import type { Region } from '@contexts/geography';
+import { ui } from '@i18n/bg';
+
+/**
+ * One farm as a list item: name (heading at `headingLevel`), province, labels (organic with the
+ * certifier when `organic`, sponsored, placeholder), description and contact links.
+ */
+interface Props {
+  farm: Farm;
+  region: Region;
+  organic: boolean;
+  headingLevel: 3 | 4;
+}
+
+const { farm, region, organic, headingLevel } = Astro.props;
+const Heading = `h${headingLevel}` as const;
+const labels = ui.produce.farms;
+---
+
+<li class="farm">
+  <Heading class="farm__name">{farm.name}</Heading>
+  <p class="farm__meta">
+    <span>{region.name}</span>
+    {organic && farm.organic !== undefined && (
+      <span class="farm__tag">{labels.organic(farm.organic.certifier)}</span>
+    )}
+    {farm.sponsored && <span class="farm__tag">{labels.sponsored}</span>}
+    {farm.isPlaceholder && <span class="farm__tag">{labels.placeholder}</span>}
+  </p>
+  <p>{farm.description}</p>
+  <ul class="farm__contacts" role="list">
+    {farm.contact.website !== undefined && (
+      <li>
+        <a href={farm.contact.website} rel="noopener">
+          {labels.website(farm.name)}
+        </a>
+      </li>
+    )}
+    {farm.contact.email !== undefined && (
+      <li>
+        <a href={`mailto:${farm.contact.email}`}>{labels.email(farm.name)}</a>
+      </li>
+    )}
+    {farm.contact.phone !== undefined && (
+      <li>
+        <span aria-hidden="true">{labels.phoneLabel}</span>{' '}
+        <a
+          class="farm__phone"
+          href={`tel:${farm.contact.phone}`}
+          aria-label={labels.phone(farm.name, farm.contact.phone)}
+        >
+          {farm.contact.phone}
+        </a>
+      </li>
+    )}
+  </ul>
+</li>
+
+<style>
+  .farm {
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+    padding: var(--space-4);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+  }
+
+  .farm__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .farm__tag {
+    padding: 0 var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .farm__contacts {
+    padding: 0;
+    list-style: none;
+  }
+
+  .farm__contacts a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+  }
+
+  .farm__phone {
+    white-space: nowrap;
+  }
+</style>

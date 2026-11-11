@@ -1,58 +1,56 @@
 ---
 import type { FarmWithRegion } from '@composition/ProduceDetailsQuery';
+import type { OrganicProduction } from '@contexts/catalog';
 import { ui } from '@i18n/bg';
+import FarmCard from './FarmCard.astro';
 
-/** Farms that sell a produce, with province, description, contact links and labels. */
+/**
+ * The farms that sell a produce. Starts with the produce's organic status in Bulgaria when known.
+ * When a farm is certified organic, farms are split into an organic and an other group, each
+ * under its own heading; otherwise they form one list.
+ */
 interface Props {
   farms: ReadonlyArray<FarmWithRegion>;
+  organic?: OrganicProduction | undefined;
 }
 
-const { farms } = Astro.props;
+const { farms, organic } = Astro.props;
 const labels = ui.produce.farms;
+const organicFarms = farms.filter((entry) => entry.organic);
+const otherFarms = farms.filter((entry) => !entry.organic);
+const groups =
+  organicFarms.length === 0
+    ? []
+    : [
+        { id: 'farms-organic', heading: labels.organicGroup, farms: organicFarms },
+        { id: 'farms-other', heading: labels.otherGroup, farms: otherFarms },
+      ].filter((group) => group.farms.length > 0);
 ---
 
+{organic !== undefined && (
+  <p class="organic-status">
+    <strong>{labels.organicStatusLabel}</strong> {labels.organicStatus[organic.availability]}{' '}
+    {organic.note}
+  </p>
+)}
 {farms.length === 0 && <p>{labels.empty}</p>}
-{farms.length > 0 && (
+{farms.length > 0 && groups.length === 0 && (
   <ul class="farms" role="list">
-    {farms.map(({ farm, region }) => (
-      <li class="farm">
-        <h3 class="farm__name">{farm.name}</h3>
-        <p class="farm__meta">
-          <span>{region.name}</span>
-          {farm.sponsored && <span class="farm__tag">{labels.sponsored}</span>}
-          {farm.isPlaceholder && <span class="farm__tag">{labels.placeholder}</span>}
-        </p>
-        <p>{farm.description}</p>
-        <ul class="farm__contacts" role="list">
-          {farm.contact.website !== undefined && (
-            <li>
-              <a href={farm.contact.website} rel="noopener">
-                {labels.website(farm.name)}
-              </a>
-            </li>
-          )}
-          {farm.contact.email !== undefined && (
-            <li>
-              <a href={`mailto:${farm.contact.email}`}>{labels.email(farm.name)}</a>
-            </li>
-          )}
-          {farm.contact.phone !== undefined && (
-            <li>
-              <span aria-hidden="true">{labels.phoneLabel}</span>{' '}
-              <a
-                class="farm__phone"
-                href={`tel:${farm.contact.phone}`}
-                aria-label={labels.phone(farm.name, farm.contact.phone)}
-              >
-                {farm.contact.phone}
-              </a>
-            </li>
-          )}
-        </ul>
-      </li>
+    {farms.map((entry) => (
+      <FarmCard {...entry} headingLevel={3} />
     ))}
   </ul>
 )}
+{groups.map((group) => (
+  <section class="farm-group" aria-labelledby={group.id}>
+    <h3 id={group.id}>{group.heading}</h3>
+    <ul class="farms" role="list">
+      {group.farms.map((entry) => (
+        <FarmCard {...entry} headingLevel={4} />
+      ))}
+    </ul>
+  </section>
+))}
 
 <style>
   .farms {
@@ -63,41 +61,12 @@ const labels = ui.produce.farms;
     list-style: none;
   }
 
-  .farm {
+  .farm-group {
     display: grid;
-    gap: var(--space-2);
-    align-content: start;
-    padding: var(--space-4);
-    border-radius: var(--radius-sm);
-    background: var(--color-surface);
+    gap: var(--space-3);
   }
 
-  .farm__meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    color: var(--color-text-muted);
-    font-size: var(--font-size-sm);
-  }
-
-  .farm__tag {
-    padding: 0 var(--space-2);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-  }
-
-  .farm__contacts {
-    padding: 0;
-    list-style: none;
-  }
-
-  .farm__contacts a {
-    display: inline-flex;
-    align-items: center;
-    min-height: var(--target-min);
-  }
-
-  .farm__phone {
-    white-space: nowrap;
+  .organic-status {
+    max-width: var(--reading-width);
   }
 </style>

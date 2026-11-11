@@ -4,6 +4,7 @@ import type { Month, SeasonCalendar, SeasonLevel } from '@contexts/seasonality';
 import type { NutritionFacts } from './NutritionFacts';
 import type { ProduceKind } from './ProduceKind';
 import type { GrowingGuide } from './GrowingGuide';
+import type { OrganicProduction } from './OrganicProduction';
 import type { ProducePhoto } from './ProducePhoto';
 import type { Source } from './Source';
 
@@ -62,6 +63,7 @@ export interface ProduceInput {
   readonly reviewStatus: ReviewStatus;
   readonly photo?: ProducePhoto | undefined;
   readonly growing?: GrowingGuide | undefined;
+  readonly organic?: OrganicProduction | undefined;
 }
 
 /** A fruit, vegetable, herb or nut grown in Bulgaria, identified by its slug. */
@@ -84,6 +86,7 @@ export class Produce {
   readonly reviewStatus: ReviewStatus;
   readonly photo: ProducePhoto | undefined;
   readonly growing: GrowingGuide | undefined;
+  readonly organic: OrganicProduction | undefined;
   private readonly updatedAtEpochMs: number;
 
   private constructor(input: ProduceInput) {
@@ -117,17 +120,29 @@ export class Produce {
             credit: Object.freeze({ ...input.photo.credit }),
           });
     this.growing = input.growing;
+    this.organic =
+      input.organic === undefined
+        ? undefined
+        : Object.freeze({
+            ...input.organic,
+            sources: frozenRecords(input.organic.sources),
+          });
     Object.freeze(this);
   }
 
   /**
    * Creates a produce entity.
-   * @throws InvalidProduceError when `updatedAt` is not a valid date or the photo has an empty
-   * `alt`.
+   * @throws InvalidProduceError when `updatedAt` is not a valid date, the photo has an empty
+   * `alt`, or organic information has no source.
    */
   static create(input: ProduceInput): Produce {
     if (Number.isNaN(input.updatedAt.getTime())) {
       throw new InvalidProduceError(`Produce "${input.slug}" has an invalid updatedAt date.`);
+    }
+    if (input.organic !== undefined && input.organic.sources.length === 0) {
+      throw new InvalidProduceError(
+        `Produce "${input.slug}" has organic information without a source.`,
+      );
     }
     if (input.photo !== undefined && input.photo.alt.trim() === '') {
       throw new InvalidProduceError(`Produce "${input.slug}" has a photo without alt text.`);

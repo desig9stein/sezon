@@ -24,10 +24,11 @@ export interface ResolvedGrowingRegion {
   readonly note: string;
 }
 
-/** A farm with its province resolved. */
+/** A farm with its province resolved and whether it is certified organic on the query date. */
 export interface FarmWithRegion {
   readonly farm: Farm;
   readonly region: Region;
+  readonly organic: boolean;
 }
 
 /** Everything the produce page shows, resolved across bounded contexts. */
@@ -84,11 +85,13 @@ export class ProduceDetailsQuery {
   }
 
   /**
-   * Returns the details of the produce with `slug`.
+   * Returns the details of the produce with `slug`; farms are marked organic for the day of `on`.
+   * @param slug - Produce slug.
+   * @param on - Date for organic certificate validity, normally the build date.
    * @throws ProduceNotFoundError when no produce has that slug.
    * @throws BrokenReferenceError when its group, a nutrient or a region does not exist.
    */
-  async forSlug(slug: string): Promise<ProduceDetails> {
+  async forSlug(slug: string, on: Date = new Date()): Promise<ProduceDetails> {
     const { produce: produceRepository, groups, nutrients, regions, farms } = this.repositories;
     const produce = await produceRepository.findBySlug(slug);
     if (produce === undefined) {
@@ -131,6 +134,7 @@ export class ProduceDetailsQuery {
         Object.freeze({
           farm,
           region: await resolve(find(regions), farm.regionSlug, 'regions', `farms/${farm.slug}`),
+          organic: farm.isOrganicOn(on),
         }),
       ),
     );
@@ -146,6 +150,7 @@ export class ProduceDetailsQuery {
           produce.nutrition.source,
           ...produce.traditionalUses.map((use) => use.source),
           ...(produce.growing?.sources ?? []),
+          ...(produce.organic?.sources ?? []),
         ]),
       ),
     });
