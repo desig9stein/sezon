@@ -17,12 +17,15 @@ async function resultLinks(page: Page): Promise<string[]> {
 }
 
 test.describe('site search', () => {
-  test('AC3: /tarsene has one h1, is noindex and is not in the sitemap', async ({ page }) => {
+  test('AC3: /tarsene has one h1, is indexable with a canonical URL and is in the sitemap', async ({
+    page,
+  }) => {
     await page.goto(SEARCH);
     await expect(page.locator('h1')).toHaveCount(1);
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/tarsene$/);
     const sitemap = await (await page.request.get('/sitemap-0.xml')).text();
-    expect(sitemap).not.toContain('/tarsene');
+    expect(sitemap).toContain('/tarsene');
   });
 
   test('AC4: only produce, section and nutrient pages are indexed, with Latin headings', async ({
