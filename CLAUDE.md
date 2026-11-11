@@ -11,6 +11,10 @@
   `node_modules/<package>` when Context7 is ambiguous. Record the sources in the spec.
 - At the end of every feature, launch the `qa-reviewer` subagent with the spec path and
   the changed files. Fix confirmed findings before reporting the feature as done.
+- Do not duplicate automated checks locally. CI runs Prettier, ESLint, types, unit tests, build,
+  html-validate, e2e with axe and Lighthouse on every push. Locally, run only what you need while
+  writing code (the test you are working on, a build to inspect output) or to reproduce a red CI
+  check, then read the CI result after pushing.
 - Track multi-step work with the task list. Mark a task completed only after QA passes.
 - When a request is ambiguous, ask clarifying questions before writing code.
 - Never include model identifiers in code, docs or commit message bodies. The only exception is
