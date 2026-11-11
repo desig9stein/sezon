@@ -22,7 +22,7 @@ test.describe('stamp-of-origin typography (spec 022)', () => {
     expect(styles.heading).toMatch(/^"?Sofia Sans Extra Condensed/);
     expect(styles.transform).toBe('uppercase');
     expect(styles.weight).toBe('800');
-    expect(styles.latin).toMatch(/^"?Sofia Sans"?(,|$)/);
+    expect(styles.latin).toMatch(/^"?Sofia Sans(-[0-9a-f]+)?"?,/);
     expect(styles.latinStyle).toBe('italic');
   });
 });
