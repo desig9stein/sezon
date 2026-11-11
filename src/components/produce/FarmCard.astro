@@ -5,16 +5,16 @@ import { ui } from '@i18n/bg';
 
 /**
  * One farm as a list item: name (heading at `headingLevel`), province, labels (organic with the
- * certifier when `organic`, sponsored, placeholder), description and contact links.
+ * certifier when `certifiedOrganic`, sponsored, placeholder), description and contact links.
  */
 interface Props {
   farm: Farm;
   region: Region;
-  organic: boolean;
+  certifiedOrganic: boolean;
   headingLevel: 3 | 4;
 }
 
-const { farm, region, organic, headingLevel } = Astro.props;
+const { farm, region, certifiedOrganic, headingLevel } = Astro.props;
 const Heading = `h${headingLevel}` as const;
 const labels = ui.produce.farms;
 ---
@@ -23,7 +23,7 @@ const labels = ui.produce.farms;
   <Heading class="farm__name">{farm.name}</Heading>
   <p class="farm__meta">
     <span>{region.name}</span>
-    {organic && farm.organic !== undefined && (
+    {certifiedOrganic && farm.organic !== undefined && (
       <span class="farm__tag">{labels.organic(farm.organic.certifier)}</span>
     )}
     {farm.sponsored && <span class="farm__tag">{labels.sponsored}</span>}

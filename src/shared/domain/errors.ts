@@ -87,3 +87,8 @@ export class NutrientNotFoundError extends DomainError {
 export class ProduceGroupNotFoundError extends DomainError {
   readonly code = 'PRODUCE_GROUP_NOT_FOUND';
 }
+
+/** Thrown when farm data violates an entity invariant (e.g. an invalid certificate date). */
+export class InvalidFarmError extends DomainError {
+  readonly code = 'INVALID_FARM';
+}

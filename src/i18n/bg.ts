@@ -228,10 +228,10 @@ export const ui = {
       organic: (certifier: string) => `Био · ${certifier}`,
       organicGroup: 'Сертифицирани био ферми',
       otherGroup: 'Други ферми',
-      organicStatusLabel: 'Биологично производство в България:',
+      organicStatusLabel: 'Био в България:',
       organicStatus: {
-        available: 'има сертифицирано биологично производство.',
-        limited: 'има ограничено сертифицирано биологично производство.',
+        available: 'има сертифицирано производство.',
+        limited: 'има ограничено сертифицирано производство.',
       } satisfies Record<OrganicAvailability, string>,
       website: (farm: string) => `Уебсайт на ${farm}`,
       email: (farm: string) => `Имейл до ${farm}`,

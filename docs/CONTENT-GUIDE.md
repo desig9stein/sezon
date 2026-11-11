@@ -127,7 +127,9 @@ organic:
 Leave the block out when no source states it (no „unknown“ is shown). Organic is a production
 method: never write it as a health or quality claim. A farm gets an `organic` block
 (`certifier`, `certificateId`, `validUntil`) only with a real certificate; placeholder farms never
-do.
+do. When the only evidence is a producer's own website, write that the producer states it is
+certified („посочва, че е сертифицирана“), credit each figure only to the source that gives it,
+and do not name individual products or offers.
 
 ### Health content (YMYL)
 

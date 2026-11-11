@@ -72,7 +72,7 @@ growing:
       url: https://agrozona.bg/zaseyte-prez-yuli-kopara-za-esennite-konservi/
 organic:
   availability: available
-  note: 'Биологичен копър отглеждат сертифицирани стопанства в България, напр. „Софина“ и „Био Гардън Терзиев“.'
+  note: 'Биологичен копър отглеждат стопанства, които посочват, че са сертифицирани, напр. „Софина“ и „Био Гардън Терзиев“.'
   sources:
     - name: 'Био-Ферма Софина: Подправки и билки - производство „Софина“'
       url: https://www.sofinabio.com/bg-catalog-details-6.html

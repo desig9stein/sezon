@@ -1,3 +1,5 @@
+import { calendarDayIn } from '@shared/domain/calendarDay';
+import { InvalidFarmError } from '@shared/domain/errors';
 import { frozenList } from '@shared/domain/freeze';
 import type { ContactInfo } from './ContactInfo';
 
@@ -54,16 +56,33 @@ export class Farm {
     Object.freeze(this);
   }
 
-  /** Creates a farm. */
+  /**
+   * Creates a farm.
+   * @throws InvalidFarmError when the organic certificate has a blank certifier or id, or an
+   * invalid date.
+   */
   static create(input: FarmInput): Farm {
+    const certificate = input.organic;
+    if (certificate !== undefined) {
+      if (certificate.certifier.trim() === '' || certificate.certificateId.trim() === '') {
+        throw new InvalidFarmError(`Farm "${input.slug}" has a blank organic certifier or id.`);
+      }
+      if (Number.isNaN(certificate.validUntil.getTime())) {
+        throw new InvalidFarmError(`Farm "${input.slug}" has an invalid certificate date.`);
+      }
+    }
     return new Farm(input);
   }
 
-  /** Returns `true` when the farm holds an organic certificate valid on the calendar day of `date`. */
-  isOrganicOn(date: Date): boolean {
+  /**
+   * Returns `true` when the farm holds an organic certificate valid on the calendar day of `date`
+   * in `timeZone`. `validUntil` is a date without time, stored as UTC midnight.
+   * @param timeZone - IANA time zone; defaults to Europe/Sofia.
+   */
+  isOrganicOn(date: Date, timeZone?: string): boolean {
     if (this.organic === undefined) return false;
-    const day = (value: Date) => value.toISOString().slice(0, ISO_DATE_LENGTH);
-    return day(date) <= day(this.organic.validUntil);
+    const lastDay = this.organic.validUntil.toISOString().slice(0, ISO_DATE_LENGTH);
+    return calendarDayIn(date, timeZone) <= lastDay;
   }
 
   /** Returns `true` when the farm lists `produceSlug` among the produce it sells. */

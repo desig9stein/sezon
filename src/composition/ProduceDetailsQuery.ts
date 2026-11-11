@@ -28,7 +28,7 @@ export interface ResolvedGrowingRegion {
 export interface FarmWithRegion {
   readonly farm: Farm;
   readonly region: Region;
-  readonly organic: boolean;
+  readonly certifiedOrganic: boolean;
 }
 
 /** Everything the produce page shows, resolved across bounded contexts. */
@@ -91,7 +91,7 @@ export class ProduceDetailsQuery {
    * @throws ProduceNotFoundError when no produce has that slug.
    * @throws BrokenReferenceError when its group, a nutrient or a region does not exist.
    */
-  async forSlug(slug: string, on: Date = new Date()): Promise<ProduceDetails> {
+  async forSlug(slug: string, on: Date): Promise<ProduceDetails> {
     const { produce: produceRepository, groups, nutrients, regions, farms } = this.repositories;
     const produce = await produceRepository.findBySlug(slug);
     if (produce === undefined) {
@@ -134,7 +134,7 @@ export class ProduceDetailsQuery {
         Object.freeze({
           farm,
           region: await resolve(find(regions), farm.regionSlug, 'regions', `farms/${farm.slug}`),
-          organic: farm.isOrganicOn(on),
+          certifiedOrganic: farm.isOrganicOn(on),
         }),
       ),
     );

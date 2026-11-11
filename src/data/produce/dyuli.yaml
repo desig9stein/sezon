@@ -72,9 +72,9 @@ growing:
       url: https://www.bgfermer.bg/Article/9084454
 organic:
   availability: limited
-  note: 'Дюлите попадат в малката група „други семкови“ (11 ха през 2020 г., Евростат); сертифицирана ферма „Версол“ ги отглежда.'
+  note: 'Дюлите са в малката група „други семкови“ (11 ха през 2020 г., Евростат); отглежда ги биоферма „Версол“, която посочва, че е сертифицирана.'
   sources:
-    - name: 'Eurostat, org_cropar (Organic crop area by agricultural production methods and crops)'
-      url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/org_cropar?geo=BG&lang=EN
+    - name: 'Евростат – org_cropar (биологични площи по култури)'
+      url: https://ec.europa.eu/eurostat/databrowser/view/org_cropar/default/table
     - name: 'Био ферма „Версол“: Фермата'
       url: https://versol.bg/bg/za-nas/fermata

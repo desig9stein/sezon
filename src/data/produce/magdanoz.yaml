@@ -79,7 +79,7 @@ growing:
       url: https://agrozona.bg/v-zelenchukovata-gradina-prez-septemvri/
 organic:
   availability: available
-  note: 'Биологичен магданоз отглеждат сертифицирани стопанства в България, напр. „Софина“ и „Био Гардън Терзиев“.'
+  note: 'Биологичен магданоз отглеждат стопанства, които посочват, че са сертифицирани, напр. „Софина“ и „Био Гардън Терзиев“.'
   sources:
     - name: 'Био-Ферма Софина: Подправки и билки - производство „Софина“'
       url: https://www.sofinabio.com/bg-catalog-details-6.html

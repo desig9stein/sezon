@@ -16,8 +16,8 @@ interface Props {
 
 const { farms, organic } = Astro.props;
 const labels = ui.produce.farms;
-const organicFarms = farms.filter((entry) => entry.organic);
-const otherFarms = farms.filter((entry) => !entry.organic);
+const organicFarms = farms.filter((entry) => entry.certifiedOrganic);
+const otherFarms = farms.filter((entry) => !entry.certifiedOrganic);
 const groups =
   organicFarms.length === 0
     ? []

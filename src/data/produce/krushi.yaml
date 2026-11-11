@@ -84,9 +84,9 @@ organic:
   availability: available
   note: 'През 2024 г. в България има 133 ха крушови насаждения, напълно преминали към биологично производство (Евростат).'
   sources:
-    - name: 'Eurostat, org_cropar (Organic crop area by agricultural production methods and crops)'
-      url: https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/org_cropar?geo=BG&lang=EN
-    - name: 'Agrozona.bg: Значителен ръст в биологичното производство в България (29.08.2024)'
+    - name: 'Евростат – org_cropar (биологични площи по култури)'
+      url: https://ec.europa.eu/eurostat/databrowser/view/org_cropar/default/table
+    - name: 'Agrozona.bg – Значителен ръст в биологичното производство в България (29.08.2024)'
       url: https://agrozona.bg/znachitelen-rast-v-biologichnoto-proizvodstvo-v-balgariq/
-    - name: 'Agrozona.bg: 6 биоферми отварят врати в Седмицата на биохраните'
+    - name: 'Agrozona.bg – 6 биоферми отварят врати в Седмицата на биохраните'
       url: https://agrozona.bg/6-biofermi-otvaryat-vrati-v-sdmitsata-na-biohranite/

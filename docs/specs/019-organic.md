@@ -31,9 +31,10 @@ local produce. Wording is factual only: organic is a production method, never a 
   Produce without a sourced answer has no block (no „unknown“ state is shown).
 
 - **Farms:** an optional `organic` block: `certifier` (certification body), `certificateId`,
-  `validUntil` (date). A farm is organic on a date when the date is on or before `validUntil`.
+  `validUntil` (date). A farm is organic on a date when that date's calendar day in
+  Europe/Sofia is on or before `validUntil`.
 - **Produce page, farms section:**
-  - a line „Биологично производство в България: <статус>. <note>“ when the produce has the
+  - a line „Био в България: <статус>. <note>“ when the produce has the
     block, its sources joining the page sources;
   - farms split into „Сертифицирани био ферми“ and „Други ферми“ (`h3` each) when at least one
     farm is organic on the build date; otherwise the list stays as it is;
@@ -60,8 +61,13 @@ local produce. Wording is factual only: organic is a production method, never a 
 
 - An expired certificate (`validUntil` before the build date) shows no label and the farm is
   listed under „Други ферми“.
-- The availability text: `available` → „има сертифицирано биологично производство“, `limited` →
-  „има ограничено сертифицирано биологично производство“.
+- The availability text: `available` → „има сертифицирано производство“, `limited` →
+  „има ограничено сертифицирано производство“.
+- `Farm.create` throws `InvalidFarmError` for a certificate with a blank certifier or id or an
+  invalid date.
+- `ProduceDetailsQuery.forSlug` takes the date explicitly (the page passes the build date).
+- Data notes (QA 019): a producer's own statement that it is certified is worded as „посочва, че е
+  сертифицирана“; only a certificate with certifier and number gives a farm the „Био“ label.
 - Sponsored and placeholder labels keep working next to the organic label.
 - Order inside each farm group is unchanged (sponsored first, then by name, as today).
 
@@ -72,7 +78,8 @@ local produce. Wording is factual only: organic is a production method, never a 
 - The farm groups use `h3` under the section `h2`; farm names stay `h3` inside a single list
   when there are no organic farms, and become `h4` inside the groups, so headings never skip a
   level.
-- Readable without CSS; zero axe violations in light and dark mode.
+- Readable without CSS; zero axe violations in light and dark mode. The grouped markup is
+  covered by component tests; it reaches the e2e axe run once a seed farm holds a certificate.
 
 ## 7. SEO requirements
 
@@ -86,7 +93,8 @@ local produce. Wording is factual only: organic is a production method, never a 
 2. **AC2:** The farm schema accepts a valid `organic` block and none; it rejects a missing
    certifier, certificate id or date.
 3. **AC3:** `toProduce` maps `organic`; `Farm.isOrganicOn` is true on and before `validUntil`
-   and false after it.
+   and false after it, by the calendar day in Europe/Sofia; `Farm.create` rejects an invalid
+   certificate.
 4. **AC4:** `ProduceDetailsQuery` adds the organic sources once and marks each farm `organic`
    for the given date.
 5. **AC5:** The farms section renders the status line; with an organic farm it renders the two
@@ -98,14 +106,14 @@ local produce. Wording is factual only: organic is a production method, never a 
 
 ## 9. Test plan
 
-| AC  | Type      | Test file                                                              |
-| --- | --------- | ---------------------------------------------------------------------- |
-| AC1 | unit      | `tests/unit/contexts/catalog/infrastructure/organicSchema.test.ts`     |
-| AC2 | unit      | `tests/unit/contexts/farms/infrastructure/organicFarm.test.ts`         |
-| AC3 | unit      | `tests/unit/contexts/farms/domain/Farm-019.test.ts`                    |
-| AC4 | unit      | `tests/unit/composition/ProduceDetailsQuery-019.test.ts`               |
-| AC5 | component | `tests/components/FarmList-019.test.ts`                                |
-| AC6 | unit, e2e | `tests/unit/content/seed-organic.test.ts`, `tests/e2e/organic.spec.ts` |
+| AC  | Type      | Test file                                                                  |
+| --- | --------- | -------------------------------------------------------------------------- |
+| AC1 | unit      | `tests/unit/contexts/catalog/infrastructure/organicSchema.test.ts`         |
+| AC2 | unit      | `tests/unit/contexts/farms/infrastructure/organicFarm.test.ts`             |
+| AC3 | unit      | `tests/unit/contexts/farms/domain/Farm-019.test.ts`, `Farm-019-qa.test.ts` |
+| AC4 | unit      | `tests/unit/composition/ProduceDetailsQuery-019.test.ts`                   |
+| AC5 | component | `tests/components/FarmList-019.test.ts`                                    |
+| AC6 | unit, e2e | `tests/unit/content/seed-organic.test.ts`, `tests/e2e/organic.spec.ts`     |
 
 ## 10. Third-party documentation consulted
 
