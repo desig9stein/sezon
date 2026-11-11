@@ -13,7 +13,7 @@ export function growingRecord(
       'Поливайте редовно, особено при образуване на главите.',
       'Не садете зеле на едно място по-често от веднъж на 3–4 години.',
     ],
-    source: { name: 'Агрозона – Отглеждане на зеле', url: 'https://agrozona.bg/zele' },
+    sources: [{ name: 'Агрозона – Отглеждане на зеле', url: 'https://agrozona.bg/zele' }],
     ...overrides,
   };
 }

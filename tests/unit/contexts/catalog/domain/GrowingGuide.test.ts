@@ -12,7 +12,7 @@ describe('GrowingGuide', () => {
     expect(growing?.transplant.map((month) => month.number)).toEqual([5]);
     expect(growing?.plant).toEqual([]);
     expect(growing?.tips).toHaveLength(3);
-    expect(growing?.source.url).toBe('https://agrozona.bg/zele');
+    expect(growing?.sources.map((source) => source.url)).toEqual(['https://agrozona.bg/zele']);
     expect(Object.isFrozen(growing)).toBe(true);
   });
 

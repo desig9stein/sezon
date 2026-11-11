@@ -32,10 +32,11 @@ describe('growing schema', () => {
     expect(valid(growing)).toBe(false);
   });
 
-  it('AC1: rejects a missing source', () => {
-    const withoutSource = Object.fromEntries(
-      Object.entries(growingRecord()).filter(([key]) => key !== 'source'),
+  it('AC1: rejects missing or empty sources', () => {
+    const withoutSources = Object.fromEntries(
+      Object.entries(growingRecord()).filter(([key]) => key !== 'sources'),
     );
-    expect(valid(withoutSource)).toBe(false);
+    expect(valid(withoutSources)).toBe(false);
+    expect(valid(growingRecord({ sources: [] }))).toBe(false);
   });
 });

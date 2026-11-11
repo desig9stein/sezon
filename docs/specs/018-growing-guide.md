@@ -21,10 +21,13 @@ practical tips, on the produce page. Every month and tip comes from a cited Bulg
 ### In scope
 
 - **Content model:** an optional `growing` field on a produce:
-  - `sow`, `transplant`, `plant`: lists of month numbers (1–12, unique, may be empty);
+  - `sow`, `transplant`, `plant`: lists of month numbers (1–12, unique, may be empty).
+    `sow` is sowing, for seedlings or directly in the bed; `transplant` is setting seedlings out;
+    `plant` is planting saplings, sets or plants;
   - `plantingNote`: optional single-line text, used for trees and perennials;
   - `tips`: 3–5 single-line tips of at most 140 characters;
-  - `source`: name and https URL.
+  - `sources`: one or more citations (name and https URL); the months and tips often come
+    from several articles.
 
   The schema requires at least one month, or a `plantingNote`.
 
@@ -36,7 +39,7 @@ practical tips, on the produce page. Every month and tip comes from a cited Bulg
     (e.g. „март – април“, „ноември, март“);
   - the planting note;
   - the tips as a bulleted list;
-  - the growing source added to the page's sources list.
+  - the growing sources added to the page's sources list.
 - **Seed data:** drafts for the 13 seed produce from Bulgarian gardening portals (owner
   decision), `reviewStatus` unchanged (`draft`).
 
@@ -50,7 +53,7 @@ practical tips, on the produce page. Every month and tip comes from a cited Bulg
 
 - `GrowingActivity`: `'sow' | 'transplant' | 'plant'`.
 - `GrowingGuide` (interface): `sow`, `transplant`, `plant` (`ReadonlyArray<Month>`, sorted by
-  month number), `plantingNote?`, `tips`, `source`, and `activitiesIn(month)`.
+  month number), `plantingNote?`, `tips`, `sources`, and `activitiesIn(month)`.
 - `Produce.growing: GrowingGuide | undefined`, frozen. `Produce.create` rejects a guide with
   no months and no note (`InvalidProduceError`).
 - `monthRanges(months)` (i18n helper): groups consecutive months into ranges of `[first]` or
@@ -82,7 +85,7 @@ practical tips, on the produce page. Every month and tip comes from a cited Bulg
 
 1. **AC1:** The schema accepts a valid `growing` block and a produce without one; it rejects
    duplicate or out-of-range months, fewer than 3 or more than 5 tips, a tip over 140
-   characters, a missing source, and a block with no months and no note.
+   characters, missing or empty sources, and a block with no months and no note.
 2. **AC2:** `toProduce` maps `growing` to `produce.growing` with `Month` values sorted by
    number; `activitiesIn(Month.of(3))` lists the activities due in March;
    `produce.growing` is `undefined` without the block.
@@ -91,7 +94,7 @@ practical tips, on the produce page. Every month and tip comes from a cited Bulg
 4. **AC4:** The `GrowingGuide` component renders an `h2` „Отглеждане в градината“, a `dl` with
    only the activities that have months, month links to `/sezon/<month>`, the planting note and
    the tips.
-5. **AC5:** `ProduceDetailsQuery` adds the growing source to the page sources once.
+5. **AC5:** `ProduceDetailsQuery` adds the growing sources to the page sources once each.
 6. **AC6:** Every seed produce has a `growing` block with a source URL; the built carrot page
    shows the section; the section passes axe in light and dark mode and the spec 009 checks
    (unit, e2e).

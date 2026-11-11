@@ -11,10 +11,11 @@ const entries = readSeedCollection('produce').map(({ id, data }) => ({
 
 describe('seed growing guides', () => {
   it.each(entries.map(({ id, growing }) => [id, growing]))(
-    'AC6: %s has a growing guide with an https source',
+    'AC6: %s has a growing guide with https sources',
     (_id, growing) => {
       expect(growing).toBeDefined();
-      expect(growing?.source.url).toMatch(/^https:\/\//);
+      expect(growing?.sources.length).toBeGreaterThan(0);
+      for (const source of growing?.sources ?? []) expect(source.url).toMatch(/^https:\/\//);
     },
   );
 });
