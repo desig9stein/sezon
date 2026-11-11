@@ -104,6 +104,11 @@ Bulgarian `alt` text and credits its photographer.
   - only the layout features the site needs (`ccmp`, `locl`, `mark`, `mkmk`, `kern`, `liga`,
     `calt`, `tnum`, `lnum`); `locl` keeps the Bulgarian letterforms.
 
+  The italic faces (Latin names, the wordmark) use `font-display: optional`: they are not
+  preloaded, and swapping them in after the first paint moved the Latin name by a fraction of a
+  pixel (CLS 0.00026 in CI). A first visit may show the metric-adjusted fallback italic; later
+  visits use the cached face.
+
   The preloaded files now total about 71 KB, with a unit-tested budget of 75 KB. Lighthouse
   mobile LCP on the photo pages is about 1.8 s and Performance 100.
 

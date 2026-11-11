@@ -28,7 +28,7 @@ const variants = (face) => {
   const variant = (subset) => ({
     weight: `${face.weight.min} ${face.weight.max}`,
     style: face.style,
-    display: /** @type {const} */ ('swap'),
+    display: /** @type {const} */ (face.style === 'italic' ? 'optional' : 'swap'),
     unicodeRange: rangeList(FONT_SUBSETS[subset]),
     src: /** @type {[string]} */ ([`./${FONT_OUTPUT_DIR}/${subsetFile(face.file, subset)}`]),
   });
