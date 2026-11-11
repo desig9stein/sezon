@@ -33,7 +33,7 @@ nutrition:
     - { nutrient: kaliy, amount: 340 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Pumpkin, raw'
-    url: https://fdc.nal.usda.gov/
+    url: https://fdc.nal.usda.gov/food-details/168448/nutrients
 preparation:
   - method: Печена
     tip: Печете с малко мазнина – бета-каротинът се усвоява по-добре с мазнини.

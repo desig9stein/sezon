@@ -35,7 +35,7 @@ nutrition:
     - { nutrient: zhelyazo, amount: 2.1 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Leeks (bulb and lower leaf-portion), raw'
-    url: https://fdc.nal.usda.gov/
+    url: https://fdc.nal.usda.gov/food-details/169246/nutrients
 preparation:
   - method: Задушен
     tip: Задушете кратко на слаб огън, за да запази сладостта и витамините си.

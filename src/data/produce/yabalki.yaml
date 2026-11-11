@@ -37,7 +37,7 @@ nutrition:
     - { nutrient: kaliy, amount: 107 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Apples, raw, with skin'
-    url: https://fdc.nal.usda.gov/
+    url: https://fdc.nal.usda.gov/food-details/171688/nutrients
 preparation:
   - method: Сурови с кората
     tip: Голяма част от фибрите и полифенолите са в кората – измийте добре и не я белете.

@@ -35,7 +35,7 @@ nutrition:
     - { nutrient: kaliy, amount: 320 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Carrots, raw'
-    url: https://fdc.nal.usda.gov/
+    url: https://fdc.nal.usda.gov/food-details/170393/nutrients
 preparation:
   - method: Задушени с мазнина
     tip: Бета-каротинът е мастноразтворим и се усвоява по-добре с малко зехтин или масло.
