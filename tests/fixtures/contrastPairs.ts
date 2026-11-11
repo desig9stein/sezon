@@ -28,4 +28,5 @@ export const REQUIRED_CONTRAST_PAIRS: ReadonlyArray<ContrastPair> = [
   ['onMarker', 'marker', 4.5],
   ['peak', 'surface', 3],
   ['peak', 'background', 3],
+  ['accent', 'rule', 3],
 ];
