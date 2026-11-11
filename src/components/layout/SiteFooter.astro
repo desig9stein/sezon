@@ -48,7 +48,7 @@ import { routes } from './routes';
 
   .site-footer__months {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 2px;
     padding: 0;
     list-style: none;
@@ -59,12 +59,16 @@ import { routes } from './routes';
     align-items: center;
     justify-content: center;
     min-height: var(--target-min);
-    padding-inline: var(--space-1);
     border: 1px solid var(--color-border);
     color: var(--color-text);
     background: var(--color-background);
     text-align: center;
     text-decoration: none;
+  }
+
+  .site-footer__months a:focus-visible {
+    position: relative;
+    z-index: 1;
   }
 
   .site-footer__months a:hover {
@@ -82,13 +86,19 @@ import { routes } from './routes';
     max-width: var(--reading-width);
   }
 
-  @media (min-width: 30rem) {
+  @media (min-width: 23rem) {
+    .site-footer__months {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 36rem) {
     .site-footer__months {
       grid-template-columns: repeat(6, minmax(0, 1fr));
     }
   }
 
-  @media (min-width: 48rem) {
+  @media (min-width: 64rem) {
     .site-footer__months {
       grid-template-columns: repeat(12, minmax(0, 1fr));
     }

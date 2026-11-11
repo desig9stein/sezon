@@ -15,8 +15,9 @@ import { ui } from '@i18n/bg';
     top: var(--space-2);
     z-index: 100;
     padding: var(--space-2) var(--space-4);
-    background: var(--color-accent);
-    color: var(--color-accent-text);
+    border: 1px solid var(--color-text);
+    background: var(--color-surface);
+    color: var(--color-text);
     border-radius: var(--radius-sm);
     font-weight: 600;
     transform: translateY(-200%);
@@ -24,5 +25,6 @@ import { ui } from '@i18n/bg';
 
   .skip-link:focus-visible {
     transform: none;
+    outline-color: var(--color-focus-on-shell);
   }
 </style>

@@ -1,6 +1,6 @@
 ---
 import { ui } from '@i18n/bg';
-import { routes } from './routes';
+import { CALENDAR_AREAS, CATALOG_AREAS, routes } from './routes';
 
 /**
  * Site banner on the stamp-blue shell: the logo link and four navigation links. The current page
@@ -11,10 +11,6 @@ interface Props {
 }
 
 const { currentPath } = Astro.props;
-
-/** Path prefixes that belong to each navigation area besides the link's own path. */
-const CATALOG_AREAS = ['/plodove', '/zelenchutsi', '/podpravki', '/yadki', '/grupi', '/nutrienti'];
-const CALENDAR_AREAS = ['/sezon'];
 
 const links = [
   { href: routes.home, label: ui.nav.now, areas: [] as ReadonlyArray<string> },
