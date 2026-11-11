@@ -21,7 +21,8 @@ describe('FarmList organic information', () => {
         { farm: plain, region: plovdiv, organic: false },
       ],
     });
-    expect(html).toContain(
+    const text = html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ');
+    expect(text).toContain(
       'Биологично производство в България: има сертифицирано биологично производство.',
     );
     expect(html).toContain('През 2023 г. в България има биологично отглеждани ябълки (Евростат).');
