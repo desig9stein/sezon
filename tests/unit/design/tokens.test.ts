@@ -1,24 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { contrastRatio } from '@design/contrast';
-import { palettes, tokensToCss, type Palette } from '@design/tokens';
-
-type Pair = [foreground: keyof Palette, background: keyof Palette, minimum: number];
-
-const REQUIRED_PAIRS: Pair[] = [
-  ['text', 'background', 4.5],
-  ['text', 'surface', 4.5],
-  ['textMuted', 'background', 4.5],
-  ['textMuted', 'surface', 4.5],
-  ['accent', 'background', 4.5],
-  ['accent', 'surface', 4.5],
-  ['accentText', 'accent', 4.5],
-  ['onBadge', 'peak', 4.5],
-  ['onBadge', 'available', 4.5],
-  ['onBadge', 'storage', 4.5],
-  ['focus', 'background', 3],
-  ['focus', 'surface', 3],
-  ['border', 'background', 3],
-];
+import { palettes, tokensToCss } from '@design/tokens';
+import { REQUIRED_CONTRAST_PAIRS } from '@tests/fixtures/contrastPairs';
 
 describe('contrastRatio', () => {
   it('AC6: returns 21 for black on white and 1 for identical colours', () => {
@@ -34,11 +17,14 @@ describe('contrastRatio', () => {
 
 describe('palettes', () => {
   for (const [scheme, palette] of Object.entries(palettes)) {
-    it.each(REQUIRED_PAIRS)(`AC5: ${scheme} %s on %s ≥ %s:1`, (foreground, background, minimum) => {
-      expect(contrastRatio(palette[foreground], palette[background])).toBeGreaterThanOrEqual(
-        minimum,
-      );
-    });
+    it.each(REQUIRED_CONTRAST_PAIRS)(
+      `AC5: ${scheme} %s on %s ≥ %s:1`,
+      (foreground, background, minimum) => {
+        expect(contrastRatio(palette[foreground], palette[background])).toBeGreaterThanOrEqual(
+          minimum,
+        );
+      },
+    );
   }
 });
 

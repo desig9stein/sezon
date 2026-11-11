@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { contrastRatio } from '@design/contrast';
 import { palettes, tokensToCss, type Palette } from '@design/tokens';
+import { REQUIRED_CONTRAST_PAIRS } from '@tests/fixtures/contrastPairs';
 
 const ADR_0004: Readonly<Record<'light' | 'dark', Palette>> = {
   light: {
@@ -35,36 +36,21 @@ const ADR_0004: Readonly<Record<'light' | 'dark', Palette>> = {
   },
 };
 
-type Pair = [foreground: keyof Palette, background: keyof Palette, minimum: number];
-
-const PAIRS: Pair[] = [
-  ['text', 'background', 4.5],
-  ['text', 'surface', 4.5],
-  ['textMuted', 'background', 4.5],
-  ['textMuted', 'surface', 4.5],
-  ['accent', 'background', 4.5],
-  ['accent', 'surface', 4.5],
-  ['accentText', 'accent', 4.5],
-  ['onBadge', 'peak', 4.5],
-  ['onBadge', 'available', 4.5],
-  ['onBadge', 'storage', 4.5],
-  ['focus', 'background', 3],
-  ['focus', 'surface', 3],
-  ['border', 'background', 3],
-];
-
 describe('design tokens (spec 012)', () => {
   it('AC1: the palettes equal ADR-0004', () => {
     expect(palettes).toEqual(ADR_0004);
   });
 
   for (const scheme of ['light', 'dark'] as const) {
-    it.each(PAIRS)(`AC2: ${scheme} %s on %s ≥ %s:1`, (foreground, background, minimum) => {
-      const palette = palettes[scheme];
-      expect(contrastRatio(palette[foreground], palette[background])).toBeGreaterThanOrEqual(
-        minimum,
-      );
-    });
+    it.each(REQUIRED_CONTRAST_PAIRS)(
+      `AC2: ${scheme} %s on %s ≥ %s:1`,
+      (foreground, background, minimum) => {
+        const palette = palettes[scheme];
+        expect(contrastRatio(palette[foreground], palette[background])).toBeGreaterThanOrEqual(
+          minimum,
+        );
+      },
+    );
   }
 
   it('AC3: emits font families with fallbacks and the full type scale', () => {
