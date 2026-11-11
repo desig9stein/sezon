@@ -36,8 +36,9 @@ Lighthouse 100 stay as they are.
     by CSS (`text-transform: capitalize`), so without CSS it still reads as a sentence.
   - The intro.
   - The **year ribbon**, a new `YearRibbon` component: `<nav aria-label="Месеци">` with an
-    ordered list of 12 month links. Each shows a three-letter abbreviation and has the full
-    month name as its accessible name. The current month is marked `aria-current="date"` and
+    ordered list of 12 month links. Each shows a three-letter abbreviation followed, in the same word, by
+    the rest of the name in `.visually-hidden` (e.g. „Яну<span class="visually-hidden">ари</span>“),
+    so screen readers and no-CSS readers get the full name. The current month is marked `aria-current="date"` and
     filled with the accent colour. The ribbon has 12 columns on wide screens and 6 × 2 on
     narrow ones.
 - **`SeasonOverview` and `SectionIndex`:**
@@ -66,7 +67,7 @@ Lighthouse 100 stay as they are.
 
 None. Presentation only. Helpers in `src/i18n/bg.ts`:
 
-- `monthAbbreviation(month)`: the first three letters of the month name, for example „Яну“,
+- `monthAbbreviation(month)`: the first three letters (and `monthRest(month)` the remaining letters) of the month name, for example „Яну“,
   „Май“ and „Сеп“.
 - `romanNumeral(n)`: 1–12 to „I“–„XII“.
 - `ui.home.plate(month)`: „Табло XI от XII“.
@@ -77,8 +78,9 @@ None. Presentation only. Helpers in `src/i18n/bg.ts`:
 - **CSS never hides or reorders content (spec 009):**
   - Grid placement only spans the first plate. It does not move any item.
   - Capitalising the month word is only a text transform.
-  - Ribbon abbreviations are visible text. Full names live in `aria-label`, which contains the
-    visible text (WCAG 2.5.3, label in name).
+  - Ribbon and calendar abbreviations are visible text, and the rest of each month name is
+    `.visually-hidden` text in the same word. The accessible name is the full month name and
+    starts with the visible text (WCAG 2.5.3, label in name).
 - **Plate variant.** It applies only to the peak group. When there is no peak produce, there are
   no plates.
 - **Empty states and JSON-LD.** Both are unchanged.
@@ -92,7 +94,7 @@ None. Presentation only. Helpers in `src/i18n/bg.ts`:
 ## 6. Accessibility requirements
 
 - One `h1` per page and no skipped heading levels. The ribbon is a `nav` with an accessible name.
-- WCAG 2.5.3. Each ribbon link's accessible name („Ноември“) contains its visible label („Ное“).
+- WCAG 2.5.3. Each ribbon link's accessible name („Ноември“) starts with its visible label („Ное“).
 - WCAG 2.5.8. Every target is at least 24 × 24 px. Ribbon cells and header links are at least
   2.25 rem tall.
 - WCAG 1.4.1. Season level is shown as text, glyph and tint. The current month is shown as a
@@ -109,12 +111,12 @@ None. Presentation only. Helpers in `src/i18n/bg.ts`:
 ## 8. Acceptance criteria
 
 1. **AC1:** `monthAbbreviation` returns three-letter abbreviations for all 12 months, and `romanNumeral` returns I–XII. `ui.home.plate(November)` returns „Табло XI от XII“.
-2. **AC2:** `YearRibbon` renders a `nav` labelled „Месеци“ with an ordered list of 12 month links. Each link shows its abbreviation and has the full name as `aria-label`, and only the given month has `aria-current="date"`.
+2. **AC2:** `YearRibbon` renders a `nav` labelled „Месеци“ with an ordered list of 12 month links. Each link's text is the full month name, of which only the first three letters are visible, and only the given month has `aria-current="date"`.
 3. **AC3:** The home page renders, in order: the plate label, the `h1` with the month word in its own element, the intro, then the ribbon (e2e).
 4. **AC4:** `SeasonOverview` renders the peak group as plates and the other groups as an index. Plate cards include the summary, and index rows do not.
 5. **AC5:** `ProduceCard` renders the Latin name with `lang="la"`.
 6. **AC6:** `SiteHeader` renders the wordmark without the emoji glyph.
-7. **AC7:** `SeasonCalendarList` shows the month abbreviation with the full month name in `aria-label`, plus the glyph and the level text.
+7. **AC7:** `SeasonCalendarList` shows the month abbreviation with the rest of the name visually hidden, plus the glyph and the level text, and uses no `aria-label`.
 8. **AC8:** At 320 px, the header is at most 180 px tall and nothing scrolls horizontally (e2e).
 9. **AC9:** Every page template has zero axe violations in light and dark mode, passes the spec 009 checks, and Lighthouse scores 100 × 4 (existing e2e and LHCI gates).
 

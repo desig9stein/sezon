@@ -30,4 +30,11 @@ describe('SeasonCalendarList', () => {
       /<a[^>]*href="\/sezon\/noemvri"[^>]*aria-current="date"|<a[^>]*aria-current="date"[^>]*href="\/sezon\/noemvri"/,
     );
   });
+
+  it('AC7 (spec 013): shows the abbreviation with the rest of the month name visually hidden', async () => {
+    const html = await render(SeasonCalendarList, { produce, currentMonth: Month.of(11) });
+    expect(html).toMatch(
+      /<a[^>]*aria-label="Октомври: Разгар на сезона"[^>]*>[\s\S]*?Окт[\s\S]*?Разгар на сезона/,
+    );
+  });
 });
