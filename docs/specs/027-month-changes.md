@@ -105,17 +105,17 @@ Lists keep the repository order. No domain entity changes.
 
 ## 9. Test plan
 
-| AC  | Test type | Test file                                                 |
-| --- | --------- | --------------------------------------------------------- |
-| AC1 | unit      | `tests/unit/contexts/catalog/MonthChangesService.test.ts` |
-| AC2 | unit      | `tests/unit/contexts/catalog/MonthChangesService.test.ts` |
-| AC3 | unit      | `tests/unit/contexts/catalog/MonthChangesService.test.ts` |
-| AC4 | unit      | `tests/unit/contexts/catalog/MonthChangesService.test.ts` |
-| AC5 | unit      | `tests/unit/contexts/catalog/MonthChangesService.test.ts` |
-| AC6 | component | `tests/components/MonthChanges.test.ts`                   |
-| AC7 | component | `tests/components/MonthChanges.test.ts`                   |
-| AC8 | component | `tests/components/MonthChanges.test.ts`                   |
-| AC9 | e2e       | `tests/e2e/month-changes.spec.ts`                         |
+| AC  | Test type | Test file                                                             |
+| --- | --------- | --------------------------------------------------------------------- |
+| AC1 | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
+| AC2 | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
+| AC3 | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
+| AC4 | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
+| AC5 | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
+| AC6 | component | `tests/components/MonthChanges.test.ts`                               |
+| AC7 | component | `tests/components/MonthChanges.test.ts`                               |
+| AC8 | component | `tests/components/MonthChanges.test.ts`                               |
+| AC9 | e2e       | `tests/e2e/month-changes.spec.ts`                                     |
 
 ## 10. Third-party documentation consulted
 
