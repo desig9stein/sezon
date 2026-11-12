@@ -50,7 +50,7 @@ photo:
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/a-close-up-of-a-bunch-of-green-grass-kgb34f0HRSc
 growing:
-  sow: [2, 3, 8, 10]
+  sow: [2, 3, 7, 8, 10]
   transplant: []
   plant: []
   tips:
