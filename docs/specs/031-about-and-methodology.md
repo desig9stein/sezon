@@ -2,6 +2,7 @@
 
 - **Status:** Approved
 - **Bounded context(s):** UI, composition (site configuration), repository (licence, issue form)
+- **Amended by:** spec 034 (review status and the „Проверка“ section removed)
 - **Related:** issues #9 (about and methodology) and #15 (add your farm), ADR-0003 (advertising),
   `docs/CONTENT-GUIDE.md`, owner decisions of 2026-11-12
 

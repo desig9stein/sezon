@@ -12,13 +12,12 @@ export type {
   MicronutrientAmount,
   NutritionFactsInput,
 } from './domain/NutritionFacts';
-export { Produce, REVIEW_STATUSES, TRADITIONAL_SYSTEMS } from './domain/Produce';
+export { Produce, TRADITIONAL_SYSTEMS } from './domain/Produce';
 export type {
   FaqItem,
   GrowingRegion,
   PreparationTip,
   ProduceInput,
-  ReviewStatus,
   TraditionalSystem,
   TraditionalUse,
   Variety,

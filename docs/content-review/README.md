@@ -1,8 +1,7 @@
-# Content review
+# Content sources
 
-Status of the editorial review of each produce (issue #10). A produce gets `reviewStatus: reviewed`
-only after the reviewer (Marin Popov) has checked every open item and signed off below. Until then
-its page shows „Данните очакват редакторска проверка“.
+What is sourced and what is editorial for each produce (issue #10). There is no review status or
+approval step (spec 034): a fact either has a source or the methodology page says it is editorial.
 
 ## What is already verified
 
@@ -21,25 +20,25 @@ its page shows „Данните очакват редакторска пров�
 - **EFSA-sourced nutrition:** a produce that cites EFSA instead of USDA is not machine-checked; mark
   it as such in its row. Today every produce cites USDA.
 
-## Open items per produce
+## Per produce
 
-| Produce    | Name     | Nutrition                                                              | Traditional uses | Open items for the reviewer                                                                                          | Signed off |
-| ---------- | -------- | ---------------------------------------------------------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------- | ---------- |
-| `dyuli`    | Дюли     | ✓ FDC [168163](https://fdc.nal.usda.gov/food-details/168163/nutrients) | 0                | Seasons by month (no official provincial data, region notes are editorial)                                           | ☐          |
-| `kopar`    | Копър    | ✓ FDC [172233](https://fdc.nal.usda.gov/food-details/172233/nutrients) | 0                | Seasons by month (no official provincial data, region notes are editorial)                                           | ☐          |
-| `krushi`   | Круши    | ✓ FDC [169118](https://fdc.nal.usda.gov/food-details/169118/nutrients) | 0                | Seasons by month (regions verified: МЗХ agrostatistics)                                                              | ☐          |
-| `magdanoz` | Магданоз | ✓ FDC [170416](https://fdc.nal.usda.gov/food-details/170416/nutrients) | 0                | Seasons by month (no official provincial data, region notes are editorial)                                           | ☐          |
-| `morkovi`  | Моркови  | ✓ FDC [170393](https://fdc.nal.usda.gov/food-details/170393/nutrients) | 0                | Seasons by month (no official provincial data, region notes are editorial)                                           | ☐          |
-| `orehi`    | Орехи    | ✓ FDC [170187](https://fdc.nal.usda.gov/food-details/170187/nutrients) | 0                | Seasons by month (regions verified: МЗХ agrostatistics)                                                              | ☐          |
-| `praz`     | Праз     | ✓ FDC [169246](https://fdc.nal.usda.gov/food-details/169246/nutrients) | 0                | Seasons by month (no official provincial data, region notes are editorial); replace Wikipedia in the growing sources | ☐          |
-| `spanak`   | Спанак   | ✓ FDC [168462](https://fdc.nal.usda.gov/food-details/168462/nutrients) | 0                | Seasons by month (no official provincial data, region notes are editorial)                                           | ☐          |
-| `tikva`    | Тиква    | ✓ FDC [168448](https://fdc.nal.usda.gov/food-details/168448/nutrients) | 0                | Seasons by month (no official provincial data, region notes are editorial)                                           | ☐          |
-| `tselina`  | Целина   | ✓ FDC [170400](https://fdc.nal.usda.gov/food-details/170400/nutrients) | 0                | Seasons by month (no official provincial data, region notes are editorial)                                           | ☐          |
-| `tsveklo`  | Цвекло   | ✓ FDC [169145](https://fdc.nal.usda.gov/food-details/169145/nutrients) | 0                | Seasons by month (no official provincial data, region notes are editorial)                                           | ☐          |
-| `yabalki`  | Ябълки   | ✓ FDC [171688](https://fdc.nal.usda.gov/food-details/171688/nutrients) | 0                | Seasons by month (regions verified: МЗХ agrostatistics)                                                              | ☐          |
-| `zele`     | Зеле     | ✓ FDC [169975](https://fdc.nal.usda.gov/food-details/169975/nutrients) | 0                | Seasons by month (regions supported at NUTS2 level: South Central region; no provincial data)                        | ☐          |
+| Produce    | Name     | Nutrition                                                              | Traditional uses | Editorial parts                                                                                                                   |
+| ---------- | -------- | ---------------------------------------------------------------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `dyuli`    | Дюли     | ✓ FDC [168163](https://fdc.nal.usda.gov/food-details/168163/nutrients) | 0                | Seasons; region notes (no official provincial data). Growing guide cites gradinata.bg (spec 035)                                  |
+| `kopar`    | Копър    | ✓ FDC [172233](https://fdc.nal.usda.gov/food-details/172233/nutrients) | 0                | Seasons; region notes (no official provincial data). Growing guide cites gradinata.bg (spec 035)                                  |
+| `krushi`   | Круши    | ✓ FDC [169118](https://fdc.nal.usda.gov/food-details/169118/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics). Growing guide cites gradinata.bg (spec 035)                                       |
+| `magdanoz` | Магданоз | ✓ FDC [170416](https://fdc.nal.usda.gov/food-details/170416/nutrients) | 0                | Seasons; region notes (no official provincial data). Growing guide cites gradinata.bg (spec 035)                                  |
+| `morkovi`  | Моркови  | ✓ FDC [170393](https://fdc.nal.usda.gov/food-details/170393/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                                               |
+| `orehi`    | Орехи    | ✓ FDC [170187](https://fdc.nal.usda.gov/food-details/170187/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics). Growing guide cites gradinata.bg (spec 035)                                       |
+| `praz`     | Праз     | ✓ FDC [169246](https://fdc.nal.usda.gov/food-details/169246/nutrients) | 0                | Seasons; region notes (no official provincial data). Growing guide from Wikipedia only (spec 034)                                 |
+| `spanak`   | Спанак   | ✓ FDC [168462](https://fdc.nal.usda.gov/food-details/168462/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                                               |
+| `tikva`    | Тиква    | ✓ FDC [168448](https://fdc.nal.usda.gov/food-details/168448/nutrients) | 0                | Seasons; region notes (no official provincial data). Growing guide cites gradinata.bg (spec 035)                                  |
+| `tselina`  | Целина   | ✓ FDC [170400](https://fdc.nal.usda.gov/food-details/170400/nutrients) | 0                | Seasons; region notes (no official provincial data). Growing guide cites gradinata.bg (spec 035)                                  |
+| `tsveklo`  | Цвекло   | ✓ FDC [169145](https://fdc.nal.usda.gov/food-details/169145/nutrients) | 0                | Seasons; region notes (no official provincial data). Growing guide cites gradinata.bg (spec 035)                                  |
+| `yabalki`  | Ябълки   | ✓ FDC [171688](https://fdc.nal.usda.gov/food-details/171688/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics). Growing guide cites gradinata.bg (spec 035)                                       |
+| `zele`     | Зеле     | ✓ FDC [169975](https://fdc.nal.usda.gov/food-details/169975/nutrients) | 0                | Seasons (regions supported at NUTS2 level: South Central region; no provincial data). Growing guide cites gradinata.bg (spec 035) |
 
-### How to check the open items
+### Where to look for sources
 
 - **Seasons by month:** no official monthly calendar per produce was found (search of 2026-11-12):
   - the МЗХ „Агростатистика“ surveys give yearly areas and yields, not months;
@@ -49,14 +48,11 @@ its page shows „Данните очакват редакторска пров�
   - SAPI price reports are paid and not public;
   - the research institutes publish variety studies without harvest months that can be cited.
 
-  The levels therefore stay editorial, as the methodology page says. The reviewer confirms each
-  produce's levels from their own knowledge of Bulgarian markets and gardens. Where a Bulgarian
-  source turns up, add it to the produce or note it here.
+  The levels therefore stay editorial, as the methodology page says. Where a Bulgarian source
+  turns up, add it to the produce or note it here.
 
-- **Regions:** for the four sourced products, compare the notes with the cited МЗХ tables. For the
-  others, confirm the editorial notes or remove a province you cannot support.
-- **Sign-off:** when every item is checked, set `reviewStatus: reviewed` and `updatedAt` in the
-  produce file and tick the row.
+- **Regions:** the four sourced products follow the cited МЗХ tables. For the others, add a source
+  when official provincial data appears.
 
 ## Regenerating the USDA extract
 

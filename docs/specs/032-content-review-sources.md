@@ -2,6 +2,7 @@
 
 - **Status:** Approved
 - **Bounded context(s):** catalog (content), tooling
+- **Amended by:** spec 034 (review status and the „Проверка“ section removed)
 - **Related:** issue #10 (review the 13 seed produce entries), `docs/CONTENT-GUIDE.md`, spec 031
   (methodology), owner decision of 2026-11-12 („You decide“)
 

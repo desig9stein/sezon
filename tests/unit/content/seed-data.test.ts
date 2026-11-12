@@ -67,11 +67,6 @@ describe('seed data', () => {
   it('AC12: has 28 regions and at least 12 produce', () => {
     expect(records.regions.size).toBe(28);
     expect(records.produce.size).toBeGreaterThanOrEqual(12);
-    expect(
-      [...records.produce.values()].every((item) =>
-        ['draft', 'reviewed'].includes(item.reviewStatus),
-      ),
-    ).toBe(true);
   });
 });
 

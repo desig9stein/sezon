@@ -73,7 +73,6 @@ faq:
   - question: …
     answer: …
 updatedAt: 2026-11-10
-reviewStatus: draft # draft | reviewed
 ```
 
 ### Photo
@@ -122,8 +121,11 @@ growing:
       url: https://example.bg/article
 ```
 
-Every month and tip must come from a cited Bulgarian source (gardening portals such as
-agrozona.bg, bgfermer.bg or gradinata.bg). Tips address the reader with „ти“ („Сей“,
+Every month and tip must come from a cited Bulgarian source about growing vegetables or fruit
+(e.g. agrozona.bg or bgfermer.bg). Do not cite gradinata.bg: the owner judged it unreliable
+(spec 034).
+
+When the facts or sources of a produce change, set its `updatedAt` to the date of the change. Tips address the reader with „ти“ („Сей“,
 „Поливай“), as `PRODUCT.md` asks. Never write „богат на“, even about soil.
 
 ### Organic production
@@ -163,8 +165,6 @@ individual products or offers.
   Ayurvedic Pharmacopoeia of India), an ethnobotanical study or a published collection of folk
   medicine. Wikipedia is not accepted (a test rejects it); without a primary source, leave the use
   out.
-- Set `reviewStatus: reviewed` only after a human has checked every value against the source, and
-  tick the produce in `docs/content-review/README.md`.
 
 ## Add a nutrient (`src/data/nutrients/`)
 
@@ -212,10 +212,10 @@ expiry) starts with „По данни на фермата …“. Note paused s
 
 ## Seed data status
 
-The review status of every produce lives in `docs/content-review/README.md`: nutrition is checked
-against USDA by the unit tests, the Wikipedia-sourced traditional uses were removed, the regions of
-apples, pears, walnuts and cabbage follow МЗХ statistics (spec 033), and seasons are still open. All produce entries stay `reviewStatus: draft` until the reviewer signs
-them off there.
+What is sourced and what is editorial for every produce is recorded in
+`docs/content-review/README.md`: nutrition is checked against USDA by the unit tests, the
+Wikipedia-sourced traditional uses were removed, the regions of apples, pears, walnuts and cabbage
+follow МЗХ statistics (spec 033), and seasons are editorial (no official monthly calendar exists).
 
 - **Farms (checked 2026-11-11, #16):** 10 real farms from their own websites. None publishes a
   full organic certificate, so none has an `organic` block.

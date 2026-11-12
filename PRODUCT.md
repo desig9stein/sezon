@@ -41,8 +41,8 @@ and a reader who trusts the figures because every one of them is sourced.
   when planning cooking, preserving or gardening.
 - The home page shows the current month; every page links to month, produce, section, group,
   nutrient and farm pages. A printable year calendar exists for the kitchen wall.
-- Content is edited as YAML in the repository and reviewed by the owner before entries are
-  marked `reviewed`.
+- Content is edited as YAML in the repository. Every fact cites a source, or the methodology page
+  says it is editorial. There is no review status or approval step.
 
 ## Capabilities and Constraints
 

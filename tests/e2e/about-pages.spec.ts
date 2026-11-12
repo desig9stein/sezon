@@ -4,7 +4,7 @@ import { expectNoAxeViolations, jsonLdOf } from './a11y';
 import { removeAllCss } from './noCss';
 
 const ABOUT_SECTIONS = 10;
-const METHODOLOGY_SECTIONS = 8;
+const METHODOLOGY_SECTIONS = 7;
 const FORM = 'https://github.com/desig9stein/sezon/issues/new';
 
 test.describe('about and methodology (spec 031)', () => {
@@ -44,7 +44,9 @@ test.describe('about and methodology (spec 031)', () => {
     await expect(farm.locator('a[href^="mailto:mspopovv@gmail.com"]')).toHaveCount(1);
   });
 
-  test('AC6: the methodology names its sources and links to corrections', async ({ page }) => {
+  test('AC6 (spec 031), AC4 (spec 034): the methodology names its sources, has no review section and links to corrections', async ({
+    page,
+  }) => {
     await page.goto('/metodologiya');
     await expect(page.locator('main h2')).toHaveCount(METHODOLOGY_SECTIONS);
     const method = ui.methodology;
@@ -55,9 +57,9 @@ test.describe('about and methodology (spec 031)', () => {
       method.traditionalHeading,
       method.growingHeading,
       method.farmsHeading,
-      method.reviewHeading,
       method.correctionsHeading,
     ]);
+    await expect(page.locator('main h2', { hasText: 'Проверка' })).toHaveCount(0);
     await expect(page.locator('main a[href^="https://fdc.nal.usda.gov"]').first()).toBeVisible();
     await expect(page.locator('main a[href*="efsa.europa.eu"]').first()).toBeVisible();
     await expect(page.locator('main a[href="/za-nas#greshka"]').first()).toBeVisible();
