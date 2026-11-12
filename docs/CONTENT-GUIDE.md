@@ -150,13 +150,20 @@ individual products or offers.
 
 - Take nutrition values from USDA FoodData Central (SR Legacy, raw) or EFSA, and cite the item.
   Prefer the item page URL `https://fdc.nal.usda.gov/food-details/<fdcId>/nutrients`.
+  Then regenerate the USDA extract (`node scripts/content/usda-extract.ts <SR Legacy CSV dir>`, see
+  `docs/content-review/README.md`): a unit test fails when a value differs from the cited record.
 - Vitamin A amounts are in µg RAE (USDA). The EU reference intake (800 µg) is defined in
   retinol equivalents (RE); for plant foods RAE is about half of RE, so the % shown is conservative.
 - Do not write that a food is „полезен“, „лекува“ or has an „действие“; a test rejects such words.
 - Traditional uses describe tradition, not effects. Always start with
   „Традиционно се използва …“. Never write that a food cures, treats or prevents a disease
   (EU Regulation 1924/2006).
-- Set `reviewStatus: reviewed` only after a human has checked every value against the source.
+- Every traditional use needs a primary source: a pharmacopoeia or official monograph (EMA/HMPC,
+  Ayurvedic Pharmacopoeia of India), an ethnobotanical study or a published collection of folk
+  medicine. Wikipedia is not accepted (a test rejects it); without a primary source, leave the use
+  out.
+- Set `reviewStatus: reviewed` only after a human has checked every value against the source, and
+  tick the produce in `docs/content-review/README.md`.
 
 ## Add a nutrient (`src/data/nutrients/`)
 
