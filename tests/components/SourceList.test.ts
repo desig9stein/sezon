@@ -9,6 +9,7 @@ describe('SourceList (QA 005, spec 034)', () => {
       updatedAt: new Date('2026-11-10'),
     });
     expect(html).toMatch(/<time datetime="2026-11-10"[^>]*>10 ноември 2026 г\.<\/time>(?!\.)/);
+    expect(html).toContain('href="https://fdc.nal.usda.gov/"');
     expect(html).not.toContain('редакторска проверка');
     expect(html).toContain('href="/metodologiya"');
   });

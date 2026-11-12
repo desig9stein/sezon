@@ -49,10 +49,27 @@ describe('no review status (spec 034)', () => {
     expect(leek.growing?.sources.map((source) => source.url)).toEqual([LEEK_WIKIPEDIA]);
   });
 
+  it('QA 034: leek shows the date of its growing-guide change', () => {
+    const leek = parse(readFileSync(join(PRODUCE_DIR, 'praz.yaml'), 'utf8')) as {
+      updatedAt: string;
+    };
+    expect(String(leek.updatedAt)).toBe('2026-11-12');
+  });
+
+  it('QA 034: the checklist marks every produce whose growing guide still cites gradinata.bg', () => {
+    const checklist = readFileSync('docs/content-review/README.md', 'utf8');
+    for (const { file } of produceFiles.filter(({ text }) => text.includes('gradinata.bg'))) {
+      const slug = file.replace('.yaml', '');
+      const row = checklist.split('\n').find((line) => line.startsWith(`| \`${slug}\``)) ?? '';
+      expect(row, slug).toContain('gradinata.bg');
+    }
+  });
+
   it('AC6: the docs no longer describe a review status or a sign-off', () => {
-    for (const path of ['docs/content-review/README.md', 'docs/CONTENT-GUIDE.md']) {
+    for (const path of ['docs/content-review/README.md', 'docs/CONTENT-GUIDE.md', 'PRODUCT.md']) {
       const text = readFileSync(path, 'utf8');
       expect(text, path).not.toContain('reviewStatus');
+      expect(text, path).not.toContain('`reviewed`');
       expect(text.toLowerCase(), path).not.toMatch(/sign(ed)?[- ]off/);
     }
   });
