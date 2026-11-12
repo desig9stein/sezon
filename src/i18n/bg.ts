@@ -234,7 +234,7 @@ export const ui = {
     whoHeading: 'Кой стои зад сайта',
     who: (name: string) =>
       `Сезон се прави и поддържа от ${name} – един разработчик, с помощта на агенти с изкуствен интелект.`,
-    reviewer: (name: string) => `Данните проверява ${name}.`,
+    sourcesUnderData: 'Източниците на данните са посочени под самите данни на всяка страница.',
     ownerGithub: (handle: string) => `${handle} в GitHub`,
     ownerLinkedin: (name: string) => `${name} в LinkedIn`,
     aiHeading: 'Как използваме изкуствен интелект',
