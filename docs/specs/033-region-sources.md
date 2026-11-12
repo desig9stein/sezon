@@ -38,7 +38,7 @@ This step:
   produce page's sources, de-duplicated with the others.
 - **Data:** all figures are from the МЗХ publications (planted area in hectares):
   - **Ябълки:** Пловдив (822 ха, first in the country) and Кюстендил (436 ха, second).
-  - **Круши:** Хасково (82 ха, first) and Пловдив (64 ха, second). Кюстендил (47 ха, sixth) is
+  - **Круши:** Хасково (82 ха, first) and Пловдив (64 ха, second). Кюстендил (47 ха, about sixth: two cells are confidential) is
     removed.
   - **Орехи:** Стара Загора (1 504 ха, first), Пловдив (1 132 ха, second) and Шумен (1 021 ха,
     third). Велико Търново and Ловеч, which the data does not support as leading areas, are
@@ -46,6 +46,9 @@ This step:
   - **Зеле:** Пловдив and Пазарджик. They stay, with notes saying that the South Central region,
     to which both belong, had more than half of the country's open-field head cabbage area in 2022
     (963 of 1 774 ха).
+- **Public texts:** the methodology („Области“) and about („Източници и прозрачност“, „Как
+  използваме изкуствен интелект“) say which region notes are sourced; the region page description
+  no longer promises reasons („защо растат добре“).
 - **Checklist:**
   - regions are verified for these four;
   - the other nine are „no official provincial data (МЗХ surveys group them nationally or under
@@ -97,6 +100,11 @@ list. The existing e2e and axe suites cover produce and region pages.
 4. **AC4:** Given the checklist, the four products are marked as regions verified, and the other
    nine as having no official provincial data.
 
+5. **AC5:** Given the four sourced products, no note starts with „Също“ (each note reads on its own,
+   e.g. on a region page), and the fruit sources cite the exact МЗХ title.
+6. **AC6:** Given the methodology and about texts, they say that the region notes of apples, pears,
+   walnuts and cabbage follow МЗХ statistics and that the others are editorial.
+
 ## 9. Test plan
 
 | AC  | Test type | Test file                                                |
@@ -105,10 +113,12 @@ list. The existing e2e and axe suites cover produce and region pages.
 | AC2 | unit      | `tests/unit/composition/ProduceDetailsQuery-033.test.ts` |
 | AC3 | unit      | `tests/unit/content/region-sources.test.ts`              |
 | AC4 | unit      | `tests/unit/content/region-sources.test.ts`              |
+| AC5 | unit      | `tests/unit/content/region-sources.test.ts`              |
+| AC6 | unit      | `tests/unit/content/region-sources.test.ts`              |
 
 ## 10. Third-party documentation consulted
 
-| Source                                                                                               | Edition    | URL                                                                                                                      | Topic                                                                                                            |
-| ---------------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| МЗХ, Агростатистика: „Структура на овощните видове – 2023 (предварителни резултати)“, бюлетин RA 448 | 2025-01-17 | https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf | Tables 1–2: planted areas by province (apples, pears, walnuts); column sums checked against the published totals |
-| МЗХ, Агростатистика: „Производство на зеленчуци – реколта 2022“, бюлетин RA 423                      | 2023-04-11 | https://www.mzh.government.bg/media/filer_public/2023/04/11/ra423_publicationvegetables2022.pdf                          | Table 3: open-field head cabbage area by NUTS2 region                                                            |
+| Source                                                                                                          | Edition                      | URL                                                                                                                      | Topic                                                                                                            |
+| --------------------------------------------------------------------------------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| МЗХ, Агростатистика: „Структура на основни овощни видове в България през 2023 година (предварителни резултати)“ | бюлетин № 448, декември 2024 | https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf | Tables 1–2: planted areas by province (apples, pears, walnuts); column sums checked against the published totals |
+| МЗХ, Агростатистика: „Производство на зеленчуци – реколта 2022“, бюлетин RA 423                                 | 2023-04-11                   | https://www.mzh.government.bg/media/filer_public/2023/04/11/ra423_publicationvegetables2022.pdf                          | Table 3: open-field head cabbage area by NUTS2 region                                                            |
