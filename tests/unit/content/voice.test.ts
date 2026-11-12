@@ -1,5 +1,6 @@
 import { globSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { parse } from 'yaml';
 
 /** Formal („Вие“) forms that addressed the reader before the switch to „ти“, lower case. */
 const FORMAL_FORMS: ReadonlySet<string> = new Set([
@@ -54,10 +55,29 @@ const FORMAL_FORMS: ReadonlySet<string> = new Set([
   'губите',
 ]);
 
+const formalFormsInText = (text: string): string[] =>
+  text.split(/[^\p{L}]+/u).filter((word) => FORMAL_FORMS.has(word.toLowerCase()));
+
 const formalFormsIn = (path: string): string[] =>
-  readFileSync(path, 'utf8')
-    .split(/[^\p{L}]+/u)
-    .filter((word) => FORMAL_FORMS.has(word.toLowerCase()))
+  formalFormsInText(readFileSync(path, 'utf8')).map((word) => `${path}: ${word}`);
+
+/**
+ * Returns the strings of a parsed YAML value, skipping source objects (those with a `url`), whose
+ * names quote other sites' titles.
+ */
+const ownStrings = (value: unknown): string[] => {
+  if (typeof value === 'string') return [value];
+  if (Array.isArray(value)) return value.flatMap(ownStrings);
+  if (value !== null && typeof value === 'object') {
+    if ('url' in value) return [];
+    return Object.values(value).flatMap(ownStrings);
+  }
+  return [];
+};
+
+const formalFormsInContent = (path: string): string[] =>
+  ownStrings(parse(readFileSync(path, 'utf8')))
+    .flatMap(formalFormsInText)
     .map((word) => `${path}: ${word}`);
 
 describe('„ти“ voice (spec 028)', () => {
@@ -68,7 +88,7 @@ describe('„ти“ voice (spec 028)', () => {
   it('AC2: content uses the informal form', () => {
     const files = globSync('src/data/**/*.yaml');
     expect(files.length).toBeGreaterThan(0);
-    expect(files.flatMap(formalFormsIn)).toEqual([]);
+    expect(files.flatMap(formalFormsInContent)).toEqual([]);
   });
 
   it('AC3: the content guide states the voice rule with an example', () => {

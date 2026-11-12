@@ -31,6 +31,8 @@ so the site speaks with one voice, and records the rule for new content.
 
 - Facts, numbers, sources and the meaning of any sentence: only the grammatical person changes.
 - Layout or behaviour.
+- Titles of source articles (objects with a `url` in `sources`): they quote other sites and stay
+  as published.
 - Quoted farm self-descriptions („По данни на фермата …“) that do not address the reader.
 
 ## 4. Domain model

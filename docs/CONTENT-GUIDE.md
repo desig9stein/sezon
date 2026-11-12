@@ -16,6 +16,21 @@ entries are checked by `pnpm test` and whenever a page loads content during the 
 - URLs must start with `https://` and use a real domain name.
 - Dates use the ISO form `YYYY-MM-DD` (not `10.11.2026`).
 
+## Voice
+
+The site speaks to the reader informally, with „ти“, in a friendly and plain voice (decided
+2026-11-11, see `PRODUCT.md`). This applies to every text that addresses the reader: how to
+choose, storage, preparation and growing tips, FAQ answers and UI strings.
+
+- Imperatives are singular: „Изберете твърди корени“ → „Избери твърди корени“,
+  „Пазете в хладилник“ → „Пази в хладилник“, „Яжте ги с кората“ → „Яж ги с кората“.
+- Second-person verbs are singular: „ако търсите“ → „ако търсиш“, „за да не губите“ →
+  „за да не губиш“.
+- Never „Вие“, „Ви“, „Вас“ or „Ваш…“.
+- Titles of source articles in `sources` are quoted as published, whatever their voice.
+- `tests/unit/content/voice.test.ts` fails on the formal forms found so far; add a new formal form
+  to its list when you meet one.
+
 ## Add a produce (`src/data/produce/`)
 
 ```yaml
