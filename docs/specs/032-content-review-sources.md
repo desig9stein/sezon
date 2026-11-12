@@ -25,7 +25,8 @@ Seasons and growing regions need Bulgarian sources and a human review. They are 
 
 - As a reader, I want nutrition values that match the cited USDA record exactly.
 - As the reviewer, I want to know which parts of each product are already verified.
-- As a content author, I want the build to fail when a nutrition value drifts from its source.
+- As a content author, I want the unit tests (CI) to fail when a nutrition value drifts from its
+  source.
 
 ## 3. Scope
 
@@ -87,9 +88,16 @@ Not applicable: no title, description or structured-data change.
 2. **AC2:** Given every produce, every macro and micronutrient value equals the extract's value for
    that FDC id.
 3. **AC3:** Given every produce, no traditional-use source is on `wikipedia.org`.
-4. **AC4:** Given the dill, parsley and cabbage entries, they have no traditional use.
+4. **AC4:** Given all produce, none cites the removed Wikipedia pages for dill, parsley and cabbage
+   (a use with a primary source may be re-added).
 5. **AC5:** Given `docs/content-review/README.md`, it lists all 13 products with their nutrition
    status and the open review items.
+
+6. **AC6:** Given every USDA-sourced produce, it gives every macronutrient (sugars when USDA has
+   them), and every numeric nutrition field has an FDC id mapping, so a deleted field or a broken
+   mapping fails.
+7. **AC7:** Given a produce that does not cite USDA, its nutrition source is on `efsa.europa.eu`
+   (EFSA values are not machine-checked and are listed as such in the checklist).
 
 ## 9. Test plan
 

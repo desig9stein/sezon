@@ -24,6 +24,11 @@ const foods = extract.foods as Record<
   { readonly description: string; readonly nutrients: Record<string, number> }
 >;
 const fdcIdOf = (url: string) => /\/food-details\/(\d+)\//.exec(url)?.[1] ?? '';
+const isUsda = (url: string) => new URL(url).hostname === 'fdc.nal.usda.gov';
+const USDA_PRODUCE = PRODUCE.filter(({ nutrition }) => isUsda(nutrition.source.url));
+/** Macronutrient fields every produce must give; sugars are optional in the content schema. */
+const REQUIRED_MACROS = ['energyKcal', 'proteinG', 'fatG', 'carbohydrateG', 'fiberG'];
+const SUGARS_ID = MACRO_NUTRIENT_IDS.sugarsG ?? '';
 /** USDA descriptions add program notes in parentheses and commas the site's names omit. */
 const normalise = (text: string) =>
   text
@@ -43,7 +48,7 @@ describe('nutrition values against USDA SR Legacy (spec 032)', () => {
     },
   );
 
-  it.each(PRODUCE)('AC2: $slug has exactly the USDA values', ({ nutrition }) => {
+  it.each(USDA_PRODUCE)('AC2: $slug has exactly the USDA values', ({ nutrition }) => {
     const values = foods[fdcIdOf(nutrition.source.url)]?.nutrients ?? {};
     for (const [field, id] of Object.entries(MACRO_NUTRIENT_IDS)) {
       if (nutrition[field] !== undefined) expect(nutrition[field], field).toBe(values[id]);
@@ -54,4 +59,29 @@ describe('nutrition values against USDA SR Legacy (spec 032)', () => {
       expect(amount, nutrient).toBe(values[id ?? '']);
     }
   });
+
+  it.each(USDA_PRODUCE)(
+    'AC6: $slug gives every macronutrient USDA has, all mapped',
+    ({ nutrition }) => {
+      const values = foods[fdcIdOf(nutrition.source.url)]?.nutrients ?? {};
+      for (const field of REQUIRED_MACROS) {
+        expect(MACRO_NUTRIENT_IDS[field], `mapping for ${field}`).toBeDefined();
+        expect(nutrition[field], field).toBeDefined();
+      }
+      if (values[SUGARS_ID] !== undefined) expect(nutrition.sugarsG, 'sugarsG').toBeDefined();
+      const numericFields = Object.entries(nutrition)
+        .filter(([, value]) => typeof value === 'number')
+        .map(([field]) => field);
+      for (const field of numericFields) {
+        expect(MACRO_NUTRIENT_IDS[field], `no FDC id mapped for ${field}`).toBeDefined();
+      }
+    },
+  );
+
+  it.each(PRODUCE.filter(({ nutrition }) => !isUsda(nutrition.source.url)))(
+    'AC7: $slug cites EFSA when it does not cite USDA',
+    ({ nutrition }) => {
+      expect(new URL(nutrition.source.url).hostname).toMatch(/(^|\.)efsa\.europa\.eu$/);
+    },
+  );
 });
