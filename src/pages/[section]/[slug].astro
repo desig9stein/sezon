@@ -198,11 +198,7 @@ const jsonLd = [
 
     <section aria-labelledby="sources">
       <h2 id="sources">{labels.headings.sources}</h2>
-      <SourceList
-        sources={details.sources}
-        updatedAt={produce.updatedAt}
-        isDraft={produce.reviewStatus === 'draft'}
-      />
+      <SourceList sources={details.sources} updatedAt={produce.updatedAt} />
     </section>
   </article>
 </BaseLayout>

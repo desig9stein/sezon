@@ -10,11 +10,8 @@ import type { Source } from './Source';
 
 /** Traditional systems whose uses are described. */
 export const TRADITIONAL_SYSTEMS = ['ayurveda', 'folk'] as const;
-/** Editorial review states of a produce entry. */
-export const REVIEW_STATUSES = ['draft', 'reviewed'] as const;
 
 export type TraditionalSystem = (typeof TRADITIONAL_SYSTEMS)[number];
-export type ReviewStatus = (typeof REVIEW_STATUSES)[number];
 
 export interface Variety {
   readonly name: string;
@@ -62,7 +59,6 @@ export interface ProduceInput {
   readonly storage: string;
   readonly faq: ReadonlyArray<FaqItem>;
   readonly updatedAt: Date;
-  readonly reviewStatus: ReviewStatus;
   readonly photo?: ProducePhoto | undefined;
   readonly growing?: GrowingGuide | undefined;
   readonly organic?: OrganicProduction | undefined;
@@ -85,7 +81,6 @@ export class Produce {
   readonly howToChoose: string;
   readonly storage: string;
   readonly faq: ReadonlyArray<FaqItem>;
-  readonly reviewStatus: ReviewStatus;
   readonly photo: ProducePhoto | undefined;
   readonly growing: GrowingGuide | undefined;
   readonly organic: OrganicProduction | undefined;
@@ -112,7 +107,6 @@ export class Produce {
     this.storage = input.storage;
     this.faq = frozenRecords(input.faq);
     this.updatedAtEpochMs = input.updatedAt.getTime();
-    this.reviewStatus = input.reviewStatus;
     this.photo =
       input.photo === undefined
         ? undefined

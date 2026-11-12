@@ -10,7 +10,7 @@ import {
 } from '@shared/infrastructure/schemaPrimitives';
 import { FIRST_MONTH_NUMBER, LAST_MONTH_NUMBER, SEASON_LEVEL_VALUES } from '@contexts/seasonality';
 import { NUTRIENT_KINDS, NUTRIENT_UNITS } from '../domain/Nutrient';
-import { REVIEW_STATUSES, TRADITIONAL_SYSTEMS } from '../domain/Produce';
+import { TRADITIONAL_SYSTEMS } from '../domain/Produce';
 import { PRODUCE_KINDS } from '../domain/ProduceKind';
 import type { ImageAsset } from '../domain/ProducePhoto';
 import { ORGANIC_AVAILABILITIES } from '../domain/OrganicProduction';
@@ -79,7 +79,6 @@ export const produceSchema = z.strictObject({
   storage: text(),
   faq: z.array(z.strictObject({ question: text(), answer: text() })),
   updatedAt: isoDate(),
-  reviewStatus: z.enum(REVIEW_STATUSES),
 });
 
 /** Schema of a `groups` content entry. */

@@ -47,7 +47,6 @@ export function toProduce(id: string, record: ProduceRecord): Produce {
     storage: record.storage,
     faq: record.faq,
     updatedAt: record.updatedAt,
-    reviewStatus: record.reviewStatus,
     photo:
       record.photo === undefined
         ? undefined

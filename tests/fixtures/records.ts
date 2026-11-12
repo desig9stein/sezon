@@ -48,7 +48,6 @@ export function produceRecord(overrides: Partial<ProduceRecord> = {}): ProduceRe
     storage: 'В хладилник до две седмици.',
     faq: [{ question: 'Кога е сезонът на зелето?', answer: 'От септември до ноември.' }],
     updatedAt: new Date('2026-11-10'),
-    reviewStatus: 'draft',
     ...overrides,
   };
 }
