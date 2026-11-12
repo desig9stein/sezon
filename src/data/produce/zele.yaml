@@ -23,9 +23,15 @@ season:
   - { month: 3, level: storage }
 regions:
   - region: plovdiv
-    note: Тракийската низина е основният зеленчуков район в страната.
+    note: 'Южният централен район, към който принадлежи областта, има над половината от откритите площи с главесто зеле в страната – 963 от 1 774 ха през 2022 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци, реколта 2022'
+      url: https://www.mzh.government.bg/media/filer_public/2023/04/11/ra423_publicationvegetables2022.pdf
   - region: pazardzhik
-    note: Поливните площи около Пазарджик са традиционни за ранно и късно зеле.
+    note: 'Също в Южния централен район, който през 2022 г. има над половината от откритите площи с главесто зеле в страната.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци, реколта 2022'
+      url: https://www.mzh.government.bg/media/filer_public/2023/04/11/ra423_publicationvegetables2022.pdf
 nutrition:
   energyKcal: 25
   proteinG: 1.28

@@ -15,10 +15,16 @@ season:
   - { month: 11, level: storage }
   - { month: 12, level: storage }
 regions:
-  - region: kyustendil
-    note: Мекият климат на Кюстендилската котловина е подходящ за крушови градини.
+  - region: haskovo
+    note: 'Най-голямата площ с крушови насаждения в страната – 82 ха през 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на овощните видове 2023 (предварителни резултати)'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
   - region: plovdiv
-    note: Тракийската низина има традиция в отглеждането на круши.
+    note: 'Втората по площ с крушови насаждения област – 64 ха през 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на овощните видове 2023 (предварителни резултати)'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
 nutrition:
   energyKcal: 57
   proteinG: 0.36

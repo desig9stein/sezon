@@ -21,10 +21,16 @@ season:
   - { month: 3, level: storage }
   - { month: 4, level: storage }
 regions:
-  - region: kyustendil
-    note: Кюстендилско е известно като „овощната градина на България“.
   - region: plovdiv
-    note: В подножието на Родопите има големи овощни масиви.
+    note: 'Най-голямата площ с ябълкови насаждения в страната – 822 ха през 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на овощните видове 2023 (предварителни резултати)'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: kyustendil
+    note: 'Втората по площ с ябълкови насаждения област – 436 ха през 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на овощните видове 2023 (предварителни резултати)'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
 nutrition:
   energyKcal: 52
   proteinG: 0.26

@@ -61,7 +61,9 @@ export const produceSchema = z.strictObject({
     .min(1)
     .superRefine(uniqueBy((entry) => entry.month, 'season month')),
   regions: z
-    .array(z.strictObject({ region: slugReference(), note: text() }))
+    .array(
+      z.strictObject({ region: slugReference(), note: text(), source: sourceSchema.optional() }),
+    )
     .min(1)
     .superRefine(uniqueBy((entry) => entry.region, 'region')),
   nutrition: nutritionSchema,

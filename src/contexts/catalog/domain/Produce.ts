@@ -24,6 +24,8 @@ export interface Variety {
 export interface GrowingRegion {
   readonly regionSlug: string;
   readonly note: string;
+  /** Where the note's facts come from; editorial notes have none. */
+  readonly source?: Source | undefined;
 }
 
 export interface PreparationTip {
