@@ -44,7 +44,7 @@ export function produceRecord(overrides: Partial<ProduceRecord> = {}): ProduceRe
         source: { name: 'Народна медицина', url: 'https://example.org/source' },
       },
     ],
-    howToChoose: 'Изберете плътна и тежка глава с лъскави листа.',
+    howToChoose: 'Избери плътна и тежка глава с лъскави листа.',
     storage: 'В хладилник до две седмици.',
     faq: [{ question: 'Кога е сезонът на зелето?', answer: 'От септември до ноември.' }],
     updatedAt: new Date('2026-11-10'),

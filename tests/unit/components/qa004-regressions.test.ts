@@ -68,8 +68,8 @@ describe('QA 004 regressions', () => {
   it('page strings use the month name', () => {
     const november = Month.of(11);
     expect(ui.home.heading(november)).toBe('В сезон през ноември');
-    expect(ui.home.fullMonthLink(november)).toBe('Вижте всичко в сезон през ноември');
-    expect(ui.home.nextMonthLink(Month.of(12))).toBe('Вижте какво идва през декември');
+    expect(ui.home.fullMonthLink(november)).toBe('Виж всичко в сезон през ноември');
+    expect(ui.home.nextMonthLink(Month.of(12))).toBe('Виж какво идва през декември');
     expect(ui.monthPage.title(november)).toBe('Какво е в сезон през ноември');
     expect(ui.monthPage.heading(november)).toBe('Какво е в сезон през ноември');
     expect(ui.overview.available).toBe('Също в сезон');

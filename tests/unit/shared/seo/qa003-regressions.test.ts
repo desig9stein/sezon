@@ -4,7 +4,7 @@ import { InvalidPageMetaError } from '@shared/domain/errors';
 
 const SITE = 'https://sezon.example';
 const DESCRIPTION =
-  'Вижте кои плодове и зеленчуци са в сезон в България този месец и откъде да ги купите.';
+  'Виж кои плодове и зеленчуци са в сезон в България този месец и откъде да ги купиш.';
 const base = {
   title: 'Зеле',
   description: DESCRIPTION,

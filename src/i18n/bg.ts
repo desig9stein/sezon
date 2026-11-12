@@ -100,7 +100,7 @@ const inSentence = (name: string): string => name.charAt(0).toLowerCase() + name
 
 function monthPageDescription(month: Month, produceNames: ReadonlyArray<string>): string {
   const intro = `Какво е в сезон в България през ${monthNameLower(month)}`;
-  const closing = 'Вижте кое е в разгара си и кое идва скоро.';
+  const closing = 'Виж кое е в разгара си и кое идва скоро.';
   const withNames = (names: ReadonlyArray<string>) => `${intro}: ${names.join(', ')}. ${closing}`;
   const listed: string[] = [];
   for (const name of produceNames) {
@@ -124,7 +124,7 @@ const HOME_HEADING_LEAD = 'В сезон през';
 export const ui = {
   siteName: SITE_NAME,
   siteDescription:
-    'Кои плодове и зеленчуци са в сезон в България сега, откъде да ги купите и как да ги приготвите.',
+    'Кои плодове и зеленчуци са в сезон в България сега, откъде да ги купиш и как да ги приготвиш.',
   skipLink: 'Към основното съдържание',
   homeLinkLabel: `${SITE_NAME} – начална страница`,
   nav: {
@@ -149,9 +149,9 @@ export const ui = {
     intro:
       'Сезонните плодове и зеленчуци са най-вкусни, най-евтини и идват от по-близо. Ето какво се бере в България този месец.',
     description: (month: Month) =>
-      `Какво е в сезон в България сега – ${monthNameLower(month)}. Вижте кои плодове и зеленчуци са в разгара си и кои идват скоро.`,
-    fullMonthLink: (month: Month) => `Вижте всичко в сезон през ${monthNameLower(month)}`,
-    nextMonthLink: (month: Month) => `Вижте какво идва през ${monthNameLower(month)}`,
+      `Какво е в сезон в България сега – ${monthNameLower(month)}. Виж кои плодове и зеленчуци са в разгара си и кои идват скоро.`,
+    fullMonthLink: (month: Month) => `Виж всичко в сезон през ${monthNameLower(month)}`,
+    nextMonthLink: (month: Month) => `Виж какво идва през ${monthNameLower(month)}`,
   },
   monthPage: {
     title: (month: Month) => `Какво е в сезон през ${monthNameLower(month)}`,
@@ -232,7 +232,7 @@ export const ui = {
     },
     traditional: {
       disclaimer:
-        'Тук описваме традиции, а не доказани ефекти. Информацията не е медицински съвет – при здравословни проблеми се консултирайте с лекар.',
+        'Тук описваме традиции, а не доказани ефекти. Информацията не е медицински съвет – при здравословни проблеми се консултирай с лекар.',
       sourcePrefix: 'източник:',
       systems: { ayurveda: 'Аюрведа', folk: 'Народна медицина' },
     },
@@ -261,9 +261,9 @@ export const ui = {
     title: 'Страницата не е намерена',
     heading: 'Страницата не е намерена',
     description:
-      'Страницата, която търсите, не съществува. Вижте какво е в сезон сега или изберете месец.',
+      'Страницата, която търсиш, не съществува. Виж какво е в сезон сега или избери месец.',
     intro:
-      'Възможно е адресът да е грешен или страницата да е преместена. Ето откъде да продължите:',
+      'Възможно е адресът да е грешен или страницата да е преместена. Ето откъде да продължиш:',
     homeLink: 'Какво е в сезон сега',
     monthLink: (month: Month) => `Всичко в сезон през ${monthNameLower(month)}`,
   },
@@ -365,12 +365,12 @@ export const ui = {
     title: 'Търсене',
     heading: 'Търсене',
     description:
-      'Търсете плод, зеленчук, подправка, ядка или хранително вещество по име, на кирилица или на латиница.',
-    label: 'Какво търсите?',
+      'Търси плод, зеленчук, подправка, ядка или хранително вещество по име, на кирилица или на латиница.',
+    label: 'Какво търсиш?',
     hint: 'Например ябълки или yabalki.',
     submit: 'Търси',
-    noscript: 'Търсенето изисква JavaScript. Разгледайте каталога по-долу.',
-    browseHeading: 'Разгледайте',
+    noscript: 'Търсенето изисква JavaScript. Разгледай каталога по-долу.',
+    browseHeading: 'Разгледай',
     loading: 'Търсене…',
     found: 'Резултати: {count} за „{query}“.',
     none: 'Няма резултати за „{query}“.',
