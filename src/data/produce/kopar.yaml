@@ -40,7 +40,7 @@ storage: Увит във влажна хартия в хладилника из�
 faq:
   - question: Може ли копърът да се замразява?
     answer: Да. Нарязан и замразен, той запазва аромата си по-добре от изсушения.
-updatedAt: 2026-11-10
+updatedAt: 2026-11-12
 photo:
   src: ../../assets/produce/kopar.jpg
   alt: 'Гъсти връзки свеж зелен копър с тънки нишковидни листа'
@@ -50,20 +50,28 @@ photo:
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/a-close-up-of-a-bunch-of-green-grass-kgb34f0HRSc
 growing:
-  sow: [2, 3, 8, 9, 10]
+  sow: [2, 3, 8, 10]
   transplant: []
   plant: []
   tips:
-    - 'Избери открито, слънчево място – на сянка копърът расте по-слабо и губи аромата си.'
-    - 'Сей на всеки 7–8 дни, за да имаш непрекъснато свеж копър.'
-    - 'Поливай редовно през лятото – при жега и суша растенията бързо избиват на цвят.'
+    - 'Избери слънчево място – копърът расте най-добре на слънце, а без достатъчно светлина листата пожълтяват.'
+    - 'Прави няколко последователни сеитби през 3–4 седмици.'
+    - 'Поливай по малко, но често – копърът обича влага, но на дренирана почва.'
     - 'Сей до зеле и лук, но далеч от моркови и домати.'
-    - 'Режи листата, когато растенията стигнат 10–12 см височина.'
+    - 'Режи копъра 20–30 дни след поникването, когато растенията стигнат 10–15 см.'
   sources:
-    - name: 'Gradinata.bg – Копър за летни и зимни гозби'
-      url: https://www.gradinata.bg/index.php?page=article&article_id=239
     - name: 'Agrozona.bg – Засейте през юли копъра за есенните консерви'
       url: https://agrozona.bg/zaseyte-prez-yuli-kopara-za-esennite-konservi/
+    - name: 'Agrozona.bg – Разсадите: Най-полезните съвети кога какво трябва да направите'
+      url: https://agrozona.bg/razsadite-nay-poleznite-saveti-koga-kakvo-tryabva-da-napravite/
+    - name: 'Agrozona.bg – Тайните на ароматния копър'
+      url: https://agrozona.bg/taynite-na-aromatniya-kopar/
+    - name: 'Agrozona.bg – Какво може да посеем и засадим в градината през есента'
+      url: https://agrozona.bg/kakvo-mozhe-da-poseem-i-zasadim-v-gradinata-prez-esenta/
+    - name: 'Български фермер – Подправки в градината'
+      url: https://www.bgfermer.bg/Article/6232301
+    - name: 'Български фермер – 10 неотложни неща за правене на вилата'
+      url: https://www.bgfermer.bg/Article/21103497
 organic:
   availability: available
   note: 'Биологичен копър отглеждат стопанства, които посочват, че са сертифицирани, напр. „Софина“ и „Био Гардън Терзиев“.'

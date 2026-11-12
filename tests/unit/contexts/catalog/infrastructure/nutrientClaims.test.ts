@@ -66,12 +66,19 @@ describe('nutrient claims', () => {
     });
   }
 
-  it('QA 011: no content uses „богат на“ (same meaning as „високо съдържание на“)', () => {
+  it('QA 011: no content uses „богат на“ (same meaning as „високо съдържание на“); source titles are quoted as published', () => {
     const dataRoot = join(process.cwd(), 'src', 'data');
+    const sourceTitle =
+      /^\s*-?\s*name: '[^']*(?:Agrozona\.bg|Български фермер|USDA|EFSA|МЗХ|Уикипедия)/;
+    const ownText = (file: string): string =>
+      readFileSync(join(dataRoot, file), 'utf8')
+        .split('\n')
+        .filter((line) => !sourceTitle.test(line))
+        .join('\n');
     const offending = readdirSync(dataRoot, { recursive: true })
       .map(String)
       .filter((file) => file.endsWith('.yaml'))
-      .filter((file) => /богат/i.test(readFileSync(join(dataRoot, file), 'utf8')));
+      .filter((file) => /богат/i.test(ownText(file)));
     expect(offending).toEqual([]);
   });
 });
