@@ -14,12 +14,12 @@ const MAIL_LINE_BREAK = '\r\n';
 /** Id of the page field in the correction form, used to prefill it. */
 const CORRECTION_PAGE_FIELD = 'page';
 
-/** Who runs the site; the name and LinkedIn profile are shown only when they are set. */
+/** Who runs the site and checks its data. */
 export interface SiteOwner {
   readonly githubHandle: string;
   readonly githubUrl: string;
-  readonly name: string | undefined;
-  readonly linkedinUrl: string | undefined;
+  readonly name: string;
+  readonly linkedinUrl: string;
 }
 
 /** The site owner. */

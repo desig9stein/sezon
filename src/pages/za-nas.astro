@@ -54,20 +54,15 @@ const jsonLd = [
       <h2 class="section-heading" id="about-who">
         {labels.whoHeading}
       </h2>
-      <p>{labels.who}</p>
-      {SITE_OWNER.name !== undefined && <p>{labels.reviewer(SITE_OWNER.name)}</p>}
+      <p>{labels.who(SITE_OWNER.name)}</p>
+      <p>{labels.reviewer(SITE_OWNER.name)}</p>
       <ul>
-        {SITE_OWNER.name !== undefined && <li>{SITE_OWNER.name}</li>}
         <li>
           <a href={SITE_OWNER.githubUrl}>{labels.ownerGithub(SITE_OWNER.githubHandle)}</a>
         </li>
-        {SITE_OWNER.linkedinUrl !== undefined && (
-          <li>
-            <a href={SITE_OWNER.linkedinUrl}>
-              {labels.ownerLinkedin(SITE_OWNER.name ?? SITE_OWNER.githubHandle)}
-            </a>
-          </li>
-        )}
+        <li>
+          <a href={SITE_OWNER.linkedinUrl}>{labels.ownerLinkedin(SITE_OWNER.name)}</a>
+        </li>
       </ul>
     </section>
 

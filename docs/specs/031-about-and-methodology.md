@@ -68,9 +68,9 @@ The owner's brief (2026-11-12):
   - Without it, no email address or mailto link appears anywhere.
   - The about page then names GitHub as the channel and says that an email address will follow.
   - An invalid value fails the build with `InvalidConfigurationError`.
-- **Owner details:** `SITE_OWNER` in `src/composition/contact.ts`. It holds the GitHub profile; the
-  name and LinkedIn URL stay `undefined` until the owner provides them and are not rendered while
-  missing.
+- **Owner details:** `SITE_OWNER` in `src/composition/contact.ts`: the GitHub profile, the name
+  (Марин Попов) and the LinkedIn URL, provided on 2026-11-12. The name appears in the sentences
+  „Сезон се прави и поддържа от Марин Попов …“ and „Данните проверява Марин Попов.“
 - **Issue form:** `.github/ISSUE_TEMPLATE/correction.yml` with required fields `page`, `wrong`,
   `correct` and `evidence`; documents can be attached in the text area.
 - **Issue form language:** the readers who report errors read Bulgarian, so the form's labels are
@@ -78,7 +78,7 @@ The owner's brief (2026-11-12):
   this form.
 - **Produce page:** the sources section links to the methodology.
 - **Licence:**
-  - `LICENSE`: MIT, official SPDX text, holder `desig9stein` until the owner gives a name.
+  - `LICENSE`: MIT, official SPDX text, holder Marin Popov.
   - `LICENSE-CONTENT`: CC BY 4.0 legal code, the official text from creativecommons.org.
   - `package.json` gets `"license": "MIT"`, and the README has a licence section.
 
@@ -86,7 +86,7 @@ The owner's brief (2026-11-12):
 
 - A server-side form or file upload (the site is static).
 - A separate `/dobavi-ferma` page: the about page section serves #15, and farm lists link to it.
-- The owner's name, LinkedIn and email values themselves (to be provided).
+- The contact email value itself (to be provided by the owner).
 
 ## 4. Domain model
 
@@ -159,8 +159,9 @@ All three are pure functions with unit tests.
     public.
 
 16. **AC16:** Given the owner's details (2026-11-12: Marin Popov, LinkedIn, „I am checking the
-    data“), then „Кой стои зад сайта“ names Марин Попов, links his GitHub and LinkedIn profiles and
-    says that he checks the data against the sources, and `LICENSE` names Marin Popov.
+    data“), then „Кой стои зад сайта“ says that Марин Попов makes the site with AI agents and checks
+    the data („Данните проверява Марин Попов.“), lists only his GitHub and LinkedIn links, and
+    `LICENSE` names Marin Popov.
 
 ## 9. Test plan
 

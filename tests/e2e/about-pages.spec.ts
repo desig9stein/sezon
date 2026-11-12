@@ -99,8 +99,9 @@ test.describe('about and methodology (spec 031)', () => {
   test('AC16: names the developer, his profiles and that he checks the data', async ({ page }) => {
     await page.goto('/za-nas');
     const who = page.locator('section:has(> h2#about-who)');
-    await expect(who).toContainText('Марин Попов');
-    await expect(who).toContainText('проверява');
+    await expect(who).toContainText(ui.about.who('Марин Попов'));
+    await expect(who).toContainText(ui.about.reviewer('Марин Попов'));
+    await expect(who.locator('li', { hasText: /^Марин Попов$/ })).toHaveCount(0);
     await expect(who.locator('a[href="https://github.com/desig9stein"]')).toHaveCount(1);
     await expect(
       who.locator('a[href="https://www.linkedin.com/in/marin-popov-65829244"]'),
