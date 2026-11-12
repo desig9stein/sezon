@@ -8,7 +8,9 @@ const METHODOLOGY_SECTIONS = 8;
 const FORM = 'https://github.com/desig9stein/sezon/issues/new';
 
 test.describe('about and methodology (spec 031)', () => {
-  test('AC5: the about page has its sections, links and no invented email', async ({ page }) => {
+  test('AC5: the about page has its sections and links, including the owner email', async ({
+    page,
+  }) => {
     await page.goto('/za-nas');
     await expect(page.locator('main h2')).toHaveCount(ABOUT_SECTIONS);
     const about = ui.about;
@@ -36,7 +38,10 @@ test.describe('about and methodology (spec 031)', () => {
     await expect(page.locator(`main a[href^="${FORM}"]`).first()).toBeVisible();
     await expect(page.locator('main')).toContainText('MIT');
     await expect(page.locator('main')).toContainText('CC BY 4.0');
-    await expect(page.locator('a[href^="mailto:"]')).toHaveCount(0);
+    const greshka = page.locator('section:has(> h2#greshka)');
+    await expect(greshka.locator('a[href^="mailto:mspopovv@gmail.com"]')).toHaveCount(1);
+    const farm = page.locator('section:has(> h2#dobavi-ferma)');
+    await expect(farm.locator('a[href^="mailto:mspopovv@gmail.com"]')).toHaveCount(1);
   });
 
   test('AC6: the methodology names its sources and links to corrections', async ({ page }) => {
@@ -94,6 +99,32 @@ test.describe('about and methodology (spec 031)', () => {
     await expect(page.locator('main')).toContainText('редакторск');
     await expect(page.locator('section:has(> h2#about-privacy)')).toContainText('GitHub');
     await expect(page.locator('main')).not.toContainText('Всяко твърдение води към източника си');
+  });
+
+  test('AC16: names the developer, his profiles and that he checks the data', async ({ page }) => {
+    await page.goto('/za-nas');
+    const who = page.locator('section:has(> h2#about-who)');
+    await expect(who).toContainText(ui.about.who('Марин Попов'));
+    await expect(who).toContainText(ui.about.reviewer('Марин Попов'));
+    await expect(who.locator('li', { hasText: /^Марин Попов$/ })).toHaveCount(0);
+    await expect(who.locator('a[href="https://github.com/desig9stein"]')).toHaveCount(1);
+    await expect(
+      who.locator('a[href="https://www.linkedin.com/in/marin-popov-65829244"]'),
+    ).toHaveCount(1);
+  });
+
+  test('AC17: every footer offers an email report and the community is named as a verifier', async ({
+    page,
+  }) => {
+    for (const path of ['/', '/plodove/yabalki']) {
+      await page.goto(path);
+      await expect(page.locator('footer a[href^="mailto:mspopovv@gmail.com"]'), path).toHaveCount(
+        1,
+      );
+    }
+    await page.goto('/za-nas');
+    await expect(page.locator('section:has(> h2#greshka)')).toContainText(ui.about.community);
+    await expect(page.locator('section:has(> h2#greshka)')).toContainText('остаряла');
   });
 
   test('AC8: produce sources link to the methodology', async ({ page }) => {

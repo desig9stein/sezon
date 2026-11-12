@@ -38,7 +38,7 @@ The owner's brief (2026-11-12):
 - **`/za-nas`** (`AboutPage`), with `h2` sections in this order:
   1. what Сезон is;
   2. who is behind it: a single developer with the help of AI agents, with the GitHub profile, and
-     the name and LinkedIn once configured;
+     the name and LinkedIn;
   3. how AI is used;
   4. sources and transparency, with a link to the methodology;
   5. open code and licence (MIT and CC BY 4.0, link to the repository);
@@ -61,16 +61,15 @@ The owner's brief (2026-11-12):
 - **Report links:**
   - Every page footer has „Съобщи за грешка“, a link to the GitHub issue form `correction.yml`
     with the page URL filled in.
-  - When a contact email is configured, a mailto link sits beside it, with the subject and body
-    template filled in.
+  - A mailto link to the contact email sits beside it, with the subject and body template
+    filled in.
   - The footer also links „За нас“ and „Методология“.
-- **Contact email:** `PUBLIC_CONTACT_EMAIL` (optional, documented in `.env.example`).
-  - Without it, no email address or mailto link appears anywhere.
-  - The about page then names GitHub as the channel and says that an email address will follow.
-  - An invalid value fails the build with `InvalidConfigurationError`.
-- **Owner details:** `SITE_OWNER` in `src/composition/contact.ts`. It holds the GitHub profile; the
-  name and LinkedIn URL stay `undefined` until the owner provides them and are not rendered while
-  missing.
+- **Contact email:** mspopovv@gmail.com, provided by the owner on 2026-11-12, set once in
+  `src/composition/contact.ts` (it is the same in every environment) and validated at build time.
+  Every footer and the error and farm sections of `/za-nas` offer it as a mailto link beside GitHub.
+- **Owner details:** `SITE_OWNER` in `src/composition/contact.ts`: the GitHub profile, the name
+  (Марин Попов) and the LinkedIn URL, provided on 2026-11-12. The name appears in the sentences
+  „Сезон се прави и поддържа от Марин Попов …“ and „Данните проверява Марин Попов.“
 - **Issue form:** `.github/ISSUE_TEMPLATE/correction.yml` with required fields `page`, `wrong`,
   `correct` and `evidence`; documents can be attached in the text area.
 - **Issue form language:** the readers who report errors read Bulgarian, so the form's labels are
@@ -78,7 +77,7 @@ The owner's brief (2026-11-12):
   this form.
 - **Produce page:** the sources section links to the methodology.
 - **Licence:**
-  - `LICENSE`: MIT, official SPDX text, holder `desig9stein` until the owner gives a name.
+  - `LICENSE`: MIT, official SPDX text, holder Marin Popov.
   - `LICENSE-CONTENT`: CC BY 4.0 legal code, the official text from creativecommons.org.
   - `package.json` gets `"license": "MIT"`, and the README has a licence section.
 
@@ -86,15 +85,14 @@ The owner's brief (2026-11-12):
 
 - A server-side form or file upload (the site is static).
 - A separate `/dobavi-ferma` page: the about page section serves #15, and farm lists link to it.
-- The owner's name, LinkedIn and email values themselves (to be provided).
 
 ## 4. Domain model
 
 No domain change. Composition:
 
-- `contactEmail(env)` validates the optional address with the shared `EMAIL` pattern.
-- `correctionLinks(pageUrl, email)` returns the GitHub issue URL and an optional mailto URL.
-- `farmSubmissionLink(email)` returns an optional mailto URL with the farm template.
+- `contactEmail(value)` validates the contact address with the shared `EMAIL` pattern.
+- `correctionLinks(pageUrl, email)` returns the GitHub issue URL and a mailto URL.
+- `farmSubmissionLink(email)` returns a mailto URL with the farm template.
 
 All three are pure functions with unit tests.
 
@@ -103,7 +101,7 @@ All three are pure functions with unit tests.
 - The GitHub URL uses `template=correction.yml` and the field id `page`, filled with the absolute
   page URL. This follows GitHub's documented query parameters for issue forms.
 - mailto bodies are URL-encoded and list the same four items as the issue form.
-- No email is ever invented: missing configuration hides the mailto links.
+- The only email shown is the one the owner provided.
 - Statements on the pages are limited to what the site does today:
   - there are no cookies, analytics or ads today;
   - drafts are marked;
@@ -125,18 +123,18 @@ All three are pure functions with unit tests.
 
 ## 8. Acceptance criteria
 
-1. **AC1:** Given no `PUBLIC_CONTACT_EMAIL`, `contactEmail` returns `undefined`; given a valid
-   address, it returns it; given an invalid one, it throws `InvalidConfigurationError`.
+1. **AC1:** Given a valid address, `contactEmail` returns it trimmed; given a blank or invalid
+   value, it throws `InvalidConfigurationError`.
 2. **AC2:** Given a page URL, `correctionLinks` returns a GitHub URL to
-   `issues/new?template=correction.yml` with `page` set to that URL, and a mailto only when an email
-   is given, with a subject naming the page and a body listing page, wrong, correct and evidence.
+   `issues/new?template=correction.yml` with `page` set to that URL, and a mailto to the given email,
+   with a subject naming the page and a body listing page, wrong, correct and evidence.
 3. **AC3:** Given an email, `farmSubmissionLink` returns a mailto whose body lists the required farm
-   information; without an email, it returns `undefined`.
+   information.
 4. **AC4:** Given `correction.yml`, it is a valid issue form with required fields `page`, `wrong`,
    `correct`, `evidence` and labels `type:content`, `area:content`.
-5. **AC5:** Given the built `/za-nas` without an email, it has the ten sections in order and links
+5. **AC5:** Given the built `/za-nas`, it has the ten sections in order and links
    to the GitHub profile, the repository, `/metodologiya` and the correction form. It names MIT and
-   CC BY 4.0 and contains no `mailto:`.
+   CC BY 4.0 and links to the owner's email.
 6. **AC6:** Given the built `/metodologiya`, it has the eight sections and links to USDA
    FoodData Central, EFSA and `/za-nas#greshka`.
 7. **AC7:** Given any page, its footer links „За нас“, „Методология“ and „Съобщи за грешка“ with
@@ -158,6 +156,16 @@ All three are pure functions with unit tests.
     not claim that every statement has a source, and its privacy section says GitHub reports are
     public.
 
+16. **AC16:** Given the owner's details (2026-11-12: Marin Popov, LinkedIn, „I am checking the
+    data“), then „Кой стои зад сайта“ says that Марин Попов makes the site with AI agents and checks
+    the data („Данните проверява Марин Попов.“), lists only his GitHub and LinkedIn links, and
+    `LICENSE` names Marin Popov.
+
+17. **AC17:** Given the owner's email (2026-11-12: mspopovv@gmail.com) and request that the
+    community can report wrong or outdated data and so verify it too, then every footer and the
+    error and farm sections of `/za-nas` offer an email link to that address, and the error section
+    says that readers who report wrong or outdated information help check the data.
+
 ## 9. Test plan
 
 | AC   | Test type | Test file                                                                          |
@@ -172,11 +180,13 @@ All three are pure functions with unit tests.
 | AC8  | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
 | AC9  | e2e, unit | `tests/e2e/about-pages.spec.ts`, `tests/unit/i18n/aboutMeta.test.ts`               |
 | AC10 | unit      | `tests/unit/repo/license.test.ts`                                                  |
+| AC11 | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
 | AC12 | unit      | `tests/unit/composition/contact.test.ts`                                           |
 | AC13 | unit      | `tests/unit/composition/contact.test.ts`, `tests/unit/repo/correctionForm.test.ts` |
 | AC14 | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
 | AC15 | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
-| AC11 | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
+| AC16 | e2e, unit | `tests/e2e/about-pages.spec.ts`, `tests/unit/repo/license.test.ts`                 |
+| AC17 | e2e, unit | `tests/e2e/about-pages.spec.ts`, `tests/unit/composition/contact.test.ts`          |
 
 ## 10. Third-party documentation consulted
 

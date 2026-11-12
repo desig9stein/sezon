@@ -13,4 +13,8 @@ describe('licences (spec 031)', () => {
     const pkg = JSON.parse(readFileSync('package.json', 'utf8')) as { license?: string };
     expect(pkg.license).toBe('MIT');
   });
+
+  it('AC16: LICENSE names Marin Popov as the copyright holder', () => {
+    expect(readFileSync('LICENSE', 'utf8')).toContain('Copyright (c) 2026 Marin Popov');
+  });
 });

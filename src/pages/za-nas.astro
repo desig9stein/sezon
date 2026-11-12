@@ -54,19 +54,15 @@ const jsonLd = [
       <h2 class="section-heading" id="about-who">
         {labels.whoHeading}
       </h2>
-      <p>{labels.who}</p>
+      <p>{labels.who(SITE_OWNER.name)}</p>
+      <p>{labels.reviewer(SITE_OWNER.name)}</p>
       <ul>
-        {SITE_OWNER.name !== undefined && <li>{SITE_OWNER.name}</li>}
         <li>
           <a href={SITE_OWNER.githubUrl}>{labels.ownerGithub(SITE_OWNER.githubHandle)}</a>
         </li>
-        {SITE_OWNER.linkedinUrl !== undefined && (
-          <li>
-            <a href={SITE_OWNER.linkedinUrl}>
-              {labels.ownerLinkedin(SITE_OWNER.name ?? SITE_OWNER.githubHandle)}
-            </a>
-          </li>
-        )}
+        <li>
+          <a href={SITE_OWNER.linkedinUrl}>{labels.ownerLinkedin(SITE_OWNER.name)}</a>
+        </li>
       </ul>
     </section>
 
@@ -110,17 +106,15 @@ const jsonLd = [
         ))}
       </ol>
       <p>{labels.errorsEvidence}</p>
+      <p>{labels.community}</p>
       <ul class="info-page__actions" role="list">
-        {report.email !== undefined && (
-          <li>
-            <a href={report.email}>{labels.errorsEmail}</a>
-          </li>
-        )}
+        <li>
+          <a href={report.email}>{labels.errorsEmail}</a>
+        </li>
         <li>
           <a href={report.github}>{labels.errorsGithub}</a>
         </li>
       </ul>
-      {report.email === undefined && <p>{labels.emailPending}</p>}
       <p>{labels.errorsProcess}</p>
     </section>
 
@@ -136,16 +130,13 @@ const jsonLd = [
       </ul>
       <p>{labels.farmProcess}</p>
       <ul class="info-page__actions" role="list">
-        {farmEmail !== undefined && (
-          <li>
-            <a href={farmEmail}>{labels.farmEmail}</a>
-          </li>
-        )}
+        <li>
+          <a href={farmEmail}>{labels.farmEmail}</a>
+        </li>
         <li>
           <a href={farmGithub}>{labels.farmGithub}</a>
         </li>
       </ul>
-      {farmEmail === undefined && <p>{labels.farmEmailPending}</p>}
     </section>
 
     <section aria-labelledby="about-ads">

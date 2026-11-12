@@ -1,5 +1,5 @@
 name: Грешка в съдържанието
-description: Съобщи за неточна информация на сайта и посочи вярната, с доказателство.
+description: Съобщи за неточна или остаряла информация на сайта и посочи вярната, с доказателство.
 title: 'Грешка: '
 labels: ['type:content', 'area:content']
 body:
@@ -19,7 +19,7 @@ body:
     id: wrong
     attributes:
       label: Какво е грешно
-      description: Цитирай или опиши неточната информация.
+      description: Цитирай или опиши неточната или остарялата информация.
     validations:
       required: true
   - type: textarea
