@@ -17,3 +17,9 @@ pnpm install
 pnpm dev        # http://localhost:4321
 pnpm verify     # lint, types, tests, build, HTML validation, e2e + axe
 ```
+
+## License
+
+- Code: [MIT](LICENSE).
+- Content (texts and data in `src/data/**` and the UI copy): [CC BY 4.0](LICENSE-CONTENT). You may
+  reuse it with attribution to Sezon and a link to the source.

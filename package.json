@@ -1,6 +1,7 @@
 {
   "name": "sezon",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "description": "Seasonal fruits and vegetables in Bulgaria: what is in season, where it grows best, and which local farms sell it.",

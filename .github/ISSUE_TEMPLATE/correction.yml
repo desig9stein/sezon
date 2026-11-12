@@ -1,0 +1,38 @@
+name: Грешка в съдържанието
+description: Съобщи за неточна информация на сайта и посочи вярната, с доказателство.
+title: 'Грешка: '
+labels: ['type:content', 'area:content']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Благодарим, че помагаш Сезон да е точен. Без доказателство не можем да променим данните.
+  - type: input
+    id: page
+    attributes:
+      label: Страница
+      description: Адресът на страницата, на която е грешката.
+      placeholder: https://…
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: Какво е грешно
+      description: Цитирай или опиши неточната информация.
+    validations:
+      required: true
+  - type: textarea
+    id: correct
+    attributes:
+      label: Кое е вярното
+      description: Каква трябва да е информацията.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Доказателство
+      description: Връзка към надежден източник или приложен документ (провлачи файла тук).
+    validations:
+      required: true

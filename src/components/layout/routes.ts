@@ -18,6 +18,8 @@ const FARMS_PREFIX = '/fermi';
 export const routes = {
   home: '/',
   catalog: '/katalog',
+  about: '/za-nas',
+  methodology: '/metodologiya',
   calendar: '/kalendar',
   search: '/tarsene',
   farms: FARMS_PREFIX,

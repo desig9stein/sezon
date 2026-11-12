@@ -1,0 +1,180 @@
+---
+import { routes } from '@components/layout/routes';
+import {
+  correctionLinks,
+  farmSubmissionLink,
+  REPOSITORY_URL,
+  SITE_OWNER,
+} from '@composition/contact';
+import { CONTACT_EMAIL } from '@composition/index';
+import { requireSiteUrl } from '@composition/site';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { webPageJsonLd } from '@shared/seo';
+
+const labels = ui.about;
+const path = routes.about;
+const siteUrl = requireSiteUrl(Astro.site);
+const report = correctionLinks(new URL(path, siteUrl).toString(), CONTACT_EMAIL);
+const farmEmail = farmSubmissionLink(CONTACT_EMAIL);
+const farmGithub = `${REPOSITORY_URL}/issues/new?template=content.yml`;
+const jsonLd = [
+  webPageJsonLd({
+    siteUrl,
+    path,
+    type: 'AboutPage',
+    name: labels.heading,
+    description: labels.description,
+  }),
+];
+---
+
+<BaseLayout
+  title={labels.title}
+  description={labels.description}
+  path={path}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: labels.heading, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <article class="info-page">
+    <h1>{labels.heading}</h1>
+
+    <section aria-labelledby="about-what">
+      <h2 class="section-heading" id="about-what">
+        {labels.whatHeading}
+      </h2>
+      <p>{labels.what}</p>
+    </section>
+
+    <section aria-labelledby="about-who">
+      <h2 class="section-heading" id="about-who">
+        {labels.whoHeading}
+      </h2>
+      <p>{labels.who}</p>
+      <ul>
+        {SITE_OWNER.name !== undefined && <li>{SITE_OWNER.name}</li>}
+        <li>
+          <a href={SITE_OWNER.githubUrl} rel="noopener">
+            {labels.ownerGithub(SITE_OWNER.githubHandle)}
+          </a>
+        </li>
+        {SITE_OWNER.linkedinUrl !== undefined && (
+          <li>
+            <a href={SITE_OWNER.linkedinUrl} rel="noopener">
+              {labels.ownerLinkedin(SITE_OWNER.name ?? SITE_OWNER.githubHandle)}
+            </a>
+          </li>
+        )}
+      </ul>
+    </section>
+
+    <section aria-labelledby="about-ai">
+      <h2 class="section-heading" id="about-ai">
+        {labels.aiHeading}
+      </h2>
+      {labels.ai.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+    </section>
+
+    <section aria-labelledby="about-sources">
+      <h2 class="section-heading" id="about-sources">
+        {labels.sourcesHeading}
+      </h2>
+      <p>{labels.sources}</p>
+      <p>
+        <a href={routes.methodology}>{labels.methodologyLink}</a>
+      </p>
+    </section>
+
+    <section aria-labelledby="about-open">
+      <h2 class="section-heading" id="about-open">
+        {labels.openHeading}
+      </h2>
+      <p>{labels.open}</p>
+      <p>
+        <a href={REPOSITORY_URL} rel="noopener">
+          {labels.repositoryLink}
+        </a>
+      </p>
+    </section>
+
+    <section aria-labelledby="greshka">
+      <h2 class="section-heading" id="greshka">
+        {labels.errorsHeading}
+      </h2>
+      <p>{labels.errorsIntro}</p>
+      <ol>
+        {labels.errorsItems.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ol>
+      <p>{labels.errorsEvidence}</p>
+      <ul class="info-page__actions" role="list">
+        {report.email !== undefined && (
+          <li>
+            <a href={report.email}>{labels.errorsEmail}</a>
+          </li>
+        )}
+        <li>
+          <a href={report.github} rel="noopener">
+            {labels.errorsGithub}
+          </a>
+        </li>
+      </ul>
+      {report.email === undefined && <p>{labels.emailPending}</p>}
+      <p>{labels.errorsProcess}</p>
+    </section>
+
+    <section aria-labelledby="dobavi-ferma">
+      <h2 class="section-heading" id="dobavi-ferma">
+        {labels.farmHeading}
+      </h2>
+      <p>{labels.farmIntro}</p>
+      <ul>
+        {labels.farmItems.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+      <p>{labels.farmProcess}</p>
+      <ul class="info-page__actions" role="list">
+        {farmEmail !== undefined && (
+          <li>
+            <a href={farmEmail}>{labels.farmEmail}</a>
+          </li>
+        )}
+        <li>
+          <a href={farmGithub} rel="noopener">
+            {labels.farmGithub}
+          </a>
+        </li>
+      </ul>
+      {farmEmail === undefined && <p>{labels.emailPending}</p>}
+    </section>
+
+    <section aria-labelledby="about-ads">
+      <h2 class="section-heading" id="about-ads">
+        {labels.adsHeading}
+      </h2>
+      <p>{labels.ads}</p>
+    </section>
+
+    <section aria-labelledby="about-privacy">
+      <h2 class="section-heading" id="about-privacy">
+        {labels.privacyHeading}
+      </h2>
+      <p>{labels.privacy}</p>
+    </section>
+
+    <section aria-labelledby="about-health">
+      <h2 class="section-heading" id="about-health">
+        {labels.healthHeading}
+      </h2>
+      <p>{ui.footer.disclaimer}</p>
+      <p>{ui.produce.traditional.disclaimer}</p>
+    </section>
+  </article>
+</BaseLayout>

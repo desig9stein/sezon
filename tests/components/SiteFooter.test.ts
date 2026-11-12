@@ -19,12 +19,12 @@ const MONTHS: [string, string][] = [
 
 describe('SiteFooter', () => {
   it.each(MONTHS)('AC10: links to /sezon/%s labelled %s', async (slug, name) => {
-    const html = await render(SiteFooter);
+    const html = await render(SiteFooter, { path: '/' });
     expect(html).toMatch(new RegExp(`<a[^>]*href="/sezon/${slug}"[^>]*>\\s*${name}\\s*</a>`));
   });
 
   it('AC10: shows the health disclaimer', async () => {
-    const html = await render(SiteFooter);
+    const html = await render(SiteFooter, { path: '/' });
     expect(html).toContain('не е медицински съвет');
   });
 });

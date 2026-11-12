@@ -26,6 +26,7 @@ import { BrokenReferenceError } from '@shared/domain/errors';
 import { IndexedRepository } from '@shared/infrastructure/IndexedRepository';
 import { findBrokenReferences, type ContentRecords } from './contentIntegrity';
 import { ProduceDetailsQuery } from './ProduceDetailsQuery';
+import { contactEmail } from './contact';
 import { FarmPagesQuery } from './FarmPagesQuery';
 import { RegionPagesQuery } from './RegionPagesQuery';
 
@@ -103,6 +104,9 @@ export const produceDetailsQuery = new ProduceDetailsQuery({
   regions: regionRepository,
   farms: farmRepository,
 });
+
+/** The public contact email, or `undefined` while none is configured. */
+export const CONTACT_EMAIL = contactEmail(import.meta.env.PUBLIC_CONTACT_EMAIL);
 
 /** Read model for the farm list and farm pages. */
 export const farmPagesQuery = new FarmPagesQuery({
