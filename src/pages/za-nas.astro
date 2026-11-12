@@ -108,11 +108,9 @@ const jsonLd = [
       <p>{labels.errorsEvidence}</p>
       <p>{labels.community}</p>
       <ul class="info-page__actions" role="list">
-        {report.email !== undefined && (
-          <li>
-            <a href={report.email}>{labels.errorsEmail}</a>
-          </li>
-        )}
+        <li>
+          <a href={report.email}>{labels.errorsEmail}</a>
+        </li>
         <li>
           <a href={report.github}>{labels.errorsGithub}</a>
         </li>
@@ -132,11 +130,9 @@ const jsonLd = [
       </ul>
       <p>{labels.farmProcess}</p>
       <ul class="info-page__actions" role="list">
-        {farmEmail !== undefined && (
-          <li>
-            <a href={farmEmail}>{labels.farmEmail}</a>
-          </li>
-        )}
+        <li>
+          <a href={farmEmail}>{labels.farmEmail}</a>
+        </li>
         <li>
           <a href={farmGithub}>{labels.farmGithub}</a>
         </li>

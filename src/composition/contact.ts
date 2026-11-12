@@ -30,19 +30,18 @@ export const SITE_OWNER: SiteOwner = Object.freeze({
   linkedinUrl: 'https://www.linkedin.com/in/marin-popov-65829244',
 });
 
-/** Links for reporting an error on one page: the GitHub form, and an email when configured. */
+/** Links for reporting an error on one page: the GitHub form and a prefilled email. */
 export interface CorrectionLinks {
   readonly github: string;
-  readonly email: string | undefined;
+  readonly email: string;
 }
 
 /**
- * Returns a trimmed contact email, or `undefined` when `value` is blank.
- * @throws InvalidConfigurationError when the value is set but is not an email address.
+ * Returns the contact email, trimmed.
+ * @throws InvalidConfigurationError when the value is not an email address.
  */
-export function contactEmail(value: string | undefined): string | undefined {
-  const trimmed = value?.trim() ?? '';
-  if (trimmed === '') return undefined;
+export function contactEmail(value: string): string {
+  const trimmed = value.trim();
   if (!EMAIL.test(trimmed)) {
     throw new InvalidConfigurationError(`Contact email is not an email address: ${trimmed}`);
   }
@@ -62,18 +61,15 @@ const issueForm = (template: string): URL => {
 
 /**
  * Returns the links for reporting an error on the page at `pageUrl`: the GitHub correction form
- * with the page filled in, and a prefilled email when `email` is set.
+ * with the page filled in, and an email to `email` with the report template filled in.
  */
-export function correctionLinks(pageUrl: string, email: string | undefined): CorrectionLinks {
+export function correctionLinks(pageUrl: string, email: string): CorrectionLinks {
   const github = issueForm(CORRECTION_TEMPLATE);
   github.searchParams.set(CORRECTION_PAGE_FIELD, pageUrl);
   const labels = ui.corrections;
   return Object.freeze({
     github: github.toString(),
-    email:
-      email === undefined
-        ? undefined
-        : mailto(email, labels.mailSubject(pageUrl), labels.mailBody(pageUrl)),
+    email: mailto(email, labels.mailSubject(pageUrl), labels.mailBody(pageUrl)),
   });
 }
 
@@ -86,10 +82,10 @@ export function farmIssueLink(): string {
 const OWNER_EMAIL = 'mspopovv@gmail.com';
 
 /** The validated public contact email. */
-export const CONTACT_EMAIL: string = contactEmail(OWNER_EMAIL) ?? OWNER_EMAIL;
+export const CONTACT_EMAIL: string = contactEmail(OWNER_EMAIL);
 
-/** Returns a prefilled email for submitting a farm, or `undefined` when no email is configured. */
-export function farmSubmissionLink(email: string | undefined): string | undefined {
+/** Returns an email to `email` with the farm submission template filled in. */
+export function farmSubmissionLink(email: string): string {
   const labels = ui.farmSubmission;
-  return email === undefined ? undefined : mailto(email, labels.mailSubject, labels.mailBody);
+  return mailto(email, labels.mailSubject, labels.mailBody);
 }

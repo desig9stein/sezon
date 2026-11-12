@@ -16,26 +16,23 @@ const mailParts = (mailto: string) => {
 };
 
 describe('contact configuration (spec 031)', () => {
-  it('AC1: reads an optional, valid contact email', () => {
-    expect(contactEmail(undefined)).toBeUndefined();
-    expect(contactEmail('')).toBeUndefined();
-    expect(contactEmail('info@sezon.bg')).toBe('info@sezon.bg');
+  it('AC1: validates the contact email', () => {
+    expect(contactEmail(' info@sezon.bg ')).toBe('info@sezon.bg');
+    expect(() => contactEmail('')).toThrow(InvalidConfigurationError);
     expect(() => contactEmail('not-an-email')).toThrow(InvalidConfigurationError);
   });
 
   it('AC2: links the GitHub correction form with the page filled in', () => {
-    const links = correctionLinks(PAGE, undefined);
+    const links = correctionLinks(PAGE, 'info@sezon.bg');
     const url = new URL(links.github);
     expect(`${url.origin}${url.pathname}`).toBe('https://github.com/desig9stein/sezon/issues/new');
     expect(queryOf(links.github).get('template')).toBe('correction.yml');
     expect(queryOf(links.github).get('page')).toBe(PAGE);
-    expect(links.email).toBeUndefined();
   });
 
-  it('AC2: adds a mailto with the page and the four items when an email is set', () => {
+  it('AC2: adds a mailto with the page and the four items', () => {
     const { email } = correctionLinks(PAGE, 'info@sezon.bg');
-    expect(email).toBeDefined();
-    const { address, params } = mailParts(email ?? '');
+    const { address, params } = mailParts(email);
     expect(address).toBe('info@sezon.bg');
     expect(params.get('subject')).toContain(PAGE);
     const body = params.get('body') ?? '';
@@ -44,9 +41,8 @@ describe('contact configuration (spec 031)', () => {
     }
   });
 
-  it('AC3: builds a farm submission mailto only when an email is set', () => {
-    expect(farmSubmissionLink(undefined)).toBeUndefined();
-    const { address, params } = mailParts(farmSubmissionLink('info@sezon.bg') ?? '');
+  it('AC3: builds a farm submission mailto', () => {
+    const { address, params } = mailParts(farmSubmissionLink('info@sezon.bg'));
     expect(address).toBe('info@sezon.bg');
     const body = params.get('body') ?? '';
     for (const part of [
@@ -65,7 +61,7 @@ describe('contact QA (spec 031)', () => {
   it('AC12: writes mailto line breaks as CRLF', () => {
     const { email } = correctionLinks(PAGE, 'info@sezon.bg');
     expect(email).toContain('%0D%0A');
-    expect(email?.replace(/%0D%0A/g, '')).not.toContain('%0A');
+    expect(email.replace(/%0D%0A/g, '')).not.toContain('%0A');
   });
 
   it('AC13: links the Bulgarian farm form in GitHub', () => {

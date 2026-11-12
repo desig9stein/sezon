@@ -9,7 +9,7 @@ import { routes } from './routes';
 /**
  * Site footer: a year strip of links to every month page with the build month marked, then links
  * to the calendar, the about and methodology pages, adding a farm, and an error report for the current page (the
- * GitHub form, and an email when configured) at `path`, the health disclaimer and the copyright.
+ * GitHub form and an email) at `path`, the health disclaimer and the copyright.
  */
 interface Props {
   /** Site-relative canonical path of the page the footer is on. */
@@ -52,11 +52,9 @@ const labels = ui.footer;
         <li>
           <a href={report.github}>{labels.report}</a>
         </li>
-        {report.email !== undefined && (
-          <li>
-            <a href={report.email}>{labels.reportEmail}</a>
-          </li>
-        )}
+        <li>
+          <a href={report.email}>{labels.reportEmail}</a>
+        </li>
       </ul>
     </nav>
     <p class="site-footer__disclaimer">{ui.footer.disclaimer}</p>

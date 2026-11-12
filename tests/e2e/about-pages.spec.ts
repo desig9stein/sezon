@@ -8,7 +8,9 @@ const METHODOLOGY_SECTIONS = 8;
 const FORM = 'https://github.com/desig9stein/sezon/issues/new';
 
 test.describe('about and methodology (spec 031)', () => {
-  test('AC5: the about page has its sections, links and no invented email', async ({ page }) => {
+  test('AC5: the about page has its sections and links, including the owner email', async ({
+    page,
+  }) => {
     await page.goto('/za-nas');
     await expect(page.locator('main h2')).toHaveCount(ABOUT_SECTIONS);
     const about = ui.about;
