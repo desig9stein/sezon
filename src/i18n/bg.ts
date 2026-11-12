@@ -275,6 +275,18 @@ export const ui = {
     available: 'В сезон',
     storage: 'От хранилище',
   } satisfies Record<SeasonLevelValue, string>,
+  monthChanges: {
+    heading: (month: Month) => `Какво се сменя през ${monthNameLower(month)}`,
+    groups: {
+      enteringPeak: 'Влиза в разгар',
+      stayingPeak: 'Остава в разгар',
+      leavingPeak: 'Излиза от разгар',
+      toStorage: 'Минава към хранилище',
+      garden: 'В градината',
+    },
+    now: (level: string) => `сега: ${level}`,
+    detailSeparator: ' – ',
+  },
   legend: {
     label: 'Какво значат печатите',
     peak: 'прясно от полето, в пика на сезона',

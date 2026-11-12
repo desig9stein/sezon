@@ -2,10 +2,12 @@ import { expect, test } from '@playwright/test';
 import { expectNoAxeViolations } from './a11y';
 
 const PAGE = '/sezon/noemvri';
+/** A month whose page also lists produce coming soon. */
+const WITH_COMING_SOON = '/sezon/mart';
 
 test.describe('month changes (spec 027)', () => {
   test('AC9: the block follows the legend and precedes the coming-soon list', async ({ page }) => {
-    await page.goto(PAGE);
+    await page.goto(WITH_COMING_SOON);
     const order = await page.evaluate(() => {
       const main = document.querySelector('main');
       const changes = main?.querySelector('.month-changes');
@@ -20,7 +22,7 @@ test.describe('month changes (spec 027)', () => {
     });
     expect(order).toEqual({ afterLegend: true, beforeComing: true });
     await expect(
-      page.getByRole('heading', { level: 2, name: 'Какво се сменя през ноември' }),
+      page.getByRole('heading', { level: 2, name: 'Какво се сменя през март' }),
     ).toBeVisible();
   });
 

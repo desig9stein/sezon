@@ -4,6 +4,7 @@ import {
   NutrientRankingService,
   ProduceGroupIndexService,
   SeasonCalendarService,
+  MonthChangesService,
   SeasonOverviewService,
   SectionIndexService,
 } from '@contexts/catalog';
@@ -103,6 +104,8 @@ export const produceDetailsQuery = new ProduceDetailsQuery({
 
 /** Season overview queries over the content produce. */
 export const seasonOverviewService = new SeasonOverviewService(produceRepository);
+
+export const monthChangesService = new MonthChangesService(produceRepository);
 /** Ranks produce by vitamin or mineral content for nutrient pages. */
 export const nutrientRankingService = new NutrientRankingService(
   produceRepository,

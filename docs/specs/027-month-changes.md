@@ -100,7 +100,7 @@ Lists keep the repository order. No domain entity changes.
 7. **AC7:** Given a leaving-peak item and a garden item, when rendered, then they read
    „<name> – сега: В сезон“ and „<name> – Сеитба, Разсаждане“.
 8. **AC8:** Given empty changes, when rendered, then nothing is output.
-9. **AC9:** Given the November month page, then the block sits after the legend and before the
+9. **AC9:** Given the March month page (which also lists produce coming soon), then the block sits after the legend and before the
    coming-soon list, and axe reports no violations in light and dark mode.
 
 ## 9. Test plan

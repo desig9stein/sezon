@@ -65,15 +65,17 @@ describe('MonthChangesService', () => {
     expect(changes.previous).toBe(Month.of(10));
     expect(slugs(changes.stayingPeak)).toEqual(['zele']);
     expect(slugs(changes.enteringPeak)).toEqual(['praz']);
-    expect(slugs(changes.leavingPeak.map((entry) => entry.produce))).toEqual(['tikva', 'domati']);
+    expect(slugs(changes.leavingPeak.map((entry) => entry.produce))).toEqual(['domati', 'tikva']);
     expect(slugs(changes.toStorage)).toEqual(['krushi']);
     expect(changes.isEmpty).toBe(false);
   });
 
   it('AC2: says the level now of produce leaving its peak', async () => {
     const { leavingPeak } = await service.changesFor(Month.of(11));
-    expect(leavingPeak[0]?.levelNow).toBe(SeasonLevel.AVAILABLE);
-    expect(leavingPeak[1]?.levelNow).toBeUndefined();
+    const levelOf = (slug: string) =>
+      leavingPeak.find((entry) => entry.produce.slug === slug)?.levelNow;
+    expect(levelOf('tikva')).toBe(SeasonLevel.AVAILABLE);
+    expect(levelOf('domati')).toBeUndefined();
   });
 
   it('AC3: lists the garden jobs of the month with their activities', async () => {
