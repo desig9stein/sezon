@@ -77,11 +77,7 @@ const jsonLd = [
     <h2 class="section-heading" id="region-farms">
       {labels.farmsHeading}
     </h2>
-    {page.farms.length === 0 ? (
-      <p>{labels.noFarms}</p>
-    ) : (
-      <FarmList farms={page.farms} currentRegionSlug={region.slug} />
-    )}
+    <FarmList farms={page.farms} currentRegionSlug={region.slug} emptyText={labels.noFarms} />
   </section>
 </BaseLayout>
 

@@ -1,15 +1,14 @@
 ---
 import { Month } from '@contexts/seasonality';
 import { buildMonth, buildYear } from '@composition/clock';
-import { correctionLinks } from '@composition/contact';
-import { CONTACT_EMAIL } from '@composition/index';
+import { CONTACT_EMAIL, correctionLinks } from '@composition/contact';
 import { requireSiteUrl } from '@composition/site';
 import { monthName, ui } from '@i18n/bg';
 import { routes } from './routes';
 
 /**
  * Site footer: a year strip of links to every month page with the build month marked, then links
- * to the calendar, the about and methodology pages and an error report for the current page (the
+ * to the calendar, the about and methodology pages, adding a farm, and an error report for the current page (the
  * GitHub form, and an email when configured) at `path`, the health disclaimer and the copyright.
  */
 interface Props {
@@ -48,9 +47,10 @@ const labels = ui.footer;
           <a href={routes.methodology}>{labels.methodology}</a>
         </li>
         <li>
-          <a href={report.github} rel="noopener">
-            {labels.report}
-          </a>
+          <a href={routes.addFarm}>{labels.addFarm}</a>
+        </li>
+        <li>
+          <a href={report.github}>{labels.report}</a>
         </li>
         {report.email !== undefined && (
           <li>

@@ -7,6 +7,10 @@ export const REPOSITORY_URL = 'https://github.com/desig9stein/sezon';
 
 /** The issue form used to report incorrect content. */
 const CORRECTION_TEMPLATE = 'correction.yml';
+/** The issue form used to submit a farm. */
+const FARM_TEMPLATE = 'farm.yml';
+/** Line break required in mailto bodies (RFC 6068). */
+const MAIL_LINE_BREAK = '\r\n';
 /** Id of the page field in the correction form, used to prefill it. */
 const CORRECTION_PAGE_FIELD = 'page';
 
@@ -47,15 +51,22 @@ export function contactEmail(value: string | undefined): string | undefined {
 }
 
 const mailto = (email: string, subject: string, body: string): string =>
-  `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+    body.replace(/\r?\n/g, MAIL_LINE_BREAK),
+  )}`;
+
+const issueForm = (template: string): URL => {
+  const url = new URL(`${REPOSITORY_URL}/issues/new`);
+  url.searchParams.set('template', template);
+  return url;
+};
 
 /**
  * Returns the links for reporting an error on the page at `pageUrl`: the GitHub correction form
  * with the page filled in, and a prefilled email when `email` is set.
  */
 export function correctionLinks(pageUrl: string, email: string | undefined): CorrectionLinks {
-  const github = new URL(`${REPOSITORY_URL}/issues/new`);
-  github.searchParams.set('template', CORRECTION_TEMPLATE);
+  const github = issueForm(CORRECTION_TEMPLATE);
   github.searchParams.set(CORRECTION_PAGE_FIELD, pageUrl);
   const labels = ui.corrections;
   return Object.freeze({
@@ -66,6 +77,14 @@ export function correctionLinks(pageUrl: string, email: string | undefined): Cor
         : mailto(email, labels.mailSubject(pageUrl), labels.mailBody(pageUrl)),
   });
 }
+
+/** Returns the GitHub issue form for submitting a farm. */
+export function farmIssueLink(): string {
+  return issueForm(FARM_TEMPLATE).toString();
+}
+
+/** The public contact email, or `undefined` while none is configured. */
+export const CONTACT_EMAIL = contactEmail(import.meta.env.PUBLIC_CONTACT_EMAIL);
 
 /** Returns a prefilled email for submitting a farm, or `undefined` when no email is configured. */
 export function farmSubmissionLink(email: string | undefined): string | undefined {

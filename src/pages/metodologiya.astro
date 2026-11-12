@@ -13,7 +13,7 @@ const levels = [
   { name: ui.stamp.peak, text: ui.legend.peak },
   { name: ui.stamp.available, text: ui.legend.available },
   { name: ui.stamp.storage, text: ui.legend.storage },
-  { name: ui.produce.outOfSeason, text: ui.legend.outOfSeason },
+  { name: ui.produce.outOfSeason, text: labels.outOfSeasonText },
 ];
 const jsonLd = [
   webPageJsonLd({
@@ -47,14 +47,10 @@ const jsonLd = [
       <p>{labels.nutrition}</p>
       <ul>
         <li>
-          <a href={USDA_URL} rel="noopener">
-            {labels.usdaLink}
-          </a>
+          <a href={USDA_URL}>{labels.usdaLink}</a>
         </li>
         <li>
-          <a href={EFSA_URL} rel="noopener">
-            {labels.efsaLink}
-          </a>
+          <a href={EFSA_URL}>{labels.efsaLink}</a>
         </li>
       </ul>
       <p>{labels.referenceIntake}</p>
@@ -117,7 +113,7 @@ const jsonLd = [
       </h2>
       <p>{labels.corrections}</p>
       <p>
-        <a href={`${routes.about}#greshka`}>{labels.correctionsLink}</a>
+        <a href={routes.reportError}>{labels.correctionsLink}</a>
       </p>
     </section>
   </article>

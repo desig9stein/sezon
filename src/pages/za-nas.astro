@@ -1,12 +1,13 @@
 ---
 import { routes } from '@components/layout/routes';
 import {
+  CONTACT_EMAIL,
   correctionLinks,
+  farmIssueLink,
   farmSubmissionLink,
   REPOSITORY_URL,
   SITE_OWNER,
 } from '@composition/contact';
-import { CONTACT_EMAIL } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
 import { ui } from '@i18n/bg';
 import BaseLayout from '@layouts/BaseLayout.astro';
@@ -17,7 +18,7 @@ const path = routes.about;
 const siteUrl = requireSiteUrl(Astro.site);
 const report = correctionLinks(new URL(path, siteUrl).toString(), CONTACT_EMAIL);
 const farmEmail = farmSubmissionLink(CONTACT_EMAIL);
-const farmGithub = `${REPOSITORY_URL}/issues/new?template=content.yml`;
+const farmGithub = farmIssueLink();
 const jsonLd = [
   webPageJsonLd({
     siteUrl,
@@ -57,13 +58,11 @@ const jsonLd = [
       <ul>
         {SITE_OWNER.name !== undefined && <li>{SITE_OWNER.name}</li>}
         <li>
-          <a href={SITE_OWNER.githubUrl} rel="noopener">
-            {labels.ownerGithub(SITE_OWNER.githubHandle)}
-          </a>
+          <a href={SITE_OWNER.githubUrl}>{labels.ownerGithub(SITE_OWNER.githubHandle)}</a>
         </li>
         {SITE_OWNER.linkedinUrl !== undefined && (
           <li>
-            <a href={SITE_OWNER.linkedinUrl} rel="noopener">
+            <a href={SITE_OWNER.linkedinUrl}>
               {labels.ownerLinkedin(SITE_OWNER.name ?? SITE_OWNER.githubHandle)}
             </a>
           </li>
@@ -96,9 +95,7 @@ const jsonLd = [
       </h2>
       <p>{labels.open}</p>
       <p>
-        <a href={REPOSITORY_URL} rel="noopener">
-          {labels.repositoryLink}
-        </a>
+        <a href={REPOSITORY_URL}>{labels.repositoryLink}</a>
       </p>
     </section>
 
@@ -120,9 +117,7 @@ const jsonLd = [
           </li>
         )}
         <li>
-          <a href={report.github} rel="noopener">
-            {labels.errorsGithub}
-          </a>
+          <a href={report.github}>{labels.errorsGithub}</a>
         </li>
       </ul>
       {report.email === undefined && <p>{labels.emailPending}</p>}
@@ -147,12 +142,10 @@ const jsonLd = [
           </li>
         )}
         <li>
-          <a href={farmGithub} rel="noopener">
-            {labels.farmGithub}
-          </a>
+          <a href={farmGithub}>{labels.farmGithub}</a>
         </li>
       </ul>
-      {farmEmail === undefined && <p>{labels.emailPending}</p>}
+      {farmEmail === undefined && <p>{labels.farmEmailPending}</p>}
     </section>
 
     <section aria-labelledby="about-ads">
@@ -174,7 +167,6 @@ const jsonLd = [
         {labels.healthHeading}
       </h2>
       <p>{ui.footer.disclaimer}</p>
-      <p>{ui.produce.traditional.disclaimer}</p>
     </section>
   </article>
 </BaseLayout>

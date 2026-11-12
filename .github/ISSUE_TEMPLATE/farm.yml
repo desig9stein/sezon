@@ -1,0 +1,49 @@
+name: Добави ферма
+description: Предложи своята ферма за Сезон. Добавяме само реални ферми, след като проверим данните.
+title: 'Ферма: '
+labels: ['type:content', 'area:content']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Благодарим! Онова, което фермата казва за себе си, ще бъде показано с бележка „По данни на фермата“.
+  - type: input
+    id: name
+    attributes:
+      label: Име на фермата
+    validations:
+      required: true
+  - type: input
+    id: place
+    attributes:
+      label: Област и населено място
+    validations:
+      required: true
+  - type: textarea
+    id: produce
+    attributes:
+      label: Продукти
+      description: Кои сезонни продукти предлагаш.
+    validations:
+      required: true
+  - type: textarea
+    id: contact
+    attributes:
+      label: Връзка
+      description: Поне едно от трите – уебсайт, имейл или телефон.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Източник
+      description: Страница, която потвърждава тези данни – уебсайт или профил на фермата.
+    validations:
+      required: true
+  - type: input
+    id: organic
+    attributes:
+      label: Биосертификат
+      description: Номер и сертифициращ орган, ако имаш.
+    validations:
+      required: false
