@@ -3,7 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import { jsonLdBlocks, render } from './render';
 
 const DESCRIPTION =
-  'Вижте кои плодове и зеленчуци са в сезон в България този месец и откъде да ги купите.';
+  'Виж кои плодове и зеленчуци са в сезон в България този месец и откъде да ги купиш.';
 
 async function renderLayout(props: Record<string, unknown> = {}) {
   return render(
@@ -34,10 +34,10 @@ describe('BaseLayout', () => {
   it('AC8: renders every SEO tag', async () => {
     const html = await renderLayout();
     expect(html).toContain('<title>Ноември | Сезон</title>');
-    expect(html).toMatch(/<meta name="description" content="Вижте кои плодове/);
+    expect(html).toMatch(/<meta name="description" content="Виж кои плодове/);
     expect(html).toContain('<link rel="canonical" href="https://sezon.example/sezon/noemvri">');
     expect(html).toContain('<meta property="og:title" content="Ноември | Сезон">');
-    expect(html).toMatch(/<meta property="og:description" content="Вижте/);
+    expect(html).toMatch(/<meta property="og:description" content="Виж/);
     expect(html).toContain(
       '<meta property="og:url" content="https://sezon.example/sezon/noemvri">',
     );

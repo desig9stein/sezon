@@ -60,8 +60,7 @@ and a reader who trusts the figures because every one of them is sourced.
 ## Brand Commitments
 
 - Name: **Сезон**, written as a typographic wordmark.
-- Voice: **informal „ти“, friendly and plain** (owner decision 2026-11-11). Existing UI strings
-  still use „Вие“ forms („Вижте…“) and are to be migrated.
+- Voice: **informal „ти“, friendly and plain** (owner decision 2026-11-11).
 - Visual identity: the „stamp of origin“ direction in
   `docs/ADR/0006-visual-direction-stamp-of-origin.md` (stamp-blue shell, red only for „Разгар“,
   Sofia Sans with Sofia Sans Extra Condensed capitals for headings and stamps), replacing the
