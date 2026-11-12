@@ -60,8 +60,15 @@ test.describe('region pages (spec 029)', () => {
     await expect(
       page.locator('section:has(> h3#regions) ul a[href="/regioni/plovdiv"]'),
     ).toHaveCount(1);
+    await expect(page.locator('.farm__meta a[href="/regioni/veliko-tarnovo"]')).toHaveCount(1);
+  });
+
+  test('AC17: a page never links to itself from the map or a farm card', async ({ page }) => {
     await page.goto('/regioni/pleven');
-    await expect(page.locator('.farm__meta a[href="/regioni/pleven"]').first()).toBeVisible();
+    await expect(page.locator('main a[href="/regioni/pleven"]')).toHaveCount(0);
+    await expect(page.locator('.farm__meta').first()).toContainText('Плевен');
+    await page.goto('/regioni/plovdiv');
+    await expect(page.locator('main a[href="/regioni/plovdiv"]')).toHaveCount(0);
   });
 
   test('AC10: the catalogue links to the regions and the header marks the catalogue', async ({
@@ -94,6 +101,11 @@ test.describe('region pages (spec 029)', () => {
       await removeAllCss(page);
       const box = await page.locator('figure.province-map svg').boundingBox();
       expect(box?.width).toBeLessThanOrEqual(320);
+      if (path !== '/regioni') {
+        await expect(page.locator('main li').filter({ hasText: 'Зеле' }).first()).toContainText(
+          'Зеле – ',
+        );
+      }
     });
   }
 });

@@ -26,7 +26,38 @@ describe('ProvinceMap links (spec 029)', () => {
     expect(links.join('\n')).toMatch(
       /href="\/regioni\/pleven"[^>]*aria-label="Плевен"|aria-label="Плевен"[^>]*href="\/regioni\/pleven"/,
     );
-    expect(html.match(/<path[^>]*aria-hidden="true"/g)).toHaveLength(26);
+    const layer = /<g[^>]*aria-hidden="true"[^>]*>([\s\S]*?)<\/g>/.exec(svgOf(html))?.[1] ?? '';
+    expect(layer.match(/<path[^>]*data-region=/g)).toHaveLength(28);
+  });
+
+  it('AC15: draws the links above every province, in Bulgarian name order', async () => {
+    const svg = svgOf(
+      await render(ProvinceMap, {
+        regions: [],
+        links: [
+          { region: plovdiv, href: '/regioni/plovdiv' },
+          { region: pleven, href: '/regioni/pleven' },
+        ],
+      }),
+    );
+    const lastProvince = svg.lastIndexOf('data-region=');
+    const firstLink = svg.indexOf('<a');
+    expect(firstLink).toBeGreaterThan(lastProvince);
+    const names = [...svg.matchAll(/<a[^>]*aria-label="([^"]+)"/g)].map((match) => match[1]);
+    expect(names).toEqual(['Плевен', 'Пловдив']);
+    expect(svg.match(/class="province-map__ring[^"]*"/g)?.length).toBeGreaterThanOrEqual(4);
+  });
+
+  it('AC16: hatches linked provinces that are not marked with a light pattern', async () => {
+    const svg = svgOf(
+      await render(ProvinceMap, {
+        regions: [plovdiv],
+        links: [{ region: pleven, href: '/regioni/pleven' }],
+      }),
+    );
+    expect(svg).toMatch(/<pattern[^>]*id="province-map-linked"/);
+    expect(svg).toMatch(/<path[^>]*data-region="pleven"[^>]*fill="url\(#province-map-linked\)"/);
+    expect(svg).toMatch(/<path[^>]*data-region="plovdiv"[^>]*fill="url\(#province-map-hatch\)"/);
   });
 
   it('AC5: stays an image without links', async () => {

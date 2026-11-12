@@ -45,6 +45,15 @@ const farms = [
     }),
   ),
   toFarm('dunav', farmRecord({ name: 'Дунав', region: 'pleven', produce: ['praz'] })),
+  toFarm(
+    'staro-bio',
+    farmRecord({
+      name: 'Старо био',
+      region: 'pleven',
+      produce: ['praz'],
+      organic: certificateRecord({ validUntil: new Date('2025-12-31') }),
+    }),
+  ),
 ];
 const query = new RegionPagesQuery({
   regions: repositoryOf(regions),
@@ -64,7 +73,7 @@ describe('RegionPagesQuery', () => {
       ]),
     ).toEqual([
       ['burgas', 0, 0, false],
-      ['pleven', 1, 1, true],
+      ['pleven', 1, 2, true],
       ['plovdiv', 2, 2, true],
     ]);
     expect(await query.pageSlugs()).toEqual(['pleven', 'plovdiv']);
@@ -86,5 +95,15 @@ describe('RegionPagesQuery', () => {
 
   it('AC3: throws RegionNotFoundError for an unknown slug', async () => {
     await expect(query.forSlug('atlantida', ON)).rejects.toThrow(RegionNotFoundError);
+  });
+});
+
+describe('RegionPagesQuery QA (spec 029)', () => {
+  it('AC2: does not count a lapsed certificate as organic', async () => {
+    const page = await query.forSlug('pleven', ON);
+    expect(page.farms.map(({ farm, certifiedOrganic }) => [farm.slug, certifiedOrganic])).toEqual([
+      ['dunav', false],
+      ['staro-bio', false],
+    ]);
   });
 });

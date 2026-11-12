@@ -130,6 +130,17 @@ No entity changes. A new read model `RegionPagesQuery` in `src/composition/` (cr
 12. **AC12:** Given the region title and description builders, then for every region the title is
     at most 60 and the description 70–160 characters.
 
+13. **AC13:** Given a province name starting with „в“ or „ф“, then the description starts with
+    „Във“; given „Софийска“, then title, description and caption use „Софийска област“.
+14. **AC14:** Given a region page, then its description mentions produce only when it lists produce,
+    farms only when it lists farms, uses singular forms for one, and never promises seasons.
+15. **AC15:** Given a map with links, then the links are drawn after every province (so the focus
+    ring is never covered) in Bulgarian name order, each with an outer surface ring and an inner
+    focus ring.
+16. **AC16:** Given a linked province that is not marked, then it is filled with a light hatch
+    (`province-map-linked`), distinct from the marked hatch.
+17. **AC17:** Given a region page, then neither the map nor a farm card links to the page itself.
+
 ## 9. Test plan
 
 | AC   | Test type | Test file                                         |
