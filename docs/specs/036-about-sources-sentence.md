@@ -19,9 +19,13 @@ instead that the sources are shown under the data.
 
 ### In scope
 
-- „Кой стои зад сайта“: replace the reviewer sentence with „Източниците на данните са посочени
-  под самите данни на всяка страница.“
+- „Кой стои зад сайта“: replace the reviewer sentence with „Източниците са посочени на страниците на продуктите и фермите – под данните или в раздел „Източници“ в края на страницата.“ It follows the owner's links.
+  It names only produce and farm pages, because other pages (months, regions, nutrients) show
+  editorial levels or link back to produce pages, and it does not claim that every statement has a
+  source (spec 031, AC15).
 - Remove the `about.reviewer` string.
+- The methodology „Отглеждане“ text says that growing sources are in the produce page's
+  „Източници“ section, not under the guide (QA finding).
 
 ### Out of scope
 
@@ -45,8 +49,9 @@ No title or description change.
 
 ## 8. Acceptance criteria
 
-1. **AC1:** Given `/za-nas`, then „Кой стои зад сайта“ says that the data sources are shown under
-   the data, and no text says that Марин Попов checks the data.
+1. **AC1:** Given `/za-nas`, then „Кой стои зад сайта“ ends with the sentence that sources are on
+   the produce and farm pages, it does not say „на всяка страница“, and no text says that Марин
+   Попов checks the data.
 2. **AC2:** Given the UI strings, then there is no `about.reviewer` string.
 
 ## 9. Test plan
