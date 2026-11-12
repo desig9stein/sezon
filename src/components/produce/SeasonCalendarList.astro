@@ -2,14 +2,15 @@
 import { routes } from '@components/layout/routes';
 import LevelMark from '@components/season/LevelMark.astro';
 import MonthAbbr from '@components/season/MonthAbbr.astro';
-import type { Produce } from '@contexts/catalog';
+import { GROWING_ACTIVITIES, type Produce } from '@contexts/catalog';
 import { Month } from '@contexts/seasonality';
 import { ui } from '@i18n/bg';
 
 /**
  * Twelve-month season strip of one produce: each month links to its month page and shows its
  * abbreviation, the level glyph and the level text on the level's tint; the current month is
- * outlined.
+ * outlined. When the produce's growing guide names at least one month, a labelled garden row
+ * under it lists the activities (sow, transplant, plant) of each month.
  */
 interface Props {
   produce: Produce;
@@ -17,7 +18,22 @@ interface Props {
 }
 
 const { produce, currentMonth } = Astro.props;
+const GARDEN_LABEL_ID = 'garden-label';
 const months = Month.all().map((month) => ({ month, level: produce.levelIn(month) }));
+const { growing } = produce;
+const garden = ui.produce.garden;
+const allGardenMonths =
+  growing === undefined
+    ? []
+    : Month.all().map((month) => ({
+        month,
+        activities: GROWING_ACTIVITIES.filter((activity) =>
+          growing.monthsOf(activity).includes(month),
+        ).map((activity) => ui.produce.growingActivities[activity]),
+      }));
+const gardenMonths = allGardenMonths.some(({ activities }) => activities.length > 0)
+  ? allGardenMonths
+  : [];
 ---
 
 <ul class="calendar" role="list">
@@ -37,6 +53,32 @@ const months = Month.all().map((month) => ({ month, level: produce.levelIn(month
     </li>
   ))}
 </ul>
+{gardenMonths.length > 0 && (
+  <>
+    <p id={GARDEN_LABEL_ID} class="calendar__garden-label">
+      {garden.label}
+    </p>
+    <ul class="calendar calendar--garden" role="list" aria-labelledby={GARDEN_LABEL_ID}>
+      {gardenMonths.map(({ month, activities }) => (
+        <li class="calendar__month" data-active={activities.length > 0 ? 'true' : 'false'}>
+          <span class="calendar__name">
+            <MonthAbbr month={month} />
+          </span>
+          <span class="calendar__level">
+            {activities.length === 0 ? (
+              <>
+                <span aria-hidden="true">–</span>
+                <span class="visually-hidden">{garden.none}</span>
+              </>
+            ) : (
+              activities.join(garden.separator)
+            )}
+          </span>
+        </li>
+      ))}
+    </ul>
+  </>
+)}
 
 <style>
   .calendar {
@@ -47,7 +89,8 @@ const months = Month.all().map((month) => ({ month, level: produce.levelIn(month
     list-style: none;
   }
 
-  .calendar__month a {
+  .calendar__month a,
+  .calendar--garden .calendar__month {
     display: grid;
     align-content: start;
     justify-items: center;
@@ -59,6 +102,30 @@ const months = Month.all().map((month) => ({ month, level: produce.levelIn(month
     background: var(--color-surface);
     text-align: center;
     text-decoration: none;
+  }
+
+  .calendar__garden-label {
+    margin-top: var(--space-2);
+    font-weight: 700;
+  }
+
+  .calendar--garden .calendar__month {
+    gap: 0;
+    min-height: 0;
+    padding-block: var(--space-1);
+  }
+
+  .calendar--garden .calendar__name {
+    text-decoration: none;
+  }
+
+  .calendar--garden .calendar__month[data-active='true'] {
+    color: var(--color-on-badge);
+    background: var(--color-available);
+  }
+
+  .calendar--garden .calendar__month[data-active='true'] .calendar__level {
+    font-weight: 700;
   }
 
   .calendar__month[data-level='peak'] a {
@@ -98,7 +165,9 @@ const months = Month.all().map((month) => ({ month, level: produce.levelIn(month
 
   @media print {
     .calendar__month a,
-    .calendar__month[data-level] a {
+    .calendar__month[data-level] a,
+    .calendar--garden .calendar__month,
+    .calendar--garden .calendar__month[data-active='true'] {
       border: 1px solid var(--print-ink);
       color: var(--print-ink);
       background: none;

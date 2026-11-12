@@ -4,6 +4,7 @@ import { getImage } from 'astro:assets';
 import FarmList from '@components/produce/FarmList.astro';
 import GrowingGuide from '@components/produce/GrowingGuide.astro';
 import ProducePhoto from '@components/produce/ProducePhoto.astro';
+import ProvinceMap from '@components/produce/ProvinceMap.astro';
 import NutritionTable from '@components/produce/NutritionTable.astro';
 import SeasonCalendarList from '@components/produce/SeasonCalendarList.astro';
 import ProduceNow from '@components/produce/ProduceNow.astro';
@@ -130,6 +131,7 @@ const jsonLd = [
             </li>
           ))}
         </ul>
+        <ProvinceMap regions={details.growingRegions.map(({ region }) => region)} />
         <p>
           <a href="#farms">{labels.farmsLink}</a>
         </p>

@@ -28,6 +28,8 @@ export function monthNameLower(month: Month): string {
 
 const TITLE_SUFFIX_LENGTH = characterCount(` | ${SITE_NAME}`);
 const MAX_FRACTION_DIGITS = 2;
+const LIST_SEPARATOR = ', ';
+const MAP_TITLE = 'Карта на България.';
 
 const numberFormat = new Intl.NumberFormat('bg', {
   maximumFractionDigits: MAX_FRACTION_DIGITS,
@@ -167,7 +169,7 @@ export const ui = {
     familyLabel: 'Семейство:',
     outOfSeason: 'Извън сезона',
     photoCredit: 'Снимка:',
-    monthListSeparator: ', ',
+    monthListSeparator: LIST_SEPARATOR,
     monthRangeDash: ' – ',
     growingActivities: {
       sow: 'Сеитба',
@@ -175,6 +177,18 @@ export const ui = {
       plant: 'Засаждане',
     } satisfies Record<GrowingActivity, string>,
     toc: 'На тази страница',
+    garden: { label: 'В градината', none: 'нищо', separator: LIST_SEPARATOR },
+    map: {
+      label: (regions: ReadonlyArray<string>) =>
+        regions.length === 0
+          ? `${MAP_TITLE} Няма отбелязани области`
+          : `${MAP_TITLE} Отбелязани области: ${regions.join(LIST_SEPARATOR)}`,
+      caption: 'Оцветени са областите, изброени по-горе.',
+      creditPrefix: 'Граници на областите:',
+      creditName: 'Natural Earth',
+      creditUrl: 'https://www.naturalearthdata.com/',
+      creditSuffix: '(обществено достояние).',
+    },
     farmsLink: 'Местни ферми, които го продават',
     nowIn: (month: string) => `през ${month}`,
     outOfSeasonIn: (month: string) => `Извън сезона през ${month}`,

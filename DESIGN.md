@@ -185,7 +185,7 @@ The north star is the owner's chosen direction recorded in ADR-0006: stencilled 
 
 The world is calm by decision. Capitals appear only in the logo, headings and stamps, the surfaces are flat, separation comes from hairline rules, and there is no motion beyond the global reduced-motion guard. Density is moderate on reading pages (content column capped at 72rem, prose at 42rem, sections 2–4rem apart) and deliberately compact in the in-season list, which fits about ten rows on the first screen of a phone.
 
-This file describes the system as built after spec 024 (#93): the tokens and typography (spec 022), the shell header and footer (spec 023, #92), and the season stamp, year strip, legend and in-season list (spec 024). The produce page is grouped (spec 025, #94); the data visuals (#95) still carry their earlier layouts in the new tokens; anything marked **planned** is decided in ADR-0006 but not yet in the code. Tokens are generated from `src/design/tokens.ts` and inlined as CSS custom properties (`--color-*`, `--space-*`, `--font-size-*`, `--radius-*`, and others); light values sit on `:root` and dark values override them under `prefers-color-scheme: dark`. Print uses its own `--print-*` set from `src/styles/base.css` (black ink on white paper).
+This file describes the system as built after spec 024 (#93): the tokens and typography (spec 022), the shell header and footer (spec 023, #92), and the season stamp, year strip, legend and in-season list (spec 024). The produce page is grouped (spec 025, #94) and carries the data visuals (spec 026, #95): the province map, the garden row and the nutrition bars; anything marked **planned** is decided in ADR-0006 but not yet in the code. Tokens are generated from `src/design/tokens.ts` and inlined as CSS custom properties (`--color-*`, `--space-*`, `--font-size-*`, `--radius-*`, and others); light values sit on `:root` and dark values override them under `prefers-color-scheme: dark`. Print uses its own `--print-*` set from `src/styles/base.css` (black ink on white paper).
 
 **Key Characteristics:**
 
@@ -256,7 +256,7 @@ The season stamp does not use the washes; it carries the level by form on `surfa
 | peak on surface         | 5.88  | 6.07  | 3       |
 | rule on background      | 1.44  | 1.57  | none    |
 
-`rule` has no minimum because it is decorative only. Every pair above is in `tests/fixtures/contrastPairs.ts` and checked in both schemes. The stamps and the year strip use only tested pairs: `on-peak` on `peak`, `accent` and `text` on `surface`, and `peak`, `accent`, `border` and `text` as marks on the page.
+`rule` has no minimum against the page because it is decorative only; as the fill of unmarked provinces it must stay at least 3:1 against `accent` (the marked ones). Every pair above is in `tests/fixtures/contrastPairs.ts` and checked in both schemes. The stamps and the year strip use only tested pairs: `on-peak` on `peak`, `accent` and `text` on `surface`, and `peak`, `accent`, `border` and `text` as marks on the page.
 
 ### Named Rules
 
@@ -326,7 +326,7 @@ The level forms are one language across stamp and strip: **solid** for „Раз
 
 ## Components
 
-The season components and the shell are in their ADR-0006 form. The produce page is grouped (spec 025). Calendars, plates, farm cards and search keep their earlier layouts in the new tokens until #95.
+The season components and the shell are in their ADR-0006 form. The produce page is grouped (spec 025) and has its data visuals (spec 026). Plates, farm cards and search keep their earlier layouts in the new tokens.
 
 ### Season stamp (signature)
 
@@ -367,6 +367,11 @@ A `figure` on `surface` with a 0.75rem mat and `radius-sm` on frame and image; t
 
 - **Calendar table (`/kalendar`):** a full-year table in `ScrollTable` with a legend above. The current-month column header is filled ultramarine. Level cells take the level fill (stamp red with `on-peak`, or a wash with `on-badge`) with a `LevelMark`; out-of-season cells are `text-muted`.
 - **Produce calendar list:** 12 linked tiles (at least 2.75rem) with 2px gaps: underlined month abbreviation, mark, `sm` level label. Out-of-season tiles use `surface`. The current month gets the inset ultramarine ring and weight 700.
+- **Garden row (spec 026):** under the produce calendar, when the growing guide names a month: a bold label „В градината“, then 12 unlinked cells on the same grid (12, 6 or 4 columns) with the month abbreviation and the activities („Сеитба“, „Разсаждане“, „Засаждане“) or a dash. Active cells take the `available` wash with `on-badge` text and a bold activity; never a frame, which means the current month one row above. Print: ink outlines, no wash.
+
+### Province map (spec 026)
+
+Under „Откъде“, after the region list: a `figure` (max 30rem) with an inline SVG of the 28 provinces from Natural Earth (public domain), built by `scripts/map/build.ts`. Growing regions are filled `accent`, the others `rule`, with 1px `border` borders, so the country outline is at least 3:1 against the page. The SVG is named by its `<title>` and keeps a 320px attribute size without CSS. A muted `sm` caption says what is coloured and credits Natural Earth. No links until region pages exist. Print: marked provinces in ink, the rest unfilled with ink borders.
 
 ### Month pager
 
@@ -383,6 +388,8 @@ A no-JS form capped at the reading width: bold label, muted hint, then a wrappin
 ### Data tables
 
 `ScrollTable` wraps every table: full width, collapsed borders, tabular figures, 0.5rem 0.75rem cell padding, a 1px `border` rule under each row, start-aligned headers, end-aligned numbers, bold start-aligned captions.
+
+- **Nutrition bars (spec 026):** in the „% РСП“ column, a decorative 64 × 8px SVG bar after the percentage: a `rule` track filled `accent` up to the percentage, capped at 100. No bar without a reference intake. Print: outlined track with an ink fill.
 
 ### Navigation
 
