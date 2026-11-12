@@ -5,8 +5,9 @@ import { ui } from '@i18n/bg';
 
 /**
  * What changed in a month compared with the previous one: produce entering, staying at and leaving
- * its peak, moving to storage, and the month's garden jobs. Each non-empty group is an `h3` with a
- * list of produce links and an optional detail; nothing is rendered when nothing changed.
+ * its peak (split by its level now), moving from fresh to storage, and the month's garden jobs.
+ * Each non-empty group is an `h3` with a list of produce links: groups without details wrap on one
+ * line, garden jobs list their activities. Nothing is rendered when nothing changed.
  */
 interface Props {
   changes: MonthChanges;
@@ -17,23 +18,30 @@ interface Item {
   readonly detail?: string;
 }
 
+interface Group {
+  readonly title: string;
+  readonly items: ReadonlyArray<Item>;
+}
+
 const HEADING_ID = 'month-changes-heading';
+/** Levels after the peak, in the order their leaving groups are shown. */
+const LEAVING_ORDER = ['available', 'storage', 'outOfSeason'] as const;
 const { changes } = Astro.props;
 const labels = ui.monthChanges;
 const plain = (items: ReadonlyArray<Produce>): ReadonlyArray<Item> =>
   items.map((produce) => ({ produce }));
-const groups = [
+const leavingGroups: ReadonlyArray<Group> = LEAVING_ORDER.map((level) => ({
+  title: labels.groups.leavingPeak[level],
+  items: plain(
+    changes.leavingPeak
+      .filter(({ levelNow }) => (levelNow?.value ?? 'outOfSeason') === level)
+      .map(({ produce }) => produce),
+  ),
+}));
+const groups: ReadonlyArray<Group> = [
   { title: labels.groups.enteringPeak, items: plain(changes.enteringPeak) },
   { title: labels.groups.stayingPeak, items: plain(changes.stayingPeak) },
-  {
-    title: labels.groups.leavingPeak,
-    items: changes.leavingPeak.map(({ produce, levelNow }) => ({
-      produce,
-      detail: labels.now(
-        levelNow === undefined ? ui.produce.outOfSeason : ui.stamp[levelNow.value],
-      ),
-    })),
-  },
+  ...leavingGroups,
   { title: labels.groups.toStorage, items: plain(changes.toStorage) },
   {
     title: labels.groups.garden,
@@ -45,6 +53,7 @@ const groups = [
     })),
   },
 ].filter((group) => group.items.length > 0);
+const hasDetails = (group: Group) => group.items.some((item) => item.detail !== undefined);
 ---
 
 {!changes.isEmpty && (
@@ -54,7 +63,13 @@ const groups = [
       {groups.map((group) => (
         <section class="month-changes__group">
           <h3>{group.title}</h3>
-          <ul role="list">
+          <ul
+            role="list"
+            class:list={[
+              'month-changes__list',
+              { 'month-changes__list--inline': !hasDetails(group) },
+            ]}
+          >
             {group.items.map(({ produce, detail }) => (
               <li>
                 <a href={routes.produce(produce)}>{produce.name}</a>
@@ -105,6 +120,17 @@ const groups = [
   .month-changes li {
     padding-block: var(--space-1);
     border-bottom: 1px solid var(--color-rule);
+  }
+
+  .month-changes .month-changes__list--inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+  }
+
+  .month-changes .month-changes__list--inline li {
+    padding: 0;
+    border: 0;
   }
 
   .month-changes a {

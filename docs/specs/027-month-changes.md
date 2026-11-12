@@ -24,16 +24,19 @@ that on every month page, computed only from the season and growing data.
 
 - `MonthChangesService.changesFor(month)` in the catalog application layer.
 - `MonthChanges.astro` on each month page (`/sezon/<месец>`), after the legend and before the
-  coming-soon list: an `h2` „Какво се сменя през <месец>“ and one `h3` group per non-empty change.
+  coming-soon list: an `h2` „Какво се променя през <месец>“ and one `h3` group per non-empty change.
 - Groups, in this order, each comparing `month` with the previous month:
-  1. „Влиза в разгар“: peak now, not peak in the previous month.
-  2. „Остава в разгар“: peak now and in the previous month.
-  3. „Излиза от разгар“: peak in the previous month, not now; each item says its level now
-     („сега: В сезон“, „сега: От хранилище“, „сега: Извън сезона“).
-  4. „Минава към хранилище“: storage now, not storage in the previous month.
+  1. „Навлизат в разгара си“: peak now, not peak in the previous month.
+  2. „Още са в разгара си“: peak now and in the previous month.
+  3. „Отминава им разгарът, …“: peak in the previous month, not now, split by the level now into
+     up to three groups: „…, още са в сезон“, „…, вече от хранилище“, „…, вече извън сезона“.
+  4. „Вече от хранилище“: storage now and available (fresh, not at its peak) in the previous
+     month. Produce going from its peak to storage is only in group 3; produce coming from out of
+     season straight into storage is in no group.
   5. „В градината“: the growing guide names `month` for sowing, transplanting or planting; each
      item lists the activities („Сеитба“, „Разсаждане“, „Засаждане“).
-- Each item is a link to the produce page.
+- Each item is a link to the produce page. Groups without details (all but „В градината“) wrap
+  as one line of links; garden items are rows with their activities.
 
 ### Out of scope
 
@@ -95,27 +98,38 @@ Lists keep the repository order. No domain entity changes.
    in `stayingPeak`.
 5. **AC5:** Given no change in a month, when `changesFor`, then `isEmpty` is true.
 6. **AC6:** Given changes, when `MonthChanges` renders, then it has an `h2`
-   „Какво се сменя през ноември“, an `h3` per non-empty group in the fixed order, and items that
+   „Какво се променя през ноември“, an `h3` per non-empty group in the fixed order, and items that
    link to produce pages.
-7. **AC7:** Given a leaving-peak item and a garden item, when rendered, then they read
-   „<name> – сега: В сезон“ and „<name> – Сеитба, Разсаждане“.
+7. **AC7:** Given leaving-peak items with different levels now and a garden item, when rendered,
+   then the leaving items sit under one `h3` per level (in the order in season, storage, out of
+   season) and the garden item reads „<name> – Сеитба, Разсаждане“.
 8. **AC8:** Given empty changes, when rendered, then nothing is output.
 9. **AC9:** Given the March month page (which also lists produce coming soon), then the block sits after the legend and before the
-   coming-soon list, and axe reports no violations in light and dark mode.
+   coming-soon list, and axe reports no violations on the March and November pages in light and
+   dark mode.
+10. **AC10:** Given produce available in October and storage in November, peak in October and
+    storage in November, and out of season in October and storage in November, when
+    `changesFor(November)`, then only the first is in `toStorage` and the second is in
+    `leavingPeak`.
+11. **AC11:** Given a guide with only a planting note, and a produce entering its peak with a
+    planting job in the same month, when `changesFor`, then the first is in no garden entry and
+    the second is in both `enteringPeak` and `garden`.
 
 ## 9. Test plan
 
-| AC  | Test type | Test file                                                             |
-| --- | --------- | --------------------------------------------------------------------- |
-| AC1 | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
-| AC2 | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
-| AC3 | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
-| AC4 | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
-| AC5 | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
-| AC6 | component | `tests/components/MonthChanges.test.ts`                               |
-| AC7 | component | `tests/components/MonthChanges.test.ts`                               |
-| AC8 | component | `tests/components/MonthChanges.test.ts`                               |
-| AC9 | e2e       | `tests/e2e/month-changes.spec.ts`                                     |
+| AC   | Test type | Test file                                                             |
+| ---- | --------- | --------------------------------------------------------------------- |
+| AC1  | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
+| AC2  | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
+| AC3  | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
+| AC4  | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
+| AC5  | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
+| AC6  | component | `tests/components/MonthChanges.test.ts`                               |
+| AC7  | component | `tests/components/MonthChanges.test.ts`                               |
+| AC8  | component | `tests/components/MonthChanges.test.ts`                               |
+| AC9  | e2e       | `tests/e2e/month-changes.spec.ts`                                     |
+| AC10 | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
+| AC11 | unit      | `tests/unit/contexts/catalog/application/MonthChangesService.test.ts` |
 
 ## 10. Third-party documentation consulted
 

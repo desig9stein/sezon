@@ -29,6 +29,8 @@ export function monthNameLower(month: Month): string {
 const TITLE_SUFFIX_LENGTH = characterCount(` | ${SITE_NAME}`);
 const MAX_FRACTION_DIGITS = 2;
 const LIST_SEPARATOR = ', ';
+const DASH_SEPARATOR = ' – ';
+const GARDEN_LABEL = 'В градината';
 const MAP_TITLE = 'Карта на България.';
 
 const numberFormat = new Intl.NumberFormat('bg', {
@@ -170,14 +172,14 @@ export const ui = {
     outOfSeason: 'Извън сезона',
     photoCredit: 'Снимка:',
     monthListSeparator: LIST_SEPARATOR,
-    monthRangeDash: ' – ',
+    monthRangeDash: DASH_SEPARATOR,
     growingActivities: {
       sow: 'Сеитба',
       transplant: 'Разсаждане',
       plant: 'Засаждане',
     } satisfies Record<GrowingActivity, string>,
     toc: 'На тази страница',
-    garden: { label: 'В градината', none: 'нищо', separator: LIST_SEPARATOR },
+    garden: { label: GARDEN_LABEL, none: 'нищо', separator: LIST_SEPARATOR },
     map: {
       label: (regions: ReadonlyArray<string>) =>
         regions.length === 0
@@ -276,16 +278,19 @@ export const ui = {
     storage: 'От хранилище',
   } satisfies Record<SeasonLevelValue, string>,
   monthChanges: {
-    heading: (month: Month) => `Какво се сменя през ${monthNameLower(month)}`,
+    heading: (month: Month) => `Какво се променя през ${monthNameLower(month)}`,
     groups: {
-      enteringPeak: 'Влиза в разгар',
-      stayingPeak: 'Остава в разгар',
-      leavingPeak: 'Излиза от разгар',
-      toStorage: 'Минава към хранилище',
-      garden: 'В градината',
+      enteringPeak: 'Навлизат в разгара си',
+      stayingPeak: 'Още са в разгара си',
+      leavingPeak: {
+        available: 'Отминава им разгарът, още са в сезон',
+        storage: 'Отминава им разгарът, вече от хранилище',
+        outOfSeason: 'Отминава им разгарът, вече извън сезона',
+      },
+      toStorage: 'Вече от хранилище',
+      garden: GARDEN_LABEL,
     },
-    now: (level: string) => `сега: ${level}`,
-    detailSeparator: ' – ',
+    detailSeparator: DASH_SEPARATOR,
   },
   legend: {
     label: 'Какво значат печатите',
@@ -329,7 +334,7 @@ export const ui = {
       source: (name: string) => `Източник на ${inSentence(name)}`,
     },
     noClaim: 'под прага за претенция',
-    labelSeparator: ' – ',
+    labelSeparator: DASH_SEPARATOR,
     balancedDiet:
       'Важно е храненето да е разнообразно и балансирано, както и да се води здравословен начин на живот.',
     quantityNote:

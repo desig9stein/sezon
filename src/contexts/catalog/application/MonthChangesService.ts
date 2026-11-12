@@ -1,6 +1,6 @@
 import type { Month } from '@contexts/seasonality';
 import { SeasonLevel } from '@contexts/seasonality';
-import { GROWING_ACTIVITIES, type GrowingActivity } from '../domain/GrowingGuide';
+import type { GrowingActivity } from '../domain/GrowingGuide';
 import type { Produce } from '../domain/Produce';
 import type { ProduceRepository } from '../domain/repositories';
 
@@ -14,7 +14,7 @@ export interface LeavingPeak {
 /** A produce with garden work in the month. */
 export interface GardenJob {
   readonly produce: Produce;
-  /** The month's activities, in {@link GROWING_ACTIVITIES} order. */
+  /** The month's activities, in the order sow, transplant, plant. */
   readonly activities: ReadonlyArray<GrowingActivity>;
 }
 
@@ -36,7 +36,9 @@ export class MonthChangesService {
 
   /**
    * Compares each produce's level in `month` with the previous month and collects the month's
-   * garden activities. Lists keep the repository order; the result is frozen.
+   * garden activities. `toStorage` holds produce available (fresh, not at its peak) last month and
+   * from storage now; produce going from its peak to storage is only in `leavingPeak`. Lists keep
+   * the repository order; the result is frozen.
    */
   async changesFor(month: Month): Promise<MonthChanges> {
     const all = await this.produce.all();
@@ -50,14 +52,10 @@ export class MonthChangesService {
     const toStorage = all.filter(
       (item) =>
         item.levelIn(month) === SeasonLevel.STORAGE &&
-        item.levelIn(previous) !== SeasonLevel.STORAGE,
+        item.levelIn(previous) === SeasonLevel.AVAILABLE,
     );
     const garden = all.flatMap((item) => {
-      const { growing } = item;
-      if (growing === undefined) return [];
-      const activities = GROWING_ACTIVITIES.filter((activity) =>
-        growing.monthsOf(activity).includes(month),
-      );
+      const activities = item.growing?.activitiesIn(month) ?? [];
       return activities.length === 0 ? [] : [Object.freeze({ produce: item, activities })];
     });
     const lists = [enteringPeak, stayingPeak, leavingPeak, toStorage, garden];
