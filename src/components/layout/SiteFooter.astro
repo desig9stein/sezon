@@ -1,13 +1,25 @@
 ---
 import { Month } from '@contexts/seasonality';
 import { buildMonth, buildYear } from '@composition/clock';
+import { CONTACT_EMAIL, correctionLinks } from '@composition/contact';
+import { requireSiteUrl } from '@composition/site';
 import { monthName, ui } from '@i18n/bg';
 import { routes } from './routes';
 
 /**
- * Site footer: a year strip of links to every month page with the build month marked, then the
- * calendar link, the health disclaimer and the copyright.
+ * Site footer: a year strip of links to every month page with the build month marked, then links
+ * to the calendar, the about and methodology pages, adding a farm, and an error report for the current page (the
+ * GitHub form, and an email when configured) at `path`, the health disclaimer and the copyright.
  */
+interface Props {
+  /** Site-relative canonical path of the page the footer is on. */
+  path: string;
+}
+
+const { path } = Astro.props;
+const pageUrl = new URL(path, requireSiteUrl(Astro.site)).toString();
+const report = correctionLinks(pageUrl, CONTACT_EMAIL);
+const labels = ui.footer;
 ---
 
 <footer class="site-footer">
@@ -23,9 +35,30 @@ import { routes } from './routes';
         ))}
       </ol>
     </nav>
-    <p>
-      <a href={routes.calendar}>{ui.calendar.heading}</a>
-    </p>
+    <nav aria-label={labels.linksLabel}>
+      <ul class="site-footer__links" role="list">
+        <li>
+          <a href={routes.calendar}>{ui.calendar.heading}</a>
+        </li>
+        <li>
+          <a href={routes.about}>{labels.about}</a>
+        </li>
+        <li>
+          <a href={routes.methodology}>{labels.methodology}</a>
+        </li>
+        <li>
+          <a href={routes.addFarm}>{labels.addFarm}</a>
+        </li>
+        <li>
+          <a href={report.github}>{labels.report}</a>
+        </li>
+        {report.email !== undefined && (
+          <li>
+            <a href={report.email}>{labels.reportEmail}</a>
+          </li>
+        )}
+      </ul>
+    </nav>
     <p class="site-footer__disclaimer">{ui.footer.disclaimer}</p>
     <p>{ui.footer.copyright(buildYear)}</p>
   </div>
@@ -44,6 +77,20 @@ import { routes } from './routes';
     display: grid;
     gap: var(--space-4);
     padding-block: var(--space-6) var(--space-8);
+  }
+
+  .site-footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer__links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
   }
 
   .site-footer__months {

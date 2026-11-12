@@ -2,21 +2,25 @@
 import type { FarmWithRegion } from '@composition/ProduceDetailsQuery';
 import type { OrganicProduction } from '@contexts/catalog';
 import { ui } from '@i18n/bg';
+import { routes } from '@components/layout/routes';
 import FarmCard from './FarmCard.astro';
 
 /**
  * The farms that sell a produce. Starts with the produce's organic status in Bulgaria when known.
  * When a farm is certified organic, farms are split into an organic and an other group, each
- * under its own heading; otherwise they form one list.
+ * under its own heading; otherwise they form one list. Without farms it shows `emptyText`. Ends
+ * with a link to the section on adding a farm.
  */
 interface Props {
   farms: ReadonlyArray<FarmWithRegion>;
   organic?: OrganicProduction | undefined;
   /** Slug of the region whose page shows the list; its name is not linked on the cards. */
   currentRegionSlug?: string | undefined;
+  /** Text shown when there are no farms; defaults to the produce page's text. */
+  emptyText?: string | undefined;
 }
 
-const { farms, organic, currentRegionSlug } = Astro.props;
+const { farms, organic, currentRegionSlug, emptyText } = Astro.props;
 const labels = ui.produce.farms;
 const organicFarms = farms.filter((entry) => entry.certifiedOrganic);
 const otherFarms = farms.filter((entry) => !entry.certifiedOrganic);
@@ -35,7 +39,7 @@ const groups =
     {organic.note}
   </p>
 )}
-{farms.length === 0 && <p>{labels.empty}</p>}
+{farms.length === 0 && <p>{emptyText ?? labels.empty}</p>}
 {farms.length > 0 && groups.length === 0 && (
   <ul class="farms" role="list">
     {farms.map((entry) => (
@@ -53,6 +57,9 @@ const groups =
     </ul>
   </section>
 ))}
+<p class="farm-list__add">
+  <a href={routes.addFarm}>{labels.addFarmLink}</a>
+</p>
 
 <style>
   .farms {
@@ -61,6 +68,10 @@ const groups =
     gap: var(--space-4);
     padding: 0;
     list-style: none;
+  }
+
+  .farm-list__add {
+    margin-top: var(--space-3);
   }
 
   .farm-group {

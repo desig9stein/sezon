@@ -233,3 +233,25 @@ export function localBusinessJsonLd(input: LocalBusinessJsonLdInput): JsonLd {
     ...(input.website === undefined ? {} : { sameAs: [input.website] }),
   };
 }
+
+/** Input for {@link webPageJsonLd}. */
+export interface WebPageJsonLdInput {
+  readonly siteUrl: string;
+  readonly path: string;
+  /** schema.org page type, e.g. `AboutPage` or `WebPage`. */
+  readonly type: 'AboutPage' | 'WebPage';
+  readonly name: string;
+  readonly description: string;
+}
+
+/** Returns schema.org data for an informational page of the site. */
+export function webPageJsonLd(input: WebPageJsonLdInput): JsonLd {
+  return {
+    '@context': SCHEMA_CONTEXT,
+    '@type': input.type,
+    name: input.name,
+    description: input.description,
+    url: absoluteUrl(input.siteUrl, input.path),
+    inLanguage: CONTENT_LANGUAGE,
+  };
+}

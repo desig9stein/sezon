@@ -16,6 +16,7 @@ export {
   itemListJsonLd,
   localBusinessJsonLd,
   serializeJsonLd,
+  webPageJsonLd,
   websiteJsonLd,
 } from './jsonLd';
 export type {
@@ -25,6 +26,7 @@ export type {
   CollectionPageJsonLdInput,
   JsonLd,
   LocalBusinessJsonLdInput,
+  WebPageJsonLdInput,
 } from './jsonLd';
 export { robotsTxt } from './robots';
 export { latinSearchText } from './searchText';

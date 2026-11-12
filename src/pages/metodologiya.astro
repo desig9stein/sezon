@@ -1,0 +1,120 @@
+---
+import { routes } from '@components/layout/routes';
+import { requireSiteUrl } from '@composition/site';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { webPageJsonLd } from '@shared/seo';
+
+const labels = ui.methodology;
+const path = routes.methodology;
+const USDA_URL = 'https://fdc.nal.usda.gov/';
+const EFSA_URL = 'https://www.efsa.europa.eu/';
+const levels = [
+  { name: ui.stamp.peak, text: ui.legend.peak },
+  { name: ui.stamp.available, text: ui.legend.available },
+  { name: ui.stamp.storage, text: ui.legend.storage },
+  { name: ui.produce.outOfSeason, text: labels.outOfSeasonText },
+];
+const jsonLd = [
+  webPageJsonLd({
+    siteUrl: requireSiteUrl(Astro.site),
+    path,
+    type: 'WebPage',
+    name: labels.heading,
+    description: labels.description,
+  }),
+];
+---
+
+<BaseLayout
+  title={labels.title}
+  description={labels.description}
+  path={path}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: labels.heading, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <article class="info-page">
+    <h1>{labels.heading}</h1>
+    <p>{labels.intro}</p>
+
+    <section aria-labelledby="method-nutrition">
+      <h2 class="section-heading" id="method-nutrition">
+        {labels.nutritionHeading}
+      </h2>
+      <p>{labels.nutrition}</p>
+      <ul>
+        <li>
+          <a href={USDA_URL}>{labels.usdaLink}</a>
+        </li>
+        <li>
+          <a href={EFSA_URL}>{labels.efsaLink}</a>
+        </li>
+      </ul>
+      <p>{labels.referenceIntake}</p>
+      <p>{labels.vitaminA}</p>
+    </section>
+
+    <section aria-labelledby="method-season">
+      <h2 class="section-heading" id="method-season">
+        {labels.seasonHeading}
+      </h2>
+      <p>{labels.season}</p>
+      <dl>
+        {levels.map(({ name, text }) => (
+          <>
+            <dt>{name}</dt>
+            <dd>{text}</dd>
+          </>
+        ))}
+      </dl>
+    </section>
+
+    <section aria-labelledby="method-regions">
+      <h2 class="section-heading" id="method-regions">
+        {labels.regionsHeading}
+      </h2>
+      <p>{labels.regions}</p>
+    </section>
+
+    <section aria-labelledby="method-traditional">
+      <h2 class="section-heading" id="method-traditional">
+        {labels.traditionalHeading}
+      </h2>
+      <p>{labels.traditional}</p>
+    </section>
+
+    <section aria-labelledby="method-growing">
+      <h2 class="section-heading" id="method-growing">
+        {labels.growingHeading}
+      </h2>
+      <p>{labels.growing}</p>
+    </section>
+
+    <section aria-labelledby="method-farms">
+      <h2 class="section-heading" id="method-farms">
+        {labels.farmsHeading}
+      </h2>
+      <p>{labels.farms}</p>
+    </section>
+
+    <section aria-labelledby="method-review">
+      <h2 class="section-heading" id="method-review">
+        {labels.reviewHeading}
+      </h2>
+      <p>{labels.review}</p>
+    </section>
+
+    <section aria-labelledby="method-corrections">
+      <h2 class="section-heading" id="method-corrections">
+        {labels.correctionsHeading}
+      </h2>
+      <p>{labels.corrections}</p>
+      <p>
+        <a href={routes.reportError}>{labels.correctionsLink}</a>
+      </p>
+    </section>
+  </article>
+</BaseLayout>

@@ -1,8 +1,12 @@
 ---
 import type { Source } from '@contexts/catalog';
+import { routes } from '@components/layout/routes';
 import { formatDate, ui } from '@i18n/bg';
 
-/** Sources of a page's facts, the last update date and the editorial review note. */
+/**
+ * Sources of a page's facts, the last update date, the editorial review note and a link to the
+ * methodology.
+ */
 interface Props {
   sources: ReadonlyArray<Source>;
   updatedAt: Date;
@@ -23,6 +27,9 @@ const isoDate = updatedAt.toISOString().slice(0, 10);
 <p class="sources__meta">
   {ui.produce.sources.updated} <time datetime={isoDate}>{formatDate(updatedAt)}</time>
   {isDraft && ` ${ui.produce.sources.draft}`}
+</p>
+<p class="sources__meta">
+  <a href={routes.methodology}>{ui.produce.sources.methodologyLink}</a>
 </p>
 
 <style>

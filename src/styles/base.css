@@ -91,6 +91,48 @@ main:focus {
   outline: none;
 }
 
+/* An informational page in one reading column (about, methodology). */
+.info-page {
+  display: grid;
+  gap: var(--space-2);
+  max-width: var(--reading-width);
+  margin-top: var(--space-6);
+}
+
+.info-page section {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.info-page ul:not([role]),
+.info-page ol {
+  display: grid;
+  gap: var(--space-1);
+  padding-inline-start: var(--space-6);
+}
+
+.info-page dt {
+  font-weight: 700;
+}
+
+.info-page dd {
+  margin: 0 0 var(--space-2);
+}
+
+.info-page__actions {
+  display: grid;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.info-page__actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min);
+  font-weight: 600;
+}
+
 /* A page-level section heading with a rule under it (catalogue and region pages). */
 .section-heading {
   margin-top: var(--space-8);
