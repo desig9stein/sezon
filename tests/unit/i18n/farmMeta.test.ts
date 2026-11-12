@@ -2,7 +2,10 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
-import { ui } from '@i18n/bg';
+import { SITE_NAME, ui } from '@i18n/bg';
+
+/** The suffix BaseLayout adds to every title. */
+const SITE_SUFFIX = ` | ${SITE_NAME}`;
 
 const DATA = join(process.cwd(), 'src', 'data');
 const read = (dir: string) =>
@@ -23,7 +26,7 @@ const length = (text: string) => [...text].length;
 
 describe('farm page meta (spec 030)', () => {
   it.each(farms)('AC7: $name has a title ≤ 60 and a description of 70–160 characters', (farm) => {
-    expect(length(ui.farms.pageTitle(farm.name))).toBeLessThanOrEqual(60);
+    expect(length(`${ui.farms.pageTitle(farm.name)}${SITE_SUFFIX}`)).toBeLessThanOrEqual(60);
     const description = ui.farms.pageDescription(farm.name, farm.region, farm.produce);
     expect(length(description)).toBeGreaterThanOrEqual(70);
     expect(length(description)).toBeLessThanOrEqual(160);

@@ -5,7 +5,7 @@ import { routes } from '@components/layout/routes';
 import { ui } from '@i18n/bg';
 
 /**
- * One farm as a list item: name (heading at `headingLevel`), province (linked to its page unless it
+ * One farm as a list item: name (heading at `headingLevel`, linked to the farm page), province (linked to its page unless it
  * is `currentRegionSlug`), labels (organic with the
  * certifier when `certifiedOrganic`, sponsored), description and contact links.
  */
@@ -24,7 +24,9 @@ const labels = ui.produce.farms;
 ---
 
 <li class="farm">
-  <Heading class="farm__name">{farm.name}</Heading>
+  <Heading class="farm__name">
+    <a href={routes.farm(farm.slug)}>{farm.name}</a>
+  </Heading>
   <p class="farm__meta">
     {region.slug === currentRegionSlug ? (
       <span>{region.name}</span>

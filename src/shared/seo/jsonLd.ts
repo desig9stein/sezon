@@ -204,3 +204,32 @@ export function administrativeAreaJsonLd(input: AdministrativeAreaJsonLdInput): 
     containedInPlace: { '@type': 'Country', name: input.country },
   };
 }
+
+/** Input for {@link localBusinessJsonLd}. */
+export interface LocalBusinessJsonLdInput {
+  readonly siteUrl: string;
+  readonly path: string;
+  readonly name: string;
+  readonly description: string;
+  readonly telephone?: string | undefined;
+  readonly email?: string | undefined;
+  /** Address as free text. */
+  readonly address?: string | undefined;
+  /** The business's own website, given as `sameAs`. */
+  readonly website?: string | undefined;
+}
+
+/** Returns schema.org `LocalBusiness` data for a farm; absent contact fields are left out. */
+export function localBusinessJsonLd(input: LocalBusinessJsonLdInput): JsonLd {
+  return {
+    '@context': SCHEMA_CONTEXT,
+    '@type': 'LocalBusiness',
+    name: input.name,
+    description: input.description,
+    url: absoluteUrl(input.siteUrl, input.path),
+    ...(input.telephone === undefined ? {} : { telephone: input.telephone }),
+    ...(input.email === undefined ? {} : { email: input.email }),
+    ...(input.address === undefined ? {} : { address: input.address }),
+    ...(input.website === undefined ? {} : { sameAs: [input.website] }),
+  };
+}

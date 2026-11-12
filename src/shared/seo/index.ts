@@ -14,6 +14,7 @@ export {
   collectionPageJsonLd,
   faqPageJsonLd,
   itemListJsonLd,
+  localBusinessJsonLd,
   serializeJsonLd,
   websiteJsonLd,
 } from './jsonLd';
@@ -23,6 +24,7 @@ export type {
   BreadcrumbItem,
   CollectionPageJsonLdInput,
   JsonLd,
+  LocalBusinessJsonLdInput,
 } from './jsonLd';
 export { robotsTxt } from './robots';
 export { latinSearchText } from './searchText';

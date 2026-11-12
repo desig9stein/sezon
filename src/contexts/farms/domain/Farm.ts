@@ -23,6 +23,8 @@ export interface FarmInput {
   readonly address?: string | undefined;
   readonly sponsored: boolean;
   readonly organic?: OrganicCertificate | undefined;
+  /** HTTPS URLs of the pages the farm's facts come from. */
+  readonly sources?: ReadonlyArray<string> | undefined;
 }
 
 /** A local farm that sells produce directly. */
@@ -36,6 +38,8 @@ export class Farm {
   readonly address: string | undefined;
   readonly sponsored: boolean;
   readonly organic: OrganicCertificate | undefined;
+  /** HTTPS URLs of the pages the farm's facts come from. */
+  readonly sources: ReadonlyArray<string>;
 
   private constructor(input: FarmInput) {
     this.slug = input.slug;
@@ -50,6 +54,7 @@ export class Farm {
       input.organic === undefined
         ? undefined
         : Object.freeze({ ...input.organic, validUntil: new Date(input.organic.validUntil) });
+    this.sources = frozenList(input.sources ?? []);
     Object.freeze(this);
   }
 

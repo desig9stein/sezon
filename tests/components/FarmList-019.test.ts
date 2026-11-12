@@ -27,7 +27,7 @@ describe('FarmList organic information', () => {
     expect(html).toMatch(
       /<h3[^>]*>\s*Сертифицирани био ферми\s*<\/h3>[\s\S]*Био градина[\s\S]*<h3[^>]*>\s*Други ферми\s*<\/h3>[\s\S]*Обикновена/,
     );
-    expect(html).toMatch(/<h4[^>]*>\s*Био градина\s*<\/h4>/);
+    expect(html).toMatch(/<h4[^>]*>\s*(?:<a[^>]*>)?Био градина(?:<\/a>)?\s*<\/h4>/);
     expect(html).toContain('Био · Балкан Биосерт');
   });
 
@@ -36,7 +36,7 @@ describe('FarmList organic information', () => {
       farms: [{ farm: plain, region: plovdiv, certifiedOrganic: false }],
     });
     expect(html).not.toContain('Сертифицирани био ферми');
-    expect(html).toMatch(/<h3[^>]*>\s*Обикновена\s*<\/h3>/);
+    expect(html).toMatch(/<h3[^>]*>\s*(?:<a[^>]*>)?Обикновена(?:<\/a>)?\s*<\/h3>/);
     expect(html).not.toContain('Био в България');
   });
 });

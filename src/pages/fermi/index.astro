@@ -1,0 +1,54 @@
+---
+import { routes } from '@components/layout/routes';
+import FarmList from '@components/produce/FarmList.astro';
+import { BUILD_DATE } from '@composition/clock';
+import { farmPagesQuery } from '@composition/index';
+import { requireSiteUrl } from '@composition/site';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { collectionPageJsonLd } from '@shared/seo';
+
+const labels = ui.farms;
+const path = routes.farms;
+const farms = await farmPagesQuery.all(BUILD_DATE);
+const jsonLd = [
+  collectionPageJsonLd({
+    siteUrl: requireSiteUrl(Astro.site),
+    path,
+    name: labels.heading,
+    description: labels.description,
+    items: farms.map(({ farm }) => ({ name: farm.name, path: routes.farm(farm.slug) })),
+  }),
+];
+---
+
+<BaseLayout
+  title={labels.title}
+  description={labels.description}
+  path={path}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: labels.heading, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <h1>{labels.heading}</h1>
+  <p class="farms__intro">{labels.intro}</p>
+  <section aria-labelledby="farms-list">
+    <h2 class="section-heading" id="farms-list">
+      {labels.listHeading(farms.length)}
+    </h2>
+    <FarmList farms={farms} />
+  </section>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-block: var(--space-6) var(--space-3);
+  }
+
+  .farms__intro {
+    max-width: var(--reading-width);
+    margin-bottom: var(--space-6);
+  }
+</style>

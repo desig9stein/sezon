@@ -97,3 +97,8 @@ export class InvalidFarmError extends DomainError {
 export class RegionNotFoundError extends DomainError {
   readonly code = 'REGION_NOT_FOUND';
 }
+
+/** Thrown when no farm has the requested slug. */
+export class FarmNotFoundError extends DomainError {
+  readonly code = 'FARM_NOT_FOUND';
+}

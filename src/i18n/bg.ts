@@ -41,10 +41,37 @@ function regionPlaceName(name: string): string {
   return REGION_PLACE_NAMES[name] ?? name;
 }
 
-/** Returns „В <place>“ or „Във <place>“ for a province name, capitalised for a sentence start. */
-function inRegion(name: string): string {
+/** Returns „в <place>“ or „във <place>“ for a province name, for use inside a sentence. */
+function inRegionLower(name: string): string {
   const place = regionPlaceName(name);
-  return `${VAV_LETTERS.test(place) ? 'Във' : 'В'} ${place}`;
+  return `${VAV_LETTERS.test(place) ? 'във' : 'в'} ${place}`;
+}
+
+/** Returns „В <place>“ or „Във <place>“ for a province name, for the start of a sentence. */
+function inRegion(name: string): string {
+  const phrase = inRegionLower(name);
+  return `${phrase.charAt(0).toUpperCase()}${phrase.slice(1)}`;
+}
+
+/**
+ * Returns the farm page description: the farm, its province and as many of its produce names as
+ * fit within the description length limit.
+ */
+function farmPageDescription(
+  name: string,
+  regionName: string,
+  produceNames: ReadonlyArray<string>,
+): string {
+  const lead = `${name} е местна ферма ${inRegionLower(regionName)}`;
+  const closing = 'Виж контактите и какво е в сезон сега.';
+  const withNames = (names: ReadonlyArray<string>) =>
+    `${lead}, която продава ${names.join(LIST_SEPARATOR)}. ${closing}`;
+  const listed: string[] = [];
+  for (const produce of produceNames) {
+    if (characterCount(withNames([...listed, produce])) <= DESCRIPTION_MAX_LENGTH)
+      listed.push(produce);
+  }
+  return listed.length === 0 ? `${lead}. ${closing}` : withNames(listed);
 }
 
 /** Returns the region page description for the counts the page shows (never both zero). */
@@ -406,6 +433,22 @@ export const ui = {
     none: 'Няма резултати за „{query}“.',
     failed: 'Търсенето не може да се зареди.',
   },
+  farms: {
+    title: 'Местни ферми, които продават сезонни продукти',
+    heading: 'Местни ферми',
+    description:
+      'Местни ферми в България, които продават сезонни плодове, зеленчуци и ядки: какво продават, къде са и как да се свържеш с тях.',
+    intro:
+      'Ферми, които продават направо на теб. Всяка страница казва какво продават, къде са и откъде са данните.',
+    pageTitle: (name: string) => fittingTitle([`${name} – местна ферма`, name]),
+    pageDescription: farmPageDescription,
+    listHeading: (count: number) => `Всички ферми (${count})`,
+    produceHeading: 'Какво продава',
+    contactsHeading: 'Контакти',
+    addressLabel: 'Адрес:',
+    sourcesHeading: 'Източници',
+    sourcesNote: 'Данните за фермата са взети от тези страници.',
+  },
   regions: {
     title: 'Области на България: какво расте къде',
     heading: 'Области',
@@ -446,6 +489,7 @@ export const ui = {
     sectionsHeading: 'Раздели',
     groupsHeading: 'Ботанически семейства',
     nutrientsHeading: 'Хранителни вещества',
+    farmsLink: 'Всички местни ферми',
     regionsLink: 'Какво расте във всяка от 28-те области',
     count: (count: number) => (count === 1 ? '1 продукт' : `${count} продукта`),
   },

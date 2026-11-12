@@ -54,6 +54,8 @@ describe('QA 004 regressions', () => {
     expect(Object.keys(routes).sort()).toEqual([
       'calendar',
       'catalog',
+      'farm',
+      'farms',
       'group',
       'home',
       'month',
