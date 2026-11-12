@@ -22,15 +22,17 @@ test.describe('month changes (spec 027)', () => {
     });
     expect(order).toEqual({ afterLegend: true, beforeComing: true });
     await expect(
-      page.getByRole('heading', { level: 2, name: 'Какво се сменя през март' }),
+      page.getByRole('heading', { level: 2, name: 'Какво се променя през март' }),
     ).toBeVisible();
   });
 
-  for (const colorScheme of ['light', 'dark'] as const) {
-    test(`AC9: no axe violations in ${colorScheme} mode`, async ({ page }) => {
-      await page.emulateMedia({ colorScheme });
-      await page.goto(PAGE);
-      await expectNoAxeViolations(page);
-    });
+  for (const path of [PAGE, WITH_COMING_SOON]) {
+    for (const colorScheme of ['light', 'dark'] as const) {
+      test(`AC9: ${path} has no axe violations in ${colorScheme} mode`, async ({ page }) => {
+        await page.emulateMedia({ colorScheme });
+        await page.goto(path);
+        await expectNoAxeViolations(page);
+      });
+    }
   }
 });

@@ -105,3 +105,46 @@ describe('MonthChangesService', () => {
     expect(changes.isEmpty).toBe(true);
   });
 });
+
+describe('MonthChangesService QA (spec 027)', () => {
+  const peakToStorage = aProduce({
+    slug: 'orehi',
+    name: 'Орехи',
+    season: [
+      { month: 10, level: 'peak' },
+      { month: 11, level: 'storage' },
+    ],
+  });
+  const outToStorage = aProduce({
+    slug: 'luk',
+    name: 'Лук',
+    season: [{ month: 11, level: 'storage' }],
+  });
+  const noteOnly = aProduce({
+    slug: 'tikva',
+    name: 'Тиква',
+    season: [{ month: 9, level: 'peak' }],
+    growing: growingRecord({ sow: [], transplant: [], plant: [], plantingNote: 'Сей на топло.' }),
+  });
+  const twoGroups = aProduce({
+    slug: 'praz',
+    name: 'Праз',
+    season: [{ month: 11, level: 'peak' }],
+    growing: growingRecord({ sow: [], transplant: [], plant: [11] }),
+  });
+  const qa = new MonthChangesService(
+    produceRepositoryOf([peakToStorage, outToStorage, noteOnly, twoGroups, krushi]),
+  );
+
+  it('AC10: lists only produce fresh but not at its peak last month as now from storage', async () => {
+    const changes = await qa.changesFor(Month.of(11));
+    expect(slugs(changes.toStorage)).toEqual(['krushi']);
+    expect(changes.leavingPeak.map((entry) => entry.produce.slug)).toEqual(['orehi']);
+  });
+
+  it('AC11: leaves out a guide with only a planting note and allows a produce in two groups', async () => {
+    const changes = await qa.changesFor(Month.of(11));
+    expect(changes.garden.map((entry) => entry.produce.slug)).toEqual(['praz']);
+    expect(slugs(changes.enteringPeak)).toEqual(['praz']);
+  });
+});
