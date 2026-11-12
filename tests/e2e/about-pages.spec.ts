@@ -109,10 +109,11 @@ test.describe('about and methodology (spec 031)', () => {
     await page.goto('/za-nas');
     const who = page.locator('section:has(> h2#about-who)');
     await expect(who).toContainText(ui.about.who('Марин Попов'));
-    await expect(who).toContainText(
-      'Източниците на данните са посочени под самите данни на всяка страница.',
+    await expect(who.locator('p').last()).toHaveText(
+      'Източниците са посочени на страниците на продуктите и фермите – под данните или в раздел „Източници“ в края на страницата.',
     );
-    await expect(page.locator('main')).not.toContainText('Данните проверява');
+    await expect(who).not.toContainText('на всяка страница');
+    await expect(page.locator('main')).not.toContainText(/провер\S* данните|Данните проверява/);
     await expect(who.locator('li', { hasText: /^Марин Попов$/ })).toHaveCount(0);
     await expect(who.locator('a[href="https://github.com/desig9stein"]')).toHaveCount(1);
     await expect(
