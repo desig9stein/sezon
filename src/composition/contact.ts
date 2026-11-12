@@ -37,15 +37,14 @@ export interface CorrectionLinks {
 }
 
 /**
- * Returns the configured contact email, or `undefined` when it is not set.
- * @param value - `PUBLIC_CONTACT_EMAIL`.
+ * Returns a trimmed contact email, or `undefined` when `value` is blank.
  * @throws InvalidConfigurationError when the value is set but is not an email address.
  */
 export function contactEmail(value: string | undefined): string | undefined {
   const trimmed = value?.trim() ?? '';
   if (trimmed === '') return undefined;
   if (!EMAIL.test(trimmed)) {
-    throw new InvalidConfigurationError(`PUBLIC_CONTACT_EMAIL is not an email address: ${trimmed}`);
+    throw new InvalidConfigurationError(`Contact email is not an email address: ${trimmed}`);
   }
   return trimmed;
 }
@@ -83,8 +82,11 @@ export function farmIssueLink(): string {
   return issueForm(FARM_TEMPLATE).toString();
 }
 
-/** The public contact email, or `undefined` while none is configured. */
-export const CONTACT_EMAIL = contactEmail(import.meta.env.PUBLIC_CONTACT_EMAIL);
+/** The owner's public contact email for error reports and farm submissions. */
+const OWNER_EMAIL = 'mspopovv@gmail.com';
+
+/** The validated public contact email. */
+export const CONTACT_EMAIL: string = contactEmail(OWNER_EMAIL) ?? OWNER_EMAIL;
 
 /** Returns a prefilled email for submitting a farm, or `undefined` when no email is configured. */
 export function farmSubmissionLink(email: string | undefined): string | undefined {

@@ -40,7 +40,6 @@ test.describe('about and methodology (spec 031)', () => {
     await expect(greshka.locator('a[href^="mailto:mspopovv@gmail.com"]')).toHaveCount(1);
     const farm = page.locator('section:has(> h2#dobavi-ferma)');
     await expect(farm.locator('a[href^="mailto:mspopovv@gmail.com"]')).toHaveCount(1);
-    await expect(page.locator('main')).not.toContainText(ui.about.emailPending);
   });
 
   test('AC6: the methodology names its sources and links to corrections', async ({ page }) => {

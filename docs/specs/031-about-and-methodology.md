@@ -64,10 +64,9 @@ The owner's brief (2026-11-12):
   - When a contact email is configured, a mailto link sits beside it, with the subject and body
     template filled in.
   - The footer also links „За нас“ and „Методология“.
-- **Contact email:** `PUBLIC_CONTACT_EMAIL` (optional, documented in `.env.example`).
-  - Without it, no email address or mailto link appears anywhere.
-  - The about page then names GitHub as the channel and says that an email address will follow.
-  - An invalid value fails the build with `InvalidConfigurationError`.
+- **Contact email:** mspopovv@gmail.com, provided by the owner on 2026-11-12, set once in
+  `src/composition/contact.ts` (it is the same in every environment) and validated at build time.
+  Every footer and the error and farm sections of `/za-nas` offer it as a mailto link beside GitHub.
 - **Owner details:** `SITE_OWNER` in `src/composition/contact.ts`: the GitHub profile, the name
   (Марин Попов) and the LinkedIn URL, provided on 2026-11-12. The name appears in the sentences
   „Сезон се прави и поддържа от Марин Попов …“ and „Данните проверява Марин Попов.“
@@ -86,7 +85,6 @@ The owner's brief (2026-11-12):
 
 - A server-side form or file upload (the site is static).
 - A separate `/dobavi-ferma` page: the about page section serves #15, and farm lists link to it.
-- The contact email value itself (to be provided by the owner).
 
 ## 4. Domain model
 
@@ -125,7 +123,7 @@ All three are pure functions with unit tests.
 
 ## 8. Acceptance criteria
 
-1. **AC1:** Given no `PUBLIC_CONTACT_EMAIL`, `contactEmail` returns `undefined`; given a valid
+1. **AC1:** Given a blank value, `contactEmail` returns `undefined`; given a valid
    address, it returns it; given an invalid one, it throws `InvalidConfigurationError`.
 2. **AC2:** Given a page URL, `correctionLinks` returns a GitHub URL to
    `issues/new?template=correction.yml` with `page` set to that URL, and a mailto only when an email
