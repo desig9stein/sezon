@@ -158,6 +158,10 @@ All three are pure functions with unit tests.
     not claim that every statement has a source, and its privacy section says GitHub reports are
     public.
 
+16. **AC16:** Given the owner's details (2026-11-12: Marin Popov, LinkedIn, „I am checking the
+    data“), then „Кой стои зад сайта“ names Марин Попов, links his GitHub and LinkedIn profiles and
+    says that he checks the data against the sources, and `LICENSE` names Marin Popov.
+
 ## 9. Test plan
 
 | AC   | Test type | Test file                                                                          |
@@ -176,6 +180,7 @@ All three are pure functions with unit tests.
 | AC13 | unit      | `tests/unit/composition/contact.test.ts`, `tests/unit/repo/correctionForm.test.ts` |
 | AC14 | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
 | AC15 | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
+| AC16 | e2e, unit | `tests/e2e/about-pages.spec.ts`, `tests/unit/repo/license.test.ts`                 |
 | AC11 | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
 
 ## 10. Third-party documentation consulted
