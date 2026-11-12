@@ -375,7 +375,17 @@ A `figure` on `surface` with a 0.75rem mat and `radius-sm` on frame and image; t
 
 ### Province map (spec 026)
 
-Under „Откъде“, after the region list: a `figure` (max 30rem) with an inline SVG of the 28 provinces from Natural Earth (public domain), built by `scripts/map/build.ts`. Growing regions are filled `accent`, the others `rule`, with 1px `border` borders, so the country outline is at least 3:1 against the page. The SVG is named by its `<title>` and keeps a 320px attribute size without CSS. A muted `sm` caption says what is coloured and credits Natural Earth. No links until region pages exist. Print: marked provinces in ink, the rest unfilled with ink borders.
+Under „Откъде“ on produce pages, and on the region pages (spec 029): a `figure` (max 30rem) with an inline SVG of the 28 provinces from Natural Earth (public domain), built by `scripts/map/build.ts`.
+
+- **Fills:** marked provinces get a dense `accent` hatch with `surface` lines, so they are not marked by colour alone. Linked provinces that are not marked get a light hatch of thin `accent` lines on `rule`. The rest are plain `rule`. Borders are 1px `border`, so the country outline is at least 3:1 against the page.
+- **Without links:** the SVG is an image named by its `<title>`.
+- **With links:** the SVG is a named group, and the drawn provinces are hidden from assistive technology. The links are a separate layer drawn above every province, in Bulgarian name order. Hovering a link draws a 2px `text` outline; focusing it draws a 7px `surface` ring with a 3px `focus` ring inside, so focus is never covered by a neighbour.
+- **Size and caption:** the SVG keeps a 320px attribute size without CSS. A muted `sm` caption says what is marked and credits Natural Earth.
+- **Print:** marked provinces are printed in ink; the rest are unfilled, with ink borders.
+
+### Region pages (spec 029)
+
+`/regioni` shows the `h1`, an intro, the map with every province that has a page hatched and linked, and „Всички области“: an auto-fill grid (min 16rem) listing all 28 provinces on `rule` hairlines. Linked names are bold; provinces without data are muted, with „Още няма данни“. Counts are muted `sm`. A region page has the `h1` (the full name, e.g. „Софийска област“), the map with that province marked, then „Какво расте тук“ (bold `text` produce links, then „ – “ and the muted note) and „Местни ферми“ (farm cards). Page-level `h2`s use the shared `.section-heading` class: a 2px `text` rule under the heading, 2rem above it.
 
 ### Month pager
 
