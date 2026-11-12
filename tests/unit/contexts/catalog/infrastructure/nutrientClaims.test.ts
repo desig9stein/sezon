@@ -5,6 +5,9 @@ import { describe, expect, it } from 'vitest';
 import { nutrientSchema } from '@contexts/catalog/infrastructure/schemas';
 import { NUTRIENT_CLAIMS } from '@tests/fixtures/records';
 
+/** A source title quoted as published: its publisher, a dash, then the title. */
+const SOURCE_TITLE = /^\s*-?\s*name: '(?:Agrozona\.bg|Български фермер|USDA|EFSA|МЗХ|Уикипедия) – /;
+
 /**
  * Authorised claims used by the seed nutrients, copied verbatim from the Bulgarian text of
  * Regulation (EU) No 432/2012 (EUR-Lex CELEX 32012R0432), without the final full stop.
@@ -66,14 +69,23 @@ describe('nutrient claims', () => {
     });
   }
 
+  it('QA 035: only a source title that starts with its publisher is exempt from the „богат“ ban', () => {
+    expect(
+      SOURCE_TITLE.test(
+        "    - name: 'Agrozona.bg – Отглеждане на зеле - 12 важни правила за богата реколта'",
+      ),
+    ).toBe(true);
+    expect(SOURCE_TITLE.test("  - name: 'Ферма, богата на витамини (по Български фермер)'")).toBe(
+      false,
+    );
+  });
+
   it('QA 011: no content uses „богат на“ (same meaning as „високо съдържание на“); source titles are quoted as published', () => {
     const dataRoot = join(process.cwd(), 'src', 'data');
-    const sourceTitle =
-      /^\s*-?\s*name: '[^']*(?:Agrozona\.bg|Български фермер|USDA|EFSA|МЗХ|Уикипедия)/;
     const ownText = (file: string): string =>
       readFileSync(join(dataRoot, file), 'utf8')
         .split('\n')
-        .filter((line) => !sourceTitle.test(line))
+        .filter((line) => !SOURCE_TITLE.test(line))
         .join('\n');
     const offending = readdirSync(dataRoot, { recursive: true })
       .map(String)

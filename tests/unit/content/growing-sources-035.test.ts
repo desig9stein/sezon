@@ -18,6 +18,7 @@ const CHANGED = [
   'zele',
 ] as const;
 const CHANGE_DATE = '2026-11-12';
+const JULY = 7;
 
 describe('growing guides without gradinata.bg (spec 035)', () => {
   it('AC1: no produce file cites gradinata.bg', () => {
@@ -33,6 +34,13 @@ describe('growing guides without gradinata.bg (spec 035)', () => {
       };
       expect(String(produce.updatedAt), slug).toBe(CHANGE_DATE);
     }
+  });
+
+  it('QA 035: dill is sown in July, as its first source says', () => {
+    const dill = parse(readFileSync(join(PRODUCE_DIR, 'kopar.yaml'), 'utf8')) as {
+      growing: { sow: ReadonlyArray<number> };
+    };
+    expect(dill.growing.sow).toContain(JULY);
   });
 
   it('AC4: the checklist no longer mentions gradinata.bg', () => {
