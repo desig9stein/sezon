@@ -163,6 +163,11 @@ All three are pure functions with unit tests.
     the data („Данните проверява Марин Попов.“), lists only his GitHub and LinkedIn links, and
     `LICENSE` names Marin Popov.
 
+17. **AC17:** Given the owner's email (2026-11-12: mspopovv@gmail.com) and request that the
+    community can report wrong or outdated data and so verify it too, then every footer and the
+    error and farm sections of `/za-nas` offer an email link to that address, and the error section
+    says that readers who report wrong or outdated information help check the data.
+
 ## 9. Test plan
 
 | AC   | Test type | Test file                                                                          |
@@ -182,6 +187,7 @@ All three are pure functions with unit tests.
 | AC14 | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
 | AC15 | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
 | AC16 | e2e, unit | `tests/e2e/about-pages.spec.ts`, `tests/unit/repo/license.test.ts`                 |
+| AC17 | e2e, unit | `tests/e2e/about-pages.spec.ts`, `tests/unit/composition/contact.test.ts`          |
 | AC11 | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
 
 ## 10. Third-party documentation consulted

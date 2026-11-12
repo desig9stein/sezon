@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  CONTACT_EMAIL,
   contactEmail,
   correctionLinks,
   farmIssueLink,
@@ -71,5 +72,11 @@ describe('contact QA (spec 031)', () => {
     const url = new URL(farmIssueLink());
     expect(`${url.origin}${url.pathname}`).toBe('https://github.com/desig9stein/sezon/issues/new');
     expect(url.searchParams.get('template')).toBe('farm.yml');
+  });
+});
+
+describe('contact email (spec 031)', () => {
+  it('AC17: the site publishes the owner-provided contact email', () => {
+    expect(CONTACT_EMAIL).toBe('mspopovv@gmail.com');
   });
 });
