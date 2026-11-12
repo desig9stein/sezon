@@ -18,10 +18,11 @@ export interface ResolvedMicronutrient {
   readonly percentOfReferenceIntake: number;
 }
 
-/** A growing region resolved to its entity, with the editorial note. */
+/** A growing region resolved to its entity, with its note and, when sourced, the note's source. */
 export interface ResolvedGrowingRegion {
   readonly region: Region;
   readonly note: string;
+  readonly source?: Source | undefined;
 }
 
 /** A farm with its province resolved and whether it is certified organic on the query date. */
@@ -117,10 +118,11 @@ export class ProduceDetailsQuery {
       }),
     );
     const growingRegions = await Promise.all(
-      produce.growingRegions.map(async ({ regionSlug, note }) =>
+      produce.growingRegions.map(async ({ regionSlug, note, source }) =>
         Object.freeze({
           region: await resolve(find(regions), regionSlug, 'regions', `produce/${slug}`),
           note,
+          ...(source === undefined ? {} : { source }),
         }),
       ),
     );
@@ -149,6 +151,9 @@ export class ProduceDetailsQuery {
         uniqueSources([
           produce.nutrition.source,
           ...produce.traditionalUses.map((use) => use.source),
+          ...produce.growingRegions.flatMap((region) =>
+            region.source === undefined ? [] : [region.source],
+          ),
           ...(produce.growing?.sources ?? []),
           ...(produce.organic?.sources ?? []),
         ]),

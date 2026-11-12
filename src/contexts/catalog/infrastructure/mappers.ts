@@ -23,7 +23,11 @@ export function toProduce(id: string, record: ProduceRecord): Produce {
     summary: record.summary,
     varieties: record.varieties,
     calendar: SeasonCalendar.from(record.season),
-    growingRegions: record.regions.map(({ region, note }) => ({ regionSlug: region, note })),
+    growingRegions: record.regions.map(({ region, note, source }) => ({
+      regionSlug: region,
+      note,
+      ...(source === undefined ? {} : { source }),
+    })),
     nutrition: NutritionFacts.create({
       energyKcal: nutrition.energyKcal,
       proteinG: nutrition.proteinG,

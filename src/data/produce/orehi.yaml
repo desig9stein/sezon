@@ -18,10 +18,21 @@ season:
   - { month: 4, level: storage }
   - { month: 5, level: storage }
 regions:
-  - region: veliko-tarnovo
-    note: Предбалканът има подходящ климат за орехови насаждения.
-  - region: lovech
-    note: Орехът е традиционно дърво в селата на Ловешко.
+  - region: stara-zagora
+    note: 'Областта с най-голяма площ с орехови насаждения в страната – 1 504 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: plovdiv
+    note: 'Областта с втората по големина площ с орехови насаждения – 1 132 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: shumen
+    note: 'Областта с третата по големина площ с орехови насаждения – 1 021 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
 nutrition:
   energyKcal: 654
   proteinG: 15.23

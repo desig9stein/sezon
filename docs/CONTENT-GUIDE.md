@@ -46,7 +46,8 @@ season: # at least one month; each month once
   - { month: 9, level: peak } # peak | available | storage
 regions: # at least one; ids from src/data/regions
   - region: kyustendil
-    note: Why this region is good for this produce.
+    note: Why this region is named; quote figures only with a source.
+    source: { name: …, url: https://… } # optional; required when the note quotes figures
 nutrition: # per 100 g raw edible portion
   energyKcal: 52
   proteinG: 0.26
@@ -212,8 +213,8 @@ expiry) starts with „По данни на фермата …“. Note paused s
 ## Seed data status
 
 The review status of every produce lives in `docs/content-review/README.md`: nutrition is checked
-against USDA by the unit tests, the Wikipedia-sourced traditional uses were removed, and seasons
-and regions are still open. All produce entries stay `reviewStatus: draft` until the reviewer signs
+against USDA by the unit tests, the Wikipedia-sourced traditional uses were removed, the regions of
+apples, pears, walnuts and cabbage follow МЗХ statistics (spec 033), and seasons are still open. All produce entries stay `reviewStatus: draft` until the reviewer signs
 them off there.
 
 - **Farms (checked 2026-11-11, #16):** 10 real farms from their own websites. None publishes a
