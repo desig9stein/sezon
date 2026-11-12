@@ -53,3 +53,11 @@ describe('SeasonCalendarList garden row (spec 026)', () => {
     expect(html.match(/<ul\b/g)).toHaveLength(1);
   });
 });
+
+describe('SeasonCalendarList garden row QA (spec 026)', () => {
+  it('AC12: omits the garden row when the guide has no month', async () => {
+    const produce = withGrowing(growingRecord({ sow: [], transplant: [], plant: [] }));
+    const html = await render(SeasonCalendarList, { produce, currentMonth: Month.of(11) });
+    expect(html).not.toContain('В градината');
+  });
+});

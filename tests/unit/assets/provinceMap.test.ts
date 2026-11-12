@@ -18,3 +18,10 @@ describe('province map asset', () => {
     expect(provinceMap.viewBox).toMatch(/^0 0 600 \d+$/);
   });
 });
+
+describe('province map draw order', () => {
+  it('AC1: draws Sofia city after the Sofia province that surrounds it', () => {
+    const keys = Object.keys(provinceMap.provinces);
+    expect(keys.indexOf('sofia-grad')).toBe(keys.length - 1);
+  });
+});
