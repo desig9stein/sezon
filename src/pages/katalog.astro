@@ -40,7 +40,9 @@ const jsonLd = [
   <p class="catalog__intro">{labels.intro}</p>
 
   <section aria-labelledby="catalog-sections">
-    <h2 id="catalog-sections">{labels.sectionsHeading}</h2>
+    <h2 class="section-heading" id="catalog-sections">
+      {labels.sectionsHeading}
+    </h2>
     <ul class="catalog__sections" role="list">
       {catalog.sections.map(({ kind, count }) => (
         <li>
@@ -54,7 +56,9 @@ const jsonLd = [
   </section>
 
   <section aria-labelledby="catalog-groups">
-    <h2 id="catalog-groups">{labels.groupsHeading}</h2>
+    <h2 class="section-heading" id="catalog-groups">
+      {labels.groupsHeading}
+    </h2>
     <ul class="catalog__chips" role="list">
       {catalog.groups.map(({ group, count }) => (
         <li>
@@ -67,14 +71,18 @@ const jsonLd = [
   </section>
 
   <section aria-labelledby="catalog-regions">
-    <h2 id="catalog-regions">{ui.regions.heading}</h2>
+    <h2 class="section-heading" id="catalog-regions">
+      {ui.regions.heading}
+    </h2>
     <p>
       <a href={routes.regions}>{labels.regionsLink}</a>
     </p>
   </section>
 
   <section aria-labelledby="catalog-nutrients">
-    <h2 id="catalog-nutrients">{labels.nutrientsHeading}</h2>
+    <h2 class="section-heading" id="catalog-nutrients">
+      {labels.nutrientsHeading}
+    </h2>
     <ul class="catalog__chips" role="list">
       {catalog.nutrients.map((nutrient) => (
         <li>
@@ -88,13 +96,6 @@ const jsonLd = [
 <style>
   h1 {
     margin-top: var(--space-6);
-  }
-
-  h2 {
-    margin-top: var(--space-8);
-    margin-bottom: var(--space-3);
-    padding-bottom: var(--space-1);
-    border-bottom: 2px solid var(--color-text);
   }
 
   .catalog__intro {

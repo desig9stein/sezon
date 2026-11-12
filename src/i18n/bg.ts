@@ -31,6 +31,36 @@ const MAX_FRACTION_DIGITS = 2;
 const LIST_SEPARATOR = ', ';
 const DASH_SEPARATOR = ' – ';
 const GARDEN_LABEL = 'В градината';
+/** Province names that read as adjectives and need „област“ after them in running text. */
+const REGION_PLACE_NAMES: Readonly<Record<string, string>> = { Софийска: 'Софийска област' };
+/** First letters after which the preposition „в“ becomes „във“. */
+const VAV_LETTERS = /^[вфВФ]/u;
+
+/** Returns the province name as it reads in running text („Софийска област“, „Пловдив“). */
+function regionPlaceName(name: string): string {
+  return REGION_PLACE_NAMES[name] ?? name;
+}
+
+/** Returns „В <place>“ or „Във <place>“ for a province name, capitalised for a sentence start. */
+function inRegion(name: string): string {
+  const place = regionPlaceName(name);
+  return `${VAV_LETTERS.test(place) ? 'Във' : 'В'} ${place}`;
+}
+
+/** Returns the region page description for the counts the page shows (never both zero). */
+function regionPageDescription(name: string, produceCount: number, farmCount: number): string {
+  const grows =
+    produceCount === 1
+      ? `${inRegion(name)} се отглежда 1 продукт от каталога на Сезон.`
+      : `${inRegion(name)} се отглеждат ${produceCount} продукта от каталога на Сезон.`;
+  const farms =
+    farmCount === 1
+      ? `${inRegion(name)} има 1 местна ферма, която продава продукти от каталога на Сезон.`
+      : `${inRegion(name)} има ${farmCount} местни ферми, които продават продукти от каталога на Сезон.`;
+  if (farmCount === 0) return `${grows} Виж кои са и защо растат добре точно тук.`;
+  if (produceCount === 0) return `${farms} Виж кои са и как да се свържеш с тях.`;
+  return `${grows} Виж кои са, защо растат добре тук и кои местни ферми има в областта.`;
+}
 const MAP_TITLE = 'Карта на България.';
 
 const numberFormat = new Intl.NumberFormat('bg', {
@@ -377,14 +407,13 @@ export const ui = {
     failed: 'Търсенето не може да се зареди.',
   },
   regions: {
-    navLabel: 'Области',
     title: 'Области на България: какво расте къде',
     heading: 'Области',
     description:
       'Кои плодове и зеленчуци растат най-добре във всяка от 28-те области на България и кои местни ферми има в тях.',
     intro:
       'Избери област на картата или в списъка, за да видиш какво расте там и кои местни ферми има.',
-    mapCaption: 'Оцветени са областите, за които вече има данни.',
+    mapCaption: 'С щрихи са областите, за които вече има данни.',
     listHeading: 'Всички области',
     noData: 'Още няма данни',
     counts: (produce: number, farms: number) =>
@@ -394,12 +423,14 @@ export const ui = {
       ]
         .filter((part) => part !== undefined)
         .join(' · '),
-    pageTitle: (name: string) => `${name}: какво расте и местни ферми`,
-    pageDescription: (name: string) =>
-      `Какво се отглежда в ${name}: плодове, зеленчуци, подправки и ядки по сезони, и кои местни ферми от областта ги продават.`,
+    placeName: regionPlaceName,
+    pageTitle: (name: string) => `${regionPlaceName(name)}: какво расте и местни ферми`,
+    pageDescription: regionPageDescription,
     pageIntro: 'Какво расте тук и кои местни ферми има в областта.',
-    mapCaptionFor: (name: string) => `Оцветена е областта ${name}.`,
+    mapCaptionFor: (name: string) =>
+      `На картата: ${regionPlaceName(name)} – с плътни щрихи; другите области със страница – с тънки щрихи.`,
     growsHeading: 'Какво расте тук',
+    noteSeparator: DASH_SEPARATOR,
     noProduce: 'Все още няма продукти, свързани с тази област.',
     farmsHeading: 'Местни ферми',
     noFarms: 'Все още няма добавени ферми от тази област.',

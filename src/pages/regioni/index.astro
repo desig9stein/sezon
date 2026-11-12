@@ -40,7 +40,9 @@ const jsonLd = [
     caption={labels.mapCaption}
   />
   <section aria-labelledby="regions-list">
-    <h2 id="regions-list">{labels.listHeading}</h2>
+    <h2 class="section-heading" id="regions-list">
+      {labels.listHeading}
+    </h2>
     <ul class="regions__list" role="list">
       {overview.map(({ region, produceCount, farmCount, hasPage }) => (
         <li>
@@ -61,13 +63,6 @@ const jsonLd = [
 <style>
   h1 {
     margin-block: var(--space-6) var(--space-3);
-  }
-
-  h2 {
-    margin-top: var(--space-8);
-    margin-bottom: var(--space-3);
-    padding-bottom: var(--space-1);
-    border-bottom: 2px solid var(--color-text);
   }
 
   .regions__intro {

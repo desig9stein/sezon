@@ -12,9 +12,11 @@ import FarmCard from './FarmCard.astro';
 interface Props {
   farms: ReadonlyArray<FarmWithRegion>;
   organic?: OrganicProduction | undefined;
+  /** Slug of the region whose page shows the list; its name is not linked on the cards. */
+  currentRegionSlug?: string | undefined;
 }
 
-const { farms, organic } = Astro.props;
+const { farms, organic, currentRegionSlug } = Astro.props;
 const labels = ui.produce.farms;
 const organicFarms = farms.filter((entry) => entry.certifiedOrganic);
 const otherFarms = farms.filter((entry) => !entry.certifiedOrganic);
@@ -37,7 +39,7 @@ const groups =
 {farms.length > 0 && groups.length === 0 && (
   <ul class="farms" role="list">
     {farms.map((entry) => (
-      <FarmCard {...entry} headingLevel={3} />
+      <FarmCard {...entry} headingLevel={3} currentRegionSlug={currentRegionSlug} />
     ))}
   </ul>
 )}
@@ -46,7 +48,7 @@ const groups =
     <h3 id={group.id}>{group.heading}</h3>
     <ul class="farms" role="list">
       {group.farms.map((entry) => (
-        <FarmCard {...entry} headingLevel={4} />
+        <FarmCard {...entry} headingLevel={4} currentRegionSlug={currentRegionSlug} />
       ))}
     </ul>
   </section>

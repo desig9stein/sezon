@@ -19,10 +19,11 @@ const page = await regionPagesQuery.forSlug(Astro.params.slug, BUILD_DATE);
 const { region } = page;
 const labels = ui.regions;
 const path = routes.region(region.slug);
-const description = labels.pageDescription(region.name);
+const description = labels.pageDescription(region.name, page.produce.length, page.farms.length);
 const linkedRegions = (await regionPagesQuery.overview())
-  .filter((summary) => summary.hasPage)
+  .filter((summary) => summary.hasPage && summary.region.slug !== region.slug)
   .map((summary) => ({ region: summary.region, href: routes.region(summary.region.slug) }));
+const placeName = labels.placeName(region.name);
 const jsonLd = [
   administrativeAreaJsonLd({
     siteUrl: requireSiteUrl(Astro.site),
@@ -41,11 +42,11 @@ const jsonLd = [
   breadcrumbs={[
     { name: ui.breadcrumbs.home, path: routes.home },
     { name: labels.heading, path: routes.regions },
-    { name: region.name, path },
+    { name: placeName, path },
   ]}
   jsonLd={jsonLd}
 >
-  <h1>{region.name}</h1>
+  <h1>{placeName}</h1>
   <p class="region__intro">{labels.pageIntro}</p>
   <ProvinceMap
     regions={[region]}
@@ -54,7 +55,9 @@ const jsonLd = [
   />
 
   <section aria-labelledby="region-produce">
-    <h2 id="region-produce">{labels.growsHeading}</h2>
+    <h2 class="section-heading" id="region-produce">
+      {labels.growsHeading}
+    </h2>
     {page.produce.length === 0 ? (
       <p>{labels.noProduce}</p>
     ) : (
@@ -62,6 +65,7 @@ const jsonLd = [
         {page.produce.map(({ produce, note }) => (
           <li>
             <a href={routes.produce(produce)}>{produce.name}</a>
+            {labels.noteSeparator}
             <span class="region__note">{note}</span>
           </li>
         ))}
@@ -70,21 +74,20 @@ const jsonLd = [
   </section>
 
   <section aria-labelledby="region-farms">
-    <h2 id="region-farms">{labels.farmsHeading}</h2>
-    {page.farms.length === 0 ? <p>{labels.noFarms}</p> : <FarmList farms={page.farms} />}
+    <h2 class="section-heading" id="region-farms">
+      {labels.farmsHeading}
+    </h2>
+    {page.farms.length === 0 ? (
+      <p>{labels.noFarms}</p>
+    ) : (
+      <FarmList farms={page.farms} currentRegionSlug={region.slug} />
+    )}
   </section>
 </BaseLayout>
 
 <style>
   h1 {
     margin-block: var(--space-6) var(--space-3);
-  }
-
-  h2 {
-    margin-top: var(--space-8);
-    margin-bottom: var(--space-3);
-    padding-bottom: var(--space-1);
-    border-bottom: 2px solid var(--color-text);
   }
 
   .region__intro {
@@ -101,8 +104,6 @@ const jsonLd = [
   }
 
   .region__produce li {
-    display: grid;
-    gap: var(--space-1);
     padding-block: var(--space-2);
     border-bottom: 1px solid var(--color-rule);
   }
