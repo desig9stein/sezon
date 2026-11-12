@@ -55,7 +55,7 @@ describe('produceSchema', () => {
     ['a group that is not a slug', { group: 'Кръстоцветни' }],
     ['a negative energy value', { nutrition: { ...produceRecord().nutrition, energyKcal: -1 } }],
     ['a blank name', { name: '   ' }],
-    ['an unknown review status', { reviewStatus: 'approved' }],
+    ['a review status (spec 034, AC1)', { reviewStatus: 'draft' }],
   ])('AC2: rejects %s', (_label, overrides) => {
     const result = produceSchema.safeParse({ ...produceRecord(), ...overrides });
     expect(result.success).toBe(false);

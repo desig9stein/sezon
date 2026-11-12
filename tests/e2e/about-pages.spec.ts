@@ -4,7 +4,7 @@ import { expectNoAxeViolations, jsonLdOf } from './a11y';
 import { removeAllCss } from './noCss';
 
 const ABOUT_SECTIONS = 10;
-const METHODOLOGY_SECTIONS = 8;
+const METHODOLOGY_SECTIONS = 7;
 const FORM = 'https://github.com/desig9stein/sezon/issues/new';
 
 test.describe('about and methodology (spec 031)', () => {
@@ -55,7 +55,6 @@ test.describe('about and methodology (spec 031)', () => {
       method.traditionalHeading,
       method.growingHeading,
       method.farmsHeading,
-      method.reviewHeading,
       method.correctionsHeading,
     ]);
     await expect(page.locator('main a[href^="https://fdc.nal.usda.gov"]').first()).toBeVisible();

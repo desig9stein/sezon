@@ -50,7 +50,8 @@ The owner made two decisions on 2026-11-12:
 ### Out of scope
 
 - The owner sentence on the about page.
-- Other growing sources (none cites gradinata.bg).
+- The other 11 produce that cite gradinata.bg in their growing guides. They need new sources
+  for each month and tip, so a follow-up spec (035) re-sources or removes them.
 
 ## 4. Domain model
 
@@ -81,8 +82,8 @@ No title or description change.
    methodology has no review section.
 4. **AC4:** Given the built `/metodologiya`, then it has seven `h2` sections and no „Проверка“
    heading.
-5. **AC5:** Given every produce, then no source is on `gradinata.bg`; leek has no transplant
-   month and its growing source is the Wikipedia article „Праз“.
+5. **AC5:** Given leek, then it does not cite `gradinata.bg`, has no transplant month, and its
+   only growing source is the Wikipedia article „Праз“.
 6. **AC6:** Given `docs/content-review/README.md` and CONTENT-GUIDE, then neither mentions
    `reviewStatus` or a sign-off.
 
