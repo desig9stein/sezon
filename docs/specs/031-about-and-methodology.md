@@ -2,7 +2,8 @@
 
 - **Status:** Approved
 - **Bounded context(s):** UI, composition (site configuration), repository (licence, issue form)
-- **Amended by:** spec 034 (review status and the „Проверка“ section removed)
+- **Amended by:** spec 034 (review status and the „Проверка“ section removed), spec 036 (the
+  reviewer sentence replaced by one about sources)
 - **Related:** issues #9 (about and methodology) and #15 (add your farm), ADR-0003 (advertising),
   `docs/CONTENT-GUIDE.md`, owner decisions of 2026-11-12
 
@@ -70,7 +71,8 @@ The owner's brief (2026-11-12):
   Every footer and the error and farm sections of `/za-nas` offer it as a mailto link beside GitHub.
 - **Owner details:** `SITE_OWNER` in `src/composition/contact.ts`: the GitHub profile, the name
   (Марин Попов) and the LinkedIn URL, provided on 2026-11-12. The name appears in the sentences
-  „Сезон се прави и поддържа от Марин Попов …“ and „Данните проверява Марин Попов.“
+  „Сезон се прави и поддържа от Марин Попов …“ and „Данните проверява Марин Попов.“ (replaced
+  by spec 036)
 - **Issue form:** `.github/ISSUE_TEMPLATE/correction.yml` with required fields `page`, `wrong`,
   `correct` and `evidence`; documents can be attached in the text area.
 - **Issue form language:** the readers who report errors read Bulgarian, so the form's labels are
@@ -159,7 +161,7 @@ All three are pure functions with unit tests.
 
 16. **AC16:** Given the owner's details (2026-11-12: Marin Popov, LinkedIn, „I am checking the
     data“), then „Кой стои зад сайта“ says that Марин Попов makes the site with AI agents and checks
-    the data („Данните проверява Марин Попов.“), lists only his GitHub and LinkedIn links, and
+    the data („Данните проверява Марин Попов.“, replaced by spec 036), lists only his GitHub and LinkedIn links, and
     `LICENSE` names Marin Popov.
 
 17. **AC17:** Given the owner's email (2026-11-12: mspopovv@gmail.com) and request that the

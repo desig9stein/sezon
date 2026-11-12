@@ -103,11 +103,18 @@ test.describe('about and methodology (spec 031)', () => {
     await expect(page.locator('main')).not.toContainText('Всяко твърдение води към източника си');
   });
 
-  test('AC16: names the developer, his profiles and that he checks the data', async ({ page }) => {
+  test('AC16, spec 036 AC1: names the developer and his profiles, and says the sources are under the data', async ({
+    page,
+  }) => {
     await page.goto('/za-nas');
     const who = page.locator('section:has(> h2#about-who)');
     await expect(who).toContainText(ui.about.who('Марин Попов'));
-    await expect(who).toContainText(ui.about.reviewer('Марин Попов'));
+    await expect(who.locator('p').last()).toHaveText(
+      'Източниците са посочени на страниците на продуктите и фермите – под данните или в раздел „Източници“ в края на страницата.',
+    );
+    await expect(who).not.toContainText('на всяка страница');
+    await expect(who).not.toContainText(/провер/i);
+    await expect(page.locator('main')).not.toContainText('Данните проверява');
     await expect(who.locator('li', { hasText: /^Марин Попов$/ })).toHaveCount(0);
     await expect(who.locator('a[href="https://github.com/desig9stein"]')).toHaveCount(1);
     await expect(

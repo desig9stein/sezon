@@ -65,6 +65,14 @@ describe('no review status (spec 034)', () => {
     }
   });
 
+  it('QA 036: the methodology does not place growing sources under the guide', () => {
+    expect(ui.methodology.growing).not.toContain('посочени под тях');
+  });
+
+  it('spec 036 AC2: the about page has no reviewer string', () => {
+    expect(Object.keys(ui.about)).not.toContain('reviewer');
+  });
+
   it('AC6: the docs no longer describe a review status or a sign-off', () => {
     for (const path of ['docs/content-review/README.md', 'docs/CONTENT-GUIDE.md', 'PRODUCT.md']) {
       const text = readFileSync(path, 'utf8');

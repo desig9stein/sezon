@@ -55,7 +55,6 @@ const jsonLd = [
         {labels.whoHeading}
       </h2>
       <p>{labels.who(SITE_OWNER.name)}</p>
-      <p>{labels.reviewer(SITE_OWNER.name)}</p>
       <ul>
         <li>
           <a href={SITE_OWNER.githubUrl}>{labels.ownerGithub(SITE_OWNER.githubHandle)}</a>
@@ -64,6 +63,7 @@ const jsonLd = [
           <a href={SITE_OWNER.linkedinUrl}>{labels.ownerLinkedin(SITE_OWNER.name)}</a>
         </li>
       </ul>
+      <p>{labels.sourcesUnderData}</p>
     </section>
 
     <section aria-labelledby="about-ai">
