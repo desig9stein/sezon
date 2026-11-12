@@ -15,8 +15,8 @@ describe('ProvinceMap', () => {
     expect(html.match(/data-marked="true"/g)).toHaveLength(2);
     expect(html).toMatch(/<path[^>]*data-region="plovdiv"[^>]*data-marked="true"/);
     const label = 'Карта на България. Отбелязани области: Пловдив, Кюстендил';
-    expect(html).toMatch(new RegExp(`<svg[^>]*role="img"[^>]*aria-label="${label}"`));
-    expect(html).toContain(`<title>${label}</title>`);
+    expect(html).toMatch(/<svg[^>]*role="img"[^>]*aria-labelledby="province-map-title"/);
+    expect(html).toMatch(new RegExp(`<title id="province-map-title"[^>]*>${label}</title>`));
     expect(html).toMatch(/<svg[^>]*width="320"[^>]*height="209"/);
     expect(html).toMatch(/<figcaption[^>]*>[\s\S]*Natural Earth[\s\S]*<\/figcaption>/);
   });
@@ -30,7 +30,7 @@ describe('ProvinceMap', () => {
   it('AC4: marks nothing when there are no regions', async () => {
     const html = await render(ProvinceMap, { regions: [] });
     expect(html).not.toContain('data-marked="true"');
-    expect(html).toContain('aria-label="Карта на България. Няма отбелязани области"');
+    expect(html).toMatch(/<title[^>]*>Карта на България\. Няма отбелязани области<\/title>/);
   });
 });
 

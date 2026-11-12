@@ -9,8 +9,8 @@ import { ui } from '@i18n/bg';
 /**
  * Twelve-month season strip of one produce: each month links to its month page and shows its
  * abbreviation, the level glyph and the level text on the level's tint; the current month is
- * outlined. When the produce has a growing guide, a labelled garden row under it lists the
- * activities (sow, transplant, plant) of each month.
+ * outlined. When the produce's growing guide names at least one month, a labelled garden row
+ * under it lists the activities (sow, transplant, plant) of each month.
  */
 interface Props {
   produce: Produce;
@@ -22,7 +22,7 @@ const GARDEN_LABEL_ID = 'garden-label';
 const months = Month.all().map((month) => ({ month, level: produce.levelIn(month) }));
 const { growing } = produce;
 const garden = ui.produce.garden;
-const gardenMonths =
+const allGardenMonths =
   growing === undefined
     ? []
     : Month.all().map((month) => ({
@@ -31,6 +31,9 @@ const gardenMonths =
           growing.monthsOf(activity).includes(month),
         ).map((activity) => ui.produce.growingActivities[activity]),
       }));
+const gardenMonths = allGardenMonths.some(({ activities }) => activities.length > 0)
+  ? allGardenMonths
+  : [];
 ---
 
 <ul class="calendar" role="list">
@@ -111,8 +114,12 @@ const gardenMonths =
   }
 
   .calendar--garden .calendar__month[data-active='true'] {
-    color: var(--color-text);
-    box-shadow: inset 0 0 0 1.5px var(--color-accent);
+    color: var(--color-on-badge);
+    background: var(--color-available);
+  }
+
+  .calendar--garden .calendar__month[data-active='true'] .calendar__level {
+    font-weight: 700;
   }
 
   .calendar__month[data-level='peak'] a {
@@ -153,7 +160,8 @@ const gardenMonths =
   @media print {
     .calendar__month a,
     .calendar__month[data-level] a,
-    .calendar--garden .calendar__month {
+    .calendar--garden .calendar__month,
+    .calendar--garden .calendar__month[data-active='true'] {
       border: 1px solid var(--print-ink);
       color: var(--print-ink);
       background: none;

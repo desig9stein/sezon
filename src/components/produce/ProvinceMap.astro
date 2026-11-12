@@ -7,7 +7,8 @@ import provinceMap from '../../assets/map/provinces.json';
 
 /**
  * Map of Bulgaria's 28 provinces as an inline SVG, with `regions` filled in the accent colour and
- * the rest in the rule colour, and a caption crediting Natural Earth. The SVG has a title and a
+ * the rest in the rule colour, borders in the border colour, and a caption that describes the
+ * map and credits Natural Earth. The SVG has a title and a
  * text alternative naming the marked regions, and keeps its size without CSS.
  * @throws BrokenReferenceError when a region has no province on the map.
  */
@@ -15,9 +16,12 @@ interface Props {
   regions: ReadonlyArray<Region>;
 }
 
-/** Rendered size without CSS, in the ratio of the map's viewBox. */
+/** Rendered width without CSS; the height follows the viewBox ratio. */
 const WIDTH = 320;
-const HEIGHT = 209;
+const STROKE_WIDTH = 1;
+const TITLE_ID = 'province-map-title';
+const [, , viewBoxWidth = 1, viewBoxHeight = 0] = provinceMap.viewBox.split(' ').map(Number);
+const HEIGHT = Math.round((WIDTH * viewBoxHeight) / viewBoxWidth);
 const ink = palettes.light;
 const paths: Readonly<Record<string, string>> = provinceMap.provinces;
 
@@ -33,15 +37,15 @@ const labels = ui.produce.map;
 <figure class="province-map">
   <svg
     role="img"
-    aria-label={label}
+    aria-labelledby={TITLE_ID}
     width={WIDTH}
     height={HEIGHT}
     viewBox={provinceMap.viewBox}
-    stroke={ink.surface}
-    stroke-width="1.5"
+    stroke={ink.border}
+    stroke-width={STROKE_WIDTH}
     stroke-linejoin="round"
   >
-    <title>{label}</title>
+    <title id={TITLE_ID}>{label}</title>
     {Object.entries(paths).map(([slug, d]) => (
       <path
         class="province-map__province"
@@ -53,6 +57,7 @@ const labels = ui.produce.map;
     ))}
   </svg>
   <figcaption>
+    {labels.caption}
     {labels.creditPrefix} <a href={labels.creditUrl}>{labels.creditName}</a>
     {labels.creditSuffix}
   </figcaption>
@@ -69,7 +74,7 @@ const labels = ui.produce.map;
   .province-map svg {
     width: 100%;
     height: auto;
-    stroke: var(--color-surface);
+    stroke: var(--color-border);
   }
 
   .province-map__province {

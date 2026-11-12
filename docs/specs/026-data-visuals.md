@@ -60,12 +60,20 @@ No change. The map asset is keyed by region slug; a unit test keeps it in step w
 - **Map:** an unknown region slug passed to `ProvinceMap` throws `BrokenReferenceError` at build
   time. With no regions, all provinces use the rule colour and the label says no region is
   marked. Regions keep their data order in the label.
-- **Map size:** the SVG has `width`/`height` attributes (320 × 209) so it stays small without CSS;
+- **Map size:** the SVG has `width`/`height` attributes (320 wide, the height derived from the
+  viewBox, 209 today) so it stays small without CSS;
   CSS makes it fluid up to `30rem`. The viewBox keeps the ratio, so there is no layout shift.
-- **Garden row:** omitted when the produce has no growing guide. The cells line up with the
+- **Garden row:** omitted when the produce has no growing guide, or when its guide names no
+  month (only a planting note, e.g. pumpkin). Active cells take the `available` wash with
+  `on-badge` text and a bold activity, never an accent frame (that frame means the current month
+  in the season row). The cells line up with the
   season cells at every breakpoint (12, 6 and 4 columns). Cells are not links.
 - **Bars:** percentages above 100 fill the bar completely; 0 % draws only the track. The bar is
   decorative (`aria-hidden`) because the percentage is next to it.
+- **Draw order:** Sofia city lies inside Sofia province; the build script writes enclosed
+  provinces last so the enclosing path never covers them.
+- **Architecture:** the map is a static presentational asset, so `ProvinceMap` imports the JSON
+  directly (like fonts and images) and checks that each region it is given has a path.
 - **Without CSS:** the map and bars keep their attribute sizes and fills (light palette values as
   attributes, like the year strip); the garden row reads as a labelled list.
 - **Print:** fills switch to print ink: marked provinces solid, others white with ink borders;
@@ -74,14 +82,17 @@ No change. The map asset is keyed by region slug; a unit test keeps it in step w
 
 ## 6. Accessibility requirements
 
-- 1.1.1: the map SVG has `role="img"`, a `<title>` and an `aria-label`
+- 1.1.1: the map SVG has `role="img"` and is named by its `<title>` through `aria-labelledby`
   „Карта на България. Отбелязани области: Пловдив, Кюстендил“; the same regions are listed in text
   above it.
 - 1.3.1: the garden row is a `ul` labelled by its visible label via `aria-labelledby`.
 - 1.4.1: no information by colour alone: the regions and the activities are also text; the bar
   repeats the percentage beside it.
 - 1.4.11: marked provinces against unmarked ones ≥ 3:1 in both modes (contrast pair
-  `accent`/`rule`).
+  `accent`/`rule`); province borders, and so the country outline, use `border` (≥ 3:1 against
+  page and surface).
+- The `figcaption` first says what the map shows („Оцветени са областите, изброени по-горе.“),
+  then credits Natural Earth.
 - 1.4.10: no horizontal scroll at 320 px from the map or the row.
 - Zero axe violations in light and dark mode; readable without CSS (spec 009 rules).
 
@@ -95,9 +106,9 @@ No change. The map asset is keyed by region slug; a unit test keeps it in step w
 1. **AC1:** Given the map asset, it has a path for every region in `src/data/regions` and no other
    keys, and a viewBox `0 0 600 <height>`.
 2. **AC2:** Given `ProvinceMap` with Plovdiv and Kyustendil, it renders a `figure` with an SVG of
-   28 paths, `role="img"`, a `<title>` and an `aria-label` naming both regions in order, exactly two
-   paths marked `data-marked="true"`, `width="320"` and `height="209"`, and a caption crediting
-   Natural Earth.
+   28 paths, `role="img"`, named by a `<title>` (via `aria-labelledby`) listing both regions in order, exactly two
+   paths marked `data-marked="true"`, `width="320"` and a height derived from the viewBox, and a
+   caption crediting Natural Earth.
 3. **AC3:** Given `ProvinceMap` with an unknown slug, rendering throws `BrokenReferenceError`.
 4. **AC4:** Given `ProvinceMap` with no regions, no path is marked and the label says no region
    is marked.
@@ -113,6 +124,13 @@ No change. The map asset is keyed by region slug; a unit test keeps it in step w
 10. **AC10:** Given a produce page at 320 px without CSS, the map is at most 320 px wide, and at 320
     px with CSS, the page does not scroll horizontally.
 11. **AC11:** Given the palettes, `accent` against `rule` is at least 3:1 in light and dark mode.
+12. **AC12:** Given a growing guide with no month (planting note only), the calendar has no garden
+    row.
+13. **AC13:** Given a produce page, active garden cells have no frame and a bold activity, on
+    screen in both modes and in print.
+14. **AC14:** Given a produce page, the map's province borders use the `border` colour in both
+    modes.
+15. **AC15:** Given a map, its caption describes the map before crediting the source.
 
 ## 9. Test plan
 
@@ -129,6 +147,10 @@ No change. The map asset is keyed by region slug; a unit test keeps it in step w
 | AC9  | e2e       | `tests/e2e/data-visuals.spec.ts`                  |
 | AC10 | e2e       | `tests/e2e/data-visuals.spec.ts`                  |
 | AC11 | unit      | `tests/unit/design/tokens.test.ts` (pair list)    |
+| AC12 | component | `tests/components/SeasonCalendarList-026.test.ts` |
+| AC13 | e2e       | `tests/e2e/data-visuals.spec.ts`                  |
+| AC14 | e2e       | `tests/e2e/data-visuals.spec.ts`                  |
+| AC15 | component | `tests/components/ProvinceMap.test.ts`            |
 
 ## 10. Third-party documentation consulted
 

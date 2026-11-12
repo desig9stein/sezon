@@ -5,7 +5,7 @@ import { readFile, writeFile } from 'node:fs/promises';
  * (`ne_10m_admin_1_states_provinces.geojson`, public domain). Usage:
  * `node scripts/map/build.ts <path-to-geojson>`. Bulgaria's 28 provinces are projected with an
  * equirectangular projection scaled by the cosine of the mid latitude, simplified with
- * Douglas–Peucker and written as SVG path data keyed by region slug.
+ * Douglas–Peucker and written as SVG path data keyed by region slug, enclosed provinces last.
  */
 
 const OUTPUT = 'src/assets/map/provinces.json';
@@ -45,6 +45,9 @@ const SLUG_BY_ISO: Readonly<Record<string, string>> = {
   'BG-27': 'shumen',
   'BG-28': 'yambol',
 };
+
+/** Provinces enclosed by another province, drawn last so the enclosing one does not cover them. */
+const DRAW_LAST: ReadonlyArray<string> = ['sofia-grad'];
 
 type Point = readonly [number, number];
 interface Feature {
@@ -113,10 +116,15 @@ async function build(source: string): Promise<void> {
       .map((ring) => `M${ring.map(([x, y]) => `${round(x)} ${round(y)}`).join('L')}Z`)
       .join('');
   }
+  const ordered = Object.fromEntries(
+    Object.entries(provinces).sort(
+      ([a], [b]) => Number(DRAW_LAST.includes(a)) - Number(DRAW_LAST.includes(b)),
+    ),
+  );
   const height = Math.ceil((maxLat - minLat) * scale);
   await writeFile(
     OUTPUT,
-    `${JSON.stringify({ viewBox: `0 0 ${WIDTH} ${height}`, provinces }, null, 2)}\n`,
+    `${JSON.stringify({ viewBox: `0 0 ${WIDTH} ${height}`, provinces: ordered }, null, 2)}\n`,
   );
   console.log(`${OUTPUT}: ${Object.keys(provinces).length} provinces`);
 }
