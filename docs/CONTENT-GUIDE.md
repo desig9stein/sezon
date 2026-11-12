@@ -150,7 +150,7 @@ individual products or offers.
 
 - Take nutrition values from USDA FoodData Central (SR Legacy, raw) or EFSA, and cite the item.
   Prefer the item page URL `https://fdc.nal.usda.gov/food-details/<fdcId>/nutrients`.
-  Then regenerate the USDA extract (`node scripts/content/usda-extract.ts <SR Legacy CSV dir>`, see
+  Then regenerate the USDA extract (`pnpm content:usda <SR Legacy CSV dir>`, see
   `docs/content-review/README.md`): a unit test fails when a value differs from the cited record.
 - Vitamin A amounts are in µg RAE (USDA). The EU reference intake (800 µg) is defined in
   retinol equivalents (RE); for plant foods RAE is about half of RE, so the % shown is conservative.
@@ -211,15 +211,10 @@ expiry) starts with „По данни на фермата …“. Note paused s
 
 ## Seed data status
 
-All seed produce entries are `reviewStatus: draft`.
-
-- **Nutrition (checked 2026-11-11, #10):** every value was compared with the USDA FoodData
-  Central SR Legacy release (April 2018, CSV download) and matches it. Four rounded
-  micronutrient values were replaced by the exact figures. Each `nutrition.source.url` points to
-  the item page (`https://fdc.nal.usda.gov/food-details/<fdcId>/nutrients`).
-- **Still to review before `reviewed`:** season months and growing regions against Bulgarian
-  sources, and traditional uses, which cite Wikipedia as a starting point and should get
-  primary sources.
+The review status of every produce lives in `docs/content-review/README.md`: nutrition is checked
+against USDA by the unit tests, the Wikipedia-sourced traditional uses were removed, and seasons
+and regions are still open. All produce entries stay `reviewStatus: draft` until the reviewer signs
+them off there.
 
 - **Farms (checked 2026-11-11, #16):** 10 real farms from their own websites. None publishes a
   full organic certificate, so none has an `organic` block.

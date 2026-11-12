@@ -1,16 +1,18 @@
 # Content review
 
 Status of the editorial review of each produce (issue #10). A produce gets `reviewStatus: reviewed`
-only after the reviewer (Марин Попов) has checked every open item and signed off below. Until then
+only after the reviewer (Marin Popov) has checked every open item and signed off below. Until then
 its page shows „Данните очакват редакторска проверка“.
 
 ## What is already verified
 
 - **Nutrition values (2026-11-12):** every value equals the USDA FoodData Central SR Legacy record
   cited by the produce (April 2018 release). `tests/unit/content/usda-nutrition.test.ts` checks
-  this on every build against `tests/fixtures/usda/sr-legacy-extract.json`.
+  this in the unit tests (CI) against `tests/fixtures/usda/sr-legacy-extract.json`.
 - **Traditional uses (2026-11-12):** the three uses that cited Wikipedia (dill, parsley, cabbage) were
   removed, because no primary source was found. New uses need a primary source (not Wikipedia).
+- **EFSA-sourced nutrition:** a produce that cites EFSA instead of USDA is not machine-checked; mark
+  it as such in its row. Today every produce cites USDA.
 
 ## Open items per produce
 
@@ -47,5 +49,5 @@ When a produce is added or its FDC record changes:
 1. Download the SR Legacy CSV release:
    `https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip`
    and unzip it outside the repository.
-2. Run `node scripts/content/usda-extract.ts <unzipped-directory>`.
+2. Run `pnpm content:usda <unzipped-directory>`.
 3. Commit the updated `tests/fixtures/usda/sr-legacy-extract.json`.

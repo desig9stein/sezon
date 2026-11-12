@@ -5,14 +5,6 @@ import { createInterface } from 'node:readline';
 import { parse } from 'yaml';
 import { MACRO_NUTRIENT_IDS, MICRO_NUTRIENT_IDS } from './usdaNutrients.ts';
 
-/**
- * Writes `tests/fixtures/usda/sr-legacy-extract.json`: for every FDC id cited by a produce in
- * `src/data/produce`, its description and the nutrients the site uses, read from the USDA
- * FoodData Central SR Legacy CSV release. Usage:
- * `node scripts/content/usda-extract.ts <path-to-FoodData_Central_sr_legacy_food_csv_2018-04>`.
- * Fails when a cited FDC id is not in the dataset.
- */
-
 const PRODUCE_DIR = 'src/data/produce';
 const OUTPUT = 'tests/fixtures/usda/sr-legacy-extract.json';
 const DATASET = {
@@ -20,6 +12,8 @@ const DATASET = {
   url: 'https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip',
 };
 const FDC_ID = /\/food-details\/(\d+)\//;
+const USDA_HOST = 'fdc.nal.usda.gov';
+const USAGE = 'Usage: pnpm content:usda <FoodData_Central_sr_legacy_food_csv_2018-04 directory>';
 const NUTRIENT_IDS = new Set([
   ...Object.values(MACRO_NUTRIENT_IDS),
   ...Object.values(MICRO_NUTRIENT_IDS),
@@ -62,6 +56,11 @@ async function eachRow(path: string, onRow: (row: Record<string, string>) => voi
   }
 }
 
+/**
+ * Returns the FDC ids cited by the produce whose nutrition source is USDA; EFSA-sourced produce is
+ * skipped.
+ * @throws Error when a USDA source is not an FDC item URL.
+ */
 async function citedFdcIds(): Promise<Set<string>> {
   const files = (await readdir(PRODUCE_DIR)).filter((file) => file.endsWith('.yaml'));
   const ids = new Set<string>();
@@ -69,13 +68,21 @@ async function citedFdcIds(): Promise<Set<string>> {
     const record = parse(await readFile(join(PRODUCE_DIR, file), 'utf8')) as {
       nutrition: { source: { url: string } };
     };
-    const id = FDC_ID.exec(record.nutrition.source.url)?.[1];
+    const { url } = record.nutrition.source;
+    if (new URL(url).hostname !== USDA_HOST) continue;
+    const id = FDC_ID.exec(url)?.[1];
     if (id === undefined) throw new Error(`${file}: the nutrition source is not an FDC item URL`);
     ids.add(id);
   }
   return ids;
 }
 
+/**
+ * Writes `tests/fixtures/usda/sr-legacy-extract.json`: for every FDC id cited by a produce in
+ * `src/data/produce`, its description and the nutrients the site uses, read from the USDA
+ * FoodData Central SR Legacy CSV release in `datasetDir`.
+ * @throws Error when a cited FDC id is not in the dataset.
+ */
 async function extract(datasetDir: string): Promise<void> {
   const ids = await citedFdcIds();
   const foods: Record<string, { description: string; nutrients: Record<string, number> }> = {};
@@ -88,7 +95,7 @@ async function extract(datasetDir: string): Promise<void> {
   await eachRow(join(datasetDir, 'food_nutrient.csv'), (row) => {
     const food = foods[row.fdc_id ?? ''];
     const nutrientId = row.nutrient_id ?? '';
-    if (food !== undefined && NUTRIENT_IDS.has(nutrientId)) {
+    if (food !== undefined && NUTRIENT_IDS.has(nutrientId) && (row.amount ?? '') !== '') {
       food.nutrients[nutrientId] = Number(row.amount);
     }
   });
@@ -99,6 +106,8 @@ async function extract(datasetDir: string): Promise<void> {
 
 const [datasetDir] = process.argv.slice(2);
 if (datasetDir === undefined) {
-  throw new Error('Usage: node scripts/content/usda-extract.ts <sr-legacy-csv-directory>');
+  console.error(USAGE);
+  process.exitCode = 1;
+} else {
+  await extract(datasetDir);
 }
-await extract(datasetDir);
