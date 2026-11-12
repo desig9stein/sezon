@@ -2,6 +2,7 @@ import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { expect, test } from '@playwright/test';
 import { expectNoAxeViolations, jsonLdOf } from './a11y';
+import { removeAllCss } from './noCss';
 
 const FARM_SLUGS = readdirSync(join(process.cwd(), 'src', 'data', 'farms'))
   .filter((file) => file.endsWith('.yaml'))
@@ -34,6 +35,9 @@ test.describe('farm pages (spec 030)', () => {
     }
     await expect(page.locator('main a[href="https://venets.co/"]').first()).toBeVisible();
     await expect(page.locator('main a[href="mailto:info@venets.co"]')).toHaveCount(1);
+    const phone = page.locator('main a[href="tel:+359882538244"]');
+    await expect(phone).toHaveCount(1);
+    await expect(phone).toHaveCSS('white-space', 'nowrap');
     await expect(page.locator('main')).toContainText('с. Тодорово');
     expect(await page.locator('section:has(> h2#farm-sources) li').count()).toBe(4);
     const types = (await jsonLdOf(page)).map((block) => (block as { '@type': string })['@type']);
@@ -55,6 +59,14 @@ test.describe('farm pages (spec 030)', () => {
     await expect(page.locator('header nav a', { hasText: 'Каталог' })).toHaveAttribute(
       'aria-current',
       'true',
+    );
+  });
+
+  test('AC14: without CSS a produce reads apart from its season stamp', async ({ page }) => {
+    await page.goto('/fermi/venets');
+    await removeAllCss(page);
+    await expect(page.locator('section:has(> h2#farm-produce) li').first()).toContainText(
+      'Дюли – ',
     );
   });
 

@@ -35,7 +35,8 @@ describe('farm page meta (spec 030)', () => {
   it('AC7: uses „във“ before в and ф and lists the produce', () => {
     const description = ui.farms.pageDescription('Био градина', 'Варна', ['Копър', 'Магданоз']);
     expect(description).toContain('във Варна');
-    expect(description).toContain('Копър, Магданоз');
+    expect(description).toContain('предлага копър, магданоз');
+    expect(ui.farms.pageDescription('Ферма', 'Фиктивна', ['Копър'])).toContain('във Фиктивна');
   });
 
   it('AC7: shortens a long produce list to fit', () => {

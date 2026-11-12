@@ -34,7 +34,7 @@ produce this month), its province, contacts, address and the sources the facts c
   - `h1` with the farm name, then a meta line: the province (a link to the region page), the
     organic label with the certifier when certified on the build date, and „Спонсорирано“.
   - The description.
-  - „Какво продава“: the produce, each linked and followed by its season stamp for the build month,
+  - „Какво предлага“: the produce, each linked and followed by its season stamp for the build month,
     or „Извън сезона“.
   - „Контакти“: website, email, phone, and the address when known.
   - „Източници“: the source URLs.
@@ -83,7 +83,7 @@ produce this month), its province, contacts, address and the sources the facts c
 
 - **Titles:** farm page „<Име> – местна ферма“ (≤ 60); `/fermi` „Местни ферми, които продават
   сезонни продукти“.
-- **Farm page description:** „<Име> е местна ферма в/във <област>, която продава <продукти>. …“,
+- **Farm page description:** „<Име> е местна ферма в/във <област>, която предлага <продукти> (names in lower case). …“,
   70–160 characters. The produce list is shortened to fit.
 - **JSON-LD:** as in scope.
 - **Internal links:** farm ↔ produce, farm → region.
@@ -113,6 +113,12 @@ produce this month), its province, contacts, address and the sources the facts c
     then it links to `/fermi`; on `/fermi/*`, the header marks „Каталог“.
 11. **AC11:** Given `/fermi` and a farm page in light and dark mode, then axe reports no violations,
     and at 320 px there is no horizontal scroll.
+
+12. **AC12:** Given a farm source that is not an HTTPS URL, when the farm is created, then it throws
+    `InvalidFarmError`.
+13. **AC13:** Given a source URL with a fragment, then its label keeps the fragment.
+14. **AC14:** Given a farm page without CSS, then each produce name is followed by „ – “ before its
+    stamp.
 
 ## 9. Test plan
 
