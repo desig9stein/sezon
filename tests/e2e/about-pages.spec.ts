@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { ui } from '../../src/i18n/bg';
 import { expectNoAxeViolations, jsonLdOf } from './a11y';
 import { removeAllCss } from './noCss';
 
@@ -10,6 +11,19 @@ test.describe('about and methodology (spec 031)', () => {
   test('AC5: the about page has its sections, links and no invented email', async ({ page }) => {
     await page.goto('/za-nas');
     await expect(page.locator('main h2')).toHaveCount(ABOUT_SECTIONS);
+    const about = ui.about;
+    await expect(page.locator('main h2')).toHaveText([
+      about.whatHeading,
+      about.whoHeading,
+      about.aiHeading,
+      about.sourcesHeading,
+      about.openHeading,
+      about.errorsHeading,
+      about.farmHeading,
+      about.adsHeading,
+      about.privacyHeading,
+      about.healthHeading,
+    ]);
     await expect(page.locator('main #greshka')).toHaveCount(1);
     await expect(page.locator('main #dobavi-ferma')).toHaveCount(1);
     await expect(
@@ -28,6 +42,17 @@ test.describe('about and methodology (spec 031)', () => {
   test('AC6: the methodology names its sources and links to corrections', async ({ page }) => {
     await page.goto('/metodologiya');
     await expect(page.locator('main h2')).toHaveCount(METHODOLOGY_SECTIONS);
+    const method = ui.methodology;
+    await expect(page.locator('main h2')).toHaveText([
+      method.nutritionHeading,
+      method.seasonHeading,
+      method.regionsHeading,
+      method.traditionalHeading,
+      method.growingHeading,
+      method.farmsHeading,
+      method.reviewHeading,
+      method.correctionsHeading,
+    ]);
     await expect(page.locator('main a[href^="https://fdc.nal.usda.gov"]').first()).toBeVisible();
     await expect(page.locator('main a[href*="efsa.europa.eu"]').first()).toBeVisible();
     await expect(page.locator('main a[href="/za-nas#greshka"]').first()).toBeVisible();
@@ -49,6 +74,27 @@ test.describe('about and methodology (spec 031)', () => {
       expect(new URL(reported).pathname).toBe(new URL(path, baseURL).pathname);
     });
   }
+
+  test('AC14: farm lists and the footer link to the farm section', async ({ page }) => {
+    for (const path of ['/fermi', '/plodove/yabalki', '/regioni/plovdiv']) {
+      await page.goto(path);
+      await expect(page.locator('main a[href="/za-nas#dobavi-ferma"]'), path).toHaveCount(1);
+      await expect(page.locator('footer a[href="/za-nas#dobavi-ferma"]'), path).toHaveCount(1);
+    }
+    await page.goto('/za-nas');
+    await expect(
+      page.locator('section:has(> h2#dobavi-ferma) a[href*="template=farm.yml"]'),
+    ).toHaveCount(1);
+  });
+
+  test('AC15: the about page states the limits of its sourcing and that GitHub reports are public', async ({
+    page,
+  }) => {
+    await page.goto('/za-nas');
+    await expect(page.locator('main')).toContainText('редакторск');
+    await expect(page.locator('section:has(> h2#about-privacy)')).toContainText('GitHub');
+    await expect(page.locator('main')).not.toContainText('Всяко твърдение води към източника си');
+  });
 
   test('AC8: produce sources link to the methodology', async ({ page }) => {
     await page.goto('/plodove/yabalki');

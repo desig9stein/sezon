@@ -68,7 +68,7 @@ The owner's brief (2026-11-12):
   - Without it, no email address or mailto link appears anywhere.
   - The about page then names GitHub as the channel and says that an email address will follow.
   - An invalid value fails the build with `InvalidConfigurationError`.
-- **Owner details:** `SITE_OWNER` in `src/composition/site.ts`. It holds the GitHub profile; the
+- **Owner details:** `SITE_OWNER` in `src/composition/contact.ts`. It holds the GitHub profile; the
   name and LinkedIn URL stay `undefined` until the owner provides them and are not rendered while
   missing.
 - **Issue form:** `.github/ISSUE_TEMPLATE/correction.yml` with required fields `page`, `wrong`,
@@ -149,21 +149,34 @@ All three are pure functions with unit tests.
 11. **AC11:** Given both pages in light and dark mode, axe reports no violations, there is no
     horizontal scroll at 320 px, and they read in order without CSS.
 
+12. **AC12:** Given a mailto body, then its line breaks are encoded as CRLF (`%0D%0A`, RFC 6068).
+13. **AC13:** Given the farm channel, then it opens a Bulgarian GitHub issue form `farm.yml` with
+    required fields name, place, produce, contact and source, and an optional organic field.
+14. **AC14:** Given `/fermi`, a produce page and a region page, then the farm list and the footer
+    link to `/za-nas#dobavi-ferma` (issue #15).
+15. **AC15:** Given `/za-nas`, then it says which facts are editorial (seasons, regions, tips), does
+    not claim that every statement has a source, and its privacy section says GitHub reports are
+    public.
+
 ## 9. Test plan
 
-| AC   | Test type | Test file                                                            |
-| ---- | --------- | -------------------------------------------------------------------- |
-| AC1  | unit      | `tests/unit/composition/contact.test.ts`                             |
-| AC2  | unit      | `tests/unit/composition/contact.test.ts`                             |
-| AC3  | unit      | `tests/unit/composition/contact.test.ts`                             |
-| AC4  | unit      | `tests/unit/repo/correctionForm.test.ts`                             |
-| AC5  | e2e       | `tests/e2e/about-pages.spec.ts`                                      |
-| AC6  | e2e       | `tests/e2e/about-pages.spec.ts`                                      |
-| AC7  | e2e       | `tests/e2e/about-pages.spec.ts`                                      |
-| AC8  | e2e       | `tests/e2e/about-pages.spec.ts`                                      |
-| AC9  | e2e, unit | `tests/e2e/about-pages.spec.ts`, `tests/unit/i18n/aboutMeta.test.ts` |
-| AC10 | unit      | `tests/unit/repo/license.test.ts`                                    |
-| AC11 | e2e       | `tests/e2e/about-pages.spec.ts`                                      |
+| AC   | Test type | Test file                                                                          |
+| ---- | --------- | ---------------------------------------------------------------------------------- |
+| AC1  | unit      | `tests/unit/composition/contact.test.ts`                                           |
+| AC2  | unit      | `tests/unit/composition/contact.test.ts`                                           |
+| AC3  | unit      | `tests/unit/composition/contact.test.ts`                                           |
+| AC4  | unit      | `tests/unit/repo/correctionForm.test.ts`                                           |
+| AC5  | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
+| AC6  | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
+| AC7  | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
+| AC8  | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
+| AC9  | e2e, unit | `tests/e2e/about-pages.spec.ts`, `tests/unit/i18n/aboutMeta.test.ts`               |
+| AC10 | unit      | `tests/unit/repo/license.test.ts`                                                  |
+| AC12 | unit      | `tests/unit/composition/contact.test.ts`                                           |
+| AC13 | unit      | `tests/unit/composition/contact.test.ts`, `tests/unit/repo/correctionForm.test.ts` |
+| AC14 | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
+| AC15 | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
+| AC11 | e2e       | `tests/e2e/about-pages.spec.ts`                                                    |
 
 ## 10. Third-party documentation consulted
 

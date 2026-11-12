@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { contactEmail, correctionLinks, farmSubmissionLink } from '@composition/contact';
+import {
+  contactEmail,
+  correctionLinks,
+  farmIssueLink,
+  farmSubmissionLink,
+} from '@composition/contact';
 import { InvalidConfigurationError } from '@shared/domain/errors';
 
 const PAGE = 'https://sezon.example/plodove/yabalki';
@@ -52,5 +57,19 @@ describe('contact configuration (spec 031)', () => {
     ]) {
       expect(body).toContain(part);
     }
+  });
+});
+
+describe('contact QA (spec 031)', () => {
+  it('AC12: writes mailto line breaks as CRLF', () => {
+    const { email } = correctionLinks(PAGE, 'info@sezon.bg');
+    expect(email).toContain('%0D%0A');
+    expect(email?.replace(/%0D%0A/g, '')).not.toContain('%0A');
+  });
+
+  it('AC13: links the Bulgarian farm form in GitHub', () => {
+    const url = new URL(farmIssueLink());
+    expect(`${url.origin}${url.pathname}`).toBe('https://github.com/desig9stein/sezon/issues/new');
+    expect(url.searchParams.get('template')).toBe('farm.yml');
   });
 });

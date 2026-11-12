@@ -30,3 +30,19 @@ describe('correction issue form (spec 031)', () => {
       expect(fields.get(id)?.type).toBe('textarea');
   });
 });
+
+describe('farm issue form (spec 031)', () => {
+  it('AC13: asks in Bulgarian for the farm details the about page lists', () => {
+    const farm = parse(readFileSync('.github/ISSUE_TEMPLATE/farm.yml', 'utf8')) as {
+      labels: string[];
+      body: FormField[];
+    };
+    expect(farm.labels).toEqual(expect.arrayContaining(['type:content', 'area:content']));
+    const fields = new Map(farm.body.filter((field) => field.id).map((field) => [field.id, field]));
+    for (const id of ['name', 'place', 'produce', 'contact', 'source']) {
+      expect(fields.get(id)?.validations?.required, id).toBe(true);
+      expect(fields.get(id)?.attributes.label, id).toMatch(/[А-Яа-я]/);
+    }
+    expect(fields.get('organic')?.validations?.required ?? false).toBe(false);
+  });
+});
