@@ -123,7 +123,9 @@ growing:
 
 Every month and tip must come from a cited Bulgarian source about growing vegetables or fruit
 (e.g. agrozona.bg or bgfermer.bg). Do not cite gradinata.bg: the owner judged it unreliable
-(spec 034). Tips address the reader with „ти“ („Сей“,
+(spec 034).
+
+When the facts or sources of a produce change, set its `updatedAt` to the date of the change. Tips address the reader with „ти“ („Сей“,
 „Поливай“), as `PRODUCT.md` asks. Never write „богат на“, even about soil.
 
 ### Organic production
