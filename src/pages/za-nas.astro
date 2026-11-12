@@ -55,6 +55,7 @@ const jsonLd = [
         {labels.whoHeading}
       </h2>
       <p>{labels.who}</p>
+      {SITE_OWNER.name !== undefined && <p>{labels.reviewer(SITE_OWNER.name)}</p>}
       <ul>
         {SITE_OWNER.name !== undefined && <li>{SITE_OWNER.name}</li>}
         <li>

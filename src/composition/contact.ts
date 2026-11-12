@@ -14,7 +14,7 @@ const MAIL_LINE_BREAK = '\r\n';
 /** Id of the page field in the correction form, used to prefill it. */
 const CORRECTION_PAGE_FIELD = 'page';
 
-/** Who runs the site; the name and LinkedIn profile are shown only once they are configured. */
+/** Who runs the site; the name and LinkedIn profile are shown only when they are set. */
 export interface SiteOwner {
   readonly githubHandle: string;
   readonly githubUrl: string;
@@ -26,8 +26,8 @@ export interface SiteOwner {
 export const SITE_OWNER: SiteOwner = Object.freeze({
   githubHandle: 'desig9stein',
   githubUrl: 'https://github.com/desig9stein',
-  name: undefined,
-  linkedinUrl: undefined,
+  name: 'Марин Попов',
+  linkedinUrl: 'https://www.linkedin.com/in/marin-popov-65829244',
 });
 
 /** Links for reporting an error on one page: the GitHub form, and an email when configured. */
