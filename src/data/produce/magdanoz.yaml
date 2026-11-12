@@ -39,12 +39,7 @@ nutrition:
 preparation:
   - method: Пресен
     tip: Добавяй го накрая, след като свалиш ястието от огъня – витамин C се разгражда при нагряване.
-traditionalUses:
-  - system: folk
-    use: Традиционно се използва в народната медицина под формата на отвара.
-    source:
-      name: 'Wikipedia: Parsley'
-      url: https://en.wikipedia.org/wiki/Parsley
+traditionalUses: []
 howToChoose: Избери яркозелени, стегнати връзки без увехнали или пожълтели листа.
 storage: Постави стъблата в чаша с вода в хладилника или ги увий във влажна хартия – издържа до седмица.
 faq:

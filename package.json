@@ -24,6 +24,7 @@
     "validate:html": "html-validate \"dist/**/*.html\"",
     "lhci": "lhci autorun",
     "fonts:build": "node scripts/fonts/build.ts",
+    "content:usda": "node scripts/content/usda-extract.ts",
     "verify": "pnpm format:check && pnpm lint && pnpm check && pnpm test:coverage && pnpm build && pnpm validate:html && pnpm test:e2e",
     "prepare": "simple-git-hooks"
   },

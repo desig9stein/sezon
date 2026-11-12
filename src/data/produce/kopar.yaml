@@ -34,12 +34,7 @@ nutrition:
 preparation:
   - method: Пресен
     tip: Нарязвай го непосредствено преди сервиране – ароматните масла се изпаряват бързо.
-traditionalUses:
-  - system: ayurveda
-    use: Традиционно се използва в аюрведа (семената, наречени „шатапушпа“) при подуване и храносмилателен дискомфорт.
-    source:
-      name: 'Wikipedia: Dill'
-      url: https://en.wikipedia.org/wiki/Dill
+traditionalUses: []
 howToChoose: Избери яркозелени, ароматни стръкове без пожълтяване.
 storage: Увит във влажна хартия в хладилника издържа три–четири дни; може да се замрази нарязан.
 faq:
