@@ -98,3 +98,31 @@ describe('„ти“ voice (spec 028)', () => {
     expect(guide).toMatch(/„Изберете[^“]*“\s*→\s*„Избери/);
   });
 });
+
+describe('„ти“ voice guard (spec 028 QA)', () => {
+  it('AC5: catches every „Ваш…“ form, new imperatives and modal verbs', () => {
+    for (const text of [
+      'Вашите плодове',
+      'Вашето място',
+      'Вашият избор',
+      'Можете да ги замразите',
+      'Опитайте с лимон',
+      'Поливайте редовно',
+      'ако искате',
+      'ако имате градина',
+      'за да ги купите',
+    ]) {
+      expect(formalFormsInText(text), text).not.toEqual([]);
+    }
+  });
+
+  it('AC5: does not flag plural nouns such as „купите“ (heaps)', () => {
+    expect(formalFormsInText('Сложи купите компост до лехите.')).toEqual([]);
+  });
+
+  it('AC5: skips only the quoted name of a source, not other text beside a url', () => {
+    expect(
+      ownStrings({ name: 'Купете фиданки', url: 'https://example.bg', note: 'Изберете' }),
+    ).toEqual(['Изберете']);
+  });
+});

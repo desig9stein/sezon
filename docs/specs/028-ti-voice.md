@@ -69,6 +69,10 @@ No change.
 3. **AC3:** Given `docs/CONTENT-GUIDE.md`, then it has a voice section that names the „ти“ form and
    gives a formal → informal example.
 4. **AC4:** Given the built site, the existing title and description length tests still pass.
+5. **AC5:** Given the voice guard, then it flags every „Ваш…“ form, any word ending in „-йте“ or
+   „-жте“, the modal verbs „можете“, „искате“, „имате“ and the phrase „да (ги) купите“; it does
+   not flag the plural noun „купите“; and it skips only the `name` of a source object with a
+   `url`.
 
 ## 9. Test plan
 
@@ -77,6 +81,7 @@ No change.
 | AC1 | unit      | `tests/unit/content/voice.test.ts`          |
 | AC2 | unit      | `tests/unit/content/voice.test.ts`          |
 | AC3 | unit      | `tests/unit/content/voice.test.ts`          |
+| AC5 | unit      | `tests/unit/content/voice.test.ts`          |
 | AC4 | unit, e2e | existing SEO tests (`tests/unit/i18n`, e2e) |
 
 ## 10. Third-party documentation consulted
