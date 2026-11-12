@@ -41,9 +41,18 @@ its page shows „Данните очакват редакторска пров�
 
 ### How to check the open items
 
-- **Seasons by month:** compare the `season` levels with a Bulgarian source (e.g. the Ministry of
-  Agriculture's agrarian reports, regional market bulletins or a specialised publication). Add the
-  source to the produce or note it here.
+- **Seasons by month:** no official monthly calendar per produce was found (search of 2026-11-12):
+  - the МЗХ „Агростатистика“ surveys give yearly areas and yields, not months;
+  - the МЗХ market situation reports mention harvest timing only in passing (e.g. „Ситуация на
+    пазара на пресни плодове и зеленчуци – юни 2024“: open-field cabbage harvest „в ранна фаза“ in
+    June);
+  - SAPI price reports are paid and not public;
+  - the research institutes publish variety studies without harvest months that can be cited.
+
+  The levels therefore stay editorial, as the methodology page says. The reviewer confirms each
+  produce's levels from their own knowledge of Bulgarian markets and gardens. Where a Bulgarian
+  source turns up, add it to the produce or note it here.
+
 - **Regions:** for the four sourced products, compare the notes with the cited МЗХ tables. For the
   others, confirm the editorial notes or remove a province you cannot support.
 - **Sign-off:** when every item is checked, set `reviewStatus: reviewed` and `updatedAt` in the
