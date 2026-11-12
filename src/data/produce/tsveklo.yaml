@@ -46,7 +46,7 @@ storage: Отрежи листата и пази корените в хлади�
 faq:
   - question: Защо урината почервенява след цвекло?
     answer: Това е безвреден ефект от пигмента бетанин и се наблюдава при част от хората.
-updatedAt: 2026-11-10
+updatedAt: 2026-11-12
 photo:
   src: ../../assets/produce/tsveklo.jpg
   alt: 'Глави червено цвекло с розово-червени стебла, вързани със син ластик, върху дървена маса'
@@ -74,7 +74,5 @@ growing:
       url: https://agrozona.bg/prez-yuli-kasnoto-zele-i-chervenoto-tsveklo-otivat-v-gradinata/
     - name: 'Български фермер – Салатното цвекло – полезно и много лесно за отглеждане'
       url: https://www.bgfermer.bg/Article/22618583
-    - name: 'Gradinata.bg – Цвеклото капризничи до образуване на листата'
-      url: https://www.gradinata.bg/index.php?page=article&article_id=824
     - name: 'Български фермер – Късна сеитба на салатно цвекло'
       url: https://www.bgfermer.bg/Article/23307042
