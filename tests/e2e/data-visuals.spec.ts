@@ -10,7 +10,7 @@ test.describe('data visuals (spec 026)', () => {
   }) => {
     await page.goto(PAGE);
     const regions = page.locator('section:has(> h3#regions)');
-    await expect(regions.locator('ul + figure.province-map svg[role="img"]')).toHaveCount(1);
+    await expect(regions.locator('ul + figure.province-map svg[role="group"]')).toHaveCount(1);
     await expect(
       page.locator('section:has(> h3#season)').getByRole('list', { name: 'В градината' }),
     ).toHaveCount(1);

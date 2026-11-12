@@ -26,6 +26,7 @@ import { BrokenReferenceError } from '@shared/domain/errors';
 import { IndexedRepository } from '@shared/infrastructure/IndexedRepository';
 import { findBrokenReferences, type ContentRecords } from './contentIntegrity';
 import { ProduceDetailsQuery } from './ProduceDetailsQuery';
+import { RegionPagesQuery } from './RegionPagesQuery';
 
 interface Content {
   readonly produce: ReadonlyArray<Produce>;
@@ -99,6 +100,13 @@ export const produceDetailsQuery = new ProduceDetailsQuery({
   groups: produceGroupRepository,
   nutrients: nutrientRepository,
   regions: regionRepository,
+  farms: farmRepository,
+});
+
+/** Read model for the region overview and region pages. */
+export const regionPagesQuery = new RegionPagesQuery({
+  regions: regionRepository,
+  produce: produceRepository,
   farms: farmRepository,
 });
 

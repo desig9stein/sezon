@@ -91,6 +91,14 @@ main:focus {
   outline: none;
 }
 
+/* A page-level section heading with a rule under it (catalogue and region pages). */
+.section-heading {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-1);
+  border-bottom: 2px solid var(--color-text);
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

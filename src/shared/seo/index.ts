@@ -8,6 +8,7 @@ export {
 } from './pageMeta';
 export type { OgType, PageMeta, PageMetaInput } from './pageMeta';
 export {
+  administrativeAreaJsonLd,
   articleJsonLd,
   breadcrumbListJsonLd,
   collectionPageJsonLd,
@@ -17,6 +18,7 @@ export {
   websiteJsonLd,
 } from './jsonLd';
 export type {
+  AdministrativeAreaJsonLdInput,
   ArticleJsonLdInput,
   BreadcrumbItem,
   CollectionPageJsonLdInput,

@@ -92,3 +92,8 @@ export class ProduceGroupNotFoundError extends DomainError {
 export class InvalidFarmError extends DomainError {
   readonly code = 'INVALID_FARM';
 }
+
+/** Thrown when no region has the requested slug. */
+export class RegionNotFoundError extends DomainError {
+  readonly code = 'REGION_NOT_FOUND';
+}
