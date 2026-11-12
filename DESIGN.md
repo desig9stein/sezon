@@ -303,7 +303,7 @@ Both are self-hosted through the Astro Fonts API (`fontProviders.local()`) as WO
 - **Reading width:** 42rem for prose, ledes, the home intro, search and the footer disclaimer. Tables, calendars and the in-season list opt out.
 - **Spacing rhythm:** a rem scale of steps 1, 2, 3, 4, 6, 8, 12, 16 (0.25–4rem). Within a block 0.25–0.75rem; between sections 1.5–2rem; before group headings, the month pager and the home links 3rem; before the footer 4rem.
 - **Home (`/`):** a compact two-line `h1` (margins 0.75rem above, 0.5rem below), then the in-season list „Всичко в сезон (N)“, the legend, the muted intro, the coming-soon index rows with year strips, and a wrapping row of links (this month, next month, calendar). No photos and no hero ribbon: the list starts on the first screen.
-- **Month pages (`/sezon/<месец>`):** `h1`, the in-season list „В сезон през <месец> (N)“, the legend, coming-soon rows with year strips, then the month pager.
+- **Month pages (`/sezon/<месец>`):** `h1`, the in-season list „В сезон през <месец> (N)“, the legend, the „what changes“ block, coming-soon rows with year strips, then the month pager.
 - **In-season list:** a 2px `text` rule on top, then rows on 1px `rule` hairlines with 0.25rem block padding. Each row is a grid `minmax(0, 1fr) auto 7rem` with a 0.75rem column gap: name, year strip, stamp (end-aligned in a fixed 7rem column so stamps line up), then the meta line (Latin name · kind) across the full row. Below 23rem the row becomes two columns: name and stamp on line 1, meta and strip on line 2. From 48rem the rows flow into two columns with a 2rem gap.
 - **Grids:** produce plates (section and group pages) use `auto-fill, minmax(min(100%, 20rem), 1fr)` with a 1rem gap; farm cards the same at 18rem. Index lists are one column, two from 40rem. The footer's month links are 3, 4, 6 or 12 equal columns (see Components).
 - **Produce calendar:** 12 columns, 6 under 60rem, 4 under 40rem, 2px gaps.
@@ -349,6 +349,10 @@ A produce's year as an inline SVG, 133×16px, of 12 cells (8×12px, 11px step), 
 ### In-season list
 
 `SeasonList`: everything in season in one month, peak first, then available, then storage, under an `h2` with the count. Each row is a list item: the produce name as a link (body size, 700, `text`, at least 24px tall), the year strip, the stamp, and a muted `sm` meta line with the Latin name in italic and the kind. Layout in the Layout section. An empty month shows the plain empty text instead.
+
+### What changes this month (spec 027)
+
+On month pages after the legend: a 2px `text` rule, the `h2` „Какво се променя през <месец>“, then `h3` groups in an auto-fit grid (min 14rem, one column on phones): „Навлизат в разгара си“, „Още са в разгара си“, „Отминава им разгарът, …“ (one group per level now: още са в сезон, вече от хранилище, вече извън сезона), „Вече от хранилище“ and „В градината“. Groups without details are one wrapping line of 700-weight `text` links (at least 1.5rem tall); garden items are rows on 1px `rule` hairlines with the activities in `text-muted` after a dash. Empty groups, and an empty block, are not rendered. Everything comes from the season and growing data.
 
 ### Season legend
 

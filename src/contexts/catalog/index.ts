@@ -39,6 +39,8 @@ export type {
   ProduceGroupRepository,
   ProduceRepository,
 } from './domain/repositories';
+export { MonthChangesService } from './application/MonthChangesService';
+export type { GardenJob, LeavingPeak, MonthChanges } from './application/MonthChangesService';
 export { SeasonOverviewService } from './application/SeasonOverviewService';
 export type { SeasonOverview } from './application/SeasonOverviewService';
 export { NutrientRankingService } from './application/NutrientRankingService';

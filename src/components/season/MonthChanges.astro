@@ -1,0 +1,146 @@
+---
+import { routes } from '@components/layout/routes';
+import type { MonthChanges, Produce } from '@contexts/catalog';
+import { ui } from '@i18n/bg';
+
+/**
+ * What changed in a month compared with the previous one: produce entering, staying at and leaving
+ * its peak (split by its level now), moving from fresh to storage, and the month's garden jobs.
+ * Each non-empty group is an `h3` with a list of produce links: groups without details wrap on one
+ * line, garden jobs list their activities. Nothing is rendered when nothing changed.
+ */
+interface Props {
+  changes: MonthChanges;
+}
+
+interface Item {
+  readonly produce: Produce;
+  readonly detail?: string;
+}
+
+interface Group {
+  readonly title: string;
+  readonly items: ReadonlyArray<Item>;
+}
+
+const HEADING_ID = 'month-changes-heading';
+/** Levels after the peak, in the order their leaving groups are shown. */
+const LEAVING_ORDER = ['available', 'storage', 'outOfSeason'] as const;
+const { changes } = Astro.props;
+const labels = ui.monthChanges;
+const plain = (items: ReadonlyArray<Produce>): ReadonlyArray<Item> =>
+  items.map((produce) => ({ produce }));
+const leavingGroups: ReadonlyArray<Group> = LEAVING_ORDER.map((level) => ({
+  title: labels.groups.leavingPeak[level],
+  items: plain(
+    changes.leavingPeak
+      .filter(({ levelNow }) => (levelNow?.value ?? 'outOfSeason') === level)
+      .map(({ produce }) => produce),
+  ),
+}));
+const groups: ReadonlyArray<Group> = [
+  { title: labels.groups.enteringPeak, items: plain(changes.enteringPeak) },
+  { title: labels.groups.stayingPeak, items: plain(changes.stayingPeak) },
+  ...leavingGroups,
+  { title: labels.groups.toStorage, items: plain(changes.toStorage) },
+  {
+    title: labels.groups.garden,
+    items: changes.garden.map(({ produce, activities }) => ({
+      produce,
+      detail: activities
+        .map((activity) => ui.produce.growingActivities[activity])
+        .join(ui.produce.garden.separator),
+    })),
+  },
+].filter((group) => group.items.length > 0);
+const hasDetails = (group: Group) => group.items.some((item) => item.detail !== undefined);
+---
+
+{!changes.isEmpty && (
+  <section class="month-changes" aria-labelledby={HEADING_ID}>
+    <h2 id={HEADING_ID}>{labels.heading(changes.month)}</h2>
+    <div class="month-changes__groups">
+      {groups.map((group) => (
+        <section class="month-changes__group">
+          <h3>{group.title}</h3>
+          <ul
+            role="list"
+            class:list={[
+              'month-changes__list',
+              { 'month-changes__list--inline': !hasDetails(group) },
+            ]}
+          >
+            {group.items.map(({ produce, detail }) => (
+              <li>
+                <a href={routes.produce(produce)}>{produce.name}</a>
+                {detail !== undefined && (
+                  <span class="month-changes__detail">
+                    {labels.detailSeparator}
+                    {detail}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .month-changes {
+    display: grid;
+    gap: var(--space-4);
+    margin-block: var(--space-8);
+    padding-top: var(--space-2);
+    border-top: 2px solid var(--color-text);
+  }
+
+  .month-changes__groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: var(--space-6);
+  }
+
+  .month-changes__group {
+    display: grid;
+    align-content: start;
+    gap: var(--space-2);
+  }
+
+  .month-changes ul {
+    display: grid;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .month-changes li {
+    padding-block: var(--space-1);
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .month-changes .month-changes__list--inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+  }
+
+  .month-changes .month-changes__list--inline li {
+    padding: 0;
+    border: 0;
+  }
+
+  .month-changes a {
+    display: inline-block;
+    min-height: 1.5rem;
+    color: var(--color-text);
+    font-weight: 700;
+  }
+
+  .month-changes__detail {
+    color: var(--color-text-muted);
+  }
+</style>

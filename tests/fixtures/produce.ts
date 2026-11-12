@@ -13,9 +13,10 @@ export interface ProduceOptions {
   readonly micronutrients?: ProduceRecord['nutrition']['micronutrients'];
   readonly photo?: ProduceRecord['photo'];
   readonly group?: ProduceRecord['group'];
+  readonly growing?: ProduceRecord['growing'];
 }
 
-/** Builds a valid {@link Produce} with the given identity, kind, season, micronutrients, photo and group. */
+/** Builds a valid {@link Produce} with the given identity, kind, season, micronutrients, photo, group and growing guide. */
 export function aProduce({
   slug,
   name,
@@ -24,6 +25,7 @@ export function aProduce({
   micronutrients,
   photo,
   group,
+  growing,
 }: ProduceOptions): Produce {
   const base = produceRecord({
     name,
@@ -34,7 +36,7 @@ export function aProduce({
   });
   const nutrition =
     micronutrients === undefined ? base.nutrition : { ...base.nutrition, micronutrients };
-  return toProduce(slug, { ...base, nutrition });
+  return toProduce(slug, { ...base, nutrition, ...(growing === undefined ? {} : { growing }) });
 }
 
 /** Returns an in-memory produce repository over `items`. */
