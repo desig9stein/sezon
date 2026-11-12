@@ -1,4 +1,5 @@
 import { calendarDayIn } from '@shared/domain/calendarDay';
+import { isHttpsUrl } from '@shared/domain/contact';
 import { InvalidFarmError } from '@shared/domain/errors';
 import { frozenList } from '@shared/domain/freeze';
 import type { ContactInfo } from './ContactInfo';
@@ -61,9 +62,15 @@ export class Farm {
   /**
    * Creates a farm.
    * @throws InvalidFarmError when the organic certificate has a blank certifier or id, or an
-   * invalid date.
+   * invalid date, or when a source is not an HTTPS URL.
    */
   static create(input: FarmInput): Farm {
+    const badSource = (input.sources ?? []).find((source) => !isHttpsUrl(source));
+    if (badSource !== undefined) {
+      throw new InvalidFarmError(
+        `Farm "${input.slug}" has a source that is not HTTPS: ${badSource}`,
+      );
+    }
     const certificate = input.organic;
     if (certificate !== undefined) {
       if (certificate.certifier.trim() === '' || certificate.certificateId.trim() === '') {

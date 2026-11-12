@@ -1,7 +1,9 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { routes } from '@components/layout/routes';
-import { sourceLabel } from '@components/produce/sourceLabel';
+import FarmContacts from '@components/farms/FarmContacts.astro';
+import FarmLabels from '@components/farms/FarmLabels.astro';
+import { sourceLabel } from '@components/farms/sourceLabel';
 import SeasonBadge from '@components/season/SeasonBadge.astro';
 import { BUILD_DATE, buildMonth } from '@composition/clock';
 import { farmPagesQuery, farmRepository } from '@composition/index';
@@ -18,7 +20,6 @@ export const getStaticPaths = (async () =>
 const page = await farmPagesQuery.forSlug(Astro.params.slug, BUILD_DATE);
 const { farm, region, certifiedOrganic } = page;
 const labels = ui.farms;
-const cardLabels = ui.produce.farms;
 const path = routes.farm(farm.slug);
 const description = labels.pageDescription(
   farm.name,
@@ -52,15 +53,10 @@ const jsonLd = [
 >
   <article class="farm-page">
     <h1>{farm.name}</h1>
-    <ul class="farm-page__meta" role="list">
-      <li>
-        <a href={routes.region(region.slug)}>{ui.regions.placeName(region.name)}</a>
-      </li>
-      {certifiedOrganic && farm.organic !== undefined && (
-        <li class="farm-page__tag">{cardLabels.organic(farm.organic.certifier)}</li>
-      )}
-      {farm.sponsored && <li class="farm-page__tag">{cardLabels.sponsored}</li>}
-    </ul>
+    <p class="farm-page__meta">
+      <a href={routes.region(region.slug)}>{ui.regions.placeName(region.name)}</a>
+      <FarmLabels farm={farm} certifiedOrganic={certifiedOrganic} />
+    </p>
     <p class="farm-page__description">{farm.description}</p>
 
     <section aria-labelledby="farm-produce">
@@ -72,7 +68,10 @@ const jsonLd = [
           const level = produce.levelIn(buildMonth);
           return (
             <li>
-              <a href={routes.produce(produce)}>{produce.name}</a>
+              <span>
+                <a href={routes.produce(produce)}>{produce.name}</a>
+                <span class="farm-produce__separator">{labels.produceSeparator}</span>
+              </span>
               {level === undefined ? (
                 <span class="farm-produce__out">{ui.produce.outOfSeason}</span>
               ) : (
@@ -88,31 +87,7 @@ const jsonLd = [
       <h2 class="section-heading" id="farm-contacts">
         {labels.contactsHeading}
       </h2>
-      <ul class="farm-page__contacts" role="list">
-        {farm.contact.website !== undefined && (
-          <li>
-            <a href={farm.contact.website} rel="noopener">
-              {cardLabels.website(farm.name)}
-            </a>
-          </li>
-        )}
-        {farm.contact.email !== undefined && (
-          <li>
-            <a href={`mailto:${farm.contact.email}`}>{cardLabels.email(farm.name)}</a>
-          </li>
-        )}
-        {farm.contact.phone !== undefined && (
-          <li>
-            <span aria-hidden="true">{cardLabels.phoneLabel}</span>{' '}
-            <a
-              href={`tel:${farm.contact.phone}`}
-              aria-label={cardLabels.phone(farm.name, farm.contact.phone)}
-            >
-              {farm.contact.phone}
-            </a>
-          </li>
-        )}
-      </ul>
+      <FarmContacts farm={farm} />
       {farm.address !== undefined && (
         <p>
           <strong>{labels.addressLabel}</strong> {farm.address}
@@ -150,16 +125,11 @@ const jsonLd = [
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2) var(--space-4);
-    margin: 0;
-    padding: 0;
-    list-style: none;
     color: var(--color-text-muted);
   }
 
-  .farm-page__tag {
-    padding-inline: var(--space-2);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
+  .farm-produce__separator {
+    color: var(--color-text-muted);
   }
 
   .farm-page__description {
@@ -191,20 +161,6 @@ const jsonLd = [
   .farm-produce__out,
   .farm-page__muted {
     color: var(--color-text-muted);
-  }
-
-  .farm-page__contacts {
-    display: grid;
-    gap: var(--space-2);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .farm-page__contacts a {
-    display: inline-flex;
-    align-items: center;
-    min-height: var(--target-min);
   }
 
   .farm-page__sources {

@@ -1,13 +1,13 @@
 ---
 import type { Farm } from '@contexts/farms';
 import type { Region } from '@contexts/geography';
+import FarmContacts from '@components/farms/FarmContacts.astro';
+import FarmLabels from '@components/farms/FarmLabels.astro';
 import { routes } from '@components/layout/routes';
-import { ui } from '@i18n/bg';
 
 /**
- * One farm as a list item: name (heading at `headingLevel`, linked to the farm page), province (linked to its page unless it
- * is `currentRegionSlug`), labels (organic with the
- * certifier when `certifiedOrganic`, sponsored), description and contact links.
+ * One farm as a list item: name (heading at `headingLevel`, linked to the farm page), province
+ * (linked to its page unless it is `currentRegionSlug`), labels, description and contact links.
  */
 interface Props {
   farm: Farm;
@@ -20,7 +20,6 @@ interface Props {
 
 const { farm, region, certifiedOrganic, headingLevel, currentRegionSlug } = Astro.props;
 const Heading = `h${headingLevel}` as const;
-const labels = ui.produce.farms;
 ---
 
 <li class="farm">
@@ -33,38 +32,10 @@ const labels = ui.produce.farms;
     ) : (
       <a href={routes.region(region.slug)}>{region.name}</a>
     )}
-    {certifiedOrganic && farm.organic !== undefined && (
-      <span class="farm__tag">{labels.organic(farm.organic.certifier)}</span>
-    )}
-    {farm.sponsored && <span class="farm__tag">{labels.sponsored}</span>}
+    <FarmLabels farm={farm} certifiedOrganic={certifiedOrganic} />
   </p>
   <p>{farm.description}</p>
-  <ul class="farm__contacts" role="list">
-    {farm.contact.website !== undefined && (
-      <li>
-        <a href={farm.contact.website} rel="noopener">
-          {labels.website(farm.name)}
-        </a>
-      </li>
-    )}
-    {farm.contact.email !== undefined && (
-      <li>
-        <a href={`mailto:${farm.contact.email}`}>{labels.email(farm.name)}</a>
-      </li>
-    )}
-    {farm.contact.phone !== undefined && (
-      <li>
-        <span aria-hidden="true">{labels.phoneLabel}</span>{' '}
-        <a
-          class="farm__phone"
-          href={`tel:${farm.contact.phone}`}
-          aria-label={labels.phone(farm.name, farm.contact.phone)}
-        >
-          {farm.contact.phone}
-        </a>
-      </li>
-    )}
-  </ul>
+  <FarmContacts farm={farm} />
 </li>
 
 <style>
@@ -83,26 +54,5 @@ const labels = ui.produce.farms;
     gap: var(--space-2);
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
-  }
-
-  .farm__tag {
-    padding: 0 var(--space-2);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-  }
-
-  .farm__contacts {
-    padding: 0;
-    list-style: none;
-  }
-
-  .farm__contacts a {
-    display: inline-flex;
-    align-items: center;
-    min-height: var(--target-min);
-  }
-
-  .farm__phone {
-    white-space: nowrap;
   }
 </style>
