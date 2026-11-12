@@ -1,0 +1,118 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { routes } from '@components/layout/routes';
+import FarmList from '@components/produce/FarmList.astro';
+import ProvinceMap from '@components/produce/ProvinceMap.astro';
+import { BUILD_DATE } from '@composition/clock';
+import { regionPagesQuery } from '@composition/index';
+import { requireSiteUrl } from '@composition/site';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { administrativeAreaJsonLd } from '@shared/seo';
+
+export const getStaticPaths = (async () =>
+  (await regionPagesQuery.pageSlugs()).map((slug) => ({
+    params: { slug },
+  }))) satisfies GetStaticPaths;
+
+const page = await regionPagesQuery.forSlug(Astro.params.slug, BUILD_DATE);
+const { region } = page;
+const labels = ui.regions;
+const path = routes.region(region.slug);
+const description = labels.pageDescription(region.name);
+const linkedRegions = (await regionPagesQuery.overview())
+  .filter((summary) => summary.hasPage)
+  .map((summary) => ({ region: summary.region, href: routes.region(summary.region.slug) }));
+const jsonLd = [
+  administrativeAreaJsonLd({
+    siteUrl: requireSiteUrl(Astro.site),
+    path,
+    name: region.name,
+    description,
+    country: labels.country,
+  }),
+];
+---
+
+<BaseLayout
+  title={labels.pageTitle(region.name)}
+  description={description}
+  path={path}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: labels.heading, path: routes.regions },
+    { name: region.name, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <h1>{region.name}</h1>
+  <p class="region__intro">{labels.pageIntro}</p>
+  <ProvinceMap
+    regions={[region]}
+    links={linkedRegions}
+    caption={labels.mapCaptionFor(region.name)}
+  />
+
+  <section aria-labelledby="region-produce">
+    <h2 id="region-produce">{labels.growsHeading}</h2>
+    {page.produce.length === 0 ? (
+      <p>{labels.noProduce}</p>
+    ) : (
+      <ul class="region__produce" role="list">
+        {page.produce.map(({ produce, note }) => (
+          <li>
+            <a href={routes.produce(produce)}>{produce.name}</a>
+            <span class="region__note">{note}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+
+  <section aria-labelledby="region-farms">
+    <h2 id="region-farms">{labels.farmsHeading}</h2>
+    {page.farms.length === 0 ? <p>{labels.noFarms}</p> : <FarmList farms={page.farms} />}
+  </section>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-block: var(--space-6) var(--space-3);
+  }
+
+  h2 {
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-1);
+    border-bottom: 2px solid var(--color-text);
+  }
+
+  .region__intro {
+    max-width: var(--reading-width);
+    margin-bottom: var(--space-4);
+  }
+
+  .region__produce {
+    display: grid;
+    max-width: var(--reading-width);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .region__produce li {
+    display: grid;
+    gap: var(--space-1);
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .region__produce a {
+    color: var(--color-text);
+    font-weight: 700;
+  }
+
+  .region__note {
+    color: var(--color-text-muted);
+  }
+</style>

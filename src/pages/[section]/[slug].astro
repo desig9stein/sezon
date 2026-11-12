@@ -127,11 +127,20 @@ const jsonLd = [
         <ul>
           {details.growingRegions.map(({ region, note }) => (
             <li>
-              <strong>{region.name}</strong> – {note}
+              <a href={routes.region(region.slug)}>
+                <strong>{region.name}</strong>
+              </a>{' '}
+              – {note}
             </li>
           ))}
         </ul>
-        <ProvinceMap regions={details.growingRegions.map(({ region }) => region)} />
+        <ProvinceMap
+          regions={details.growingRegions.map(({ region }) => region)}
+          links={details.growingRegions.map(({ region }) => ({
+            region,
+            href: routes.region(region.slug),
+          }))}
+        />
         <p>
           <a href="#farms">{labels.farmsLink}</a>
         </p>

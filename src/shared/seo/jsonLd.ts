@@ -182,3 +182,25 @@ export function collectionPageJsonLd(input: CollectionPageJsonLdInput): JsonLd {
     mainEntity: itemListEntity(input.name, input.items, input.siteUrl),
   };
 }
+
+/** Input for {@link administrativeAreaJsonLd}. */
+export interface AdministrativeAreaJsonLdInput {
+  readonly siteUrl: string;
+  readonly path: string;
+  readonly name: string;
+  readonly description: string;
+  /** Name of the country that contains the area. */
+  readonly country: string;
+}
+
+/** Returns schema.org `AdministrativeArea` data for a province, contained in its country. */
+export function administrativeAreaJsonLd(input: AdministrativeAreaJsonLdInput): JsonLd {
+  return {
+    '@context': SCHEMA_CONTEXT,
+    '@type': 'AdministrativeArea',
+    name: input.name,
+    description: input.description,
+    url: absoluteUrl(input.siteUrl, input.path),
+    containedInPlace: { '@type': 'Country', name: input.country },
+  };
+}

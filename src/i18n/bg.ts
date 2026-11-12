@@ -376,6 +376,35 @@ export const ui = {
     none: 'Няма резултати за „{query}“.',
     failed: 'Търсенето не може да се зареди.',
   },
+  regions: {
+    navLabel: 'Области',
+    title: 'Области на България: какво расте къде',
+    heading: 'Области',
+    description:
+      'Кои плодове и зеленчуци растат най-добре във всяка от 28-те области на България и кои местни ферми има в тях.',
+    intro:
+      'Избери област на картата или в списъка, за да видиш какво расте там и кои местни ферми има.',
+    mapCaption: 'Оцветени са областите, за които вече има данни.',
+    listHeading: 'Всички области',
+    noData: 'Още няма данни',
+    counts: (produce: number, farms: number) =>
+      [
+        produce === 0 ? undefined : produce === 1 ? '1 продукт' : `${produce} продукта`,
+        farms === 0 ? undefined : farms === 1 ? '1 ферма' : `${farms} ферми`,
+      ]
+        .filter((part) => part !== undefined)
+        .join(' · '),
+    pageTitle: (name: string) => `${name}: какво расте и местни ферми`,
+    pageDescription: (name: string) =>
+      `Какво се отглежда в ${name}: плодове, зеленчуци, подправки и ядки по сезони, и кои местни ферми от областта ги продават.`,
+    pageIntro: 'Какво расте тук и кои местни ферми има в областта.',
+    mapCaptionFor: (name: string) => `Оцветена е областта ${name}.`,
+    growsHeading: 'Какво расте тук',
+    noProduce: 'Все още няма продукти, свързани с тази област.',
+    farmsHeading: 'Местни ферми',
+    noFarms: 'Все още няма добавени ферми от тази област.',
+    country: 'България',
+  },
   catalog: {
     title: 'Каталог: плодове, зеленчуци, подправки и ядки',
     heading: 'Каталог',
@@ -386,6 +415,7 @@ export const ui = {
     sectionsHeading: 'Раздели',
     groupsHeading: 'Ботанически семейства',
     nutrientsHeading: 'Хранителни вещества',
+    regionsLink: 'Какво расте във всяка от 28-те области',
     count: (count: number) => (count === 1 ? '1 продукт' : `${count} продукта`),
   },
   calendar: {

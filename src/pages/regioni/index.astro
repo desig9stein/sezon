@@ -1,0 +1,109 @@
+---
+import { routes } from '@components/layout/routes';
+import ProvinceMap from '@components/produce/ProvinceMap.astro';
+import { regionPagesQuery } from '@composition/index';
+import { requireSiteUrl } from '@composition/site';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { collectionPageJsonLd } from '@shared/seo';
+
+const labels = ui.regions;
+const path = routes.regions;
+const overview = await regionPagesQuery.overview();
+const withPages = overview.filter((summary) => summary.hasPage).map(({ region }) => region);
+const jsonLd = [
+  collectionPageJsonLd({
+    siteUrl: requireSiteUrl(Astro.site),
+    path,
+    name: labels.heading,
+    description: labels.description,
+    items: withPages.map((region) => ({ name: region.name, path: routes.region(region.slug) })),
+  }),
+];
+---
+
+<BaseLayout
+  title={labels.title}
+  description={labels.description}
+  path={path}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: labels.heading, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <h1>{labels.heading}</h1>
+  <p class="regions__intro">{labels.intro}</p>
+  <ProvinceMap
+    regions={withPages}
+    links={withPages.map((region) => ({ region, href: routes.region(region.slug) }))}
+    caption={labels.mapCaption}
+  />
+  <section aria-labelledby="regions-list">
+    <h2 id="regions-list">{labels.listHeading}</h2>
+    <ul class="regions__list" role="list">
+      {overview.map(({ region, produceCount, farmCount, hasPage }) => (
+        <li>
+          {hasPage ? (
+            <a href={routes.region(region.slug)}>{region.name}</a>
+          ) : (
+            <span class="regions__name">{region.name}</span>
+          )}
+          <span class="regions__counts">
+            {hasPage ? labels.counts(produceCount, farmCount) : labels.noData}
+          </span>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-block: var(--space-6) var(--space-3);
+  }
+
+  h2 {
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-1);
+    border-bottom: 2px solid var(--color-text);
+  }
+
+  .regions__intro {
+    max-width: var(--reading-width);
+    margin-bottom: var(--space-4);
+  }
+
+  .regions__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    gap: 0 var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .regions__list li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0 var(--space-3);
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .regions__list a,
+  .regions__name {
+    font-weight: 700;
+  }
+
+  .regions__name {
+    color: var(--color-text-muted);
+  }
+
+  .regions__counts {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+</style>

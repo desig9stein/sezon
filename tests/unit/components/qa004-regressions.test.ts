@@ -60,6 +60,8 @@ describe('QA 004 regressions', () => {
       'nutrient',
       'produce',
       'produceSection',
+      'region',
+      'regions',
       'search',
       'section',
     ]);

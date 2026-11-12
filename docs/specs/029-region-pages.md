@@ -35,7 +35,8 @@ a clickable map, and links to the province pages from produce pages and farm car
 - **`ProvinceMap`:** takes the province hrefs. A province with an href is a keyboard-focusable
   link with the province name as its accessible name; the rest are decorative. Marked provinces
   are filled with the accent colour and a hatch pattern, so they are not shown by colour alone.
-- **Links:** produce page growing regions and farm cards link to the province page. The catalogue
+- **Links:** produce page growing regions (in the list and on its map, whose role becomes
+  `group`) and farm cards link to the province page. The catalogue
   page (`/katalog`) gets a „Области“ section, and `/regioni` counts as part of the catalogue in the
   header.
 - **Structured data:** region pages carry `AdministrativeArea` with `containedInPlace` Bulgaria;

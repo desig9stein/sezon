@@ -6,37 +6,58 @@ import { BrokenReferenceError } from '@shared/domain/errors';
 import provinceMap from '../../assets/map/provinces.json';
 
 /**
- * Map of Bulgaria's 28 provinces as an inline SVG, with `regions` filled in the accent colour and
- * the rest in the rule colour, borders in the border colour, and a caption that describes the
- * map and credits Natural Earth. The SVG has a title and a
- * text alternative naming the marked regions, and keeps its size without CSS.
- * @throws BrokenReferenceError when a region has no province on the map.
+ * Map of Bulgaria's 28 provinces as an inline SVG. `regions` are marked with the accent colour and
+ * a hatch pattern, the rest use the rule colour, with borders in the border colour. Provinces in
+ * `links` are links named after the province; with links the SVG is a named group and the other
+ * provinces are hidden from assistive technology, without links it is an image. The caption
+ * describes the map (`caption`, or the produce page's default) and credits Natural Earth. The SVG
+ * keeps its size without CSS.
+ * @throws BrokenReferenceError when a marked or linked region has no province on the map.
  */
+interface ProvinceLink {
+  readonly region: Region;
+  readonly href: string;
+}
+
 interface Props {
   regions: ReadonlyArray<Region>;
+  links?: ReadonlyArray<ProvinceLink>;
+  caption?: string;
 }
 
 /** Rendered width without CSS; the height follows the viewBox ratio. */
 const WIDTH = 320;
 const STROKE_WIDTH = 1;
 const TITLE_ID = 'province-map-title';
+const HATCH_ID = 'province-map-hatch';
+const HATCH_SIZE = 6;
+const HATCH_LINE_WIDTH = 1.5;
+const HATCH_ANGLE = 45;
 const [, , viewBoxWidth = 1, viewBoxHeight = 0] = provinceMap.viewBox.split(' ').map(Number);
 const HEIGHT = Math.round((WIDTH * viewBoxHeight) / viewBoxWidth);
 const ink = palettes.light;
 const paths: Readonly<Record<string, string>> = provinceMap.provinces;
 
-const { regions } = Astro.props;
+const { regions, links = [], caption } = Astro.props;
 const marked = new Set(regions.map((region) => region.slug));
-for (const slug of marked) {
+const linkBySlug = new Map(links.map((link) => [link.region.slug, link]));
+for (const slug of [...marked, ...linkBySlug.keys()]) {
   if (paths[slug] === undefined) throw new BrokenReferenceError(`No province on the map: ${slug}`);
 }
+const isLinked = linkBySlug.size > 0;
 const label = ui.produce.map.label(regions.map((region) => region.name));
 const labels = ui.produce.map;
+const provinces = Object.entries(paths).map(([slug, d]) => ({
+  slug,
+  d,
+  isMarked: marked.has(slug),
+  link: linkBySlug.get(slug),
+}));
 ---
 
 <figure class="province-map">
   <svg
-    role="img"
+    role={isLinked ? 'group' : 'img'}
     aria-labelledby={TITLE_ID}
     width={WIDTH}
     height={HEIGHT}
@@ -46,18 +67,54 @@ const labels = ui.produce.map;
     stroke-linejoin="round"
   >
     <title id={TITLE_ID}>{label}</title>
-    {Object.entries(paths).map(([slug, d]) => (
-      <path
-        class="province-map__province"
-        data-region={slug}
-        data-marked={marked.has(slug) ? 'true' : 'false'}
-        fill={marked.has(slug) ? ink.accent : ink.rule}
-        d={d}
-      />
-    ))}
+    <defs>
+      <pattern
+        id={HATCH_ID}
+        width={HATCH_SIZE}
+        height={HATCH_SIZE}
+        patternUnits="userSpaceOnUse"
+        patternTransform={`rotate(${HATCH_ANGLE})`}
+      >
+        <rect
+          class="province-map__hatch-fill"
+          width={HATCH_SIZE}
+          height={HATCH_SIZE}
+          fill={ink.accent}
+          stroke="none"
+        />
+        <line
+          class="province-map__hatch-line"
+          x1="0"
+          y1="0"
+          x2="0"
+          y2={HATCH_SIZE}
+          stroke={ink.surface}
+          stroke-width={HATCH_LINE_WIDTH}
+        />
+      </pattern>
+    </defs>
+    {provinces.map(({ slug, d, isMarked, link }) => {
+      const path = (
+        <path
+          class="province-map__province"
+          data-region={slug}
+          data-marked={isMarked ? 'true' : 'false'}
+          fill={isMarked ? `url(#${HATCH_ID})` : ink.rule}
+          aria-hidden={isLinked && link === undefined ? 'true' : undefined}
+          d={d}
+        />
+      );
+      return link === undefined ? (
+        path
+      ) : (
+        <a href={link.href} aria-label={link.region.name}>
+          {path}
+        </a>
+      );
+    })}
   </svg>
   <figcaption>
-    {labels.caption}
+    {caption ?? labels.caption}
     {labels.creditPrefix} <a href={labels.creditUrl}>{labels.creditName}</a>
     {labels.creditSuffix}
   </figcaption>
@@ -82,7 +139,29 @@ const labels = ui.produce.map;
   }
 
   .province-map__province[data-marked='true'] {
+    fill: url(#province-map-hatch);
+  }
+
+  .province-map__hatch-fill {
     fill: var(--color-accent);
+  }
+
+  .province-map__hatch-line {
+    stroke: var(--color-surface);
+  }
+
+  .province-map a:hover .province-map__province {
+    stroke: var(--color-text);
+    stroke-width: 2;
+  }
+
+  .province-map a:focus-visible {
+    outline: none;
+  }
+
+  .province-map a:focus-visible .province-map__province {
+    stroke: var(--color-focus);
+    stroke-width: 4;
   }
 
   .province-map figcaption {

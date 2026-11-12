@@ -11,6 +11,7 @@ const PRODUCE_SECTIONS: Readonly<Record<ProduceKind, string>> = {
 const GROUPS_PREFIX = '/grupi';
 const NUTRIENTS_PREFIX = '/nutrienti';
 const MONTHS_PREFIX = '/sezon';
+const REGIONS_PREFIX = '/regioni';
 
 /** Site-relative paths of all routes. */
 export const routes = {
@@ -18,6 +19,8 @@ export const routes = {
   catalog: '/katalog',
   calendar: '/kalendar',
   search: '/tarsene',
+  regions: REGIONS_PREFIX,
+  region: (slug: string) => `${REGIONS_PREFIX}/${slug}`,
   month: (month: Month) => `${MONTHS_PREFIX}/${month.slug}`,
   group: (slug: string) => `${GROUPS_PREFIX}/${slug}`,
   nutrient: (slug: string) => `${NUTRIENTS_PREFIX}/${slug}`,
@@ -32,6 +35,7 @@ export const CATALOG_AREAS: ReadonlyArray<string> = [
   ...Object.values(PRODUCE_SECTIONS).map((section) => `/${section}`),
   GROUPS_PREFIX,
   NUTRIENTS_PREFIX,
+  REGIONS_PREFIX,
 ];
 
 /** Path prefixes of the pages the main navigation counts as part of the calendar. */
