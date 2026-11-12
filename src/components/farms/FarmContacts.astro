@@ -1,0 +1,60 @@
+---
+import type { Farm } from '@contexts/farms';
+import { ui } from '@i18n/bg';
+
+/**
+ * A farm's contact links as a list: website, email and phone, whichever the farm has. Each link's
+ * accessible name includes the farm name; the phone number does not wrap.
+ */
+interface Props {
+  farm: Farm;
+}
+
+const { farm } = Astro.props;
+const labels = ui.produce.farms;
+---
+
+<ul class="farm-contacts" role="list">
+  {farm.contact.website !== undefined && (
+    <li>
+      <a href={farm.contact.website} rel="noopener">
+        {labels.website(farm.name)}
+      </a>
+    </li>
+  )}
+  {farm.contact.email !== undefined && (
+    <li>
+      <a href={`mailto:${farm.contact.email}`}>{labels.email(farm.name)}</a>
+    </li>
+  )}
+  {farm.contact.phone !== undefined && (
+    <li>
+      <span aria-hidden="true">{labels.phoneLabel}</span>{' '}
+      <a
+        class="farm-contacts__phone"
+        href={`tel:${farm.contact.phone}`}
+        aria-label={labels.phone(farm.name, farm.contact.phone)}
+      >
+        {farm.contact.phone}
+      </a>
+    </li>
+  )}
+</ul>
+
+<style>
+  .farm-contacts {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .farm-contacts a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+  }
+
+  .farm-contacts__phone {
+    white-space: nowrap;
+  }
+</style>

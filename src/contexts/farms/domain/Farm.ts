@@ -1,4 +1,5 @@
 import { calendarDayIn } from '@shared/domain/calendarDay';
+import { isHttpsUrl } from '@shared/domain/contact';
 import { InvalidFarmError } from '@shared/domain/errors';
 import { frozenList } from '@shared/domain/freeze';
 import type { ContactInfo } from './ContactInfo';
@@ -23,6 +24,8 @@ export interface FarmInput {
   readonly address?: string | undefined;
   readonly sponsored: boolean;
   readonly organic?: OrganicCertificate | undefined;
+  /** HTTPS URLs of the pages the farm's facts come from. */
+  readonly sources?: ReadonlyArray<string> | undefined;
 }
 
 /** A local farm that sells produce directly. */
@@ -36,6 +39,8 @@ export class Farm {
   readonly address: string | undefined;
   readonly sponsored: boolean;
   readonly organic: OrganicCertificate | undefined;
+  /** HTTPS URLs of the pages the farm's facts come from. */
+  readonly sources: ReadonlyArray<string>;
 
   private constructor(input: FarmInput) {
     this.slug = input.slug;
@@ -50,15 +55,22 @@ export class Farm {
       input.organic === undefined
         ? undefined
         : Object.freeze({ ...input.organic, validUntil: new Date(input.organic.validUntil) });
+    this.sources = frozenList(input.sources ?? []);
     Object.freeze(this);
   }
 
   /**
    * Creates a farm.
    * @throws InvalidFarmError when the organic certificate has a blank certifier or id, or an
-   * invalid date.
+   * invalid date, or when a source is not an HTTPS URL.
    */
   static create(input: FarmInput): Farm {
+    const badSource = (input.sources ?? []).find((source) => !isHttpsUrl(source));
+    if (badSource !== undefined) {
+      throw new InvalidFarmError(
+        `Farm "${input.slug}" has a source that is not HTTPS: ${badSource}`,
+      );
+    }
     const certificate = input.organic;
     if (certificate !== undefined) {
       if (certificate.certifier.trim() === '' || certificate.certificateId.trim() === '') {

@@ -16,6 +16,10 @@ module.exports = {
         'http://localhost:4323/tarsene',
         'http://localhost:4323/grupi/krastotsvetni',
         'http://localhost:4323/kalendar',
+        'http://localhost:4323/regioni',
+        'http://localhost:4323/regioni/plovdiv',
+        'http://localhost:4323/fermi',
+        'http://localhost:4323/fermi/venets',
       ],
       numberOfRuns: 3,
       settings: {

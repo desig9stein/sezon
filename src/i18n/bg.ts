@@ -31,6 +31,8 @@ const MAX_FRACTION_DIGITS = 2;
 const LIST_SEPARATOR = ', ';
 const DASH_SEPARATOR = ' – ';
 const GARDEN_LABEL = 'В градината';
+const LOCAL_FARMS = 'Местни ферми';
+const SOURCES = 'Източници';
 /** Province names that read as adjectives and need „област“ after them in running text. */
 const REGION_PLACE_NAMES: Readonly<Record<string, string>> = { Софийска: 'Софийска област' };
 /** First letters after which the preposition „в“ becomes „във“. */
@@ -41,10 +43,16 @@ function regionPlaceName(name: string): string {
   return REGION_PLACE_NAMES[name] ?? name;
 }
 
-/** Returns „В <place>“ or „Във <place>“ for a province name, capitalised for a sentence start. */
-function inRegion(name: string): string {
+/** Returns „в <place>“ or „във <place>“ for a province name, for use inside a sentence. */
+function inRegionLower(name: string): string {
   const place = regionPlaceName(name);
-  return `${VAV_LETTERS.test(place) ? 'Във' : 'В'} ${place}`;
+  return `${VAV_LETTERS.test(place) ? 'във' : 'в'} ${place}`;
+}
+
+/** Returns „В <place>“ or „Във <place>“ for a province name, for the start of a sentence. */
+function inRegion(name: string): string {
+  const phrase = inRegionLower(name);
+  return `${phrase.charAt(0).toUpperCase()}${phrase.slice(1)}`;
 }
 
 /** Returns the region page description for the counts the page shows (never both zero). */
@@ -128,17 +136,45 @@ export function produceTitle(name: string): string {
 /** Returns a nutrient name for use inside a sentence (first letter in lower case). */
 const inSentence = (name: string): string => name.charAt(0).toLowerCase() + name.slice(1);
 
+/**
+ * Returns as many of `names`, in order, as fit into `render` within the description length limit.
+ * @param render - Builds the description from a list of names.
+ */
+function namesThatFit(
+  names: ReadonlyArray<string>,
+  render: (names: ReadonlyArray<string>) => string,
+): ReadonlyArray<string> {
+  const listed: string[] = [];
+  for (const name of names) {
+    if (characterCount(render([...listed, name])) <= DESCRIPTION_MAX_LENGTH) listed.push(name);
+  }
+  return listed;
+}
+
 function monthPageDescription(month: Month, produceNames: ReadonlyArray<string>): string {
   const intro = `Какво е в сезон в България през ${monthNameLower(month)}`;
   const closing = 'Виж кое е в разгара си и кое идва скоро.';
-  const withNames = (names: ReadonlyArray<string>) => `${intro}: ${names.join(', ')}. ${closing}`;
-  const listed: string[] = [];
-  for (const name of produceNames) {
-    if (characterCount(withNames([...listed, name])) <= DESCRIPTION_MAX_LENGTH) {
-      listed.push(name);
-    }
-  }
+  const withNames = (names: ReadonlyArray<string>) =>
+    `${intro}: ${names.join(LIST_SEPARATOR)}. ${closing}`;
+  const listed = namesThatFit(produceNames, withNames);
   return listed.length === 0 ? `${intro}? ${closing}` : withNames(listed);
+}
+
+/**
+ * Returns the farm page description: the farm, its province and as many of its produce names (in
+ * lower case) as fit within the description length limit.
+ */
+function farmPageDescription(
+  name: string,
+  regionName: string,
+  produceNames: ReadonlyArray<string>,
+): string {
+  const lead = `${name} е местна ферма ${inRegionLower(regionName)}`;
+  const closing = 'Виж контактите и какво е в сезон сега.';
+  const withNames = (names: ReadonlyArray<string>) =>
+    `${lead}, която предлага ${names.join(LIST_SEPARATOR)}. ${closing}`;
+  const listed = namesThatFit(produceNames.map(inSentence), withNames);
+  return listed.length === 0 ? `${lead}. ${closing}` : withNames(listed);
 }
 
 const SECTION_NAMES: Readonly<Record<ProduceKind, string>> = {
@@ -234,12 +270,12 @@ export const ui = {
       preparation: 'Как да го приготвиш, за да запази хранителните си вещества',
       traditional: 'Традиционна употреба',
       regions: 'Откъде',
-      farms: 'Местни ферми',
+      farms: LOCAL_FARMS,
       choose: 'Как да избереш',
       storage: 'Как да съхраниш',
       growing: 'Отглеждане в градината',
       faq: 'Често задавани въпроси',
-      sources: 'Източници',
+      sources: SOURCES,
     },
     nutrition: {
       caption: 'Хранителни стойности на 100 г',
@@ -406,6 +442,23 @@ export const ui = {
     none: 'Няма резултати за „{query}“.',
     failed: 'Търсенето не може да се зареди.',
   },
+  farms: {
+    title: 'Местни ферми, които продават сезонни продукти',
+    heading: LOCAL_FARMS,
+    description:
+      'Местни ферми в България, които продават сезонни плодове, зеленчуци и ядки: какво продават, къде са и как да се свържеш с тях.',
+    intro:
+      'Ферми, които продават направо на теб. Всяка страница казва какво продават, къде са и откъде са данните.',
+    pageTitle: (name: string) => fittingTitle([`${name} – местна ферма`, name]),
+    pageDescription: farmPageDescription,
+    listHeading: (count: number) => `Всички ферми (${count})`,
+    produceHeading: 'Какво предлага',
+    produceSeparator: DASH_SEPARATOR,
+    contactsHeading: 'Контакти',
+    addressLabel: 'Адрес:',
+    sourcesHeading: SOURCES,
+    sourcesNote: 'Данните за фермата са взети от тези страници.',
+  },
   regions: {
     title: 'Области на България: какво расте къде',
     heading: 'Области',
@@ -432,7 +485,7 @@ export const ui = {
     growsHeading: 'Какво расте тук',
     noteSeparator: DASH_SEPARATOR,
     noProduce: 'Все още няма продукти, свързани с тази област.',
-    farmsHeading: 'Местни ферми',
+    farmsHeading: LOCAL_FARMS,
     noFarms: 'Все още няма добавени ферми от тази област.',
     country: 'България',
   },
@@ -446,6 +499,7 @@ export const ui = {
     sectionsHeading: 'Раздели',
     groupsHeading: 'Ботанически семейства',
     nutrientsHeading: 'Хранителни вещества',
+    farmsLink: 'Всички местни ферми',
     regionsLink: 'Какво расте във всяка от 28-те области',
     count: (count: number) => (count === 1 ? '1 продукт' : `${count} продукта`),
   },

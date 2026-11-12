@@ -1,0 +1,29 @@
+---
+import type { Farm } from '@contexts/farms';
+import { ui } from '@i18n/bg';
+
+/**
+ * A farm's outlined labels, as inline items: organic with the certifier when `certifiedOrganic`,
+ * and sponsored. Renders nothing when neither applies.
+ */
+interface Props {
+  farm: Farm;
+  certifiedOrganic: boolean;
+}
+
+const { farm, certifiedOrganic } = Astro.props;
+const labels = ui.produce.farms;
+---
+
+{certifiedOrganic && farm.organic !== undefined && (
+  <span class="farm-label">{labels.organic(farm.organic.certifier)}</span>
+)}
+{farm.sponsored && <span class="farm-label">{labels.sponsored}</span>}
+
+<style>
+  .farm-label {
+    padding: 0 var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+</style>

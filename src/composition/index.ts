@@ -26,6 +26,7 @@ import { BrokenReferenceError } from '@shared/domain/errors';
 import { IndexedRepository } from '@shared/infrastructure/IndexedRepository';
 import { findBrokenReferences, type ContentRecords } from './contentIntegrity';
 import { ProduceDetailsQuery } from './ProduceDetailsQuery';
+import { FarmPagesQuery } from './FarmPagesQuery';
 import { RegionPagesQuery } from './RegionPagesQuery';
 
 interface Content {
@@ -101,6 +102,13 @@ export const produceDetailsQuery = new ProduceDetailsQuery({
   nutrients: nutrientRepository,
   regions: regionRepository,
   farms: farmRepository,
+});
+
+/** Read model for the farm list and farm pages. */
+export const farmPagesQuery = new FarmPagesQuery({
+  farms: farmRepository,
+  regions: regionRepository,
+  produce: produceRepository,
 });
 
 /** Read model for the region overview and region pages. */

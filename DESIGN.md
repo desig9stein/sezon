@@ -383,6 +383,17 @@ Under „Откъде“ on produce pages, and on the region pages (spec 029): a
 - **Size and caption:** the SVG keeps a 320px attribute size without CSS. A muted `sm` caption says what is marked and credits Natural Earth.
 - **Print:** marked provinces are printed in ink; the rest are unfilled, with ink borders.
 
+### Farm pages (spec 030)
+
+`/fermi` shows the `h1`, an intro and „Всички ферми (N)“, with the farm cards grouped organic first when any farm is certified. A farm card's name is a link to its page. A farm page is a single reading column:
+
+- the `h1`;
+- a muted meta row: the province as a link, plus outlined `border` tags for organic (with the certifier) and sponsored;
+- the description at `lg`;
+- „Какво продава“: rows on `rule` hairlines, each a bold `text` produce link with the season stamp for the build month (or muted „Извън сезона“) at the end;
+- „Контакти“: links at least 2.75rem tall, then the address;
+- „Източници“: host plus decoded path, wrapping anywhere.
+
 ### Region pages (spec 029)
 
 `/regioni` shows the `h1`, an intro, the map with every province that has a page hatched and linked, and „Всички области“: an auto-fill grid (min 16rem) listing all 28 provinces on `rule` hairlines. Linked names are bold; provinces without data are muted, with „Още няма данни“. Counts are muted `sm`. A region page has the `h1` (the full name, e.g. „Софийска област“), the map with that province marked, then „Какво расте тук“ (bold `text` produce links, then „ – “ and the muted note) and „Местни ферми“ (farm cards). Page-level `h2`s use the shared `.section-heading` class: a 2px `text` rule under the heading, 2rem above it.
