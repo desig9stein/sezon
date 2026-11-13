@@ -1,0 +1,27 @@
+name: Рукола
+latinName: Eruca vesicaria subsp. sativa
+kind: vegetable
+group: krastotsvetni
+summary: 'Руколата е листен зеленчук с леко пикантен вкус. Сее се напролет и в началото на септември и расте само 40–60 дни.'
+season:
+  - { month: 5, level: available }
+  - { month: 6, level: available }
+  - { month: 7, level: available }
+  - { month: 10, level: available }
+nutrition:
+  energyKcal: 25
+  proteinG: 2.58
+  fatG: 0.66
+  carbohydrateG: 3.65
+  fiberG: 1.6
+  sugarsG: 2.05
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 108.6 }
+    - { nutrient: folat, amount: 97 }
+    - { nutrient: vitamin-c, amount: 15 }
+    - { nutrient: kaliy, amount: 369 }
+    - { nutrient: mangan, amount: 0.321 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Arugula, raw'
+    url: https://fdc.nal.usda.gov/food-details/169387/nutrients
+updatedAt: 2026-11-13

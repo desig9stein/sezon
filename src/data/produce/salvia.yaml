@@ -1,0 +1,19 @@
+name: Салвия
+latinName: Salvia officinalis
+kind: herb
+group: ustnotsvetni
+summary: 'Салвията (градински чай) е ароматна билка, чиито листа се берат от май и през летните месеци.'
+season:
+  - { month: 5, level: peak }
+  - { month: 6, level: peak }
+  - { month: 7, level: peak }
+  - { month: 8, level: peak }
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/salvia.jpg
+  alt: 'Сребристозелени мъхести листа салвия отблизо'
+  credit:
+    author: 'stephan de MARANTHI'
+    authorUrl: https://unsplash.com/@maranthi
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-close-up-of-a-green-plant-with-leaves-ZbxEgEaxDew

@@ -1,0 +1,10 @@
+name: Риган
+latinName: Origanum vulgare
+kind: herb
+group: ustnotsvetni
+summary: 'Риганът цъфти от юни до август и се бере по време на цъфтежа, когато ароматът му е най-силен. Расте и диво.'
+season:
+  - { month: 6, level: peak }
+  - { month: 7, level: peak }
+  - { month: 8, level: peak }
+updatedAt: 2026-11-13

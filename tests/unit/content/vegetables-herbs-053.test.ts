@@ -141,7 +141,7 @@ const ADDED: Readonly<Record<string, Added>> = {
     fdcId: '173473',
     photo: 'Wl-z9lbwkSI',
   },
-  salviya: {
+  salvia: {
     kind: 'herb',
     group: 'ustnotsvetni',
     season: months('peak', 5, 6, 7, 8),

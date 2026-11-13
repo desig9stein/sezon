@@ -49,7 +49,7 @@ sourced, and records why nine other candidates are left out.
 | `rigan`            | Риган           | Origanum vulgare                  | herb      | `ustnotsvetni`         | –               | –     |
 | `mashterka`        | Мащерка         | Thymus vulgaris                   | herb      | `ustnotsvetni`         | 173470          | yes   |
 | `rozmarin`         | Розмарин        | Salvia rosmarinus                 | herb      | `ustnotsvetni`         | 173473          | yes   |
-| `salviya`          | Салвия          | Salvia officinalis                | herb      | `ustnotsvetni`         | –               | yes   |
+| `salvia`           | Салвия          | Salvia officinalis                | herb      | `ustnotsvetni`         | –               | yes   |
 | `estragon`         | Естрагон        | Artemisia dracunculus             | herb      | `slozhnotsvetni`       | –               | –     |
 
 - **New groups:**
@@ -128,7 +128,7 @@ All pages were fetched on 2026-11-13. Quotes are verbatim.
 | `rigan`            | 6–8 peak                    | bgfermer 23331366: „Летните месеци са най-подходящи да приберем реколтата от любими билки и подправки като риган, мащерка, розмарин, салвия и други.“; bg.wikipedia „Обикновен риган“: „цъфтежът започва обикновено от началото на юни и продължава до края на август“; Български фермер „Средиземноморски подправки“ (https://www.bgfermer.bg/Article/14228661): „бере се по време на цъфтежа“                                                                                                                                                                                                     |
 | `mashterka`        | 6–8 peak                    | bgfermer 23331366 (above).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | `rozmarin`         | 6–8 peak                    | bgfermer 23331366 (above).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| `salviya`          | 5–8 peak                    | bgfermer 23331366 (above); Български фермер „Билките през май“ (https://www.bgfermer.bg/Article/1974861): „През този красив месец … се берат листата на маточината, на градинския чай …“                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `salvia`           | 5–8 peak                    | bgfermer 23331366 (above); Български фермер „Билките през май“ (https://www.bgfermer.bg/Article/1974861): „През този красив месец … се берат листата на маточината, на градинския чай …“                                                                                                                                                                                                                                                                                                                                                                                                            |
 | `estragon`         | 6–8 peak                    | Български фермер „Засадете естрагон - ценна подправка е“ (https://www.bgfermer.bg/Article/5893744): „През лятото трябва неколкократно да отрязвате стъблата и листата, и да ги сушите на сянка.“                                                                                                                                                                                                                                                                                                                                                                                                    |
 
 ### Nutrition
@@ -197,7 +197,7 @@ arugula, kale, spearmint, oregano and tarragon.
 | `menta`            | Shaun Meintjes      | https://unsplash.com/photos/dJ4JgX5I5y8 |
 | `mashterka`        | Compagnons          | https://unsplash.com/photos/ite5WrQaDaE |
 | `rozmarin`         | Babette Landmesser  | https://unsplash.com/photos/Wl-z9lbwkSI |
-| `salviya`          | stephan de MARANTHI | https://unsplash.com/photos/ZbxEgEaxDew |
+| `salvia`           | stephan de MARANTHI | https://unsplash.com/photos/ZbxEgEaxDew |
 
 ### Printed calendar (amends spec 043 AC11 and spec 014 AC7)
 
@@ -235,7 +235,7 @@ header row repeats on every sheet (`thead` as `table-header-group`), rows never 
    `sladak-kartof`, `sladka-tsarevitsa`, `cherveno-zele`).
 2. **AC2:** Given each new produce, then its season months and levels equal section 5's table.
 3. **AC3:** Given each new produce with nutrition, then it cites the FDC record of section 5 by its
-   item URL, and the produce without a raw record (`hryan`, `rigan`, `salviya`, `estragon`) have no
+   item URL, and the produce without a raw record (`hryan`, `rigan`, `salvia`, `estragon`) have no
    nutrition. (The spec 032 test checks the values against the extract.)
 4. **AC4:** Given each new produce, then it names no province and cites no gradinata.bg page.
 5. **AC5:** Given each new produce with a photo in section 5, then the photo file exists and its

@@ -1,0 +1,37 @@
+name: Алабаш
+latinName: Brassica oleracea var. gongylodes
+kind: vegetable
+group: krastotsvetni
+summary: 'Ранният алабаш се бере през юли, късният – през есента. В сандъци с пясък на хладно запазва вкуса си месеци наред.'
+season:
+  - { month: 1, level: storage }
+  - { month: 2, level: storage }
+  - { month: 3, level: storage }
+  - { month: 4, level: storage }
+  - { month: 7, level: peak }
+  - { month: 10, level: peak }
+  - { month: 11, level: peak }
+  - { month: 12, level: storage }
+nutrition:
+  energyKcal: 27
+  proteinG: 1.7
+  fatG: 0.1
+  carbohydrateG: 6.2
+  fiberG: 3.6
+  sugarsG: 2.6
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 62 }
+    - { nutrient: kaliy, amount: 350 }
+    - { nutrient: med-cu, amount: 0.129 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Kohlrabi, raw'
+    url: https://fdc.nal.usda.gov/food-details/168424/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/alabash.jpg
+  alt: 'Глави алабаш с дълги дръжки, вързани на сноп върху тъмна маса'
+  credit:
+    author: 'The Matter of Food'
+    authorUrl: https://unsplash.com/@thematteroffood
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/green-vegetable-on-blue-wooden-table-tpZOOZLYC28

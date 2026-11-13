@@ -1,0 +1,34 @@
+name: Мента
+latinName: Mentha × piperita
+kind: herb
+group: ustnotsvetni
+summary: 'Ментата е ароматна билка, която се бере през лятото – най-добре през юли и август, в началото на цъфтежа.'
+season:
+  - { month: 6, level: peak }
+  - { month: 7, level: peak }
+  - { month: 8, level: peak }
+nutrition:
+  energyKcal: 70
+  proteinG: 3.75
+  fatG: 0.94
+  carbohydrateG: 14.89
+  fiberG: 8
+  micronutrients:
+    - { nutrient: mangan, amount: 1.176 }
+    - { nutrient: folat, amount: 114 }
+    - { nutrient: vitamin-c, amount: 31.8 }
+    - { nutrient: zhelyazo, amount: 5.08 }
+    - { nutrient: med-cu, amount: 0.329 }
+    - { nutrient: kaliy, amount: 569 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Peppermint, fresh'
+    url: https://fdc.nal.usda.gov/food-details/173474/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/menta.jpg
+  alt: 'Стрък свежа мента с назъбени листа върху сив плат'
+  credit:
+    author: 'Shaun Meintjes'
+    authorUrl: https://unsplash.com/@shaunmcreatives
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/green-leaves-on-gray-textile-dJ4JgX5I5y8

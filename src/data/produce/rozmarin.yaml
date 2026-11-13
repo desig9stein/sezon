@@ -1,0 +1,34 @@
+name: Розмарин
+latinName: Salvia rosmarinus
+kind: herb
+group: ustnotsvetni
+summary: 'Розмаринът е вечнозелен храст с листа като иглички. Реколтата от него се прибира през летните месеци.'
+season:
+  - { month: 6, level: peak }
+  - { month: 7, level: peak }
+  - { month: 8, level: peak }
+nutrition:
+  energyKcal: 131
+  proteinG: 3.31
+  fatG: 5.86
+  carbohydrateG: 20.7
+  fiberG: 14.1
+  micronutrients:
+    - { nutrient: folat, amount: 109 }
+    - { nutrient: mangan, amount: 0.96 }
+    - { nutrient: zhelyazo, amount: 6.65 }
+    - { nutrient: kaliy, amount: 668 }
+    - { nutrient: med-cu, amount: 0.301 }
+    - { nutrient: vitamin-c, amount: 21.8 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Rosemary, fresh'
+    url: https://fdc.nal.usda.gov/food-details/173473/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/rozmarin.jpg
+  alt: 'Растящ розмарин с тесни игловидни листа в градина'
+  credit:
+    author: 'Babette Landmesser'
+    authorUrl: https://unsplash.com/@babettelandmesser
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/green-plant-in-close-up-photography-Wl-z9lbwkSI
