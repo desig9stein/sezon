@@ -16,7 +16,6 @@ describe('produceSchema', () => {
     ],
     ['a summary shorter than 70 characters', { summary: 'Твърде кратко.' }],
     ['a summary longer than 160 characters', { summary: 'а'.repeat(161) }],
-    ['an empty region list', { regions: [] }],
     ['an empty season', { season: [] }],
     [
       'a duplicate season month',
@@ -59,5 +58,15 @@ describe('produceSchema', () => {
   ])('AC2: rejects %s', (_label, overrides) => {
     const result = produceSchema.safeParse({ ...produceRecord(), ...overrides });
     expect(result.success).toBe(false);
+  });
+});
+
+describe('optional growing regions (spec 042)', () => {
+  it('AC1: accepts an empty region list and still rejects a duplicate region', () => {
+    expect(produceSchema.safeParse({ ...produceRecord(), regions: [] }).success).toBe(true);
+    const twice = { region: 'plovdiv', note: 'Бележка.' };
+    expect(produceSchema.safeParse({ ...produceRecord(), regions: [twice, twice] }).success).toBe(
+      false,
+    );
   });
 });
