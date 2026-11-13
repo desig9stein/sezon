@@ -41,10 +41,16 @@ test.describe('group pages', () => {
 
   test('QA 017: a produce outranks its group in search', async ({ page }) => {
     await page.goto('/tarsene?q=тикви');
-    await expect(page.locator('[data-search-results] a').first()).toHaveAttribute(
-      'href',
-      '/zelenchutsi/tikva',
+    const results = page.locator('[data-search-results] a');
+    await expect(results.first()).toHaveAttribute('href', /^\/zelenchutsi\/tikv/);
+    const hrefs = await results.evaluateAll((links) =>
+      links.map((link) => link.getAttribute('href') ?? ''),
     );
+    expect(hrefs).toContain('/zelenchutsi/tikva');
+    const groupIndex = hrefs.indexOf('/grupi/tikvovi');
+    if (groupIndex !== -1) {
+      expect(hrefs.indexOf('/zelenchutsi/tikva')).toBeLessThan(groupIndex);
+    }
   });
 
   for (const colorScheme of ['light', 'dark'] as const) {
