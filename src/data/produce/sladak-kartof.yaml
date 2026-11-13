@@ -1,0 +1,31 @@
+name: Сладък картоф
+latinName: Ipomoea batatas
+kind: vegetable
+group: povetitsovi
+summary: 'Сладкият картоф се прибира у нас от средата на септември до началото на октомври. Попари ли слана върховете, не отлагай прибирането.'
+season:
+  - { month: 9, level: peak }
+  - { month: 10, level: peak }
+nutrition:
+  energyKcal: 86
+  proteinG: 1.57
+  fatG: 0.05
+  carbohydrateG: 20.12
+  fiberG: 3
+  sugarsG: 4.18
+  micronutrients:
+    - { nutrient: vitamin-a, amount: 709 }
+    - { nutrient: kaliy, amount: 337 }
+    - { nutrient: med-cu, amount: 0.151 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Sweet potato, raw, unprepared'
+    url: https://fdc.nal.usda.gov/food-details/168482/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/sladak-kartof.jpg
+  alt: 'Купчина сладки картофи с розова кожа'
+  credit:
+    author: 'Glen Hayoge'
+    authorUrl: https://unsplash.com/@glenhayoge
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-pile-of-pink-and-yellow-sweet-potatoes-k0MigzUz-vI

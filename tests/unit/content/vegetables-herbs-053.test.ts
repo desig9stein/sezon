@@ -154,15 +154,7 @@ const ADDED: Readonly<Record<string, Added>> = {
   estragon: { kind: 'herb', group: 'slozhnotsvetni', season: months('available', 6, 7, 8) },
 };
 const SLUGS = Object.keys(ADDED);
-const LEFT_OUT = [
-  'lapad',
-  'loboda',
-  'chubritsa',
-  'devesil',
-  'sladak-kartof',
-  'sladka-tsarevitsa',
-  'cherveno-zele',
-];
+const LEFT_OUT = ['lapad', 'loboda', 'chubritsa', 'devesil', 'sladka-tsarevitsa', 'cherveno-zele'];
 const NEW_GROUPS = { zaychesyankovi: 'Asparagaceae', ustnotsvetni: 'Lamiaceae' } as const;
 const FORBIDDEN = /богат|полез|лекува|действие/i;
 

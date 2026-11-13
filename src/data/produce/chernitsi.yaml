@@ -1,0 +1,33 @@
+name: Черници
+latinName: Morus
+kind: fruit
+group: chernichevi
+summary: 'Черниците узряват от юни до август. Плодовете са нетрайни, затова ги яж скоро след беритбата.'
+season:
+  - { month: 6, level: peak }
+  - { month: 7, level: peak }
+  - { month: 8, level: peak }
+nutrition:
+  energyKcal: 43
+  proteinG: 1.44
+  fatG: 0.39
+  carbohydrateG: 9.8
+  fiberG: 1.7
+  sugarsG: 8.1
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 36.4 }
+    - { nutrient: zhelyazo, amount: 1.85 }
+    - { nutrient: vitamin-k, amount: 7.8 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Mulberries, raw'
+    url: https://fdc.nal.usda.gov/food-details/169913/nutrients
+storage: 'Черниците са нетрайни: в хладилник, неизмити, издържат 1–2 дни. Измий ги точно преди ядене.'
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/chernitsi.jpg
+  alt: 'Клонка черница с черни и червени плодчета между зелени листа'
+  credit:
+    author: 'Dmytro Bukhantsov'
+    authorUrl: https://unsplash.com/@bdv91
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-close-up-of-some-berries-oXWN5kByryQ

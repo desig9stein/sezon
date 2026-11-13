@@ -86,7 +86,8 @@ Fourteen new produce entries (twelve with `wild: true`) and five new groups.
   gatherer could confuse with the plant are named in their own `protected` caution.
 - **Test amendments:** spec 043 AC1 („nettle is left out“) and spec 053 AC1 (left-out `kopriva`,
   `gluharche`, `levurda`) were true only while the page could not show cautions; their tests now
-  check the other left-out candidates only.
+  check the other left-out candidates only. Spec 056 left out goji, haskap and purslane for this
+  spec; its test (`cultivated-056.test.ts`, AC7) no longer lists them.
 
 ### Out of scope (candidates left out)
 
