@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 import { produceSchemaWith } from '@contexts/catalog/infrastructure/schemas';
 import { testImage } from '@tests/fixtures/photos';
+import { Slug } from '@shared/domain/Slug';
 
 const DATA_DIR = join(process.cwd(), 'src', 'data');
 const PHOTO_DIR = join(process.cwd(), 'src', 'assets', 'produce');
@@ -118,7 +119,7 @@ const LEFT_OUT = [
   'momordika',
   'irga',
   'tuchenitsa',
-  'ayzberg',
+  'salata-aysberg',
   'shalot',
   'zelen-chesan',
   'cherna-ryapa',
@@ -258,5 +259,22 @@ describe('more cultivated produce (spec 056)', () => {
       return;
     }
     expect(text).toBeUndefined();
+  });
+
+  it('QA 056: left-out slugs are the slugs of their Bulgarian names', () => {
+    const names: Readonly<Record<string, string>> = {
+      'salata-aysberg': 'Салата айсберг',
+      'godzhi-beri': 'Годжи бери',
+      'tsarigradsko-grozde': 'Цариградско грозде',
+      koriandar: 'Кориандър',
+      'kamchatska-borovinka': 'Камчатска боровинка',
+    };
+    for (const [slug, name] of Object.entries(names)) {
+      expect(Slug.fromBulgarian(name).value).toBe(slug);
+    }
+  });
+
+  it('QA 056: the chickpea summary dates the Dobrich harvest to its 2018 report', () => {
+    expect(recordOf('nahut').summary).toMatch(/2018/);
   });
 });

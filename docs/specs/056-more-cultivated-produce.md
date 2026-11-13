@@ -250,7 +250,7 @@ The calendar grows from 80 to 90 produce rows. The print test of spec 053 allows
    traditional uses and no organic block, and `updatedAt` is 2026-11-13.
 7. **AC7:** Given the left-out candidates, then no produce entry has their slug: the caution list
    (`godzhi-beri`, `kamchatska-borovinka`, `fizalis`, `shafran`, `kervel`, `momordika`), the wild
-   list (`irga`, `tuchenitsa`), the variety list (`ayzberg`, `shalot`, `zelen-chesan`,
+   list (`irga`, `tuchenitsa`), the variety list (`salata-aysberg`, `shalot`, `zelen-chesan`,
    `cherna-ryapa`, `patison`, `magdanozen-koren`) and the unsourced list (`tsarigradsko-grozde`,
    `radikio`, `koriandar`, `rezene`, `mangold`, `mayorana`, `leshta`, `brukva`,
    `polska-salata`).
