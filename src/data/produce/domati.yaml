@@ -1,0 +1,81 @@
+name: Домати
+latinName: Solanum lycopersicum
+kind: vegetable
+group: kartofovi
+summary: Доматите от открити площи се берат от юли до септември. Най-много се отглеждат в Южния централен район, а през пролетта идват от оранжерии.
+varieties:
+  - name: Розово сърце
+  - name: Алено сърце
+  - name: Миляна VF
+season:
+  - { month: 6, level: available }
+  - { month: 7, level: peak }
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+regions:
+  - region: plovdiv
+    note: 'Областта е в Южния централен район, който има най-много реколтирани открити площи с домати в страната – 1 469 от 2 312 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+  - region: pazardzhik
+    note: 'Областта е в Южния централен район, който има най-много реколтирани открити площи с домати в страната – 1 469 от 2 312 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+nutrition:
+  energyKcal: 18
+  proteinG: 0.88
+  fatG: 0.2
+  carbohydrateG: 3.89
+  fiberG: 1.2
+  sugarsG: 2.63
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 13.7 }
+    - { nutrient: vitamin-a, amount: 42 }
+    - { nutrient: vitamin-k, amount: 7.9 }
+    - { nutrient: kaliy, amount: 237 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Tomatoes, red, ripe, raw, year round average'
+    url: https://fdc.nal.usda.gov/food-details/170457/nutrients
+preparation:
+  - method: Сурови
+    tip: Нарежи ги непосредствено преди ядене, за да запазят сока си и повече витамин C.
+  - method: Задушени
+    tip: Кратко задушаване губи по-малко водоразтворими витамини от дългото варене.
+traditionalUses: []
+howToChoose: Избери тежки за размера си домати с наситен цвят и гладка кора, без меки петна и пукнатини.
+storage: Пази узрелите домати на стайна температура, далеч от пряко слънце, и ги изяж до няколко дни; в хладилника губят аромат.
+faq:
+  - question: Кога са доматите от открити площи?
+    answer: От юли до септември. През пролетта доматите по пазарите идват основно от оранжерии.
+  - question: Къде се отглеждат най-много домати в България?
+    answer: В Южния централен район – 1 469 от 2 312 ха реколтирани открити площи с домати през 2025 г. по данни на МЗХ.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/domati.jpg
+  alt: 'Купчина узрели червени домати със зелени чашки, снимани отгоре отблизо'
+  credit:
+    author: 'Martins Cardoso'
+    authorUrl: https://unsplash.com/@martinscardoso_unsplash
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-pile-of-ripe-red-tomatoes-with-green-stems-DZumHRD1f1s
+growing:
+  sow: [2, 3]
+  transplant: [4, 5]
+  plant: []
+  plantingNote: 'Ранните домати сей през февруари, средноранните – през първата половина на март; разсаждай от края на април и през целия май.'
+  tips:
+    - 'Засаждай, когато почвата на 10 см дълбочина се стопли до 14–15 °C и мине опасността от късни слани.'
+    - 'Закаляй разсада около седмица навън и го засади почти на същата дълбочина, на която е бил в съда.'
+    - 'Не сади домати след картофи, пипер или патладжан; добри предшественици са грах, фасул, тикви и зеле.'
+    - 'Сложи опорните колчета още при засаждането, полей веднага, а следващата поливка направи след седмица.'
+    - 'За високостъблени сортове остави 75–80 см между редовете и 35–40 см между растенията.'
+  sources:
+    - name: 'Български фермер – Календар на сеитбите'
+      url: https://www.bgfermer.bg/Article/9378131
+    - name: 'Български фермер – Домати се засаждат през целия май'
+      url: https://www.bgfermer.bg/Article/20441010
+    - name: 'Български фермер – Засаждане на домати'
+      url: https://www.bgfermer.bg/Article/5460101
