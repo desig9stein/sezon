@@ -41,8 +41,12 @@ test.describe('province profiles (spec 038)', () => {
     const response = await page.goto('/regioni/smolyan');
     expect(response?.status()).toBe(200);
     await expect(page.getByRole('heading', { level: 2, name: HEADING })).toBeVisible();
-    await expect(page.locator('section[aria-labelledby="region-profile"]')).toContainText(
-      'сливите (47 ха)',
+    const section = page.locator('section[aria-labelledby="region-profile"]');
+    await expect(section).toContainText(`34${NBSP}777 ха (2025 г.) – двадесет и осма`);
+    await expect(section).not.toContainText('овощни');
+    await expect(section.locator('ul a')).toHaveCount(1);
+    await expect(page.locator('main .region__intro')).toHaveText(
+      'Земеделието в областта според статистиката на МЗХ.',
     );
     await expect(page.locator('main')).toContainText(
       'Все още няма продукти, свързани с тази област.',

@@ -58,3 +58,11 @@ describe('RegionPagesQuery with province profiles (spec 038)', () => {
     expect((await query.forSlug('burgas', ON)).areaRank).toBeUndefined();
   });
 });
+
+describe('RegionPagesQuery QA (spec 038)', () => {
+  it('AC8: a region with no profile, no produce and no farm has no page (spec 029 AC7)', async () => {
+    const burgas = (await query.overview()).find((summary) => summary.region.slug === 'burgas');
+    expect(burgas?.hasPage).toBe(false);
+    expect(await query.pageSlugs()).not.toContain('burgas');
+  });
+});

@@ -50,11 +50,10 @@ describe('RegionProfile (spec 038)', () => {
     ).not.toThrow();
   });
 
-  it('AC4: requires one or two top fruits in descending order of area', () => {
+  it('AC4: allows at most two top fruits in descending order of area', () => {
     const fruit = (name: string, areaHa: number) => ({ name, areaHa });
     const withFruits = (topFruits: ReadonlyArray<{ name: string; areaHa: number }>) => () =>
       RegionProfile.create(regionProfileRecord({ topFruits: [...topFruits] }));
-    expect(withFruits([])).toThrow(InvalidRegionProfileError);
     expect(withFruits([fruit('черешите', 30), fruit('сливите', 20), fruit('орехите', 10)])).toThrow(
       InvalidRegionProfileError,
     );
@@ -80,5 +79,38 @@ describe('RegionProfile (spec 038)', () => {
         regionProfileRecord({ sources: [{ name: 'МЗХ', url: 'https://www.mzh.government.bg/' }] }),
       ),
     ).not.toThrow();
+  });
+});
+
+describe('RegionProfile QA (spec 038)', () => {
+  it('AC4: a profile without top fruits is valid and has no orchard year', () => {
+    const rest = regionProfileRecord({ topFruits: undefined, orchardYear: undefined });
+    const profile = RegionProfile.create(rest);
+    expect(profile.topFruits).toEqual([]);
+    expect(profile.orchardYear).toBeUndefined();
+    expect(() => RegionProfile.create({ ...rest, topFruits: [] })).not.toThrow();
+  });
+
+  it('AC16: keeps the survey years of the figures', () => {
+    const profile = RegionProfile.create(regionProfileRecord());
+    expect(profile.areaYear).toBe(2025);
+    expect(profile.orchardYear).toBe(2023);
+  });
+
+  it.each([2025.5, 0, -2025, Number.NaN])('AC16: rejects a survey year of %s', (year) => {
+    expect(() => RegionProfile.create(regionProfileRecord({ areaYear: year }))).toThrow(
+      InvalidRegionProfileError,
+    );
+    expect(() => RegionProfile.create(regionProfileRecord({ orchardYear: year }))).toThrow(
+      InvalidRegionProfileError,
+    );
+  });
+
+  it('AC16: requires an orchard year exactly when there are top fruits', () => {
+    const withoutYear = regionProfileRecord({ orchardYear: undefined });
+    expect(() => RegionProfile.create(withoutYear)).toThrow(InvalidRegionProfileError);
+    expect(() => RegionProfile.create(regionProfileRecord({ topFruits: [] }))).toThrow(
+      InvalidRegionProfileError,
+    );
   });
 });

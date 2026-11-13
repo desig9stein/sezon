@@ -96,6 +96,8 @@ export function regionProfileRecord(
     utilisedAreaHa: 257175,
     arableHa: 195490,
     grasslandHa: 47201,
+    areaYear: 2025,
+    orchardYear: 2023,
     topFruits: [
       { name: 'черешите', areaHa: 1676 },
       { name: 'сливите', areaHa: 1551 },
