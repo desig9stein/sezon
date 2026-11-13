@@ -277,6 +277,6 @@ describe('more cultivated produce (spec 056)', () => {
   });
 
   it('QA 056: the Japanese quince summary says the fruit is not eaten raw', () => {
-    expect(recordOf('yaponska-dyulya').summary).toMatch(/не се ядат сурови/);
+    expect(recordOf('yaponska-dyulya').summary).toMatch(/не се ядат сурови/i);
   });
 });

@@ -8,7 +8,6 @@ season:
   - { month: 4, level: available }
   - { month: 5, level: available }
   - { month: 6, level: available }
-  - { month: 8, level: available }
   - { month: 9, level: available }
 nutrition:
   energyKcal: 32

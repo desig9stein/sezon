@@ -2,9 +2,10 @@ name: Нахут
 latinName: Cicer arietinum
 kind: vegetable
 group: bobovi
-summary: 'Нахутът е бобова култура: от поникване до жътва минават често около 120 дни. В Добричко през 2018 г. го жънаха в края на юли.'
+summary: 'Нахутът се сее рано напролет; от поникване до жътва минават често около 120 дни.'
 season:
   - { month: 7, level: available }
+  - { month: 8, level: available }
 nutrition:
   energyKcal: 378
   proteinG: 20.47
