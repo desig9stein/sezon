@@ -12,13 +12,21 @@ const schema = produceSchemaWith({ image: testImage });
 const ADDED = {
   kiselets: { fdcId: '170076', group: 'lapadovi', varieties: [] },
   'zelen-luk': { fdcId: '170005', group: 'amarilisovi', varieties: [] },
-  chesan: { fdcId: '169230', group: 'amarilisovi', varieties: ['Юнак', 'Зимен 14'] },
-  marulya: { fdcId: '169247', group: 'slozhnotsvetni', varieties: ['Черна маруля'] },
+  chesan: { fdcId: '169230', group: 'amarilisovi', varieties: ['Юнак'] },
+  marulya: { fdcId: '169247', group: 'slozhnotsvetni', varieties: ['Черна гюмюрджинска'] },
   repichki: { fdcId: '169276', group: 'krastotsvetni', varieties: ['Едри червени', 'Любими'] },
 } as const;
 const SLUGS = Object.keys(ADDED) as ReadonlyArray<keyof typeof ADDED>;
 const GROWING_HOSTS = /(^|\.)(bgfermer\.bg|agrozona\.bg|bg\.wikipedia\.org|government\.bg)$/;
 const FORBIDDEN = /богат|полез|лекува|действие/i;
+/** Share of the reference intake from which a micronutrient is listed (spec 043). */
+const LISTED_SHARE = 0.15;
+const MIN_LISTED = 3;
+const NOVEMBER = 11;
+const referenceIntakeOf = (nutrient: string) =>
+  (readYaml(join(DATA_DIR, 'nutrients', `${nutrient}.yaml`)) as { referenceIntake: number })
+    .referenceIntake;
+const monthsOf = (slug: string) => recordOf(slug).season.map((entry) => entry.month);
 const NEW_GROUPS = { lapadovi: 'Polygonaceae', slozhnotsvetni: 'Asteraceae' } as const;
 
 const readYaml = (path: string): unknown => parse(readFileSync(path, 'utf8'));
@@ -75,9 +83,12 @@ describe('spring greens and wild plants (spec 043)', () => {
       record.summary,
       record.howToChoose,
       record.storage,
-      ...record.preparation.map((item) => item.tip),
+      ...record.preparation.flatMap((item) => [item.method, item.tip]),
+      ...record.varieties.flatMap((variety) => (variety.note === undefined ? [] : [variety.note])),
       ...record.faq.flatMap((item) => [item.question, item.answer]),
       ...(record.growing?.tips ?? []),
+      ...(record.growing?.plantingNote === undefined ? [] : [record.growing.plantingNote]),
+      record.photo?.alt ?? '',
     ];
     for (const text of texts) expect(text, slug).not.toMatch(FORBIDDEN);
   });
@@ -100,5 +111,42 @@ describe('spring greens and wild plants (spec 043)', () => {
       ).toBe(true);
     }
     expect(readFileSync('docs/CONTENT-GUIDE.md', 'utf8')).toMatch(/nettle/i);
+  });
+
+  it.each(SLUGS)('QA 043: %s lists low micronutrients only to reach three', (slug) => {
+    const shares = recordOf(slug).nutrition.micronutrients.map(
+      ({ nutrient, amount }) => amount / referenceIntakeOf(nutrient),
+    );
+    const high = shares.filter((share) => share >= LISTED_SHARE).length;
+    if (high >= MIN_LISTED) expect(high, slug).toBe(shares.length);
+    else expect(shares.length, slug).toBeLessThanOrEqual(MIN_LISTED);
+  });
+
+  it('QA 043: garlic lists no endangered local variety', () => {
+    expect(recordOf('chesan').varieties.map((variety) => variety.name)).not.toContain('Зимен 14');
+  });
+
+  it('QA 043: the romaine photo is a romaine photo', () => {
+    expect(recordOf('marulya').photo?.credit.sourceUrl).toMatch(/romaine.*-sdDA-pMzW10$/);
+    expect(recordOf('marulya').photo?.alt).toMatch(/маруля/i);
+  });
+
+  it('QA 043: autumn lettuce starts in October and runs to November', () => {
+    const months = monthsOf('marulya');
+    expect(months).not.toContain(9);
+    expect(months).toContain(10);
+    expect(months).toContain(NOVEMBER);
+  });
+
+  it('QA 043: green onions start in March', () => {
+    expect(monthsOf('zelen-luk')).not.toContain(2);
+  });
+
+  it('QA 043: the garlic summary keeps bulbs through the winter', () => {
+    expect(recordOf('chesan').summary).toContain('през зимата');
+  });
+
+  it('QA 043: the sorrel photo names sorrel', () => {
+    expect(recordOf('kiselets').photo?.alt).toMatch(/^Листа киселец/);
   });
 });
