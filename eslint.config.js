@@ -30,6 +30,7 @@ const UPSTREAM_CONTEXTS = {
   catalog: ['seasonality'],
   farms: [],
   geography: [],
+  recipes: [],
   seasonality: [],
 };
 

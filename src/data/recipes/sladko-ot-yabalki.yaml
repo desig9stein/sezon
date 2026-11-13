@@ -1,0 +1,36 @@
+title: Сладко от ябълки
+summary: Ябълково сладко от равни части ябълки и захар, нарязани на кубчета или настъргани и сварени около 30 минути с малко вода.
+category: preserve
+produce: [yabalki]
+yield: от 1 кг ябълки
+prepMinutes: 20
+cookMinutes: 35
+processingMinutes: 5
+ingredients:
+  - { name: Ябълки, quantity: 1, unit: kg }
+  - { name: Захар, quantity: 1, unit: kg }
+  - { name: Вода, quantity: 250, unit: ml }
+steps:
+  - Избери ябълки от твърд сорт, измий ги, обели ги и изрежи сърцевината.
+  - Нарежи ги на малки кубчета или ги настържи на едро ренде.
+  - Сложи ябълките в тенджера, добави захарта и ги залей с водата.
+  - Остави сместа да заври, като бъркаш непрекъснато.
+  - Намали огъня и вари още около 30 минути, като не спираш да бъркаш.
+  - Напълни горещото сладко в горещи стерилизирани буркани, като оставиш 6 мм празно до ръба. Избърши ръба и затвори капаците.
+  - Вари бурканите 5 минути във вряща водна баня до 300 м надморска височина.
+safety:
+  note: 'Не намалявай захарта, защото тя пази сладкото от мухъл и дрожди, и не заливай бурканите с парафин или восък. Варенето на напълнените буркани във водна баня го няма в статията, на която е основана рецептата; то идва от NCHFP и пази сладкото от мухъл.'
+  sterilisation: 'Стерилизирай празните буркани, като ги вариш 10 минути във вряща вода до 300 м надморска височина и по 1 минута повече за всеки следващи 300 м. Напълнените буркани вари 5 минути във вряща водна баня и добавяй по 1 минута за всеки 300 м надморска височина. Ако бурканите не са стерилизирани, вари напълнените 10 минути.'
+  storage: 'Пази бурканите на хладно, тъмно и сухо място, най-добре при 10–21 °C, и ги изяж до година. Отвореното сладко дръж в хладилник и го изяж до месец. Ако по сладкото има мухъл, изхвърли целия буркан.'
+  sources:
+    - name: 'National Center for Home Food Preservation – General Information on Canning Jams, Jellies, and Marmalades'
+      url: https://nchfp.uga.edu/how/make-jam-jelly/jams-jellies-general-information/general-information-on-canning-jams-jellies-and-marmalades/
+    - name: 'National Center for Home Food Preservation – Sterilization of Empty Jars'
+      url: https://nchfp.uga.edu/how/can/general-information/sterilization-of-empty-jars/
+    - name: 'National Center for Home Food Preservation – Storing Home-Canned Jams and Jellies'
+      url: https://nchfp.uga.edu/how/make-jam-jelly/jams-jellies-general-information/storing-home-canned-jams-and-jellies/
+sources:
+  - name: 'Български фермер – Сладко за зимни дни и вечери (и не само)'
+    url: https://www.bgfermer.bg/Article/10249570
+publishedAt: 2026-11-13
+updatedAt: 2026-11-13

@@ -8,6 +8,7 @@ import {
 import { sponsorSchemaWith } from '@contexts/advertising/infrastructure/schemas';
 import { farmSchema } from '@contexts/farms/infrastructure/schemas';
 import { regionSchema } from '@contexts/geography/infrastructure/schemas';
+import { recipeSchema } from '@contexts/recipes/infrastructure/schemas';
 
 const yamlFilesIn = (directory: string) =>
   glob({ pattern: '*.yaml', base: `./src/data/${directory}` });
@@ -18,5 +19,6 @@ export const collections = {
   nutrients: defineCollection({ loader: yamlFilesIn('nutrients'), schema: nutrientSchema }),
   regions: defineCollection({ loader: yamlFilesIn('regions'), schema: regionSchema }),
   farms: defineCollection({ loader: yamlFilesIn('farms'), schema: farmSchema }),
+  recipes: defineCollection({ loader: yamlFilesIn('recipes'), schema: recipeSchema }),
   sponsors: defineCollection({ loader: yamlFilesIn('sponsors'), schema: sponsorSchemaWith }),
 };

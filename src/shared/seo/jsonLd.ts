@@ -234,6 +234,87 @@ export function localBusinessJsonLd(input: LocalBusinessJsonLdInput): JsonLd {
   };
 }
 
+const MINUTES_PER_HOUR = 60;
+const RECIPE_CUISINE = 'Bulgarian';
+
+/** A length of time in whole days and minutes. */
+export interface DurationParts {
+  readonly days?: number | undefined;
+  readonly minutes: number;
+}
+
+/**
+ * Returns an ISO 8601 duration such as `PT25M`, `PT1H5M` or `P21DT1H5M`; zero is `PT0M`.
+ * @param duration - Whole days and minutes; minutes over 59 become hours.
+ */
+export function isoDuration({ days = 0, minutes }: DurationParts): string {
+  const hours = Math.floor(minutes / MINUTES_PER_HOUR);
+  const rest = minutes % MINUTES_PER_HOUR;
+  const time = `${hours > 0 ? `${hours}H` : ''}${rest > 0 ? `${rest}M` : ''}`;
+  const date = days > 0 ? `${days}D` : '';
+  if (date === '' && time === '') return 'PT0M';
+  return `P${date}${time === '' ? '' : `T${time}`}`;
+}
+
+/** Input for {@link recipeJsonLd}. Texts are already formatted for display. */
+export interface RecipeJsonLdInput {
+  readonly siteUrl: string;
+  readonly path: string;
+  readonly name: string;
+  readonly description: string;
+  /** Category label, e.g. „компот“. */
+  readonly category: string;
+  readonly yield: string;
+  /** One formatted line per ingredient, e.g. „2,3 кг бяло зеле“. */
+  readonly ingredients: ReadonlyArray<string>;
+  readonly steps: ReadonlyArray<string>;
+  readonly prepMinutes: number;
+  readonly cookMinutes: number;
+  readonly processingMinutes: number;
+  /** Days of fermentation or maturing, counted in `totalTime`. */
+  readonly waitDays: number;
+  readonly datePublished: Date;
+  readonly dateModified: Date;
+  readonly citations: ReadonlyArray<{ readonly name: string; readonly url: string }>;
+}
+
+const isoDay = (date: Date): string => date.toISOString().slice(0, 10);
+
+/**
+ * Returns schema.org `Recipe` data: ingredients, `HowToStep` instructions, ISO 8601 times
+ * (`totalTime` adds preparation, cooking, processing and waiting) and Bulgarian cuisine.
+ */
+export function recipeJsonLd(input: RecipeJsonLdInput): JsonLd {
+  const activeMinutes = input.prepMinutes + input.cookMinutes + input.processingMinutes;
+  return {
+    '@context': SCHEMA_CONTEXT,
+    '@type': 'Recipe',
+    name: input.name,
+    description: input.description,
+    url: absoluteUrl(input.siteUrl, input.path),
+    inLanguage: CONTENT_LANGUAGE,
+    recipeCategory: input.category,
+    recipeCuisine: RECIPE_CUISINE,
+    recipeYield: input.yield,
+    recipeIngredient: [...input.ingredients],
+    recipeInstructions: input.steps.map((text, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      text,
+    })),
+    prepTime: isoDuration({ minutes: input.prepMinutes }),
+    cookTime: isoDuration({ minutes: input.cookMinutes }),
+    totalTime: isoDuration({ days: input.waitDays, minutes: activeMinutes }),
+    datePublished: isoDay(input.datePublished),
+    dateModified: isoDay(input.dateModified),
+    citation: input.citations.map((citation) => ({
+      '@type': 'CreativeWork',
+      name: citation.name,
+      url: citation.url,
+    })),
+  };
+}
+
 /** Input for {@link webPageJsonLd}. */
 export interface WebPageJsonLdInput {
   readonly siteUrl: string;

@@ -1,0 +1,37 @@
+title: Компот от сливи
+summary: Компот от сини сливи с костилките, наредени в буркани със захар и лимонена киселина, залети с вряла вода и стерилизирани.
+category: compote
+produce: [slivi]
+yield: от 500 г сини сливи
+prepMinutes: 20
+cookMinutes: 10
+processingMinutes: 25
+ingredients:
+  - { name: Сини сливи, quantity: 500, unit: g }
+  - { name: Захар, quantity: 1.5, unit: cup }
+  - { name: Лимонена киселина, quantity: 0.5, unit: tsp }
+  - { name: Вода, quantity: 2.5, unit: l }
+steps:
+  - Махни дръжките на сливите и ги измий.
+  - Набоди всяка слива с вилица от двете страни, за да не се напука.
+  - Подреди сливите в бурканите до около една трета от височината им и ги поръси със захарта и лимонената киселина.
+  - Кипни водата и я налей в бурканите, като оставиш 1,3 см празно до ръба. Избърши ръба и затвори капаците.
+  - 'Вари бурканите във вряща водна баня: 20 минути за буркани до 470 мл и 25 минути за буркани до 950 мл, до 300 м надморска височина.'
+safety:
+  note: 'Сиропът пази вкуса, цвета и формата на сливите, но не ги пази от разваляне – това прави варенето във водна баня. Времето във водна баня идва от NCHFP: статията, на която е основана рецептата, само затваря бурканите. Не опитвай компот от буркан с издут или отворен капак.'
+  sterilisation: 'Сурово пълнене, вряща водна баня. Буркани до 470 мл: 20 минути до 300 м надморска височина, 25 минути от 300 до 900 м и 30 минути от 900 до 1800 м. Буркани до 950 мл: 25, 30 и 35 минути. За по-големи буркани няма проверено време. Бурканите не е нужно да се стерилизират предварително, защото се варят 10 минути или повече.'
+  storage: 'Пази затворените буркани на чисто, хладно, тъмно и сухо място, най-добре при 10–21 °C, никога над 35 °C, и ги използвай до година. Ако буркан не се е затворил херметично, дръж го в хладилник и изяж компота до седмица.'
+  sources:
+    - name: 'National Center for Home Food Preservation – Plums-Halved or Whole'
+      url: https://nchfp.uga.edu/how/can/canning-fruits-and-fruit-products/plums-halved-or-whole/
+    - name: 'National Center for Home Food Preservation – Preparing and Using Syrups for Canning Fruit'
+      url: https://nchfp.uga.edu/how/can/canning-fruits-and-fruit-products/preparing-and-using-syrups-for-canning-fruit/
+    - name: 'National Center for Home Food Preservation – Sterilization of Empty Jars'
+      url: https://nchfp.uga.edu/how/can/general-information/sterilization-of-empty-jars/
+    - name: 'National Center for Home Food Preservation – Storing Home Canned Foods'
+      url: https://nchfp.uga.edu/how/can/general-information/storing-home-canned-foods/
+sources:
+  - name: 'Български фермер – Най-вкусните компоти за зимата'
+    url: https://www.bgfermer.bg/Article/23461966
+publishedAt: 2026-11-13
+updatedAt: 2026-11-13

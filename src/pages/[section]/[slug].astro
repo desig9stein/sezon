@@ -12,11 +12,13 @@ import ProduceNow from '@components/produce/ProduceNow.astro';
 import { produceToc } from '@components/produce/produceToc';
 import SourceList from '@components/produce/SourceList.astro';
 import TraditionalUses from '@components/produce/TraditionalUses.astro';
+import ProduceRecipes from '@components/recipes/ProduceRecipes.astro';
 import { routes } from '@components/layout/routes';
 import { BUILD_DATE, buildMonth } from '@composition/clock';
 import {
   produceDetailsQuery,
   produceRepository,
+  recipeIndexService,
   sponsorSelectionService,
 } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
@@ -37,6 +39,7 @@ const siteUrl = requireSiteUrl(Astro.site);
 const labels = ui.produce;
 const toc = produceToc(produce);
 const sponsor = await sponsorSelectionService.forPlacement('produce', BUILD_DATE);
+const recipes = await recipeIndexService.forProduce(produce.slug);
 const SHARE_IMAGE_WIDTH = 1200;
 const shareImage =
   produce.photo === undefined
@@ -160,6 +163,7 @@ const jsonLd = [
           <TraditionalUses uses={produce.traditionalUses} />
         </section>
       )}
+      <ProduceRecipes recipes={recipes} />
     </section>
 
     <AdSlot sponsor={sponsor} placement="produce" />

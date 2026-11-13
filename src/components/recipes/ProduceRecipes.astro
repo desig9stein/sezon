@@ -1,0 +1,51 @@
+---
+import type { Recipe } from '@contexts/recipes';
+import { routes } from '@components/layout/routes';
+import { ui } from '@i18n/bg';
+
+/**
+ * The „Рецепти за зимнина“ block of a produce page: a link to each recipe that uses the produce,
+ * with its category. Renders nothing when there is no recipe.
+ */
+interface Props {
+  recipes: ReadonlyArray<Recipe>;
+}
+
+const { recipes } = Astro.props;
+const labels = ui.recipes;
+---
+
+{recipes.length > 0 && (
+  <section class="produce-recipes" aria-labelledby="recipes">
+    <h3 id="recipes">{ui.produce.headings.recipes}</h3>
+    <ul>
+      {recipes.map((recipe) => (
+        <li>
+          <a href={routes.recipe(recipe.slug)}>{recipe.name}</a>
+          <span class="produce-recipes__category">
+            {labels.produceSeparator}
+            {labels.categories[recipe.category]}
+          </span>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+<style>
+  .produce-recipes {
+    display: grid;
+    gap: var(--space-3);
+    max-width: var(--reading-width);
+  }
+
+  .produce-recipes ul {
+    display: grid;
+    gap: var(--space-1);
+    padding-inline-start: var(--space-6);
+  }
+
+  .produce-recipes__category {
+    color: var(--color-text-muted);
+  }
+</style>

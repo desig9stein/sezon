@@ -13,6 +13,7 @@ const NUTRIENTS_PREFIX = '/nutrienti';
 const MONTHS_PREFIX = '/sezon';
 const REGIONS_PREFIX = '/regioni';
 const FARMS_PREFIX = '/fermi';
+const RECIPES_PREFIX = '/retsepti';
 
 /** Site-relative paths of all routes. */
 export const routes = {
@@ -28,6 +29,8 @@ export const routes = {
   farm: (slug: string) => `${FARMS_PREFIX}/${slug}`,
   regions: REGIONS_PREFIX,
   region: (slug: string) => `${REGIONS_PREFIX}/${slug}`,
+  recipes: RECIPES_PREFIX,
+  recipe: (slug: string) => `${RECIPES_PREFIX}/${slug}`,
   month: (month: Month) => `${MONTHS_PREFIX}/${month.slug}`,
   group: (slug: string) => `${GROUPS_PREFIX}/${slug}`,
   nutrient: (slug: string) => `${NUTRIENTS_PREFIX}/${slug}`,
@@ -44,6 +47,7 @@ export const CATALOG_AREAS: ReadonlyArray<string> = [
   NUTRIENTS_PREFIX,
   REGIONS_PREFIX,
   FARMS_PREFIX,
+  RECIPES_PREFIX,
 ];
 
 /** Path prefixes of the pages the main navigation counts as part of the calendar. */

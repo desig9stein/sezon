@@ -1,0 +1,100 @@
+---
+import { routes } from '@components/layout/routes';
+import { recipePagesQuery } from '@composition/index';
+import { requireSiteUrl } from '@composition/site';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { collectionPageJsonLd } from '@shared/seo';
+
+const labels = ui.recipes;
+const path = routes.recipes;
+const groups = await recipePagesQuery.overview();
+const jsonLd = [
+  collectionPageJsonLd({
+    siteUrl: requireSiteUrl(Astro.site),
+    path,
+    name: labels.heading,
+    description: labels.description,
+    items: groups.flatMap(({ recipes }) =>
+      recipes.map(({ recipe }) => ({ name: recipe.name, path: routes.recipe(recipe.slug) })),
+    ),
+  }),
+];
+---
+
+<BaseLayout
+  title={labels.title}
+  description={labels.description}
+  path={path}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: labels.heading, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <h1>{labels.heading}</h1>
+  <p class="recipes__intro">{labels.intro}</p>
+  <p class="recipes__safety">{labels.safetyIntro}</p>
+
+  {groups.map(({ category, recipes }) => (
+    <section aria-labelledby={`recipes-${category}`}>
+      <h2 class="section-heading" id={`recipes-${category}`}>
+        {labels.categoryHeadings[category]}
+      </h2>
+      <ul class="recipes__list" role="list">
+        {recipes.map(({ recipe, produce }) => (
+          <li>
+            <a class="recipes__name" href={routes.recipe(recipe.slug)}>
+              {recipe.name}
+            </a>
+            <p>{recipe.summary}</p>
+            <p class="recipes__produce">{labels.forProduce(produce.map((item) => item.name))}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-block: var(--space-6) var(--space-3);
+  }
+
+  .recipes__intro,
+  .recipes__safety {
+    max-width: var(--reading-width);
+  }
+
+  .recipes__safety {
+    margin-bottom: var(--space-6);
+    padding-inline-start: var(--space-3);
+    border-inline-start: 4px solid var(--color-text);
+  }
+
+  .recipes__list {
+    display: grid;
+    gap: var(--space-4);
+    max-width: var(--reading-width);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .recipes__list li {
+    display: grid;
+    gap: var(--space-1);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .recipes__name {
+    color: var(--color-text);
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+  }
+
+  .recipes__produce {
+    color: var(--color-text-muted);
+  }
+</style>

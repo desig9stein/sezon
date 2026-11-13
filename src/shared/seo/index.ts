@@ -13,8 +13,10 @@ export {
   breadcrumbListJsonLd,
   collectionPageJsonLd,
   faqPageJsonLd,
+  isoDuration,
   itemListJsonLd,
   localBusinessJsonLd,
+  recipeJsonLd,
   serializeJsonLd,
   webPageJsonLd,
   websiteJsonLd,
@@ -24,8 +26,10 @@ export type {
   ArticleJsonLdInput,
   BreadcrumbItem,
   CollectionPageJsonLdInput,
+  DurationParts,
   JsonLd,
   LocalBusinessJsonLdInput,
+  RecipeJsonLdInput,
   WebPageJsonLdInput,
 } from './jsonLd';
 export { robotsTxt } from './robots';
