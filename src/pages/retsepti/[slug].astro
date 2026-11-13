@@ -39,8 +39,12 @@ const jsonLd = [
 ];
 const facts = [
   { term: labels.facts.yield, value: recipe.yield },
-  { term: labels.facts.prep, value: formatDuration(recipe.prepMinutes) },
-  { term: labels.facts.cook, value: formatDuration(recipe.cookMinutes) },
+  ...(recipe.prepMinutes === undefined
+    ? []
+    : [{ term: labels.facts.prep, value: formatDuration(recipe.prepMinutes) }]),
+  ...(recipe.cookMinutes === undefined
+    ? []
+    : [{ term: labels.facts.cook, value: formatDuration(recipe.cookMinutes) }]),
   { term: labels.facts.processing, value: formatDuration(recipe.processingMinutes) },
   ...(recipe.waitDays > 0
     ? [{ term: labels.facts.wait, value: labels.facts.days(recipe.waitDays) }]
@@ -75,7 +79,7 @@ const facts = [
           </div>
         ))}
       </dl>
-      <p class="recipe__muted">{labels.facts.note}</p>
+      <p class="recipe__muted">{labels.facts.processingNote}</p>
       <p>
         {labels.produceLabel}{' '}
         {produce.map((item, index) => (
@@ -112,6 +116,12 @@ const facts = [
       <p>{recipe.safety.sterilisation}</p>
       <h3>{labels.headings.storage}</h3>
       <p>{recipe.safety.storage}</p>
+      <h3 id="water-bath">{labels.waterBath.heading}</h3>
+      <ul class="recipe__water-bath">
+        {labels.waterBath.items.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
       <p class="recipe__muted">{labels.safetySourcesLabel}</p>
       <ul class="recipe__sources">
         {recipe.safety.sources.map((source) => (
@@ -182,6 +192,7 @@ const facts = [
 
   .recipe__ingredients,
   .recipe__steps,
+  .recipe__water-bath,
   .recipe__sources {
     display: grid;
     gap: var(--space-2);

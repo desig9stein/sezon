@@ -1,10 +1,6 @@
 import type { Produce, ProduceRepository } from '@contexts/catalog';
-import type {
-  Recipe,
-  RecipeCategory,
-  RecipeIndexService,
-  RecipeRepository,
-} from '@contexts/recipes';
+import { RecipeIndexService } from '@contexts/recipes';
+import type { Recipe, RecipeCategory, RecipeRepository } from '@contexts/recipes';
 import { BrokenReferenceError, RecipeNotFoundError } from '@shared/domain/errors';
 
 /** A recipe with the produce it uses, in the recipe's order. */
@@ -19,16 +15,19 @@ export interface RecipeOverviewGroup {
   readonly recipes: ReadonlyArray<RecipeWithProduce>;
 }
 
-/** Repositories and services the query reads from. */
+/** Repositories the query reads from. */
 export interface RecipePagesSources {
   readonly recipes: RecipeRepository;
-  readonly index: RecipeIndexService;
   readonly produce: ProduceRepository;
 }
 
 /** Read model for the recipe index and the recipe pages, across recipes and catalog. */
 export class RecipePagesQuery {
-  constructor(private readonly sources: RecipePagesSources) {}
+  private readonly index: RecipeIndexService;
+
+  constructor(private readonly sources: RecipePagesSources) {
+    this.index = new RecipeIndexService(sources.recipes);
+  }
 
   /**
    * Returns the recipe with `slug` and its produce.
@@ -46,7 +45,7 @@ export class RecipePagesQuery {
    * @throws BrokenReferenceError when a recipe uses a produce that does not exist.
    */
   async overview(): Promise<ReadonlyArray<RecipeOverviewGroup>> {
-    const groups = await this.sources.index.byCategory();
+    const groups = await this.index.byCategory();
     return Object.freeze(
       await Promise.all(
         groups.map(async ({ category, recipes }) =>

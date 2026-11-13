@@ -109,7 +109,6 @@ export const recipeIndexService = new RecipeIndexService(recipeRepository);
 /** Read model for the recipe index and recipe pages. */
 export const recipePagesQuery = new RecipePagesQuery({
   recipes: recipeRepository,
-  index: recipeIndexService,
   produce: produceRepository,
 });
 

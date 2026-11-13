@@ -1,3 +1,4 @@
+import { hoursAndMinutes } from '@shared/domain/duration';
 import { InvalidPageMetaError } from '@shared/domain/errors';
 import { absoluteUrl } from './pageMeta';
 
@@ -234,7 +235,6 @@ export function localBusinessJsonLd(input: LocalBusinessJsonLdInput): JsonLd {
   };
 }
 
-const MINUTES_PER_HOUR = 60;
 const RECIPE_CUISINE = 'Bulgarian';
 
 /** A length of time in whole days and minutes. */
@@ -248,8 +248,7 @@ export interface DurationParts {
  * @param duration - Whole days and minutes; minutes over 59 become hours.
  */
 export function isoDuration({ days = 0, minutes }: DurationParts): string {
-  const hours = Math.floor(minutes / MINUTES_PER_HOUR);
-  const rest = minutes % MINUTES_PER_HOUR;
+  const { hours, minutes: rest } = hoursAndMinutes(minutes);
   const time = `${hours > 0 ? `${hours}H` : ''}${rest > 0 ? `${rest}M` : ''}`;
   const date = days > 0 ? `${days}D` : '';
   if (date === '' && time === '') return 'PT0M';
@@ -268,8 +267,10 @@ export interface RecipeJsonLdInput {
   /** One formatted line per ingredient, e.g. „2,3 кг бяло зеле“. */
   readonly ingredients: ReadonlyArray<string>;
   readonly steps: ReadonlyArray<string>;
-  readonly prepMinutes: number;
-  readonly cookMinutes: number;
+  /** Preparation minutes, when a source gives them. */
+  readonly prepMinutes?: number | undefined;
+  /** Cooking minutes, when a source gives them. */
+  readonly cookMinutes?: number | undefined;
   readonly processingMinutes: number;
   /** Days of fermentation or maturing, counted in `totalTime`. */
   readonly waitDays: number;
@@ -281,11 +282,30 @@ export interface RecipeJsonLdInput {
 const isoDay = (date: Date): string => date.toISOString().slice(0, 10);
 
 /**
- * Returns schema.org `Recipe` data: ingredients, `HowToStep` instructions, ISO 8601 times
- * (`totalTime` adds preparation, cooking, processing and waiting) and Bulgarian cuisine.
+ * Returns the ISO 8601 `prepTime`, `cookTime` and `totalTime` that the input supports: each time
+ * only when it is known, and `totalTime` (preparation, cooking, processing and waiting) only when
+ * preparation and cooking are both known.
+ */
+function recipeTimes({ prepMinutes, cookMinutes, processingMinutes, waitDays }: RecipeJsonLdInput) {
+  return {
+    ...(prepMinutes === undefined ? {} : { prepTime: isoDuration({ minutes: prepMinutes }) }),
+    ...(cookMinutes === undefined ? {} : { cookTime: isoDuration({ minutes: cookMinutes }) }),
+    ...(prepMinutes === undefined || cookMinutes === undefined
+      ? {}
+      : {
+          totalTime: isoDuration({
+            days: waitDays,
+            minutes: prepMinutes + cookMinutes + processingMinutes,
+          }),
+        }),
+  };
+}
+
+/**
+ * Returns schema.org `Recipe` data: ingredients, `HowToStep` instructions, the ISO 8601 times the
+ * sources support (see {@link recipeTimes}) and Bulgarian cuisine.
  */
 export function recipeJsonLd(input: RecipeJsonLdInput): JsonLd {
-  const activeMinutes = input.prepMinutes + input.cookMinutes + input.processingMinutes;
   return {
     '@context': SCHEMA_CONTEXT,
     '@type': 'Recipe',
@@ -302,9 +322,7 @@ export function recipeJsonLd(input: RecipeJsonLdInput): JsonLd {
       position: index + 1,
       text,
     })),
-    prepTime: isoDuration({ minutes: input.prepMinutes }),
-    cookTime: isoDuration({ minutes: input.cookMinutes }),
-    totalTime: isoDuration({ days: input.waitDays, minutes: activeMinutes }),
+    ...recipeTimes(input),
     datePublished: isoDay(input.datePublished),
     dateModified: isoDay(input.dateModified),
     citation: input.citations.map((citation) => ({

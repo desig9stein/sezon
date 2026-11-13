@@ -114,6 +114,6 @@ describe('QA 048 regressions: recipes whose safety is fully sourced', () => {
     const steps = recipe('kiselo-zele').steps.join(' ');
     expect(steps).toContain('24–48 часа след берането');
     expect(steps).toContain('поне 10–13 см над зелето');
-    expect(steps).toMatch(/Загрей бавно[^.]*свали го от огъня/);
+    expect(steps).toMatch(/Загрей бавно[^.]*свали от огъня/);
   });
 });

@@ -37,8 +37,10 @@ export interface RecipeInput {
   readonly category: RecipeCategory;
   readonly produceSlugs: ReadonlyArray<string>;
   readonly yield: string;
-  readonly prepMinutes: number;
-  readonly cookMinutes: number;
+  /** Preparation minutes, only when a source gives them. */
+  readonly prepMinutes?: number | undefined;
+  /** Cooking minutes, only when a source gives them. */
+  readonly cookMinutes?: number | undefined;
   /** Minutes in a boiling-water bath, for the largest jar at the lowest altitude band. */
   readonly processingMinutes: number;
   /** Days of fermentation or maturing before the preserve is ready. */
@@ -60,8 +62,8 @@ export class Recipe {
   readonly category: RecipeCategory;
   readonly produceSlugs: ReadonlyArray<string>;
   readonly yield: string;
-  readonly prepMinutes: number;
-  readonly cookMinutes: number;
+  readonly prepMinutes: number | undefined;
+  readonly cookMinutes: number | undefined;
   readonly processingMinutes: number;
   readonly waitDays: number;
   readonly ingredients: ReadonlyArray<Ingredient>;
@@ -109,11 +111,6 @@ export class Recipe {
     return new Recipe(input);
   }
 
-  /** Total of the preparation, cooking and processing minutes. */
-  get activeMinutes(): number {
-    return this.prepMinutes + this.cookMinutes + this.processingMinutes;
-  }
-
   /** Returns `true` when the recipe uses the produce with `produceSlug`. */
   uses(produceSlug: string): boolean {
     return this.produceSlugs.includes(produceSlug);
@@ -155,7 +152,8 @@ function findProblem(input: RecipeInput): string | undefined {
     return 'lists a produce twice';
   }
   const times = [input.prepMinutes, input.cookMinutes, input.processingMinutes, input.waitDays];
-  if (!times.every(isWholeNonNegative)) return 'has a time that is not a whole non-negative number';
+  if (!times.every((time) => time === undefined || isWholeNonNegative(time)))
+    return 'has a time that is not a whole non-negative number';
   const safety = input.safety;
   if ([safety.note, safety.sterilisation, safety.storage].some(isBlank)) {
     return 'has a blank safety, sterilisation or storage note';

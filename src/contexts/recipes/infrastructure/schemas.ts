@@ -24,8 +24,8 @@ export const recipeSchema = z
       .min(1)
       .superRefine(uniqueBy((slug) => slug, 'produce')),
     yield: singleLineText(),
-    prepMinutes: wholeCount(),
-    cookMinutes: wholeCount(),
+    prepMinutes: wholeCount().optional(),
+    cookMinutes: wholeCount().optional(),
     processingMinutes: wholeCount(),
     waitDays: wholeCount().default(0),
     ingredients: z
