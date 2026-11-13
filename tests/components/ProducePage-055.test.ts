@@ -53,7 +53,13 @@ vi.mock('@composition/index', async (importOriginal) => {
     ...actual,
     produceDetailsQuery: new ProduceDetailsQuery({
       produce: repositoryOf([
-        mapProduce('gluharche', parse(records.WILD_PRODUCE_INPUT)),
+        mapProduce(
+          'gluharche',
+          parse({
+            ...records.WILD_PRODUCE_INPUT,
+            preparation: [{ method: 'Тестов метод', tip: 'Тестов съвет за приготвяне.' }],
+          }),
+        ),
         mapProduce(
           'hryan',
           parse({
@@ -99,9 +105,11 @@ const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best
 /** Rules that need a rendering engine with layout, which happy-dom does not have. */
 const LAYOUT_RULES = ['color-contrast', 'target-size', 'scrollable-region-focusable'];
 const FOLLOWING = 4;
-const WILD_LABEL = 'Диворастящ';
+const WILD_LABEL = 'Диворастящо';
 const CAUTIONS_HEADING = 'Внимание';
 const GATHERING_NOTE_START = 'Събирай само';
+const GATHERING_NOTE =
+  'Събирай само растения, които познаваш със сигурност. Ако се съмняваш, не бери и не яж. Не събирай защитени видове и спазвай ограниченията за събиране на лечебни растения.';
 
 const PAGE = '../../src/pages/[section]/[slug].astro';
 
@@ -145,11 +153,12 @@ describe('wild produce page (spec 055)', () => {
       expect(follows(heading, wild.getElementById(id)), id).toBe(true);
     }
     const eat = wild.getElementById('eat');
-    if (eat !== null) expect(follows(heading, eat)).toBe(true);
+    expect(eat).not.toBeNull();
+    expect(follows(heading, eat)).toBe(true);
   });
 
   it('AC11: shows the gathering note and one item per caution with label, text, icon and source', () => {
-    expect(cautionsSection?.textContent).toContain(GATHERING_NOTE_START);
+    expect(cautionsSection?.querySelector('p')?.textContent?.trim()).toBe(GATHERING_NOTE);
     const items = [...(cautionsSection?.querySelectorAll('li') ?? [])];
     expect(items).toHaveLength(WILD_PRODUCE_INPUT.cautions.length);
     const [first, second] = items;
@@ -158,7 +167,7 @@ describe('wild produce page (spec 055)', () => {
     expect(first?.querySelector(`a[href="${CAUTION_SOURCE.url}"]`)?.textContent).toBe(
       CAUTION_SOURCE.name,
     );
-    expect(second?.textContent).toContain('Защитен вид');
+    expect(second?.textContent).toContain('Защита и ограничения');
     expect(second?.querySelector(`a[href="${SECOND_CAUTION_SOURCE.url}"]`)).not.toBeNull();
     for (const item of items) {
       const icon = item.querySelector('svg');
@@ -166,6 +175,14 @@ describe('wild produce page (spec 055)', () => {
       expect(icon?.getAttribute('width')).toBe('16');
       expect(icon?.getAttribute('height')).toBe('16');
     }
+  });
+
+  it('AC11 (QA 055): the heading, the note and the cautions sit inside one callout', () => {
+    const callout = wild.getElementById('cautions')?.closest('.cautions');
+    expect(callout).not.toBeNull();
+    expect(callout?.querySelector('h3#cautions')).not.toBeNull();
+    expect(callout?.querySelector('p')?.textContent?.trim()).toBe(GATHERING_NOTE);
+    expect(callout?.querySelectorAll('li')).toHaveLength(WILD_PRODUCE_INPUT.cautions.length);
   });
 
   it('AC11: lists the caution sources in „Източници“', () => {
@@ -186,7 +203,7 @@ describe('wild produce page (spec 055)', () => {
     const targets = [...wild.querySelectorAll('.produce__toc a')].map((link) =>
       (link.getAttribute('href') ?? '').slice(1),
     );
-    expect(targets).toEqual(['stall', 'cautions', 'farms', 'sources']);
+    expect(targets).toEqual(['stall', 'cautions', 'eat', 'farms', 'sources']);
     for (const id of targets) expect(wild.getElementById(id), id).not.toBeNull();
   });
 
@@ -215,7 +232,7 @@ describe('wild produce page (spec 055)', () => {
     await window.happyDOM.close();
   });
 
-  it('AC13: shows „Диворастящ“ in the header meta', () => {
+  it('AC13: shows „Диворастящо“ in the header meta', () => {
     const meta = wild.querySelector('.produce__meta');
     expect(
       [...(meta?.querySelectorAll('li') ?? [])].map((item) => item.textContent?.trim()),
@@ -260,12 +277,12 @@ describe('produce lists with a wild produce (spec 055)', () => {
   const gluharche = toProduce('gluharche', schema.parse(WILD_PRODUCE_INPUT));
   const hryan = toProduce('hryan', schema.parse(MINIMAL_PRODUCE_INPUT));
 
-  it.each(['plate', 'index'] as const)('AC15: the %s card shows „Диворастящ“', async (variant) => {
+  it.each(['plate', 'index'] as const)('AC15: the %s card shows „Диворастящо“', async (variant) => {
     expect(await render(ProduceCard, { produce: gluharche, variant })).toContain(WILD_LABEL);
     expect(await render(ProduceCard, { produce: hryan, variant })).not.toContain(WILD_LABEL);
   });
 
-  it('AC15: the season list row shows „Диворастящ“ only for the wild produce', async () => {
+  it('AC15: the season list row shows „Диворастящо“ only for the wild produce', async () => {
     const overview = await new SeasonOverviewService(
       produceRepositoryOf([gluharche, hryan]),
     ).overviewFor(Month.of(11));

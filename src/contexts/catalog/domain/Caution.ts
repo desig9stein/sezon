@@ -1,8 +1,12 @@
 import type { Source } from './Source';
 
 /**
- * Kinds of caution a produce page can show: toxic look-alikes, a toxic part or one that must be
- * cooked, an allergy, a protected species or gathering restriction, and a required preparation.
+ * Kinds of caution a produce page can show: toxic look-alikes (`look-alike`), a toxic part or one
+ * that must be cooked (`toxic-part`), an allergy (`allergy`), protection and gathering restrictions
+ * (`protected`: a species that may be gathered only under restrictions, under the Medicinal Plants
+ * Act, Annex 4 of the Biological Diversity Act or a yearly ministry order, or a cultivated produce
+ * whose wild form is protected), and a required preparation (`preparation`). A species that may not
+ * be gathered at all is never a produce.
  */
 export const CAUTION_KINDS = [
   'look-alike',

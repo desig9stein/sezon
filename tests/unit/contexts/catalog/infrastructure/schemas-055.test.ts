@@ -54,16 +54,26 @@ describe('wild produce and cautions schema (spec 055)', () => {
   });
 
   it.each([
-    ['an unknown kind', caution({ kind: 'poison' })],
-    ['a text under 20 characters', caution({ text: 'Кратко.' })],
-    ['a text over 200 characters', caution({ text: 'а'.repeat(201) })],
-    ['a multi-line text', caution({ text: `${VALID_TEXT}\n${VALID_TEXT}` })],
-    ['a source without a URL', caution({ source: { name: 'Източник' } })],
-    ['an http source', caution({ source: { name: 'Източник', url: 'http://example.org/a' } })],
-    ['an unknown key', caution({ severity: 'high' })],
-    ['an unknown source key', caution({ source: { ...CAUTION_SOURCE, title: 'Заглавие' } })],
-  ])('AC4: rejects a caution with %s', (_label, invalid) => {
-    expect(schema.safeParse(withCautions([invalid])).success).toBe(false);
+    ['an unknown kind', caution({ kind: 'poison' }), 'cautions.0.kind'],
+    ['a text under 20 characters', caution({ text: 'Кратко.' }), 'cautions.0.text'],
+    ['a text over 200 characters', caution({ text: 'а'.repeat(201) }), 'cautions.0.text'],
+    ['a multi-line text', caution({ text: `${VALID_TEXT}\n${VALID_TEXT}` }), 'cautions.0.text'],
+    ['a source without a URL', caution({ source: { name: 'Източник' } }), 'cautions.0.source.url'],
+    [
+      'an http source',
+      caution({ source: { name: 'Източник', url: 'http://example.org/a' } }),
+      'cautions.0.source.url',
+    ],
+    ['an unknown key', caution({ severity: 'high' }), 'cautions.0'],
+    [
+      'an unknown source key',
+      caution({ source: { ...CAUTION_SOURCE, title: 'Заглавие' } }),
+      'cautions.0.source',
+    ],
+  ])('AC4: rejects a caution with %s, on its path', (_label, invalid, path) => {
+    const result = schema.safeParse(withCautions([invalid]));
+    expect(result.success).toBe(false);
+    expect(result.error?.issues.map((issue) => issue.path.join('.'))).toEqual([path]);
   });
 
   it('AC4: accepts texts of exactly 20 and 200 characters', () => {

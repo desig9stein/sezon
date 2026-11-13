@@ -16,6 +16,30 @@ describe('wild produce in the content and the guide (spec 055)', () => {
     expect(guide).toContain('Закон за лечебните растения');
   });
 
+  it('AC18 (QA 055): never adds a species that may not be gathered at all', () => {
+    expect(guide).toMatch(/never added/i);
+    expect(guide).toContain('Приложение 3');
+    expect(guide).toContain('Червена книга');
+  });
+
+  it('AC18 (QA 055): limits `protected` to gathering under restrictions, incl. a protected wild form', () => {
+    expect(guide).toContain('Приложение 4');
+    expect(guide).toMatch(/МОСВ/);
+    expect(guide).toMatch(/wild form/i);
+    expect(guide).toMatch(/number and year/i);
+    expect(guide).toMatch(/re-check .*yearly order/i);
+  });
+
+  it('AC18 (QA 055): says a Keystatic save writes both `wild: false` and `cautions: []`', () => {
+    expect(guide).toContain('`wild: false`');
+    expect(guide).toContain('`cautions: []`');
+  });
+
+  it('AC11 (QA 055): labels the protected kind „Защита и ограничения“ and the wild label is neuter', () => {
+    expect(ui.produce.cautions.kinds.protected).toBe('Защита и ограничения');
+    expect(ui.produce.wild.label).toBe('Диворастящо');
+  });
+
   it('AC18: every wild produce in src/data has at least one caution', () => {
     const files = globSync('src/data/produce/*.yaml');
     expect(files.length).toBeGreaterThan(0);
