@@ -153,7 +153,7 @@ Every month and tip is stated by its source (spec 035). Tips are in the „ти�
 - **Карфиол:** sow 5–7 (end of May – end of July), transplant 7–9 (about a month later, up to the
   beginning of September). Sources: bgfermer 11727731, 14746455, 15549195.
 - **Кестени:** plant 9–11 (autumn planting: end of September – mid November). Sources: bgfermer
-  12974658, 7891605, 13294825, 6826227.
+  12974658, 13294825, 6826227.
 
 `tests/unit/content/seed-growing.test.ts` requires a guide for every produce; all five have one, so
 the test is not changed.
@@ -269,7 +269,7 @@ No new third-party API is used. Content sources:
 | Български фермер – Карфиолът е от най-капризните видове сред зелевите                  | 2023-06-23     | https://www.bgfermer.bg/Article/14746455                                                                                 | Cauliflower sowing, spacing, care                                                                  |
 | Български фермер – Растенията от сем. Зелеви властват в есенните лехи                  | 2023-09-20     | https://www.bgfermer.bg/Article/15549195                                                                                 | Cauliflower transplanting                                                                          |
 | Български фермер – Есенното засаждане на дръвчета - за и против                        | 2022-11-06     | https://www.bgfermer.bg/Article/12974658                                                                                 | Chestnut autumn planting window                                                                    |
-| Български фермер – Лечебни ползи от нестандартни плодове                               | 2019-11-23     | https://www.bgfermer.bg/Article/7891605                                                                                  | Chestnut soil, growth; horse chestnut is not eaten                                                 |
+| Български фермер – Лечебни ползи от нестандартни плодове                               | 2019-11-23     | https://www.bgfermer.bg/Article/7891605                                                                                  | Horse chestnut is not eaten (FAQ); not cited in the guide                                          |
 | Български фермер – Професионално отглеждане на кестени има вече и у нас                | 2022-12-14     | https://www.bgfermer.bg/Article/13294825                                                                                 | Chestnut varieties, bearing age, ink disease                                                       |
 | Български фермер – Болести и неприятели по кестена                                     | 2018-04-23     | https://www.bgfermer.bg/Article/6826227                                                                                  | Chestnut weevil                                                                                    |
 | Български фермер – Кестени – търсена стока и печеливша ниша                            | 2023-11-27     | https://www.bgfermer.bg/Article/16335243                                                                                 | Season, family Букови                                                                              |
