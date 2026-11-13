@@ -1,0 +1,9 @@
+name: 'Био градинка Калинка'
+region: pazardzhik
+produce: [morkovi, tsveklo, zele]
+description: 'По данни на LocalStore.bg стопанство в с. Паталеница, което предлага моркови, червено цвекло и зеле, кисело зеле и зелев сок, овес и ечемик и ферментирали продукти. По данни на фермата отглежда без пестициди.'
+contact:
+  website: https://localstore.bg/producer/bio-gradinka-kalinka
+address: 'с. Паталеница'
+sources:
+  - https://localstore.bg/producer/bio-gradinka-kalinka

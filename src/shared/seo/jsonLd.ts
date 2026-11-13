@@ -220,7 +220,10 @@ export interface LocalBusinessJsonLdInput {
   readonly email?: string | undefined;
   /** Address as free text. */
   readonly address?: string | undefined;
-  /** The business's own website, given as `sameAs`. */
+  /**
+   * The business's website, given as `sameAs`: its own site or, for a farm without one, its
+   * profile page in a producer directory (LocalStore.bg, Хранкооп).
+   */
   readonly website?: string | undefined;
 }
 

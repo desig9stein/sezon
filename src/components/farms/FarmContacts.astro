@@ -1,10 +1,12 @@
 ---
 import type { Farm } from '@contexts/farms';
 import { ui } from '@i18n/bg';
+import { directoryName } from './directoryName';
 
 /**
  * A farm's contact links as a list: website, email and phone, whichever the farm has. Each link's
- * accessible name includes the farm name; the phone number does not wrap. A sponsored farm's
+ * accessible name includes the farm name; a website that is a LocalStore.bg or Хранкооп profile is
+ * named as a profile in that directory; the phone number does not wrap. A sponsored farm's
  * website link is marked `rel="sponsored noopener"`.
  */
 interface Props {
@@ -15,13 +17,19 @@ const { farm } = Astro.props;
 const labels = ui.produce.farms;
 /** A sponsored farm's website is a paid link (Google's guidance on qualifying outbound links). */
 const websiteRel = farm.sponsored ? 'sponsored noopener' : 'noopener';
+const website = farm.contact.website;
+const directory = website === undefined ? undefined : directoryName(website);
+const websiteLabel =
+  directory === undefined
+    ? labels.website(farm.name)
+    : labels.directoryProfile(farm.name, directory);
 ---
 
 <ul class="farm-contacts" role="list">
-  {farm.contact.website !== undefined && (
+  {website !== undefined && (
     <li>
-      <a href={farm.contact.website} rel={websiteRel}>
-        {labels.website(farm.name)}
+      <a href={website} rel={websiteRel}>
+        {websiteLabel}
       </a>
     </li>
   )}

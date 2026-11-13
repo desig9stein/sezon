@@ -1,0 +1,9 @@
+name: 'Pura Vida Organic Farm'
+region: pazardzhik
+produce: [grozde]
+description: 'По данни на LocalStore.bg семейна ферма на 10,5 декара в с. Аканджиево, която отглежда сезонни плодове, зеленчуци и грозде от биосемена и стари български сортове и прави биохумус. По данни на фермата не използва химикали и торове.'
+contact:
+  website: https://localstore.bg/producer/pura-vida-organic-farm
+address: 'с. Аканджиево'
+sources:
+  - https://localstore.bg/producer/pura-vida-organic-farm

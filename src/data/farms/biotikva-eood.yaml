@@ -1,0 +1,9 @@
+name: 'Биотиква ЕООД'
+region: sofia-grad
+produce: [tikva]
+description: 'По данни на LocalStore.bg производител на тикви на 10 декара край с. Кубратово, който продава от началото на октомври до късна пролет в магазина си на бул. „Сливница“ 233 в София и всяка сряда на фермерския пазар пред Министерството на земеделието.'
+contact:
+  website: https://localstore.bg/producer/biotikva-eood
+address: 'магазин: бул. „Сливница“ 233, София; ниви край с. Кубратово'
+sources:
+  - https://localstore.bg/producer/biotikva-eood
