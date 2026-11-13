@@ -11,4 +11,10 @@ season:
   - { month: 1, level: storage }
   - { month: 2, level: storage }
 storage: 'При добро съхранение плодовете се запазват свежи до февруари.'
+cautions:
+  - kind: preparation
+    text: 'Плодовете са много твърди и не се ядат пресни – само след преработка, например на сок.'
+    source:
+      name: 'CORDIS – Japanese quince (chaenomeles japonica) - a new european fruit crop for production of novel juice, flavour and fibre'
+      url: https://cordis.europa.eu/project/id/FAIR973894
 updatedAt: 2026-11-13
