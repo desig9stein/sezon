@@ -6,6 +6,8 @@ import { sponsorInput } from '@tests/fixtures/sponsors';
 import { render } from './render';
 
 const AD_RATIO = 4;
+/** Intrinsic width that fits a 412 px viewport without CSS (QA 037). */
+const MOBILE_SAFE_WIDTH = 480;
 const sponsor = Sponsor.create(sponsorInput({ image: zeleImage }));
 
 describe('AdSlot', () => {
@@ -14,10 +16,14 @@ describe('AdSlot', () => {
     expect(html.trim()).toBe('');
   });
 
-  it('AC9: renders a labelled aside with a sponsored link around a lazy image', async () => {
+  it('AC9: renders an aside labelled by its visible label with a sponsored link around a lazy image', async () => {
     const html = await render(AdSlot, { sponsor, placement: 'produce' });
 
-    expect(html).toMatch(/<aside[^>]*class="ad-slot[^"]*"[^>]*aria-label="Реклама"/);
+    const aside = html.match(/<aside[^>]*class="ad-slot[^"]*"[^>]*>/)?.[0] ?? '';
+    const labelId = aside.match(/aria-labelledby="([^"]+)"/)?.[1] ?? '';
+    expect(labelId).not.toBe('');
+    expect(aside).not.toContain('aria-label=');
+    expect(html).toMatch(new RegExp(`<p[^>]*id="${labelId}"[^>]*>Реклама</p>`));
     const label = html.indexOf('>Реклама<');
     const link = html.indexOf('<a ');
     expect(label).toBeGreaterThan(-1);
@@ -34,7 +40,8 @@ describe('AdSlot', () => {
     expect(img).toContain('decoding="async"');
     const width = Number(img.match(/width="(\d+)"/)?.[1]);
     const height = Number(img.match(/height="(\d+)"/)?.[1]);
-    expect(width).toBeGreaterThan(0);
+    expect(width).toBe(MOBILE_SAFE_WIDTH);
     expect(width / height).toBe(AD_RATIO);
+    expect(img).toMatch(/srcset="[^"]*960w/);
   });
 });
