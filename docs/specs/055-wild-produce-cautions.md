@@ -13,7 +13,7 @@ Owner decision (2026-11-13): add wild-gathered plants (nettle, dandelion, ramson
 hawthorn, sloe, wild strawberry …). Specs 052 and 053 left them out because a produce page could
 not warn about toxic look-alikes, toxic parts, allergies, protected species or plants that must be
 cooked. This spec builds that capability: a `wild` flag and sourced `cautions` in the content
-model, a „Внимание“ section near the top of the produce page, a „Диворастящ“ label on the page and
+model, a „Внимание“ section near the top of the produce page, a „Диворастящо“ label on the page and
 in produce lists, a general gathering note, Keystatic fields and a methodology paragraph. It adds
 **no produce**: the content is a later spec, and every test here uses test-only fixtures.
 
@@ -41,9 +41,16 @@ in produce lists, a general gathering note, Keystatic fields and a methodology p
   - `cautions`: optional list, default `[]`, of strict objects
     `{ kind, text, source: { name, url } }`:
     - `kind`: one of `look-alike` (toxic look-alikes), `toxic-part` (a part of the plant is toxic
-      or must be cooked), `allergy`, `protected` (protected species or gathering restrictions under
-      the Medicinal Plants Act / Закон за лечебните растения or the Biological Diversity Act /
-      Закон за биологичното разнообразие), `preparation` (must be blanched or cooked).
+      or must be cooked), `allergy`, `protected` (labelled „Защита и ограничения“: a species that may
+      be gathered only under restrictions, i.e. the regime of the Medicinal Plants Act / Закон за
+      лечебните растения, Annex 4 (Приложение 4) of the Biological Diversity Act / Закон за
+      биологичното разнообразие, or a yearly МОСВ order; or a cultivated produce whose wild form
+      is protected, e.g. sea buckthorn), `preparation` (must be blanched or cooked). The key stays
+      `protected` because another branch already uses it.
+    - A species that may not be gathered at all (Приложение 3 of the Biological Diversity Act, the
+      Red Book of Bulgaria, or a complete ban by order) is never added. A `protected` caution cites
+      the act or order with its number and year; a caution based on a yearly order names the year
+      in its text, and yearly orders are re-checked whenever `updatedAt` changes (content guide).
     - `text`: single-line Bulgarian text of 20–200 characters after trimming.
     - `source`: the shared `sourceSchema` (`name` and an `https` URL), the same shape as every other
       citation in the content model. The brief named the keys `title` and `url`; `name` is used
@@ -63,21 +70,29 @@ in produce lists, a general gathering note, Keystatic fields and a methodology p
   traditional-use sources and deduplicated as before, so they appear in the page's „Източници“ list
   and as `citation` in the `Article` JSON-LD.
 - **Produce page `src/pages/[section]/[slug].astro`:**
-  - Header meta list: an item „Диворастящ“ (an outlined text tag) after the kind, only when
+  - Header meta list: an item „Диворастящо“ (an outlined text tag) after the kind, only when
     `wild`.
   - „На сергията“ (`#stall`): when the produce has cautions, an `h3#cautions` „Внимание“ section
     right after the current-level line and before „Сезон по месеци“, i.e. before every other
-    section of the group and before „Яж“. It contains:
+    section of the group and before „Яж“. The whole section is one callout (`ProduceCautions`):
+    the heading, the note and the list sit inside the same panel with the bar (QA 055). It
+    contains:
     - for wild produce, the gathering note (`ui.produce.wild.gatheringNote`), a UI string, not a
       health claim;
     - a list with one item per caution in content order: a decorative warning icon (inline SVG,
       `aria-hidden`), the kind label in bold followed by a colon, the text, and the source as a
       link in parentheses with the prefix „източник:“ (the same pattern as `TraditionalUses`).
   - Table of contents: an entry „Внимание“ → `#cautions`, right after „На сергията“, only when the
-    section is rendered.
-- **Produce lists:** `ProduceCard` (plate and index) shows „Диворастящ“ in its meta row and
-  `SeasonList` appends „ · Диворастящ“ to the row meta, only for wild produce.
-- **UI strings (`src/i18n/bg.ts`):** `ui.produce.headings.cautions`, `ui.produce.wild.label`,
+    section is rendered. The table of contents otherwise lists only the `h2` groups; it lists this
+    `h3` deliberately, beside them, because it is safety content a reader must be able to reach
+    in one step.
+- **Produce lists:** `ProduceCard` (plate and index) shows „Диворастящо“ in its meta row and
+  `SeasonList` appends „ · Диворастящо“ to the row meta, only for wild produce.
+- **UI strings (`src/i18n/bg.ts`):** the label is „Диворастящо“ (neuter, for an implied
+  „растение“, so it agrees beside any produce name); the gathering note is „Събирай само растения,
+  които познаваш със сигурност. Ако се съмняваш, не бери и не яж. Не събирай защитени видове и
+  спазвай ограниченията за събиране на лечебни растения.“ Keys: `ui.produce.headings.cautions`,
+  `ui.produce.wild.label`,
   `ui.produce.wild.gatheringNote`, `ui.produce.cautions.kinds.<kind>`,
   `ui.produce.cautions.sourcePrefix`, and the methodology heading and paragraph.
 - **Methodology (`/metodologiya`):** a new `h2` section „Диворастящи растения“ after „Традиционна
@@ -134,7 +149,7 @@ Invariants:
   text under 20 or over 200 characters, a multi-line text, or a source without an `https` URL is
   rejected.
 - A non-wild produce with cautions shows the „Внимание“ section without the gathering note and
-  without the „Диворастящ“ label.
+  without the „Диворастящо“ label.
 - Several cautions of the same kind are allowed and shown in content order.
 - Two cautions citing the same source list it once in „Източници“.
 - The section is not a live region (`role="alert"`, `role="status"`, `aria-live` are not used): it
@@ -158,7 +173,7 @@ Invariants:
 - Dark mode: only colour tokens (`--color-text`, `--color-surface`, `--color-border`,
   `--color-text-muted`), which have dark values.
 - Print: the panel prints without its fill, with the bar and text in `--print-ink`.
-- The „Диворастящ“ label is text, at the size of the meta row.
+- The „Диворастящо“ label is text, at the size of the meta row.
 - Zero axe violations on a wild produce page (axe-core in happy-dom, as in spec 049).
 
 ## 7. SEO requirements
@@ -195,26 +210,30 @@ Invariants:
     „Внимание“ after the current-level line and before `#season`, and the section comes before
     `#eat`.
 11. **AC11:** Given a wild produce page, then the cautions section shows the gathering note and
-    one list item per caution with the kind label, the text, a decorative icon hidden from
-    assistive technology and the source link; the caution sources are in „Източници“.
+    one list item per caution with the kind label (`protected` reads „Защита и ограничения“), the
+    text, a decorative icon hidden from assistive technology and the source link, with the
+    heading, the note and the list inside one callout; the caution sources are in „Източници“.
 12. **AC12:** Given a wild produce page, then it has one `h1`, never skips a heading level, has a
     table of contents whose links all resolve, no live region, no `hidden` attribute or inline
     style, and no axe violations.
-13. **AC13:** Given a wild produce page, then the header meta shows „Диворастящ“; given a
+13. **AC13:** Given a wild produce page, then the header meta shows „Диворастящо“; given a
     non-wild produce with a caution, the section has no gathering note and the header has no
     label; given a produce without cautions, there is no `#cautions` and no label.
 14. **AC14:** Given a wild produce page, then its title and meta description are unchanged, and
     its `Article` JSON-LD cites the caution sources and contains no caution text.
 15. **AC15:** Given a `ProduceCard` (plate and index) and a `SeasonList` row for a wild produce,
-    then each shows „Диворастящ“ as text; for a non-wild produce, none does.
+    then each shows „Диворастящо“ as text; for a non-wild produce, none does.
 16. **AC16:** Given the methodology page, then it has a „Диворастящи растения“ `h2` after
     „Традиционна употреба“ with the paragraph on how wild plants and cautions are sourced.
 17. **AC17:** Given the Keystatic config, then the produce collection has a `wild` checkbox and a
     `cautions` list whose kind options are `CAUTION_KINDS`; a wild produce with cautions saved
     through Keystatic parses to the same Zod entry; the config/round-trip tests stay green.
 18. **AC18:** Given the content guide, then it documents `wild`, `cautions` and the rule that wild
-    produce needs at least one sourced caution; and every produce in `src/data` with `wild: true`
-    has at least one caution.
+    produce needs at least one sourced caution, says that a species that may not be gathered at
+    all is never added, limits `protected` to gathering under restrictions (and protected wild
+    forms) with the act or order's number and year and a re-check of yearly orders, and says a
+    Keystatic save writes `wild: false` and `cautions: []`; and every produce in `src/data` with
+    `wild: true` has at least one caution.
 
 ## 9. Test plan
 
@@ -238,6 +257,9 @@ Invariants:
 | AC16 | e2e       | `tests/e2e/about-pages.spec.ts` (methodology headings)             |
 | AC17 | unit      | `tests/unit/cms/keystatic-055.test.ts`                             |
 | AC18 | unit      | `tests/unit/content/wild-055.test.ts`                              |
+
+QA 055 regression tests: the issue path of every AC4 rejection, the `#eat` order asserted with a
+fixture that renders it, the callout structure, the full gathering note, and the new labels.
 
 e2e cannot reach a wild produce page: the built site has only the produce in `src/data`, none of
 them wild, and test produce must not be added there. As in spec 049, the page is rendered through
