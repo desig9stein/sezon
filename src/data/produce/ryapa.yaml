@@ -1,0 +1,31 @@
+name: Ряпа
+latinName: Brassica rapa subsp. rapa
+kind: vegetable
+group: krastotsvetni
+summary: 'Ряпата е есенен кореноплод: вади се от средата на октомври до средата на ноември, преди студовете.'
+season:
+  - { month: 10, level: peak }
+  - { month: 11, level: peak }
+nutrition:
+  energyKcal: 28
+  proteinG: 0.9
+  fatG: 0.1
+  carbohydrateG: 6.43
+  fiberG: 1.8
+  sugarsG: 3.8
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 21 }
+    - { nutrient: kaliy, amount: 191 }
+    - { nutrient: med-cu, amount: 0.085 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Turnips, raw'
+    url: https://fdc.nal.usda.gov/food-details/170465/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/ryapa.jpg
+  alt: 'Кръгли ряпи с лилаво-бяла кора, подредени плътно една до друга'
+  credit:
+    author: 'Bernd Dittrich'
+    authorUrl: https://unsplash.com/@hdbernd
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-pile-of-purple-turnips-sitting-next-to-each-other-f7i3SDvhDik

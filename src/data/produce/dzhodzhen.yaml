@@ -1,0 +1,27 @@
+name: Джоджен
+latinName: Mentha spicata
+kind: herb
+group: ustnotsvetni
+summary: 'Джодженът е вид мента. Реже се два пъти в сезона: веднъж преди цъфтежа и отново през есента, преди сланите.'
+season:
+  - { month: 7, level: available }
+  - { month: 8, level: available }
+  - { month: 9, level: available }
+  - { month: 10, level: available }
+nutrition:
+  energyKcal: 44
+  proteinG: 3.29
+  fatG: 0.73
+  carbohydrateG: 8.41
+  fiberG: 6.8
+  micronutrients:
+    - { nutrient: zhelyazo, amount: 11.87 }
+    - { nutrient: mangan, amount: 1.118 }
+    - { nutrient: folat, amount: 105 }
+    - { nutrient: vitamin-a, amount: 203 }
+    - { nutrient: med-cu, amount: 0.24 }
+    - { nutrient: kaliy, amount: 458 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Spearmint, fresh'
+    url: https://fdc.nal.usda.gov/food-details/173475/nutrients
+updatedAt: 2026-11-13

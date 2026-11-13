@@ -1,0 +1,13 @@
+name: 'Люта ферма (Hot Farm)'
+region: varna
+produce: [piper]
+description: 'Семейна ферма от 2011 г. в с. Страшимирово, която отглежда люти чушки на 16 декара и прави от тях сосове и сладка. Продава пресни люти чушки в сезона и преработени продукти през собствен онлайн магазин; към ноември 2026 г. пресните чушки са изчерпани.'
+contact:
+  website: https://hotfarm.eu/
+  phone: '+359898219353'
+address: 'с. Страшимирово, общ. Белослав, обл. Варна'
+sources:
+  - https://hotfarm.eu/
+  - https://hotfarm.eu/collections/presni-liuti-chushki
+  - https://hotfarm.eu/pages/kontakti
+  - https://localstore.bg/producer/lyuta-ferma

@@ -1,0 +1,9 @@
+name: 'Ядкова градина Орле'
+region: plovdiv
+produce: [orehi]
+description: 'По данни на LocalStore.bg семейна орехова градина от Карлово, която предлага сурови орехи и тахан.'
+contact:
+  website: https://localstore.bg/producer/yadkova-gradina-orle
+address: 'Карлово'
+sources:
+  - https://localstore.bg/producer/yadkova-gradina-orle

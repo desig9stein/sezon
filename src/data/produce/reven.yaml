@@ -1,0 +1,25 @@
+name: Ревен
+latinName: Rheum rhabarbarum
+kind: vegetable
+group: lapadovi
+summary: 'Листните дръжки на ревена се берат от ранна пролет до края на юли и се използват в супи, пюрета и сладка.'
+season:
+  - { month: 4, level: available }
+  - { month: 5, level: peak }
+  - { month: 6, level: peak }
+  - { month: 7, level: peak }
+nutrition:
+  energyKcal: 21
+  proteinG: 0.9
+  fatG: 0.2
+  carbohydrateG: 4.54
+  fiberG: 1.8
+  sugarsG: 1.1
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 29.3 }
+    - { nutrient: kaliy, amount: 288 }
+    - { nutrient: vitamin-c, amount: 8 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Rhubarb, raw'
+    url: https://fdc.nal.usda.gov/food-details/167758/nutrients
+updatedAt: 2026-11-13

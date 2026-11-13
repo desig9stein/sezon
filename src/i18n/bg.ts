@@ -675,6 +675,7 @@ export const ui = {
         limited: 'има ограничено сертифицирано производство.',
       } satisfies Record<OrganicAvailability, string>,
       website: (farm: string) => `Уебсайт на ${farm}`,
+      directoryProfile: (farm: string, directory: string) => `Профил на ${farm} в ${directory}`,
       email: (farm: string) => `Имейл до ${farm}`,
       phoneLabel: 'Телефон:',
       phone: (farm: string, phone: string) => `Телефон на ${farm}: ${phone}`,

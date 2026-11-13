@@ -1,0 +1,9 @@
+name: 'Фермата на Крис и Мария'
+region: plovdiv
+produce: [krastavitsi, domati, tikvichki, patladzhan]
+description: 'По данни на LocalStore.bg малко семейно стопанство в с. Калековец, което отглежда краставици, розови домати, тиквички, бели патисони, манголд и шарен патладжан. Доставя всеки следобед до Пловдив и продава и на място във фермата.'
+contact:
+  website: https://localstore.bg/producer/fermata-na-kris-i-maria
+address: 'с. Калековец'
+sources:
+  - https://localstore.bg/producer/fermata-na-kris-i-maria

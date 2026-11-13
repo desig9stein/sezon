@@ -1,0 +1,9 @@
+name: 'Зеленчуците от нашата градина'
+region: pleven
+produce: [domati]
+description: 'По данни на LocalStore.bg ферма в с. Славовица, община Долна Митрополия, която отглежда зеленчуци в оранжерии, сред тях стар български сорт домати, съхраняван над 60 години, и предлага разсад. По данни на фермата не използва изкуствени торове, пестициди и хербициди.'
+contact:
+  website: https://localstore.bg/producer/zelenchutsite-ot-nashata-gradina
+address: 'с. Славовица, общ. Долна Митрополия'
+sources:
+  - https://localstore.bg/producer/zelenchutsite-ot-nashata-gradina

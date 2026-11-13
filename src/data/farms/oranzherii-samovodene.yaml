@@ -1,0 +1,9 @@
+name: 'Оранжерии „Самоводене“'
+region: veliko-tarnovo
+produce: [repichki, zelen-luk]
+description: 'По данни на LocalStore.bg оранжерии в с. Самоводене, които отглеждат зелени салати, зелен лук и репички и продават на фермерския пазар във Велико Търново.'
+contact:
+  website: https://localstore.bg/producer/oranjerii-samovodene
+address: 'с. Самоводене'
+sources:
+  - https://localstore.bg/producer/oranjerii-samovodene

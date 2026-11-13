@@ -1,0 +1,9 @@
+name: 'Ферма Демар'
+region: burgas
+produce: [krastavitsi]
+description: 'По данни на LocalStore.bg малка семейна ферма в Българово, която предлага салати, разсад от зелен лук, краставици и пчелен мед.'
+contact:
+  website: https://localstore.bg/producer/ferma-demar
+address: 'гр. Българово, ул. „Обходна“ 159'
+sources:
+  - https://localstore.bg/producer/ferma-demar

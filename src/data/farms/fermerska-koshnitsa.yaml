@@ -1,0 +1,9 @@
+name: 'Фермерска кошница'
+region: pleven
+produce: [slivi, brokoli, orehi]
+description: 'По данни на LocalStore.bg семейно стопанство в с. Садовец, което отглежда сладка царевица, сливи и броколи, прави пчелен мед и предлага ръчно почистени орехи с доставка в цялата страна.'
+contact:
+  website: https://localstore.bg/producer/fermerska-koshnitsa
+address: 'с. Садовец, обл. Плевен'
+sources:
+  - https://localstore.bg/producer/fermerska-koshnitsa

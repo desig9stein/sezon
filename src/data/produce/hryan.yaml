@@ -1,0 +1,8 @@
+name: Хрян
+latinName: Armoracia rusticana
+kind: vegetable
+group: krastotsvetni
+summary: 'Хрянът се отглежда заради коренищата си. Размножава се с резници, а коренищата се прибират през октомври.'
+season:
+  - { month: 10, level: peak }
+updatedAt: 2026-11-13
