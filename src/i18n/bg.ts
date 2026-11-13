@@ -1,5 +1,7 @@
 import type { GrowingActivity, OrganicAvailability, ProduceKind } from '@contexts/catalog';
+import type { AreaRank, RegionProfile } from '@contexts/geography';
 import { LAST_MONTH_NUMBER, Month, type SeasonLevelValue } from '@contexts/seasonality';
+import { InvalidPageMetaError } from '@shared/domain/errors';
 import { characterCount, DESCRIPTION_MAX_LENGTH, TITLE_MAX_LENGTH } from '@shared/seo';
 
 /** Name of the website. */
@@ -55,8 +57,24 @@ function inRegion(name: string): string {
   return `${phrase.charAt(0).toUpperCase()}${phrase.slice(1)}`;
 }
 
-/** Returns the region page description for the counts the page shows (never both zero). */
-function regionPageDescription(name: string, produceCount: number, farmCount: number): string {
+/**
+ * Returns the region page description for the counts the page shows. With no produce and no farm,
+ * it describes the province's agricultural data instead.
+ * @param utilisedAreaHa - Utilised agricultural area of the province, when it has a profile.
+ * @throws InvalidPageMetaError when there is no produce, no farm and no utilised area.
+ */
+function regionPageDescription(
+  name: string,
+  produceCount: number,
+  farmCount: number,
+  utilisedAreaHa?: number,
+): string {
+  if (produceCount + farmCount === 0) {
+    if (utilisedAreaHa === undefined) {
+      throw new InvalidPageMetaError(`Region "${name}" has no data to describe.`);
+    }
+    return `${inRegion(name)} използваната земеделска площ е ${formatHectares(utilisedAreaHa)} (${AREA_YEAR} г.). Виж колко от нея е обработваема земя и кои овощни видове заемат най-голяма площ.`;
+  }
   const grows =
     produceCount === 1
       ? `${inRegion(name)} се отглежда 1 продукт от каталога на Сезон.`
@@ -70,11 +88,68 @@ function regionPageDescription(name: string, produceCount: number, farmCount: nu
   return `${grows} Виж кои са и кои местни ферми има в областта.`;
 }
 const MAP_TITLE = 'Карта на България.';
+/** Year of the БАНСИК survey behind the farmland figures of the province profiles. */
+const AREA_YEAR = 2025;
+/** Year of the orchard survey behind the top fruits of the province profiles. */
+const ORCHARD_YEAR = 2023;
+const PERCENT = 100;
+
+/** Feminine ordinal words for 1–9, 10–19 and the tens 20–90 (index 0 = 20). */
+const ORDINAL_UNITS = [
+  'първа',
+  'втора',
+  'трета',
+  'четвърта',
+  'пета',
+  'шеста',
+  'седма',
+  'осма',
+  'девета',
+] as const;
+const ORDINAL_TEENS = [
+  'десета',
+  'единадесета',
+  'дванадесета',
+  'тринадесета',
+  'четиринадесета',
+  'петнадесета',
+  'шестнадесета',
+  'седемнадесета',
+  'осемнадесета',
+  'деветнадесета',
+] as const;
+const TENS = [
+  'двадесет',
+  'тридесет',
+  'четиридесет',
+  'петдесет',
+  'шестдесет',
+  'седемдесет',
+  'осемдесет',
+  'деветдесет',
+] as const;
+const TEN = 10;
+const FIRST_TENS = 20;
+const LAST_ORDINAL = 99;
+
+/**
+ * Returns the feminine Bulgarian ordinal word for `rank` („първа“, „двадесет и осма“), as used
+ * with „област“. Ranks outside 1–99 are written in digits („100-а“).
+ */
+export function feminineOrdinal(rank: number): string {
+  if (!Number.isInteger(rank) || rank < 1 || rank > LAST_ORDINAL) return `${rank}-а`;
+  if (rank < TEN) return ORDINAL_UNITS[rank - 1] ?? '';
+  if (rank < FIRST_TENS) return ORDINAL_TEENS[rank - TEN] ?? '';
+  const tens = TENS[Math.floor(rank / TEN) - 2] ?? '';
+  const unit = rank % TEN;
+  return unit === 0 ? `${tens}а` : `${tens} и ${ORDINAL_UNITS[unit - 1] ?? ''}`;
+}
 
 const numberFormat = new Intl.NumberFormat('bg', {
   maximumFractionDigits: MAX_FRACTION_DIGITS,
   useGrouping: 'min2',
 });
+const areaFormat = new Intl.NumberFormat('bg', { maximumFractionDigits: 0, useGrouping: 'always' });
 const dateFormat = new Intl.DateTimeFormat('bg', {
   day: 'numeric',
   month: 'long',
@@ -85,6 +160,34 @@ const dateFormat = new Intl.DateTimeFormat('bg', {
 /** Formats a number the Bulgarian way: decimal comma, at most two decimals. */
 export function formatNumber(value: number): string {
   return numberFormat.format(value);
+}
+
+/** Formats an area in hectares with non-breaking thousands separators, e.g. „1 676 ха“. */
+function formatHectares(value: number): string {
+  return `${areaFormat.format(value)} ха`;
+}
+
+/** Formats a share (0–1) as a whole percentage, or „под 1%“ when it rounds to zero. */
+function formatShare(share: number): string {
+  const percent = Math.round(share * PERCENT);
+  return percent === 0 ? 'под 1%' : `${percent}%`;
+}
+
+/**
+ * Returns the sentences of a province's agricultural profile: its utilised area and rank, the
+ * shares of arable land and grassland, and the fruit species with the largest area.
+ */
+function regionProfileSummary(profile: RegionProfile, areaRank: AreaRank): string {
+  const area = `Използваната земеделска площ е ${formatHectares(profile.utilisedAreaHa)} (${AREA_YEAR} г.) – ${feminineOrdinal(areaRank.rank)} по големина сред ${areaRank.total}-те области.`;
+  const use = `Обработваемата земя е ${formatShare(profile.arableShare)} от нея, а постоянните пасища и ливади – ${formatShare(profile.grasslandShare)}.`;
+  const last = profile.topFruits.length - 1;
+  const fruits = profile.topFruits
+    .map(
+      (fruit, index) =>
+        `${fruit.name} (${formatHectares(fruit.areaHa)}${index === last ? `, ${ORCHARD_YEAR} г.` : ''})`,
+    )
+    .join(' и ');
+  return `${area} ${use} С най-голяма площ от овощните видове са ${fruits}.`;
 }
 
 /** Formats a calendar date in Bulgarian, e.g. „10 ноември 2026 г.“. */
@@ -308,7 +411,7 @@ export const ui = {
     outOfSeasonText: 'в България не се бере и не е от хранилище; ако го има, вероятно е внос',
     regionsHeading: 'Области',
     regions:
-      'За всеки продукт посочваме областите, в които се отглежда, с кратка бележка. За ябълки, круши, орехи и зеле областите и бележките следват статистиката на МЗХ (отдел „Агростатистика“) и имат източник; за останалите продукти официални данни по области няма и бележките са редакторски.',
+      'За всеки продукт посочваме областите, в които се отглежда, с кратка бележка. За ябълки, круши, орехи и зеле областите и бележките следват статистиката на МЗХ (отдел „Агростатистика“) и имат източник; за останалите продукти официални данни по области няма и бележките са редакторски. Земеделските данни на всяка област – използваната земеделска площ, обработваемата земя, пасищата и ливадите и овощните видове с най-голяма площ – са от бюлетините на МЗХ „БАНСИК 2025“ и „Структура на основни овощни видове в България през 2023 година“.',
     traditionalHeading: 'Традиционна употреба',
     traditional:
       'Традиционната употреба описва традиции, а не доказани ефекти, и винаги започва с „Традиционно се използва“. Не твърдим, че храна лекува или предпазва от болест (Регламент (ЕО) № 1924/2006). Всяка употреба има първичен източник – фармакопея, официална монография или етноботаническо изследване; Уикипедия не се приема.',
@@ -584,6 +687,7 @@ export const ui = {
     mapCaption: 'С щрихи са областите, за които вече има данни.',
     listHeading: 'Всички области',
     noData: 'Още няма данни',
+    areaOnly: (utilisedAreaHa: number) => `${formatHectares(utilisedAreaHa)} земеделска площ`,
     counts: (produce: number, farms: number) =>
       [
         produce === 0 ? undefined : produce === 1 ? '1 продукт' : `${produce} продукта`,
@@ -597,6 +701,11 @@ export const ui = {
     pageIntro: 'Какво расте тук и кои местни ферми има в областта.',
     mapCaptionFor: (name: string) =>
       `На картата: ${regionPlaceName(name)} – с плътни щрихи; другите области със страница – с тънки щрихи.`,
+    profile: {
+      heading: 'Земеделие в областта',
+      summary: regionProfileSummary,
+      sourcesLabel: 'Източници:',
+    },
     growsHeading: 'Какво расте тук',
     noteSeparator: DASH_SEPARATOR,
     noProduce: 'Все още няма продукти, свързани с тази област.',
