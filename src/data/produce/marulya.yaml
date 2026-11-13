@@ -4,14 +4,12 @@ kind: vegetable
 group: slozhnotsvetni
 summary: Марулята е най-хрупкава напролет и наесен – през лятото листата ѝ загрубяват. Има високо съдържание на витамин K, витамин A и фолат.
 varieties:
-  - name: Черна маруля
-    note: Зимен сорт с дълъг вегетационен период, който се сее през септември.
+  - name: Черна гюмюрджинска
 season:
   - { month: 3, level: available }
   - { month: 4, level: peak }
   - { month: 5, level: peak }
   - { month: 6, level: available }
-  - { month: 9, level: available }
   - { month: 10, level: available }
   - { month: 11, level: available }
 regions: []
@@ -26,7 +24,6 @@ nutrition:
     - { nutrient: vitamin-k, amount: 102.5 }
     - { nutrient: vitamin-a, amount: 436 }
     - { nutrient: folat, amount: 136 }
-    - { nutrient: kaliy, amount: 247 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Lettuce, cos or romaine, raw'
     url: https://fdc.nal.usda.gov/food-details/169247/nutrients
@@ -40,16 +37,16 @@ howToChoose: Избери стегната глава с хрупкави, св�
 storage: Неизмита маруля пази в хладилник, увита във влажна кърпа, до пет дни.
 faq:
   - question: Кога е сезонът на марулята?
-    answer: Пролетната маруля е от март до юни, а есенната – от септември до ноември. През лятото листата загрубяват и горчат.
+    answer: Пролетната маруля е от март до юни, а есенната – от октомври до ноември. През лятото листата загрубяват и горчат.
 updatedAt: 2026-11-13
 photo:
   src: ../../assets/produce/marulya.jpg
-  alt: 'Светлозелена глава маруля с едри набръчкани листа, растяща в градина'
+  alt: 'Изправени глави маруля с удължени листа и светли средни жилки над червена и къдрава салата'
   credit:
-    author: 'Anna Evans'
-    authorUrl: https://unsplash.com/@anevans
+    author: 'Zoshua Colah'
+    authorUrl: https://unsplash.com/@zoshuacolah
     sourceName: Unsplash
-    sourceUrl: https://unsplash.com/photos/a-bunch-of-green-lettuce-growing-in-a-garden-4URP8xhMxAY
+    sourceUrl: https://unsplash.com/photos/fresh-and-colorful-greens-and-lettuce-for-sale-sdDA-pMzW10
 growing:
   sow: [1, 9]
   transplant: [3, 9, 10]

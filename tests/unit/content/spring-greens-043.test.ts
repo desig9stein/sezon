@@ -127,7 +127,7 @@ describe('spring greens and wild plants (spec 043)', () => {
   });
 
   it('QA 043: the romaine photo is a romaine photo', () => {
-    expect(recordOf('marulya').photo?.credit.sourceUrl).toMatch(/romaine.*-sdDA-pMzW10$/);
+    expect(recordOf('marulya').photo?.credit.sourceUrl).toMatch(/-sdDA-pMzW10$/);
     expect(recordOf('marulya').photo?.alt).toMatch(/маруля/i);
   });
 

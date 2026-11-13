@@ -5,7 +5,6 @@ group: amarilisovi
 summary: Зеленият лук идва рано напролет от засаден наесен арпаджик. Има високо съдържание на витамин K и фолат и е източник на витамин C.
 varieties: []
 season:
-  - { month: 2, level: available }
   - { month: 3, level: peak }
   - { month: 4, level: peak }
   - { month: 5, level: available }
@@ -21,7 +20,6 @@ nutrition:
     - { nutrient: vitamin-k, amount: 207 }
     - { nutrient: folat, amount: 64 }
     - { nutrient: vitamin-c, amount: 18.8 }
-    - { nutrient: kaliy, amount: 276 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Onions, spring or scallions (includes tops and bulb), raw'
     url: https://fdc.nal.usda.gov/food-details/170005/nutrients
