@@ -31,7 +31,7 @@ function* referencesOf(content: ContentRecords): Generator<Reference> {
     for (const { region } of produce.regions) {
       yield { from: `produce/${id}`, to: 'regions', id: region };
     }
-    for (const { nutrient } of produce.nutrition.micronutrients) {
+    for (const { nutrient } of produce.nutrition?.micronutrients ?? []) {
       yield { from: `produce/${id}`, to: 'nutrients', id: nutrient };
     }
   }

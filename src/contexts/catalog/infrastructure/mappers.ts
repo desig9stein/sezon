@@ -28,19 +28,22 @@ export function toProduce(id: string, record: ProduceRecord): Produce {
       note,
       ...(source === undefined ? {} : { source }),
     })),
-    nutrition: NutritionFacts.create({
-      energyKcal: nutrition.energyKcal,
-      proteinG: nutrition.proteinG,
-      fatG: nutrition.fatG,
-      carbohydrateG: nutrition.carbohydrateG,
-      fiberG: nutrition.fiberG,
-      sugarsG: nutrition.sugarsG,
-      micronutrients: nutrition.micronutrients.map(({ nutrient, amount }) => ({
-        nutrientSlug: nutrient,
-        amount,
-      })),
-      source: nutrition.source,
-    }),
+    nutrition:
+      nutrition === undefined
+        ? undefined
+        : NutritionFacts.create({
+            energyKcal: nutrition.energyKcal,
+            proteinG: nutrition.proteinG,
+            fatG: nutrition.fatG,
+            carbohydrateG: nutrition.carbohydrateG,
+            fiberG: nutrition.fiberG,
+            sugarsG: nutrition.sugarsG,
+            micronutrients: nutrition.micronutrients.map(({ nutrient, amount }) => ({
+              nutrientSlug: nutrient,
+              amount,
+            })),
+            source: nutrition.source,
+          }),
     preparation: record.preparation,
     traditionalUses: record.traditionalUses,
     howToChoose: record.howToChoose,

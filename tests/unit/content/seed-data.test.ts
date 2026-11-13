@@ -96,7 +96,7 @@ describe('findBrokenReferences', () => {
     expect(broken).toEqual([
       'produce/zele → groups/missing-group',
       ...produce.regions.map(({ region }) => `produce/zele → regions/${region}`),
-      ...produce.nutrition.micronutrients.map(
+      ...(produce.nutrition?.micronutrients ?? []).map(
         ({ nutrient }) => `produce/zele → nutrients/${nutrient}`,
       ),
       'farms/ferma → regions/missing-region',

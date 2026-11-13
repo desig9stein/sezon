@@ -63,7 +63,7 @@ const photo = variant === 'plate' ? produce.photo : undefined;
     <a href={routes.produce(produce)}>{produce.name}</a>
   </Heading>
   <p class="produce-card__meta">
-    <i lang="la">{produce.latinName}</i>
+    {produce.latinName !== undefined && <i lang="la">{produce.latinName}</i>}
     <span>{ui.produceKinds[produce.kind]}</span>
     {level !== undefined && <SeasonBadge level={level} fromMonth={levelFrom} />}
     {stripMonth !== undefined && <YearStrip produce={produce} current={stripMonth} />}

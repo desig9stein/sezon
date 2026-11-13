@@ -16,8 +16,8 @@ describe('toProduce', () => {
     expect(produce.growingRegions).toEqual([
       { regionSlug: 'plovdiv', note: 'Тракийската низина има плодородни почви.' },
     ]);
-    expect(produce.nutrition.energyKcal).toBe(25);
-    expect(produce.nutrition.micronutrients).toEqual([
+    expect(produce.nutrition?.energyKcal).toBe(25);
+    expect(produce.nutrition?.micronutrients).toEqual([
       { nutrientSlug: 'vitamin-c', amount: 36.6 },
       { nutrientSlug: 'vitamin-k', amount: 76 },
     ]);

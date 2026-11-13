@@ -38,7 +38,12 @@ const headingId = 'season-list-heading';
             <YearStrip produce={produce} current={month} />
             {level !== undefined && <SeasonBadge level={level} />}
             <span class="season-row__meta">
-              <i lang="la">{produce.latinName}</i> · {ui.produceKinds[produce.kind]}
+              {produce.latinName !== undefined && (
+                <>
+                  <i lang="la">{produce.latinName}</i> ·{' '}
+                </>
+              )}
+              {ui.produceKinds[produce.kind]}
             </span>
           </li>
         );

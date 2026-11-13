@@ -4,7 +4,8 @@ import { routes } from '@components/layout/routes';
 import { formatDate, ui } from '@i18n/bg';
 
 /**
- * Sources of a page's facts, the last update date and a link to the methodology.
+ * Sources of a page's facts (no list when there are none), the last update date and a link to the
+ * methodology.
  */
 interface Props {
   sources: ReadonlyArray<Source>;
@@ -15,13 +16,15 @@ const { sources, updatedAt } = Astro.props;
 const isoDate = updatedAt.toISOString().slice(0, 10);
 ---
 
-<ul>
-  {sources.map((source) => (
-    <li>
-      <a href={source.url}>{source.name}</a>
-    </li>
-  ))}
-</ul>
+{sources.length > 0 && (
+  <ul>
+    {sources.map((source) => (
+      <li>
+        <a href={source.url}>{source.name}</a>
+      </li>
+    ))}
+  </ul>
+)}
 <p class="sources__meta">
   {ui.produce.sources.updated} <time datetime={isoDate}>{formatDate(updatedAt)}</time>
 </p>

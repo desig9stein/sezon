@@ -41,22 +41,25 @@ export interface FaqItem {
   readonly answer: string;
 }
 
-/** Input for {@link Produce.create}. */
+/**
+ * Input for {@link Produce.create}. Only the identity, kind, group, summary, season and update date
+ * are required; every other field may be absent or empty (spec 049).
+ */
 export interface ProduceInput {
   readonly slug: string;
   readonly name: string;
-  readonly latinName: string;
+  readonly latinName?: string | undefined;
   readonly kind: ProduceKind;
   readonly groupSlug: string;
   readonly summary: string;
   readonly varieties: ReadonlyArray<Variety>;
   readonly calendar: SeasonCalendar;
   readonly growingRegions: ReadonlyArray<GrowingRegion>;
-  readonly nutrition: NutritionFacts;
+  readonly nutrition?: NutritionFacts | undefined;
   readonly preparation: ReadonlyArray<PreparationTip>;
   readonly traditionalUses: ReadonlyArray<TraditionalUse>;
-  readonly howToChoose: string;
-  readonly storage: string;
+  readonly howToChoose?: string | undefined;
+  readonly storage?: string | undefined;
   readonly faq: ReadonlyArray<FaqItem>;
   readonly updatedAt: Date;
   readonly photo?: ProducePhoto | undefined;
@@ -68,18 +71,18 @@ export interface ProduceInput {
 export class Produce {
   readonly slug: string;
   readonly name: string;
-  readonly latinName: string;
+  readonly latinName: string | undefined;
   readonly kind: ProduceKind;
   readonly groupSlug: string;
   readonly summary: string;
   readonly varieties: ReadonlyArray<Variety>;
   readonly calendar: SeasonCalendar;
   readonly growingRegions: ReadonlyArray<GrowingRegion>;
-  readonly nutrition: NutritionFacts;
+  readonly nutrition: NutritionFacts | undefined;
   readonly preparation: ReadonlyArray<PreparationTip>;
   readonly traditionalUses: ReadonlyArray<TraditionalUse>;
-  readonly howToChoose: string;
-  readonly storage: string;
+  readonly howToChoose: string | undefined;
+  readonly storage: string | undefined;
   readonly faq: ReadonlyArray<FaqItem>;
   readonly photo: ProducePhoto | undefined;
   readonly growing: GrowingGuide | undefined;
