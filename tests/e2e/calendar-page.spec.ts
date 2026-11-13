@@ -3,8 +3,10 @@ import { expectNoAxeViolations, jsonLdOf } from './a11y';
 
 const A4_LANDSCAPE_PX = 1123;
 const BLACK = 'rgb(0, 0, 0)';
-/** The printed calendar may take two A4 landscape sheets, so it scales to about 60 produce (spec 043). */
-const MAX_PRINT_SHEETS = 2;
+/** The printed calendar may always take two A4 landscape sheets (spec 043). */
+const MIN_PRINT_SHEETS_ALLOWED = 2;
+/** Produce rows one A4 landscape sheet holds at the readable print spacing (spec 043, spec 053). */
+const ROWS_PER_SHEET = 30;
 
 test.describe('calendar page', () => {
   test('AC6: /kalendar has one h1, canonical and BreadcrumbList JSON-LD', async ({ page }) => {
@@ -41,7 +43,7 @@ test.describe('calendar page', () => {
     await expectNoAxeViolations(page);
   });
 
-  test('AC7 (amended by spec 043): prints on at most two A4 landscape sheets without the site chrome', async ({
+  test('AC7 (amended by specs 043 and 053): prints on as many A4 landscape sheets as its rows need, without the site chrome', async ({
     page,
   }) => {
     await page.setViewportSize({ width: A4_LANDSCAPE_PX, height: 794 });
@@ -53,7 +55,10 @@ test.describe('calendar page', () => {
     const pdf = await page.pdf({ preferCSSPageSize: true });
     const sheets = pdf.toString('latin1').match(/\/Type\s*\/Page\b/g) ?? [];
     expect(sheets.length).toBeGreaterThanOrEqual(1);
-    expect(sheets.length).toBeLessThanOrEqual(MAX_PRINT_SHEETS);
+    const rows = await page.locator('.year th[scope="row"]').count();
+    const maxSheets = Math.max(MIN_PRINT_SHEETS_ALLOWED, Math.ceil(rows / ROWS_PER_SHEET));
+    expect(sheets.length).toBeLessThanOrEqual(maxSheets);
+    await expect(page.locator('.year tbody tr').first()).toHaveCSS('break-inside', 'avoid');
   });
 
   test('QA 043: a printed calendar repeats its month header and keeps each kind heading with its rows', async ({
