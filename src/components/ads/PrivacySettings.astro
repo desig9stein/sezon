@@ -3,10 +3,10 @@ import type { AdSenseConfig } from '@composition/adsense';
 import { ui } from '@i18n/bg';
 
 /**
- * Privacy settings on the cookies page (spec 046). With AdSense on: a „Настройки за
- * поверителност“ button, hidden until its script reveals it, that reopens Google's privacy message
- * (ADR-0007), and a note for readers without JavaScript. With AdSense off: a sentence that no
- * consent is stored, and no script.
+ * Privacy settings on the cookies page (spec 046). With AdSense on: a control, hidden until its
+ * script reveals it, with a „Настройки за поверителност“ button that reopens Google's privacy
+ * message (ADR-0007) and the button's description; then a note for readers without JavaScript.
+ * With AdSense off: a sentence that no consent is stored, and no script.
  */
 interface Props {
   /** The AdSense configuration; `undefined` while AdSense is off. */
@@ -15,22 +15,19 @@ interface Props {
 
 const { adsense } = Astro.props;
 const labels = ui.cookies;
+const helpId = 'privacy-settings-help';
 ---
 
 {adsense === undefined && <p>{labels.noConsentStored}</p>}
 
 {adsense !== undefined && (
   <>
-    <p>{labels.settingsIntro}</p>
-    <button
-      class="privacy-settings"
-      type="button"
-      data-privacy-settings
-      data-ad-client={adsense.client}
-      hidden
-    >
-      {labels.settingsButton}
-    </button>
+    <div class="privacy-settings" data-privacy-settings data-ad-client={adsense.client} hidden>
+      <p id={helpId}>{labels.settingsIntro}</p>
+      <button class="privacy-settings__button" type="button" aria-describedby={helpId}>
+        {labels.settingsButton}
+      </button>
+    </div>
     <p>{labels.settingsNoScript}</p>
     <script>
       import { initPrivacySettings } from './privacySettings';
@@ -42,6 +39,16 @@ const labels = ui.cookies;
 
 <style>
   .privacy-settings {
+    display: grid;
+    gap: var(--space-2);
+    justify-items: start;
+  }
+
+  .privacy-settings[hidden] {
+    display: none;
+  }
+
+  .privacy-settings__button {
     min-height: var(--target-min);
     padding: var(--space-2) var(--space-4);
     border: 0;

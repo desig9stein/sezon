@@ -1,7 +1,9 @@
-import { ADSENSE_SCRIPT_URL, appendAdSenseScript } from './adsenseLoader';
+import { ensureAdSenseScript } from './adsenseLoader';
 
-/** The button that reopens Google's privacy message. */
-const BUTTON_SELECTOR = 'button[data-privacy-settings]';
+export { ensureAdSenseScript };
+
+/** The control that holds the button reopening Google's privacy message and its description. */
+const CONTROL_SELECTOR = '[data-privacy-settings]';
 
 /** The parts of Google's Privacy & messaging API (`window.googlefc`) the button uses. */
 export interface GoogleFundingChoices {
@@ -30,28 +32,16 @@ export function queueRevocationMessage(target: PrivacyWindow): void {
 }
 
 /**
- * Appends the AdSense tag, which delivers Google's privacy message, unless it is already on the
- * page.
- * @param document - The page document.
- * @param client - The AdSense publisher id.
- */
-export function ensureAdSenseScript(document: Document, client: string): void {
-  const loaded = [...document.querySelectorAll('script[src]')].some((script) =>
-    (script.getAttribute('src') ?? '').startsWith(ADSENSE_SCRIPT_URL),
-  );
-  if (!loaded) appendAdSenseScript(document, client);
-}
-
-/**
- * Reveals the privacy settings button and makes it reopen Google's privacy message: a click loads
- * the AdSense tag if needed and queues the message. Does nothing without the button.
+ * Reveals the privacy settings control and makes its button reopen Google's privacy message: a
+ * click loads the AdSense tag if needed and queues the message. Does nothing without the control.
  * @param target - `window`, or a stand-in in tests.
  */
 export function initPrivacySettings(target: PrivacyWindow): void {
-  const button = target.document.querySelector<HTMLButtonElement>(BUTTON_SELECTOR);
-  const client = button?.dataset.adClient;
-  if (button === null || client === undefined) return;
-  button.hidden = false;
+  const control = target.document.querySelector<HTMLElement>(CONTROL_SELECTOR);
+  const client = control?.dataset.adClient;
+  const button = control?.querySelector('button');
+  if (control === null || control === undefined || client === undefined || !button) return;
+  control.hidden = false;
   button.addEventListener('click', () => {
     ensureAdSenseScript(target.document, client);
     queueRevocationMessage(target);

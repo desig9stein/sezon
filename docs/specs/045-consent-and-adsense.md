@@ -1,6 +1,6 @@
 # 045. Consent and lazy AdSense fallback
 
-- **Status:** Approved
+- **Status:** Approved (amended by QA 045/046, section 11)
 - **Bounded context(s):** composition (site configuration), UI (advertising components)
 - **Related:** issue #19, ADR-0003 (hybrid advertising), ADR-0007 (Google Privacy & messaging),
   ADR-0005 (Lighthouse), spec 037 (sponsors and ad slot), spec 046 (privacy and cookies pages)
@@ -30,18 +30,23 @@ rendered or requested.
 - **Configuration** (`src/composition/adsense.ts`):
   - `PUBLIC_ADSENSE_CLIENT`: the publisher id, `ca-pub-` followed by 10–20 digits. Blank or unset
     turns AdSense off.
-  - `PUBLIC_ADSENSE_SLOT`: the ad unit id from the AdSense ad code (`data-ad-slot`), digits only.
+  - `PUBLIC_ADSENSE_SLOT`: the ad unit id from the AdSense ad code (`data-ad-slot`), digits only
+    and not all zeros (Google's own example `0123456789` has a leading zero, so one is allowed).
     Every ad unit code in Google's documentation carries a `data-ad-slot`, so it is required when
     the client is set.
-  - Both documented in `.env.example`.
+  - Both documented in `.env.example`, with the owner action: keep **Auto ads off** for this site
+    in the AdSense account, because Auto ads place anchors, vignettes and ads above the fold, which
+    ADR-0003 forbids.
 - **UI:**
-  - `AdSlot` takes an optional `adsense` configuration. Without a sponsor and with AdSense on, it
+  - `AdSlot` takes a required `adsense` configuration (`undefined` while AdSense is off). Without a sponsor and with AdSense on, it
     renders the reserved box with an `<ins class="adsbygoogle">`.
   - `AdSenseLoader.astro`: renders only the island `<script>`, and `AdSlot` renders it only in the
     AdSense branch, so pages without an AdSense box get no script.
   - `adsenseLoader.ts`: the island's logic, with pure, testable parts.
 - **Pages:** the produce and month pages pass the configuration to `AdSlot`.
-- **CSP** (`public/_headers`): the hosts the AdSense tag and the consent message are known to use.
+- **CSP at build time** (`src/composition/adsenseHeaders.mjs`, an Astro integration): the
+  committed `public/_headers` keeps the policy without any Google host; the `astro:build:done` hook
+  adds the AdSense sources to the built `_headers` only when a built page renders AdSense markup.
 
 ### Out of scope
 
@@ -59,8 +64,8 @@ No domain change. Configuration lives in the composition root:
   - trims both values;
   - returns `undefined` when the client is blank or unset (AdSense off), whatever the slot;
   - throws `InvalidConfigurationError` when the client does not match `/^ca-pub-\d{10,20}$/`;
-  - throws `InvalidConfigurationError` when the client is set and the slot is blank or not digits
-    only (`/^\d+$/`);
+  - throws `InvalidConfigurationError` when the client is set and the slot is blank, not digits
+    only or all zeros (`/^(?!0+$)\d+$/`);
   - otherwise returns a frozen `{ client, slot }`.
 - `ADSENSE: AdSenseConfig | undefined`: `adsenseConfig` applied to
   `import.meta.env.PUBLIC_ADSENSE_CLIENT` and `PUBLIC_ADSENSE_SLOT`, evaluated once at build time.
@@ -72,6 +77,11 @@ Island logic (`src/components/ads/adsenseLoader.ts`):
 - `adsenseScriptUrl(client)`: the tag URL with `?client=<client>` (as in Google's ad code).
 - `nearTargets(entries)`: the targets of the entries that intersect (pure).
 - `loadOnce(load)`: returns a function that calls `load` on its first call only.
+- `ensureAdSenseScript(document, client)`: appends the tag unless a tag script is already on the
+  page; the island's `loadOnce` wraps it, so the island and the privacy button (spec 046) never
+  load the tag twice.
+- `INTERACTION_EVENTS = ['scroll', 'wheel', 'touchmove', 'keydown']`: the reader actions after which
+  the island starts observing.
 - `initAdSense(environment)`: the side-effecting entry point, with `document`, the
   `IntersectionObserver` constructor (may be missing) and the `adsbygoogle` queue holder injected.
 
@@ -97,12 +107,18 @@ Island logic (`src/components/ads/adsenseLoader.ts`):
   - Finds every `ins.adsbygoogle` that has a `data-ad-client` and no `data-sezon-requested`.
     None: does nothing.
   - `IntersectionObserver` missing: does nothing (no ads, no consent message, no requests).
-  - Observes the slots with `rootMargin` `200px 0px`. Never loads anything on page load.
+  - **Waits for the reader's first interaction**: one passive listener per event in
+    `INTERACTION_EVENTS`, removed after the first one fires. An `IntersectionObserver` reports
+    every observed target once at `observe()`, so observing on page load would load the tag at
+    once wherever a slot is within 200 px of the first screen (QA measured 10 of 12 month pages at
+    1920 × 1080). Nothing loads on page load, even when a slot is already in view.
+  - After that interaction, observes the slots with `rootMargin` `200px 0px`.
   - When a slot is near: loads the tag once per page (an `async` `<script>` with
     `crossorigin="anonymous"` and the `client` query, appended to `<head>`), pushes `{}` onto
     `window.adsbygoogle` (creating the array when missing), marks the slot
     `data-sezon-requested`, and stops observing it.
-  - Further near slots push again, but never append a second tag.
+  - Further near slots push again, but never append a second tag, also when the privacy button
+    already appended one.
 - **Without JavaScript:** the empty box and its label stay; no ad and no consent message load. The
   label is accurate: the space is reserved for advertising.
 - **Without CSS:** the `<ins>` is empty and takes no space; the label reads „Реклама“.
@@ -110,22 +126,43 @@ Island logic (`src/components/ads/adsenseLoader.ts`):
   audit never loads the tag. CI builds with AdSense off in any case.
 - **Configuration errors fail the build** with `InvalidConfigurationError`: a client such as
   `pub-123`, `ca-pub-12`, or a slot with letters.
-- **CSP:** Google's AdSense help page „Integrate the AdSense ad code with a Content Security Policy“
-  supports only a strict, nonce-based policy with `'strict-dynamic'`, because the hosts the ad code
-  uses change over time. A static Cloudflare Pages site cannot issue a fresh nonce per response
-  without a Pages Function. This feature therefore adds a host allowlist, limited to hosts named in
-  Google documentation or observed for the consent message:
-  - `script-src`: `https://pagead2.googlesyndication.com` (the AdSense tag) and
-    `https://fundingchoicesmessages.google.com` (the Privacy & messaging script);
-  - `img-src` and `connect-src`: `https://pagead2.googlesyndication.com`,
-    `https://googleads.g.doubleclick.net`, `https://www.google.com` (Google tag platform CSP guide);
-    `connect-src` also `https://fundingchoicesmessages.google.com`;
-  - `frame-src`: `https://googleads.g.doubleclick.net` and
-    `https://fundingchoicesmessages.google.com`.
+- **CSP:**
+  - Google's AdSense help page „Integrate the AdSense ad code with a Content Security Policy“
+    supports only a strict, nonce-based policy with `'strict-dynamic'`, because the hosts the ad
+    code uses change over time. A static Cloudflare Pages site cannot issue a fresh nonce per
+    response without a Pages Function. **A nonce-based CSP needs a new ADR**; this feature uses a
+    host allowlist.
+  - **AdSense off:** the built `_headers` is byte-identical to the committed `public/_headers`; no
+    Google host is allowed.
+  - **AdSense on:** `adsenseHeaders()` (`astro:build:done`) scans the built pages for
+    `data-ad-client="ca-pub-…"` (an ad unit or the privacy settings control) and, if found, appends
+    `ADSENSE_CSP_SOURCES` to the built CSP. A directive the policy lacks (`connect-src`,
+    `frame-src`) starts with `'self'`, as `default-src 'self'` allowed before. Other directives and
+    headers are unchanged; `frame-ancestors 'none'` stays.
+    - `script-src`: `https://pagead2.googlesyndication.com` (the tag),
+      `https://tpc.googlesyndication.com` and `https://ep2.adtrafficquality.google` (Google's
+      `sodar` traffic-quality scripts), `https://fundingchoicesmessages.google.com` (the Privacy &
+      messaging script);
+    - `img-src`: `https://pagead2.googlesyndication.com`, `https://googleads.g.doubleclick.net`,
+      `https://www.google.com` (Google tag platform CSP guide);
+    - `connect-src`: the `img-src` hosts, `https://ep1.adtrafficquality.google` (`sodar`
+      configuration) and `https://fundingchoicesmessages.google.com`;
+    - `frame-src`: `https://googleads.g.doubleclick.net`, `https://tpc.googlesyndication.com` and
+      `https://*.safeframe.googlesyndication.com` (ad frames and name frames),
+      `https://fundingchoicesmessages.google.com`.
+  - The `tpc`, `safeframe` and `adtrafficquality` hosts were found by QA in Google's current
+    `adsbygoogle.js` and `show_ads_impl` (2026-11-13).
+  - **`fonts.googleapis.com` is not allowed.** `show_ads_impl` injects a `fonts.googleapis.com`
+    style sheet (Google Symbols) for some ad formats' own controls, such as anchors and vignettes,
+    which are Auto ads formats that stay off (`.env.example`). Allowing it would also need
+    `fonts.gstatic.com` in `font-src`. If the owner later sees a violation for it, the cost is a
+    missing icon in Google's controls, not a missing ad.
   - **Owner action before enabling AdSense:** load a page with AdSense on, scroll to a slot, and
-    check the browser console for CSP violations; add exactly the reported hosts, or move to a
-    nonce-based policy with a Pages Function (new ADR). While AdSense is off these hosts are never
-    contacted.
+    check the browser console for CSP violations; add exactly the reported hosts to
+    `ADSENSE_CSP_SOURCES`, or move to a nonce-based policy (new ADR).
+- **Built chunks:** Astro builds the island's chunk whenever `AdSlot` is imported, so `_astro/*.js`
+  contains the Google tag URL even with AdSense off. No page references it; an e2e test checks that
+  no built HTML names the AdSense or privacy scripts or a Google ad host.
 
 ## 6. Accessibility requirements
 
@@ -175,10 +212,24 @@ Island logic (`src/components/ads/adsenseLoader.ts`):
 12. **AC12:** Given the default build (AdSense off), when produce and month pages load and are
     scrolled to the bottom, then no request goes to `googlesyndication` or
     `fundingchoicesmessages` and there is no `adsbygoogle` markup.
-13. **AC13:** Given the built `_headers`, then the CSP allows the AdSense and Funding Choices script
-    hosts in `script-src` and still forbids framing the site (`frame-ancestors 'none'`).
+13. **AC13:** Given the default build (AdSense off), then the built `_headers` is byte-identical to
+    `public/_headers`, allows no Google host and still forbids framing (`frame-ancestors 'none'`).
 14. **AC14:** Given `.env.example`, then it documents `PUBLIC_ADSENSE_CLIENT` and
     `PUBLIC_ADSENSE_SLOT`.
+15. **AC15 (QA1):** Given a slot already in view, whose observer reports it at `observe()`, when
+    `initAdSense` runs, then no observer and no script exist until the first `scroll`, `wheel`,
+    `touchmove` or `keydown`; after it, the tag loads once; other events do nothing.
+16. **AC16 (QA2):** Given built pages without AdSense markup, when the `astro:build:done` hook
+    runs, then `_headers` is unchanged byte for byte; given a page with an AdSense unit, then it is
+    `withAdSenseSources(_headers)`, and the committed `public/_headers` has no Google host.
+17. **AC17 (QA3):** Given `withAdSenseSources`, then every host in section 5 („CSP“) is in its
+    directive, the original sources come first, and `frame-ancestors 'none'` is kept.
+18. **AC18 (QA7):** Given the default build, then no built HTML names the AdSense or privacy
+    scripts or a Google ad host.
+19. **AC19 (QA11, QA15):** Given `.env.example`, then it says to keep Auto ads off; given the slot
+    `0` or `000`, `adsenseConfig` throws, and `0123456789` is accepted.
+20. **AC20 (QA13):** Given a page that already has the tag, when a slot comes near, then no second
+    tag is appended.
 
 ## 9. Test plan
 
@@ -198,6 +249,12 @@ Island logic (`src/components/ads/adsenseLoader.ts`):
 | AC12 | e2e       | `tests/e2e/adsense.spec.ts`                               |
 | AC13 | e2e       | `tests/e2e/adsense.spec.ts` (reads `dist/_headers`)       |
 | AC14 | unit      | `tests/unit/composition/adsense.test.ts` (reads the file) |
+| AC15 | unit      | `tests/unit/components/ads/adsenseLoader.test.ts`         |
+| AC16 | unit      | `tests/unit/composition/adsenseHeaders.test.ts`           |
+| AC17 | unit      | `tests/unit/composition/adsenseHeaders.test.ts`           |
+| AC18 | e2e       | `tests/e2e/adsense.spec.ts`                               |
+| AC19 | unit      | `tests/unit/composition/adsense.test.ts`                  |
+| AC20 | unit      | `tests/unit/components/ads/adsenseLoader.test.ts`         |
 
 ## 10. Third-party documentation consulted
 
@@ -211,3 +268,14 @@ Island logic (`src/components/ads/adsenseLoader.ts`):
 | Cloudflare Radar           | –       | https://v2.radar.cfdata.org/ko-kr/scan/beeef79d-314e-46f7-a436-018a9e9392cc/summary, a scan listing `fundingchoicesmessages.google.com` as an AdSense script source (search result, 2026-11-13) | The Privacy & messaging script host (confirmed on 2026-11-13: in a local build with a test publisher id, the AdSense tag requested `https://fundingchoicesmessages.google.com/i/<client>` and further scripts from `pagead2.googlesyndication.com` only) |
 | astro                      | 7.4.8   | `/withastro/docs` (Context7): `guides/client-side-scripts.mdx`, `guides/upgrade-to/v5.mdx`                                                                                                      | Processed `<script>` tags are bundled, deduplicated, `type="module"`, and rendered only where the component that declares them is rendered                                                                                                               |
 | happy-dom                  | 21.0.4  | `node_modules/happy-dom` type definitions (`Window`)                                                                                                                                            | A DOM for the island's unit test                                                                                                                                                                                                                         |
+| astro                      | 7.4.8   | `/withastro/docs` (Context7): `reference/integrations-reference.mdx`                                                                                                                            | `astro:build:done` receives `dir` (the output directory URL); write files with `fileURLToPath(new URL(file, dir))`                                                                                                                                       |
+| QA artefacts               | –       | `adsbygoogle.js` and `show_ads_impl_fy2021.js` as served by Google on 2026-11-13 (kept in the session scratchpad by QA)                                                                         | Hosts the tag uses: `tpc.googlesyndication.com`, `*.safeframe.googlesyndication.com`, `ep1`/`ep2.adtrafficquality.google`, `fonts.googleapis.com` (Google Symbols)                                                                                       |
+
+## 11. QA amendments (QA 045/046)
+
+- The island waits for the first reader interaction before observing (AC15).
+- The CSP is generated at build time and loosened only when AdSense is on (AC16, AC17); hosts
+  added from Google's current tag (section 5).
+- `AdSlot`'s `adsense` prop is required; the slot id may not be all zeros (AC19).
+- The island reuses `ensureAdSenseScript`, so the tag never loads twice (AC20).
+- `.env.example` and this spec ask the owner to keep Auto ads off (AC19).

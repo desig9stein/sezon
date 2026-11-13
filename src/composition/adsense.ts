@@ -2,8 +2,8 @@ import { InvalidConfigurationError } from '@shared/domain/errors';
 
 /** A Google AdSense publisher id: `ca-pub-` and its digits. */
 const CLIENT_PATTERN = /^ca-pub-\d{10,20}$/;
-/** An AdSense ad unit id (`data-ad-slot`): digits only. */
-const SLOT_PATTERN = /^\d+$/;
+/** An AdSense ad unit id (`data-ad-slot`): digits, not all zeros; a leading zero is allowed. */
+const SLOT_PATTERN = /^(?!0+$)\d+$/;
 
 /** The AdSense publisher and ad unit that fill ad slots without a sponsor (ADR-0003). */
 export interface AdSenseConfig {
@@ -15,8 +15,8 @@ export interface AdSenseConfig {
  * Returns the AdSense configuration, or `undefined` when AdSense is off.
  * @param client - `PUBLIC_ADSENSE_CLIENT`; blank or unset turns AdSense off.
  * @param slot - `PUBLIC_ADSENSE_SLOT`; required when `client` is set.
- * @throws InvalidConfigurationError when the client is not a publisher id, or the slot is missing
- *   or not digits only while the client is set.
+ * @throws InvalidConfigurationError when the client is not a publisher id, or the slot is missing,
+ *   not digits only or all zeros while the client is set.
  */
 export function adsenseConfig(
   client: string | undefined,
@@ -32,7 +32,7 @@ export function adsenseConfig(
   const trimmedSlot = (slot ?? '').trim();
   if (!SLOT_PATTERN.test(trimmedSlot)) {
     throw new InvalidConfigurationError(
-      `PUBLIC_ADSENSE_SLOT must be the digits of an AdSense ad unit id: "${trimmedSlot}"`,
+      `PUBLIC_ADSENSE_SLOT must be the digits of an AdSense ad unit id, not all zeros: "${trimmedSlot}"`,
     );
   }
   return Object.freeze({ client: trimmedClient, slot: trimmedSlot });

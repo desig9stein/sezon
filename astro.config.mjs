@@ -7,6 +7,7 @@ import {
   FONT_SUBSETS,
   subsetFile,
 } from './src/design/fontSubsets.mjs';
+import { adsenseHeaders } from './src/composition/adsenseHeaders.mjs';
 
 const NOT_FOUND_PATH = '/404';
 const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://sezon.example';
@@ -68,7 +69,7 @@ export default defineConfig({
       },
     },
   ],
-  integrations: [sitemap({ filter: (page) => !page.endsWith(NOT_FOUND_PATH) })],
+  integrations: [sitemap({ filter: (page) => !page.endsWith(NOT_FOUND_PATH) }), adsenseHeaders()],
   vite: {
     // Never inline page scripts: the CSP allows only same-origin script files.
     build: { assetsInlineLimit: 0 },

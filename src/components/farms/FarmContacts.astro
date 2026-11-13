@@ -4,7 +4,8 @@ import { ui } from '@i18n/bg';
 
 /**
  * A farm's contact links as a list: website, email and phone, whichever the farm has. Each link's
- * accessible name includes the farm name; the phone number does not wrap.
+ * accessible name includes the farm name; the phone number does not wrap. A sponsored farm's
+ * website link is marked `rel="sponsored noopener"`.
  */
 interface Props {
   farm: Farm;
@@ -12,12 +13,14 @@ interface Props {
 
 const { farm } = Astro.props;
 const labels = ui.produce.farms;
+/** A sponsored farm's website is a paid link (Google's guidance on qualifying outbound links). */
+const websiteRel = farm.sponsored ? 'sponsored noopener' : 'noopener';
 ---
 
 <ul class="farm-contacts" role="list">
   {farm.contact.website !== undefined && (
     <li>
-      <a href={farm.contact.website} rel="noopener">
+      <a href={farm.contact.website} rel={websiteRel}>
         {labels.website(farm.name)}
       </a>
     </li>

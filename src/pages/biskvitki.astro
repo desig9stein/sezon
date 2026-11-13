@@ -39,7 +39,7 @@ const jsonLd = [
       <h2 class="section-heading" id="cookies-site">
         {labels.siteHeading}
       </h2>
-      <p>{labels.siteNone}</p>
+      <p>{ADSENSE === undefined ? labels.siteOff : labels.siteOn}</p>
     </section>
 
     <section aria-labelledby="cookies-google">
