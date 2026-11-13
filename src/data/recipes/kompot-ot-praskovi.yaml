@@ -1,0 +1,38 @@
+title: Компот от праскови
+summary: Компот от жълти праскови – обелени половинки в буркан със захар и лимонов сок, залети с вряла вода и стерилизирани във водна баня.
+category: compote
+produce: [praskovi]
+yield: от 900 г праскови
+processingMinutes: 30
+ingredients:
+  - { name: Праскови с жълта сърцевина, quantity: 900, unit: g }
+  - { name: Захар, quantity: 200, unit: g }
+  - { name: Лимонов сок, quantity: 2, unit: tbsp }
+  - { name: Вода, quantity: 2.5, unit: l }
+steps:
+  - Използвай само праскови с жълта сърцевина.
+  - Потопи прасковите във вряща вода за 30–60 секунди, после бързо в студена вода и обели кожата.
+  - Разрежи ги на половинки и махни костилките.
+  - Подреди половинките в бурканите с разрязаната страна надолу и разпредели в тях захарта и лимоновия сок.
+  - Кипни водата и я налей в бурканите, като оставиш 1,3 см празно до ръба. Избърши ръба и затвори капачките.
+  - 'Вари бурканите във вряща водна баня от момента, в който водата заври: 25 минути за буркани до 470 мл и 30 минути за буркани до 950 мл, до 300 м надморска височина.'
+safety:
+  note: 'Не консервирай във водна баня праскови с бяла сърцевина: някои сортове са по-малко кисели и за тях няма проверен начин за водна баня, затова ги замрази. Обелването и времето във водна баня идват от NCHFP: статията, на която е основана рецептата, не обелва прасковите и само затваря бурканите. Не опитвай компот от буркан с издута или отворена капачка.'
+  sterilisation: 'Сурово пълнене, вряща водна баня. Буркани до 470 мл: 25 минути до 300 м надморска височина, 30 минути от 300 до 900 м, 35 минути от 900 до 1800 м и 40 минути над 1800 м. Буркани до 950 мл: 30, 35, 40 и 45 минути. За по-големи буркани няма проверено време. Бурканите не е нужно да се стерилизират предварително, защото се варят 10 минути или повече.'
+  storage: 'Пази затворените буркани на чисто, хладно, тъмно и сухо място, най-добре при 10–21 °C, никога над 35 °C, и ги използвай до година.'
+  sources:
+    - name: 'National Center for Home Food Preservation – Peaches-Halved or Sliced'
+      url: https://nchfp.uga.edu/how/can/canning-fruits-and-fruit-products/peaches-halved-or-sliced/
+    - name: 'National Center for Home Food Preservation – Using Boiling Water Canners'
+      url: https://nchfp.uga.edu/publications/uga-publications/using-boiling-water-canners
+    - name: 'National Center for Home Food Preservation – Recommended Jars and Lids'
+      url: https://nchfp.uga.edu/how/can/general-information/recommended-jars-and-lids/
+    - name: 'National Center for Home Food Preservation – Sterilization of Empty Jars'
+      url: https://nchfp.uga.edu/how/can/general-information/sterilization-of-empty-jars/
+    - name: 'National Center for Home Food Preservation – Storing Home Canned Foods'
+      url: https://nchfp.uga.edu/how/can/general-information/storing-home-canned-foods/
+sources:
+  - name: 'Български фермер – Най-вкусните компоти за зимата'
+    url: https://www.bgfermer.bg/Article/23461966
+publishedAt: 2026-11-13
+updatedAt: 2026-11-13

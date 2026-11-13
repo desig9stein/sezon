@@ -5,6 +5,7 @@ import type {
 } from '@contexts/catalog/infrastructure/schemas';
 import type { FarmRecord } from '@contexts/farms/infrastructure/schemas';
 import type { RegionRecord } from '@contexts/geography/infrastructure/schemas';
+import type { RecipeRecord } from '@contexts/recipes/infrastructure/schemas';
 
 /** All validated content records, keyed by entry id, per collection. */
 export interface ContentRecords {
@@ -13,6 +14,7 @@ export interface ContentRecords {
   readonly nutrients: ReadonlyMap<string, NutrientRecord>;
   readonly regions: ReadonlyMap<string, RegionRecord>;
   readonly farms: ReadonlyMap<string, FarmRecord>;
+  readonly recipes: ReadonlyMap<string, RecipeRecord>;
 }
 
 type CollectionName = keyof ContentRecords;
@@ -37,6 +39,11 @@ function* referencesOf(content: ContentRecords): Generator<Reference> {
     yield { from: `farms/${id}`, to: 'regions', id: farm.region };
     for (const produce of farm.produce) {
       yield { from: `farms/${id}`, to: 'produce', id: produce };
+    }
+  }
+  for (const [id, recipe] of content.recipes) {
+    for (const produce of recipe.produce) {
+      yield { from: `recipes/${id}`, to: 'produce', id: produce };
     }
   }
 }

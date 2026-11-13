@@ -18,7 +18,7 @@ import { render, TEST_SITE } from './render';
 
 /**
  * Replaces the produce page's content-backed services with in-memory ones: a minimal produce
- * (`hryan`, spec 049) and one with nutrition only (`zele`), and no sponsor.
+ * (`hryan`, spec 049) and one with nutrition only (`zele`), no sponsor and no recipe.
  */
 vi.mock('@composition/index', async (importOriginal) => {
   const actual = await importOriginal<typeof Composition>();
@@ -78,6 +78,7 @@ vi.mock('@composition/index', async (importOriginal) => {
       farms: new IndexedFarmRepository(async () => []),
     }),
     sponsorSelectionService: { forPlacement: async () => undefined },
+    recipeIndexService: { forProduce: async () => [] },
   };
 });
 

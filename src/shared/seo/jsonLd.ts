@@ -1,3 +1,4 @@
+import { hoursAndMinutes } from '@shared/domain/duration';
 import { InvalidPageMetaError } from '@shared/domain/errors';
 import { absoluteUrl } from './pageMeta';
 
@@ -235,6 +236,104 @@ export function localBusinessJsonLd(input: LocalBusinessJsonLdInput): JsonLd {
     ...(input.email === undefined ? {} : { email: input.email }),
     ...(input.address === undefined ? {} : { address: input.address }),
     ...(input.website === undefined ? {} : { sameAs: [input.website] }),
+  };
+}
+
+const RECIPE_CUISINE = 'Bulgarian';
+
+/** A length of time in whole days and minutes. */
+export interface DurationParts {
+  readonly days?: number | undefined;
+  readonly minutes: number;
+}
+
+/**
+ * Returns an ISO 8601 duration such as `PT25M`, `PT1H5M` or `P21DT1H5M`; zero is `PT0M`.
+ * @param duration - Whole days and minutes; minutes over 59 become hours.
+ */
+export function isoDuration({ days = 0, minutes }: DurationParts): string {
+  const { hours, minutes: rest } = hoursAndMinutes(minutes);
+  const time = `${hours > 0 ? `${hours}H` : ''}${rest > 0 ? `${rest}M` : ''}`;
+  const date = days > 0 ? `${days}D` : '';
+  if (date === '' && time === '') return 'PT0M';
+  return `P${date}${time === '' ? '' : `T${time}`}`;
+}
+
+/** Input for {@link recipeJsonLd}. Texts are already formatted for display. */
+export interface RecipeJsonLdInput {
+  readonly siteUrl: string;
+  readonly path: string;
+  readonly name: string;
+  readonly description: string;
+  /** Category label, e.g. „компот“. */
+  readonly category: string;
+  readonly yield: string;
+  /** One formatted line per ingredient, e.g. „2,3 кг бяло зеле“. */
+  readonly ingredients: ReadonlyArray<string>;
+  readonly steps: ReadonlyArray<string>;
+  /** Preparation minutes, when a source gives them. */
+  readonly prepMinutes?: number | undefined;
+  /** Cooking minutes, when a source gives them. */
+  readonly cookMinutes?: number | undefined;
+  readonly processingMinutes: number;
+  /** Days of fermentation or maturing, counted in `totalTime`. */
+  readonly waitDays: number;
+  readonly datePublished: Date;
+  readonly dateModified: Date;
+  readonly citations: ReadonlyArray<{ readonly name: string; readonly url: string }>;
+}
+
+const isoDay = (date: Date): string => date.toISOString().slice(0, 10);
+
+/**
+ * Returns the ISO 8601 `prepTime`, `cookTime` and `totalTime` that the input supports: each time
+ * only when it is known, and `totalTime` (preparation, cooking, processing and waiting) only when
+ * preparation and cooking are both known.
+ */
+function recipeTimes({ prepMinutes, cookMinutes, processingMinutes, waitDays }: RecipeJsonLdInput) {
+  return {
+    ...(prepMinutes === undefined ? {} : { prepTime: isoDuration({ minutes: prepMinutes }) }),
+    ...(cookMinutes === undefined ? {} : { cookTime: isoDuration({ minutes: cookMinutes }) }),
+    ...(prepMinutes === undefined || cookMinutes === undefined
+      ? {}
+      : {
+          totalTime: isoDuration({
+            days: waitDays,
+            minutes: prepMinutes + cookMinutes + processingMinutes,
+          }),
+        }),
+  };
+}
+
+/**
+ * Returns schema.org `Recipe` data: ingredients, `HowToStep` instructions, the ISO 8601 times the
+ * sources support (see {@link recipeTimes}) and Bulgarian cuisine.
+ */
+export function recipeJsonLd(input: RecipeJsonLdInput): JsonLd {
+  return {
+    '@context': SCHEMA_CONTEXT,
+    '@type': 'Recipe',
+    name: input.name,
+    description: input.description,
+    url: absoluteUrl(input.siteUrl, input.path),
+    inLanguage: CONTENT_LANGUAGE,
+    recipeCategory: input.category,
+    recipeCuisine: RECIPE_CUISINE,
+    recipeYield: input.yield,
+    recipeIngredient: [...input.ingredients],
+    recipeInstructions: input.steps.map((text, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      text,
+    })),
+    ...recipeTimes(input),
+    datePublished: isoDay(input.datePublished),
+    dateModified: isoDay(input.dateModified),
+    citation: input.citations.map((citation) => ({
+      '@type': 'CreativeWork',
+      name: citation.name,
+      url: citation.url,
+    })),
   };
 }
 

@@ -1,0 +1,42 @@
+title: Компот от круши
+summary: Компот от круши на половинки, сварени 5 минути в много лек захарен сироп с лимонена киселина и стерилизирани във водна баня.
+category: compote
+produce: [krushi]
+yield: от 10 круши
+cookMinutes: 5
+processingMinutes: 25
+ingredients:
+  - { name: Круши, quantity: 10, unit: piece }
+  - { name: Захар, quantity: 1, unit: cup }
+  - { name: Вода, quantity: 2, unit: l }
+  - { name: Лимонена киселина, quantity: 1, unit: tsp }
+steps:
+  - Избери узрели круши, хубави за ядене.
+  - Измий и обели крушите, разрежи ги по дължина на половинки и изрежи семките.
+  - 'Кипни водата и разтвори в нея захарта: получава се много лек захарен сироп.'
+  - Сложи половинките круши във врящия сироп и ги вари 5 минути.
+  - Добави лимонената киселина и разбъркай.
+  - Напълни бурканите с горещите круши и сиропа, като оставиш 1,3 см празно до ръба. Избърши ръба и затвори капачките.
+  - 'Вари бурканите във вряща водна баня от момента, в който водата заври: 20 минути за буркани до 470 мл и 25 минути за буркани до 950 мл, до 300 м надморска височина.'
+safety:
+  note: 'Сиропът пази вкуса, цвета и формата на крушите, но не ги пази от разваляне – това прави варенето във водна баня. Петминутното варене на крушите и времето във водна баня идват от NCHFP: статията, на която е основана рецептата, вари крушите 3 минути и не стерилизира бурканите. Не опитвай компот от буркан с издута или отворена капачка.'
+  sterilisation: 'Горещо пълнене, вряща водна баня. Буркани до 470 мл: 20 минути до 300 м надморска височина, 25 минути от 300 до 900 м, 30 минути от 900 до 1800 м и 35 минути над 1800 м. Буркани до 950 мл: 25, 30, 35 и 40 минути. За по-големи буркани няма проверено време. Бурканите не е нужно да се стерилизират предварително, защото се варят 10 минути или повече.'
+  storage: 'Пази затворените буркани на чисто, хладно, тъмно и сухо място, най-добре при 10–21 °C, никога над 35 °C, и ги използвай до година.'
+  sources:
+    - name: 'National Center for Home Food Preservation – Pears-Halved'
+      url: https://nchfp.uga.edu/how/can/canning-fruits-and-fruit-products/pears-halved/
+    - name: 'National Center for Home Food Preservation – Preparing and Using Syrups for Canning Fruit'
+      url: https://nchfp.uga.edu/how/can/canning-fruits-and-fruit-products/preparing-and-using-syrups-for-canning-fruit/
+    - name: 'National Center for Home Food Preservation – Using Boiling Water Canners'
+      url: https://nchfp.uga.edu/publications/uga-publications/using-boiling-water-canners
+    - name: 'National Center for Home Food Preservation – Recommended Jars and Lids'
+      url: https://nchfp.uga.edu/how/can/general-information/recommended-jars-and-lids/
+    - name: 'National Center for Home Food Preservation – Sterilization of Empty Jars'
+      url: https://nchfp.uga.edu/how/can/general-information/sterilization-of-empty-jars/
+    - name: 'National Center for Home Food Preservation – Storing Home Canned Foods'
+      url: https://nchfp.uga.edu/how/can/general-information/storing-home-canned-foods/
+sources:
+  - name: 'Български фермер – Най-вкусните компоти за зимата'
+    url: https://www.bgfermer.bg/Article/23461966
+publishedAt: 2026-11-13
+updatedAt: 2026-11-13

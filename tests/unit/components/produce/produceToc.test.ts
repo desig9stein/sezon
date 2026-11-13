@@ -37,6 +37,19 @@ describe('produceToc (spec 049)', () => {
     expect(produceToc(produce).map((entry) => entry.id)).toEqual(['stall', 'farms', 'sources']);
   });
 
+  it('AC8: keeps the eat entry for a minimal produce with a recipe (spec 048)', () => {
+    const produce = toProduce(
+      'hryan',
+      produceSchemaWith({ image: testImage }).parse(MINIMAL_PRODUCE_INPUT),
+    );
+    expect(produceToc(produce, 1).map((entry) => entry.id)).toEqual([
+      'stall',
+      'eat',
+      'farms',
+      'sources',
+    ]);
+  });
+
   it('AC8: keeps the eat entry when only one of its sections has data', () => {
     const record = produceRecord({ preparation: [], traditionalUses: [] });
     expect(produceToc(toProduce('zele', record)).map((entry) => entry.id)).toContain('eat');

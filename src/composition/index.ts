@@ -26,12 +26,17 @@ import { IndexedFarmRepository } from '@contexts/farms/infrastructure/IndexedFar
 import { toFarm } from '@contexts/farms/infrastructure/mappers';
 import type { Region, RegionRepository } from '@contexts/geography';
 import { toRegion } from '@contexts/geography/infrastructure/mappers';
+import { RecipeIndexService } from '@contexts/recipes';
+import type { Recipe, RecipeRepository } from '@contexts/recipes';
+import { IndexedRecipeRepository } from '@contexts/recipes/infrastructure/IndexedRecipeRepository';
+import { toRecipe } from '@contexts/recipes/infrastructure/mappers';
 import { BrokenReferenceError } from '@shared/domain/errors';
 import { cachedLoad } from '@shared/infrastructure/cachedLoad';
 import { IndexedRepository } from '@shared/infrastructure/IndexedRepository';
 import { findBrokenReferences, type ContentRecords } from './contentIntegrity';
 import { ProduceDetailsQuery } from './ProduceDetailsQuery';
 import { FarmPagesQuery } from './FarmPagesQuery';
+import { RecipePagesQuery } from './RecipePagesQuery';
 import { RegionPagesQuery } from './RegionPagesQuery';
 
 interface Content {
@@ -40,6 +45,7 @@ interface Content {
   readonly nutrients: ReadonlyArray<Nutrient>;
   readonly regions: ReadonlyArray<Region>;
   readonly farms: ReadonlyArray<Farm>;
+  readonly recipes: ReadonlyArray<Recipe>;
 }
 
 function byId<T>(entries: ReadonlyArray<{ id: string; data: T }>): ReadonlyMap<string, T> {
@@ -53,6 +59,7 @@ async function loadContent(): Promise<Content> {
     nutrients: byId(await getCollection('nutrients')),
     regions: byId(await getCollection('regions')),
     farms: byId(await getCollection('farms')),
+    recipes: byId(await getCollection('recipes')),
   };
   const broken = findBrokenReferences(records);
   if (broken.length > 0) {
@@ -66,6 +73,7 @@ async function loadContent(): Promise<Content> {
     nutrients: map(records.nutrients, toNutrient),
     regions: map(records.regions, toRegion),
     farms: map(records.farms, toFarm),
+    recipes: map(records.recipes, toRecipe),
   };
 }
 
@@ -91,6 +99,18 @@ export const regionRepository: RegionRepository = new IndexedRepository(
 export const farmRepository: FarmRepository = new IndexedFarmRepository(
   async () => (await getContent()).farms,
 );
+
+/** Recipes for winter preserves loaded from content collections. */
+export const recipeRepository: RecipeRepository = new IndexedRecipeRepository(
+  async () => (await getContent()).recipes,
+);
+/** Lists recipes by category and by produce. */
+export const recipeIndexService = new RecipeIndexService(recipeRepository);
+/** Read model for the recipe index and recipe pages. */
+export const recipePagesQuery = new RecipePagesQuery({
+  recipes: recipeRepository,
+  produce: produceRepository,
+});
 
 /** Read model for produce detail pages. */
 export const produceDetailsQuery = new ProduceDetailsQuery({

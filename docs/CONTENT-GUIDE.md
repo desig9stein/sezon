@@ -74,7 +74,8 @@ table of contents entry.
 
 A block that is present is checked in full: nutrition needs every macronutrient and a source,
 each traditional use and growing guide needs its sources, and a photo needs `alt` and a credit.
-Omitted lists are the same as empty lists.
+Omitted lists are the same as empty lists. A recipe in `src/data/recipes/` that lists the produce
+adds the „Рецепти за зимнина“ block to „На масата“, even when the produce has no other block there.
 
 ### Full entry
 
@@ -255,6 +256,64 @@ comes from the farm's own published pages, listed in `sources`. List only seed p
 says it grows or sells. Write the description in the third person; what a farm says about
 itself that the site has not checked (e.g. „сертифицирана“ without a certifier, number and
 expiry) starts with „По данни на фермата …“. Note paused sales with the month of the check.
+
+## Add a recipe (`src/data/recipes/`)
+
+```yaml
+title: Компот от круши # the file name is the slug of the title
+summary: 70–160 characters, used as the meta description.
+category: compote # sauerkraut | pickle | preserve | jam | compote | jarred-vegetables
+produce: [krushi] # ids from src/data/produce, at least one
+yield: от 10 круши # as the source states it, else the main amount
+prepMinutes: 20 # optional: only when the recipe or safety source gives the time
+cookMinutes: 5 # optional: same rule; never estimate a time
+processingMinutes: 25 # boiling-water time at 0–300 m for the largest jar, from the safety source
+waitDays: 0 # optional: days of fermentation before the preserve is ready
+ingredients:
+  - { name: Круши, quantity: 10, unit: piece } # g | kg | ml | l | piece | tsp | tbsp | cup
+steps:
+  - Измий и обели крушите … # „ти“ voice, one line each
+safety:
+  note: The food-safety note, one line.
+  sterilisation: Jars and processing times by jar size and altitude, one line.
+  storage: How and how long to store, one line.
+  sources: # food-safety sources for every statement above and the processing step
+    - name: 'National Center for Home Food Preservation – Pears-Halved'
+      url: https://nchfp.uga.edu/how/can/canning-fruits-and-fruit-products/pears-halved/
+sources: # the recipe article(s), titles copied exactly
+  - name: 'Български фермер – Най-вкусните компоти за зимата'
+    url: https://www.bgfermer.bg/Article/23461966
+publishedAt: 2026-11-13
+updatedAt: 2026-11-13
+```
+
+- **Recipes are optional.** The site's core is the season of each produce. Add a recipe only when
+  its safety is fully sourced; drop it rather than adapt it.
+- **Base every recipe on an editorial Bulgarian recipe article** (bgfermer.bg or agrozona.bg, which
+  a test checks), not a user-submitted recipe site, and copy its title into `sources`.
+- **Follow a tested pack.** Fill the jars the way the safety source does (for example fruit packed
+  to the shoulder, not a third of the jar topped with water); otherwise leave the recipe out.
+- **Every food-safety statement needs a food-safety source:** salt, sugar, acid or vinegar amounts,
+  processing times, jar sizes, altitude and storage. Use the National Center for Home Food
+  Preservation (nchfp.uga.edu), Ask Extension, a university extension (`.edu`), БАБХ or the EU. A
+  test rejects safety sources from other hosts.
+- **When the recipe article and the safety source disagree** on something that affects safety, follow
+  the safety source and say so in the safety note („… идва от NCHFP: статията … само затваря
+  бурканите“).
+- **Leave a recipe out** when no tested source covers it: low-acid vegetables without a tested
+  vinegar ratio (beets, mixed pickles), anything that needs a pressure canner (pumpkin, plain beets)
+  or lye or lime (green walnuts).
+- NCHFP's altitudes are in feet: 0–1,000 ft is „до 300 м“, 1,001–3,000 ft „300–900 м“, 3,001–6,000 ft
+  „900–1800 м“ and above 6,000 ft „над 1800 м“; give every band. A pint jar is „до 470 мл“, a quart
+  „до 950 мл“; larger jars have no tested time.
+- The processing step says „от момента, в който водата заври“. The water-bath rules (water depth,
+  timing, restart, cooling, seal check, new lids) are one shared list on every recipe page
+  (`ui.recipes.waterBath`), so cite NCHFP „Using Boiling Water Canners“ and „Recommended Jars and
+  Lids“ in every recipe's `safety.sources` and do not repeat the rules in the notes.
+- **Sweet spreads (сладко, конфитюр)** use NCHFP's preserve-recipe process: sterile jars up to 470 мл,
+  5 minutes up to 300 м, 10 minutes from 300 to 1800 м, 15 minutes above 1800 м. Cite the NCHFP
+  preserves recipe for the fruit (for example Plum Preserves).
+- Steps use „ти“; no health claims and never „богат на“.
 
 ## Add a sponsor (`src/data/sponsors/`)
 

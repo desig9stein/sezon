@@ -1,0 +1,251 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { routes } from '@components/layout/routes';
+import SourceList from '@components/produce/SourceList.astro';
+import { recipePagesQuery, recipeRepository } from '@composition/index';
+import { requireSiteUrl } from '@composition/site';
+import { formatDuration, ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { recipeJsonLd } from '@shared/seo';
+
+export const getStaticPaths = (async () =>
+  (await recipeRepository.all()).map((recipe) => ({
+    params: { slug: recipe.slug },
+  }))) satisfies GetStaticPaths;
+
+const { recipe, produce } = await recipePagesQuery.forSlug(Astro.params.slug);
+const labels = ui.recipes;
+const path = routes.recipe(recipe.slug);
+const category = labels.categories[recipe.category];
+const ingredients = recipe.ingredients.map(labels.ingredient);
+const jsonLd = [
+  recipeJsonLd({
+    siteUrl: requireSiteUrl(Astro.site),
+    path,
+    name: recipe.name,
+    description: recipe.summary,
+    category,
+    yield: recipe.yield,
+    ingredients,
+    steps: recipe.steps,
+    prepMinutes: recipe.prepMinutes,
+    cookMinutes: recipe.cookMinutes,
+    processingMinutes: recipe.processingMinutes,
+    waitDays: recipe.waitDays,
+    datePublished: recipe.publishedAt,
+    dateModified: recipe.updatedAt,
+    citations: [...recipe.sources, ...recipe.safety.sources],
+  }),
+];
+const facts = [
+  { term: labels.facts.yield, value: recipe.yield },
+  ...(recipe.prepMinutes === undefined
+    ? []
+    : [{ term: labels.facts.prep, value: formatDuration(recipe.prepMinutes) }]),
+  ...(recipe.cookMinutes === undefined
+    ? []
+    : [{ term: labels.facts.cook, value: formatDuration(recipe.cookMinutes) }]),
+  { term: labels.facts.processing, value: formatDuration(recipe.processingMinutes) },
+  ...(recipe.waitDays > 0
+    ? [{ term: labels.facts.wait, value: labels.facts.days(recipe.waitDays) }]
+    : []),
+];
+---
+
+<BaseLayout
+  title={labels.pageTitle(recipe.name)}
+  description={recipe.summary}
+  path={path}
+  type="article"
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: labels.heading, path: routes.recipes },
+    { name: recipe.name, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <article class="recipe">
+    <header class="recipe__header">
+      <h1>{recipe.name}</h1>
+      <p class="recipe__meta">
+        {labels.facts.category}: {category}
+      </p>
+      <p class="recipe__summary">{recipe.summary}</p>
+      <dl class="recipe__facts">
+        {facts.map((fact) => (
+          <div>
+            <dt>{fact.term}</dt>
+            <dd>{fact.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <p class="recipe__muted">{labels.facts.processingNote}</p>
+      <p>
+        {labels.produceLabel}{' '}
+        {produce.map((item, index) => (
+          <>
+            {index > 0 && ', '}
+            <a href={routes.produce(item)}>{item.name}</a>
+          </>
+        ))}
+      </p>
+    </header>
+
+    <section aria-labelledby="ingredients">
+      <h2 id="ingredients">{labels.headings.ingredients}</h2>
+      <ul class="recipe__ingredients">
+        {ingredients.map((line) => (
+          <li>{line}</li>
+        ))}
+      </ul>
+    </section>
+
+    <section aria-labelledby="steps">
+      <h2 id="steps">{labels.headings.steps}</h2>
+      <ol class="recipe__steps">
+        {recipe.steps.map((step) => (
+          <li>{step}</li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="recipe__safety" aria-labelledby="safety">
+      <h2 id="safety">{labels.headings.safety}</h2>
+      <p>{recipe.safety.note}</p>
+      <h3>{labels.headings.sterilisation}</h3>
+      <p>{recipe.safety.sterilisation}</p>
+      <h3>{labels.headings.storage}</h3>
+      <p>{recipe.safety.storage}</p>
+      <h3 id="water-bath">{labels.waterBath.heading}</h3>
+      <ul class="recipe__water-bath">
+        {labels.waterBath.items.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+      <p class="recipe__muted">{labels.safetySourcesLabel}</p>
+      <ul class="recipe__sources">
+        {recipe.safety.sources.map((source) => (
+          <li>
+            <a href={source.url}>{source.name}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">{labels.headings.sources}</h2>
+      <p class="recipe__muted">{labels.sourcesNote}</p>
+      <SourceList sources={recipe.sources} updatedAt={recipe.updatedAt} />
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .recipe {
+    display: grid;
+    gap: var(--space-8);
+    max-width: var(--reading-width);
+    margin-top: var(--space-6);
+  }
+
+  .recipe section,
+  .recipe__header {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .recipe__header h1 {
+    font-size: var(--font-size-3xl);
+    line-height: 0.95;
+  }
+
+  .recipe__meta,
+  .recipe__muted {
+    color: var(--color-text-muted);
+  }
+
+  .recipe__summary {
+    font-size: var(--font-size-lg);
+  }
+
+  .recipe__facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 9rem), 1fr));
+    gap: var(--space-2);
+    margin: 0;
+  }
+
+  .recipe__facts div {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
+  }
+
+  .recipe__facts dt {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .recipe__facts dd {
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .recipe__ingredients,
+  .recipe__steps,
+  .recipe__water-bath,
+  .recipe__sources {
+    display: grid;
+    gap: var(--space-2);
+    padding-inline-start: var(--space-6);
+  }
+
+  .recipe__sources {
+    gap: var(--space-1);
+    overflow-wrap: anywhere;
+  }
+
+  .recipe__safety {
+    padding-inline-start: var(--space-3);
+    border-inline-start: 4px solid var(--color-text);
+  }
+
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 15mm;
+    }
+
+    .recipe {
+      gap: var(--print-gap);
+      max-width: none;
+      margin-top: 0;
+      font-size: var(--print-font-size);
+    }
+
+    .recipe__header h1 {
+      font-size: var(--print-title-font-size);
+    }
+
+    .recipe h2,
+    .recipe h3 {
+      font-size: var(--print-heading-font-size);
+      break-after: avoid;
+    }
+
+    .recipe li,
+    .recipe__facts div {
+      break-inside: avoid;
+    }
+
+    .recipe__facts div,
+    .recipe__safety {
+      border-color: var(--print-ink);
+    }
+
+    .recipe__meta,
+    .recipe__muted,
+    .recipe__facts dt {
+      color: var(--print-ink);
+    }
+  }
+</style>

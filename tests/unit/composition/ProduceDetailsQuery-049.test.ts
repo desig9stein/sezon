@@ -42,6 +42,7 @@ describe('produce details without optional data (spec 049)', () => {
         nutrients: new Map(),
         regions: new Map(),
         farms: new Map(),
+        recipes: new Map(),
       }),
     ).toEqual(['produce/hryan → groups/krastotsvetni']);
   });

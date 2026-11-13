@@ -7,6 +7,7 @@ import {
 } from '@contexts/catalog/infrastructure/schemas';
 import { regionSchema } from '@contexts/geography/infrastructure/schemas';
 import { farmSchema } from '@contexts/farms/infrastructure/schemas';
+import { recipeSchema } from '@contexts/recipes/infrastructure/schemas';
 import { findBrokenReferences, type ContentRecords } from '@composition/contentIntegrity';
 import { Slug } from '@shared/domain/Slug';
 import { testImage } from '@tests/fixtures/photos';
@@ -27,6 +28,8 @@ const collections = {
   farms: parseCollection('farms', farmSchema),
 };
 
+const recipes = parseCollection('recipes', recipeSchema);
+
 function validRecords<T>(entries: { id: string; result: z.ZodSafeParseResult<T> }[]) {
   return new Map(
     entries.flatMap(({ id, result }) => (result.success ? [[id, result.data] as const] : [])),
@@ -39,6 +42,7 @@ const records: ContentRecords = {
   nutrients: validRecords(collections.nutrients),
   regions: validRecords(collections.regions),
   farms: validRecords(collections.farms),
+  recipes: validRecords(recipes),
 };
 
 describe('seed data', () => {
@@ -87,6 +91,7 @@ describe('findBrokenReferences', () => {
       nutrients: new Map(),
       regions: new Map(),
       farms: new Map([['ferma', farm]]),
+      recipes: new Map(),
     });
     expect(broken).toEqual([
       'produce/zele → groups/missing-group',

@@ -55,8 +55,9 @@ out every section whose data is missing.
   - „На сергията“ (`#stall`): always shown, with the „now“ line and the season section. „Как да
     избереш“, „Съхранение“ and „Сортове“ are shown only with data. The regions section keeps the
     spec 042 behaviour: with no regions it says that there are no official data by province.
-  - „На масата“ (`#eat`): shown only when the produce has nutrition, at least one preparation tip
-    or at least one traditional use. Each of its `h3` sections is shown only with data.
+  - „На масата“ (`#eat`): shown only when the produce has nutrition, at least one preparation tip,
+    at least one traditional use or at least one recipe (spec 048). Each of its `h3` sections is
+    shown only with data.
   - Growing guide and FAQ: shown only with data (unchanged).
   - Farms: always shown (farms are not produce data; the farm list has its own empty state).
   - Sources: the list shows whichever sources exist and is left out when there are none; the
@@ -147,7 +148,7 @@ with a source. `NutritionFacts` keeps its own invariants whenever it exists.
 7. **AC7:** Given a produce record without nutrition, when references are checked, then none is
    reported for it beyond its group and regions.
 8. **AC8:** Given a minimal produce, when the table of contents is built, then it lists `stall`,
-   `farms` and `sources` only.
+   `farms` and `sources` only; with a recipe (spec 048), it also lists `eat`.
 9. **AC9:** Given no citations, when `articleJsonLd` runs, then it has no `citation` key.
 10. **AC10:** Given a minimal produce page, when rendered, then it has one `h1`, no skipped
     heading level, no heading without content, a table of contents whose links all resolve, and

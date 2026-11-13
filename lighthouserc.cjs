@@ -20,6 +20,8 @@ module.exports = {
         'http://localhost:4323/regioni/plovdiv',
         'http://localhost:4323/fermi',
         'http://localhost:4323/fermi/venets',
+        'http://localhost:4323/retsepti',
+        'http://localhost:4323/retsepti/kiselo-zele',
       ],
       numberOfRuns: 3,
       settings: {

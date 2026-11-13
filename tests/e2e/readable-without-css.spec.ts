@@ -11,6 +11,8 @@ const PAGES = [
   { name: 'calendar', path: '/kalendar' },
   { name: 'search', path: '/tarsene' },
   { name: 'group', path: '/grupi/krastotsvetni' },
+  { name: 'recipes', path: '/retsepti' },
+  { name: 'recipe', path: '/retsepti/kiselo-zele' },
   { name: 'not found', path: '/404' },
 ] as const;
 
