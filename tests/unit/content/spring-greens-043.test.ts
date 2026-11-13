@@ -44,7 +44,7 @@ describe('spring greens and wild plants (spec 043)', () => {
   });
 
   it.each(SLUGS)('AC2: %s cites its USDA SR Legacy record', (slug) => {
-    expect(recordOf(slug).nutrition.source.url).toBe(
+    expect(recordOf(slug).nutrition?.source.url).toBe(
       `https://fdc.nal.usda.gov/food-details/${ADDED[slug].fdcId}/nutrients`,
     );
   });
@@ -114,7 +114,7 @@ describe('spring greens and wild plants (spec 043)', () => {
   });
 
   it.each(SLUGS)('QA 043: %s lists low micronutrients only to reach three', (slug) => {
-    const shares = recordOf(slug).nutrition.micronutrients.map(
+    const shares = (recordOf(slug).nutrition?.micronutrients ?? []).map(
       ({ nutrient, amount }) => amount / referenceIntakeOf(nutrient),
     );
     const high = shares.filter((share) => share >= LISTED_SHARE).length;

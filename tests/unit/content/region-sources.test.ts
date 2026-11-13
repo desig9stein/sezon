@@ -15,9 +15,9 @@ interface RegionEntry {
 const regionsOf = (slug: string): RegionEntry[] =>
   (
     parse(readFileSync(join(process.cwd(), 'src', 'data', 'produce', `${slug}.yaml`), 'utf8')) as {
-      regions: RegionEntry[];
+      regions?: RegionEntry[];
     }
-  ).regions;
+  ).regions ?? [];
 
 /** Provinces backed by МЗХ agrostatistics, in the order of the data (spec 033). */
 const SOURCED: Readonly<Record<string, ReadonlyArray<string>>> = {

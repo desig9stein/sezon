@@ -167,7 +167,7 @@ lighthouserc.cjs  .github/workflows/{ci.yml, daily-rebuild.yml}
 - **Components (Vitest + Astro Container API):** render each component and assert the HTML (heading levels, labels, `rel="sponsored"`, the „Реклама“ label).
 - **E2E (Playwright + @axe-core/playwright):** 0 axe violations on every page template, keyboard navigation, no-JS mode.
 - **Lighthouse CI:** assertion `minScore: 1` for all 4 categories on a representative set of URLs. CI fails at 99.
-- **Content tests:** every produce has ≥1 season month, ≥1 region, a nutrition `source`, and a `source` on every traditional use. Every farm has a region and at least one way to contact it.
+- **Content tests:** every produce has ≥1 season month (the only mandatory block, spec 049); a nutrition block, when present, is complete and has a `source`, and every traditional use and growing guide has a `source`. Every farm has a region and at least one way to contact it.
 - Also: `astro check` (types), ESLint (+ `eslint-plugin-astro`, `eslint-plugin-jsx-a11y` for astro), Prettier, `html-validate` on `dist/`.
 - Each feature lands as `docs(spec)` → `test (red)` → `feat` → (`test` + `fix` for QA findings), see AGENTS.md.
 

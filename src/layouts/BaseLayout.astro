@@ -8,6 +8,7 @@ import SiteHeader from '@components/layout/SiteHeader.astro';
 import SkipLink from '@components/layout/SkipLink.astro';
 import JsonLd from '@components/seo/JsonLd.astro';
 import Seo from '@components/seo/Seo.astro';
+import { ogImageMeta, siteOgCard, type OgImageRef } from '@components/seo/ogImage';
 import { requireSiteUrl } from '@composition/site';
 import { tokensToCss } from '@design/tokens';
 import { ui } from '@i18n/bg';
@@ -28,9 +29,20 @@ interface Props {
   breadcrumbs?: ReadonlyArray<BreadcrumbItem>;
   jsonLd?: ReadonlyArray<JsonLdData>;
   noindex?: boolean;
+  /** Share image of the page; defaults to the site card (spec 050). */
+  ogImage?: OgImageRef;
 }
 
-const { title, description, path, type, breadcrumbs, jsonLd = [], noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  path,
+  type,
+  breadcrumbs,
+  jsonLd = [],
+  noindex = false,
+  ogImage = siteOgCard(),
+} = Astro.props;
 const siteUrl = requireSiteUrl(Astro.site);
 const meta = buildPageMeta({
   title,
@@ -40,6 +52,7 @@ const meta = buildPageMeta({
   siteName: ui.siteName,
   type,
 });
+const image = ogImageMeta(siteUrl, ogImage);
 const feed = { title: ui.feed.title, url: absoluteUrl(siteUrl, routes.feed) };
 ---
 
@@ -48,7 +61,7 @@ const feed = { title: ui.feed.title, url: absoluteUrl(siteUrl, routes.feed) };
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <Seo meta={meta} feed={feed} noindex={noindex} />
+    <Seo meta={meta} image={image} feed={feed} noindex={noindex} />
     <Font cssVariable="--font-sofia-sans-extra-condensed" preload={[{ style: 'normal' }]} />
     <Font cssVariable="--font-sofia-sans" preload={[{ style: 'normal' }]} />
     <style is:inline set:html={tokensToCss()}></style>

@@ -6,12 +6,12 @@ import { creditHref, displayHeight } from './photo';
 
 /**
  * The produce page's photo plate: a responsive AVIF/WebP picture loaded eagerly as the page's
- * largest image, captioned with the Latin name and the linked photo credit (with Unsplash referral
- * parameters).
+ * largest image, captioned with the Latin name, when known, and the linked photo credit (with
+ * Unsplash referral parameters).
  */
 interface Props {
   photo: ProducePhoto;
-  latinName: string;
+  latinName?: string | undefined;
 }
 
 const DISPLAY_WIDTH = 800;
@@ -36,7 +36,7 @@ const { image, alt, credit } = photo;
     fetchpriority="high"
   />
   <figcaption>
-    <i lang="la">{latinName}</i>
+    {latinName !== undefined && <i lang="la">{latinName}</i>}
     <span class="produce-photo__credit">
       {ui.produce.photoCredit} <a href={creditHref(credit.authorUrl)}>{credit.author}</a> /{' '}
       <a href={creditHref(credit.sourceUrl)}>{credit.sourceName}</a>

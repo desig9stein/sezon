@@ -12,9 +12,9 @@ interface TraditionalUse {
 const usesOf = (slug: string): ReadonlyArray<TraditionalUse> =>
   (
     parse(readFileSync(join(process.cwd(), 'src', 'data', 'produce', `${slug}.yaml`), 'utf8')) as {
-      traditionalUses: TraditionalUse[];
+      traditionalUses?: TraditionalUse[];
     }
-  ).traditionalUses;
+  ).traditionalUses ?? [];
 
 const PREFIX = 'Традиционно се използва';
 const DILL_SOURCE = 'https://doi.org/10.2478/asn-2022-0021';

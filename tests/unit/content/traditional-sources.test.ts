@@ -2,14 +2,14 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
+import { nutritionSourceUrl, type RawProduce } from '@tests/fixtures/rawProduce';
 
 interface TraditionalUse {
   readonly source: { readonly url: string };
 }
 
-interface ProduceRecord {
+interface ProduceRecord extends RawProduce {
   readonly traditionalUses?: TraditionalUse[];
-  readonly nutrition: { readonly source: { readonly url: string } };
 }
 
 const DIR = join(process.cwd(), 'src', 'data', 'produce');
@@ -20,7 +20,7 @@ const PRODUCE = readdirSync(DIR)
     return {
       slug: file.replace(/\.yaml$/, ''),
       uses: record.traditionalUses ?? [],
-      fdcId: /\/food-details\/(\d+)\//.exec(record.nutrition.source.url)?.[1] ?? '',
+      fdcId: /\/food-details\/(\d+)\//.exec(nutritionSourceUrl(record) ?? '')?.[1] ?? '',
     };
   });
 

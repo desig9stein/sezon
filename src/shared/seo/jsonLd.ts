@@ -117,8 +117,8 @@ export interface ArticleJsonLdInput {
 }
 
 /**
- * Returns schema.org `Article` data describing a page about one thing, with its citations and,
- * when `imagePath` is given, its absolute image URL.
+ * Returns schema.org `Article` data describing a page about one thing, with its citations (left out
+ * when there are none) and, when `imagePath` is given, its absolute image URL.
  */
 export function articleJsonLd(input: ArticleJsonLdInput): JsonLd {
   return {
@@ -139,11 +139,15 @@ export function articleJsonLd(input: ArticleJsonLdInput): JsonLd {
         ? {}
         : { alternateName: input.about.alternateName }),
     },
-    citation: input.citations.map((citation) => ({
-      '@type': 'CreativeWork',
-      name: citation.name,
-      url: citation.url,
-    })),
+    ...(input.citations.length === 0
+      ? {}
+      : {
+          citation: input.citations.map((citation) => ({
+            '@type': 'CreativeWork',
+            name: citation.name,
+            url: citation.url,
+          })),
+        }),
   };
 }
 

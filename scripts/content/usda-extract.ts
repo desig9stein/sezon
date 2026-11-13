@@ -3,6 +3,7 @@ import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { createInterface } from 'node:readline';
 import { parse } from 'yaml';
+import { citedFdcId, type ProduceNutritionSource } from './citedFdcId.ts';
 import { MACRO_NUTRIENT_IDS, MICRO_NUTRIENT_IDS } from './usdaNutrients.ts';
 
 const PRODUCE_DIR = 'src/data/produce';
@@ -11,8 +12,6 @@ const DATASET = {
   name: 'USDA FoodData Central, SR Legacy (April 2018)',
   url: 'https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip',
 };
-const FDC_ID = /\/food-details\/(\d+)\//;
-const USDA_HOST = 'fdc.nal.usda.gov';
 const USAGE = 'Usage: pnpm content:usda <FoodData_Central_sr_legacy_food_csv_2018-04 directory>';
 const NUTRIENT_IDS = new Set([
   ...Object.values(MACRO_NUTRIENT_IDS),
@@ -57,22 +56,17 @@ async function eachRow(path: string, onRow: (row: Record<string, string>) => voi
 }
 
 /**
- * Returns the FDC ids cited by the produce whose nutrition source is USDA; EFSA-sourced produce is
- * skipped.
+ * Returns the FDC ids cited by the produce whose nutrition source is USDA; produce without
+ * nutrition and EFSA-sourced produce are skipped.
  * @throws Error when a USDA source is not an FDC item URL.
  */
 async function citedFdcIds(): Promise<Set<string>> {
   const files = (await readdir(PRODUCE_DIR)).filter((file) => file.endsWith('.yaml'));
   const ids = new Set<string>();
   for (const file of files) {
-    const record = parse(await readFile(join(PRODUCE_DIR, file), 'utf8')) as {
-      nutrition: { source: { url: string } };
-    };
-    const { url } = record.nutrition.source;
-    if (new URL(url).hostname !== USDA_HOST) continue;
-    const id = FDC_ID.exec(url)?.[1];
-    if (id === undefined) throw new Error(`${file}: the nutrition source is not an FDC item URL`);
-    ids.add(id);
+    const record = parse(await readFile(join(PRODUCE_DIR, file), 'utf8')) as ProduceNutritionSource;
+    const id = citedFdcId(record, file);
+    if (id !== undefined) ids.add(id);
   }
   return ids;
 }

@@ -372,6 +372,21 @@ function monthFeedDescription(month: Month, peakNames: ReadonlyArray<string>): s
   return `През ${name} в разгара на сезона: ${listWithAnd(peakNames.map(inSentence))}. Виж всичко, което е в сезон в България през ${name}.`;
 }
 
+const MORE_SEPARATOR = ' и още ';
+
+/**
+ * Returns produce names as a list: the first as written, the others in lower case, ending in
+ * „и <last>“, or in „и още N“ when `remaining` names are left out.
+ */
+function nameList(names: ReadonlyArray<string>, remaining: number): string {
+  const shown = names.map((name, index) => (index === 0 ? name : inSentence(name)));
+  return remaining > 0
+    ? `${shown.join(LIST_SEPARATOR)}${MORE_SEPARATOR}${remaining}`
+    : listWithAnd(shown);
+}
+
+const OG_MONTH_KICKER = 'Какво е в сезон през';
+
 const SECTION_NAMES: Readonly<Record<ProduceKind, string>> = {
   fruit: 'Плодове',
   vegetable: 'Зеленчуци',
@@ -544,6 +559,20 @@ export const ui = {
       `Какво е в сезон в България сега – ${monthNameLower(month)}. Виж кои плодове и зеленчуци са в разгара си и кои идват скоро.`,
     fullMonthLink: (month: Month) => `Виж всичко в сезон през ${monthNameLower(month)}`,
     nextMonthLink: (month: Month) => `Виж какво идва през ${monthNameLower(month)}`,
+  },
+  ogImage: {
+    siteAlt: (tagline: string) => `${SITE_NAME}: ${tagline}`,
+    monthKicker: OG_MONTH_KICKER,
+    monthDetail: (names: ReadonlyArray<string>, remaining: number) =>
+      names.length === 0
+        ? 'Нищо прясно този месец – виж какво има от хранилище.'
+        : nameList(names, remaining),
+    monthAlt: (month: Month, names: ReadonlyArray<string>, remaining: number) =>
+      `${OG_MONTH_KICKER} ${monthNameLower(month)}: ${
+        names.length === 0 ? 'нищо прясно' : nameList(names.map(inSentence), remaining)
+      }. ${SITE_NAME}`,
+    produceAlt: (name: string, status: string, month: Month) =>
+      `${name} – ${inSentence(status)} през ${monthNameLower(month)}. ${SITE_NAME}`,
   },
   monthPage: {
     title: (month: Month) => `Какво е в сезон през ${monthNameLower(month)}`,

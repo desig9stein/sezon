@@ -12,13 +12,15 @@ interface ProduceNutrition {
 }
 
 const DIR = join(process.cwd(), 'src', 'data', 'produce');
+/** Every produce that gives nutrition; the block is optional (spec 049). */
 const PRODUCE = readdirSync(DIR)
   .filter((file) => file.endsWith('.yaml'))
-  .map((file) => ({
-    slug: file.replace(/\.yaml$/, ''),
-    nutrition: (parse(readFileSync(join(DIR, file), 'utf8')) as { nutrition: ProduceNutrition })
-      .nutrition,
-  }));
+  .flatMap((file) => {
+    const { nutrition } = parse(readFileSync(join(DIR, file), 'utf8')) as {
+      nutrition?: ProduceNutrition;
+    };
+    return nutrition === undefined ? [] : [{ slug: file.replace(/\.yaml$/, ''), nutrition }];
+  });
 const foods = extract.foods as Record<
   string,
   { readonly description: string; readonly nutrients: Record<string, number> }

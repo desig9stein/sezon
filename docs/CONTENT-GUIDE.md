@@ -3,7 +3,7 @@
 All site content lives in `src/data/<collection>/<id>.yaml`, one file per entry.
 The schemas are in `src/contexts/<context>/infrastructure/schemas.ts`. `pnpm build` rejects
 entries that do not match their schema, including unknown keys (typos). References between
-entries are checked by `pnpm test` and whenever a page loads content during the build. The full contract is in `docs/specs/002-content-model-and-seed-data.md`.
+entries are checked by `pnpm test` and whenever a page loads content during the build. The full contract is in `docs/specs/002-content-model-and-seed-data.md`; `docs/specs/049-season-only-mandatory.md` makes every produce field optional except the name, kind, group, summary, season and update date.
 
 ## Rules for every entry
 
@@ -33,22 +33,70 @@ choose, storage, preparation and growing tips, FAQ answers and UI strings.
 
 ## Add a produce (`src/data/produce/`)
 
+What matters most is whether a produce is in season (owner decision, 2026-11-13, spec 049). Only
+the season and what identifies the produce are required; every other block is optional and may
+differ from one produce to the next. Never invent a block to fill the page: leave it out until a
+source gives it.
+
+### Minimal entry
+
+```yaml
+name: Хрян # Bulgarian name, shown as the page title
+kind: vegetable # fruit | vegetable | herb | nut
+group: krastotsvetni # id from src/data/groups (the botanical family)
+summary: 70–160 characters, one line. It is the meta description of the page and of search results.
+season: # at least one month; each month once
+  - { month: 11, level: peak } # peak | available | storage
+updatedAt: 2026-11-13
+```
+
+The page of a minimal entry shows the name, kind and family, the summary, the season calendar, the
+growing regions section („Няма официални данни по области…“), the farms that sell it, the update
+date and the methodology link. Every section without data is left out, with its heading and its
+table of contents entry.
+
+### Optional blocks
+
+| Field             | What it adds to the page                                                     |
+| ----------------- | ---------------------------------------------------------------------------- |
+| `latinName`       | The Latin name under the title, on cards and lists, and in the JSON-LD.      |
+| `varieties`       | The „Сортове“ list.                                                          |
+| `regions`         | The provinces with notes and the map (spec 042 for an empty list).           |
+| `nutrition`       | The nutrition table, the „На масата“ group and a place in nutrient rankings. |
+| `preparation`     | The preparation tips in „На масата“.                                         |
+| `traditionalUses` | The traditional uses in „На масата“, each with its source.                   |
+| `howToChoose`     | The „Как да избереш“ section.                                                |
+| `storage`         | The „Съхранение“ section.                                                    |
+| `faq`             | The questions section and the `FAQPage` JSON-LD.                             |
+| `photo`           | The photo plate, the card photo and the JSON-LD image.                       |
+| `growing`         | The home-garden guide and its months in the calendar.                        |
+| `organic`         | The organic production note above the farms.                                 |
+
+A block that is present is checked in full: nutrition needs every macronutrient and a source,
+each traditional use and growing guide needs its sources, and a photo needs `alt` and a credit.
+Omitted lists are the same as empty lists. A recipe in `src/data/recipes/` that lists the produce
+adds the „Рецепти за зимнина“ block to „На масата“, even when the produce has no other block there.
+
+### Full entry
+
+Keys marked `# optional` may be left out; the others are the required keys of the minimal entry.
+
 ```yaml
 name: Ябълки # Bulgarian name, shown as the page title
-latinName: Malus domestica
+latinName: Malus domestica # optional
 kind: fruit # fruit | vegetable | herb | nut
 group: rozotsvetni # id from src/data/groups
 summary: 70–160 characters, used as the meta description.
-varieties:
+varieties: # optional
   - name: Флорина
     note: Optional note.
 season: # at least one month; each month once
   - { month: 9, level: peak } # peak | available | storage
-regions: # ids from src/data/regions; use [] only when no official source names a province
+regions: # optional; ids from src/data/regions; omit or use [] only when no official source names a province
   - region: kyustendil
     note: Why this region is named; quote figures only with a source.
     source: { name: …, url: https://… } # optional; required when the note quotes figures
-nutrition: # per 100 g raw edible portion
+nutrition: # optional; when present, complete and sourced, per 100 g raw edible portion
   energyKcal: 52
   proteinG: 0.26
   fatG: 0.17
@@ -60,24 +108,27 @@ nutrition: # per 100 g raw edible portion
   source:
     name: 'USDA FoodData Central, SR Legacy: Apples, raw, with skin'
     url: https://fdc.nal.usda.gov/
-preparation: # at least one tip
+preparation: # optional
   - method: Сурови с кората
     tip: How to prepare it to keep nutrients.
-traditionalUses: # may be empty
+traditionalUses: # optional
   - system: ayurveda # ayurveda | folk
     use: Традиционно се използва при … # must start with this phrase
     source: { name: …, url: https://… }
-howToChoose: …
-storage: …
-faq:
+howToChoose: … # optional
+storage: … # optional
+faq: # optional
   - question: …
     answer: …
 updatedAt: 2026-11-10
 ```
 
+The `photo`, `growing` and `organic` blocks below are optional too.
+
 ### Photo
 
-Every produce has a photo: a close-up of the produce itself, without people, text or logos.
+A photo is optional. When you add one, it is a close-up of the produce itself, without people,
+text or logos.
 
 1. Put the image in `src/assets/produce/<slug>.jpg`: cropped to 4:3, 1600 × 1200 px, JPEG at
    quality about 80, without EXIF. The build makes the AVIF, WebP and smaller sizes, so do not

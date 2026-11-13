@@ -10,7 +10,7 @@ export interface ProduceOptions {
   readonly name: string;
   readonly kind?: ProduceRecord['kind'];
   readonly season: ProduceRecord['season'];
-  readonly micronutrients?: ProduceRecord['nutrition']['micronutrients'];
+  readonly micronutrients?: NonNullable<ProduceRecord['nutrition']>['micronutrients'];
   readonly photo?: ProduceRecord['photo'];
   readonly group?: ProduceRecord['group'];
   readonly growing?: ProduceRecord['growing'];
