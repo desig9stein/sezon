@@ -53,6 +53,24 @@ export function produceRecord(overrides: Partial<ProduceRecord> = {}): ProduceRe
   };
 }
 
+/**
+ * YAML-shaped input of a produce with only the fields every produce must give (spec 049): name,
+ * kind, group, summary, season and update date. Test-only; not a seed entry.
+ */
+export const MINIMAL_PRODUCE_INPUT = {
+  name: 'Хрян',
+  kind: 'vegetable',
+  group: 'krastotsvetni',
+  summary:
+    'Хрянът се копае през късната есен и зимата. Корените му се настъргват пресни към месо и туршии.',
+  season: [
+    { month: 10, level: 'available' },
+    { month: 11, level: 'peak' },
+    { month: 12, level: 'peak' },
+  ],
+  updatedAt: '2026-11-13',
+};
+
 /** Authorised claim fields shared by test nutrients (Regulation (EU) No 432/2012). */
 export const NUTRIENT_CLAIMS = {
   claims: ['Витамин С допринася за нормалната функция на имунната система'],

@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest';
 import { produceToc } from '@components/produce/produceToc';
 import { toProduce } from '@contexts/catalog/infrastructure/mappers';
 import { growingRecord } from '@tests/fixtures/growing';
-import { produceRecord } from '@tests/fixtures/records';
+import { produceSchemaWith } from '@contexts/catalog/infrastructure/schemas';
+import { testImage } from '@tests/fixtures/photos';
+import { MINIMAL_PRODUCE_INPUT, produceRecord } from '@tests/fixtures/records';
 
 describe('produceToc (QA 025)', () => {
   it('lists every group when the produce has a guide and questions', () => {
@@ -23,5 +25,20 @@ describe('produceToc (QA 025)', () => {
       'farms',
       'sources',
     ]);
+  });
+});
+
+describe('produceToc (spec 049)', () => {
+  it('AC8: lists only the stall, farms and sources for a minimal produce', () => {
+    const produce = toProduce(
+      'hryan',
+      produceSchemaWith({ image: testImage }).parse(MINIMAL_PRODUCE_INPUT),
+    );
+    expect(produceToc(produce).map((entry) => entry.id)).toEqual(['stall', 'farms', 'sources']);
+  });
+
+  it('AC8: keeps the eat entry when only one of its sections has data', () => {
+    const record = produceRecord({ preparation: [], traditionalUses: [] });
+    expect(produceToc(toProduce('zele', record)).map((entry) => entry.id)).toContain('eat');
   });
 });
