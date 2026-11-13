@@ -14,6 +14,9 @@ const MONTHS_PREFIX = '/sezon';
 const REGIONS_PREFIX = '/regioni';
 const FARMS_PREFIX = '/fermi';
 
+/** Media type of the RSS feed at `routes.feed`. */
+export const FEED_MEDIA_TYPE = 'application/rss+xml';
+
 /** Site-relative paths of all routes. */
 export const routes = {
   home: '/',
@@ -24,6 +27,7 @@ export const routes = {
   methodology: '/metodologiya',
   calendar: '/kalendar',
   search: '/tarsene',
+  feed: '/rss.xml',
   farms: FARMS_PREFIX,
   farm: (slug: string) => `${FARMS_PREFIX}/${slug}`,
   regions: REGIONS_PREFIX,

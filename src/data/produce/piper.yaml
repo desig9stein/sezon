@@ -1,0 +1,80 @@
+name: Пипер
+latinName: Capsicum annuum
+kind: vegetable
+group: kartofovi
+summary: Пиперът от открити площи се бере от юли до октомври, най-много през август и септември. Зеленият пипер има високо съдържание на витамин C.
+varieties:
+  - name: Куртовска капия
+  - name: Ивайловска капия
+  - name: Сиврия 600
+  - name: Стряма
+season:
+  - { month: 7, level: available }
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+regions:
+  - region: plovdiv
+    note: 'Областта е в Южния централен район, който има най-много реколтирани открити площи с пипер (вкл. лют) в страната – 1 529 от 2 412 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+  - region: pazardzhik
+    note: 'Областта е в Южния централен район, който има най-много реколтирани открити площи с пипер (вкл. лют) в страната – 1 529 от 2 412 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+nutrition:
+  energyKcal: 20
+  proteinG: 0.86
+  fatG: 0.17
+  carbohydrateG: 4.64
+  fiberG: 1.7
+  sugarsG: 2.4
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 80.4 }
+    - { nutrient: vitamin-a, amount: 18 }
+    - { nutrient: vitamin-k, amount: 7.4 }
+    - { nutrient: kaliy, amount: 175 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Peppers, sweet, green, raw'
+    url: https://fdc.nal.usda.gov/food-details/170427/nutrients
+preparation:
+  - method: Суров
+    tip: Нарязан на салата запазва най-много витамин C, който намалява при нагряване.
+  - method: Печен
+    tip: Изпечи чушките цели, затвори ги за няколко минути в съд с капак и ще се обелят лесно.
+traditionalUses: []
+howToChoose: Избери твърди, лъскави чушки с гладка кора и свежа зелена дръжка, без бръчки и меки места.
+storage: Пази чушките неизмити в хладилника до около седмица и ги измий точно преди употреба.
+faq:
+  - question: Кои сортове пипер са български?
+    answer: В Официалната сортова листа има много български сортове, сред тях Куртовска капия, Ивайловска капия, Сиврия 600 и Стряма.
+  - question: Колко витамин C има в зеления пипер?
+    answer: Около 80 мг на 100 г, колкото е референтният дневен прием за възрастен. Стойностите на тази страница са за суров зелен сладък пипер.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/piper.jpg
+  alt: 'Купчина светлозелени чушки камби с лъскава кора и къси дръжки'
+  credit:
+    author: 'engin akyurt'
+    authorUrl: https://unsplash.com/@enginakyurt
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-pile-of-green-peppers-sitting-next-to-each-other-GyTaoOAgQVc
+growing:
+  sow: [1, 2, 3]
+  transplant: [5]
+  plant: []
+  tips:
+    - 'Не бързай с изнасянето навън: в студено време растенията изостават. По-рано сади само под найлон.'
+    - 'Остави поне 25 см между растенията и 60 см между редовете, за да не страдат от липса на светлина.'
+    - 'Не заравяй кореновата шийка – сади разсада не по-дълбоко от първите семеделни листенца.'
+    - 'Поливай често и по малко: и сушата, и преполиването карат цветовете и завръзите да окапват.'
+    - 'Прекопавай плитко на всеки две седмици или мулчирай със слама, за да не нараниш плитките корени.'
+  sources:
+    - name: 'Български фермер – Календар на сеитбите'
+      url: https://www.bgfermer.bg/Article/9378131
+    - name: 'Български фермер – Кога да се засажда разсадът на открито'
+      url: https://www.bgfermer.bg/Article/22768010
+    - name: 'Български фермер – 10 грешки при отглеждането на пипер'
+      url: https://www.bgfermer.bg/Article/6170258

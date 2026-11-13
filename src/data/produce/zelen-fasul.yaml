@@ -1,0 +1,72 @@
+name: Зелен фасул
+latinName: Phaseolus vulgaris
+kind: vegetable
+group: bobovi
+summary: Зеленият фасул от пролетна сеитба се бере през юни, а от лятна – до есента. Има високо съдържание на витамин K.
+varieties:
+  - name: Еврос
+  - name: Никос
+season:
+  - { month: 6, level: peak }
+  - { month: 7, level: peak }
+  - { month: 8, level: available }
+  - { month: 9, level: available }
+regions: []
+nutrition:
+  energyKcal: 31
+  proteinG: 1.83
+  fatG: 0.22
+  carbohydrateG: 6.97
+  fiberG: 2.7
+  sugarsG: 3.26
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 43 }
+    - { nutrient: vitamin-c, amount: 12.2 }
+    - { nutrient: folat, amount: 33 }
+    - { nutrient: kaliy, amount: 211 }
+    - { nutrient: mangan, amount: 0.216 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Beans, snap, green, raw'
+    url: https://fdc.nal.usda.gov/food-details/169961/nutrients
+preparation:
+  - method: Сварен или задушен
+    tip: Готви го кратко, докато омекне, но остане ярко зелен; при дълго варене се губят повече водоразтворими витамини.
+  - method: Замразен
+    tip: Късната реколта е подходяща за замразяване или за буркани за зимата.
+traditionalUses: []
+howToChoose: Избери твърди, ярко зелени чушки, които се чупят с хрупкане, без петна и без издути семена.
+storage: Пази го в хладилника и го сготви до няколко дни; за зимата го замрази.
+faq:
+  - question: Кога се бере зеленият фасул?
+    answer: Пролетно засетият се бере през юни, преди чушките да достигнат пълния си размер. Засетият като втора култура до около 20 юли е готов за по-малко от два месеца.
+  - question: Какво е лико?
+    answer: Жилава тъкан, която се образува в чушките заедно с пергаментов слой, когато фасулът се бере късно. Тогава качеството му се влошава.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/zelen-fasul.jpg
+  alt: 'Купчина светлозелени шушулки зелен фасул, снимани отблизо'
+  credit:
+    author: 'Bob Bowie'
+    authorUrl: https://unsplash.com/@connave
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/green-kentucky-beans-2JDWDtCGREA
+growing:
+  sow: [4, 5, 7]
+  transplant: []
+  plant: []
+  plantingNote: 'В Южна България сей през първото десетдневие на април, в Северна – през втората половина на месеца, във високите полета – в началото на май; като втора култура – до около 20 юли.'
+  tips:
+    - 'Сей, когато почвата на 10 см дълбочина се стопли до 10–12 °C; избягвай тежки, студени и кисели почви.'
+    - 'Сей в гнезда по 4–5 семена на 5–6 см дълбочина.'
+    - 'Ниските сортове сей на 50–60 см между редовете и 30 см между гнездата, вейковите – на 80 и 40 см.'
+    - 'Сей на няколко пъти през няколко дни, за да е по-дълъг периодът на беритба.'
+    - 'Бери чушките, преди да достигнат пълния си размер; при закъснение в тях се образува лико.'
+  sources:
+    - name: 'Български фермер – Градински фасул се сее до началото на май'
+      url: https://www.bgfermer.bg/Article/14206346
+    - name: 'Български фермер – Сеитба на зелен фасул'
+      url: https://www.bgfermer.bg/Article/9692366
+    - name: 'Български фермер – Зеленият фасул се сее на етапи'
+      url: https://www.bgfermer.bg/Article/11474549
+    - name: 'Български фермер – Отгледайте зелен фасул като втора култура'
+      url: https://www.bgfermer.bg/Article/930528

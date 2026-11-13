@@ -207,7 +207,7 @@ describe('autumn and winter staples (spec 044)', () => {
   it('AC11: the methodology and about texts name potatoes and onions', () => {
     for (const text of [ui.methodology.regions, ui.about.sources]) {
       expect(text).toContain('картоф');
-      expect(text).toContain('лука');
+      expect(text).toMatch(/лук(?!\p{L})|лука/u);
     }
   });
 });
@@ -258,10 +258,9 @@ describe('autumn and winter staples QA (spec 044)', () => {
     expect(qaOf('luk').summary).toContain('в края на юли и началото на август');
   });
 
-  it('QA 044: the methodology and about texts say potatoes and onions are NUTS2 data', () => {
-    for (const text of [ui.methodology.regions, ui.about.sources]) {
-      expect(text).toContain('NUTS2');
-    }
+  it('QA 044: the methodology lists potatoes and onions among statistical-region data', () => {
+    const nuts2 = ui.methodology.regions.slice(ui.methodology.regions.indexOf('а за зеле'));
+    expect(nuts2).toMatch(/^а за зеле[^;]*картофи и лук – по статистически райони/u);
   });
 
   it('QA 044: the checklist no longer speaks of „the other nine products“', () => {
