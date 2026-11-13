@@ -1,8 +1,14 @@
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { expect, test } from '@playwright/test';
 import { expectNoAxeViolations } from './a11y';
 
 const SHELL = { light: 'rgb(28, 63, 170)', dark: 'rgb(34, 51, 122)' };
 const MAX_HEADER_HEIGHT = 64;
+/** Number of produce groups in the content data. */
+const GROUP_COUNT = readdirSync(join(process.cwd(), 'src', 'data', 'groups')).filter((file) =>
+  file.endsWith('.yaml'),
+).length;
 
 test.describe('site shell (spec 023)', () => {
   for (const scheme of ['light', 'dark'] as const) {
@@ -16,7 +22,7 @@ test.describe('site shell (spec 023)', () => {
       for (const href of ['/plodove', '/zelenchutsi', '/podpravki', '/yadki']) {
         await expect(main.locator(`a[href="${href}"]`)).toHaveCount(1);
       }
-      expect(await main.locator('a[href^="/grupi/"]').count()).toBe(7);
+      expect(await main.locator('a[href^="/grupi/"]').count()).toBe(GROUP_COUNT);
       expect(await main.locator('a[href^="/nutrienti/"]').count()).toBe(10);
       const types = await page
         .locator('script[type="application/ld+json"]')
