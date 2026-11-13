@@ -1,6 +1,7 @@
 import { InvalidProduceError } from '@shared/domain/errors';
 import { frozenList, frozenRecords } from '@shared/domain/freeze';
 import type { Month, SeasonCalendar, SeasonLevel } from '@contexts/seasonality';
+import type { Caution } from './Caution';
 import type { NutritionFacts } from './NutritionFacts';
 import type { ProduceKind } from './ProduceKind';
 import type { GrowingGuide } from './GrowingGuide';
@@ -70,6 +71,10 @@ export interface ProduceInput {
   readonly photo?: ProducePhoto | undefined;
   readonly growing?: GrowingGuide | undefined;
   readonly organic?: OrganicProduction | undefined;
+  /** Whether the produce is gathered from the wild (spec 055); defaults to `false`. */
+  readonly wild?: boolean | undefined;
+  /** Sourced cautions shown on the produce page (spec 055); defaults to none. */
+  readonly cautions?: ReadonlyArray<Caution> | undefined;
 }
 
 /** A fruit, vegetable, herb or nut grown in Bulgaria, identified by its slug. */
@@ -92,6 +97,8 @@ export class Produce {
   readonly photo: ProducePhoto | undefined;
   readonly growing: GrowingGuide | undefined;
   readonly organic: OrganicProduction | undefined;
+  readonly wild: boolean;
+  readonly cautions: ReadonlyArray<Caution>;
   private readonly updatedAtEpochMs: number;
 
   private constructor(input: ProduceInput) {
@@ -131,13 +138,19 @@ export class Produce {
             ...input.organic,
             sources: frozenRecords(input.organic.sources),
           });
+    this.wild = input.wild ?? false;
+    this.cautions = frozenList(
+      (input.cautions ?? []).map((caution) =>
+        Object.freeze({ ...caution, source: Object.freeze({ ...caution.source }) }),
+      ),
+    );
     Object.freeze(this);
   }
 
   /**
    * Creates a produce entity.
    * @throws InvalidProduceError when `updatedAt` is not a valid date, the photo has an empty
-   * `alt`, or organic information has no source.
+   * `alt`, organic information has no source, or a wild produce has no caution.
    */
   static create(input: ProduceInput): Produce {
     if (Number.isNaN(input.updatedAt.getTime())) {
@@ -147,6 +160,9 @@ export class Produce {
       throw new InvalidProduceError(
         `Produce "${input.slug}" has organic information without a source.`,
       );
+    }
+    if (input.wild === true && (input.cautions ?? []).length === 0) {
+      throw new InvalidProduceError(`Wild produce "${input.slug}" has no caution.`);
     }
     if (input.photo !== undefined && input.photo.alt.trim() === '') {
       throw new InvalidProduceError(`Produce "${input.slug}" has a photo without alt text.`);

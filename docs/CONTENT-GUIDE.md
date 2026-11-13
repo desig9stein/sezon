@@ -71,6 +71,8 @@ table of contents entry.
 | `photo`           | The photo plate, the card photo and the JSON-LD image.                       |
 | `growing`         | The home-garden guide and its months in the calendar.                        |
 | `organic`         | The organic production note above the farms.                                 |
+| `wild`            | The „Диворастящо“ label on the page and in lists, and the gathering note.    |
+| `cautions`        | The „Внимание“ section at the top of „На сергията“, each with its source.    |
 
 A block that is present is checked in full: nutrition needs every macronutrient and a source,
 each traditional use and growing guide needs its sources, and a photo needs `alt` and a credit.
@@ -199,6 +201,46 @@ method: never write it as a health or quality claim. A farm gets an `organic` bl
 evidence is a producer's own website, write that the producer states it is certified („посочва,
 че е сертифицирана“), credit each figure only to the source that gives it, and do not name
 individual products or offers.
+
+### Wild plants and cautions
+
+Wild-gathered plants (nettle, dandelion, ramsons, elder, hawthorn, sloe …) are marked `wild: true`
+(spec 055). A wild produce needs at least one sourced caution: `pnpm build` and the schema tests
+reject `wild: true` without `cautions`. Whenever a source names a toxic look-alike, add a
+`look-alike` caution at minimum. Cautions may also be given for a cultivated produce (for example
+an allergy, or a protected wild form, see below).
+
+**A species that may not be gathered at all is never added**, not even with a caution: a species in
+Приложение 3 of the Закон за биологичното разнообразие (protected species), a species in the
+Червена книга на България, or a species whose gathering an order bans completely.
+
+```yaml
+wild: true # optional, default false: the plant is gathered from the wild („диворастящо“)
+cautions: # optional; required (at least one) when wild is true
+  - kind: look-alike # look-alike | toxic-part | allergy | protected | preparation
+    text: 'One line, 20–200 characters, in the „ти“ voice, e.g. what the look-alike is and how to tell it apart.'
+    source: { name: 'Title as published', url: https://… }
+```
+
+- `look-alike`: toxic plants that can be mistaken for it. `toxic-part`: a part of the plant is
+  toxic or must not be eaten raw. `allergy`: a known allergen. `preparation`: it must be blanched or
+  cooked before eating.
+- `protected` (shown as „Защита и ограничения“) covers only a species that **may be gathered under
+  restrictions**: the regime of the Закон за лечебните растения (gathering for personal needs within
+  its limits), a species in Приложение 4 of the Закон за биологичното разнообразие, or a species whose
+  gathering a yearly МОСВ order limits. It also covers a cultivated produce whose **wild form** is
+  protected, e.g. sea buckthorn: „Плодовете в продажба са от насаждения; събирането на диворастящ
+  облепих е забранено.“
+- A `protected` caution cites the act or order with its number and year in `source.name` (e.g.
+  „Заповед № РД-…/2026 г. на министъра на околната среда и водите“). A caution based on a yearly
+  order also names the year in its text („През 2026 г. …“). Re-check every yearly order whenever you
+  change the produce's `updatedAt`, and update the caution and its source to the order in force.
+- Every caution has its own `source` (https): the act or order, an official document, a poison
+  centre or a scientific publication. Wikipedia is not a source.
+- Write facts, never health claims: no „полезен“, „лекува“ or „действие“. Do not write what to do
+  after poisoning; the page links no medical advice.
+- The page shows the cautions in one „Внимание“ callout before the season, with the gathering note
+  for wild produce, and lists their sources in „Източници“.
 
 ### Health content (YMYL)
 
@@ -372,6 +414,9 @@ computer, inside the dev server; the published site has no admin.
 3. Commit the changed YAML on a branch and open a pull request, as for any other change. CI
    checks it against the schemas.
 
+- **Wild and cautions:** tick **Wild-gathered** and add at least one caution (kind, text, source).
+  A save writes both `wild: false` (checkbox not ticked) and `cautions: []` (no caution) into every
+  produce file; both mean the same as leaving the keys out.
 - **Not editable in the form:** nutrition, photo, growing guide and organic production of a
   produce, the sources of its regions, a province's profile and a farm's certificate. Keystatic
   keeps them unchanged; edit them in the YAML file.

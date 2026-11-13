@@ -1,6 +1,9 @@
 import { collection, config, fields } from '@keystatic/core';
 import { AD_PLACEMENTS } from '@contexts/advertising';
 import {
+  CAUTION_KINDS,
+  CAUTION_TEXT_MAX_LENGTH,
+  CAUTION_TEXT_MIN_LENGTH,
   NUTRIENT_KINDS,
   NUTRIENT_UNITS,
   PRODUCE_KINDS,
@@ -224,6 +227,21 @@ const produce = collection({
         answer: requiredText('Answer', { multiline: true }),
       }),
       { label: 'FAQ', itemLabel: (props) => props.fields.question.value || 'Question' },
+    ),
+    wild: fields.checkbox({ label: 'Wild-gathered (диворастящ): needs at least one caution' }),
+    cautions: fields.array(
+      fields.object({
+        kind: selectOf('Kind', CAUTION_KINDS),
+        text: fields.text({
+          label: 'Text (one line, „ти“ voice, no health claims)',
+          validation: {
+            isRequired: true,
+            length: { min: CAUTION_TEXT_MIN_LENGTH, max: CAUTION_TEXT_MAX_LENGTH },
+          },
+        }),
+        source: source('Source'),
+      }),
+      { label: 'Cautions', itemLabel: (props) => props.fields.kind.value },
     ),
     updatedAt: requiredDate('Updated at'),
     photo: keptAsIs(),

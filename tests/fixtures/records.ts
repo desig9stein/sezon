@@ -55,6 +55,8 @@ export function produceRecord(
     howToChoose: 'Избери плътна и тежка глава с лъскави листа.',
     storage: 'В хладилник до две седмици.',
     faq: [{ question: 'Кога е сезонът на зелето?', answer: 'От септември до ноември.' }],
+    wild: false,
+    cautions: [],
     updatedAt: new Date('2026-11-10'),
     ...overrides,
   };
@@ -131,3 +133,45 @@ export function regionProfileRecord(
     ...overrides,
   };
 }
+
+/** Source cited by the first test-only caution of {@link WILD_PRODUCE_INPUT}. */
+export const CAUTION_SOURCE = {
+  name: 'Тестов източник за предупреждения',
+  url: 'https://example.org/preduprezhdenie',
+};
+
+/** Source cited by the second test-only caution of {@link WILD_PRODUCE_INPUT}. */
+export const SECOND_CAUTION_SOURCE = {
+  name: 'Втори тестов източник',
+  url: 'https://example.org/zakon',
+};
+
+/**
+ * YAML-shaped input of a wild produce with two cautions (spec 055). Test-only; not a seed entry:
+ * the caution texts say they are test text and the sources point to `example.org`.
+ */
+export const WILD_PRODUCE_INPUT = {
+  name: 'Глухарче',
+  kind: 'herb',
+  group: 'slozhnotsvetni',
+  wild: true,
+  summary:
+    'Тестов запис на диворастящо растение за проверка на предупрежденията. Не е част от съдържанието.',
+  season: [
+    { month: 4, level: 'peak' },
+    { month: 11, level: 'available' },
+  ],
+  cautions: [
+    {
+      kind: 'look-alike',
+      text: 'Тестов текст за отровен двойник на диворастящото растение.',
+      source: CAUTION_SOURCE,
+    },
+    {
+      kind: 'protected',
+      text: 'Тестов текст за ограничения при събирането на защитен вид.',
+      source: SECOND_CAUTION_SOURCE,
+    },
+  ],
+  updatedAt: '2026-11-13',
+};

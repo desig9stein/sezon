@@ -434,10 +434,12 @@ The traditional-uses disclaimer: a `surface` panel with a 4px ultramarine inline
 
 ### Produce page (spec 025)
 
-- **Table of contents:** a labelled `nav` („На тази страница“) under the header, a wrapping row of chip links: 44px tall, `surface` fill, 1px `text` border, `text` colour, semibold, no underline (underline on hover). It is hidden in print.
+- **Table of contents:** a labelled `nav` („На тази страница“) under the header, linking the `h2` groups (and the `h3` „Внимание“ when present, spec 055), a wrapping row of chip links: 44px tall, `surface` fill, 1px `text` border, `text` colour, semibold, no underline (underline on hover). It is hidden in print.
 - **Groups:** „На сергията“, „Яж“ and „Отгледай“ are `h2` groups with a 2px `text` top rule, full container width; their `h3` subsections keep the 42rem reading width.
 - **Level now:** one large stamp (`lg`, tilted −3°, the only tilted stamp in the system) followed by „през <месец>“; out of season it is plain text „Извън сезона през <месец>“ with no stamp.
 - **Farms link:** „На сергията“ ends with an in-page link to the farms section.
+- **Cautions (spec 055):** when a produce has cautions, a „Внимание“ callout follows the level line, before „Сезон по месеци“. The whole section is one `surface` panel with a 4px `text` inline-start bar (the callout form in stencil ink, not ultramarine, so it is not read as the traditional-uses disclaimer), padding 0.75rem 1rem 1rem, capped at the reading width: inside it the `h3` „Внимание“, for wild produce the 600-weight gathering note, then the cautions under a 1px `rule` hairline. Each item is a 1.1em warning-triangle icon in `currentColor` (decorative, `aria-hidden`, 16px attributes so it stays small without CSS), the bold kind label with a colon, the text and the muted `sm` source in parentheses. No red or yellow: stamp red means „Разгар“ and marker yellow the current month. Not a live region. Print: no fill, ink bar, hairline and text. The table of contents lists this `h3` beside the `h2` groups on purpose, as safety content.
+- **Wild label (spec 055):** „Диворастящо“ (neuter, for an implied „растение“) as an outlined tag (1px `border`, `radius-sm`, `text`) in the header meta and the card meta row; in the in-season list it is plain text after the kind („ · Диворастящо“).
 
 ## Do's and Don'ts
 

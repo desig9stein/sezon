@@ -10,6 +10,7 @@ import {
   uniqueBy,
 } from '@shared/infrastructure/schemaPrimitives';
 import { FIRST_MONTH_NUMBER, LAST_MONTH_NUMBER, SEASON_LEVEL_VALUES } from '@contexts/seasonality';
+import { CAUTION_KINDS, CAUTION_TEXT_MAX_LENGTH, CAUTION_TEXT_MIN_LENGTH } from '../domain/Caution';
 import { NUTRIENT_KINDS, NUTRIENT_UNITS } from '../domain/Nutrient';
 import {
   PRODUCE_SUMMARY_MAX_LENGTH,
@@ -43,51 +44,83 @@ const nutritionSchema = z
     path: ['sugarsG'],
   });
 
+/** Schema of one caution: its kind, a single-line text of 20–200 characters and its source. */
+export const cautionSchema = z.strictObject({
+  kind: z.enum(CAUTION_KINDS),
+  text: singleLineText().min(CAUTION_TEXT_MIN_LENGTH).max(CAUTION_TEXT_MAX_LENGTH),
+  source: sourceSchema,
+});
+
+/**
+ * Adds an issue on `cautions` when a wild produce has none (spec 055).
+ * @param produce - The parsed `wild` flag and cautions of a produce entry.
+ */
+function requireCautionsWhenWild(
+  produce: { wild: boolean; cautions: ReadonlyArray<unknown> },
+  ctx: z.RefinementCtx,
+): void {
+  if (produce.wild && produce.cautions.length === 0) {
+    ctx.addIssue({
+      code: 'custom',
+      message: 'A wild produce needs at least one sourced caution.',
+      path: ['cautions'],
+    });
+  }
+}
+
 /**
  * Schema of a `produce` content entry. Only the name, kind, group, summary, season and update date
  * are required (spec 049); omitted lists are parsed as empty, other omitted blocks stay undefined.
+ * A wild produce must have at least one caution (spec 055).
  */
-export const produceSchema = z.strictObject({
-  name: text(),
-  latinName: text().optional(),
-  kind: z.enum(PRODUCE_KINDS),
-  group: slugReference(),
-  summary: singleLineText().min(PRODUCE_SUMMARY_MIN_LENGTH).max(PRODUCE_SUMMARY_MAX_LENGTH),
-  varieties: z
-    .array(z.strictObject({ name: text(), note: text().optional() }))
-    .superRefine(uniqueBy((variety) => variety.name, 'variety'))
-    .default(() => []),
-  season: z
-    .array(
-      z.strictObject({
-        month: z.number().int().min(FIRST_MONTH_NUMBER).max(LAST_MONTH_NUMBER),
-        level: z.enum(SEASON_LEVEL_VALUES),
-      }),
-    )
-    .min(1)
-    .superRefine(uniqueBy((entry) => entry.month, 'season month')),
-  regions: z
-    .array(
-      z.strictObject({ region: slugReference(), note: text(), source: sourceSchema.optional() }),
-    )
-    .superRefine(uniqueBy((entry) => entry.region, 'region'))
-    .default(() => []),
-  nutrition: nutritionSchema.optional(),
-  preparation: z.array(z.strictObject({ method: text(), tip: text() })).default(() => []),
-  traditionalUses: z
-    .array(
-      z.strictObject({
-        system: z.enum(TRADITIONAL_SYSTEMS),
-        use: text().regex(TRADITIONAL_USE_PATTERN, `Must start with „${TRADITIONAL_USE_PREFIX}“.`),
-        source: sourceSchema,
-      }),
-    )
-    .default(() => []),
-  howToChoose: text().optional(),
-  storage: text().optional(),
-  faq: z.array(z.strictObject({ question: text(), answer: text() })).default(() => []),
-  updatedAt: isoDate(),
-});
+export const produceSchema = z
+  .strictObject({
+    name: text(),
+    latinName: text().optional(),
+    kind: z.enum(PRODUCE_KINDS),
+    group: slugReference(),
+    summary: singleLineText().min(PRODUCE_SUMMARY_MIN_LENGTH).max(PRODUCE_SUMMARY_MAX_LENGTH),
+    varieties: z
+      .array(z.strictObject({ name: text(), note: text().optional() }))
+      .superRefine(uniqueBy((variety) => variety.name, 'variety'))
+      .default(() => []),
+    season: z
+      .array(
+        z.strictObject({
+          month: z.number().int().min(FIRST_MONTH_NUMBER).max(LAST_MONTH_NUMBER),
+          level: z.enum(SEASON_LEVEL_VALUES),
+        }),
+      )
+      .min(1)
+      .superRefine(uniqueBy((entry) => entry.month, 'season month')),
+    regions: z
+      .array(
+        z.strictObject({ region: slugReference(), note: text(), source: sourceSchema.optional() }),
+      )
+      .superRefine(uniqueBy((entry) => entry.region, 'region'))
+      .default(() => []),
+    nutrition: nutritionSchema.optional(),
+    preparation: z.array(z.strictObject({ method: text(), tip: text() })).default(() => []),
+    traditionalUses: z
+      .array(
+        z.strictObject({
+          system: z.enum(TRADITIONAL_SYSTEMS),
+          use: text().regex(
+            TRADITIONAL_USE_PATTERN,
+            `Must start with „${TRADITIONAL_USE_PREFIX}“.`,
+          ),
+          source: sourceSchema,
+        }),
+      )
+      .default(() => []),
+    howToChoose: text().optional(),
+    storage: text().optional(),
+    faq: z.array(z.strictObject({ question: text(), answer: text() })).default(() => []),
+    wild: z.boolean().default(false),
+    cautions: z.array(cautionSchema).default(() => []),
+    updatedAt: isoDate(),
+  })
+  .superRefine(requireCautionsWhenWild);
 
 /** Schema of a `groups` content entry. */
 export const groupSchema = z.strictObject({
@@ -164,7 +197,7 @@ export const photoSchema = (image: ImageSchemaFactory) =>
  * @param context - Provides the image schema factory (Astro's `SchemaContext`).
  */
 export const produceSchemaWith = ({ image }: { image: ImageSchemaFactory }) =>
-  produceSchema.extend({
+  produceSchema.safeExtend({
     photo: photoSchema(image).optional(),
     growing: growingSchema.optional(),
     organic: organicSchema.optional(),
