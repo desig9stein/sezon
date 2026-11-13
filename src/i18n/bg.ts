@@ -318,6 +318,24 @@ function farmPageDescription(
   return listed.length === 0 ? `${lead}. ${closing}` : withNames(listed);
 }
 
+/** Returns `items` joined with commas, the last two with „и“ (e.g. „зеле, праз и спанак“). */
+function listWithAnd(items: ReadonlyArray<string>): string {
+  const last = items[items.length - 1] ?? '';
+  return items.length < 2 ? last : `${items.slice(0, -1).join(LIST_SEPARATOR)} и ${last}`;
+}
+
+/**
+ * Returns the plain-text RSS item description of a month: its peak produce names in lower case,
+ * or a note that nothing is at its peak.
+ */
+function monthFeedDescription(month: Month, peakNames: ReadonlyArray<string>): string {
+  const name = monthNameLower(month);
+  if (peakNames.length === 0) {
+    return `През ${name} нищо не е в разгара на сезона. Виж какво е в сезон в България през ${name}.`;
+  }
+  return `През ${name} в разгара на сезона: ${listWithAnd(peakNames.map(inSentence))}. Виж всичко, което е в сезон в България през ${name}.`;
+}
+
 const SECTION_NAMES: Readonly<Record<ProduceKind, string>> = {
   fruit: 'Плодове',
   vegetable: 'Зеленчуци',
@@ -354,6 +372,12 @@ export const ui = {
     report: 'Съобщи за грешка на тази страница в GitHub (нужен е профил)',
     addFarm: 'Добави своята ферма',
     reportEmail: 'Съобщи за грешка по имейл',
+    feed: 'RSS абонамент',
+  },
+  feed: {
+    title: `${SITE_NAME} – какво е в сезон в България`,
+    description: 'Всеки месец: кои плодове, зеленчуци и подправки са в сезон в България.',
+    itemDescription: monthFeedDescription,
   },
   corrections: {
     mailSubject: (page: string) => `Грешка в Сезон: ${page}`,

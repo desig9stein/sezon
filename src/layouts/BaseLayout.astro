@@ -2,6 +2,7 @@
 import '../styles/base.css';
 import { Font } from 'astro:assets';
 import Breadcrumbs from '@components/layout/Breadcrumbs.astro';
+import { routes } from '@components/layout/routes';
 import SiteFooter from '@components/layout/SiteFooter.astro';
 import SiteHeader from '@components/layout/SiteHeader.astro';
 import SkipLink from '@components/layout/SkipLink.astro';
@@ -11,6 +12,7 @@ import { requireSiteUrl } from '@composition/site';
 import { tokensToCss } from '@design/tokens';
 import { ui } from '@i18n/bg';
 import {
+  absoluteUrl,
   buildPageMeta,
   type BreadcrumbItem,
   type JsonLd as JsonLdData,
@@ -29,14 +31,16 @@ interface Props {
 }
 
 const { title, description, path, type, breadcrumbs, jsonLd = [], noindex = false } = Astro.props;
+const siteUrl = requireSiteUrl(Astro.site);
 const meta = buildPageMeta({
   title,
   description,
   path,
-  siteUrl: requireSiteUrl(Astro.site),
+  siteUrl,
   siteName: ui.siteName,
   type,
 });
+const feed = { title: ui.feed.title, url: absoluteUrl(siteUrl, routes.feed) };
 ---
 
 <!doctype html>
@@ -44,7 +48,7 @@ const meta = buildPageMeta({
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <Seo meta={meta} noindex={noindex} />
+    <Seo meta={meta} feed={feed} noindex={noindex} />
     <Font cssVariable="--font-sofia-sans-extra-condensed" preload={[{ style: 'normal' }]} />
     <Font cssVariable="--font-sofia-sans" preload={[{ style: 'normal' }]} />
     <style is:inline set:html={tokensToCss()}></style>

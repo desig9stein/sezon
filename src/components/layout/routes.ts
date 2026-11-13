@@ -24,6 +24,7 @@ export const routes = {
   methodology: '/metodologiya',
   calendar: '/kalendar',
   search: '/tarsene',
+  feed: '/rss.xml',
   farms: FARMS_PREFIX,
   farm: (slug: string) => `${FARMS_PREFIX}/${slug}`,
   regions: REGIONS_PREFIX,

@@ -3,15 +3,18 @@ import { palettes } from '@design/tokens';
 import type { PageMeta } from '@shared/seo';
 
 /**
- * Renders title, description, canonical, robots, Open Graph, Twitter, theme-color and favicon tags.
- * With `noindex`, the page is excluded from indexing and has no canonical or `og:url`.
+ * Renders title, description, canonical, robots, Open Graph, Twitter, theme-color, favicon and RSS
+ * autodiscovery tags. With `noindex`, the page is excluded from indexing and has no canonical or
+ * `og:url`.
  */
 interface Props {
   meta: PageMeta;
+  /** Title and absolute URL of the site's RSS feed. */
+  feed: { readonly title: string; readonly url: string };
   noindex?: boolean;
 }
 
-const { meta, noindex = false } = Astro.props;
+const { meta, feed, noindex = false } = Astro.props;
 ---
 
 <title>{meta.title}</title>
@@ -32,3 +35,4 @@ const { meta, noindex = false } = Astro.props;
 />
 <meta name="theme-color" content={palettes.dark.background} media="(prefers-color-scheme: dark)" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="alternate" type="application/rss+xml" title={feed.title} href={feed.url} />
