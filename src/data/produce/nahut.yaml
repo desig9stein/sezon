@@ -1,0 +1,34 @@
+name: Нахут
+latinName: Cicer arietinum
+kind: vegetable
+group: bobovi
+summary: 'Нахутът се сее рано напролет; от поникване до жътва минават често около 120 дни.'
+season:
+  - { month: 7, level: available }
+  - { month: 8, level: available }
+nutrition:
+  energyKcal: 378
+  proteinG: 20.47
+  fatG: 6.04
+  carbohydrateG: 62.95
+  fiberG: 12.2
+  sugarsG: 10.7
+  micronutrients:
+    - { nutrient: folat, amount: 557 }
+    - { nutrient: mangan, amount: 4.15 }
+    - { nutrient: med-cu, amount: 0.656 }
+    - { nutrient: fosfor, amount: 252 }
+    - { nutrient: kaliy, amount: 718 }
+    - { nutrient: zhelyazo, amount: 4.31 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Chickpeas (garbanzo beans, bengal gram), mature seeds, raw'
+    url: https://fdc.nal.usda.gov/food-details/173756/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/nahut.jpg
+  alt: 'Сухи зърна нахут в черна купа на бял фон'
+  credit:
+    author: 'Karyna Panchenko'
+    authorUrl: https://unsplash.com/@karyna_panchenko
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-bowl-filled-with-chickpeas-sitting-on-top-of-a-table-5352eOUYay4

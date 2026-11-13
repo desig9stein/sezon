@@ -1,0 +1,29 @@
+name: Кресон
+latinName: Lepidium sativum
+kind: vegetable
+group: krastotsvetni
+summary: 'Кресонът става готов за по-малко от месец. Сее се от ранна пролет до горещините и отново в края на лятото, на всеки 7–10 дни.'
+season:
+  - { month: 3, level: available }
+  - { month: 4, level: available }
+  - { month: 5, level: available }
+  - { month: 6, level: available }
+  - { month: 9, level: available }
+nutrition:
+  energyKcal: 32
+  proteinG: 2.6
+  fatG: 0.7
+  carbohydrateG: 5.5
+  fiberG: 1.1
+  sugarsG: 4.4
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 541.9 }
+    - { nutrient: vitamin-c, amount: 69 }
+    - { nutrient: vitamin-a, amount: 346 }
+    - { nutrient: folat, amount: 80 }
+    - { nutrient: kaliy, amount: 606 }
+    - { nutrient: mangan, amount: 0.553 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Cress, garden, raw'
+    url: https://fdc.nal.usda.gov/food-details/168407/nutrients
+updatedAt: 2026-11-13

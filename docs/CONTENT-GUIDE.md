@@ -461,6 +461,11 @@ seasons are editorial (no official monthly calendar exists).
   regions; nutrition only where SR Legacy has a raw or fresh record, photos only where Unsplash
   clearly shows the produce. Wild nettle stays out because its only source carries cautions the
   page cannot show; dandelion stays out because no source gives a month for its leaves.
+- **More cultivated produce (2026-11-13, spec 056):** ten cultivated produce with sourced harvest
+  months and no regions; nutrition only from raw SR Legacy records, photos only where Unsplash
+  clearly shows the produce. Goji berries and Kamchatka honeysuckle wait for a batch with cautions
+  (unripe goji fruit, toxic _Lonicera_ look-alikes); varieties of existing entries (iceberg lettuce,
+  shallot, black radish, pattypan squash) are not separate produce.
 - **Farms (checked 2026-11-11, #16):** 10 real farms from their own websites. None publishes a
   full organic certificate, so none has an `organic` block.
 - **More farms (checked 2026-11-13, spec 051):** 39 more farms from their own sites, Хранкооп
