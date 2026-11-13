@@ -33,6 +33,7 @@ const GROUPS_DIR = join(process.cwd(), 'src', 'data', 'groups');
 const MZH_HOST = 'www.mzh.government.bg';
 const ORCHARD_TITLE = 'Структура на основни овощни видове в България през 2023';
 const VEGETABLES_TITLE = 'Производство на зеленчуци, реколта 2022';
+const SEPTEMBER = 9;
 const PHOTO_SIZE = { width: 1600, height: 1200 };
 /** JPEG start-of-frame markers (baseline, extended, progressive) that carry the image size. */
 const SOF_MARKERS = new Set([0xc0, 0xc1, 0xc2]);
@@ -66,12 +67,32 @@ const FRUITS: Readonly<Record<string, { readonly group: string; readonly fdcId: 
 const SLUGS = Object.keys(FRUITS);
 
 /** Provinces leading the МЗХ orchard survey 2023, in the order of the data. */
-const ORCHARD_REGIONS: Readonly<Record<string, ReadonlyArray<string>>> = {
-  chereshi: ['burgas', 'kyustendil', 'plovdiv'],
-  kaysii: ['silistra', 'ruse', 'dobrich'],
-  praskovi: ['sliven', 'burgas', 'ruse'],
-  slivi: ['plovdiv', 'lovech', 'silistra'],
-  grozde: ['plovdiv', 'burgas', 'haskovo'],
+const ORCHARD_REGIONS: Readonly<Record<string, ReadonlyArray<readonly [string, string]>>> = {
+  chereshi: [
+    ['burgas', '2 163'],
+    ['kyustendil', '2 086'],
+    ['plovdiv', '1 676'],
+  ],
+  kaysii: [
+    ['silistra', '2 151'],
+    ['ruse', '273'],
+    ['dobrich', '140'],
+  ],
+  praskovi: [
+    ['sliven', '1 475'],
+    ['burgas', '398'],
+    ['ruse', '218'],
+  ],
+  slivi: [
+    ['plovdiv', '1 551'],
+    ['lovech', '1 246'],
+    ['silistra', '897'],
+  ],
+  grozde: [
+    ['plovdiv', '821'],
+    ['burgas', '345'],
+    ['haskovo', '338'],
+  ],
 };
 const NUTS2_PRODUCE = ['yagodi', 'papeshi'] as const;
 const NUTS2_REGIONS = ['plovdiv', 'pazardzhik'];
@@ -107,12 +128,14 @@ describe('summer fruits (spec 040)', () => {
       expect(exists(slug)).toBe(true);
       if (!exists(slug)) return;
       const regions = fruit(slug).regions;
-      expect(regions.map((entry) => entry.region)).toEqual(expected);
-      for (const entry of regions) {
+      expect(regions.map((entry) => entry.region)).toEqual(expected.map(([region]) => region));
+      regions.forEach((entry, index) => {
         expect(hostOf(entry.source?.url), entry.region).toBe(MZH_HOST);
         expect(entry.source?.name, entry.region).toContain(ORCHARD_TITLE);
-        expect(entry.note, entry.region).toMatch(/ха към 2023 г\.$/);
-      }
+        expect(entry.note, entry.region).toMatch(
+          new RegExp(`– ${expected[index]?.[1] ?? ''} ха към 2023 г\\.$`),
+        );
+      });
     },
   );
 
@@ -195,5 +218,45 @@ describe('summer fruits (spec 040)', () => {
     expect(existsSync(file)).toBe(true);
     if (!existsSync(file)) return;
     expect((parse(readFileSync(file, 'utf8')) as { latinName: string }).latinName).toBe(latinName);
+  });
+});
+
+describe('summer fruits QA regressions (spec 040)', () => {
+  const textOf = (slug: string) => parse(raw(slug)) as Record<string, unknown>;
+  const summaryOf = (slug: string) => String(textOf(slug).summary);
+
+  it('QA 040: plums list no endangered local variety', () => {
+    const varieties = textOf('slivi').varieties as ReadonlyArray<{ name: string }>;
+    expect(varieties.map((variety) => variety.name)).not.toContain('Кюстендилска синя слива');
+  });
+
+  it('QA 040: plums are available, not at their peak, in September', () => {
+    const season = textOf('slivi').season as ReadonlyArray<{ month: number; level: string }>;
+    expect(season.find((entry) => entry.month === SEPTEMBER)?.level).toBe('available');
+  });
+
+  it.each(['chereshi', 'kaysii', 'praskovi'])(
+    'QA 040: the %s summary speaks of planted area, not of orchards',
+    (slug) => {
+      expect(summaryOf(slug)).toContain('най-голяма площ');
+      expect(summaryOf(slug)).not.toMatch(/най-много/);
+    },
+  );
+
+  it('QA 040: the plum summary names only uses its source gives', () => {
+    expect(summaryOf('slivi')).not.toMatch(/сладко/);
+  });
+
+  it('QA 040: the cherry alt text does not describe a background the photo lacks', () => {
+    const photo = textOf('chereshi').photo as { alt: string };
+    expect(photo.alt).not.toContain('фон');
+  });
+
+  it('QA 040: the grape texts do not repeat „здрав…“', () => {
+    expect(String(textOf('grozde').howToChoose).match(/здрав/g) ?? []).toHaveLength(0);
+    const tips = (textOf('grozde').preparation as ReadonlyArray<{ tip: string }>).map(
+      (entry) => entry.tip,
+    );
+    expect(tips).toContain('Откъсни зърната, подсуши ги и ги замрази – стават хладна лятна хапка.');
   });
 });
