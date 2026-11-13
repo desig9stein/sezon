@@ -107,3 +107,21 @@ describe('RegionPagesQuery QA (spec 029)', () => {
     ]);
   });
 });
+
+describe('RegionPagesQuery with a produce without regions (spec 042)', () => {
+  it('QA 042: a produce without regions appears on no region page', async () => {
+    const bamya = toProduce('bamya', produceRecord({ name: 'Бамя', regions: [] }));
+    const withBamya = new RegionPagesQuery({
+      regions: repositoryOf(regions),
+      produce: repositoryOf([zele, bamya]),
+      farms: new IndexedFarmRepository(async () => []),
+    });
+    const counts = (await withBamya.overview()).map(({ region, produceCount }) => [
+      region.slug,
+      produceCount,
+    ]);
+    expect(Object.fromEntries(counts)).toEqual({ plovdiv: 1, pleven: 0, burgas: 0 });
+    const plovdiv = await withBamya.forSlug('plovdiv', ON);
+    expect(plovdiv.produce.map(({ produce }) => produce.slug)).toEqual(['zele']);
+  });
+});
