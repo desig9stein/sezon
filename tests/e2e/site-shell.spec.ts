@@ -5,7 +5,7 @@ import { expectNoAxeViolations } from './a11y';
 
 const SHELL = { light: 'rgb(28, 63, 170)', dark: 'rgb(34, 51, 122)' };
 const MAX_HEADER_HEIGHT = 64;
-/** Catalogue links of every group, one per file in `src/data/groups`, sorted. */
+/** Group page links the catalogue must show: one per file in the content data. */
 const GROUP_HREFS = readdirSync(join(process.cwd(), 'src', 'data', 'groups'))
   .filter((file) => file.endsWith('.yaml'))
   .map((file) => `/grupi/${file.replace(/\.yaml$/, '')}`)

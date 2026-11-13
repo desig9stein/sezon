@@ -1,0 +1,79 @@
+name: Пъпеши
+latinName: Cucumis melo
+kind: fruit
+group: tikvovi
+summary: Пъпешите се берат от юли до септември. Узрелият пъпеш ухае сладко и поддава леко при натиск, а нарязан се пази в хладилник.
+varieties:
+  - name: Хибрид 1
+  - name: Хибрид 15
+  - name: Медена роса
+  - name: Победител
+season:
+  - { month: 7, level: peak }
+  - { month: 8, level: peak }
+  - { month: 9, level: available }
+regions:
+  - region: plovdiv
+    note: 'Областта е в Южния централен район, който има най-голямата реколтирана открита площ с дини и пъпеши сред районите в страната – 2 404 от 5 418 ха през 2022 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци, реколта 2022'
+      url: https://www.mzh.government.bg/media/filer_public/2023/04/11/ra423_publicationvegetables2022.pdf
+  - region: pazardzhik
+    note: 'Областта е в Южния централен район, който има най-голямата реколтирана открита площ с дини и пъпеши сред районите в страната – 2 404 от 5 418 ха през 2022 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци, реколта 2022'
+      url: https://www.mzh.government.bg/media/filer_public/2023/04/11/ra423_publicationvegetables2022.pdf
+nutrition:
+  energyKcal: 36
+  proteinG: 0.54
+  fatG: 0.14
+  carbohydrateG: 9.09
+  fiberG: 0.8
+  sugarsG: 8.12
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 18 }
+    - { nutrient: kaliy, amount: 228 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Melons, honeydew, raw'
+    url: https://fdc.nal.usda.gov/food-details/169911/nutrients
+preparation:
+  - method: Пресен
+    tip: Измий кората, преди да разрежеш пъпеша, за да не пренесеш замърсяване от нея към месото.
+  - method: Със солено
+    tip: Сладкият пъпеш върви добре със сирене или сушено месо.
+traditionalUses: []
+howToChoose: Избери тежък за размера си пъпеш, който ухае сладко при дръжката и поддава леко при натиск в другия край.
+storage: Цял пъпеш издържа няколко дни на стайна температура; нарязания пази покрит в хладилник и го изяж до два-три дни.
+faq:
+  - question: Как да разбера дали пъпешът е узрял?
+    answer: Узрелият пъпеш има приятен плодов аромат и поддава леко при натиск.
+  - question: Кога е сезонът на пъпешите в България?
+    answer: Първите пъпеши от открити площи се берат през юли, а беритбата продължава до септември.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/papeshi.jpg
+  alt: 'Две половинки пъпеш със светлозелено месо и семки в средата върху тъмен фон'
+  credit:
+    author: 'Stephanie Sarlos'
+    authorUrl: https://unsplash.com/@studiostephaniesarlos
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-honeydew-melon-cut-in-half-on-a-dark-background-nSb83rNASFc
+growing:
+  sow: [4, 5]
+  transplant: []
+  plant: []
+  tips:
+    - 'Сей, когато почвата на 10 см дълбочина се затопли до 14–15 °C – обикновено в края на април или началото на май.'
+    - 'Сей гнездово по 3–4 семена на 4–5 см дълбочина, на 50–60 см в реда и на 120–150 см между редовете.'
+    - 'Когато растенията имат 2–3 листа, прореди ги и остави по две във всяко гнездо.'
+    - 'Поливай най-много по време на цъфтежа и наедряването; дъждовете по време на зреене намаляват захарите.'
+    - 'Остави най-много по три плода на растение и бери, когато плодът ухае и леко омекне.'
+  sources:
+    - name: 'Български фермер – Отглеждане на дини и пъпеши'
+      url: https://www.bgfermer.bg/Article/6834440
+    - name: 'Български фермер – Дини и пъпеши се сеят през втората половина на април'
+      url: https://www.bgfermer.bg/Article/14205258
+    - name: 'Български фермер – Тежките и студени почви са неподходящи за отглеждане на бостан'
+      url: https://www.bgfermer.bg/Article/7408985
+    - name: 'Български фермер – 8 съвета за по-сладки пъпеши'
+      url: https://www.bgfermer.bg/Article/7483379

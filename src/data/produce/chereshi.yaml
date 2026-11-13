@@ -1,0 +1,85 @@
+name: Череши
+latinName: Prunus avium
+kind: fruit
+group: rozotsvetni
+summary: Черешите са сред първите летни плодове – берат се от май до юли. Бургаско, Кюстендилско и Пловдивско са с най-голяма площ черешови градини.
+varieties:
+  - name: Бигаро Бюрла
+    note: Френски сорт, у нас основен стандартен сорт.
+  - name: Ван
+    note: Канадски сорт, у нас основен стандартен сорт.
+  - name: Косара
+    note: Много ранен сорт, създаден в Института по овощарство в Пловдив.
+  - name: Кордия
+season:
+  - { month: 5, level: available }
+  - { month: 6, level: peak }
+  - { month: 7, level: available }
+regions:
+  - region: burgas
+    note: 'Областта с най-голяма площ с черешови насаждения в страната – 2 163 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: kyustendil
+    note: 'Областта с втората по големина площ с черешови насаждения – 2 086 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: plovdiv
+    note: 'Областта с третата по големина площ с черешови насаждения – 1 676 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+nutrition:
+  energyKcal: 63
+  proteinG: 1.06
+  fatG: 0.2
+  carbohydrateG: 16.01
+  fiberG: 2.1
+  sugarsG: 12.82
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 7 }
+    - { nutrient: kaliy, amount: 222 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Cherries, sweet, raw'
+    url: https://fdc.nal.usda.gov/food-details/171719/nutrients
+preparation:
+  - method: Пресни
+    tip: Измий ги точно преди ядене – мокрите череши се развалят по-бързо.
+  - method: В сладкиш
+    tip: Махни костилките с вилица или машинка за костилки, преди да ги печеш.
+traditionalUses: []
+howToChoose: Избери твърди, лъскави череши със зелени, гъвкави дръжки.
+storage: Пази ги неизмити в хладилник и ги изяж до няколко дни.
+faq:
+  - question: Кога е сезонът на черешите в България?
+    answer: Ранните сортове узряват през май, основната беритба е през юни, а по-късните сортове продължават до юли.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/chereshi.jpg
+  alt: 'Купчина тъмночервени лъскави череши с дръжки, изпълващи целия кадър'
+  credit:
+    author: 'Joanna Kosinska'
+    authorUrl: https://unsplash.com/@joannakosinska
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/red-cherry-fruits-_xN7UbcZ33I
+growing:
+  sow: []
+  transplant: []
+  plant: [3, 11, 12]
+  plantingNote: 'Наесен засаждай от ноември до 15–20 декември, преди големите студове; напролет – в началото на март.'
+  tips:
+    - 'Черешата вирее до около 800 м надморска височина; на хълмист терен я засади на склон с наклон 5–12°.'
+    - 'Може да расте и на слабо алкална почва; избягвай места с високи подпочвени води.'
+    - 'По-малко мразоустойчива е от ябълката и сливата – избягвай ниски места, където се задържа студен въздух.'
+    - 'Засади наблизо опрашител – Косара, например, се опрашва добре от Бигаро Бюрла и от самоплодните сортове.'
+  sources:
+    - name: 'Български фермер – За есенното засаждане на овошки изберете подходящо място и сорт'
+      url: https://www.bgfermer.bg/Article/12819793
+    - name: 'Български фермер – Ноември е най-подходящият месец за есенно засаждане на нови дръвчета'
+      url: https://www.bgfermer.bg/Article/15941772
+    - name: 'Български фермер – Купете фиданки за пролетно засаждане'
+      url: https://www.bgfermer.bg/Article/17307642
+    - name: 'Български фермер – Сортове овошки, подходящи за нашите условия'
+      url: https://www.bgfermer.bg/Article/10439096
