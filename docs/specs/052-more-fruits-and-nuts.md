@@ -179,9 +179,10 @@ show three.
 - **Nectarines:** Table 1 of the same bulletin counts peaches and nectarines together. The entry
   repeats the three provinces of `praskovi` (Сливен 1 475 ха, Бургас 398 ха, Русе 218 ха) and each
   note says „праскови и нектарини“.
-- **NUTS2 (the cabbage rule, spec 033):** the provinces of the leading region are named, with the
-  regional figure and year, without ranking them. Membership of the South Central region (Кърджали,
-  Пазарджик, Пловдив, Смолян, Хасково) is from the bulletins' methodology.
+- **NUTS2 (the cabbage rule, spec 033):** the South Central region leads, and, as for cabbage,
+  tomatoes, peppers and aubergines (spec 041), Пловдив and Пазарджик are named with the regional
+  figure and year, without ranking them. Кърджали, Смолян and Хасково are in the same region, but
+  nothing ranks them (QA 052: naming all five also gave Smolyan produce, against the precedent).
   - `dini`: bulletin № 468 „Производство на зеленчуци в България – реколта 2025“, Table 3: „Дини и
     пъпеши“ together, open-field harvested area, Южен централен 4 092 of 8 669 ха (2025).
   - `shipka`: bulletin № 469 „Производство на плодове в България – реколта 2025“, Table 2:
@@ -275,8 +276,8 @@ service tree and jujube (the searches returned other species or none).
 4. **AC4:** Given sour cherries, raspberries, hazelnuts and almonds, then their regions are the
    three provinces of section 5 in that order, each citing bulletin № 448 with the figure in the
    note; nectarines name the peach provinces with „праскови и нектарини“ in each note.
-5. **AC5:** Given watermelons and rosehips, then their regions are the five provinces of the South
-   Central region, each citing the 2025 bulletin with the regional figure.
+5. **AC5:** Given watermelons and rosehips, then their regions are Пловдив and Пазарджик (South
+   Central region, as for cabbage), each citing the 2025 bulletin with the regional figure.
 6. **AC6:** Given the other new produce, then `regions` is empty.
 7. **AC7:** Given each new produce, then no file cites gradinata.bg, none has traditional uses,
    none contains „богат“, and `updatedAt` is 2026-11-13.
@@ -322,3 +323,12 @@ No new third-party API is used. Content sources (all fetched 2026-11-13):
 | Bulgarian Wikipedia – Боровинка, Касис, Нар, Райска ябълка, Киви (растение), Обикновен дрян, Облепиха, Хинап, Обикновена леска, Арония | 2026-11-13     | https://bg.wikipedia.org/                                                                                                | Family names of the new groups                     |
 | English Wikipedia – Vaccinium corymbosum                                                                                               | 2026-11-13     | https://en.wikipedia.org/wiki/Vaccinium_corymbosum                                                                       | Species of the cultivated blueberry                |
 | Unsplash photos                                                                                                                        | 2026-11-13     | https://unsplash.com/                                                                                                    | Photos                                             |
+
+## 11. QA review (2026-11-13)
+
+No `qa-reviewer` subagent could be launched from this session; the checklist was followed manually
+and the full e2e suite was run.
+
+| Finding                                                                                                                                                                                 | Fix                        | Regression test                                                     |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------------------------- |
+| Watermelons and rosehips named all five South Central provinces; the precedent (spec 041) names Пловдив and Пазарджик only, and the Smolyan page (spec 038, AC15) lost its empty states | Kept Пловдив and Пазарджик | `AC5: %s names Plovdiv and Pazardzhik for the South Central region` |
