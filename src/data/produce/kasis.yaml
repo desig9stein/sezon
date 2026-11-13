@@ -1,0 +1,17 @@
+name: Касис
+latinName: Ribes nigrum
+kind: fruit
+group: kasisovi
+summary: Касисът, или черното френско грозде, се бере през юни и юли. Зрънцата в един грозд не узряват едновременно, затова се берат на няколко пъти.
+season:
+  - { month: 6, level: peak }
+  - { month: 7, level: peak }
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/kasis.jpg
+  alt: 'Чепки черен касис по клонките на храст със зелени листа'
+  credit:
+    author: 'Anna Evans'
+    authorUrl: https://unsplash.com/@anevans
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-bunch-of-black-berries-hanging-from-a-tree-r7Y6wdEFVdE

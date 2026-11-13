@@ -1,0 +1,11 @@
+name: Облепиха
+latinName: Hippophae rhamnoides
+kind: fruit
+group: mirizlivovarbovi
+summary: Облепихата узрява от края на юли до октомври според сорта. Плодовете са с къси дръжки и тънка кожица, затова се берат трудно.
+season:
+  - { month: 7, level: available }
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+updatedAt: 2026-11-13

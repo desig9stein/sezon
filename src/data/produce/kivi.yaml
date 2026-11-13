@@ -1,0 +1,41 @@
+name: Киви
+latinName: Actinidia deliciosa
+kind: fruit
+group: aktinidievi
+summary: Кивито у нас узрява в края на октомври и през ноември, а плодовете стават готови за ядене през декември.
+varieties:
+  - name: Хейуърд
+    note: 'Основният, най-едроплоден сорт; узрява в края на октомври и първите дни на ноември.'
+  - name: Абот
+    note: 'Узрява около 25 октомври.'
+  - name: Бруно
+    note: 'Узрява до 19–20 октомври.'
+  - name: Монти
+    note: 'Зрее обикновено около 25 октомври.'
+season:
+  - { month: 10, level: available }
+  - { month: 11, level: peak }
+  - { month: 12, level: storage }
+nutrition:
+  energyKcal: 61
+  proteinG: 1.14
+  fatG: 0.52
+  carbohydrateG: 14.66
+  fiberG: 3
+  sugarsG: 8.99
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 92.7 }
+    - { nutrient: vitamin-k, amount: 40.3 }
+    - { nutrient: kaliy, amount: 312 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Kiwifruit, green, raw'
+    url: https://fdc.nal.usda.gov/food-details/168153/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/kivi.jpg
+  alt: 'Киви, разрязано на две, със зелена сърцевина и черни семенца'
+  credit:
+    author: 'engin akyurt'
+    authorUrl: https://unsplash.com/@enginakyurt
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/sliced-green-fruit-on-white-surface-jPVcZsxRGJo

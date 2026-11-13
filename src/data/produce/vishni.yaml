@@ -1,0 +1,52 @@
+name: Вишни
+latinName: Prunus cerasus
+kind: fruit
+group: rozotsvetni
+summary: Вишните узряват от началото на юни до средата на юли според района и сорта. Най-много вишневи градини има в Търговище, София-област и Пловдив.
+varieties:
+  - name: Хайманов рубин
+    note: 'Узрява от 12 до 15 юни.'
+  - name: Фанал
+    note: 'Узрява от 20 до 30 юни.'
+  - name: Облачанска вишна
+    note: 'Узрява от 1 до 6 юли.'
+  - name: Монтморенси
+    note: 'Узрява от 1 до 6 юли.'
+  - name: Сенчеста морела
+    note: 'Узрява от 5 до 12 юли.'
+  - name: Метеор
+    note: 'Узрява обикновено от 10 до 15 юли.'
+season:
+  - { month: 6, level: peak }
+  - { month: 7, level: available }
+regions:
+  - region: targovishte
+    note: 'Областта с най-голяма площ с вишневи насаждения в страната – 196 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: sofiyska
+    note: 'Областта с втората по големина площ с вишневи насаждения – 180 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: plovdiv
+    note: 'Областта с третата по големина площ с вишневи насаждения – 175 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+nutrition:
+  energyKcal: 50
+  proteinG: 1
+  fatG: 0.3
+  carbohydrateG: 12.18
+  fiberG: 1.6
+  sugarsG: 8.49
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 10 }
+    - { nutrient: med-cu, amount: 0.104 }
+    - { nutrient: kaliy, amount: 173 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Cherries, sour, red, raw'
+    url: https://fdc.nal.usda.gov/food-details/173954/nutrients
+updatedAt: 2026-11-13

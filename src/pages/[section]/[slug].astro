@@ -24,7 +24,7 @@ import {
   sponsorSelectionService,
 } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
-import { produceTitle, ui } from '@i18n/bg';
+import { produceSeasonTitle, produceTitle, ui } from '@i18n/bg';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { articleJsonLd, faqPageJsonLd } from '@shared/seo';
 import { searchHeadingAttributes } from '@components/search/searchAttributes';
@@ -63,7 +63,9 @@ const jsonLd = [
 ---
 
 <BaseLayout
-  title={produceTitle(produce.name)}
+  title={
+    produce.nutrition === undefined ? produceSeasonTitle(produce.name) : produceTitle(produce.name)
+  }
   description={produce.summary}
   path={path}
   type="article"

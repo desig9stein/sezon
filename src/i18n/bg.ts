@@ -283,6 +283,14 @@ export function produceTitle(name: string): string {
 }
 
 /**
+ * Returns the page title of a produce without nutrition facts: the longest variant without
+ * „хранителни стойности“ that fits 60 characters together with the site-name suffix.
+ */
+export function produceSeasonTitle(name: string): string {
+  return fittingTitle([`${name} – сезон и ферми`, `${name} – сезон`, name]);
+}
+
+/**
  * Formats a number of minutes as „25 мин“, „1 ч“ or „1 ч 5 мин“; zero is „–“.
  * @param minutes - Whole minutes, zero or more.
  */

@@ -1,0 +1,13 @@
+name: Скоруша
+latinName: Sorbus domestica
+kind: fruit
+group: rozotsvetni
+summary: Скорушата узрява постепенно от средата на август до средата на октомври. Твърдите плодове стават за ядене, след като омекнат.
+season:
+  - { month: 8, level: available }
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+  - { month: 11, level: storage }
+  - { month: 12, level: storage }
+storage: Бери плодовете в пълна зрялост и ги остави да омекнат. Късните плодове от октомври издържат в хладилник около два месеца.
+updatedAt: 2026-11-13

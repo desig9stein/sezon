@@ -1,0 +1,10 @@
+name: Дренки
+latinName: Cornus mas
+kind: fruit
+group: dryanovi
+summary: Дрянът расте диво из цялата страна до 1500 м надморска височина, а дренките узряват от август до октомври.
+season:
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+  - { month: 10, level: peak }
+updatedAt: 2026-11-13

@@ -1,0 +1,9 @@
+name: Арония
+latinName: Aronia melanocarpa
+kind: fruit
+group: rozotsvetni
+summary: Аронията се бере от втората половина на август до средата на септември, преди плодовете да презреят. Чепките се берат наведнъж.
+season:
+  - { month: 8, level: peak }
+  - { month: 9, level: available }
+updatedAt: 2026-11-13

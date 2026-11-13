@@ -1,0 +1,43 @@
+name: Дини
+latinName: Citrullus lanatus
+kind: fruit
+group: tikvovi
+summary: Полските дини се берат от началото на юли около месец и половина, а ранните дини от тунели – от края на юни.
+season:
+  - { month: 6, level: available }
+  - { month: 7, level: peak }
+  - { month: 8, level: available }
+regions:
+  - region: plovdiv
+    note: 'Областта е в Южния централен район, който има най-голямата реколтирана открита площ с дини и пъпеши сред районите в страната – 4 092 от 8 669 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+  - region: pazardzhik
+    note: 'Областта е в Южния централен район, който има най-голямата реколтирана открита площ с дини и пъпеши сред районите в страната – 4 092 от 8 669 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+nutrition:
+  energyKcal: 30
+  proteinG: 0.61
+  fatG: 0.15
+  carbohydrateG: 7.55
+  fiberG: 0.4
+  sugarsG: 6.2
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 8.1 }
+    - { nutrient: kaliy, amount: 112 }
+    - { nutrient: med-cu, amount: 0.042 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Watermelon, raw'
+    url: https://fdc.nal.usda.gov/food-details/167765/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/dini.jpg
+  alt: 'Парчета диня с червена сърцевина, черни семки и зелена кора'
+  credit:
+    author: 'Floh Keitgen'
+    authorUrl: https://unsplash.com/@flohkeitgen
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/watermelon-close-up-photography-aFUHu9WNO3Q

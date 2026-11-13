@@ -1,0 +1,61 @@
+name: Лешници
+latinName: Corylus avellana
+kind: nut
+group: brezovi
+summary: Лешниците узряват през август. Най-много лешникови насаждения има във Варненско, Русенско и Бургаско.
+varieties:
+  - name: Бадемовиден
+  - name: Ран трапезундски
+  - name: Тонда джентиле
+  - name: Тракийски
+  - name: Римски
+  - name: Ата баба
+    note: 'Добър опрашител за почти всички сортове.'
+  - name: Халски
+    note: 'Узрява в края на август, има големи плодове.'
+season:
+  - { month: 8, level: peak }
+regions:
+  - region: varna
+    note: 'Областта с най-голяма площ с лешникови насаждения в страната – 433 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: ruse
+    note: 'Областта с втората по големина площ с лешникови насаждения – 340 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: burgas
+    note: 'Областта с третата по големина площ с лешникови насаждения – 235 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+nutrition:
+  energyKcal: 628
+  proteinG: 14.95
+  fatG: 60.75
+  carbohydrateG: 16.7
+  fiberG: 9.7
+  sugarsG: 4.34
+  micronutrients:
+    - { nutrient: mangan, amount: 6.175 }
+    - { nutrient: med-cu, amount: 1.725 }
+    - { nutrient: folat, amount: 113 }
+    - { nutrient: magneziy, amount: 163 }
+    - { nutrient: fosfor, amount: 290 }
+    - { nutrient: kaliy, amount: 680 }
+    - { nutrient: zhelyazo, amount: 4.7 }
+    - { nutrient: vitamin-k, amount: 14.2 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Nuts, hazelnuts or filberts'
+    url: https://fdc.nal.usda.gov/food-details/170581/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/leshnitsi.jpg
+  alt: 'Купчина кафяви лешници с черупките, изпълваща целия кадър'
+  credit:
+    author: 'engin akyurt'
+    authorUrl: https://unsplash.com/@enginakyurt
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-pile-of-nuts-that-are-brown-in-color-SCpXCeUvgdY
