@@ -185,6 +185,13 @@ Each month and tip below is stated by the cited page (fetched 2026-11-13; quotes
   because no source names it.
 - **Бамя:** sow 5 (second half of May).
 
+### Printed calendar
+
+With the summer fruits of spec 040 and these seven vegetables, the calendar has 28 rows and no
+longer printed on one A4 landscape sheet (spec 014, AC7). The print styles of the calendar table
+now use a tighter line height (`--print-table-line-height: 1.15` in `src/styles/base.css`); font
+size and padding are unchanged.
+
 ### Editorial texts
 
 Summary, preparation, how to choose, storage and FAQ use the „ти“ voice, make no health or effect
