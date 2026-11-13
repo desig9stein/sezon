@@ -15,6 +15,7 @@ import SourceList from '@components/produce/SourceList.astro';
 import TraditionalUses from '@components/produce/TraditionalUses.astro';
 import ProduceRecipes from '@components/recipes/ProduceRecipes.astro';
 import { routes } from '@components/layout/routes';
+import { produceOgCard } from '@components/seo/ogImage';
 import { BUILD_DATE, buildMonth } from '@composition/clock';
 import {
   produceDetailsQuery,
@@ -66,6 +67,7 @@ const jsonLd = [
   description={produce.summary}
   path={path}
   type="article"
+  ogImage={produceOgCard(produce, buildMonth)}
   breadcrumbs={[
     { name: ui.breadcrumbs.home, path: routes.home },
     { name: ui.sections.names[produce.kind], path: routes.section(produce.kind) },
