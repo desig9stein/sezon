@@ -50,15 +50,15 @@ describe('siteOgCard (spec 050)', () => {
 });
 
 describe('monthOgCard (spec 050)', () => {
-  it('AC2: names the first five fresh produce, peak first, and counts the rest', async () => {
+  it('AC2: names the first five fresh produce, peak first in repository order, and counts the rest', async () => {
     const card = monthOgCard(await service.overviewFor(NOVEMBER));
     expect(card.path).toBe('/og/sezon/noemvri.png');
     expect(card.path).toBe(routes.ogImage.month(NOVEMBER));
     expect(card.kicker).toBe('Какво е в сезон през');
     expect(card.heading).toBe('Ноември');
-    expect(card.detail).toBe('Зеле, праз, ябълки, круши, тиква и още 2');
+    expect(card.detail).toBe('Зеле, праз, круши, моркови, тиква и още 2');
     expect(card.alt).toBe(
-      'Какво е в сезон през ноември: зеле, праз, ябълки, круши, тиква и още 2. Сезон',
+      'Какво е в сезон през ноември: зеле, праз, круши, моркови, тиква и още 2. Сезон',
     );
     expect(card.brand).toBe('Сезон');
     expect(card.stamp).toBeUndefined();
@@ -77,8 +77,8 @@ describe('monthOgCard (spec 050)', () => {
       ]),
     );
     const january = monthOgCard(await small.overviewFor(Month.of(1)));
-    expect(january.detail).toBe('Зеле, праз и лук');
-    expect(january.alt).toBe('Какво е в сезон през януари: зеле, праз и лук. Сезон');
+    expect(january.detail).toBe('Зеле, лук и праз');
+    expect(january.alt).toBe('Какво е в сезон през януари: зеле, лук и праз. Сезон');
   });
 
   it('AC2: says nothing is fresh in an empty month', async () => {
@@ -138,8 +138,8 @@ describe('produceOgCard (spec 050)', () => {
 describe('headingFontSize (spec 050)', () => {
   it('AC4: caps short headings, floors long ones and scales in between', () => {
     expect(headingFontSize('Сезон')).toBe(200);
-    expect(headingFontSize('Краставици')).toBe(Math.floor(1056 / (0.42 * 10)));
-    expect(headingFontSize('Зелен фасул')).toBe(Math.floor(1056 / (0.42 * 11)));
+    expect(headingFontSize('Зелен фасул')).toBe(200);
+    expect(headingFontSize('Червени боровинки')).toBe(Math.floor(1056 / (0.42 * 17)));
     expect(headingFontSize('Много дълго име на продукт, което не се побира')).toBe(96);
   });
 });

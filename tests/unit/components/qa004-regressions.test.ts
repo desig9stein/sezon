@@ -66,6 +66,7 @@ describe('QA 004 regressions', () => {
       'methodology',
       'month',
       'nutrient',
+      'ogImage',
       'privacy',
       'produce',
       'produceSection',

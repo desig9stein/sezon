@@ -9,6 +9,7 @@ import SeasonLegend from '@components/season/SeasonLegend.astro';
 import SeasonList from '@components/season/SeasonList.astro';
 import SeasonOverview from '@components/season/SeasonOverview.astro';
 import { freshProduceItemList } from '@components/season/seasonJsonLd';
+import { monthOgCard } from '@components/seo/ogImage';
 import { BUILD_DATE } from '@composition/clock';
 import {
   monthChangesService,
@@ -37,6 +38,7 @@ const sponsor = await sponsorSelectionService.forPlacement('month', BUILD_DATE);
   title={ui.monthPage.title(month)}
   description={ui.monthPage.description(month, freshNames)}
   path={path}
+  ogImage={monthOgCard(overview)}
   breadcrumbs={[
     { name: ui.breadcrumbs.home, path: routes.home },
     { name: monthName(month), path },
