@@ -279,4 +279,20 @@ describe('more cultivated produce (spec 056)', () => {
   it('QA 056: the Japanese quince summary says the fruit is not eaten raw', () => {
     expect(recordOf('yaponska-dyulya').summary).toMatch(/не се ядат сурови/i);
   });
+
+  it('QA 056: the Japanese quince has one preparation caution from a non-Wikipedia source', () => {
+    const record = recordOf('yaponska-dyulya');
+    expect(record.wild).toBe(false);
+    expect(record.cautions.map((caution) => caution.kind)).toEqual(['preparation']);
+    expect(record.cautions[0]?.source.url).toBe('https://cordis.europa.eu/project/id/FAIR973894');
+  });
+
+  it.each(SLUGS.filter((slug) => slug !== 'yaponska-dyulya'))(
+    'QA 056: %s is cultivated and has no caution',
+    (slug) => {
+      const record = recordOf(slug);
+      expect(record.wild).toBe(false);
+      expect(record.cautions).toEqual([]);
+    },
+  );
 });
