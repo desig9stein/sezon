@@ -372,6 +372,7 @@ export const ui = {
       creditSuffix: '(обществено достояние).',
     },
     farmsLink: 'Местни ферми, които го продават',
+    regionsEmpty: 'Няма официални данни по области за този продукт.',
     nowIn: (month: string) => `през ${month}`,
     outOfSeasonIn: (month: string) => `Извън сезона през ${month}`,
     headings: {

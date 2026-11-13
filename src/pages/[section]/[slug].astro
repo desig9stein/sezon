@@ -3,8 +3,8 @@ import type { GetStaticPaths } from 'astro';
 import { getImage } from 'astro:assets';
 import FarmList from '@components/produce/FarmList.astro';
 import GrowingGuide from '@components/produce/GrowingGuide.astro';
+import GrowingRegions from '@components/produce/GrowingRegions.astro';
 import ProducePhoto from '@components/produce/ProducePhoto.astro';
-import ProvinceMap from '@components/produce/ProvinceMap.astro';
 import NutritionTable from '@components/produce/NutritionTable.astro';
 import SeasonCalendarList from '@components/produce/SeasonCalendarList.astro';
 import ProduceNow from '@components/produce/ProduceNow.astro';
@@ -124,23 +124,7 @@ const jsonLd = [
       )}
       <section aria-labelledby="regions">
         <h3 id="regions">{labels.headings.regions}</h3>
-        <ul>
-          {details.growingRegions.map(({ region, note }) => (
-            <li>
-              <a href={routes.region(region.slug)}>
-                <strong>{region.name}</strong>
-              </a>{' '}
-              – {note}
-            </li>
-          ))}
-        </ul>
-        <ProvinceMap
-          regions={details.growingRegions.map(({ region }) => region)}
-          links={details.growingRegions.map(({ region }) => ({
-            region,
-            href: routes.region(region.slug),
-          }))}
-        />
+        <GrowingRegions regions={details.growingRegions} />
         <p>
           <a href="#farms">{labels.farmsLink}</a>
         </p>

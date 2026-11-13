@@ -44,10 +44,11 @@ varieties:
     note: Optional note.
 season: # at least one month; each month once
   - { month: 9, level: peak } # peak | available | storage
-regions: # at least one; ids from src/data/regions
+regions: # ids from src/data/regions; the page then shows them on the map
   - region: kyustendil
     note: Why this region is named; quote figures only with a source.
     source: { name: …, url: https://… } # optional; required when the note quotes figures
+# Write `regions: [] # only when no official source names a province` (spec 042) instead.
 nutrition: # per 100 g raw edible portion
   energyKcal: 52
   proteinG: 0.26
