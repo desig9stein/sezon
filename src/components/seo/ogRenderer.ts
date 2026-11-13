@@ -1,17 +1,30 @@
-import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
-import { Resvg } from '@resvg/resvg-js';
+import { type RenderedImage, Resvg } from '@resvg/resvg-js';
+import { create, type Font as FontFile } from 'fontkitten';
 import satori, { type Font, type FontWeight } from 'satori';
 import subsetFont from 'subset-font';
-import { FONT_OUTPUT_DIR, type FontSubset, subsetFile } from '@design/fontSubsets.mjs';
+import bodyCyrillic from '../../assets/fonts/sofia-sans-cyrillic-wght-normal.woff2?inline';
+import bodyLatin from '../../assets/fonts/sofia-sans-latin-wght-normal.woff2?inline';
+import displayCyrillic from '../../assets/fonts/sofia-sans-extra-condensed-cyrillic-wght-normal.woff2?inline';
+import displayLatin from '../../assets/fonts/sofia-sans-extra-condensed-latin-wght-normal.woff2?inline';
 import { palettes } from '@design/tokens';
-import { OG_IMAGE, type OgCard, type OgStampTone } from './ogImage';
+import {
+  headingFontSize,
+  OG_IMAGE,
+  type HeadingMetrics,
+  type OgCard,
+  type OgStampTone,
+} from './ogImage';
 
 const colors = palettes.light;
 
-const DISPLAY_FILE = 'sofia-sans-extra-condensed-{subset}-wght-normal.woff2';
-const BODY_FILE = 'sofia-sans-{subset}-wght-normal.woff2';
+/** Self-hosted font subsets (spec 015) as data URLs, Cyrillic first: the fallback order. */
+const FONT_FILES = {
+  display: { cyrillic: displayCyrillic, latin: displayLatin },
+  body: { cyrillic: bodyCyrillic, latin: bodyLatin },
+} as const;
 const SUBSETS = ['cyrillic', 'latin'] as const;
+const HEADING_LOCALE = 'bg';
+const WORD_SEPARATOR = /\s+/u;
 const DISPLAY = 'Sofia Sans Extra Condensed';
 const BODY = 'Sofia Sans';
 const DISPLAY_WEIGHT = 800;
@@ -59,23 +72,21 @@ const node = (
 const families = (family: string): string =>
   SUBSETS.map((subset) => `${family} ${subset}`).join(', ');
 
-/**
- * Loads the self-hosted font subsets (spec 015). Satori draws only the default instance of a
- * variable font, so Sofia Sans is pinned to each body weight; Sofia Sans Extra Condensed is
- * already static at 800. Each subset is its own family, since satori falls back between families.
- */
+/** Returns the bytes of a base64 data URL. */
+const bytesOf = (dataUrl: string): Buffer =>
+  Buffer.from(dataUrl.slice(dataUrl.indexOf(',') + 1), 'base64');
+
+/** Loads the display font and the body font pinned to each body weight, one family per subset. */
 async function loadFonts(): Promise<ReadonlyArray<Font>> {
-  const read = (file: string, subset: FontSubset) =>
-    readFile(join(process.cwd(), FONT_OUTPUT_DIR, subsetFile(file, subset)));
   const fonts = SUBSETS.flatMap((subset) => [
-    read(DISPLAY_FILE, subset).then((data): Font => ({
+    Promise.resolve<Font>({
       name: `${DISPLAY} ${subset}`,
-      data,
+      data: bytesOf(FONT_FILES.display[subset]),
       weight: DISPLAY_WEIGHT,
       style: 'normal',
-    })),
+    }),
     ...BODY_WEIGHTS.map(async (weight): Promise<Font> => {
-      const data = await subsetFont(await read(BODY_FILE, subset), undefined, {
+      const data = await subsetFont(bytesOf(FONT_FILES.body[subset]), undefined, {
         keepAllGlyphs: true,
         targetFormat: 'sfnt',
         variationAxes: { wght: weight },
@@ -92,6 +103,42 @@ let fontsOnce: Promise<ReadonlyArray<Font>> | undefined;
 function cardFonts(): Promise<ReadonlyArray<Font>> {
   fontsOnce ??= loadFonts();
   return fontsOnce;
+}
+
+let headingFontFiles: ReadonlyArray<FontFile> | undefined;
+
+/** Returns the display font subsets parsed for measuring, Cyrillic first. */
+function headingFonts(): ReadonlyArray<FontFile> {
+  headingFontFiles ??= SUBSETS.map((subset) => {
+    const font = create(bytesOf(FONT_FILES.display[subset]));
+    if (font.isCollection) throw new TypeError(`Unexpected font collection for ${subset}.`);
+    return font;
+  });
+  return headingFontFiles;
+}
+
+/** Returns the advance width of `text` in em, each character from the first subset that has it. */
+function widthEm(text: string): number {
+  const fonts = headingFonts();
+  return [...text].reduce((total, character) => {
+    const codePoint = character.codePointAt(0) ?? 0;
+    const font = fonts.find((candidate) => candidate.hasGlyphForCodePoint(codePoint)) ?? fonts[0];
+    if (font === undefined) return total;
+    return total + font.glyphForCodePoint(codePoint).advanceWidth / font.unitsPerEm;
+  }, 0);
+}
+
+/**
+ * Measures a heading as drawn: in capitals, in Sofia Sans Extra Condensed 800, with the real
+ * advance widths of its glyphs.
+ */
+export async function measureHeading(text: string): Promise<HeadingMetrics> {
+  const capitals = text.toLocaleUpperCase(HEADING_LOCALE);
+  const words = capitals.split(WORD_SEPARATOR).filter((word) => word !== '');
+  return {
+    lineEm: widthEm(capitals),
+    longestWordEm: Math.max(0, ...words.map(widthEm)),
+  };
 }
 
 const STAMP_STYLES: Readonly<Record<OgStampTone, Readonly<Record<string, string | number>>>> = {
@@ -148,14 +195,19 @@ function detailRow(card: OgCard): Node {
   return node({ display: 'flex', alignItems: 'center', marginTop: STAMP_ROW_GAP }, [stamp, detail]);
 }
 
-/** Returns the element tree of a card. */
-function cardTree(card: OgCard, host: string): Node {
+/**
+ * Returns the element tree of a card. The main column cannot grow past the space above the band
+ * and hides anything that would not fit.
+ */
+function cardTree(card: OgCard, host: string, headingSize: number): Node {
   const main = node(
     {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       flexGrow: 1,
+      minHeight: 0,
+      overflow: 'hidden',
       padding: `${PADDING_TOP}px ${PADDING_X}px 0`,
     },
     [
@@ -176,7 +228,7 @@ function cardTree(card: OgCard, host: string): Node {
         {
           fontFamily: families(DISPLAY),
           fontWeight: DISPLAY_WEIGHT,
-          fontSize: card.headingSize,
+          fontSize: headingSize,
           lineHeight: HEADING_LINE_HEIGHT,
           textTransform: 'uppercase',
           color: colors.accent,
@@ -193,6 +245,7 @@ function cardTree(card: OgCard, host: string): Node {
       alignItems: 'center',
       justifyContent: card.brand === undefined ? 'flex-end' : 'space-between',
       height: BAND_HEIGHT,
+      flexShrink: 0,
       padding: `0 ${PADDING_X}px`,
       backgroundColor: colors.shell,
       color: colors.onShell,
@@ -228,24 +281,39 @@ function cardTree(card: OgCard, host: string): Node {
   );
 }
 
+/** Renders a card with the site's light palette and self-hosted fonts. */
+async function renderCard(card: OgCard, siteUrl: string): Promise<RenderedImage> {
+  const headingSize = headingFontSize(await measureHeading(card.heading));
+  const svg = await satori(cardTree(card, new URL(siteUrl).host, headingSize), {
+    width: OG_IMAGE.width,
+    height: OG_IMAGE.height,
+    fonts: [...(await cardFonts())],
+  });
+  return new Resvg(svg, {
+    fitTo: { mode: 'width', value: OG_IMAGE.width },
+    font: { loadSystemFonts: false },
+  }).render();
+}
+
 /**
- * Renders a card to a 1200×630 PNG with the site's light palette and self-hosted fonts.
+ * Renders a card to 1200×630 RGBA pixels.
+ * @param siteUrl - Site origin; its host is printed in the bottom band.
+ */
+export async function renderOgRaster(
+  card: OgCard,
+  siteUrl: string,
+): Promise<{ readonly width: number; readonly height: number; readonly pixels: Uint8Array }> {
+  const image = await renderCard(card, siteUrl);
+  return { width: image.width, height: image.height, pixels: new Uint8Array(image.pixels) };
+}
+
+/**
+ * Renders a card to a 1200×630 PNG.
  * @param siteUrl - Site origin; its host is printed in the bottom band.
  */
 export async function renderOgImage(
   card: OgCard,
   siteUrl: string,
 ): Promise<Uint8Array<ArrayBuffer>> {
-  const svg = await satori(cardTree(card, new URL(siteUrl).host), {
-    width: OG_IMAGE.width,
-    height: OG_IMAGE.height,
-    fonts: [...(await cardFonts())],
-  });
-  const png = new Resvg(svg, {
-    fitTo: { mode: 'width', value: OG_IMAGE.width },
-    font: { loadSystemFonts: false },
-  })
-    .render()
-    .asPng();
-  return new Uint8Array(png);
+  return new Uint8Array((await renderCard(card, siteUrl)).asPng());
 }
