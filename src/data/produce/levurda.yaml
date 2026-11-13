@@ -1,0 +1,26 @@
+name: Левурда
+latinName: Allium ursinum
+kind: vegetable
+group: amarilisovi
+summary: 'Левурдата (див чесън) расте в сенчести широколистни гори. Берат се младите листа напролет, а щом растението цъфне, беритбата спира.'
+wild: true
+season:
+  - { month: 3, level: available }
+  - { month: 4, level: available }
+cautions:
+  - kind: look-alike
+    text: 'Листата на левурдата приличат почти на тези на момината сълза. Бери само растение, което познаваш със сигурност.'
+    source:
+      name: 'Български фермер – Дивият чесън е красив и полезен'
+      url: https://www.bgfermer.bg/Article/6966759
+  - kind: look-alike
+    text: 'Всички части на момината сълза, с която левурдата може да се сбърка, са силно отровни.'
+    source:
+      name: 'Български фермер – Две сълзи с лечебни свойства'
+      url: https://www.bgfermer.bg/Article/8551141
+  - kind: protected
+    text: 'Левурдата е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 1 кг листа на ден, а за търговия ти трябва позволително.'
+    source:
+      name: 'Закон за лечебните растения (консолидиран текст до ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      url: https://faolex.fao.org/docs/pdf/bul40297.pdf
+updatedAt: 2026-11-13

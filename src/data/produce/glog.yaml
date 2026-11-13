@@ -1,0 +1,16 @@
+name: Глог
+latinName: Crataegus monogyna
+kind: fruit
+group: rozotsvetni
+summary: 'Плодовете на глога узряват през септември. Ядат се пресни или изсушени, а изсушения глог можеш да ползваш през зимните месеци.'
+wild: true
+season:
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+cautions:
+  - kind: protected
+    text: 'Глогът е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 10 кг плодове на ден, а за търговия ти трябва позволително.'
+    source:
+      name: 'Закон за лечебните растения (консолидиран текст до ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      url: https://faolex.fao.org/docs/pdf/bul40297.pdf
+updatedAt: 2026-11-13

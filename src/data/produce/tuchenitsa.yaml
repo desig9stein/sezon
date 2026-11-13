@@ -1,0 +1,22 @@
+name: Тученица
+latinName: Portulaca oleracea
+kind: vegetable
+group: tuchenitsovi
+summary: 'Тученицата расте и на бедни почви, край пътечките и в градината. Листата и младите стъбла се берат преди цъфтежа, най-лесно през лятото.'
+wild: true
+season:
+  - { month: 6, level: available }
+  - { month: 7, level: available }
+  - { month: 8, level: available }
+cautions:
+  - kind: preparation
+    text: 'При варене във вода тученицата отделя оксалова киселина, която трябва да се отстрани.'
+    source:
+      name: 'Agrozona – Тученица – полезна за здравето билка или обикновен плевел?'
+      url: https://agrozona.bg/tuchenitsa-polezna-za-zdraveto-bilka-ili-obiknoven-plevel/
+  - kind: protected
+    text: 'Тученицата е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 1 кг листа или до 2 кг стръкове на ден, а за търговия ти трябва позволително.'
+    source:
+      name: 'Закон за лечебните растения (консолидиран текст до ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      url: https://faolex.fao.org/docs/pdf/bul40297.pdf
+updatedAt: 2026-11-13

@@ -1,0 +1,15 @@
+name: Годжи бери
+latinName: Lycium barbarum
+kind: fruit
+group: kartofovi
+summary: 'Годжи бери цъфти през юли и август, а плододава от втората половина на септември до първите есенни слани.'
+season:
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+cautions:
+  - kind: toxic-part
+    text: 'Не бери неузрели плодове – те може да са опасни. Събирай ги напълно узрели, по-късно през есента.'
+    source:
+      name: 'Agrozona – Годжи Бери – всичко, което трябва да знаем за плода и отглеждането му'
+      url: https://agrozona.bg/godzhi-beri-vsichko-koeto-tryabva-da-znaem-za-ploda-i-otglezhdaneto-mu/
+updatedAt: 2026-11-13

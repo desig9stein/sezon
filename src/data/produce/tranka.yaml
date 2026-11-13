@@ -1,0 +1,17 @@
+name: Трънка
+latinName: Prunus spinosa
+kind: fruit
+group: rozotsvetni
+summary: 'Трънката е бодлив храст, който расте из цялата страна. Плодовете ѝ зреят от септември до ноември и омекват след първата слана.'
+wild: true
+season:
+  - { month: 9, level: peak }
+  - { month: 10, level: peak }
+  - { month: 11, level: peak }
+cautions:
+  - kind: protected
+    text: 'Трънката е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 10 кг плодове на ден, а за търговия ти трябва позволително.'
+    source:
+      name: 'Закон за лечебните растения (консолидиран текст до ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      url: https://faolex.fao.org/docs/pdf/bul40297.pdf
+updatedAt: 2026-11-13

@@ -8,4 +8,10 @@ season:
   - { month: 8, level: peak }
   - { month: 9, level: peak }
   - { month: 10, level: available }
+cautions:
+  - kind: protected
+    text: 'Облепихата е защитен вид: Законът за биологичното разнообразие забранява брането ѝ в естествените ѝ находища. Плодовете, които се продават, са от насаждения.'
+    source:
+      name: 'МОСВ – Закон за биологичното разнообразие'
+      url: https://www.moew.government.bg/static/media/ups/tiny/filebase/Nature/Legislation/ZAKON_za_biologichnoto_raznoobrazie24.pdf
 updatedAt: 2026-11-13

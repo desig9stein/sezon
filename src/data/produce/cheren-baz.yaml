@@ -1,0 +1,58 @@
+name: Черен бъз
+latinName: Sambucus nigra
+kind: fruit
+group: meshkovitsovi
+summary: 'Черният бъз цъфти през май–юни, а плодовете му узряват през август. У нас от цветовете се приготвя домашен сироп.'
+wild: true
+season:
+  - { month: 5, level: peak }
+  - { month: 6, level: peak }
+  - { month: 8, level: peak }
+cautions:
+  - kind: toxic-part
+    text: 'Никога не бери зелените плодчета. Презрелите плодове също не са подходящи.'
+    source:
+      name: 'Български фермер – Бъз за красота и здраве'
+      url: https://www.bgfermer.bg/article/7636932
+  - kind: toxic-part
+    text: 'Листата и зелените плодове на черния бъз съдържат цианогенни гликозиди. Само узрелите плодове са безопасни, и то в малки количества.'
+    source:
+      name: 'Български фермер – От кои билки и растения трябва да пазим животните'
+      url: https://www.bgfermer.bg/Article/22826799
+  - kind: toxic-part
+    text: 'Има опасения за токсичността на пресните плодове на черния бъз, затова се продават замразени, изсушени или преработени.'
+    source:
+      name: 'Български фермер – Бъзът - нишова суперхрана с растящ потребителски пазар'
+      url: https://www.bgfermer.bg/Article/18585568
+  - kind: look-alike
+    text: 'Не го бъркай с бъзака: той е тревисто растение до 2 м и цъфти през юни–юли, а черният бъз е дърво до 3–5 м, цъфтящо в края на пролетта.'
+    source:
+      name: 'Български фермер – Бъз за красота и здраве'
+      url: https://www.bgfermer.bg/article/7636932
+  - kind: protected
+    text: 'Черният бъз е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 0,5 кг цвят и до 10 кг плодове на ден, а за търговия ти трябва позволително.'
+    source:
+      name: 'Закон за лечебните растения (консолидиран текст до ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      url: https://faolex.fao.org/docs/pdf/bul40297.pdf
+nutrition:
+  energyKcal: 73
+  proteinG: 0.66
+  fatG: 0.5
+  carbohydrateG: 18.4
+  fiberG: 7
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 36 }
+    - { nutrient: kaliy, amount: 280 }
+    - { nutrient: zhelyazo, amount: 1.6 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Elderberries, raw'
+    url: https://fdc.nal.usda.gov/food-details/171727/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/cheren-baz.jpg
+  alt: 'Гроздове черни плодчета на бъз по червеникави дръжки между зелени листа'
+  credit:
+    author: 'Tadeusz Zachwieja'
+    authorUrl: https://unsplash.com/@haiku_ted
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-bunch-of-berries-hanging-from-a-tree-ITFBAchRAiI

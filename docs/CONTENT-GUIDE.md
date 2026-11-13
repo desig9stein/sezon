@@ -223,8 +223,13 @@ cautions: # optional; required (at least one) when wild is true
   gathering restriction under the Закон за лечебните растения or the Закон за биологичното
   разнообразие (cite the act or the order that sets the restriction). `preparation`: it must be
   blanched or cooked before eating.
-- Every caution has its own `source` (https): the act or order, an official document, a poison
-  centre or a scientific publication. Wikipedia is not a source.
+- Every caution has its own `source` (https): the act or order, an official document (for example
+  an ИАГ forest management plan), a poison centre or a scientific publication; when none of them
+  covers it, an editorial Bulgarian farming article (bgfermer.bg, agrozona.bg, spec 057). Wikipedia
+  is not a source.
+- A Закон за лечебните растения caution states the personal-needs amounts of § 1, т. 18 for the
+  part that is gathered and that commercial gathering needs a permit (spec 057). A caution that
+  cites a yearly МОСВ order names the year („По заповед на МОСВ за 2026 г. …“).
 - Write facts, never health claims: no „полезен“, „лекува“ or „действие“. Do not write what to do
   after poisoning; the page links no medical advice.
 - The page shows the cautions under „Внимание“ before the season, with the gathering note for wild
@@ -431,6 +436,11 @@ follow МЗХ statistics (spec 033), the regions of tomatoes, peppers, aubergine
 (spec 041) and of potatoes and onions (spec 044) follow МЗХ statistics at NUTS2 level, and
 seasons are editorial (no official monthly calendar exists).
 
+- **Wild produce (2026-11-13, spec 057):** nettle, dandelion, ramsons, elder, hawthorn, sloe, wild
+  strawberry, bilberry, lingonberry, rowan, barberry and purslane are marked `wild: true`, and goji
+  and haskap are cultivated entries with a caution. Every month and caution is quoted in the spec;
+  none lists regions. Sea buckthorn, oregano, thyme and chestnuts gained a caution. Dock, white
+  goosefoot, wild cherry and juniper are left out (reasons in the spec).
 - **More fruits and nuts (2026-11-13, spec 052):** 21 fruits and nuts whose season a Bulgarian
   source states. Only blocks with a source are filled: 12 cite USDA SR Legacy, 7 name provinces or
   the leading NUTS2 region from МЗХ bulletins, the others have no nutrition or regions. Red currant

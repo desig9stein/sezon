@@ -1,0 +1,42 @@
+name: Глухарче
+latinName: Taraxacum officinale
+kind: vegetable
+group: slozhnotsvetni
+summary: 'Глухарчето цъфти през април и май. Листата му се берат преди цъфтежа и пресни стават за салата, а цветовете се използват напролет.'
+wild: true
+season:
+  - { month: 3, level: available }
+  - { month: 4, level: peak }
+  - { month: 5, level: peak }
+cautions:
+  - kind: protected
+    text: 'Глухарчето е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 1 кг листа и до 0,5 кг цветове на ден, а за търговия ти трябва позволително.'
+    source:
+      name: 'Закон за лечебните растения (консолидиран текст до ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      url: https://faolex.fao.org/docs/pdf/bul40297.pdf
+nutrition:
+  energyKcal: 45
+  proteinG: 2.7
+  fatG: 0.7
+  carbohydrateG: 9.2
+  fiberG: 3.5
+  sugarsG: 0.71
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 778.4 }
+    - { nutrient: vitamin-a, amount: 508 }
+    - { nutrient: vitamin-c, amount: 35 }
+    - { nutrient: zhelyazo, amount: 3.1 }
+    - { nutrient: kaliy, amount: 397 }
+    - { nutrient: med-cu, amount: 0.171 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Dandelion greens, raw'
+    url: https://fdc.nal.usda.gov/food-details/169226/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/gluharche.jpg
+  alt: 'Жълти цветове на глухарче сред назъбените му листа върху горска почва'
+  credit:
+    author: 'Lorenzo Ranuzzi'
+    authorUrl: https://unsplash.com/@lollo2025
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/yellow-flower-on-brown-soil-f-02pTFLV14

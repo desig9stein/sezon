@@ -75,7 +75,10 @@ Fourteen new produce entries (twelve with `wild: true`) and five new groups.
 - **Cautions on existing entries** (`wild` stays `false`, `updatedAt` stays 2026-11-13):
   `oblepiha` (protected), `rigan` (protected), `mashterka` (protected), `kesteni` (look-alike).
 - **Docs:** rows in `docs/content-review/README.md`, the „Seed data status“ of
-  `docs/CONTENT-GUIDE.md`.
+  `docs/CONTENT-GUIDE.md`, and two caution rules in the guide: an editorial Bulgarian farming
+  article (bgfermer.bg, agrozona.bg) is an accepted caution source when no official document covers
+  the caution (most look-alike and toxic-part facts here have no official Bulgarian source), and a
+  ЗЛР caution states the personal-needs amounts and the permit rule.
 - **Test amendments:** spec 043 AC1 („nettle is left out“) and spec 053 AC1 (left-out `kopriva`,
   `gluharche`, `levurda`) were true only while the page could not show cautions; their tests now
   check the other left-out candidates only.
