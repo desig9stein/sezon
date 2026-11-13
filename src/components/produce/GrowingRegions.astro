@@ -1,5 +1,5 @@
 ---
-import type { Region } from '@contexts/geography';
+import type { ResolvedGrowingRegion } from '@composition/ProduceDetailsQuery';
 import ProvinceMap from '@components/produce/ProvinceMap.astro';
 import { routes } from '@components/layout/routes';
 import { ui } from '@i18n/bg';
@@ -9,7 +9,7 @@ import { ui } from '@i18n/bg';
  * linked province map. Without provinces it says that no official data names them.
  */
 interface Props {
-  regions: ReadonlyArray<{ readonly region: Region; readonly note: string }>;
+  regions: ReadonlyArray<ResolvedGrowingRegion>;
 }
 
 const { regions } = Astro.props;
@@ -35,3 +35,11 @@ const { regions } = Astro.props;
     />
   </>
 )}
+
+<style>
+  ul {
+    display: grid;
+    gap: var(--space-1);
+    padding-inline-start: var(--space-6);
+  }
+</style>
