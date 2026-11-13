@@ -9,7 +9,7 @@ import {
 } from '@components/ads/privacySettings';
 
 const CLIENT = 'ca-pub-1234567890123456';
-const BUTTON = `<button type="button" data-privacy-settings data-ad-client="${CLIENT}" hidden>Настройки за поверителност</button>`;
+const CONTROL = `<div data-privacy-settings data-ad-client="${CLIENT}" hidden><p id="help">Помощ</p><button type="button" aria-describedby="help">Настройки за поверителност</button></div>`;
 
 const pageWith = (body: string) => {
   const window = new Window();
@@ -58,20 +58,21 @@ describe('privacy settings button (spec 046)', () => {
     expect(scripts[0]?.getAttribute('src')).toBe(adsenseScriptUrl(CLIENT));
   });
 
-  it('AC4: reveals the button and, on each click, loads the tag once and queues the message', () => {
-    const { target, document } = pageWith(BUTTON);
+  it('AC4, QA8: reveals the control and, on each click, loads the tag once and queues the message', () => {
+    const { target, document } = pageWith(CONTROL);
     initPrivacySettings(target);
-    const button = document.querySelector<HTMLButtonElement>('[data-privacy-settings]')!;
-    expect(button.hidden).toBe(false);
+    const control = document.querySelector<HTMLElement>('[data-privacy-settings]')!;
+    expect(control.hidden).toBe(false);
     expect(tagScripts(document)).toHaveLength(0);
 
+    const button = control.querySelector('button')!;
     button.click();
     button.click();
     expect(tagScripts(document)).toHaveLength(1);
     expect(target.googlefc?.callbackQueue).toHaveLength(2);
   });
 
-  it('AC4: does nothing without the button', () => {
+  it('AC4: does nothing without the control', () => {
     const { target, document } = pageWith('<p>Без бутон</p>');
     initPrivacySettings(target);
     expect(tagScripts(document)).toHaveLength(0);

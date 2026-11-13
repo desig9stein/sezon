@@ -116,7 +116,7 @@ test.describe('advertising, privacy and cookies pages (spec 046)', () => {
     test.skip(ADSENSE_ON, 'AdSense is enabled in this build.');
     await page.goto('/biskvitki');
     const main = page.locator('main');
-    await expect(main.locator('section:has(> h2#cookies-site)')).toContainText(ui.cookies.siteNone);
+    await expect(main.locator('section:has(> h2#cookies-site)')).toContainText(ui.cookies.siteOff);
     await expect(main.locator(`a[href="${PARTNER_SITES}"]`)).toHaveCount(1);
     await expect(main).toContainText(ui.cookies.noConsentStored);
     await expect(main.locator('button')).toHaveCount(0);
@@ -143,5 +143,16 @@ test.describe('advertising, privacy and cookies pages (spec 046)', () => {
     await expect(privacy.locator('a[href="/poveritelnost"]')).toHaveCount(1);
     await expect(privacy.locator('a[href="/biskvitki"]')).toHaveCount(1);
     await expect(page.locator('section:has(> h2#about-ads) a[href="/reklama"]')).toHaveCount(1);
+  });
+
+  test('QA5: with AdSense off, the about page says there are no ads and no cookies', async ({
+    page,
+  }) => {
+    test.skip(ADSENSE_ON, 'AdSense is enabled in this build.');
+    await page.goto('/za-nas');
+    await expect(page.locator('section:has(> h2#about-ads)')).toContainText(ui.about.adsOff);
+    await expect(page.locator('section:has(> h2#about-privacy)')).toContainText(
+      ui.about.privacyOff,
+    );
   });
 });

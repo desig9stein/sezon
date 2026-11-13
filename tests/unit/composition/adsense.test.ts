@@ -39,3 +39,18 @@ describe('AdSense configuration (spec 045)', () => {
     expect(example).toMatch(/^PUBLIC_ADSENSE_SLOT=$/m);
   });
 });
+
+describe('AdSense configuration, QA 045 regressions', () => {
+  it.each(['0', '000'])('QA15: rejects the slot %j', (slot) => {
+    expect(() => adsenseConfig(CLIENT, slot)).toThrow(InvalidConfigurationError);
+  });
+
+  it('QA15: accepts a slot with a leading zero, as in Google’s own ad code example', () => {
+    expect(adsenseConfig(CLIENT, '0123456789')?.slot).toBe('0123456789');
+  });
+
+  it('QA11: .env.example tells the owner to keep Auto ads off', () => {
+    const example = readFileSync(join(process.cwd(), '.env.example'), 'utf8');
+    expect(example).toMatch(/Auto ads off/);
+  });
+});

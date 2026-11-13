@@ -1,8 +1,9 @@
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { expect, test } from '@playwright/test';
 
 const PAGES = ['/zelenchutsi/zele', '/plodove/yabalki', '/sezon/noemvri', '/sezon/yuli', '/'];
+const DIST = join(process.cwd(), 'dist');
 const AD_HOSTS = /googlesyndication|fundingchoicesmessages|doubleclick/;
 
 test.describe('lazy AdSense (spec 045)', () => {
@@ -25,17 +26,32 @@ test.describe('lazy AdSense (spec 045)', () => {
     });
   }
 
-  test('AC13: the CSP allows the AdSense and consent scripts and still forbids framing', () => {
-    const headers = readFileSync(join(process.cwd(), 'dist', '_headers'), 'utf8');
-    const csp = headers.match(/Content-Security-Policy: (.*)/)?.[1] ?? '';
-    const directive = (name: string) =>
-      csp
-        .split(';')
-        .map((part) => part.trim())
-        .find((part) => part.startsWith(`${name} `)) ?? '';
-    expect(directive('script-src')).toContain('https://pagead2.googlesyndication.com');
-    expect(directive('script-src')).toContain('https://fundingchoicesmessages.google.com');
-    expect(directive('script-src')).not.toMatch(/'unsafe-inline'|\*/);
-    expect(directive('frame-ancestors')).toBe("frame-ancestors 'none'");
+  test('AC13, QA2: with AdSense off, the built _headers is the committed file, with no Google host', () => {
+    test.skip(
+      (process.env.PUBLIC_ADSENSE_CLIENT ?? '').trim() !== '',
+      'AdSense is enabled in this build.',
+    );
+    const built = readFileSync(join(process.cwd(), 'dist', '_headers'), 'utf8');
+    const committed = readFileSync(join(process.cwd(), 'public', '_headers'), 'utf8');
+    expect(built).toBe(committed);
+    expect(built).not.toMatch(AD_HOSTS);
+    expect(built).toContain("frame-ancestors 'none'");
+  });
+
+  test('QA7: with AdSense off, no built page references the AdSense or privacy scripts', () => {
+    test.skip(
+      (process.env.PUBLIC_ADSENSE_CLIENT ?? '').trim() !== '',
+      'AdSense is enabled in this build.',
+    );
+    const pages = readdirSync(DIST, { recursive: true, encoding: 'utf8' }).filter((file) =>
+      file.endsWith('.html'),
+    );
+    expect(pages.length).toBeGreaterThan(0);
+    const offending = pages.filter((file) =>
+      /AdSenseLoader|PrivacySettings|adsenseLoader|privacySettings|googlesyndication|fundingchoicesmessages/.test(
+        readFileSync(join(DIST, file), 'utf8'),
+      ),
+    );
+    expect(offending).toEqual([]);
   });
 });
