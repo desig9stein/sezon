@@ -1,0 +1,69 @@
+name: Киселец
+latinName: Rumex acetosa
+kind: vegetable
+group: lapadovi
+summary: Киселецът е сред първите пролетни листа – отглежда се в градината и расте диво по ливадите. Има кисел вкус и високо съдържание на витамин C.
+varieties: []
+season:
+  - { month: 3, level: available }
+  - { month: 4, level: peak }
+  - { month: 5, level: peak }
+  - { month: 6, level: available }
+  - { month: 7, level: available }
+  - { month: 8, level: available }
+  - { month: 9, level: available }
+regions: []
+nutrition:
+  energyKcal: 22
+  proteinG: 2
+  fatG: 0.7
+  carbohydrateG: 3.2
+  fiberG: 2.9
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 48 }
+    - { nutrient: vitamin-a, amount: 200 }
+    - { nutrient: magneziy, amount: 103 }
+    - { nutrient: kaliy, amount: 390 }
+    - { nutrient: zhelyazo, amount: 2.4 }
+    - { nutrient: mangan, amount: 0.349 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Dock, raw'
+    url: https://fdc.nal.usda.gov/food-details/170076/nutrients
+preparation:
+  - method: Пресен в салата
+    tip: Нарязвай листата непосредствено преди ястието – суровите листа запазват витамин C.
+  - method: В супа или чорба
+    tip: Добави го в последните минути, за да не губи цвета си и витамин C при дълго варене.
+traditionalUses: []
+howToChoose: Избери млади, сочни и яркозелени листа без жълти петна и увяхване.
+storage: Неизмит киселец се пази в хладилник в хартиен плик до три дни.
+faq:
+  - question: Кога е сезонът на киселеца?
+    answer: Най-нежните листа са през април и май. В градината можеш да береш листа и през лятото.
+  - question: За какъв киселец са хранителните стойности?
+    answer: За суровите листа от рода Rumex по USDA (запис „Dock, raw“), към който спада и киселецът.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/kiselets.jpg
+  alt: 'Тъмнозелени продълговати листа в дървена кошничка върху стара дървена пейка'
+  credit:
+    author: 'malwina nogaj'
+    authorUrl: https://unsplash.com/@malwinanogaj
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-wicker-basket-holds-a-pile-of-leafy-greens--X-34YMStbc
+growing:
+  sow: [3, 4]
+  transplant: []
+  plant: [10]
+  plantingNote: 'Наесен размножавай киселеца, като разделиш туфите; семената сей напролет.'
+  tips:
+    - 'Раздели туфа с добре оформени коренчета и засади стръкчетата със садило, после притъпкай и полей.'
+    - 'Киселецът не е взискателен – засади го и там, където другите култури не виреят.'
+    - 'Сей в редове през 25 см, а след поникването прореди растенията на 20 см едно от друго.'
+    - 'Можеш да сееш и през лятото, но лехата трябва да е влажна.'
+    - 'Бери листа почти през цялото лято и есен.'
+  sources:
+    - name: 'Български фермер – Сега е време да засеете киселец'
+      url: https://www.bgfermer.bg/article/12726029
+    - name: 'Български фермер – Засейте киселец и лапад'
+      url: https://www.bgfermer.bg/Article/8329443
