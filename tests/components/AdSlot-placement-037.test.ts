@@ -97,6 +97,6 @@ describe('ad slot placement on pages (QA 037)', () => {
     expect(slot.hasAttribute('aria-label')).toBe(false);
     const labelId = slot.getAttribute('aria-labelledby') ?? '';
     expect(labelId).toContain('month');
-    expect(document.getElementById(labelId)?.textContent).toBe('Реклама');
+    expect(document.getElementById(labelId)?.textContent?.trim()).toBe('Реклама');
   });
 });

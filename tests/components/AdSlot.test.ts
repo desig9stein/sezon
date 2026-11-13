@@ -23,8 +23,9 @@ describe('AdSlot', () => {
     const labelId = aside.match(/aria-labelledby="([^"]+)"/)?.[1] ?? '';
     expect(labelId).not.toBe('');
     expect(aside).not.toContain('aria-label=');
-    expect(html).toMatch(new RegExp(`<p[^>]*id="${labelId}"[^>]*>Реклама</p>`));
-    const label = html.indexOf('>Реклама<');
+    const labelPattern = new RegExp(`<p[^>]*id="${labelId}"[^>]*>\\s*Реклама\\s*</p>`);
+    expect(html).toMatch(labelPattern);
+    const label = html.search(labelPattern);
     const link = html.indexOf('<a ');
     expect(label).toBeGreaterThan(-1);
     expect(link).toBeGreaterThan(label);

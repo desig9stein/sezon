@@ -1,7 +1,7 @@
 import { z } from 'astro/zod';
 import {
+  calendarDate,
   httpsUrl,
-  isoDate,
   singleLineText,
   type ImageSchemaFactory,
 } from '@shared/infrastructure/schemaPrimitives';
@@ -20,8 +20,8 @@ export const sponsorSchemaWith = ({ image }: { image: ImageSchemaFactory }) =>
       alt: singleLineText(),
       url: httpsUrl(),
       placement: z.enum(AD_PLACEMENTS),
-      from: isoDate(),
-      to: isoDate(),
+      from: calendarDate(),
+      to: calendarDate(),
     })
     .refine((record) => record.from.getTime() <= record.to.getTime(), {
       message: 'A sponsor campaign must not end before it starts.',

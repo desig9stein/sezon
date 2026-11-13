@@ -1,11 +1,9 @@
-import { calendarDayIn } from '@shared/domain/calendarDay';
+import { calendarDayIn, isoDay, isUtcMidnight } from '@shared/domain/calendarDay';
 import { isHttpsUrl } from '@shared/domain/contact';
 import { InvalidSponsorError } from '@shared/domain/errors';
 import type { ImageAsset } from '@shared/domain/ImageAsset';
 import { SLUG_PATTERN } from '@shared/domain/Slug';
 import { isAdPlacement, type AdPlacement } from './AdPlacement';
-
-const ISO_DATE_LENGTH = 10;
 
 /** Input for {@link Sponsor.create}. */
 export interface SponsorInput {
@@ -21,9 +19,6 @@ export interface SponsorInput {
   readonly to: Date;
 }
 
-const isoDay = (date: Date): string => date.toISOString().slice(0, ISO_DATE_LENGTH);
-const isValidDate = (date: Date): boolean => !Number.isNaN(date.getTime());
-
 /** A direct sponsor's banner shown in one ad placement between two calendar days. */
 export class Sponsor {
   readonly id: string;
@@ -32,8 +27,8 @@ export class Sponsor {
   readonly alt: string;
   readonly url: string;
   readonly placement: AdPlacement;
-  readonly from: Date;
-  readonly to: Date;
+  private readonly fromEpochMs: number;
+  private readonly toEpochMs: number;
 
   private constructor(input: SponsorInput) {
     this.id = input.id;
@@ -42,16 +37,26 @@ export class Sponsor {
     this.alt = input.alt;
     this.url = input.url;
     this.placement = input.placement;
-    this.from = new Date(input.from);
-    this.to = new Date(input.to);
+    this.fromEpochMs = input.from.getTime();
+    this.toEpochMs = input.to.getTime();
     Object.freeze(this);
+  }
+
+  /** First day of the campaign (UTC midnight). Returns a new `Date` on every call. */
+  get from(): Date {
+    return new Date(this.fromEpochMs);
+  }
+
+  /** Last day of the campaign (UTC midnight). Returns a new `Date` on every call. */
+  get to(): Date {
+    return new Date(this.toEpochMs);
   }
 
   /**
    * Creates a sponsor.
    * @throws InvalidSponsorError when the id is not a slug, the name or alt is blank, the URL is
-   * not HTTPS, the placement is unknown, the image has no positive size, a date is invalid, or
-   * `to` is before `from`.
+   * not HTTPS, the placement is unknown, the image has no positive size, a date is invalid or has
+   * a time of day (it must be UTC midnight), or `to` is before `from`.
    */
   static create(input: SponsorInput): Sponsor {
     const problem = findProblem(input);
@@ -79,7 +84,9 @@ function findProblem(input: SponsorInput): string | undefined {
   if (!isHttpsUrl(input.url)) return `has a URL that is not HTTPS: ${input.url}`;
   if (!isAdPlacement(input.placement)) return `has an unknown placement "${input.placement}"`;
   if (!(input.image.width > 0 && input.image.height > 0)) return 'has an image without a size';
-  if (!isValidDate(input.from) || !isValidDate(input.to)) return 'has an invalid date';
+  if (!isUtcMidnight(input.from) || !isUtcMidnight(input.to)) {
+    return 'has a date that is invalid or not a whole day (UTC midnight)';
+  }
   if (isoDay(input.to) < isoDay(input.from)) return 'ends before it starts';
   return undefined;
 }

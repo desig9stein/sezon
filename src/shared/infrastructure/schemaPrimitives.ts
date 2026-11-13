@@ -1,4 +1,5 @@
 import { z } from 'astro/zod';
+import { isUtcMidnight } from '@shared/domain/calendarDay';
 import { BULGARIAN_PHONE, EMAIL, isHttpsUrl } from '@shared/domain/contact';
 import type { ImageAsset } from '@shared/domain/ImageAsset';
 import { SLUG_PATTERN } from '@shared/domain/Slug';
@@ -32,6 +33,16 @@ export const isoDate = () =>
 
 /** Builds the schema of a local image: Astro's `image()` helper in the build, a stub in tests. */
 export type ImageSchemaFactory = () => z.ZodType<ImageAsset>;
+
+/**
+ * A whole calendar day: a YAML date (parsed as UTC midnight) or an ISO `YYYY-MM-DD` string.
+ * Timestamps with a time of day are rejected.
+ */
+export const calendarDate = () =>
+  z.union([
+    z.date().refine(isUtcMidnight, 'Expected a date without a time of day (YYYY-MM-DD).'),
+    z.iso.date(ISO_DATE_MESSAGE).transform((value) => new Date(value)),
+  ]);
 
 /** A citation with a name and an https URL. */
 export const sourceSchema = z.strictObject({ name: text(), url: httpsUrl() });

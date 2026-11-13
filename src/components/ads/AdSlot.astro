@@ -13,23 +13,31 @@ interface Props {
   placement: AdPlacement;
 }
 
-const BANNER_WIDTH = 960;
-const BANNER_HEIGHT = 240;
-const WIDTHS = [480, BANNER_WIDTH];
+/** Banner aspect ratio, width to height. */
+const RATIO_WIDTH = 4;
+const RATIO_HEIGHT = 1;
+/** Intrinsic width of the `<img>`: narrow enough not to overflow a phone without CSS. */
+const BASE_WIDTH = 480;
+const LARGE_WIDTH = 960;
+const WIDTHS = [BASE_WIDTH, LARGE_WIDTH];
 const SIZES = '(min-width: 48rem) 42rem, calc(100vw - 2rem)';
 
 const { sponsor, placement } = Astro.props;
+const labelId = `ad-slot-${placement}-label`;
+const ratio = `--ad-slot-ratio: ${RATIO_WIDTH} / ${RATIO_HEIGHT}`;
 ---
 
 {sponsor !== undefined && (
-  <aside class="ad-slot" aria-label={ui.ads.label} data-placement={placement}>
-    <p class="ad-slot__label">{ui.ads.label}</p>
-    <a class="ad-slot__link" href={sponsor.url} rel="sponsored noopener">
+  <aside class="ad-slot" aria-labelledby={labelId} data-placement={placement}>
+    <p class="ad-slot__label" id={labelId}>
+      {ui.ads.label}
+    </p>
+    <a class="ad-slot__link" href={sponsor.url} rel="sponsored noopener" style={ratio}>
       <Image
         src={sponsor.image}
         alt={sponsor.alt}
-        width={BANNER_WIDTH}
-        height={BANNER_HEIGHT}
+        width={BASE_WIDTH}
+        height={(BASE_WIDTH * RATIO_HEIGHT) / RATIO_WIDTH}
         widths={WIDTHS}
         sizes={SIZES}
         fit="cover"
@@ -56,7 +64,7 @@ const { sponsor, placement } = Astro.props;
 
   .ad-slot__link {
     display: block;
-    aspect-ratio: 4 / 1;
+    aspect-ratio: var(--ad-slot-ratio);
     overflow: hidden;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);

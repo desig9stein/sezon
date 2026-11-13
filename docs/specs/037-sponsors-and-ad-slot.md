@@ -60,19 +60,28 @@ empty and the built pages contain no ad markup.
   - `alt`: non-blank Bulgarian alternative text.
   - `url`: an HTTPS URL with a dotted host (`isHttpsUrl`).
   - `placement: AdPlacement`.
-  - `from`, `to`: valid dates without time (UTC midnight), inclusive calendar days; `to` is not
-    before `from`.
+  - `from`, `to`: dates without time, i.e. exactly UTC midnight (`getTime() % MS_PER_DAY === 0`),
+    inclusive calendar days; `to` is not before `from`. A date with a time of day is rejected,
+    because `2026-11-14T00:00:00+02:00` is 13 November in UTC and would start the campaign a day
+    early. Stored as epoch milliseconds; the `from` and `to` getters return a new `Date` each
+    time, so callers cannot mutate the frozen sponsor.
   - `create` throws `InvalidSponsorError` when any invariant fails.
   - `isActiveOn(date, timeZone = Europe/Sofia)`: `true` when the calendar day of `date` in the time
-    zone (`calendarDayIn`) is between the ISO days of `from` and `to`, both included.
+    zone (`calendarDayIn`) is between the ISO days (`isoDay`) of `from` and `to`, both included.
+- **Shared kernel helpers** (`src/shared/domain/calendarDay.ts`): `MS_PER_DAY`, `isoDay(date)` (the
+  UTC day as `YYYY-MM-DD`, also used by `Farm.isOrganicOn`) and `isUtcMidnight(date)`.
 - **`SponsorRepository`** (domain interface): `all(): Promise<ReadonlyArray<Sponsor>>`.
 - **`SponsorSelectionService`** (application): `forPlacement(placement, on)` returns the sponsor
   for the placement that is active on `on`, or `undefined`.
 - **Infrastructure:**
   - `sponsorSchemaWith({ image })`: strict Zod schema of a sponsor entry (`name`, `image`, `alt`,
-    `url`, `placement`, `from`, `to`), refined so that `from <= to`.
+    `url`, `placement`, `from`, `to`), refined so that `from <= to`. `from` and `to` use the shared
+    `calendarDate()` primitive: a YAML date (UTC midnight) or an ISO `YYYY-MM-DD` string; a
+    timestamp or string with a time of day is rejected.
   - `toSponsor(id, record)` mapper.
-  - `LoadedSponsorRepository`: caches a successful load, retries a failed one.
+  - `LoadedSponsorRepository`: caches a successful load, retries a failed one, through the shared
+    `cachedLoad(load)` helper in `src/shared/infrastructure/cachedLoad.ts`, which
+    `IndexedRepository` and the composition root's content load also use.
 
 ## 5. Behaviour and edge cases
 
@@ -84,26 +93,44 @@ empty and the built pages contain no ad markup.
     (code-point order). The result does not depend on the repository order.
 - **Day boundaries:** `isActiveOn` compares Europe/Sofia calendar days, so 23:59 local time on `to`
   is still active and 00:00 local time the next day is not, whatever the UTC offset.
-- **Empty collection:** Astro logs a warning („does not exist or is empty“) and `getCollection`
-  returns an empty array; the build succeeds. The repository loads once, so the warning appears
-  once per build.
-- **Content validation:** a sponsor file with `from` after `to`, a non-HTTPS `url`, an unknown
-  `placement`, a blank `alt` or an unknown field fails the build.
+- **Empty collection:** the glob loader logs `[WARN] [glob-loader] No files found matching "*.yaml"
+in directory "src/data/sponsors"`. This warning is expected while there are no sponsors and is
+  not silenced. (On a build without a cached data store, the content runtime may also log
+  `The collection "sponsors" does not exist or is empty`, at most once, because the repository
+  loads once.) `getCollection` returns an empty array and the build succeeds.
+- **Content validation:** a sponsor file with `from` after `to`, a date with a time of day, a
+  non-HTTPS `url`, an unknown `placement`, a blank `alt` or an unknown field fails the build.
+  `docs/CONTENT-GUIDE.md` („Add a sponsor“) describes the fields for editors.
 - **AdSlot:**
   - Without a sponsor it renders nothing (no element, no whitespace-only wrapper).
   - With a sponsor it renders
-    `<aside class="ad-slot" aria-label="Реклама" data-placement="…">`, then a visible label
-    „Реклама“, then `<a href={url} rel="sponsored noopener">` around an `astro:assets` `<Image>`
-    with explicit `width` and `height` (960 × 240), `loading="lazy"`, `decoding="async"` and the
-    sponsor's `alt`.
-  - The slot reserves its size: the link box has `aspect-ratio: 4 / 1` and the slot
-    `max-width: var(--reading-width)`; the image fills the box with `object-fit: cover`. There is no
-    layout shift when the image loads.
+    `<aside class="ad-slot" aria-labelledby="ad-slot-<placement>-label" data-placement="…">`, then
+    the visible label `<p id="ad-slot-<placement>-label">Реклама</p>`, then
+    `<a href={url} rel="sponsored noopener">` around an `astro:assets` `<Image>` with explicit
+    `width` and `height` of 480 × 120, a `srcset` with 480w and 960w, `sizes`, `fit="cover"`,
+    `loading="lazy"`, `decoding="async"` and the sponsor's `alt`. The id is unique per page
+    because each page has at most one slot per placement.
+  - **Intrinsic size 480 × 120:** with CSS removed, a 960 px wide `<img>` made month pages scroll
+    sideways on a 412 px phone (scrollWidth 968). The `width`/`height` attributes are therefore
+    480 × 120, and the 960 px rendition is offered only in the `srcset` for wide and high-density
+    screens.
+  - The slot reserves its size: the link box has `aspect-ratio` 4 / 1 (a custom property set from
+    the component's ratio constants) and the slot `max-width: var(--reading-width)`; the image
+    fills the box with `object-fit: cover`. There is no layout shift when the image loads.
+  - The component's scoped CSS (a few hundred bytes) is inlined on every produce and month page
+    even when no sponsor is active, because Astro bundles a component's styles wherever it is
+    imported. This is accepted: it adds no markup, no request and no layout cost.
 - **Placement:**
   - Produce page: a direct child of the `<article>`, right after the „Как да го ядеш“ group that
     contains the nutrition table. Never in the header, so never above the fold.
   - Month page: in `<main>`, after the season lists, „what changes“ and „coming soon“ lists,
-    before the month pager.
+    before the month pager. On a large desktop window a month with few produce can be short
+    enough for the slot to show without scrolling; this is accepted, because ADR-0003 forbids
+    ads above the fold on mobile only and the slot is still after all the main content.
+  - **Below the fold on mobile** is checked manually, because it needs a real sponsor in the
+    build: QA measured the slot's top at 3582 px and more on produce pages and 1128 px and more on
+    month pages at Pixel 7 (412 × 915). The component test renders both pages with an in-memory
+    sponsor and checks the slot's position in the markup.
   - Both pages call the service with `BUILD_DATE` from `src/composition/clock.ts`.
 
 ## 6. Accessibility requirements
@@ -111,8 +138,8 @@ empty and the built pages contain no ad markup.
 - **1.1.1 Non-text content:** the banner image has the sponsor's non-empty Bulgarian `alt`, which is
   also the link's accessible name.
 - **1.3.1 / 1.3.2 Info and relationships, meaningful sequence:** the slot is an `<aside>` named
-  „Реклама“. The visible label comes before the link in source order, so the page reads correctly
-  without CSS.
+  „Реклама“ by its visible label through `aria-labelledby` (no duplicate `aria-label`). The label
+  comes before the link in source order, so the page reads correctly without CSS.
 - **Landmarks:** the `<aside>` is a complementary landmark. axe's best-practice rule
   `landmark-complementary-is-top-level` forbids it inside another landmark except `<main>`, so it is
   never placed inside a labelled `<section>` (a region); on the produce page it is a direct child
@@ -123,8 +150,8 @@ empty and the built pages contain no ad markup.
   than 24 × 24 px.
 - **2.4.4 Link purpose:** the link name is the `alt`, which names the sponsor's offer.
 - **Without JavaScript:** static HTML; no script.
-- **Without CSS:** the image keeps its `width`/`height` attributes (960 × 240), so it does not render
-  oversized beyond its intrinsic banner size, and the label precedes it.
+- **Without CSS:** the image keeps its `width`/`height` attributes (480 × 120), so it neither renders
+  oversized nor makes a 412 px wide page scroll sideways, and the label precedes it.
 - **Reduced motion:** no animation.
 
 ## 7. SEO requirements
@@ -138,9 +165,10 @@ empty and the built pages contain no ad markup.
 ## 8. Acceptance criteria
 
 1. **AC1:** Given valid input, when `Sponsor.create` is called, then it returns a frozen sponsor with
-   those values.
+   those values, and mutating a `Date` it returns does not change the sponsor.
 2. **AC2:** Given an invalid slug, a blank name or alt, a non-HTTPS URL, an unknown placement, an
-   invalid date, an image without a positive size, or `to` before `from`, when `Sponsor.create` is
+   invalid date, a date with a time of day (not UTC midnight), an image without a positive size, or
+   `to` before `from`, when `Sponsor.create` is
    called, then it throws `InvalidSponsorError`.
 3. **AC3:** Given a sponsor from 2026-12-01 to 2026-12-31, when `isActiveOn` is called, then it is
    `true` on both edge days (00:00 and 23:59 Europe/Sofia) and `false` on the day before and the day
@@ -153,32 +181,40 @@ empty and the built pages contain no ad markup.
    returns the one with the latest `from`, and on a tie the lowest `id`, whatever the repository
    order.
 7. **AC7:** Given a sponsor record, when it is parsed by `sponsorSchemaWith` and mapped by
-   `toSponsor`, then a valid record yields a sponsor; a record with `from` after `to`, a non-HTTPS
-   `url` or an unknown `placement` is rejected by the schema.
+   `toSponsor`, then a valid record yields a sponsor; a record with `from` after `to`, a date with
+   a time of day, a non-HTTPS `url` or an unknown `placement` is rejected by the schema.
 8. **AC8:** Given no sponsor, when `AdSlot` is rendered, then the output is empty.
 9. **AC9:** Given a sponsor, when `AdSlot` is rendered, then it is an `<aside class="ad-slot">`
-   named „Реклама“ with the visible label before a link to the sponsor URL with
-   `rel="sponsored noopener"`, and the image has the sponsor's `alt`, explicit `width` and `height`
-   in a 4:1 ratio, `loading="lazy"` and `decoding="async"`.
+   labelled by its visible „Реклама“ label (`aria-labelledby`), with the label before a link to the
+   sponsor URL with `rel="sponsored noopener"`, and the image has the sponsor's `alt`, explicit
+   `width` and `height` of 480 × 120, a 960w candidate in `srcset`, `loading="lazy"` and
+   `decoding="async"`.
 10. **AC10:** Given the empty `sponsors` collection, when the site is built, then produce and month
     pages contain no `.ad-slot`.
 11. **AC11:** Given the i18n module, then `ui.ads.label` is „Реклама“.
+12. **AC12:** Given a sponsor for every placement, when the produce and month pages are rendered,
+    then the produce slot is a direct child of `<article>` right after `#eat`, the month slot is in
+    `<main>` before the month pager, and neither is inside a `<section>`.
+13. **AC13:** Given a cached load, when it succeeds it runs once for all callers; when it fails, the
+    next call loads again.
 
 ## 9. Test plan
 
-| AC   | Test type | Test file                                                                     |
-| ---- | --------- | ----------------------------------------------------------------------------- |
-| AC1  | unit      | `tests/unit/contexts/advertising/domain/Sponsor.test.ts`                      |
-| AC2  | unit      | `tests/unit/contexts/advertising/domain/Sponsor.test.ts`                      |
-| AC3  | unit      | `tests/unit/contexts/advertising/domain/Sponsor.test.ts`                      |
-| AC4  | unit      | `tests/unit/contexts/advertising/application/SponsorSelectionService.test.ts` |
-| AC5  | unit      | `tests/unit/contexts/advertising/application/SponsorSelectionService.test.ts` |
-| AC6  | unit      | `tests/unit/contexts/advertising/application/SponsorSelectionService.test.ts` |
-| AC7  | unit      | `tests/unit/contexts/advertising/infrastructure/sponsorSchema.test.ts`        |
-| AC8  | component | `tests/components/AdSlot.test.ts`                                             |
-| AC9  | component | `tests/components/AdSlot.test.ts`                                             |
-| AC10 | e2e       | `tests/e2e/ad-slot.spec.ts`                                                   |
-| AC11 | unit      | `tests/unit/i18n/bg-037.test.ts`                                              |
+| AC   | Test type | Test file                                                                                                                           |
+| ---- | --------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| AC1  | unit      | `tests/unit/contexts/advertising/domain/Sponsor.test.ts`, `tests/unit/contexts/advertising/qa037-regressions.test.ts`               |
+| AC2  | unit      | `tests/unit/contexts/advertising/domain/Sponsor.test.ts`, `tests/unit/contexts/advertising/qa037-regressions.test.ts`               |
+| AC3  | unit      | `tests/unit/contexts/advertising/domain/Sponsor.test.ts`                                                                            |
+| AC4  | unit      | `tests/unit/contexts/advertising/application/SponsorSelectionService.test.ts`                                                       |
+| AC5  | unit      | `tests/unit/contexts/advertising/application/SponsorSelectionService.test.ts`                                                       |
+| AC6  | unit      | `tests/unit/contexts/advertising/application/SponsorSelectionService.test.ts`                                                       |
+| AC7  | unit      | `tests/unit/contexts/advertising/infrastructure/sponsorSchema.test.ts`, `tests/unit/contexts/advertising/qa037-regressions.test.ts` |
+| AC8  | component | `tests/components/AdSlot.test.ts`                                                                                                   |
+| AC9  | component | `tests/components/AdSlot.test.ts`                                                                                                   |
+| AC10 | e2e       | `tests/e2e/ad-slot.spec.ts`                                                                                                         |
+| AC11 | unit      | `tests/unit/i18n/bg-037.test.ts`                                                                                                    |
+| AC12 | component | `tests/components/AdSlot-placement-037.test.ts` (in-memory services via `vi.mock`)                                                  |
+| AC13 | unit      | `tests/unit/shared/infrastructure/cachedLoad.test.ts`                                                                               |
 
 ## 10. Third-party documentation consulted
 
@@ -188,4 +224,5 @@ empty and the built pages contain no ad markup.
 | astro            | 7.4.8   | `/withastro/docs` (Context7): `guides/images.mdx`, `reference/modules/astro-content.mdx` (`SchemaContext`)    | The `image()` schema helper passed to a collection's `schema` function                                                                         |
 | astro            | 7.4.8   | `node_modules/astro/dist/content/runtime.js`, `node_modules/astro/dist/content/config.d.ts` (`ImageFunction`) | An empty collection logs a warning and `getCollection` returns `[]`; the type of `image()`                                                     |
 | axe-core         | 4.14.0  | `node_modules/axe-core/axe.js` (`landmarkIsTopLevelEvaluate`)                                                 | A complementary landmark may sit inside `<main>` but not inside another landmark such as a labelled `<section>`                                |
+| happy-dom        | 21.0.4  | `node_modules/happy-dom` type definitions (`Window`, `DOMParser`)                                             | Parsing rendered page HTML in the placement test, in the Node test environment                                                                 |
 | Google Search    | –       | https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links                            | `rel="sponsored"` for paid links                                                                                                               |

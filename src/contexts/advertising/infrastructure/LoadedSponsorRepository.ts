@@ -1,3 +1,4 @@
+import { cachedLoad } from '@shared/infrastructure/cachedLoad';
 import type { SponsorRepository } from '../domain/repositories';
 import type { Sponsor } from '../domain/Sponsor';
 
@@ -6,19 +7,15 @@ import type { Sponsor } from '../domain/Sponsor';
  * cached; a failed load is retried on the next call.
  */
 export class LoadedSponsorRepository implements SponsorRepository {
-  private sponsors: Promise<ReadonlyArray<Sponsor>> | undefined;
+  private readonly sponsors: () => Promise<ReadonlyArray<Sponsor>>;
 
   /** @param load - Returns the sponsors. */
-  constructor(private readonly load: () => Promise<ReadonlyArray<Sponsor>>) {}
+  constructor(load: () => Promise<ReadonlyArray<Sponsor>>) {
+    this.sponsors = cachedLoad(async () => Object.freeze([...(await load())]));
+  }
 
   /** Returns every sponsor, in load order. */
   all(): Promise<ReadonlyArray<Sponsor>> {
-    this.sponsors ??= this.load()
-      .then((sponsors) => Object.freeze([...sponsors]))
-      .catch((error: unknown) => {
-        this.sponsors = undefined;
-        throw error;
-      });
-    return this.sponsors;
+    return this.sponsors();
   }
 }
