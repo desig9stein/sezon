@@ -1,6 +1,6 @@
 ---
 name: sezon-add-produce
-description: Add a new fruit, vegetable, herb or nut to the Sezon catalog, or rework an existing one, as a sourced YAML entry in src/data/produce with its photo, USDA nutrition, МЗХ regions and growing guide, then run the content tests. Use this whenever someone asks to add, create or expand a produce entry or a batch of produce ("add пъпеш", "добави тиква", "we need sorrel and nettle", "the summer fruits issue"), or to fix its sources, regions, nutrition or photo, even if they never say "YAML". Not for farms, recipes, nutrients or sponsors.
+description: Add a new fruit, vegetable, herb or nut to the Sezon catalog, or rework an existing one, as a sourced YAML entry in src/data/produce with its photo, USDA nutrition, МЗХ regions and growing guide, then run the content tests. Use this whenever someone asks to add, create or expand a produce entry or a batch of produce ("add пъпеш", "добави тиква", "we need sorrel and nettle", "the summer fruits issue"), or to fix its sources, regions, nutrition or photo, even if they never say "YAML". Not for farms, recipes, nutrients, sponsors, page layout or debugging the content scripts themselves.
 ---
 
 # Add a produce to Sezon

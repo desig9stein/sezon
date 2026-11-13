@@ -1,6 +1,6 @@
 ---
 name: sezon-feature
-description: Run the Sezon feature workflow from AGENTS.md end to end, spec from the template, red tests commit, implementation, qa-reviewer, regression-tested fixes and a pull request from a correctly named branch. Use this whenever someone asks to implement, build or fix something with a behaviour change in the Sezon repository, picks up a GitHub issue ("do #57", "implement the monthly RSS feed", "add a page for…", "fix the calendar focus bug"), or asks how to take a change from spec to PR, even if they do not mention specs or QA. Not for pure questions about the code, CI debugging alone, or content-only edits covered by sezon-add-produce.
+description: Run the Sezon feature workflow from AGENTS.md end to end, spec from the template, red tests commit, implementation, qa-reviewer, regression-tested fixes and a pull request from a correctly named branch. Use this whenever someone asks to implement, build or fix something with a behaviour change in the Sezon repository, picks up a GitHub issue ("do #57", "implement the monthly RSS feed", "add a page for…", "fix the calendar focus bug"), asks for a "quick" one-line fix, has QA findings to fix with regression tests on a feature branch, or asks how to take a change from spec to PR, even if they do not mention specs or QA. Not for pure questions about the code, CI debugging alone, code review, ADRs, creating or editing skills (use skill-creator), or content-only edits covered by sezon-add-produce.
 ---
 
 # Sezon feature workflow
