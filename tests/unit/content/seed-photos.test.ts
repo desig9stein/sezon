@@ -10,22 +10,26 @@ const ALT_MAX_LENGTH = 120;
 const PRODUCE_DIR = join(process.cwd(), 'src', 'data', 'produce');
 const schema = produceSchemaWith({ image: testImage });
 
-const entries = readSeedCollection('produce').map(({ id, data }) => ({
-  id,
-  record: schema.parse(data),
-}));
+const entries = readSeedCollection('produce')
+  .map(({ id, data }) => ({ id, record: schema.parse(data) }))
+  .filter(({ record }) => record.photo !== undefined);
 
 describe('seed photos', () => {
-  it.each(entries.map(({ id }) => id))('AC2: %s has a photo, alt and credit', (id) => {
-    const entry = entries.find((candidate) => candidate.id === id);
-    const photo = entry?.record.photo;
-    expect(photo).toBeDefined();
-    if (photo === undefined || entry === undefined) return;
-    const alt = photo.alt.trim();
-    expect(alt.length).toBeGreaterThanOrEqual(ALT_MIN_LENGTH);
-    expect(alt.length).toBeLessThanOrEqual(ALT_MAX_LENGTH);
-    expect(alt.toLowerCase()).not.toBe(entry.record.name.toLowerCase());
-    expect(photo.credit.author.length).toBeGreaterThan(0);
-    expect(existsSync(resolve(dirname(join(PRODUCE_DIR, `${id}.yaml`)), photo.src.src))).toBe(true);
-  });
+  it.each(entries.map(({ id }) => id))(
+    'AC2 (spec 049): the photo of %s, when present, has alt and credit',
+    (id) => {
+      const entry = entries.find((candidate) => candidate.id === id);
+      const photo = entry?.record.photo;
+      expect(photo).toBeDefined();
+      if (photo === undefined || entry === undefined) return;
+      const alt = photo.alt.trim();
+      expect(alt.length).toBeGreaterThanOrEqual(ALT_MIN_LENGTH);
+      expect(alt.length).toBeLessThanOrEqual(ALT_MAX_LENGTH);
+      expect(alt.toLowerCase()).not.toBe(entry.record.name.toLowerCase());
+      expect(photo.credit.author.length).toBeGreaterThan(0);
+      expect(existsSync(resolve(dirname(join(PRODUCE_DIR, `${id}.yaml`)), photo.src.src))).toBe(
+        true,
+      );
+    },
+  );
 });

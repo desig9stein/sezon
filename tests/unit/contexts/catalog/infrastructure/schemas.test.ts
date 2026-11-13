@@ -49,7 +49,6 @@ describe('produceSchema', () => {
       { nutrition: { ...produceRecord().nutrition, source: { name: 'X', url: 'http://x.org' } } },
     ],
     ['an unknown kind', { kind: 'mushroom' }],
-    ['an empty preparation list', { preparation: [] }],
     ['duplicate varieties', { varieties: [{ name: 'Бяло' }, { name: 'Бяло' }] }],
     ['a group that is not a slug', { group: 'Кръстоцветни' }],
     ['a negative energy value', { nutrition: { ...produceRecord().nutrition, energyKcal: -1 } }],

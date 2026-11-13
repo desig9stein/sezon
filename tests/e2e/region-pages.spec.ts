@@ -4,6 +4,7 @@ import { expect, test } from '@playwright/test';
 import { parse } from 'yaml';
 import { expectNoAxeViolations, jsonLdOf } from './a11y';
 import { removeAllCss } from './noCss';
+import { regionSlugsOf, type RawProduce } from '../fixtures/rawProduce';
 
 const DATA = join(process.cwd(), 'src', 'data');
 const yamlOf = (dir: string) =>
@@ -15,9 +16,7 @@ const yamlOf = (dir: string) =>
     }));
 const regionSlugs = yamlOf('regions').map(({ slug }) => slug);
 const withData = new Set([
-  ...yamlOf('produce').flatMap(({ data }) =>
-    (data.regions as Array<{ region: string }>).map(({ region }) => region),
-  ),
+  ...yamlOf('produce').flatMap(({ data }) => regionSlugsOf(data as RawProduce)),
   ...yamlOf('farms').map(({ data }) => data.region as string),
   ...yamlOf('regions')
     .filter(({ data }) => data.profile !== undefined)

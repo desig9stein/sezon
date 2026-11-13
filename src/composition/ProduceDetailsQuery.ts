@@ -103,7 +103,7 @@ export class ProduceDetailsQuery {
 
     const group = await resolve(find(groups), produce.groupSlug, 'groups', `produce/${slug}`);
     const micronutrients = await Promise.all(
-      produce.nutrition.micronutrients.map(async ({ nutrientSlug, amount }) => {
+      (produce.nutrition?.micronutrients ?? []).map(async ({ nutrientSlug, amount }) => {
         const nutrient = await resolve(
           find(nutrients),
           nutrientSlug,
@@ -149,7 +149,7 @@ export class ProduceDetailsQuery {
       farms: Object.freeze(farmsWithRegions),
       sources: Object.freeze(
         uniqueSources([
-          produce.nutrition.source,
+          ...(produce.nutrition === undefined ? [] : [produce.nutrition.source]),
           ...produce.traditionalUses.map((use) => use.source),
           ...produce.growingRegions.flatMap((region) =>
             region.source === undefined ? [] : [region.source],
