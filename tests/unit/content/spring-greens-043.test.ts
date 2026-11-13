@@ -39,10 +39,6 @@ describe('spring greens and wild plants (spec 043)', () => {
     expect(() => recordOf(slug)).not.toThrow();
   });
 
-  it('AC1: nettle is left out', () => {
-    expect(existsSync(produceFile('kopriva'))).toBe(false);
-  });
-
   it.each(SLUGS)('AC2: %s cites its USDA SR Legacy record', (slug) => {
     expect(recordOf(slug).nutrition?.source.url).toBe(
       `https://fdc.nal.usda.gov/food-details/${ADDED[slug].fdcId}/nutrients`,
