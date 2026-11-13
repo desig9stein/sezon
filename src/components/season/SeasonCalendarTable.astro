@@ -159,8 +159,16 @@ const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, un
       color: var(--print-ink);
     }
 
+    .year thead {
+      display: table-header-group;
+    }
+
     .year tr {
       break-inside: avoid;
+    }
+
+    .year tr:has(th[scope='rowgroup']) {
+      break-after: avoid;
     }
 
     .year th,

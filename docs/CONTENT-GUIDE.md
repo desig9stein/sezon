@@ -252,5 +252,9 @@ seasons are editorial (no official monthly calendar exists).
   МЗХ 2025 vegetable bulletin; broccoli, cauliflower and chestnuts have `regions: []`. The rosehip
   of issue #41 is left out: SR Legacy has no raw record of it and the EFSA database gives no energy
   or macronutrients.
+- **Spring greens (2026-11-13, spec 043):** sorrel, spring onions, garlic, romaine lettuce and
+  radishes cite USDA SR Legacy and list no regions, because МЗХ publishes no provincial or NUTS2
+  data for them. Nettle is left out: SR Legacy has only a blanched record, and the page states
+  values per 100 g raw.
 - **Farms (checked 2026-11-11, #16):** 10 real farms from their own websites. None publishes a
   full organic certificate, so none has an `organic` block.

@@ -1,0 +1,61 @@
+name: Зелен лук
+latinName: Allium cepa
+kind: vegetable
+group: amarilisovi
+summary: Зеленият лук идва рано напролет от засаден наесен арпаджик. Има високо съдържание на витамин K и фолат и е източник на витамин C.
+varieties: []
+season:
+  - { month: 3, level: peak }
+  - { month: 4, level: peak }
+  - { month: 5, level: available }
+regions: []
+nutrition:
+  energyKcal: 32
+  proteinG: 1.83
+  fatG: 0.19
+  carbohydrateG: 7.34
+  fiberG: 2.6
+  sugarsG: 2.33
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 207 }
+    - { nutrient: folat, amount: 64 }
+    - { nutrient: vitamin-c, amount: 18.8 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Onions, spring or scallions (includes tops and bulb), raw'
+    url: https://fdc.nal.usda.gov/food-details/170005/nutrients
+preparation:
+  - method: Суров
+    tip: Нарязвай го непосредствено преди сервиране – суровият лук запазва витамин C.
+traditionalUses: []
+howToChoose: Избери стегнати, яркозелени пера без пожълтели връхчета и с бели, твърди луковички.
+storage: Увий го във влажна хартия и го пази в хладилник до пет дни.
+faq:
+  - question: Кога е сезонът на зеления лук?
+    answer: Основно от март до май. Най-ранният зелен лук е от арпаджик, засаден наесен.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/zelen-luk.jpg
+  alt: 'Вързани снопчета зелен лук с бели луковички и дълги зелени пера'
+  credit:
+    author: 'Christopher Previte'
+    authorUrl: https://unsplash.com/@cprevite
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/green-and-white-vegetable-on-brown-wooden-table-7CcXR5wIhEY
+growing:
+  sow: []
+  transplant: []
+  plant: [3, 10]
+  plantingNote: 'За зелен лук рано напролет засади арпаджик наесен; пролетното засаждане е през март.'
+  tips:
+    - 'За зелен лук избери едрия арпаджик (балучка) – той се препоръчва за лук за пера.'
+    - 'Засаждай луковичките във влажна почва, в редове през 12–15 см и през 6–7 см в реда.'
+    - 'Отглеждай лука на по-леки, песъчливо-глинести почви – тежките и студени почви не са подходящи.'
+    - 'Не го засаждай между овощни дръвчета – лукът обича светлината.'
+    - 'Не тори с пресен оборски тор; лукът реагира добре на компост и добре разложен оборски тор.'
+  sources:
+    - name: 'Български фермер – На лук и чесън за зелено'
+      url: https://www.bgfermer.bg/Article/1070833
+    - name: 'Български фермер – Засадете арпаджик, ако искате големи глави лук'
+      url: https://www.bgfermer.bg/Article/3742630
+    - name: 'Български фермер – Как да си отгледате лук от арпаджик'
+      url: https://www.bgfermer.bg/article/10970651

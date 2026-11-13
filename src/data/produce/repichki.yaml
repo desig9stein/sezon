@@ -1,0 +1,66 @@
+name: Репички
+latinName: Raphanus sativus
+kind: vegetable
+group: krastotsvetni
+summary: Репичките са сред първите пролетни зеленчуци и имат втори сезон наесен. Хрупкави и леко люти, те са източник на витамин C.
+varieties:
+  - name: Едри червени
+  - name: Любими
+season:
+  - { month: 3, level: available }
+  - { month: 4, level: peak }
+  - { month: 5, level: peak }
+  - { month: 6, level: available }
+  - { month: 9, level: available }
+  - { month: 10, level: available }
+regions: []
+nutrition:
+  energyKcal: 16
+  proteinG: 0.68
+  fatG: 0.1
+  carbohydrateG: 3.4
+  fiberG: 1.6
+  sugarsG: 1.86
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 14.8 }
+    - { nutrient: folat, amount: 25 }
+    - { nutrient: kaliy, amount: 233 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Radishes, raw'
+    url: https://fdc.nal.usda.gov/food-details/169276/nutrients
+preparation:
+  - method: Сурови
+    tip: Яж ги сурови и нарязани непосредствено преди сервиране – така запазват витамин C и хрупкавостта си.
+traditionalUses: []
+howToChoose: Избери твърди, гладки и ярко оцветени репички със свежи листа; меките и напуканите са презрели.
+storage: Отрежи листата и пази репичките в хладилник в плик до седмица.
+faq:
+  - question: Защо репичките понякога са горчиви и меки?
+    answer: Най-често заради сухата почва – без достатъчно влага репичките стават горчиви и меки.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/repichki.jpg
+  alt: 'Купчина кръгли червени репички с тънки бели коренчета и зелени листа'
+  credit:
+    author: 'philippe collard'
+    authorUrl: https://unsplash.com/@philippe_collard
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/red-round-fruits-on-green-grass-EjICVrzSobA
+growing:
+  sow: [3, 8]
+  transplant: []
+  plant: []
+  plantingNote: 'Ранните сортове сей напролет, а късните – не по-рано от август.'
+  tips:
+    - 'Сей на открито, слънчево и защитено от вятър място – репичките не понасят засенчване.'
+    - 'Не внасяй оборски тор – при много азот в средата на корена се образуват кухини.'
+    - 'Сей в бразди на 2–3 см дълбочина и 10–15 см една от друга, със семе на всеки 5 см.'
+    - 'Поддържай почвата умерено влажна – без достатъчно влага репичките стават горчиви и меки.'
+    - 'Прореди гъстия посев – между две растения трябва да има поне 3 см.'
+  sources:
+    - name: 'Български фермер – Отглеждане на репички - 8 тайни за успешна реколта'
+      url: https://www.bgfermer.bg/Article/20053698
+    - name: 'Български фермер – Засяване на репички'
+      url: https://www.bgfermer.bg/Article/6123942
+    - name: 'Български фермер – Засейте репички, стават много бързо'
+      url: https://www.bgfermer.bg/Article/1022501

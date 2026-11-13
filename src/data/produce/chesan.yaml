@@ -1,0 +1,76 @@
+name: Чесън
+latinName: Allium sativum
+kind: vegetable
+group: amarilisovi
+summary: Зеленият чесън идва напролет, а зрелите глави се прибират през лятото и се пазят през зимата. Чесънът има високо съдържание на манган.
+varieties:
+  - name: Юнак
+season:
+  - { month: 4, level: available }
+  - { month: 5, level: available }
+  - { month: 6, level: peak }
+  - { month: 7, level: peak }
+  - { month: 8, level: available }
+  - { month: 9, level: storage }
+  - { month: 10, level: storage }
+  - { month: 11, level: storage }
+  - { month: 12, level: storage }
+  - { month: 1, level: storage }
+  - { month: 2, level: storage }
+regions: []
+nutrition:
+  energyKcal: 149
+  proteinG: 6.36
+  fatG: 0.5
+  carbohydrateG: 33.06
+  fiberG: 2.1
+  sugarsG: 1
+  micronutrients:
+    - { nutrient: mangan, amount: 1.672 }
+    - { nutrient: vitamin-c, amount: 31.2 }
+    - { nutrient: med-cu, amount: 0.299 }
+    - { nutrient: fosfor, amount: 153 }
+    - { nutrient: kaliy, amount: 401 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Garlic, raw'
+    url: https://fdc.nal.usda.gov/food-details/169230/nutrients
+preparation:
+  - method: Зелен чесън
+    tip: Яж го целия – и стръка, и младата главичка, нарязани в салата или в ястие накрая.
+  - method: Суров
+    tip: Добавяй скилидките сурови в салати и сосове, за да не губиш витамин C при готвене.
+traditionalUses: []
+howToChoose: Избери твърди и тежки глави със суха обвивка и без кълнове, а зеления чесън – със свежи, неувехнали стръкове.
+storage: Зрелите глави пази на сухо, хладно и проветриво място; зеления чесън – в хладилник до седмица.
+faq:
+  - question: Каква е разликата между зелен и зрял чесън?
+    answer: Зеленият чесън се бере напролет, докато е млад и с меки листа. Зрелият се прибира през лятото, когато главите са оформени.
+  - question: За какъв чесън са хранителните стойности?
+    answer: За суровите скилидки на зрелия чесън (USDA „Garlic, raw“). За зеления чесън няма отделен запис.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/chesan.jpg
+  alt: 'Купчина бели глави чесън с розови ивици върху плетена дървена тава'
+  credit:
+    author: 'team voyas'
+    authorUrl: https://unsplash.com/@voyas
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/lots-of-garlics-vIiye0QDryo
+growing:
+  sow: []
+  transplant: []
+  plant: [9, 10]
+  plantingNote: 'Засаждай от септември до началото на ноември в най-топлите райони, преди първите слани.'
+  tips:
+    - 'За зелен чесън засаждай зимен чесън – растенията му са по-нежни.'
+    - 'Избери открито, повдигнато и слънчево място – чесънът не понася застояла вода.'
+    - 'Не засаждай чесън на едно и също място две години подред.'
+    - 'Не тори с пресен или полуразложен оборски тор; угнилия тор внеси още при предшественика.'
+    - 'Засаждай скилидките с дъното надолу, през 10–15 см в реда и 20–25 см между редовете.'
+  sources:
+    - name: 'Български фермер – Засаждане на зимен чесън'
+      url: https://www.bgfermer.bg/Article/21513300
+    - name: 'Български фермер – Отглеждане на зимен чесън'
+      url: https://www.bgfermer.bg/Article/9133342
+    - name: 'Български фермер – Зимен и летен чесън'
+      url: https://www.bgfermer.bg/Article/7052227

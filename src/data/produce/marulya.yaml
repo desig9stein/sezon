@@ -1,0 +1,69 @@
+name: Маруля
+latinName: Lactuca sativa var. longifolia
+kind: vegetable
+group: slozhnotsvetni
+summary: Марулята е най-хрупкава напролет и наесен – през лятото листата ѝ загрубяват. Има високо съдържание на витамин K, витамин A и фолат.
+varieties:
+  - name: Черна гюмюрджинска
+season:
+  - { month: 3, level: available }
+  - { month: 4, level: peak }
+  - { month: 5, level: peak }
+  - { month: 6, level: available }
+  - { month: 10, level: available }
+  - { month: 11, level: available }
+regions: []
+nutrition:
+  energyKcal: 17
+  proteinG: 1.23
+  fatG: 0.3
+  carbohydrateG: 3.29
+  fiberG: 2.1
+  sugarsG: 1.19
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 102.5 }
+    - { nutrient: vitamin-a, amount: 436 }
+    - { nutrient: folat, amount: 136 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Lettuce, cos or romaine, raw'
+    url: https://fdc.nal.usda.gov/food-details/169247/nutrients
+preparation:
+  - method: Сурова в салата
+    tip: Късай листата и подправяй салатата непосредствено преди сервиране, за да останат хрупкави.
+  - method: С външните листа
+    tip: Не изхвърляй външните тъмнозелени листа – в тях има повече каротин и витамин C, отколкото във вътрешните.
+traditionalUses: []
+howToChoose: Избери стегната глава с хрупкави, свежи листа без кафяви ръбове и слуз.
+storage: Неизмита маруля пази в хладилник, увита във влажна кърпа, до пет дни.
+faq:
+  - question: Кога е сезонът на марулята?
+    answer: Пролетната маруля е от март до юни, а есенната – от октомври до ноември. През лятото листата загрубяват и горчат.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/marulya.jpg
+  alt: 'Изправени глави маруля с удължени листа и светли средни жилки над червена и къдрава салата'
+  credit:
+    author: 'Zoshua Colah'
+    authorUrl: https://unsplash.com/@zoshuacolah
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/fresh-and-colorful-greens-and-lettuce-for-sale-sdDA-pMzW10
+growing:
+  sow: [1, 9]
+  transplant: [3, 9, 10]
+  plant: []
+  plantingNote: 'Разсада за пролетна маруля сей около 15–20 януари в полутопъл парник или оранжерия.'
+  tips:
+    - 'Засаждай пролетната маруля на по-лека почва, която се затопля по-лесно.'
+    - 'Разсаждай през 30 см между редовете и 25–30 см в реда.'
+    - 'Засаждай на същата дълбочина като в разсадната леха, без да заравяш растежния връх.'
+    - 'Подхрани с амониева селитра, след като растенията се прихванат и пуснат нови листа.'
+    - 'Зимните сортове сей през септември, за да поникнат и да се вкоренят преди зимата.'
+  sources:
+    - name: 'Български фермер – Изискванията за ранни салати и марули'
+      url: https://www.bgfermer.bg/article/10694762
+    - name: 'Български фермер – Засаждане на салати и марули'
+      url: https://www.bgfermer.bg/Article/6763368
+    - name: 'Български фермер – Разсаждат се салати и марули'
+      url: https://www.bgfermer.bg/Article/1930331
+    - name: 'Български фермер – Последни срокове за салатата'
+      url: https://www.bgfermer.bg/Article/5798167
