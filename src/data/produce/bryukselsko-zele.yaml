@@ -1,0 +1,36 @@
+name: Брюкселско зеле
+latinName: Brassica oleracea var. gemmifera
+kind: vegetable
+group: krastotsvetni
+summary: 'Брюкселското зеле е зимен зеленчук с малки зелки. Сезонът му започва през септември и продължава чак до януари.'
+season:
+  - { month: 1, level: available }
+  - { month: 9, level: available }
+  - { month: 10, level: available }
+  - { month: 11, level: available }
+  - { month: 12, level: available }
+nutrition:
+  energyKcal: 43
+  proteinG: 3.38
+  fatG: 0.3
+  carbohydrateG: 8.95
+  fiberG: 3.8
+  sugarsG: 2.2
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 177 }
+    - { nutrient: vitamin-c, amount: 85 }
+    - { nutrient: folat, amount: 61 }
+    - { nutrient: kaliy, amount: 389 }
+    - { nutrient: mangan, amount: 0.337 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Brussels sprouts, raw'
+    url: https://fdc.nal.usda.gov/food-details/170383/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/bryukselsko-zele.jpg
+  alt: 'Купчина малки зелени зелки брюкселско зеле'
+  credit:
+    author: 'Jason Leung'
+    authorUrl: https://unsplash.com/@ninjason
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-pile-of-brussel-sprouts-sitting-on-top-of-each-other-q6HCBFaL-ZU

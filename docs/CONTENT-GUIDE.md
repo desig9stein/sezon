@@ -378,6 +378,10 @@ seasons are editorial (no official monthly calendar exists).
   radishes cite USDA SR Legacy and list no regions, because МЗХ publishes no provincial or NUTS2
   data for them. Nettle is left out: SR Legacy has only a blanched record, and the page states
   values per 100 g raw.
+- **More vegetables and herbs (2026-11-13, spec 053):** 21 entries with sourced seasons and no
+  regions; nutrition only where SR Legacy has a raw or fresh record, photos only where Unsplash
+  clearly shows the produce. Wild nettle stays out because its only source carries cautions the
+  page cannot show; dandelion stays out because no source gives a month for its leaves.
 - **Farms (checked 2026-11-11, #16):** 10 real farms from their own websites. None publishes a
   full organic certificate, so none has an `organic` block.
 - **More farms (checked 2026-11-13, spec 051):** 39 more farms from their own sites, Хранкооп

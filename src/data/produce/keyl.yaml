@@ -1,0 +1,30 @@
+name: Кейл
+latinName: Brassica oleracea var. sabellica
+kind: vegetable
+group: krastotsvetni
+summary: 'Кейлът е зелев зеленчук, който издържа на ниски температури, затова листата му се берат есен и пролет.'
+season:
+  - { month: 3, level: available }
+  - { month: 4, level: available }
+  - { month: 5, level: available }
+  - { month: 9, level: available }
+  - { month: 10, level: available }
+  - { month: 11, level: available }
+nutrition:
+  energyKcal: 35
+  proteinG: 2.92
+  fatG: 1.49
+  carbohydrateG: 4.42
+  fiberG: 4.1
+  sugarsG: 0.99
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 389.6 }
+    - { nutrient: vitamin-c, amount: 93.4 }
+    - { nutrient: mangan, amount: 0.92 }
+    - { nutrient: folat, amount: 62 }
+    - { nutrient: vitamin-a, amount: 241 }
+    - { nutrient: kaliy, amount: 348 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Kale, raw'
+    url: https://fdc.nal.usda.gov/food-details/168421/nutrients
+updatedAt: 2026-11-13

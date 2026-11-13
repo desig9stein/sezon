@@ -1,0 +1,33 @@
+name: Артишок
+latinName: Cynara cardunculus var. scolymus
+kind: vegetable
+group: slozhnotsvetni
+summary: 'Артишокът се бере заради съцветията, които се отрязват преди цъфтежа – обикновено от края на май до юни.'
+season:
+  - { month: 5, level: peak }
+  - { month: 6, level: peak }
+nutrition:
+  energyKcal: 47
+  proteinG: 3.27
+  fatG: 0.15
+  carbohydrateG: 10.51
+  fiberG: 5.4
+  sugarsG: 0.99
+  micronutrients:
+    - { nutrient: folat, amount: 68 }
+    - { nutrient: med-cu, amount: 0.231 }
+    - { nutrient: vitamin-k, amount: 14.8 }
+    - { nutrient: kaliy, amount: 370 }
+    - { nutrient: magneziy, amount: 60 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Artichokes, (globe or french), raw'
+    url: https://fdc.nal.usda.gov/food-details/169205/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/artishok.jpg
+  alt: 'Три зелени глави артишок и откъснати листчета върху светла дъска'
+  credit:
+    author: 'Kim Daniels'
+    authorUrl: https://unsplash.com/@kimbroughdaniels
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/three-green-fruits-J84yENp4O9w

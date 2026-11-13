@@ -1,0 +1,29 @@
+name: Бакла
+latinName: Vicia faba
+kind: vegetable
+group: bobovi
+summary: 'Баклата е студоустойчива бобова култура. Зелените ѝ шушулки се берат на няколко пъти, от началото на май.'
+season:
+  - { month: 5, level: peak }
+nutrition:
+  energyKcal: 72
+  proteinG: 5.6
+  fatG: 0.6
+  carbohydrateG: 11.7
+  fiberG: 4.2
+  micronutrients:
+    - { nutrient: folat, amount: 96 }
+    - { nutrient: vitamin-c, amount: 33 }
+    - { nutrient: mangan, amount: 0.32 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Broadbeans, immature seeds, raw'
+    url: https://fdc.nal.usda.gov/food-details/170377/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/bakla.jpg
+  alt: 'Купчина пресни зелени шушулки бакла с тъмни петънца'
+  credit:
+    author: 'Zoshua Colah'
+    authorUrl: https://unsplash.com/@zoshuacolah
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/fresh-green-fava-bean-pods-2_urXm2lJR4

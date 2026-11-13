@@ -1,0 +1,34 @@
+name: Боб
+latinName: Phaseolus vulgaris
+kind: vegetable
+group: bobovi
+summary: 'Зрелият боб се прибира, когато зърната узреят – при повечето сортове до края на септември или началото на октомври.'
+season:
+  - { month: 9, level: peak }
+  - { month: 10, level: peak }
+nutrition:
+  energyKcal: 333
+  proteinG: 23.36
+  fatG: 0.85
+  carbohydrateG: 60.27
+  fiberG: 15.2
+  sugarsG: 2.11
+  micronutrients:
+    - { nutrient: folat, amount: 388 }
+    - { nutrient: med-cu, amount: 0.984 }
+    - { nutrient: mangan, amount: 1.796 }
+    - { nutrient: kaliy, amount: 1795 }
+    - { nutrient: zhelyazo, amount: 10.44 }
+    - { nutrient: magneziy, amount: 190 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Beans, white, mature seeds, raw'
+    url: https://fdc.nal.usda.gov/food-details/175202/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/bob.jpg
+  alt: 'Едри бели зърна зрял боб, събрани плътно едно до друго'
+  credit:
+    author: 'Łukasz Rawa'
+    authorUrl: https://unsplash.com/@lukasz_rawa
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/white-beans-on-white-background-b6h5nTVD1Hw
