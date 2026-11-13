@@ -33,6 +33,51 @@ choose, storage, preparation and growing tips, FAQ answers and UI strings.
 
 ## Add a produce (`src/data/produce/`)
 
+What matters most is whether a produce is in season (owner decision, 2026-11-13, spec 049). Only
+the season and what identifies the produce are required; every other block is optional and may
+differ from one produce to the next. Never invent a block to fill the page: leave it out until a
+source gives it.
+
+### Minimal entry
+
+```yaml
+name: Хрян # Bulgarian name, shown as the page title
+kind: vegetable # fruit | vegetable | herb | nut
+group: krastotsvetni # id from src/data/groups (the botanical family)
+summary: 70–160 characters, one line. It is the meta description of the page and of search results.
+season: # at least one month; each month once
+  - { month: 11, level: peak } # peak | available | storage
+updatedAt: 2026-11-13
+```
+
+The page of a minimal entry shows the name, kind and family, the summary, the season calendar, the
+growing regions section („Няма официални данни по области…“), the farms that sell it, the update
+date and the methodology link. Every section without data is left out, with its heading and its
+table of contents entry.
+
+### Optional blocks
+
+| Field             | What it adds to the page                                                     |
+| ----------------- | ---------------------------------------------------------------------------- |
+| `latinName`       | The Latin name under the title, on cards and lists, and in the JSON-LD.      |
+| `varieties`       | The „Сортове“ list.                                                          |
+| `regions`         | The provinces with notes and the map (spec 042 for an empty list).           |
+| `nutrition`       | The nutrition table, the „На масата“ group and a place in nutrient rankings. |
+| `preparation`     | The preparation tips in „На масата“.                                         |
+| `traditionalUses` | The traditional uses in „На масата“, each with its source.                   |
+| `howToChoose`     | The „Как да избереш“ section.                                                |
+| `storage`         | The „Съхранение“ section.                                                    |
+| `faq`             | The questions section and the `FAQPage` JSON-LD.                             |
+| `photo`           | The photo plate, the card photo and the JSON-LD image.                       |
+| `growing`         | The home-garden guide and its months in the calendar.                        |
+| `organic`         | The organic production note above the farms.                                 |
+
+A block that is present is checked in full: nutrition needs every macronutrient and a source,
+each traditional use and growing guide needs its sources, and a photo needs `alt` and a credit.
+Omitted lists are the same as empty lists.
+
+### Full entry
+
 ```yaml
 name: Ябълки # Bulgarian name, shown as the page title
 latinName: Malus domestica
@@ -60,10 +105,10 @@ nutrition: # per 100 g raw edible portion
   source:
     name: 'USDA FoodData Central, SR Legacy: Apples, raw, with skin'
     url: https://fdc.nal.usda.gov/
-preparation: # at least one tip
+preparation: # optional
   - method: Сурови с кората
     tip: How to prepare it to keep nutrients.
-traditionalUses: # may be empty
+traditionalUses: # optional
   - system: ayurveda # ayurveda | folk
     use: Традиционно се използва при … # must start with this phrase
     source: { name: …, url: https://… }
@@ -77,7 +122,8 @@ updatedAt: 2026-11-10
 
 ### Photo
 
-Every produce has a photo: a close-up of the produce itself, without people, text or logos.
+A photo is optional. When you add one, it is a close-up of the produce itself, without people,
+text or logos.
 
 1. Put the image in `src/assets/produce/<slug>.jpg`: cropped to 4:3, 1600 × 1200 px, JPEG at
    quality about 80, without EXIF. The build makes the AVIF, WebP and smaller sizes, so do not

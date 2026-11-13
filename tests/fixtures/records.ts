@@ -7,8 +7,15 @@ const SOURCE = {
   url: 'https://fdc.nal.usda.gov/',
 };
 
-/** Returns a valid produce record; `overrides` replace top-level fields. */
-export function produceRecord(overrides: Partial<ProduceRecord> = {}): ProduceRecord {
+/** A produce record whose optional nutrition block is present. */
+export type ProduceRecordWithNutrition = ProduceRecord & {
+  nutrition: NonNullable<ProduceRecord['nutrition']>;
+};
+
+/** Returns a valid produce record with every block; `overrides` replace top-level fields. */
+export function produceRecord(
+  overrides: Partial<ProduceRecordWithNutrition> = {},
+): ProduceRecordWithNutrition {
   return {
     name: 'Зеле',
     latinName: 'Brassica oleracea var. capitata',

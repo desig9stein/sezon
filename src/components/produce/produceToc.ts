@@ -8,14 +8,27 @@ export interface TocEntry {
 }
 
 /**
- * Returns the table of contents of a produce page in page order, leaving out the growing group
- * when the produce has no guide and the questions when it has none.
+ * Returns `true` when the produce has any content for the „На масата“ group: nutrition facts, a
+ * preparation tip or a traditional use.
+ */
+export function hasEatContent(produce: Produce): boolean {
+  return (
+    produce.nutrition !== undefined ||
+    produce.preparation.length > 0 ||
+    produce.traditionalUses.length > 0
+  );
+}
+
+/**
+ * Returns the table of contents of a produce page in page order, leaving out each group the page
+ * does not render: the eating group without nutrition, preparation or traditional uses, the
+ * growing group without a guide and the questions without any.
  */
 export function produceToc(produce: Produce): ReadonlyArray<TocEntry> {
   const headings = ui.produce.headings;
   return [
     { id: 'stall', label: headings.stall },
-    { id: 'eat', label: headings.eat },
+    ...(hasEatContent(produce) ? [{ id: 'eat', label: headings.eat }] : []),
     ...(produce.growing === undefined ? [] : [{ id: 'grow', label: headings.grow }]),
     { id: 'farms', label: headings.farms },
     ...(produce.faq.length > 0 ? [{ id: 'faq', label: headings.faq }] : []),

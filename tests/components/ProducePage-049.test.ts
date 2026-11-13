@@ -101,9 +101,11 @@ const OPTIONAL_IDS = [
   'faq',
 ];
 
+const PAGE = '../../src/pages/[section]/[slug].astro';
+
 async function renderPage(slug: string): Promise<string> {
   const container = await AstroContainer.create({ astroConfig: { site: TEST_SITE } });
-  const { default: page } = await import('../../src/pages/[section]/[slug].astro');
+  const { default: page } = await import(PAGE);
   return container.renderToString(page, { params: { section: 'zelenchutsi', slug } });
 }
 
@@ -147,7 +149,10 @@ describe('minimal produce page (spec 049)', () => {
   it('AC10: shows none of the optional sections, no photo, no Latin name and no empty list', () => {
     for (const id of OPTIONAL_IDS) expect(minimal.getElementById(id), id).toBeNull();
     expect(article?.querySelector('figure, picture, img')).toBeNull();
-    expect(article?.querySelector('[lang="la"]')).toBeNull();
+    const latinNames = [...(article?.querySelectorAll('[lang="la"]') ?? [])].filter(
+      (element) => element.closest('a[href^="/grupi/"]') === null,
+    );
+    expect(latinNames, 'only the family link carries a Latin name').toEqual([]);
     for (const list of article?.querySelectorAll('ul, ol, dl') ?? []) {
       expect(list.children.length, list.outerHTML.slice(0, 60)).toBeGreaterThan(0);
     }
@@ -162,7 +167,7 @@ describe('minimal produce page (spec 049)', () => {
     const window = windowOf(minimalHtml);
     window.eval(AXE_SOURCE);
     const axe = (window as unknown as { axe: typeof Axe }).axe;
-    const results: Axe.AxeResults = await axe.run(window.document, {
+    const results: Axe.AxeResults = await axe.run(window.document as unknown as Document, {
       runOnly: { type: 'tag', values: WCAG_TAGS },
       rules: Object.fromEntries(LAYOUT_RULES.map((rule) => [rule, { enabled: false }])),
     });

@@ -10,7 +10,7 @@ import ProducePhoto from '@components/produce/ProducePhoto.astro';
 import NutritionTable from '@components/produce/NutritionTable.astro';
 import SeasonCalendarList from '@components/produce/SeasonCalendarList.astro';
 import ProduceNow from '@components/produce/ProduceNow.astro';
-import { produceToc } from '@components/produce/produceToc';
+import { hasEatContent, produceToc } from '@components/produce/produceToc';
 import SourceList from '@components/produce/SourceList.astro';
 import TraditionalUses from '@components/produce/TraditionalUses.astro';
 import { routes } from '@components/layout/routes';
@@ -74,9 +74,11 @@ const jsonLd = [
     <header class="produce__header">
       <h1 {...searchHeadingAttributes(produce.name)}>{produce.name}</h1>
       <ul class="produce__meta" role="list">
-        <li>
-          <i lang="la">{produce.latinName}</i>
-        </li>
+        {produce.latinName !== undefined && (
+          <li>
+            <i lang="la">{produce.latinName}</i>
+          </li>
+        )}
         <li>{ui.produceKinds[produce.kind]}</li>
         <li>
           {labels.familyLabel}{' '}
@@ -108,14 +110,18 @@ const jsonLd = [
         <h3 id="season">{labels.headings.season}</h3>
         <SeasonCalendarList produce={produce} currentMonth={buildMonth} />
       </section>
-      <section aria-labelledby="choose">
-        <h3 id="choose">{labels.headings.choose}</h3>
-        <p>{produce.howToChoose}</p>
-      </section>
-      <section aria-labelledby="storage">
-        <h3 id="storage">{labels.headings.storage}</h3>
-        <p>{produce.storage}</p>
-      </section>
+      {produce.howToChoose !== undefined && (
+        <section aria-labelledby="choose">
+          <h3 id="choose">{labels.headings.choose}</h3>
+          <p>{produce.howToChoose}</p>
+        </section>
+      )}
+      {produce.storage !== undefined && (
+        <section aria-labelledby="storage">
+          <h3 id="storage">{labels.headings.storage}</h3>
+          <p>{produce.storage}</p>
+        </section>
+      )}
       {produce.varieties.length > 0 && (
         <section aria-labelledby="varieties">
           <h3 id="varieties">{labels.headings.varieties}</h3>
@@ -138,30 +144,36 @@ const jsonLd = [
       </section>
     </section>
 
-    <section id="eat" class="produce__group produce__wide" aria-labelledby="eat-heading">
-      <h2 id="eat-heading">{labels.headings.eat}</h2>
-      <section aria-labelledby="nutrition">
-        <h3 id="nutrition">{labels.headings.nutrition}</h3>
-        <NutritionTable nutrition={produce.nutrition} micronutrients={details.micronutrients} />
+    {hasEatContent(produce) && (
+      <section id="eat" class="produce__group produce__wide" aria-labelledby="eat-heading">
+        <h2 id="eat-heading">{labels.headings.eat}</h2>
+        {produce.nutrition !== undefined && (
+          <section aria-labelledby="nutrition">
+            <h3 id="nutrition">{labels.headings.nutrition}</h3>
+            <NutritionTable nutrition={produce.nutrition} micronutrients={details.micronutrients} />
+          </section>
+        )}
+        {produce.preparation.length > 0 && (
+          <section aria-labelledby="preparation">
+            <h3 id="preparation">{labels.headings.preparation}</h3>
+            <dl class="preparation">
+              {produce.preparation.map((tip) => (
+                <>
+                  <dt>{tip.method}</dt>
+                  <dd>{tip.tip}</dd>
+                </>
+              ))}
+            </dl>
+          </section>
+        )}
+        {produce.traditionalUses.length > 0 && (
+          <section aria-labelledby="traditional">
+            <h3 id="traditional">{labels.headings.traditional}</h3>
+            <TraditionalUses uses={produce.traditionalUses} />
+          </section>
+        )}
       </section>
-      <section aria-labelledby="preparation">
-        <h3 id="preparation">{labels.headings.preparation}</h3>
-        <dl class="preparation">
-          {produce.preparation.map((tip) => (
-            <>
-              <dt>{tip.method}</dt>
-              <dd>{tip.tip}</dd>
-            </>
-          ))}
-        </dl>
-      </section>
-      {produce.traditionalUses.length > 0 && (
-        <section aria-labelledby="traditional">
-          <h3 id="traditional">{labels.headings.traditional}</h3>
-          <TraditionalUses uses={produce.traditionalUses} />
-        </section>
-      )}
-    </section>
+    )}
 
     <AdSlot sponsor={sponsor} placement="produce" adsense={ADSENSE} />
 
