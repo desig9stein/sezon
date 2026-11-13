@@ -128,16 +128,17 @@ No variety note is added, because none of the facts a note would hold is sourced
 
 No official monthly calendar exists (`docs/content-review/README.md`). The levels are conservative
 and based on the cited planting times: the earliest open-field planting is late April to May
-(tomatoes, peppers, cucumbers) or after mid-May (aubergines), so the open-field peak starts in
-July (June for cucumbers). МЗХ reports greenhouse tomato and cucumber output from January to May
-(„Ситуация на пазара на плодове и зеленчуци в България – юни 2024“); cucumbers are marked
-`available` in April and May for that reason, tomatoes are not, because their spring greenhouse
-share is small.
+(tomatoes, peppers), early June without cover (cucumbers) or after mid-May (aubergines), so the
+open-field peak starts in July. МЗХ reports greenhouse tomato and cucumber output from January to
+May („Ситуация на пазара на плодове и зеленчуци в България – юни 2024“), and greenhouses give a
+large share of both crops in bulletin № 468, Table 2: 46 022 of 105 235 t of tomatoes (44 %) and
+40 360 of 52 275 t of cucumbers (77 %). Both are therefore marked `available` in April and May.
+Open-field cucumbers are `available` in June and peak in July and August.
 
 | Produce    | available | peak    | available |
 | ---------- | --------- | ------- | --------- |
-| домати     | 6         | 7, 8, 9 | 10        |
-| краставици | 4, 5      | 6, 7, 8 | 9         |
+| домати     | 4, 5, 6   | 7, 8, 9 | 10        |
+| краставици | 4, 5, 6   | 7, 8    | 9         |
 | пипер      | 7         | 8, 9    | 10        |
 | патладжан  | 7         | 8, 9    | 10        |
 
@@ -146,8 +147,12 @@ share is small.
 Each month and tip below is stated by the cited page (fetched 2026-11-13; quotes in section 10).
 
 - **Домати:** sow 2, 3; transplant 4, 5.
-- **Пипер:** sow 2, 3; transplant 5.
-- **Патладжан:** sow 2, 4; transplant 5, 6.
+- **Пипер:** sow 1, 2, 3 (the calendar: early field pepper from the last ten days of January in
+  the south); transplant 5.
+- **Патладжан:** sow 1, 2, 4 (the calendar: early aubergine from the end of January, early field
+  aubergine around mid-February; Agrozona: late crop in April); transplant 5, 6. Agrozona says
+  early aubergines go outside in the second half of April; the site keeps the conservative date of
+  Български фермер (after the second half of May, into June) and leaves April out.
 - **Краставици:** sow 3, 4, 6, 7; transplant 5, 6.
 
 ### Editorial texts
@@ -209,25 +214,25 @@ that describes the photo (WCAG 1.1.1).
 No third-party API is used; the sources below are content sources. Pages were fetched on
 2026-11-13.
 
-| Source                                                                                                                                                                     | Used for                                                                                                                        |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| USDA FoodData Central, SR Legacy CSV, April 2018 (FDC 170457, 168409, 170427, 169228)                                                                                      | Nutrition, via `pnpm content:usda`                                                                                              |
-| МЗХ, „Производство на зеленчуци в България – реколта 2025“, бюлетин № 468, https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf | Table 2 (national open-field and greenhouse figures), Table 3 (open-field area by NUTS2), list of provinces per NUTS2 region    |
-| МЗХ, „Производство на зеленчуци – реколта 2022“, RA 423, https://www.mzh.government.bg/media/filer_public/2023/04/11/ra423_publicationvegetables2022.pdf                   | Checked: same regional crops; no table for courgettes, beans or okra                                                            |
-| МЗХ, „Ситуация на пазара на плодове и зеленчуци в България – юни 2024“                                                                                                     | Greenhouse tomatoes and cucumbers produced January–May (season note)                                                            |
-| Eurostat `apro_cpshr` (API, geo BG34, BG41, BG42)                                                                                                                          | Checked: only the aggregate „Fresh vegetables“ by NUTS2                                                                         |
-| ИАСАС, „Официална сортова листа … 2026 г.“ (OSL 1), https://iasas.government.bg/att/OSL%201%20-%202026%2013.pdf                                                            | Varieties (List B: Домати, Пипер, Краставици, Патладжан; also Тиквички, Фасул, Бамя)                                            |
-| Bulgarian Wikipedia, „Картофови“ (redirect from „Solanaceae“)                                                                                                              | Group name                                                                                                                      |
-| Български фермер – Календар на сеитбите (https://www.bgfermer.bg/Article/9378131)                                                                                          | Sowing: tomatoes Feb (early) and Mar (mid-early); peppers Feb–Mar; aubergines Feb; cucumbers for open field late March          |
-| Български фермер – Домати се засаждат през целия май (https://www.bgfermer.bg/Article/20441010)                                                                            | Tomatoes transplanted end of April and all May; soil 14–15 °C at 10 cm; harden a week; same depth; stakes; water after a week   |
-| Български фермер – Засаждане на домати (https://www.bgfermer.bg/Article/5460101)                                                                                           | Predecessors (not after potatoes, pepper, aubergine); 75–80 × 35–40 cm for tall varieties                                       |
-| Български фермер – Кога да се засажда разсадът на открито (https://www.bgfermer.bg/Article/22768010)                                                                       | Tomatoes, peppers, aubergines and cucumbers planted out through May                                                             |
-| Български фермер – 10 грешки при отглеждането на пипер (https://www.bgfermer.bg/Article/6170258)                                                                           | Pepper tips: do not plant out early; 25 × 60 cm; not deeper than the seed leaves; water often and little; shallow hoeing, mulch |
-| Български фермер – Патладжанът трябва да се засажда в топла почва (https://www.bgfermer.bg/Article/20603788)                                                               | Aubergines planted after the second half of May                                                                                 |
-| Български фермер – Патладжанът се засажда при трайно затопляне (https://www.bgfermer.bg/Article/11624730)                                                                  | Soil above 13–14 °C; 4–5 leaves; 70 × 40 cm; planting into June; feed after 20 days, then every two weeks; pick regularly       |
-| Agrozona.bg – Патладжанът е любител на слънцето (https://agrozona.bg/patladzhanat-e-lyubitel-na-slantseto/)                                                                | Late-crop sowing in April; not after tomatoes, pepper or potatoes                                                               |
-| Български фермер – Кога и как се засажда разсадът от краставици (https://www.bgfermer.bg/Article/22935996)                                                                 | Cucumbers planted out under cover 10–15 May, uncovered 2–10 June, at 18–20 °C by day                                            |
-| Български фермер – Кога и как се сеят краставици директно (https://www.bgfermer.bg/Article/8392111)                                                                        | Direct sowing from the second half of April; late crop late June – early July                                                   |
-| Български фермер – Директна сеитба на краставици (https://www.bgfermer.bg/Article/9734189)                                                                                 | Rows 90–100 cm, thinned to 25–30 cm                                                                                             |
-| Agrozona.bg – Как да отгледате краставици: От разсада до брането (https://agrozona.bg/kak-da-otgledate-krastavitsi-ot-razsada-do-braneto/)                                 | Water generously once or twice a week, in the morning, without wetting the leaves; support on wires or a net                    |
-| Български фермер – Сеитбата на бамята се провежда през втората половина на май (https://www.bgfermer.bg/Article/22659480)                                                  | Okra (blocked): „предимно в южните райони“; varieties Пловдивска, Лясковска, Тополовградска; sown second half of May            |
+| Source                                                                                                                                                                     | Used for                                                                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| USDA FoodData Central, SR Legacy CSV, April 2018 (FDC 170457, 168409, 170427, 169228)                                                                                      | Nutrition, via `pnpm content:usda`                                                                                                                          |
+| МЗХ, „Производство на зеленчуци в България – реколта 2025“, бюлетин № 468, https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf | Table 2 (national open-field and greenhouse figures), Table 3 (open-field area by NUTS2), list of provinces per NUTS2 region                                |
+| МЗХ, „Производство на зеленчуци – реколта 2022“, RA 423, https://www.mzh.government.bg/media/filer_public/2023/04/11/ra423_publicationvegetables2022.pdf                   | Checked: same regional crops; no table for courgettes, beans or okra                                                                                        |
+| МЗХ, „Ситуация на пазара на плодове и зеленчуци в България – юни 2024“                                                                                                     | Greenhouse tomatoes and cucumbers produced January–May (season note)                                                                                        |
+| Eurostat `apro_cpshr` (API, geo BG34, BG41, BG42)                                                                                                                          | Checked: only the aggregate „Fresh vegetables“ by NUTS2                                                                                                     |
+| ИАСАС, „Официална сортова листа … 2026 г.“ (OSL 1), https://iasas.government.bg/att/OSL%201%20-%202026%2013.pdf                                                            | Varieties (List B: Домати, Пипер, Краставици, Патладжан; also Тиквички, Фасул, Бамя)                                                                        |
+| Bulgarian Wikipedia, „Картофови“ (redirect from „Solanaceae“)                                                                                                              | Group name                                                                                                                                                  |
+| Български фермер – Календар на сеитбите (https://www.bgfermer.bg/Article/9378131)                                                                                          | Sowing: tomatoes Feb (early) and Mar (mid-early); peppers Jan (early, south), Feb–Mar; aubergines end of Jan – mid-Feb; cucumbers for open field late March |
+| Български фермер – Домати се засаждат през целия май (https://www.bgfermer.bg/Article/20441010)                                                                            | Tomatoes transplanted end of April and all May; soil 14–15 °C at 10 cm; harden a week; same depth; stakes; water after a week                               |
+| Български фермер – Засаждане на домати (https://www.bgfermer.bg/Article/5460101)                                                                                           | Predecessors (not after potatoes, pepper, aubergine); 75–80 × 35–40 cm for tall varieties                                                                   |
+| Български фермер – Кога да се засажда разсадът на открито (https://www.bgfermer.bg/Article/22768010)                                                                       | Tomatoes, peppers, aubergines and cucumbers planted out through May                                                                                         |
+| Български фермер – 10 грешки при отглеждането на пипер (https://www.bgfermer.bg/Article/6170258)                                                                           | Pepper tips: do not plant out early; 25 × 60 cm; not deeper than the seed leaves; water often and little; shallow hoeing, mulch                             |
+| Български фермер – Патладжанът трябва да се засажда в топла почва (https://www.bgfermer.bg/Article/20603788)                                                               | Aubergines planted after the second half of May                                                                                                             |
+| Български фермер – Патладжанът се засажда при трайно затопляне (https://www.bgfermer.bg/Article/11624730)                                                                  | Soil above 13–14 °C; 4–5 leaves; 70 × 40 cm; planting into June; feed after 20 days, then every two weeks; pick regularly                                   |
+| Agrozona.bg – Патладжанът е любител на слънцето (https://agrozona.bg/patladzhanat-e-lyubitel-na-slantseto/)                                                                | Late-crop sowing in April; early crop planted out in the second half of April (not used, see section 5); not after tomatoes, pepper or potatoes             |
+| Български фермер – Кога и как се засажда разсадът от краставици (https://www.bgfermer.bg/Article/22935996)                                                                 | Cucumbers planted out under cover 10–15 May, uncovered 2–10 June, at 18–20 °C by day                                                                        |
+| Български фермер – Кога и как се сеят краставици директно (https://www.bgfermer.bg/Article/8392111)                                                                        | Direct sowing from the second half of April; late crop late June – early July                                                                               |
+| Български фермер – Директна сеитба на краставици (https://www.bgfermer.bg/Article/9734189)                                                                                 | Rows 90–100 cm, thinned to 25–30 cm                                                                                                                         |
+| Agrozona.bg – Как да отгледате краставици: От разсада до брането (https://agrozona.bg/kak-da-otgledate-krastavitsi-ot-razsada-do-braneto/)                                 | Water generously once or twice a week, in the morning, without wetting the leaves; support on wires or a net                                                |
+| Български фермер – Сеитбата на бамята се провежда през втората половина на май (https://www.bgfermer.bg/Article/22659480)                                                  | Okra (blocked): „предимно в южните райони“; varieties Пловдивска, Лясковска, Тополовградска; sown second half of May                                        |

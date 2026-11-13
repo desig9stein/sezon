@@ -2,14 +2,14 @@ name: Краставици
 latinName: Cucumis sativus
 kind: vegetable
 group: tikvovi
-summary: Краставиците от открити площи са в сезон от юни до септември, а през пролетта идват основно от оранжерии. Имат около 15 kcal на 100 г.
+summary: Краставиците от открити площи са в сезон от края на юни до септември, а през пролетта идват основно от оранжерии. Имат около 15 kcal на 100 г.
 varieties:
   - name: Гергана
   - name: Тереза
 season:
   - { month: 4, level: available }
   - { month: 5, level: available }
-  - { month: 6, level: peak }
+  - { month: 6, level: available }
   - { month: 7, level: peak }
   - { month: 8, level: peak }
   - { month: 9, level: available }
@@ -64,7 +64,7 @@ faq:
 updatedAt: 2026-11-13
 photo:
   src: ../../assets/produce/krastavitsi.jpg
-  alt: 'Тъмнозелени краставици с дребни брадавички по кората, подредени една до друга'
+  alt: 'Купчина тъмнозелени краставици с дребни брадавички по кората'
   credit:
     author: 'Eric Prouzet'
     authorUrl: https://unsplash.com/@eprouzet

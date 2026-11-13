@@ -8,6 +8,8 @@ varieties:
   - name: Алено сърце
   - name: Миляна VF
 season:
+  - { month: 4, level: available }
+  - { month: 5, level: available }
   - { month: 6, level: available }
   - { month: 7, level: peak }
   - { month: 8, level: peak }

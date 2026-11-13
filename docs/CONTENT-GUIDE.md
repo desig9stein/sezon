@@ -215,7 +215,9 @@ expiry) starts with „По данни на фермата …“. Note paused s
 What is sourced and what is editorial for every produce is recorded in
 `docs/content-review/README.md`: nutrition is checked against USDA by the unit tests, the
 Wikipedia-sourced traditional uses were removed, the regions of apples, pears, walnuts and cabbage
-follow МЗХ statistics (spec 033), and seasons are editorial (no official monthly calendar exists).
+follow МЗХ statistics (spec 033), the regions of tomatoes, peppers, aubergines and cucumbers follow
+МЗХ statistics at NUTS2 level (spec 041), and seasons are editorial (no official monthly calendar
+exists).
 
 - **Farms (checked 2026-11-11, #16):** 10 real farms from their own websites. None publishes a
   full organic certificate, so none has an `organic` block.
