@@ -1,16 +1,21 @@
 ---
 import { Image } from 'astro:assets';
+import type { AdSenseConfig } from '@composition/adsense';
 import type { AdPlacement, Sponsor } from '@contexts/advertising';
 import { ui } from '@i18n/bg';
+import AdSenseLoader from './AdSenseLoader.astro';
 
 /**
- * A direct sponsor's banner (ADR-0003): an `<aside>` named „Реклама“ with a visible label before
- * a `rel="sponsored"` link around a lazy, size-reserved 4:1 image. Renders nothing without a
- * sponsor.
+ * An ad slot (ADR-0003): an `<aside>` named „Реклама“ by a visible label. With a sponsor, the label
+ * precedes a `rel="sponsored"` link around a lazy, size-reserved 4:1 image. Without a sponsor and
+ * with AdSense on, it holds an empty 4:1 box with an AdSense ad unit that the AdSense island fills
+ * when the slot nears the viewport (spec 045). Otherwise it renders nothing.
  */
 interface Props {
   sponsor: Sponsor | undefined;
   placement: AdPlacement;
+  /** The AdSense configuration; `undefined` while AdSense is off. */
+  adsense?: AdSenseConfig | undefined;
 }
 
 /** Banner aspect ratio, width to height. */
@@ -22,7 +27,7 @@ const LARGE_WIDTH = 960;
 const WIDTHS = [BASE_WIDTH, LARGE_WIDTH];
 const SIZES = '(min-width: 48rem) 42rem, calc(100vw - 2rem)';
 
-const { sponsor, placement } = Astro.props;
+const { sponsor, placement, adsense } = Astro.props;
 const labelId = `ad-slot-${placement}-label`;
 const ratio = `--ad-slot-ratio: ${RATIO_WIDTH} / ${RATIO_HEIGHT}`;
 ---
@@ -48,6 +53,23 @@ const ratio = `--ad-slot-ratio: ${RATIO_WIDTH} / ${RATIO_HEIGHT}`;
   </aside>
 )}
 
+{sponsor === undefined && adsense !== undefined && (
+  <aside class="ad-slot ad-slot--adsense" aria-labelledby={labelId} data-placement={placement}>
+    <p class="ad-slot__label" id={labelId}>
+      {ui.ads.label}
+    </p>
+    <div class="ad-slot__box" style={ratio}>
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client={adsense.client}
+        data-ad-slot={adsense.slot}
+      />
+    </div>
+    <AdSenseLoader />
+  </aside>
+)}
+
 <style>
   .ad-slot {
     display: grid;
@@ -62,13 +84,19 @@ const ratio = `--ad-slot-ratio: ${RATIO_WIDTH} / ${RATIO_HEIGHT}`;
     font-size: var(--font-size-sm);
   }
 
-  .ad-slot__link {
+  .ad-slot__link,
+  .ad-slot__box {
     display: block;
     aspect-ratio: var(--ad-slot-ratio);
     overflow: hidden;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
     background: var(--color-surface);
+  }
+
+  .ad-slot__box :global(ins) {
+    width: 100%;
+    height: 100%;
   }
 
   .ad-slot__link :global(img) {
