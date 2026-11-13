@@ -154,7 +154,6 @@ const ADDED: Readonly<Record<string, Added>> = {
   estragon: { kind: 'herb', group: 'slozhnotsvetni', season: months('available', 6, 7, 8) },
 };
 const SLUGS = Object.keys(ADDED);
-/** Nettle, dandelion and ramsons were left out until spec 057 added them with cautions. */
 const LEFT_OUT = [
   'lapad',
   'loboda',

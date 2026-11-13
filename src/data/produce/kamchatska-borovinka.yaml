@@ -1,7 +1,7 @@
 name: Камчатска боровинка
 latinName: Lonicera kamtschatica
 kind: fruit
-group: bazovi
+group: nokatovi
 summary: 'Камчатската боровинка е лоницера, чиито плодчета зреят през юни и юли. Не я бъркай с другите лоницери: техните плодове не са ядливи.'
 season:
   - { month: 6, level: peak }

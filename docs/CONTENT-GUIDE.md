@@ -236,9 +236,17 @@ cautions: # optional; required (at least one) when wild is true
   order also names the year in its text („През 2026 г. …“). Re-check every yearly order whenever you
   change the produce's `updatedAt`, and update the caution and its source to the order in force.
 - Every caution has its own `source` (https): the act or order, an official document (for example
-  an ИАГ forest management plan), a poison centre or a scientific publication; when none of them
-  covers it, an editorial Bulgarian farming article (bgfermer.bg, agrozona.bg, spec 057). Wikipedia
-  is not a source.
+  an ИАГ forest management plan), a poison centre or a scientific publication (search PubMed first).
+  Wikipedia is not a source.
+- An editorial Bulgarian farming article (bgfermer.bg, agrozona.bg) is accepted only as a fallback,
+  and the spec records the search for official, poison-centre and scientific sources that came
+  first. The article must state the fact about this species and about people (not about livestock
+  or a related species). The press may only **add** cautions: it is never a reason to leave out a
+  known toxic look-alike. If no acceptable source exists for a known deadly look-alike, the plant
+  is not published (spec 057).
+- Name the protected relatives a gatherer could confuse with the plant: a species of Приложение 3
+  of the Закон за биологичното разнообразие gets its own `protected` caution with its Bulgarian and
+  Latin name (e.g. кавказка боровинка on the bilberry page, spec 057).
 - A Закон за лечебните растения caution states the personal-needs amounts of § 1, т. 18 for the
   part that is gathered and that commercial gathering needs a permit (spec 057).
 - Write facts, never health claims: no „полезен“, „лекува“ or „действие“. Do not write what to do

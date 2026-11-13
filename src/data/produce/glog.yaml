@@ -11,6 +11,11 @@ cautions:
   - kind: protected
     text: 'Глогът е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 10 кг плодове на ден, а за търговия ти трябва позволително.'
     source:
-      name: 'Закон за лечебните растения (консолидиран текст до ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      name: 'Закон за лечебните растения (обн. ДВ, бр. 29 от 2000 г., посл. изм. ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
       url: https://faolex.fao.org/docs/pdf/bul40297.pdf
+  - kind: protected
+    text: 'Дребнолистният глог (Crataegus microphylla) и ориенталският глог (C. stevenii) са защитени видове: Законът за биологичното разнообразие забранява брането им.'
+    source:
+      name: 'Закон за биологичното разнообразие (обн. ДВ, бр. 77 от 2002 г., посл. доп. ДВ, бр. 70 от 2024 г.), текст на МОСВ'
+      url: https://www.moew.government.bg/static/media/ups/tiny/filebase/Nature/Legislation/ZAKON_za_biologichnoto_raznoobrazie24.pdf
 updatedAt: 2026-11-13

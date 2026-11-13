@@ -2,17 +2,16 @@ name: Глухарче
 latinName: Taraxacum officinale
 kind: vegetable
 group: slozhnotsvetni
-summary: 'Глухарчето цъфти през април и май. Листата му се берат преди цъфтежа и пресни стават за салата, а цветовете се използват напролет.'
+summary: 'Листата на глухарчето се берат напролет, преди растението да цъфне през април и май. Пресните листа стават за салата.'
 wild: true
 season:
   - { month: 3, level: available }
-  - { month: 4, level: peak }
-  - { month: 5, level: peak }
+  - { month: 4, level: available }
 cautions:
   - kind: protected
     text: 'Глухарчето е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 1 кг листа и до 0,5 кг цветове на ден, а за търговия ти трябва позволително.'
     source:
-      name: 'Закон за лечебните растения (консолидиран текст до ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      name: 'Закон за лечебните растения (обн. ДВ, бр. 29 от 2000 г., посл. изм. ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
       url: https://faolex.fao.org/docs/pdf/bul40297.pdf
 nutrition:
   energyKcal: 45
@@ -27,7 +26,7 @@ nutrition:
     - { nutrient: vitamin-c, amount: 35 }
     - { nutrient: zhelyazo, amount: 3.1 }
     - { nutrient: kaliy, amount: 397 }
-    - { nutrient: med-cu, amount: 0.171 }
+    - { nutrient: mangan, amount: 0.342 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Dandelion greens, raw'
     url: https://fdc.nal.usda.gov/food-details/169226/nutrients

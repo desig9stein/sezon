@@ -2,11 +2,9 @@ name: Черен бъз
 latinName: Sambucus nigra
 kind: fruit
 group: meshkovitsovi
-summary: 'Черният бъз цъфти през май–юни, а плодовете му узряват през август. У нас от цветовете се приготвя домашен сироп.'
+summary: 'Черният бъз (свирчовина) цъфти в края на пролетта, а плодовете му се берат от средата на август. Зелените плодчета не се берат.'
 wild: true
 season:
-  - { month: 5, level: peak }
-  - { month: 6, level: peak }
   - { month: 8, level: peak }
 cautions:
   - kind: toxic-part
@@ -15,15 +13,15 @@ cautions:
       name: 'Български фермер – Бъз за красота и здраве'
       url: https://www.bgfermer.bg/article/7636932
   - kind: toxic-part
-    text: 'Листата и зелените плодове на черния бъз съдържат цианогенни гликозиди. Само узрелите плодове са безопасни, и то в малки количества.'
+    text: 'Кората, листата, семките и неузрелите плодове на черния бъз съдържат цианогенни гликозиди.'
     source:
-      name: 'Български фермер – От кои билки и растения трябва да пазим животните'
-      url: https://www.bgfermer.bg/Article/22826799
-  - kind: toxic-part
-    text: 'Има опасения за токсичността на пресните плодове на черния бъз, затова се продават замразени, изсушени или преработени.'
+      name: 'Avena, Ozola, Ķeķe (2024), Sambucus nigra fruits and their processing solutions: a review, Research for Rural Development 39'
+      url: https://lbtufb.lbtu.lv/conference/Research-for-Rural-Development/2024/LBTU_LatviaResRuralDev_30th_2024-67-72.pdf
+  - kind: preparation
+    text: 'Плодовете съдържат цианогенни гликозиди и лектини, които са риск за здравето без обработка. Топлинната обработка ги намалява – не яж плодовете сурови.'
     source:
-      name: 'Български фермер – Бъзът - нишова суперхрана с растящ потребителски пазар'
-      url: https://www.bgfermer.bg/Article/18585568
+      name: 'Avena, Ozola, Ķeķe (2024), Sambucus nigra fruits and their processing solutions: a review, Research for Rural Development 39'
+      url: https://lbtufb.lbtu.lv/conference/Research-for-Rural-Development/2024/LBTU_LatviaResRuralDev_30th_2024-67-72.pdf
   - kind: look-alike
     text: 'Не го бъркай с бъзака: той е тревисто растение до 2 м и цъфти през юни–юли, а черният бъз е дърво до 3–5 м, цъфтящо в края на пролетта.'
     source:
@@ -32,8 +30,13 @@ cautions:
   - kind: protected
     text: 'Черният бъз е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 0,5 кг цвят и до 10 кг плодове на ден, а за търговия ти трябва позволително.'
     source:
-      name: 'Закон за лечебните растения (консолидиран текст до ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      name: 'Закон за лечебните растения (обн. ДВ, бр. 29 от 2000 г., посл. изм. ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
       url: https://faolex.fao.org/docs/pdf/bul40297.pdf
+  - kind: protected
+    text: 'Дебърският бъз (Sambucus deborensis) е защитен вид: Законът за биологичното разнообразие забранява брането му в природата.'
+    source:
+      name: 'Закон за биологичното разнообразие (обн. ДВ, бр. 77 от 2002 г., посл. доп. ДВ, бр. 70 от 2024 г.), текст на МОСВ'
+      url: https://www.moew.government.bg/static/media/ups/tiny/filebase/Nature/Legislation/ZAKON_za_biologichnoto_raznoobrazie24.pdf
 nutrition:
   energyKcal: 73
   proteinG: 0.66

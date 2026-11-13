@@ -18,9 +18,19 @@ cautions:
     source:
       name: 'Български фермер – Две сълзи с лечебни свойства'
       url: https://www.bgfermer.bg/Article/8551141
+  - kind: look-alike
+    text: 'Есенният мразовец съдържа силно отровния колхицин, а листата му се бъркат с левурдата. При описаните отравяния 35 % от хората са починали.'
+    source:
+      name: 'Razinger et al. (2021), Accidental poisoning with autumn crocus (Colchicum autumnale): a case series, Clin Toxicol 59(6)'
+      url: https://pubmed.ncbi.nlm.nih.gov/33156711/
+  - kind: look-alike
+    text: 'Листата на левурдата имат типичен мирис и вкус на чесън, а тези на мразовеца – не. Ако листото не мирише на чесън, не го бери.'
+    source:
+      name: 'Hermanns-Clausen et al. (2006), Poisoning by the autumn crocus plant, MMW Fortschr Med 148(12)'
+      url: https://pubmed.ncbi.nlm.nih.gov/16626006/
   - kind: protected
     text: 'Левурдата е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 1 кг листа на ден, а за търговия ти трябва позволително.'
     source:
-      name: 'Закон за лечебните растения (консолидиран текст до ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      name: 'Закон за лечебните растения (обн. ДВ, бр. 29 от 2000 г., посл. изм. ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
       url: https://faolex.fao.org/docs/pdf/bul40297.pdf
 updatedAt: 2026-11-13
