@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
@@ -52,6 +52,26 @@ const MZH_HOST = 'www.mzh.government.bg';
 const BULLETIN_448 = 'бюлетин № 448';
 const EDITION_2025 = 'реколта 2025';
 const BANNED_HOST = 'gradinata.bg';
+/** Health-effect words the spec bans in produce texts (spec 052, section 5). */
+const BANNED_WORDS = ['богат', 'полезен', 'полезн', 'лекува', 'действие'];
+/** Produce with a photo (spec 052, section „Photos“); the others have none. */
+const WITH_PHOTO = [
+  'malini',
+  'kapini',
+  'borovinki',
+  'kasis',
+  'dini',
+  'nektarini',
+  'nar',
+  'rayska-yabalka',
+  'kivi',
+  'shipka',
+  'leshnitsi',
+  'fastatsi',
+];
+/** Bulgarian names of the produce left out (spec 052, section 3). */
+const LEFT_OUT_NAMES = ['Червено френско грозде', 'Френско грозде', 'Горски ягоди', 'Бъз'];
+const SPEC = 'docs/specs/052-more-fruits-and-nuts.md';
 const CHANGE_DATE = '2026-11-13';
 const LEVELS: Readonly<Record<string, string>> = { P: 'peak', A: 'available', S: 'storage' };
 /** The South Central provinces the site names for NUTS2 data, as for cabbage (spec 041). */
@@ -136,7 +156,7 @@ const EXPECTED: Readonly<Record<string, Expected>> = {
     kind: 'fruit',
     group: 'abanosovi',
     latinName: 'Diospyros kaki',
-    season: '10:P 11:A',
+    season: '10:P',
     fdcId: '169941',
     description: 'Persimmons, japanese, raw',
   },
@@ -149,7 +169,7 @@ const EXPECTED: Readonly<Record<string, Expected>> = {
     description: 'Kiwifruit, green, raw',
     varieties: ['Хейуърд', 'Абот', 'Бруно', 'Монти'],
   },
-  shipka: { kind: 'fruit', group: 'rozotsvetni', latinName: 'Rosa canina', season: '9:P 10:A' },
+  shipka: { kind: 'fruit', group: 'rozotsvetni', latinName: 'Rosa canina', season: '9:P' },
   drenki: { kind: 'fruit', group: 'dryanovi', latinName: 'Cornus mas', season: '8:P 9:P 10:P' },
   aronia: {
     kind: 'fruit',
@@ -353,10 +373,10 @@ describe('more fruits and nuts (spec 052)', () => {
     expect(read(slug).regions ?? []).toEqual([]);
   });
 
-  it.each(SLUGS)('AC7: %s has no banned host, no traditional uses, no „богат“', (slug) => {
+  it.each(SLUGS)('AC7: %s has no banned host, no traditional uses, no banned words', (slug) => {
     const text = readFileSync(pathOf(slug), 'utf8');
     expect(text).not.toContain(BANNED_HOST);
-    expect(text.toLowerCase()).not.toContain('богат');
+    for (const word of BANNED_WORDS) expect(text.toLowerCase(), word).not.toContain(word);
     const produce = read(slug);
     expect(produce.traditionalUses ?? []).toEqual([]);
     const updatedAt =
@@ -366,8 +386,15 @@ describe('more fruits and nuts (spec 052)', () => {
     expect(updatedAt).toBe(CHANGE_DATE);
   });
 
-  it.each(SLUGS)('AC8: %s has an existing Unsplash photo when it has one', (slug) => {
+  it('AC8: exactly the produce of the photo table have a photo', () => {
+    expect(SLUGS.filter((slug) => read(slug).photo !== undefined)).toEqual(
+      SLUGS.filter((slug) => WITH_PHOTO.includes(slug)),
+    );
+  });
+
+  it.each(WITH_PHOTO)('AC8: %s has an existing Unsplash photo', (slug) => {
     const { photo } = read(slug);
+    expect(photo, slug).toBeDefined();
     if (photo === undefined) return;
     expect(photo.credit.author.length).toBeGreaterThan(0);
     expect(hostOf(photo.credit.authorUrl)).toBe('unsplash.com');
@@ -381,12 +408,28 @@ describe('more fruits and nuts (spec 052)', () => {
     expect(names).toEqual(expectedOf(slug).varieties ?? []);
   });
 
-  it.each(['cherveno-frensko-grozde', 'gorski-yagodi', 'baz'])(
-    'AC10: %s is left out (no season source, or unsafe)',
-    (slug) => {
-      expect(existsSync(pathOf(slug))).toBe(false);
-    },
-  );
+  it('AC10: no produce is named after the left-out red currant, wild strawberry or elder', () => {
+    const names = readdirSync(PRODUCE_DIR)
+      .filter((file) => file.endsWith('.yaml'))
+      .map(
+        (file) => (parse(readFileSync(join(PRODUCE_DIR, file), 'utf8')) as { name: string }).name,
+      );
+    for (const name of LEFT_OUT_NAMES) expect(names, name).not.toContain(name);
+    expect(names.filter((name) => name.startsWith('Бъз'))).toEqual([]);
+  });
+
+  it('QA 052: the medlar summary says what the source says about the late harvest', () => {
+    const { summary } = parse(readFileSync(pathOf('mushmuli'), 'utf8')) as { summary: string };
+    expect(summary).not.toContain('последни');
+    expect(summary).toContain('много късно');
+  });
+
+  it('QA 052: the spec cites the currant article for black currant', () => {
+    const row = readFileSync(SPEC, 'utf8')
+      .split('\n')
+      .find((line) => line.startsWith('| `kasis`') && line.includes('bgfermer'));
+    expect(row).toContain('https://www.bgfermer.bg/Article/12117296');
+  });
 
   it('AC11: the checklist and the content guide record the new produce', () => {
     const checklist = readFileSync('docs/content-review/README.md', 'utf8');
