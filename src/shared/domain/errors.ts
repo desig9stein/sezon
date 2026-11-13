@@ -98,6 +98,11 @@ export class RegionNotFoundError extends DomainError {
   readonly code = 'REGION_NOT_FOUND';
 }
 
+/** Thrown when a province profile has a non-positive area, inconsistent totals, fruits or sources. */
+export class InvalidRegionProfileError extends DomainError {
+  readonly code = 'INVALID_REGION_PROFILE';
+}
+
 /** Thrown when no farm has the requested slug. */
 export class FarmNotFoundError extends DomainError {
   readonly code = 'FARM_NOT_FOUND';

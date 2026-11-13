@@ -52,7 +52,7 @@ const jsonLd = [
             <span class="regions__name">{region.name}</span>
           )}
           <span class="regions__counts">
-            {hasPage ? labels.counts(produceCount, farmCount) : labels.noData}
+            {labels.overviewLabel({ produceCount, farmCount, profile: region.profile })}
           </span>
         </li>
       ))}
