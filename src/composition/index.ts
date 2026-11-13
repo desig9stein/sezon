@@ -17,12 +17,17 @@ import type {
   ProduceRepository,
 } from '@contexts/catalog';
 import { toNutrient, toProduce, toProduceGroup } from '@contexts/catalog/infrastructure/mappers';
+import { SponsorSelectionService } from '@contexts/advertising';
+import type { SponsorRepository } from '@contexts/advertising';
+import { LoadedSponsorRepository } from '@contexts/advertising/infrastructure/LoadedSponsorRepository';
+import { toSponsor } from '@contexts/advertising/infrastructure/mappers';
 import type { Farm, FarmRepository } from '@contexts/farms';
 import { IndexedFarmRepository } from '@contexts/farms/infrastructure/IndexedFarmRepository';
 import { toFarm } from '@contexts/farms/infrastructure/mappers';
 import type { Region, RegionRepository } from '@contexts/geography';
 import { toRegion } from '@contexts/geography/infrastructure/mappers';
 import { BrokenReferenceError } from '@shared/domain/errors';
+import { cachedLoad } from '@shared/infrastructure/cachedLoad';
 import { IndexedRepository } from '@shared/infrastructure/IndexedRepository';
 import { findBrokenReferences, type ContentRecords } from './contentIntegrity';
 import { ProduceDetailsQuery } from './ProduceDetailsQuery';
@@ -64,15 +69,7 @@ async function loadContent(): Promise<Content> {
   };
 }
 
-let content: Promise<Content> | undefined;
-
-function getContent(): Promise<Content> {
-  content ??= loadContent().catch((error: unknown) => {
-    content = undefined;
-    throw error;
-  });
-  return content;
-}
+const getContent = cachedLoad(loadContent);
 
 /** Produce entities loaded from content collections. */
 export const produceRepository: ProduceRepository = new IndexedRepository(
@@ -144,3 +141,10 @@ export const catalogIndexService = new CatalogIndexService(
 );
 /** Builds the year-at-a-glance calendar of the catalogue. */
 export const seasonCalendarService = new SeasonCalendarService(produceRepository);
+
+/** Sponsors loaded from the `sponsors` content collection. */
+export const sponsorRepository: SponsorRepository = new LoadedSponsorRepository(async () =>
+  (await getCollection('sponsors')).map((entry) => toSponsor(entry.id, entry.data)),
+);
+/** Chooses the sponsor shown in each ad slot. */
+export const sponsorSelectionService = new SponsorSelectionService(sponsorRepository);

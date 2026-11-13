@@ -210,6 +210,34 @@ says it grows or sells. Write the description in the third person; what a farm s
 itself that the site has not checked (e.g. „сертифицирана“ without a certifier, number and
 expiry) starts with „По данни на фермата …“. Note paused sales with the month of the check.
 
+## Add a sponsor (`src/data/sponsors/`)
+
+```yaml
+name: Име на спонсора
+image: ../../assets/sponsors/<id>.jpg # local banner, 4:1, at least 960 × 240 px
+alt: Какво показва банерът и какво предлага спонсорът
+url: https://… # the sponsor's page, https only
+placement: produce # produce or month
+from: 2026-12-01 # first day, a date without time
+to: 2026-12-31 # last day, a date without time, not before `from`
+```
+
+The file name is the sponsor's id (a Latin slug). The folder is empty until a sponsor signs up.
+
+- **Real sponsors only.** Never add an invented or example sponsor, not even for a test or a
+  preview (AGENTS.md section 10). Tests use in-memory sponsors.
+- **Dates are whole days.** `from` and `to` are inclusive calendar days in Europe/Sofia. Write a
+  plain date (`2026-12-01`); a timestamp with a time of day fails the build. The site is static,
+  so a campaign starts and ends with the first build on or after those days.
+- **Banner:** a 4:1 image in `src/assets/sponsors/`. The slot crops other ratios to 4:1 from the
+  centre, so keep text and logos away from the edges. Do not put the only copy of important text
+  in the image.
+- **Alt text** in Bulgarian: what the banner says and offers, e.g. „Ферма X – био зеленчуци с
+  доставка в София“. It is the link's accessible name, so it must not be empty or generic
+  („банер“, „реклама“).
+- **One sponsor per placement is shown.** When campaigns overlap, the one with the latest `from`
+  wins, then the lowest id. The slot is labelled „Реклама“ and the link has `rel="sponsored"`.
+
 ## Seed data status
 
 What is sourced and what is editorial for every produce is recorded in

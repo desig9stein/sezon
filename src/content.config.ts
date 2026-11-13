@@ -5,6 +5,7 @@ import {
   nutrientSchema,
   produceSchemaWith,
 } from '@contexts/catalog/infrastructure/schemas';
+import { sponsorSchemaWith } from '@contexts/advertising/infrastructure/schemas';
 import { farmSchema } from '@contexts/farms/infrastructure/schemas';
 import { regionSchema } from '@contexts/geography/infrastructure/schemas';
 
@@ -17,4 +18,5 @@ export const collections = {
   nutrients: defineCollection({ loader: yamlFilesIn('nutrients'), schema: nutrientSchema }),
   regions: defineCollection({ loader: yamlFilesIn('regions'), schema: regionSchema }),
   farms: defineCollection({ loader: yamlFilesIn('farms'), schema: farmSchema }),
+  sponsors: defineCollection({ loader: yamlFilesIn('sponsors'), schema: sponsorSchemaWith }),
 };
