@@ -18,8 +18,8 @@ const usesOf = (slug: string): ReadonlyArray<TraditionalUse> =>
 
 const PREFIX = 'Традиционно се използва';
 const DILL_SOURCE = 'https://doi.org/10.2478/asn-2022-0021';
-const PARSLEY_SOURCE = 'https://doi.org/10.1016/S0378-8741(99)00129-4';
-const FORBIDDEN = /болест|заболяван|инфекц|аборт|бебе|колики|лекува|предпазва/i;
+const FORBIDDEN =
+  /болест|заболяван|инфекц|аборт|бебе|колик|колит|кърмач|новород|бремен|безсъни|кръвн|спазм|сърд|лекува|предпазва/i;
 
 describe('traditional uses from Bulgarian ethnobotany (spec 039)', () => {
   it('AC1: dill has one folk use from Dragoeva et al. 2022', () => {
@@ -30,29 +30,33 @@ describe('traditional uses from Bulgarian ethnobotany (spec 039)', () => {
     expect(uses[0]?.source.url).toBe(DILL_SOURCE);
   });
 
-  it('AC2: parsley has one folk use from Ivancheva & Stantcheva 2000', () => {
-    const uses = usesOf('magdanoz');
-    expect(uses).toHaveLength(1);
-    expect(uses[0]?.system).toBe('folk');
-    expect(uses[0]?.use.startsWith(PREFIX)).toBe(true);
-    expect(uses[0]?.source.url).toBe(PARSLEY_SOURCE);
+  it('AC2: parsley has no traditional use: its source row also records an abortion effect and the site cannot show a caution', () => {
+    expect(usesOf('magdanoz')).toEqual([]);
+  });
+
+  it('QA 039: the dill use follows the „при …“ template and names no plant part', () => {
+    const use = usesOf('kopar')[0]?.use ?? '';
+    expect(use).toMatch(/ при /);
+    expect(use).not.toMatch(/лист|стрък|семе|плод|корен/i);
   });
 
   it('AC3: cabbage has no traditional use', () => {
     expect(usesOf('zele')).toEqual([]);
   });
 
-  it('AC4: no new use mentions a disease, abortion or infants', () => {
-    for (const use of [...usesOf('kopar'), ...usesOf('magdanoz')]) {
+  it('AC4: the dill use does not mention a disease, abortion or infants', () => {
+    for (const use of usesOf('kopar')) {
       expect(use.use).not.toMatch(FORBIDDEN);
     }
   });
 
-  it('AC5: the checklist shows one traditional use for dill and parsley', () => {
+  it('AC5: the checklist shows one traditional use for dill and none for parsley', () => {
     const checklist = readFileSync('docs/content-review/README.md', 'utf8');
-    for (const slug of ['kopar', 'magdanoz']) {
-      const row = checklist.split('\n').find((line) => line.startsWith(`| \`${slug}\``)) ?? '';
-      expect(row.split('|').map((cell) => cell.trim())[4], slug).toBe('1');
-    }
+    const usesIn = (slug: string) =>
+      (checklist.split('\n').find((line) => line.startsWith(`| \`${slug}\``)) ?? '')
+        .split('|')
+        .map((cell) => cell.trim())[4];
+    expect(usesIn('kopar')).toBe('1');
+    expect(usesIn('magdanoz')).toBe('0');
   });
 });
