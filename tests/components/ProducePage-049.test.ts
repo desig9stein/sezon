@@ -3,7 +3,7 @@ import { createRequire } from 'node:module';
 import { describe, expect, it, vi } from 'vitest';
 import { Window } from 'happy-dom';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
-import type * as Axe from 'axe-core';
+import type Axe from 'axe-core';
 import ProduceCard from '@components/produce/ProduceCard.astro';
 import SeasonList from '@components/season/SeasonList.astro';
 import type * as Composition from '@composition/index';

@@ -9,7 +9,7 @@ import { MINIMAL_PRODUCE_INPUT, produceRecord } from '@tests/fixtures/records';
 describe('produceToc (QA 025)', () => {
   it('lists every group when the produce has a guide and questions', () => {
     const produce = toProduce('zele', produceRecord({ growing: growingRecord() }));
-    expect(produceToc(produce).map((entry) => entry.id)).toEqual(
+    expect(produceToc(produce, 0).map((entry) => entry.id)).toEqual(
       produce.faq.length > 0
         ? ['stall', 'eat', 'grow', 'farms', 'faq', 'sources']
         : ['stall', 'eat', 'grow', 'farms', 'sources'],
@@ -19,7 +19,7 @@ describe('produceToc (QA 025)', () => {
   it('omits the grow and question entries when the content is absent', () => {
     const record = produceRecord({ faq: [] });
     const produce = toProduce('zele', { ...record, growing: undefined });
-    expect(produceToc(produce).map((entry) => entry.id)).toEqual([
+    expect(produceToc(produce, 0).map((entry) => entry.id)).toEqual([
       'stall',
       'eat',
       'farms',
@@ -34,7 +34,7 @@ describe('produceToc (spec 049)', () => {
       'hryan',
       produceSchemaWith({ image: testImage }).parse(MINIMAL_PRODUCE_INPUT),
     );
-    expect(produceToc(produce).map((entry) => entry.id)).toEqual(['stall', 'farms', 'sources']);
+    expect(produceToc(produce, 0).map((entry) => entry.id)).toEqual(['stall', 'farms', 'sources']);
   });
 
   it('AC8: keeps the eat entry for a minimal produce with a recipe (spec 048)', () => {
@@ -52,6 +52,6 @@ describe('produceToc (spec 049)', () => {
 
   it('AC8: keeps the eat entry when only one of its sections has data', () => {
     const record = produceRecord({ preparation: [], traditionalUses: [] });
-    expect(produceToc(toProduce('zele', record)).map((entry) => entry.id)).toContain('eat');
+    expect(produceToc(toProduce('zele', record), 0).map((entry) => entry.id)).toContain('eat');
   });
 });

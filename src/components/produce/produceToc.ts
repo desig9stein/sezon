@@ -12,7 +12,7 @@ export interface TocEntry {
  * a preparation tip, a traditional use or a recipe.
  * @param recipeCount - Number of recipes that use the produce.
  */
-export function hasEatContent(produce: Produce, recipeCount = 0): boolean {
+export function hasEatContent(produce: Produce, recipeCount: number): boolean {
   return (
     produce.nutrition !== undefined ||
     produce.preparation.length > 0 ||
@@ -27,7 +27,7 @@ export function hasEatContent(produce: Produce, recipeCount = 0): boolean {
  * the growing group without a guide and the questions without any.
  * @param recipeCount - Number of recipes that use the produce.
  */
-export function produceToc(produce: Produce, recipeCount = 0): ReadonlyArray<TocEntry> {
+export function produceToc(produce: Produce, recipeCount: number): ReadonlyArray<TocEntry> {
   const headings = ui.produce.headings;
   return [
     { id: 'stall', label: headings.stall },

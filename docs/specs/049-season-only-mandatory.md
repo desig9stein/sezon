@@ -189,11 +189,17 @@ with a source. `NutritionFacts` keeps its own invariants whenever it exists.
 | AC15 | component | `tests/components/ProducePage-049.test.ts`                                   |
 | AC16 | unit      | `tests/unit/content/season-only-049.test.ts`                                 |
 
-The page is rendered through the Astro Container API with `@composition/index` mocked to an
+e2e cannot cover a minimal page: the built site only has the produce in `src/data`, which are all
+complete, and test-only produce must not be added there. The page is therefore rendered through the
+Astro Container API with `@composition/index` mocked to an
 in-memory repository holding a test-only fixture (as in `AdSlot-placement-037.test.ts`). No
 test produce is added to `src/data`. The existing seed tests stay green: every existing produce
 is still valid, the USDA test checks every produce that has nutrition, and the growing-guide and
 photo tests check a guide or a photo whenever one is present.
+
+The axe check in the component test uses `axe-core` as a direct dev dependency. Its pinned
+version must match the one `@axe-core/playwright` uses in e2e (4.14.0 today), so both suites apply
+the same rules; upgrade them together.
 
 ## 10. Third-party documentation consulted
 
