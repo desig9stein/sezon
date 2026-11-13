@@ -20,6 +20,12 @@ approval step (spec 034): a fact either has a source or the methodology page say
   ranked. The other nine products have no official provincial data (the surveys count them
   nationally, under „other vegetables“, or not at all, like quince), so their region notes stay
   editorial.
+- **Spring greens (2026-11-13, spec 043):** sorrel, spring onions, garlic, romaine lettuce and
+  radishes have no regions: МЗХ bulletin № 468 (2025) gives green onions, garlic, lettuce and
+  radishes only nationally and does not count sorrel. Their varieties come from the ИАСАС official
+  variety list 2026 or Български фермер, and their growing guides from Български фермер. Nettle is
+  left out: SR Legacy has only a blanched record, and EFSA's composition data lacks energy and
+  macronutrients.
 - **Growing guides (2026-11-12, specs 034 and 035):** every month, planting note and tip was
   checked against its cited source after the owner ruled out one gardening portal as unreliable.
   Items no source states were reworded to what the source says or removed (e.g. dill is no
@@ -29,21 +35,26 @@ approval step (spec 034): a fact either has a source or the methodology page say
 
 ## Per produce
 
-| Produce    | Name     | Nutrition                                                              | Traditional uses | Editorial parts                                                                                   |
-| ---------- | -------- | ---------------------------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------- |
-| `dyuli`    | Дюли     | ✓ FDC [168163](https://fdc.nal.usda.gov/food-details/168163/nutrients) | 0                | Seasons; region notes (no official provincial data)                                               |
-| `kopar`    | Копър    | ✓ FDC [172233](https://fdc.nal.usda.gov/food-details/172233/nutrients) | 1                | Seasons; region notes (no official provincial data)                                               |
-| `krushi`   | Круши    | ✓ FDC [169118](https://fdc.nal.usda.gov/food-details/169118/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics)                                                    |
-| `magdanoz` | Магданоз | ✓ FDC [170416](https://fdc.nal.usda.gov/food-details/170416/nutrients) | 0                | Seasons; region notes (no official provincial data)                                               |
-| `morkovi`  | Моркови  | ✓ FDC [170393](https://fdc.nal.usda.gov/food-details/170393/nutrients) | 0                | Seasons; region notes (no official provincial data)                                               |
-| `orehi`    | Орехи    | ✓ FDC [170187](https://fdc.nal.usda.gov/food-details/170187/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics)                                                    |
-| `praz`     | Праз     | ✓ FDC [169246](https://fdc.nal.usda.gov/food-details/169246/nutrients) | 0                | Seasons; region notes (no official provincial data). Growing guide from Wikipedia only (spec 034) |
-| `spanak`   | Спанак   | ✓ FDC [168462](https://fdc.nal.usda.gov/food-details/168462/nutrients) | 0                | Seasons; region notes (no official provincial data)                                               |
-| `tikva`    | Тиква    | ✓ FDC [168448](https://fdc.nal.usda.gov/food-details/168448/nutrients) | 0                | Seasons; region notes (no official provincial data)                                               |
-| `tselina`  | Целина   | ✓ FDC [170400](https://fdc.nal.usda.gov/food-details/170400/nutrients) | 0                | Seasons; region notes (no official provincial data)                                               |
-| `tsveklo`  | Цвекло   | ✓ FDC [169145](https://fdc.nal.usda.gov/food-details/169145/nutrients) | 0                | Seasons; region notes (no official provincial data)                                               |
-| `yabalki`  | Ябълки   | ✓ FDC [171688](https://fdc.nal.usda.gov/food-details/171688/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics)                                                    |
-| `zele`     | Зеле     | ✓ FDC [169975](https://fdc.nal.usda.gov/food-details/169975/nutrients) | 0                | Seasons (regions supported at NUTS2 level: South Central region; no provincial data)              |
+| Produce     | Name      | Nutrition                                                              | Traditional uses | Editorial parts                                                                                    |
+| ----------- | --------- | ---------------------------------------------------------------------- | ---------------- | -------------------------------------------------------------------------------------------------- |
+| `chesan`    | Чесън     | ✓ FDC [169230](https://fdc.nal.usda.gov/food-details/169230/nutrients) | 0                | Seasons; no regions (МЗХ counts garlic only nationally). Nutrition is for mature garlic (spec 043) |
+| `dyuli`     | Дюли      | ✓ FDC [168163](https://fdc.nal.usda.gov/food-details/168163/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                |
+| `kiselets`  | Киселец   | ✓ FDC [170076](https://fdc.nal.usda.gov/food-details/170076/nutrients) | 0                | Seasons; no regions (no official data). USDA „Dock“ is Rumex spp. (spec 043)                       |
+| `kopar`     | Копър     | ✓ FDC [172233](https://fdc.nal.usda.gov/food-details/172233/nutrients) | 1                | Seasons; region notes (no official provincial data)                                                |
+| `krushi`    | Круши     | ✓ FDC [169118](https://fdc.nal.usda.gov/food-details/169118/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics)                                                     |
+| `magdanoz`  | Магданоз  | ✓ FDC [170416](https://fdc.nal.usda.gov/food-details/170416/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                |
+| `marulya`   | Маруля    | ✓ FDC [169247](https://fdc.nal.usda.gov/food-details/169247/nutrients) | 0                | Seasons; no regions (МЗХ counts lettuce only nationally)                                           |
+| `morkovi`   | Моркови   | ✓ FDC [170393](https://fdc.nal.usda.gov/food-details/170393/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                |
+| `orehi`     | Орехи     | ✓ FDC [170187](https://fdc.nal.usda.gov/food-details/170187/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics)                                                     |
+| `praz`      | Праз      | ✓ FDC [169246](https://fdc.nal.usda.gov/food-details/169246/nutrients) | 0                | Seasons; region notes (no official provincial data). Growing guide from Wikipedia only (spec 034)  |
+| `repichki`  | Репички   | ✓ FDC [169276](https://fdc.nal.usda.gov/food-details/169276/nutrients) | 0                | Seasons; no regions (МЗХ counts radishes only nationally, under „other“)                           |
+| `spanak`    | Спанак    | ✓ FDC [168462](https://fdc.nal.usda.gov/food-details/168462/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                |
+| `tikva`     | Тиква     | ✓ FDC [168448](https://fdc.nal.usda.gov/food-details/168448/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                |
+| `tselina`   | Целина    | ✓ FDC [170400](https://fdc.nal.usda.gov/food-details/170400/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                |
+| `tsveklo`   | Цвекло    | ✓ FDC [169145](https://fdc.nal.usda.gov/food-details/169145/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                |
+| `yabalki`   | Ябълки    | ✓ FDC [171688](https://fdc.nal.usda.gov/food-details/171688/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics)                                                     |
+| `zele`      | Зеле      | ✓ FDC [169975](https://fdc.nal.usda.gov/food-details/169975/nutrients) | 0                | Seasons (regions supported at NUTS2 level: South Central region; no provincial data)               |
+| `zelen-luk` | Зелен лук | ✓ FDC [170005](https://fdc.nal.usda.gov/food-details/170005/nutrients) | 0                | Seasons; no regions (МЗХ counts green onions only nationally)                                      |
 
 ### Where to look for sources
 

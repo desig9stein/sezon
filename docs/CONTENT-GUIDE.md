@@ -217,5 +217,9 @@ What is sourced and what is editorial for every produce is recorded in
 Wikipedia-sourced traditional uses were removed, the regions of apples, pears, walnuts and cabbage
 follow МЗХ statistics (spec 033), and seasons are editorial (no official monthly calendar exists).
 
+- **Spring greens (2026-11-13, spec 043):** sorrel, spring onions, garlic, romaine lettuce and
+  radishes cite USDA SR Legacy and list no regions, because МЗХ publishes no provincial or NUTS2
+  data for them. Nettle is left out: SR Legacy has only a blanched record, and the page states
+  values per 100 g raw.
 - **Farms (checked 2026-11-11, #16):** 10 real farms from their own websites. None publishes a
   full organic certificate, so none has an `organic` block.
