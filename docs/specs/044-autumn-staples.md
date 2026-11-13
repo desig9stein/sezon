@@ -78,6 +78,11 @@ No change. The new groups are data only.
   has no fibre value, and the content schema requires `fiberG`. A value cannot be invented, so the
   complete raw record of the same species, „raw, unpeeled“ (170574), is cited. Neither record gives
   sugars, so `sugarsG` is omitted.
+- **QA 044, chestnut basis:** „unpeeled“ means without the shell but with the inner skin (pellicle),
+  which the reader removes. Manganese is mostly in that skin: 0.952 mg (48 % of the reference
+  intake) with it, 0.336 mg (17 %) in the peeled record. Manganese is therefore not listed, and an
+  FAQ says that the values are for raw chestnuts with the inner skin, without the shell (USDA
+  record), so they are approximate.
 - Micronutrients are ones the site maps and the record gives. Texts say „високо съдържание“ only
   where the value is at least 30 % of the reference intake (broccoli: vitamin C 89.2 mg, vitamin K
   101.6 µg; cauliflower: vitamin C 48.2 mg; chestnuts: vitamin C 43 mg). No text says „богат на“.
@@ -138,7 +143,7 @@ Bulgarian sources on planting and harvest:
 | лук     | 7, 10     | 8, 9     | 11, 12, 1, 2, 3 | harvest end of July – August („Как да си отгледате лук от арпаджик“); keeps until the next spring (same storage article)                                                |
 | броколи | 9, 11     | 10       | –               | late autumn crop, transplanted at the end of July                                                                                                                       |
 | карфиол | 9         | 10, 11   | –               | late crop, heads form in autumn                                                                                                                                         |
-| кестени | 9, 12     | 10, 11   | –               | season mid-September to end of November („Кестени – търсена стока…“)                                                                                                    |
+| кестени | 9         | 10, 11   | –               | season mainly mid-September to end of November („Кестени – търсена стока…“, about European countries); December dropped (QA 044)                                        |
 
 ### Growing guides
 
@@ -274,3 +279,15 @@ No new third-party API is used. Content sources:
 | Български фермер – Болести и неприятели по кестена                                     | 2018-04-23     | https://www.bgfermer.bg/Article/6826227                                                                                  | Chestnut weevil                                                                                    |
 | Български фермер – Кестени – търсена стока и печеливша ниша                            | 2023-11-27     | https://www.bgfermer.bg/Article/16335243                                                                                 | Season, family Букови                                                                              |
 | Unsplash photos (five, section 5)                                                      | 2026-11-13     | https://unsplash.com/                                                                                                    | Photos                                                                                             |
+
+## 11. QA review (2026-11-13)
+
+| Finding                                                                         | Fix                                                                                               | Regression test                                                                  |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Chestnut manganese overstated (record includes the inner skin)                  | `mangan` removed; FAQ on the basis of the values                                                  | `QA 044: chestnuts list no manganese …`, `… the values include the inner skin …` |
+| Methodology and about texts implied province-level data for potatoes and onions | Texts separate province data (apples, pears, walnuts) from NUTS2 data (cabbage, potatoes, onions) | `QA 044: … NUTS2 data`                                                           |
+| Potato storage 2–5 °C vs 3–5 °C                                                 | 3–5 °C in storage and FAQ                                                                         | `QA 044: potatoes are stored at 3–5 °C …`                                        |
+| Chestnut December `available` without a Bulgarian source                        | December dropped; summary says „основно“                                                          | `QA 044: chestnuts are not in season in December …`                              |
+| Onion summary vs source                                                         | „в края на юли и началото на август“                                                              | `QA 044: the onion summary …`                                                    |
+| Horse-chestnut FAQ                                                              | „не стават за храна – отровни са“                                                                 | `QA 044: the horse-chestnut FAQ …`                                               |
+| Ambiguous „other nine products“ in the checklist                                | The nine products are named                                                                       | `QA 044: the checklist …`                                                        |
