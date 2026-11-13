@@ -3,6 +3,7 @@ import { routes } from '@components/layout/routes';
 import {
   headingFontSize,
   monthOgCard,
+  OG_HEADING,
   OG_IMAGE,
   ogImageMeta,
   ogImageSlug,
@@ -12,6 +13,7 @@ import {
 import { SeasonOverviewService } from '@contexts/catalog';
 import { Month } from '@contexts/seasonality';
 import { ui } from '@i18n/bg';
+import { InvalidPageMetaError } from '@shared/domain/errors';
 import { aProduce, produceRepositoryOf } from '@tests/fixtures/produce';
 
 const SITE = 'https://sezon.example';
@@ -45,7 +47,7 @@ describe('siteOgCard (spec 050)', () => {
     expect(card.kicker).toBeUndefined();
     expect(card.brand).toBeUndefined();
     expect(card.alt).toBe(`Сезон: ${ui.siteDescription}`);
-    expect(card.headingSize).toBe(headingFontSize('Сезон'));
+    expect(card.version).toBeUndefined();
   });
 });
 
@@ -62,6 +64,7 @@ describe('monthOgCard (spec 050)', () => {
     );
     expect(card.brand).toBe('Сезон');
     expect(card.stamp).toBeUndefined();
+    expect(card.version).toBeUndefined();
   });
 
   it('AC2: joins the last two names with „и“ when all fit', async () => {
@@ -100,17 +103,16 @@ describe('produceOgCard (spec 050)', () => {
     ],
   });
 
-  it('AC3: shows the kind, the name and the level in the month with the existing labels', () => {
+  it('AC3: shows the kind, the name and the level in the month with the produce page labels', () => {
     const card = produceOgCard(apples, Month.of(9));
     expect(card.path).toBe('/og/plodove/yabalki.png');
     expect(card.path).toBe(routes.ogImage.produce(apples));
     expect(card.kicker).toBe('Плод');
     expect(card.heading).toBe('Ябълки');
-    expect(card.stamp).toEqual({ text: ui.overview.peak, tone: 'peak' });
+    expect(card.stamp).toEqual({ text: ui.stamp.peak, tone: 'peak' });
     expect(card.detail).toBe('през септември');
     expect(card.brand).toBe('Сезон');
-    expect(card.alt).toBe('Ябълки – в разгара на сезона през септември. Сезон');
-    expect(card.headingSize).toBe(headingFontSize('Ябълки'));
+    expect(card.alt).toBe('Ябълки – разгар през септември. Сезон');
   });
 
   it('AC3: covers available, storage and out of season', () => {
@@ -120,12 +122,24 @@ describe('produceOgCard (spec 050)', () => {
     });
     expect(produceOgCard(apples, NOVEMBER).alt).toBe('Ябълки – в сезон през ноември. Сезон');
     expect(produceOgCard(apples, Month.of(1)).stamp).toEqual({
-      text: ui.overview.storage,
+      text: ui.stamp.storage,
       tone: 'storage',
     });
+    expect(produceOgCard(apples, Month.of(1)).alt).toBe('Ябълки – от хранилище през януари. Сезон');
     const june = produceOgCard(apples, Month.of(6));
     expect(june.stamp).toEqual({ text: ui.produce.outOfSeason, tone: 'out' });
     expect(june.alt).toBe('Ябълки – извън сезона през юни. Сезон');
+  });
+
+  it('AC11: versions the produce card with the month, so its meta URL changes every month', () => {
+    const september = produceOgCard(apples, Month.of(9));
+    expect(september.version).toBe('septemvri');
+    expect(ogImageMeta(SITE, september).url).toBe(
+      'https://sezon.example/og/plodove/yabalki.png?m=septemvri',
+    );
+    expect(ogImageMeta(SITE, produceOgCard(apples, NOVEMBER)).url).toBe(
+      'https://sezon.example/og/plodove/yabalki.png?m=noemvri',
+    );
   });
 
   it('AC3: uses the section of the produce kind in the path', () => {
@@ -136,11 +150,27 @@ describe('produceOgCard (spec 050)', () => {
 });
 
 describe('headingFontSize (spec 050)', () => {
-  it('AC4: caps short headings, floors long ones and scales in between', () => {
-    expect(headingFontSize('Сезон')).toBe(200);
-    expect(headingFontSize('Зелен фасул')).toBe(200);
-    expect(headingFontSize('Червени боровинки')).toBe(Math.floor(1056 / (0.42 * 17)));
-    expect(headingFontSize('Много дълго име на продукт, което не се побира')).toBe(96);
+  const { widthPx, maxPx, minPx } = OG_HEADING;
+
+  it('AC4: caps short headings at the maximum size', () => {
+    expect(headingFontSize({ lineEm: 2, longestWordEm: 2 })).toBe(maxPx);
+  });
+
+  it('AC4: fits a heading on one line when that size is not below the minimum', () => {
+    const lineEm = widthPx / 150;
+    expect(headingFontSize({ lineEm, longestWordEm: lineEm / 2 })).toBe(150);
+    expect(headingFontSize({ lineEm: widthPx / minPx, longestWordEm: 3 })).toBe(minPx);
+  });
+
+  it('AC4: wraps a long heading at most at the minimum size, two lines at most', () => {
+    expect(headingFontSize({ lineEm: 15, longestWordEm: 4 })).toBe(minPx);
+    expect(headingFontSize({ lineEm: 30, longestWordEm: 4 })).toBe(
+      Math.floor((2 * widthPx) / (30 * 1.2)),
+    );
+  });
+
+  it('AC4: shrinks a heading whose longest word would not fit the width', () => {
+    expect(headingFontSize({ lineEm: 12, longestWordEm: 12 })).toBe(Math.floor(widthPx / 12));
   });
 });
 
@@ -149,6 +179,12 @@ describe('ogImageSlug and ogImageMeta (spec 050)', () => {
     expect(ogImageSlug('/og/site.png')).toBe('site');
     expect(ogImageSlug('/og/sezon/noemvri.png')).toBe('sezon/noemvri');
     expect(ogImageSlug('/og/plodove/yabalki.png')).toBe('plodove/yabalki');
+  });
+
+  it('AC5: rejects a path outside /og/ or without .png', () => {
+    expect(() => ogImageSlug('/img/site.png')).toThrow(InvalidPageMetaError);
+    expect(() => ogImageSlug('/og/site.jpg')).toThrow(InvalidPageMetaError);
+    expect(() => ogImageSlug('/og/.png')).toThrow(InvalidPageMetaError);
   });
 
   it('AC5: builds the absolute URL, alt, size and type', () => {

@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { expect, test } from '@playwright/test';
+import { Month } from '../../src/contexts/seasonality';
 
 const DIST = join(process.cwd(), 'dist');
 const OG_DIR = join(DIST, 'og');
@@ -10,6 +11,7 @@ const IHDR_WIDTH_OFFSET = 16;
 const IHDR_HEIGHT_OFFSET = 20;
 const OG_IMAGE = /<meta property="og:image" content="([^"]+)">/g;
 const OG_IMAGE_ALT = /<meta property="og:image:alt" content="([^"]*)">/;
+const TWITTER_IMAGE_ALT = /<meta name="twitter:image:alt" content="([^"]*)">/;
 
 /** Returns the paths of all HTML pages in `dist`, relative to it, except Pagefind's assets. */
 function builtPages(): ReadonlyArray<string> {
@@ -51,6 +53,12 @@ test.describe('Open Graph images (spec 050)', () => {
     ]);
   });
 
+  test('AC11: a produce page versions its card with the build month', () => {
+    const produce = readdirSync(join(DIST, 'plodove')).find((file) => file.endsWith('.html'));
+    const [url = ''] = ogImages(`plodove/${produce ?? ''}`);
+    expect(new URL(url).search).toBe(`?m=${Month.fromDate(new Date()).slug}`);
+  });
+
   test('AC9: every page links one existing 1200×630 PNG with an alt text', () => {
     for (const page of builtPages()) {
       const images = ogImages(page);
@@ -58,8 +66,10 @@ test.describe('Open Graph images (spec 050)', () => {
       const file = distFile(images[0] ?? '');
       expect(existsSync(file), `${page} → ${file}`).toBe(true);
       expect(pngSize(file), file).toEqual({ width: 1200, height: 630 });
-      const alt = OG_IMAGE_ALT.exec(readFileSync(join(DIST, page), 'utf8'))?.[1] ?? '';
+      const html = readFileSync(join(DIST, page), 'utf8');
+      const alt = OG_IMAGE_ALT.exec(html)?.[1] ?? '';
       expect(alt.length, page).toBeGreaterThan(0);
+      expect(TWITTER_IMAGE_ALT.exec(html)?.[1], page).toBe(alt);
     }
   });
 

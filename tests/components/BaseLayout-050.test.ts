@@ -26,6 +26,7 @@ describe('BaseLayout (spec 050)', () => {
     expect(html).toContain('<meta property="og:image:width" content="1200">');
     expect(html).toContain('<meta property="og:image:height" content="630">');
     expect(html).toContain(`<meta property="og:image:alt" content="${siteOgCard().alt}">`);
+    expect(html).toContain(`<meta name="twitter:image:alt" content="${siteOgCard().alt}">`);
     expect(html).toContain('<meta name="twitter:card" content="summary_large_image">');
     expect(html.match(/property="og:image"/g)).toHaveLength(1);
   });
@@ -38,5 +39,17 @@ describe('BaseLayout (spec 050)', () => {
       '<meta property="og:image" content="https://sezon.example/og/sezon/noemvri.png">',
     );
     expect(html).toContain('<meta property="og:image:alt" content="Какво е в сезон през ноември">');
+    expect(html).toContain(
+      '<meta name="twitter:image:alt" content="Какво е в сезон през ноември">',
+    );
+  });
+
+  it('AC11: adds the version of a card to its meta URL', async () => {
+    const html = await head({
+      ogImage: { path: '/og/plodove/yabalki.png', alt: 'Ябълки', version: 'noemvri' },
+    });
+    expect(html).toContain(
+      '<meta property="og:image" content="https://sezon.example/og/plodove/yabalki.png?m=noemvri">',
+    );
   });
 });
