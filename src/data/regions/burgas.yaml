@@ -1,1 +1,17 @@
 name: Бургас
+profile:
+  utilisedAreaHa: 268377
+  arableHa: 211892
+  grasslandHa: 47378
+  areaYear: 2025
+  orchardYear: 2023
+  topFruits:
+    - name: черешите
+      areaHa: 2163
+    - name: бадемите
+      areaHa: 888
+  sources:
+    - name: 'МЗХ, Агростатистика – БАНСИК 2025: Заетост и използване на територията през 2025 година – окончателни резултати, бюлетин № 465'
+      url: 'https://www.mzh.government.bg/media/filer_public/2025/12/04/ra_465_publicationbancik2025.pdf'
+    - name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 година (предварителни резултати), бюлетин № 448'
+      url: 'https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf'

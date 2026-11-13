@@ -19,10 +19,13 @@ const withData = new Set([
     (data.regions as Array<{ region: string }>).map(({ region }) => region),
   ),
   ...yamlOf('farms').map(({ data }) => data.region as string),
+  ...yamlOf('regions')
+    .filter(({ data }) => data.profile !== undefined)
+    .map(({ slug }) => slug),
 ]);
 
 test.describe('region pages (spec 029)', () => {
-  test('AC7: pages exist only for regions with data, and the overview lists all 28', async ({
+  test('AC7: pages exist only for regions with data (produce, farms or a profile, spec 038), and the overview lists all 28', async ({
     page,
     request,
   }) => {
