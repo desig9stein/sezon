@@ -368,3 +368,16 @@ No new third-party API. Content sources, all fetched 2026-11-13:
 | bg.wikipedia.org: Обикновен кисел трън, Обикновена коприва, Мешковицови, Черен бъз, Бъзови, Тученица, Левурда, Копривови, Киселотрънови                                                           | Barberry season; group names             |
 | USDA FoodData Central SR Legacy CSV (April 2018): 169226, 171727 (used); 169819, 169274, 173032 (not used)                                                                                        | Nutrition                                |
 | Unsplash photo pages above                                                                                                                                                                        | Photos                                   |
+
+## 11. QA review (2026-11-13)
+
+No `qa-reviewer` subagent could be launched from this session; the checklist was followed manually.
+Every quote in sections 3 and 5 was re-checked by script against the pages fetched on 2026-11-13,
+and the scanned МОСВ order was read page by page. `pnpm test`, `pnpm check`, `pnpm lint`,
+`pnpm build`, `pnpm validate:html` and the full e2e suite (axe on every produce page) pass. The
+„Внимание“ sections of `levurda`, `cheren-baz` and `godzhi-beri` were checked at mobile width.
+
+| Finding                                                                                                  | Fix                                                                      |
+| -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| The content guide merged with spec 055 asks a `protected` source name to carry the act's number and year | The ЗБР source name gives „обн. ДВ, бр. 77 от 2002 г.“ and the amendment |
+| Spec 056 adds `matochina` and `chernitsi`                                                                | Both dropped here (section 3)                                            |
