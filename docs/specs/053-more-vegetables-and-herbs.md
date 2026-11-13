@@ -277,3 +277,10 @@ No new third-party API. Content sources (all fetched 2026-11-13):
 | bg.wikipedia.org „Мента“, „Обикновен риган“, „Зайчесянкови“, „Обикновена аспержа“                                                                                                                                | Seasons (mint, oregano), group names |
 | bgfermer.bg 14721904, 8416350, 2023033, 6873832, 5532605, 11879233, 18793657, 12631791; agrozona.bg glucharche and sweet potato articles                                                                         | Left-out candidates                  |
 | Unsplash photo pages in section 5                                                                                                                                                                                | Photos                               |
+
+## 11. QA review
+
+- The sage entry is `salvia`, not `salviya`: `Slug.fromBulgarian` writes a final „ия“ as „ia“, and
+  the seed-data test (spec 002 AC10) caught the first spelling.
+- The `qa-reviewer` subagent could not be launched from this session; the checklist was applied
+  manually (sources re-read, quotes checked against the fetched pages, photos checked visually).
