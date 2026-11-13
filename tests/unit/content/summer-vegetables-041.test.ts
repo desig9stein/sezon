@@ -267,3 +267,35 @@ describe('summer vegetables QA (spec 041)', () => {
     }
   });
 });
+
+describe('summer vegetables additions QA (spec 041)', () => {
+  it('QA 041: the legume group names crops its Wikipedia article names', () => {
+    const group = parse(readFileSync(join(DATA_DIR, 'groups', 'bobovi.yaml'), 'utf8')) as {
+      description: string;
+    };
+    for (const crop of ['фасулът', 'грахът', 'соята', 'фъстъкът']) {
+      expect(group.description, crop).toContain(crop);
+    }
+    expect(group.description).not.toContain('лещата');
+  });
+
+  it('QA 041: the courgette summary matches a season that starts in May', () => {
+    const { summary } = seasonOf('tikvichki');
+    expect(summary).toContain('от май');
+    expect(summary).not.toContain('април');
+  });
+
+  it('QA 041: the „лико“ answer says what the source says', () => {
+    const answers = seasonOf('zelen-fasul').faq.map((item) => item.answer);
+    expect(answers.join(' ')).toContain('пергаментов слой');
+    expect(answers.join(' ')).not.toContain('нишка');
+  });
+
+  it('QA 041: the methodology and about texts name every produce with МЗХ regions', () => {
+    for (const text of [ui.methodology.regions, ui.about.sources]) {
+      for (const word of ['череш', 'кайсии', 'праскови', 'сливи', 'грозде', 'ягоди', 'пъпеши']) {
+        expect(text, word).toContain(word);
+      }
+    }
+  });
+});
