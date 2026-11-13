@@ -4,7 +4,7 @@ kind: herb
 group: ustnotsvetni
 summary: 'Ментата е ароматна билка, която се бере през лятото – най-добре през юли и август, в началото на цъфтежа.'
 season:
-  - { month: 6, level: peak }
+  - { month: 6, level: available }
   - { month: 7, level: peak }
   - { month: 8, level: peak }
 nutrition:

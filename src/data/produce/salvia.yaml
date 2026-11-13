@@ -5,9 +5,9 @@ group: ustnotsvetni
 summary: 'Салвията (градински чай) е ароматна билка, чиито листа се берат от май и през летните месеци.'
 season:
   - { month: 5, level: peak }
-  - { month: 6, level: peak }
-  - { month: 7, level: peak }
-  - { month: 8, level: peak }
+  - { month: 6, level: available }
+  - { month: 7, level: available }
+  - { month: 8, level: available }
 updatedAt: 2026-11-13
 photo:
   src: ../../assets/produce/salvia.jpg

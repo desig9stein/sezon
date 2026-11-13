@@ -4,10 +4,12 @@ kind: vegetable
 group: krastotsvetni
 summary: 'Руколата е листен зеленчук с леко пикантен вкус. Сее се напролет и в началото на септември и расте само 40–60 дни.'
 season:
+  - { month: 4, level: available }
   - { month: 5, level: available }
   - { month: 6, level: available }
   - { month: 7, level: available }
   - { month: 10, level: available }
+  - { month: 11, level: available }
 nutrition:
   energyKcal: 25
   proteinG: 2.58

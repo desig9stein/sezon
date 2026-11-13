@@ -4,9 +4,9 @@ kind: herb
 group: ustnotsvetni
 summary: 'Розмаринът е вечнозелен храст с листа като иглички. Реколтата от него се прибира през летните месеци.'
 season:
-  - { month: 6, level: peak }
-  - { month: 7, level: peak }
-  - { month: 8, level: peak }
+  - { month: 6, level: available }
+  - { month: 7, level: available }
+  - { month: 8, level: available }
 nutrition:
   energyKcal: 131
   proteinG: 3.31

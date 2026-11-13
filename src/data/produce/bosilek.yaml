@@ -2,11 +2,10 @@ name: Босилек
 latinName: Ocimum basilicum
 kind: herb
 group: ustnotsvetni
-summary: 'Босилекът е топлолюбива подправка, която не се изнася навън преди юни. Листата му се берат през летните месеци.'
+summary: 'Босилекът е топлолюбива подправка, която не се изнася навън преди юни. Листата му се берат през лятото.'
 season:
-  - { month: 6, level: peak }
-  - { month: 7, level: peak }
-  - { month: 8, level: peak }
+  - { month: 7, level: available }
+  - { month: 8, level: available }
 nutrition:
   energyKcal: 23
   proteinG: 3.15

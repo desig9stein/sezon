@@ -9,8 +9,8 @@ season:
   - { month: 3, level: storage }
   - { month: 4, level: storage }
   - { month: 7, level: peak }
-  - { month: 10, level: peak }
-  - { month: 11, level: peak }
+  - { month: 10, level: available }
+  - { month: 11, level: available }
   - { month: 12, level: storage }
 nutrition:
   energyKcal: 27

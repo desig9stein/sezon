@@ -8,21 +8,21 @@ season:
   - { month: 10, level: peak }
 nutrition:
   energyKcal: 333
-  proteinG: 23.58
-  fatG: 0.83
-  carbohydrateG: 60.01
-  fiberG: 24.9
-  sugarsG: 2.23
+  proteinG: 23.36
+  fatG: 0.85
+  carbohydrateG: 60.27
+  fiberG: 15.2
+  sugarsG: 2.11
   micronutrients:
-    - { nutrient: folat, amount: 394 }
-    - { nutrient: med-cu, amount: 0.958 }
-    - { nutrient: kaliy, amount: 1406 }
-    - { nutrient: zhelyazo, amount: 8.2 }
-    - { nutrient: fosfor, amount: 407 }
-    - { nutrient: mangan, amount: 1.021 }
+    - { nutrient: folat, amount: 388 }
+    - { nutrient: med-cu, amount: 0.984 }
+    - { nutrient: mangan, amount: 1.796 }
+    - { nutrient: kaliy, amount: 1795 }
+    - { nutrient: zhelyazo, amount: 10.44 }
+    - { nutrient: magneziy, amount: 190 }
   source:
-    name: 'USDA FoodData Central, SR Legacy: Beans, kidney, all types, mature seeds, raw'
-    url: https://fdc.nal.usda.gov/food-details/175193/nutrients
+    name: 'USDA FoodData Central, SR Legacy: Beans, white, mature seeds, raw'
+    url: https://fdc.nal.usda.gov/food-details/175202/nutrients
 updatedAt: 2026-11-13
 photo:
   src: ../../assets/produce/bob.jpg

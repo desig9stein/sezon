@@ -4,11 +4,11 @@ kind: vegetable
 group: krastotsvetni
 summary: 'Брюкселското зеле е зимен зеленчук с малки зелки. Сезонът му започва през септември и продължава чак до януари.'
 season:
-  - { month: 1, level: peak }
-  - { month: 9, level: peak }
-  - { month: 10, level: peak }
-  - { month: 11, level: peak }
-  - { month: 12, level: peak }
+  - { month: 1, level: available }
+  - { month: 9, level: available }
+  - { month: 10, level: available }
+  - { month: 11, level: available }
+  - { month: 12, level: available }
 nutrition:
   energyKcal: 43
   proteinG: 3.38

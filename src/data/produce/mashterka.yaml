@@ -4,9 +4,9 @@ kind: herb
 group: ustnotsvetni
 summary: 'Мащерката е ароматна подправка, която се бере през летните месеци, заедно с ригана, розмарина и салвията.'
 season:
-  - { month: 6, level: peak }
-  - { month: 7, level: peak }
-  - { month: 8, level: peak }
+  - { month: 6, level: available }
+  - { month: 7, level: available }
+  - { month: 8, level: available }
 nutrition:
   energyKcal: 101
   proteinG: 5.56
@@ -26,9 +26,9 @@ nutrition:
 updatedAt: 2026-11-13
 photo:
   src: ../../assets/produce/mashterka.jpg
-  alt: 'Стръкове цъфтяща мащерка с дребни бледолилави цветчета на тъмен фон'
+  alt: 'Гъст храст мащерка с дребни сивозелени листенца отблизо'
   credit:
-    author: 'Compagnons'
-    authorUrl: https://unsplash.com/@sigmund
+    author: 'Artem Lozina'
+    authorUrl: https://unsplash.com/@eyes_remember
     sourceName: Unsplash
-    sourceUrl: https://unsplash.com/photos/purple-flower-on-black-textile-ite5WrQaDaE
+    sourceUrl: https://unsplash.com/photos/close-up-of-fresh-green-thyme-herb-leaves-GhoC01t5gT0

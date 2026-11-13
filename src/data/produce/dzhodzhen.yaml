@@ -4,8 +4,8 @@ kind: herb
 group: ustnotsvetni
 summary: 'Джодженът е вид мента. Реже се два пъти в сезона: веднъж преди цъфтежа и отново през есента, преди сланите.'
 season:
-  - { month: 7, level: peak }
-  - { month: 8, level: peak }
+  - { month: 7, level: available }
+  - { month: 8, level: available }
   - { month: 9, level: available }
   - { month: 10, level: available }
 nutrition:
