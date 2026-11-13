@@ -1,6 +1,6 @@
 # 054. Keystatic local editing
 
-- **Status:** Approved
+- **Status:** Implemented
 - **Bounded context(s):** none (repository tooling over the content of catalog, geography, farms,
   recipes and advertising)
 - **Related:** ADR-0008, ADR-0001, ADR-0005, spec 002 (content model), spec 049 (season-only

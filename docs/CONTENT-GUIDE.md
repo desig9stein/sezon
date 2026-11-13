@@ -347,6 +347,29 @@ The file name is the sponsor's id (a Latin slug). The folder is empty until a sp
 - **One sponsor per placement is shown.** When campaigns overlap, the one with the latest `from`
   wins, then the lowest id. The slot is labelled „Реклама“ and the link has `rel="sponsored"`.
 
+## Editing with Keystatic
+
+Keystatic is a form editor for the same YAML files (ADR-0008, spec 054). It runs only on your
+computer, inside the dev server; the published site has no admin.
+
+1. Run `pnpm dev` and open `http://127.0.0.1:4321/keystatic`.
+2. Pick a collection, edit or create an entry and press **Save**. Keystatic writes
+   `src/data/<collection>/<id>.yaml` directly; for a new entry it proposes the file name from the
+   Bulgarian name (`Slug.fromBulgarian`).
+3. Commit the changed YAML on a branch and open a pull request, as for any other change. CI
+   checks it against the schemas.
+
+- **Not editable in the form:** nutrition, photo, growing guide and organic production of a
+  produce, the sources of its regions, a province's profile and a farm's certificate. Keystatic
+  keeps them unchanged; edit them in the YAML file.
+- **Sponsor banners:** put the image in `src/assets/sponsors/` yourself and type its path
+  (`../../assets/sponsors/<id>.jpg`) in the form.
+- **Formatting:** Keystatic rewrites a saved file in its own YAML style (block lists, long text
+  folded with `>-`, fewer quotes) and writes `sponsored: false` on farms. The values do not change,
+  but the first save of a file shows a larger diff than your edit.
+- The form checks required fields, lengths and allowed values. The other rules in this guide
+  (https sources, „Традиционно се използва …“, unique months) are checked by `pnpm build` and CI.
+
 ## Seed data status
 
 What is sourced and what is editorial for every produce is recorded in
