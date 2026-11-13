@@ -1,0 +1,9 @@
+name: 'Ферма Недеви'
+region: burgas
+produce: [yabalki, krushi, tikva, piper, magdanoz, zelen-luk, tselina]
+description: 'По данни на LocalStore.bg семейно стопанство край с. Лозенец, в подножието на Странджа, което отглежда ябълки, круши, тикви, пипер, сладки картофи и подправки като магданоз, зелен лук и целина и прави сладка и манов мед.'
+contact:
+  website: https://localstore.bg/producer/ferma-nedevi
+address: 'край с. Лозенец, в подножието на Странджа'
+sources:
+  - https://localstore.bg/producer/ferma-nedevi

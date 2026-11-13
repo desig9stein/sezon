@@ -1,0 +1,9 @@
+name: 'Любимата ни ферма'
+region: targovishte
+produce: [domati, repichki, zelen-luk]
+description: 'По данни на LocalStore.bg ферма в с. Конак, която отглежда зеленчуци, сред тях 101 сорта български домати, и продава седмични кошници със салати, репички, пресен лук, чесън и рукола с доставка до Попово и Търговище. По данни на фермата отглежда без химия.'
+contact:
+  website: https://localstore.bg/producer/lyubimata-ni-ferma
+address: 'с. Конак'
+sources:
+  - https://localstore.bg/producer/lyubimata-ni-ferma

@@ -1,0 +1,10 @@
+name: 'Ферма „Бесика“'
+region: pazardzhik
+produce: [tikvichki, krastavitsi]
+description: 'Малка ферма за зеленчуци и плодове в Пазарджишка област, близо до Бесапарските ридове. Продава онлайн през Хранкооп, където към ноември 2026 г. предлага тиквички и краставици.'
+contact:
+  website: https://coop.hrankoop.com/producer/besika
+address: 'Пазарджишка област'
+sources:
+  - https://coop.hrankoop.com/producer/besika
+  - https://localstore.bg/producer/besika-43

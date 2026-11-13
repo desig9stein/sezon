@@ -1,0 +1,9 @@
+name: 'Градини Девар'
+region: shumen
+produce: [orehi]
+description: 'По данни на LocalStore.bg градини с орехи и шипки в с. Панайот Волово, създадени от Десислава Кунева от Шумен, която продава на фермерския пазар „Римската стена“ в София. По данни на фермата градините се отглеждат по биологичен начин, без химикали.'
+contact:
+  website: https://localstore.bg/producer/gradini-devar-zp-desislava-kuneva
+address: 'с. Панайот Волово'
+sources:
+  - https://localstore.bg/producer/gradini-devar-zp-desislava-kuneva

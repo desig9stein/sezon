@@ -1,0 +1,9 @@
+name: 'PapiAgro'
+region: montana
+produce: [slivi, tikva, kartofi]
+description: 'По данни на LocalStore.bg семейно стопанство в с. Лехчево, което отглежда сини сливи, тикви „Матилда“ и картофи, прави сладко от сини сливи и мед и доставя по поръчка в района на Монтана.'
+contact:
+  website: https://localstore.bg/producer/papiagro
+address: 'с. Лехчево'
+sources:
+  - https://localstore.bg/producer/papiagro

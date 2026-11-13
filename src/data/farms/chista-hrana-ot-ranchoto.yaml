@@ -1,0 +1,9 @@
+name: 'Чиста храна от „Ранчото“'
+region: lovech
+produce: [patladzhan, domati, kartofi, repichki, magdanoz, kopar, luk, morkovi, krastavitsi]
+description: 'По данни на LocalStore.bg малка градина в с. Дълбок дол в Троянския Балкан, специализирана в патладжан, в която се отглеждат и домати, картофи, репички, салати, магданоз, копър, лук, моркови и краставици. За защита и подхранване на растенията се използват билкови настойки.'
+contact:
+  website: https://localstore.bg/producer/chista-hrana-ot-ranchoto
+address: 'с. Дълбок дол, Троянски Балкан'
+sources:
+  - https://localstore.bg/producer/chista-hrana-ot-ranchoto

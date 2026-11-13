@@ -1,0 +1,9 @@
+name: 'Храна за бъдеще'
+region: blagoevgrad
+produce: [spanak, zelen-luk, krastavitsi, domati]
+description: 'По данни на LocalStore.bg семейна ферма за зеленчуци в Благоевград, която отглежда зелена салата, спанак, рукола, зелен лук, краставици и домати и доставя в цялата страна. По данни на фермата отглежда без изкуствени торове и пестициди.'
+contact:
+  website: https://localstore.bg/producer/hrana-za-budeshte
+address: 'Благоевград, ул. „Евтим Драганов“ 20'
+sources:
+  - https://localstore.bg/producer/hrana-za-budeshte

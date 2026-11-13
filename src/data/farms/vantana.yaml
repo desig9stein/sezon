@@ -1,0 +1,10 @@
+name: 'Вантана'
+region: sofiyska
+produce: [tsveklo, morkovi, zele, kartofi, chesan, magdanoz, karfiol, praz]
+description: 'Стопанство за зеленчуци в с. Петърч, създадено от Димитър Найденов. Продава онлайн през Хранкооп, където към ноември 2026 г. предлага цвекло, моркови, зеле, картофи, чесън, магданоз, карфиол и праз. По данни на LocalStore.bg продава и на фермерския пазар „Римската стена“ в София. По данни на фермата производството е биологично.'
+contact:
+  website: https://coop.hrankoop.com/producer/vantana
+address: 'с. Петърч'
+sources:
+  - https://coop.hrankoop.com/producer/vantana
+  - https://localstore.bg/producer/vantana

@@ -1,0 +1,10 @@
+name: 'Ферма Крумови'
+region: kyustendil
+produce: [chereshi, slivi, krushi, yabalki]
+description: 'По данни на LocalStore.bg семейна ферма в селата Горна Гращица и Скриняно край Кюстендил, която отглежда стари сортове череши, както и сини сливи, круши и ябълки. Черешите се берат в деня на доставката до София.'
+contact:
+  website: https://localstore.bg/producer/ferma-krumovi-1234
+address: 'с. Горна Гращица и с. Скриняно, край Кюстендил'
+sources:
+  - https://localstore.bg/producer/ferma-krumovi-1234
+  - https://localstore.bg/producer/ferma-krumovi

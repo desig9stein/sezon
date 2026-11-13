@@ -1,0 +1,9 @@
+name: 'Био ферма „Покрайна“'
+region: vidin
+produce: [yabalki, slivi, spanak, marulya]
+description: 'По данни на LocalStore.bg семейно стопанство в с. Покрайна, което отглежда ябълки, сливи и зеленчуци, сред тях бейби спанак и маруля, по биодинамичен метод и прави сокове, пестил, ябълков оцет и сушени ябълки. По данни на фермата тя е сертифицирана за биологично производство от 2015 г.'
+contact:
+  website: https://localstore.bg/producer/bio-ferma-pokrayna
+address: 'с. Покрайна'
+sources:
+  - https://localstore.bg/producer/bio-ferma-pokrayna
