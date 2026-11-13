@@ -1,0 +1,74 @@
+[
+  {
+    "query": "implement #57 please, the 'new this month' badge on produce cards. take it all the way to a PR",
+    "should_trigger": true
+  },
+  {
+    "query": "Започни issue-то за печатния календар: спец, тестове, имплементация.",
+    "should_trigger": true
+  },
+  {
+    "query": "add a /regioni/<slug>/farms page listing the farms in each province, with JSON-LD",
+    "should_trigger": true
+  },
+  {
+    "query": "the calendar loses focus when you change the month with the keyboard, can you fix it? there's an issue for it somewhere",
+    "should_trigger": true
+  },
+  {
+    "query": "I want the monthly RSS feed to have one item per newly in-season produce. What's the process here, do I need a spec first?",
+    "should_trigger": true
+  },
+  {
+    "query": "build the cookie consent banner from ADR-0007, spec it first",
+    "should_trigger": true
+  },
+  {
+    "query": "pick up the next issue in the Phase 4 epic and get a PR up",
+    "should_trigger": true
+  },
+  {
+    "query": "quick one: the skip link on the month page goes to #content but main has id=main. just fix it",
+    "should_trigger": true
+  },
+  {
+    "query": "QA flagged that the region page title is 64 chars; fix it with a regression test and push the fix to the existing PR branch",
+    "should_trigger": true
+  },
+  {
+    "query": "What does the Month value object do when you pass 13?",
+    "should_trigger": false
+  },
+  {
+    "query": "Add тиква to the produce catalog with its usda nutrition and an unsplash photo",
+    "should_trigger": false
+  },
+  {
+    "query": "CI's Lighthouse job is red on the produce template, can you read the log and tell me what score dropped?",
+    "should_trigger": false
+  },
+  {
+    "query": "review the diff on this branch for bugs before I open the PR",
+    "should_trigger": false
+  },
+  {
+    "query": "Explain how the composition root wires the content repositories into the services",
+    "should_trigger": false
+  },
+  {
+    "query": "regenerate the font subsets, I added a glyph to bg.ts",
+    "should_trigger": false
+  },
+  {
+    "query": "write ADR-0008 about moving from Cloudflare Pages to another host, no code yet",
+    "should_trigger": false
+  },
+  {
+    "query": "create a new project skill for adding farms, with evals",
+    "should_trigger": false
+  },
+  {
+    "query": "update the vendored skills from anthropics/skills upstream",
+    "should_trigger": false
+  }
+]
