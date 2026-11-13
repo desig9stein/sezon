@@ -9,11 +9,7 @@ import { sponsorSchemaWith } from '@contexts/advertising/infrastructure/schemas'
 import { farmSchema } from '@contexts/farms/infrastructure/schemas';
 import { regionSchema } from '@contexts/geography/infrastructure/schemas';
 import { recipeSchema } from '@contexts/recipes/infrastructure/schemas';
-
-/** Directory, relative to the repository root, with one folder of entries per collection. */
-export const DATA_DIRECTORY = 'src/data';
-/** File pattern of the entries in a collection folder. */
-export const ENTRY_FILE_PATTERN = '*.yaml';
+import { DATA_DIRECTORY, ENTRY_FILE_PATTERN } from '@shared/infrastructure/contentFiles';
 
 const yamlFilesIn = (directory: string) =>
   glob({ pattern: ENTRY_FILE_PATTERN, base: `./${DATA_DIRECTORY}/${directory}` });

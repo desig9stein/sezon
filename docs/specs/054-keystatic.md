@@ -74,22 +74,31 @@ kind, group, summary, season and update date (spec 049). References (`group`, `r
 - **Dev only.** `localCms()` adds the integrations in `astro:config:setup` when `command` is
   `dev`, and also adds `react-dom/client` to `vite.optimizeDeps.include` (without it the admin
   does not hydrate, ADR-0008). For `build`, `preview` and `sync` it does nothing and imports
-  nothing.
+  nothing. It also does nothing when `VITEST` is set, because Vitest's `getViteConfig` runs the
+  Astro config as `dev`.
 - **Slug.** The slug field's name is stored in the file (`name`, or `title` for recipes); the slug
   is the file name. For a new entry Keystatic proposes `Slug.fromBulgarian(name)`; while the name
   has no transliterable letters the proposal is empty. The slug must match `SLUG_PATTERN`.
+  Keystatic rejects a slug another entry already has, and **Duplicate** proposes `<slug>-copy`.
+  Changing the slug of a saved entry renames its file, which breaks its URL and the references to
+  it; the content guide tells the owner not to.
 - **Optional values.** An empty optional text, number or URL is left out of the file. An array is
   written even when empty (`varieties: []`), which the schemas parse like an absent list. A farm
   always gets `sponsored: true|false`; `false` is the schema default.
 - **Optional nested blocks** are `fields.ignored`: Keystatic stores the value read from the file
-  and writes it back unchanged, or leaves the key out when the file has none.
+  and writes it back with the same values, or leaves the key out when the file has none. A date in
+  such a block (a farm's `organic.validUntil`) is written as a plain date (`2027-07-20`), not as
+  `js-yaml`'s default `2027-07-20T00:00:00.000Z`.
 - **Unknown keys.** Keystatic writes only the keys in its schema. Because every key of every Zod
   schema is in the Keystatic schema, and the strict Zod schemas reject other keys, no valid entry
   loses a key on save.
-- **Formatting.** Keystatic writes YAML with `js-yaml`: block style, folded long strings (`>-`),
-  dates unquoted (`2026-11-13`). The values are unchanged; the diff of a first save is larger
-  than the edit.
-- **Validation.** Keystatic validates required fields, lengths, month range and select values. The
+- **Formatting.** Keystatic writes YAML with `js-yaml`: block style, folded long strings and long
+  URLs (`>-`), empty lists written out, dates unquoted (`2026-11-13`). The values are unchanged;
+  the diff of a first save is larger than the edit.
+- **Validation.** Keystatic validates required fields, lengths, month range and select values.
+  Fields the schemas keep to one line use single-line inputs, and amounts the schemas require to
+  be positive (`referenceIntake`, ingredient `quantity`) have a minimum of 0.001, the closest
+  match to `.positive()` because Keystatic's minimum is inclusive. The
   remaining rules (https URLs, phone format, unique months, „Традиционно се използва“ prefix,
   date order, cross-references) stay with the Zod schemas and tests, which reject an invalid
   entry in `pnpm build` and CI as before.
@@ -133,13 +142,14 @@ kind, group, summary, season and update date (spec 049). References (`group`, `r
    stays valid and no optional block is added; and given Keystatic's produce schema, then exactly
    `name`, `kind`, `group`, `summary`, `season` and `updatedAt` are required.
 8. **AC8:** Given `localCms()`, when Astro runs `dev`, then it adds the React and Keystatic
-   integrations and pre-bundles `react-dom/client`; when it runs `build`, `preview` or `sync`, then
-   it adds and imports nothing.
+   integrations and pre-bundles `react-dom/client`; when it runs `build`, `preview` or `sync`, or
+   when Vitest runs it as `dev`, then it adds and imports nothing.
 9. **AC9:** Given `pnpm build`, when `dist/` is inspected, then it has no `keystatic` file or
    folder, no file mentions Keystatic, no page contains an `astro-island`, and the CSP in
    `_headers` is unchanged.
-10. **AC10:** Given a file in `src/`, when it imports `keystatic.config` or `@keystatic/*`, then
-    ESLint reports `no-restricted-imports`.
+10. **AC10:** Given a file in `src/`, when it imports `keystatic.config`, `@keystatic/*`, `react`
+    or `react-dom`, then ESLint reports `no-restricted-imports`; when it loads the CMS with
+    `import()`, then ESLint reports `no-restricted-syntax`.
 11. **AC11:** Given `pnpm dev`, when `/keystatic` is opened, then the admin loads without console
     errors and lists the seven collections (manual check, QA).
 
@@ -158,6 +168,11 @@ kind, group, summary, season and update date (spec 049). References (`group`, `r
 | AC9  | e2e       | `tests/e2e/keystatic-build.spec.ts`                         |
 | AC10 | unit      | `tests/unit/cms/keystaticBoundary.test.ts`                  |
 | AC11 | manual    | `pnpm dev`, open `/keystatic` (Playwright script during QA) |
+
+QA findings (regression tests in `tests/unit/cms/keystatic-qa054.test.ts`): dates in kept blocks
+stay plain dates; no form input accepts a value its Zod schema rejects (single-line text, positive
+amounts); the produce summary uses the catalog's limits; the data directory is defined once in
+`src/shared/infrastructure/contentFiles.ts`.
 
 ## 10. Third-party documentation consulted
 

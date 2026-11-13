@@ -29,6 +29,17 @@ const KEYSTATIC = {
   group: ['**/keystatic.config', '**/keystatic.config.*', '@keystatic/*', '**/scripts/cms/**'],
   message: 'The Keystatic CMS is dev-only tooling (ADR-0008); src/ must not import it.',
 };
+const REACT = {
+  group: ['react', 'react/*', 'react-dom', 'react-dom/*'],
+  message:
+    'React is installed only for the dev-only Keystatic admin (ADR-0008); the site ships no React.',
+};
+/** Dynamic `import()` of the dev-only CMS or React, which `no-restricted-imports` does not see. */
+const CMS_DYNAMIC_IMPORT = {
+  selector:
+    'ImportExpression[source.value=/^@keystatic\\/|keystatic\\.config|scripts\\/cms\\/|^react(-dom)?(\\/|$)/]',
+  message: 'src/ must not load the dev-only Keystatic CMS or React (ADR-0008).',
+};
 const UPSTREAM_CONTEXTS = {
   advertising: [],
   catalog: ['seasonality'],
@@ -40,11 +51,11 @@ const UPSTREAM_CONTEXTS = {
 
 /** Builds `no-restricted-imports` blocks that enforce the dependency rules in AGENTS.md section 6. */
 function architectureRules() {
-  // Every block repeats the Keystatic rule, because a later block replaces the options of an
+  // Every block repeats the Keystatic and React rules, because a later block replaces the options of an
   // earlier one for the same file.
   const restrict = (files, patterns) => ({
     files,
-    rules: { 'no-restricted-imports': ['error', { patterns: [...patterns, KEYSTATIC] }] },
+    rules: { 'no-restricted-imports': ['error', { patterns: [...patterns, KEYSTATIC, REACT] }] },
   });
   const domainBlocks = Object.entries(UPSTREAM_CONTEXTS).map(([context, upstreams]) =>
     restrict(
@@ -62,6 +73,10 @@ function architectureRules() {
   );
   return [
     restrict(['src/**/*.{ts,astro,js,mjs}'], []),
+    {
+      files: ['src/**/*.{ts,astro,js,mjs}'],
+      rules: { 'no-restricted-syntax': ['error', CMS_DYNAMIC_IMPORT] },
+    },
     restrict(['src/shared/domain/**/*.ts'], [ASTRO, OUTER_LAYERS, APP_LAYERS]),
     restrict(['src/shared/seo/**/*.ts', 'src/shared/infrastructure/**/*.ts'], [APP_LAYERS]),
     ...domainBlocks,

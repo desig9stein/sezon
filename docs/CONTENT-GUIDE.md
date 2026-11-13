@@ -377,9 +377,16 @@ computer, inside the dev server; the published site has no admin.
   keeps them unchanged; edit them in the YAML file.
 - **Sponsor banners:** put the image in `src/assets/sponsors/` yourself and type its path
   (`../../assets/sponsors/<id>.jpg`) in the form.
-- **Formatting:** Keystatic rewrites a saved file in its own YAML style (block lists, long text
-  folded with `>-`, fewer quotes) and writes `sponsored: false` on farms. The values do not change,
-  but the first save of a file shows a larger diff than your edit.
+- **Do not change the slug of a published entry.** The slug is the file name and the URL. Changing
+  it renames the file, breaks the page's URL and leaves every reference to the old id (`group:`,
+  `region:`, a farm's or recipe's `produce`) pointing at nothing. Keystatic rejects a slug that
+  another entry already has („Slug must be unique“), and **Duplicate** proposes `<slug>-copy`:
+  replace it with the slug of the new entry's own name before saving.
+- **Formatting:** Keystatic rewrites a saved file in its own YAML style. Lists become block lists,
+  long text and long URLs are folded with `>-`, quotes are dropped where YAML allows, empty lists
+  are written out (`varieties: []`, `faq: []`), and farms get `sponsored: false`. Dates stay plain
+  dates (`2027-07-20`). The values do not change, but the first save of a file shows a larger diff
+  than your edit.
 - The form checks required fields, lengths and allowed values. The other rules in this guide
   (https sources, „Традиционно се използва …“, unique months) are checked by `pnpm build` and CI.
 

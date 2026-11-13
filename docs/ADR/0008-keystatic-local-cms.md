@@ -51,8 +51,10 @@ Sezon uses **Keystatic in local mode, enabled only by `astro dev`** (option 1).
 
 - **Dev only:** a small integration (`scripts/cms/localCms.mjs`) adds `@astrojs/react` and
   `@keystatic/astro` in `astro:config:setup` only when the command is `dev`. It imports them
-  lazily, so `astro build`, `astro preview`, `astro check` and `astro sync` never load them. All
-  four packages are `devDependencies`. No environment variable is needed.
+  lazily, so `astro build`, `astro preview`, `astro check` and `astro sync` never load them. It
+  also does nothing when `VITEST` is set: Vitest's `getViteConfig` runs the Astro config as `dev`,
+  and tests do not need the admin. All four packages are `devDependencies`. No environment variable
+  is needed.
 - **Same files:** `keystatic.config.ts` at the repository root defines one Keystatic collection per
   content collection, with `path: 'src/data/<collection>/*'`, `format: { data: 'yaml' }` and a slug
   field whose name is the entry's `name` (`title` for recipes) and whose slug is the file name,
@@ -61,13 +63,16 @@ Sezon uses **Keystatic in local mode, enabled only by `astro dev`** (option 1).
   object field, even as `{}`, and the strict Zod schemas reject a partial optional block, so
   optional nested blocks Keystatic cannot leave out (`nutrition`, `photo`, `growing`, `organic`,
   `regions[].source`, a region's `profile`, a farm's `organic`) use `fields.ignored()`: Keystatic
-  keeps them exactly as they are and they are edited in YAML. A unit test saves every entry
+  keeps their values and they are edited in YAML. `js-yaml` would write a date in such a block as
+  `2027-07-20T00:00:00.000Z`, so the config gives those dates the same plain-date serialization
+  Keystatic's own date field uses (`2027-07-20`). A unit test saves every entry
   through Keystatic's own field parsers and serializers and compares the Zod-parsed result with
   the original.
 - **Workflow unchanged:** the owner runs `pnpm dev`, edits in `/keystatic`, and commits the
   changed YAML through a pull request. CI validates it as before.
-- **Boundary:** `src/` must not import `keystatic.config.ts` or `@keystatic/*` (ESLint
-  `no-restricted-imports`).
+- **Boundary:** `src/` must not import `keystatic.config.ts`, `@keystatic/*`, `react` or
+  `react-dom`, statically (ESLint `no-restricted-imports`) or with `import()` (ESLint
+  `no-restricted-syntax`).
 
 GitHub mode (option 2) stays a later option, for editing without a local checkout. It needs its own
 ADR because it adds a server adapter, secrets and on-demand routes to production.
@@ -78,8 +83,12 @@ ADR because it adds a server adapter, secrets and on-demand routes to production
   references to other entries) without any change to the production site.
 - **Formatting churn:** Keystatic rewrites a saved file in `js-yaml` block style: flow maps such as
   `{ month: 7, level: peak }` become block maps, long strings are folded (`>-`) and needless quotes
-  go. Values do not change. The first save of a file therefore shows a larger diff than the edit.
+  go, long URLs included, and empty lists are written out (`faq: []`). Values do not change and
+  dates stay plain dates. The first save of a file therefore shows a larger diff than the edit.
   Farms gain an explicit `sponsored: false`, which is the schema default.
+- The form validates required fields, lengths, single lines, month range, positive amounts and
+  select values. The other schema rules (https URLs, phone format, unique months, the
+  traditional-use prefix, date order, references) are checked by the build and CI.
 - Optional nested blocks (nutrition, photo, growing guide, organic production, region sources and
   profiles, farm certificates) are not editable in Keystatic. They stay editable in YAML.
 - Sponsor banners are a text path (`../../assets/sponsors/<id>.jpg`), not a Keystatic image field,

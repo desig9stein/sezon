@@ -4,17 +4,23 @@ import {
   NUTRIENT_KINDS,
   NUTRIENT_UNITS,
   PRODUCE_KINDS,
+  PRODUCE_SUMMARY_MAX_LENGTH,
+  PRODUCE_SUMMARY_MIN_LENGTH,
   TRADITIONAL_SYSTEMS,
 } from '@contexts/catalog';
 import { INGREDIENT_UNITS, RECIPE_CATEGORIES } from '@contexts/recipes';
 import { FIRST_MONTH_NUMBER, LAST_MONTH_NUMBER, SEASON_LEVEL_VALUES } from '@contexts/seasonality';
 import { Slug, SLUG_PATTERN } from '@shared/domain';
+import { DATA_DIRECTORY } from '@shared/infrastructure/contentFiles';
 import { DESCRIPTION_MAX_LENGTH, DESCRIPTION_MIN_LENGTH } from '@shared/seo';
 
-/** Directory that holds one folder of YAML entries per content collection. */
-export const DATA_DIRECTORY = 'src/data';
-const PRODUCE_SUMMARY_MIN_LENGTH = 70;
-const PRODUCE_SUMMARY_MAX_LENGTH = 160;
+/**
+ * Smallest value of an amount the schemas require to be positive (`z.number().positive()`).
+ * Keystatic's `min` is inclusive, so zero needs a minimum just above it.
+ */
+const SMALLEST_POSITIVE_AMOUNT = 0.001;
+/** Matches a YAML date that Astro and Keystatic read as midnight UTC. */
+const CALENDAR_DAY_TIME = 'T00:00:00.000Z';
 const SPONSOR_IMAGE_DIRECTORY = 'src/assets/sponsors';
 /**
  * Path of the sponsor images as seen from `src/data/sponsors/*.yaml` (Astro `image()`). The banner
@@ -97,10 +103,46 @@ const sourceList = (label: string) =>
   });
 
 /**
- * A block that Keystatic keeps byte-for-byte as it is in the YAML file but does not edit, because
- * Keystatic cannot leave an optional nested object out of the file. Edit it in the YAML directly.
+ * Returns `value` with every date at midnight UTC (a YAML date such as `2027-07-20`) made to
+ * serialize as that plain date. `js-yaml` writes a date with `toISOString()`, which would
+ * otherwise add `T00:00:00.000Z`; Keystatic's own date field uses the same override.
+ * @param value - A value read from a YAML file.
  */
-const keptAsIs = () => fields.ignored();
+function withCalendarDates(value: unknown): unknown {
+  if (value instanceof Date) {
+    const iso = value.toISOString();
+    if (!iso.endsWith(CALENDAR_DAY_TIME)) {
+      return value;
+    }
+    const day = iso.slice(0, iso.length - CALENDAR_DAY_TIME.length);
+    const date = new Date(value.getTime());
+    date.toISOString = () => day;
+    return date;
+  }
+  if (Array.isArray(value)) {
+    return value.map(withCalendarDates);
+  }
+  if (typeof value === 'object' && value !== null) {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, withCalendarDates(item)]),
+    );
+  }
+  return value;
+}
+
+/**
+ * A block that Keystatic keeps as it is in the YAML file but does not edit, because Keystatic
+ * cannot leave an optional nested object out of the file. Edit it in the YAML directly. The values
+ * are kept, dates as plain dates; only the formatting is rewritten on save.
+ */
+const keptAsIs = () => {
+  const field = fields.ignored();
+  type StoredValue = Parameters<typeof field.parse>[0];
+  return {
+    ...field,
+    parse: (value: StoredValue) => field.parse(withCalendarDates(value) as StoredValue),
+  };
+};
 
 const produce = collection({
   label: 'Produce',
@@ -119,7 +161,6 @@ const produce = collection({
     }),
     summary: fields.text({
       label: 'Summary',
-      multiline: true,
       validation: {
         isRequired: true,
         length: { min: PRODUCE_SUMMARY_MIN_LENGTH, max: PRODUCE_SUMMARY_MAX_LENGTH },
@@ -214,7 +255,7 @@ const nutrients = collection({
     unit: selectOf('Unit', NUTRIENT_UNITS),
     referenceIntake: fields.number({
       label: 'Reference intake',
-      validation: { isRequired: true, min: 0 },
+      validation: { isRequired: true, min: SMALLEST_POSITIVE_AMOUNT },
     }),
     claims: fields.array(requiredText('Claim (no full stop)'), {
       label: 'Claims',
@@ -285,7 +326,6 @@ const recipes = collection({
     title: nameAndSlug('Title'),
     summary: fields.text({
       label: 'Summary',
-      multiline: true,
       validation: {
         isRequired: true,
         length: { min: DESCRIPTION_MIN_LENGTH, max: DESCRIPTION_MAX_LENGTH },
@@ -308,7 +348,10 @@ const recipes = collection({
     ingredients: fields.array(
       fields.object({
         name: requiredText('Name'),
-        quantity: fields.number({ label: 'Quantity', validation: { isRequired: true, min: 0 } }),
+        quantity: fields.number({
+          label: 'Quantity',
+          validation: { isRequired: true, min: SMALLEST_POSITIVE_AMOUNT },
+        }),
         unit: selectOf('Unit', INGREDIENT_UNITS),
       }),
       {
@@ -317,7 +360,7 @@ const recipes = collection({
         validation: { length: { min: 1 } },
       },
     ),
-    steps: fields.array(requiredText('Step', { multiline: true }), {
+    steps: fields.array(requiredText('Step'), {
       label: 'Steps',
       itemLabel: (props) => props.value,
       validation: { length: { min: 1 } },
