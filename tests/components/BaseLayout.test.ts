@@ -44,7 +44,7 @@ describe('BaseLayout', () => {
     expect(html).toContain('<meta property="og:type" content="website">');
     expect(html).toContain('<meta property="og:locale" content="bg_BG">');
     expect(html).toContain('<meta property="og:site_name" content="Сезон">');
-    expect(html).toContain('<meta name="twitter:card" content="summary">');
+    expect(html).toContain('<meta name="twitter:card" content="summary_large_image">');
     expect(html).toContain('<meta name="robots" content="index, follow">');
     expect(html).toMatch(/<meta name="theme-color"[^>]*media="\(prefers-color-scheme: light\)"/);
     expect(html).toMatch(/<meta name="theme-color"[^>]*media="\(prefers-color-scheme: dark\)"/);

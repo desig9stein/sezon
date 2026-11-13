@@ -2,20 +2,23 @@
 import { FEED_MEDIA_TYPE } from '@components/layout/routes';
 import { palettes } from '@design/tokens';
 import type { PageMeta } from '@shared/seo';
+import type { OgImageMeta } from './ogImage';
 
 /**
- * Renders title, description, canonical, robots, Open Graph, Twitter, theme-color, favicon and RSS
- * autodiscovery tags. With `noindex`, the page is excluded from indexing and has no canonical or
- * `og:url`.
+ * Renders title, description, canonical, robots, Open Graph (with the share image), Twitter,
+ * theme-color, favicon and RSS autodiscovery tags. With `noindex`, the page is excluded from
+ * indexing and has no canonical or `og:url`.
  */
 interface Props {
   meta: PageMeta;
+  /** Share image of the page (spec 050). */
+  image: OgImageMeta;
   /** Title and absolute URL of the site's RSS feed. */
   feed: { readonly title: string; readonly url: string };
   noindex?: boolean;
 }
 
-const { meta, feed, noindex = false } = Astro.props;
+const { meta, image, feed, noindex = false } = Astro.props;
 ---
 
 <title>{meta.title}</title>
@@ -28,7 +31,13 @@ const { meta, feed, noindex = false } = Astro.props;
 <meta property="og:type" content={meta.ogType} />
 <meta property="og:locale" content={meta.locale} />
 <meta property="og:site_name" content={meta.siteName} />
-<meta name="twitter:card" content="summary" />
+<meta property="og:image" content={image.url} />
+<meta property="og:image:type" content={image.type} />
+<meta property="og:image:width" content={String(image.width)} />
+<meta property="og:image:height" content={String(image.height)} />
+<meta property="og:image:alt" content={image.alt} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image:alt" content={image.alt} />
 <meta
   name="theme-color"
   content={palettes.light.background}

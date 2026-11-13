@@ -4,6 +4,7 @@ declare module 'subset-font' {
     targetFormat?: 'sfnt' | 'woff' | 'woff2';
     variationAxes?: Record<string, number | { min: number; max: number; default?: number }>;
     keepFeatures?: string[];
+    keepAllGlyphs?: boolean;
   }
 
   /** Subsets (and optionally instances) a font buffer to the characters of `text`. */
