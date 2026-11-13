@@ -5,7 +5,6 @@ group: abanosovi
 summary: Райската ябълка узрява през втората половина на октомври, но става за ядене по-късно, когато плодовете омекнат.
 season:
   - { month: 10, level: peak }
-  - { month: 11, level: available }
 nutrition:
   energyKcal: 70
   proteinG: 0.58

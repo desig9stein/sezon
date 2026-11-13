@@ -50,7 +50,7 @@ approval step (spec 034): a fact either has a source or the methodology page say
   two only nationally and does not survey chestnuts (spec 042). Rosehip is left out: SR Legacy has
   no raw record of it, and the EFSA database gives no energy or macronutrients.
 - **More fruits and nuts (2026-11-13, spec 052):** 21 entries whose months a Bulgarian source
-  states (Български фермер, or the Bulgarian Wikipedia for cherry plum and hazelnut); the quotes
+  states (Български фермер, or the Bulgarian Wikipedia for cherry plum, hazelnut and cornelian cherry); the quotes
   are in the spec. Sour cherries, raspberries, hazelnuts and almonds name the three leading
   provinces of the МЗХ orchard survey 2023 (bulletin № 448, the confidential cells are too small to
   change the ranking); nectarines repeat the peach provinces (the survey counts them together);
