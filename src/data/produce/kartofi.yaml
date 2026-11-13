@@ -1,0 +1,99 @@
+name: Картофи
+latinName: Solanum tuberosum
+kind: vegetable
+group: kartofovi
+summary: Ранните картофи идват в началото на лятото, късните се вадят наесен. На хладно и тъмно издържат цяла зима, до пролетта.
+varieties: []
+season:
+  - { month: 6, level: available }
+  - { month: 7, level: available }
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+  - { month: 10, level: peak }
+  - { month: 11, level: available }
+  - { month: 12, level: storage }
+  - { month: 1, level: storage }
+  - { month: 2, level: storage }
+  - { month: 3, level: storage }
+regions:
+  - region: blagoevgrad
+    note: 'Областта е в Югозападния район, който има над половината от реколтираните открити площи с картофи в страната – 4 056 от 6 796 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025, бюлетин № 468'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+  - region: kyustendil
+    note: 'Областта е в Югозападния район, който има над половината от реколтираните открити площи с картофи в страната – 4 056 от 6 796 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025, бюлетин № 468'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+  - region: pernik
+    note: 'Областта е в Югозападния район, който има над половината от реколтираните открити площи с картофи в страната – 4 056 от 6 796 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025, бюлетин № 468'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+  - region: sofia-grad
+    note: 'Столицата е в Югозападния район, който има над половината от реколтираните открити площи с картофи в страната – 4 056 от 6 796 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025, бюлетин № 468'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+  - region: sofiyska
+    note: 'Областта е в Югозападния район, който има над половината от реколтираните открити площи с картофи в страната – 4 056 от 6 796 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025, бюлетин № 468'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+nutrition:
+  energyKcal: 77
+  proteinG: 2.05
+  fatG: 0.09
+  carbohydrateG: 17.49
+  fiberG: 2.1
+  sugarsG: 0.82
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 19.7 }
+    - { nutrient: kaliy, amount: 425 }
+    - { nutrient: med-cu, amount: 0.11 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Potatoes, flesh and skin, raw'
+    url: https://fdc.nal.usda.gov/food-details/170026/nutrients
+preparation:
+  - method: С кората
+    tip: Свари или изпечи картофите неочистени – кората пази част от витамин C и калия.
+  - method: На пара
+    tip: Готвенето на пара губи по-малко водоразтворими витамини от варенето в много вода.
+  - method: Печени
+    tip: Пеки ги цели или на едри парчета, за да остане по-малка повърхност за загуби.
+traditionalUses: []
+howToChoose: Избери твърди, гладки картофи без кълнове, зелени петна и меки места.
+storage: Пази ги на тъмно при 2–5 °C, в мрежест чувал или касетка, а не направо на пода. Наранените картофи изяж първи.
+faq:
+  - question: Кога е сезонът на картофите в България?
+    answer: Ранните картофи се появяват през юни, а късните се вадят от август до октомври. През зимата се продават от хранилищата.
+  - question: Защо картофите стават сладникави през зимата?
+    answer: Ако се съхраняват при 0–2 °C, клубените се осладяват. Под 0 °C измръзват, затова ги дръж при 3–5 °C.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/kartofi.jpg
+  alt: 'Купчина гладки светложълти картофи с тънка кора, снимани отблизо'
+  credit:
+    author: 'Daniel Dan'
+    authorUrl: https://unsplash.com/@outsideclick
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-pile-of-potatoes-nyAs_YWU3_I
+growing:
+  sow: []
+  transplant: []
+  plant: [2, 3, 4, 5, 6, 7]
+  plantingNote: 'Ранните картофи засаждай от края на февруари до средата на март, средноранните и късните – от средата на април до средата на май, а втората култура – от средата на юни до средата на юли.'
+  tips:
+    - 'Засаждай, когато почвата на 10–12 см се е затоплила до 7–8 °C; в студена и мокра почва клубените покълват по-бавно.'
+    - 'Засаждай рътени клубени от 50–70 г на 7–8 см дълбочина, с кълновете нагоре.'
+    - 'Остави 60–70 см между редовете и 25–35 см между клубените в реда.'
+    - 'Окопай след поникването и пак след 2–3 седмици, като с второто окопаване загърлиш растенията.'
+    - 'Не сади картофи дълго на едно място, нито след домати, пипер или патладжан – нападат ги едни и същи болести.'
+  sources:
+    - name: 'Български фермер – Ранните картофи се засаждат от края на февруари до средата на март'
+      url: https://www.bgfermer.bg/Article/22357538
+    - name: 'Български фермер – Картофите се засаждат в добре затоплена почва'
+      url: https://www.bgfermer.bg/Article/6143831
+    - name: 'Български фермер – Подходящо време за засаждане на картофи'
+      url: https://www.bgfermer.bg/Article/9700439

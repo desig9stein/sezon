@@ -1,0 +1,66 @@
+name: Карфиол
+latinName: Brassica oleracea var. botrytis
+kind: vegetable
+group: krastotsvetni
+summary: Карфиолът образува най-хубавите си глави наесен, когато захладнее. Има високо съдържание на витамин C и е с малко калории.
+varieties: []
+season:
+  - { month: 9, level: available }
+  - { month: 10, level: peak }
+  - { month: 11, level: peak }
+regions: []
+nutrition:
+  energyKcal: 25
+  proteinG: 1.92
+  fatG: 0.28
+  carbohydrateG: 4.97
+  fiberG: 2
+  sugarsG: 1.91
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 48.2 }
+    - { nutrient: vitamin-k, amount: 15.5 }
+    - { nutrient: folat, amount: 57 }
+    - { nutrient: kaliy, amount: 299 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Cauliflower, raw'
+    url: https://fdc.nal.usda.gov/food-details/169986/nutrients
+preparation:
+  - method: Сурово
+    tip: Нарежи розичките на тънко в салата – така не губиш витамин C при готвене.
+  - method: На пара
+    tip: Готви розичките на пара кратко, докато омекнат, вместо да ги вариш дълго във вода.
+traditionalUses: []
+howToChoose: Избери бяла или кремава, плътна и тежка глава със стегнати розички, без кафяви петна, и със свежи зелени листа.
+storage: Пази го в хладилника, увит или в плик, и го изяж до няколко дни.
+faq:
+  - question: Кога е сезонът на карфиола в България?
+    answer: Карфиолът се отглежда най-често като късна култура, защото главите му стават най-качествени наесен, когато е по-хладно.
+  - question: Защо главата на карфиола е рехава?
+    answer: При високи температури вътрешните листа прорастват и главата става по-рехава и лека.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/karfiol.jpg
+  alt: 'Бяла глава карфиол със зелени листа върху дървена дъска за рязане, снимана отгоре'
+  credit:
+    author: 'Louis Hansel'
+    authorUrl: https://unsplash.com/@louishansel
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/white-cauliflower-on-brown-wooden-chopping-board-PT-GXFtQj-s
+growing:
+  sow: [5, 6, 7]
+  transplant: [7, 8, 9]
+  plant: []
+  plantingNote: 'За есенна реколта сей разсада от края на май до края на юли и разсаждай около месец по-късно – до началото на септември.'
+  tips:
+    - 'Засади карфиола в леха след салати, лук или спанак – никога след друго зеле.'
+    - 'Остави около 50 × 60 см между растенията или следвай указанието на пакетчето със семена.'
+    - 'Поливай редовно, най-много докато се оформят главите, и след всяка поливка леко разрохквай почвата.'
+    - 'Подхрани с азотен тор два пъти – преди първото окопаване и 20–25 дни след него.'
+    - 'За да остане главата бяла, събери най-външните листа над нея и ги завържи.'
+  sources:
+    - name: 'Български фермер – Карфиолът е от най-капризните видове сред зелевите'
+      url: https://www.bgfermer.bg/Article/14746455
+    - name: 'Български фермер – Карфиолът се отглежда по-лесно чрез разсад'
+      url: https://www.bgfermer.bg/Article/11727731
+    - name: 'Български фермер – Растенията от сем. Зелеви властват в есенните лехи'
+      url: https://www.bgfermer.bg/Article/15549195
