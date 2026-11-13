@@ -4,6 +4,7 @@ import SeasonLegend from '@components/season/SeasonLegend.astro';
 import SeasonList from '@components/season/SeasonList.astro';
 import SeasonOverview from '@components/season/SeasonOverview.astro';
 import { freshProduceItemList } from '@components/season/seasonJsonLd';
+import { siteOgCard } from '@components/seo/ogImage';
 import { buildMonth } from '@composition/clock';
 import { seasonOverviewService } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
@@ -21,6 +22,7 @@ const itemList = freshProduceItemList(overview, siteUrl);
   title={ui.home.title}
   description={ui.home.description(buildMonth)}
   path={routes.home}
+  ogImage={siteOgCard()}
   jsonLd={[
     websiteJsonLd({
       siteUrl,
