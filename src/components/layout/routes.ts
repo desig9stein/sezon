@@ -14,6 +14,8 @@ const MONTHS_PREFIX = '/sezon';
 const REGIONS_PREFIX = '/regioni';
 const FARMS_PREFIX = '/fermi';
 const RECIPES_PREFIX = '/retsepti';
+const OG_IMAGES_PREFIX = '/og';
+const OG_IMAGE_EXTENSION = '.png';
 
 /** Media type of the RSS feed at `routes.feed`. */
 export const FEED_MEDIA_TYPE = 'application/rss+xml';
@@ -45,6 +47,16 @@ export const routes = {
   section: (kind: ProduceKind) => `/${PRODUCE_SECTIONS[kind]}`,
   produce: (produce: { readonly kind: ProduceKind; readonly slug: string }) =>
     `/${PRODUCE_SECTIONS[produce.kind]}/${produce.slug}`,
+  /** Generated Open Graph images (spec 050). */
+  ogImage: {
+    prefix: `${OG_IMAGES_PREFIX}/`,
+    extension: OG_IMAGE_EXTENSION,
+    site: `${OG_IMAGES_PREFIX}/site${OG_IMAGE_EXTENSION}`,
+    month: (month: Month) =>
+      `${OG_IMAGES_PREFIX}${MONTHS_PREFIX}/${month.slug}${OG_IMAGE_EXTENSION}`,
+    produce: (produce: { readonly kind: ProduceKind; readonly slug: string }) =>
+      `${OG_IMAGES_PREFIX}/${PRODUCE_SECTIONS[produce.kind]}/${produce.slug}${OG_IMAGE_EXTENSION}`,
+  },
 } as const;
 
 /** Path prefixes of the pages the main navigation counts as part of the catalogue. */
