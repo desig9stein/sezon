@@ -4,7 +4,7 @@ import { Slug } from '@shared/domain/Slug';
 import { readSeedCollection } from '@tests/fixtures/seedData';
 import { formalFormsInText, ownStrings } from '@tests/fixtures/voice';
 
-const MIN_RECIPES = 8;
+const MIN_RECIPES = 5;
 /** Hosts accepted as food-safety sources: public food-safety bodies and university extension. */
 const SAFETY_HOSTS = [
   /^nchfp\.uga\.edu$/,

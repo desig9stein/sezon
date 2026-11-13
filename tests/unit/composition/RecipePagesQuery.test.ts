@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
 import { RecipePagesQuery } from '@composition/RecipePagesQuery';
-import { RecipeIndexService } from '@contexts/recipes';
 import { IndexedRecipeRepository } from '@contexts/recipes/infrastructure/IndexedRecipeRepository';
 import { BrokenReferenceError, RecipeNotFoundError } from '@shared/domain/errors';
 import { aProduce, produceRepositoryOf } from '@tests/fixtures/produce';
@@ -20,7 +19,6 @@ const queryWith = (recipes: ReturnType<typeof aRecipe>[]) => {
   const repository = new IndexedRecipeRepository(async () => recipes);
   return new RecipePagesQuery({
     recipes: repository,
-    index: new RecipeIndexService(repository),
     produce,
   });
 };

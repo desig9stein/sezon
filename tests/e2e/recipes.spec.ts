@@ -45,6 +45,8 @@ test.describe('recipes (spec 048)', () => {
       await page.locator('section:has(> h2#safety) a[href^="https://"]').count(),
     ).toBeGreaterThan(0);
     await expect(page.locator('main a[href="/zelenchutsi/zele"]').first()).toBeVisible();
+    await expect(page.locator('section:has(> h2#safety) h3#water-bath')).toHaveCount(1);
+    await expect(page.locator('.recipe__facts dt', { hasText: 'Подготовка' })).toHaveCount(0);
     const types = (await jsonLdOf(page)).map((block) => (block as { '@type': string })['@type']);
     expect(types).toEqual(expect.arrayContaining(['Recipe', 'BreadcrumbList']));
   });

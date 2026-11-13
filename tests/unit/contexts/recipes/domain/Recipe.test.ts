@@ -34,12 +34,6 @@ describe('Recipe (spec 048)', () => {
     expect(recipe.uses('zele')).toBe(false);
   });
 
-  it('AC1: active minutes are prep plus cook plus processing', () => {
-    expect(aRecipe({ prepMinutes: 30, cookMinutes: 10, processingMinutes: 25 }).activeMinutes).toBe(
-      65,
-    );
-  });
-
   const invalid: ReadonlyArray<[string, Partial<RecipeInput>]> = [
     ['a slug that is not a slug', { slug: 'Компот' }],
     ['a blank title', { name: '  ' }],
