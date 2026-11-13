@@ -1,3 +1,12 @@
+/**
+ * Test helpers for the Keystatic config (spec 054).
+ *
+ * {@link saveThroughKeystatic} mirrors what the Keystatic admin does when it saves an entry
+ * (`parseProps`, `serializeProps` and `serializeEntryToFiles` in `@keystatic/core/ui`). Keystatic
+ * exports no API that saves without the browser UI, so the helper calls each field's own `parse`
+ * and `serialize` and then `js-yaml` `dump`, the same steps in the same order. If a Keystatic
+ * upgrade changes that save path, update this helper to match it.
+ */
 import type { ComponentSchema } from '@keystatic/core';
 import { dump } from 'js-yaml';
 import { parseDocument } from 'yaml';
@@ -23,6 +32,23 @@ export const ZOD_SCHEMAS: Readonly<Record<string, z.ZodType>> = {
   recipes: recipeSchema,
   sponsors: sponsorSchemaWith({ image: testImage }),
 };
+
+/** The parts of a Zod schema node needed to walk it alongside a Keystatic schema. */
+export interface ZodNode {
+  readonly def: {
+    readonly type: string;
+    readonly innerType?: ZodNode;
+    readonly in?: ZodNode;
+    readonly element?: ZodNode;
+    readonly shape?: Readonly<Record<string, ZodNode>>;
+  };
+}
+
+/** Removes optional, default and transform wrappers from a Zod schema node. */
+export function unwrapZod(node: ZodNode): ZodNode {
+  const inner = node.def.innerType ?? node.def.in;
+  return inner === undefined ? node : unwrapZod(inner);
+}
 
 /** Parses YAML the way Astro's content loader does (core schema, timestamps as dates). */
 export function parseAstroYaml(source: string): unknown {

@@ -3,34 +3,15 @@ import { basename, join } from 'node:path';
 import type { ComponentSchema } from '@keystatic/core';
 import { createReader } from '@keystatic/core/reader';
 import { describe, expect, it } from 'vitest';
-import keystaticConfig, {
-  DATA_DIRECTORY as KEYSTATIC_DATA_DIRECTORY,
-  slugOf,
-} from '../../../keystatic.config';
-import { collections, DATA_DIRECTORY, ENTRY_FILE_PATTERN } from '../../../src/content.config';
+import keystaticConfig, { slugOf } from '../../../keystatic.config';
+import { collections } from '../../../src/content.config';
 import { Slug } from '@shared/domain';
-import { ZOD_SCHEMAS } from '@tests/fixtures/keystatic';
+import { DATA_DIRECTORY, ENTRY_FILE_PATTERN } from '@shared/infrastructure/contentFiles';
+import { unwrapZod as unwrap, ZOD_SCHEMAS, type ZodNode } from '@tests/fixtures/keystatic';
 
 const COLLECTION_NAMES = Object.keys(collections).sort();
 const KEYSTATIC = keystaticConfig.collections;
 const ENTRY_EXTENSION = '.yaml';
-
-/** The parts of a Zod schema node needed to walk its keys. */
-interface ZodNode {
-  readonly def: {
-    readonly type: string;
-    readonly innerType?: ZodNode;
-    readonly in?: ZodNode;
-    readonly element?: ZodNode;
-    readonly shape?: Readonly<Record<string, ZodNode>>;
-  };
-}
-
-/** Removes optional, default and transform wrappers. */
-function unwrap(node: ZodNode): ZodNode {
-  const inner = node.def.innerType ?? node.def.in;
-  return inner === undefined ? node : unwrap(inner);
-}
 
 /**
  * Lists every key path where the Keystatic schema and the Zod schema disagree, walking editable
@@ -84,7 +65,6 @@ describe('Keystatic config mirrors the content collections (spec 054)', () => {
   });
 
   it('AC2: stores each collection in the folder and file pattern its content collection reads', () => {
-    expect(KEYSTATIC_DATA_DIRECTORY).toBe(DATA_DIRECTORY);
     expect(ENTRY_FILE_PATTERN).toBe(`*${ENTRY_EXTENSION}`);
     for (const name of COLLECTION_NAMES) {
       const collection = KEYSTATIC[name as keyof typeof KEYSTATIC];

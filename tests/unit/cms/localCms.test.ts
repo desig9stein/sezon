@@ -10,11 +10,17 @@ const FAKE_INTEGRATIONS: AstroIntegration[] = [
   { name: 'keystatic', hooks: {} },
 ];
 
-/** Runs the integration's setup hook for `command` and returns what it did. */
-async function setUp(command: SetupParams['command']) {
+/** Environment of a plain `astro dev` run, outside Vitest. */
+const ASTRO_ENV = {};
+
+/**
+ * Runs the integration's setup hook for `command` and returns what it did.
+ * @param env - Environment variables the integration sees.
+ */
+async function setUp(command: SetupParams['command'], env: Record<string, string> = ASTRO_ENV) {
   const load = vi.fn(async () => FAKE_INTEGRATIONS);
   const updateConfig = vi.fn();
-  const hook = localCms({ load }).hooks['astro:config:setup'];
+  const hook = localCms({ load, env }).hooks['astro:config:setup'];
   await hook?.({ command, updateConfig } as unknown as SetupParams);
   return { load, updateConfig };
 }
@@ -37,9 +43,15 @@ describe('localCms (spec 054)', () => {
     });
   }
 
+  it('AC8: adds nothing when Vitest runs Astro in dev mode (getViteConfig)', async () => {
+    const { load, updateConfig } = await setUp('dev', { VITEST: 'true' });
+    expect(load).not.toHaveBeenCalled();
+    expect(updateConfig).not.toHaveBeenCalled();
+  });
+
   it('AC8: loads the real React and Keystatic integrations by default', async () => {
     const updateConfig = vi.fn();
-    await localCms().hooks['astro:config:setup']?.({
+    await localCms({ env: ASTRO_ENV }).hooks['astro:config:setup']?.({
       command: 'dev',
       updateConfig,
     } as unknown as SetupParams);
