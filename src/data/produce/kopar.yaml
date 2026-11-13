@@ -34,7 +34,12 @@ nutrition:
 preparation:
   - method: Пресен
     tip: Нарязвай го непосредствено преди сервиране – ароматните масла се изпаряват бързо.
-traditionalUses: []
+traditionalUses:
+  - system: folk
+    use: 'Традиционно се използва в българската народна медицина като запарка за храносмилането и против подуване.'
+    source:
+      name: 'Dragoeva A., Stoyanova Z., Marinov M., Koleva V. – Survey on current status of folk medicine in Bulgaria reported by local knowledgeable persons, Acta Scientifica Naturalis 9(3), 2022'
+      url: https://doi.org/10.2478/asn-2022-0021
 howToChoose: Избери яркозелени, ароматни стръкове без пожълтяване.
 storage: Увит във влажна хартия в хладилника издържа три–четири дни; може да се замрази нарязан.
 faq:

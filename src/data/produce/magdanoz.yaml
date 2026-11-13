@@ -39,7 +39,12 @@ nutrition:
 preparation:
   - method: Пресен
     tip: Добавяй го накрая, след като свалиш ястието от огъня – витамин C се разгражда при нагряване.
-traditionalUses: []
+traditionalUses:
+  - system: folk
+    use: 'Традиционно се използва в българската народна медицина като пикочогонно средство – листата и коренът се накисват в студена вода.'
+    source:
+      name: 'Ivancheva S., Stantcheva B. – Ethnobotanical inventory of medicinal plants in Bulgaria, Journal of Ethnopharmacology 69, 2000'
+      url: https://doi.org/10.1016/S0378-8741(99)00129-4
 howToChoose: Избери яркозелени, стегнати връзки без увехнали или пожълтели листа.
 storage: Постави стъблата в чаша с вода в хладилника или ги увий във влажна хартия – издържа до седмица.
 faq:
