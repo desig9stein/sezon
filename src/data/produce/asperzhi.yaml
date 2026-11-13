@@ -1,0 +1,33 @@
+name: Аспержи
+latinName: Asparagus officinalis
+kind: vegetable
+group: zaychesyankovi
+summary: 'Аспержите са многогодишен зеленчук, който дава пролетни издънки. Сезонът им започва през април и свършва към средата на юни.'
+season:
+  - { month: 4, level: peak }
+  - { month: 5, level: peak }
+  - { month: 6, level: peak }
+nutrition:
+  energyKcal: 20
+  proteinG: 2.2
+  fatG: 0.12
+  carbohydrateG: 3.88
+  fiberG: 2.1
+  sugarsG: 1.88
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 41.6 }
+    - { nutrient: folat, amount: 52 }
+    - { nutrient: med-cu, amount: 0.189 }
+    - { nutrient: zhelyazo, amount: 2.14 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Asparagus, raw'
+    url: https://fdc.nal.usda.gov/food-details/168389/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/asperzhi.jpg
+  alt: 'Отблизо зелени връхчета на аспержи в сноп'
+  credit:
+    author: 'engin akyurt'
+    authorUrl: https://unsplash.com/@enginakyurt
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/close-up-of-fresh-green-asparagus-spears-vZI6sTly1p4

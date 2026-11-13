@@ -1,0 +1,34 @@
+name: Пащърнак
+latinName: Pastinaca sativa
+kind: vegetable
+group: sennikotsvetni
+summary: 'Пащърнакът се отглежда като морковите и кореноплодите му се прибират през есента. Може да зимува и на открито.'
+season:
+  - { month: 9, level: available }
+  - { month: 10, level: available }
+  - { month: 11, level: available }
+nutrition:
+  energyKcal: 75
+  proteinG: 1.2
+  fatG: 0.3
+  carbohydrateG: 17.99
+  fiberG: 4.9
+  sugarsG: 4.8
+  micronutrients:
+    - { nutrient: folat, amount: 67 }
+    - { nutrient: vitamin-k, amount: 22.5 }
+    - { nutrient: mangan, amount: 0.56 }
+    - { nutrient: vitamin-c, amount: 17 }
+    - { nutrient: kaliy, amount: 375 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Parsnips, raw'
+    url: https://fdc.nal.usda.gov/food-details/170417/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/pashtarnak.jpg
+  alt: 'Четири кремави корена пащърнак с листни дръжки на тъмен фон'
+  credit:
+    author: 'Jasmine Waheed'
+    authorUrl: https://unsplash.com/@jasmine_waheed
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/macro-photography-four-brown-carrots-Bt-T8tSfBkM

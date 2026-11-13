@@ -1,0 +1,10 @@
+name: Естрагон
+latinName: Artemisia dracunculus
+kind: herb
+group: slozhnotsvetni
+summary: 'Естрагонът е многогодишна подправка от рода на пелина. През лятото стъблата и листата му се режат няколко пъти.'
+season:
+  - { month: 6, level: available }
+  - { month: 7, level: available }
+  - { month: 8, level: available }
+updatedAt: 2026-11-13
