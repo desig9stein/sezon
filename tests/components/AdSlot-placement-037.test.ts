@@ -49,6 +49,7 @@ vi.mock('@composition/index', async (importOriginal) => {
       regions: repositoryOf([toRegion('plovdiv', { name: 'Пловдив' })]),
       farms: new IndexedFarmRepository(async () => []),
     }),
+    recipeIndexService: { forProduce: async () => [] },
     sponsorSelectionService: {
       forPlacement: async (placement: 'produce' | 'month') =>
         Sponsor.create(sponsorInput({ id: `${placement}-sponsor`, image, placement })),

@@ -1,6 +1,8 @@
 import type { GrowingActivity, OrganicAvailability, ProduceKind } from '@contexts/catalog';
 import type { AreaRank, RegionProfile, TopFruit } from '@contexts/geography';
+import type { Ingredient, IngredientUnit, RecipeCategory } from '@contexts/recipes';
 import { LAST_MONTH_NUMBER, Month, type SeasonLevelValue } from '@contexts/seasonality';
+import { hoursAndMinutes } from '@shared/domain/duration';
 import { InvalidPageMetaError } from '@shared/domain/errors';
 import { characterCount, DESCRIPTION_MAX_LENGTH, TITLE_MAX_LENGTH } from '@shared/seo';
 
@@ -35,6 +37,8 @@ const DASH_SEPARATOR = ' – ';
 const GARDEN_LABEL = 'В градината';
 const LOCAL_FARMS = 'Местни ферми';
 const SOURCES = 'Източници';
+const RECIPES_HEADING = 'Рецепти за зимнина';
+const NO_TIME = '–';
 const ADVERTISING = 'Реклама';
 const COOKIES = 'Бисквитки';
 const PRIVACY_POLICY = 'Политика за поверителност';
@@ -276,6 +280,34 @@ export function produceTitle(name: string): string {
     `${name} – сезон и хранителни стойности`,
     name,
   ]);
+}
+
+/**
+ * Formats a number of minutes as „25 мин“, „1 ч“ or „1 ч 5 мин“; zero is „–“.
+ * @param minutes - Whole minutes, zero or more.
+ */
+export function formatDuration(minutes: number): string {
+  if (minutes <= 0) return NO_TIME;
+  const { hours, minutes: rest } = hoursAndMinutes(minutes);
+  return [hours > 0 ? `${hours} ч` : undefined, rest > 0 ? `${rest} мин` : undefined]
+    .filter((part) => part !== undefined)
+    .join(' ');
+}
+
+const RECIPE_UNITS: Readonly<Record<IngredientUnit, string>> = {
+  g: 'г',
+  kg: 'кг',
+  ml: 'мл',
+  l: 'л',
+  piece: 'бр.',
+  tsp: 'ч.л.',
+  tbsp: 'с.л.',
+  cup: 'ч.ч.',
+};
+
+/** Returns an ingredient line such as „2,3 кг бяло зеле“. */
+function recipeIngredient(ingredient: Ingredient): string {
+  return `${formatNumber(ingredient.quantity)} ${RECIPE_UNITS[ingredient.unit]} ${inSentence(ingredient.name)}`;
 }
 
 /** Returns a nutrient name for use inside a sentence (first letter in lower case). */
@@ -572,6 +604,7 @@ export const ui = {
       choose: 'Как да избереш',
       storage: 'Как да съхраниш',
       growing: 'Отглеждане в градината',
+      recipes: RECIPES_HEADING,
       faq: 'Често задавани въпроси',
       sources: SOURCES,
     },
@@ -872,7 +905,74 @@ export const ui = {
     nutrientsHeading: 'Хранителни вещества',
     farmsLink: 'Всички местни ферми',
     regionsLink: 'Какво расте във всяка от 28-те области',
+    recipesLink: 'Всички рецепти за зимнина',
     count: (count: number) => (count === 1 ? '1 продукт' : `${count} продукта`),
+  },
+  recipes: {
+    title: 'Рецепти за зимнина: кисело зеле, сладка и компоти',
+    heading: RECIPES_HEADING,
+    description:
+      'Рецепти за зимнина с източник: кисело зеле, сладка и компоти с точни количества, време във водна баня и съвети за безопасно съхранение.',
+    intro:
+      'Как да затвориш сезона в буркан. Всяка рецепта посочва публикацията, от която идва, а стъпките за безопасност – стерилизация, време във водна баня и съхранение – следват източник за безопасност на храните.',
+    safetyIntro:
+      'Не променяй количествата сол, захар, киселина и вода и спазвай времето във водна баня: от тях зависи дали бурканът е безопасен.',
+    pageTitle: (name: string) =>
+      fittingTitle([`${name} – рецепта за зимнина`, `${name} – рецепта`, name]),
+    forProduce: (names: ReadonlyArray<string>) => `За: ${names.join(LIST_SEPARATOR)}`,
+    produceLabel: 'За продуктите:',
+    produceSeparator: DASH_SEPARATOR,
+    categories: {
+      sauerkraut: 'кисело зеле',
+      pickle: 'туршия',
+      preserve: 'сладко',
+      jam: 'конфитюр',
+      compote: 'компот',
+      'jarred-vegetables': 'зеленчуци в буркан',
+    } satisfies Record<RecipeCategory, string>,
+    categoryHeadings: {
+      sauerkraut: 'Кисело зеле',
+      pickle: 'Туршии',
+      preserve: 'Сладка',
+      jam: 'Конфитюри',
+      compote: 'Компоти',
+      'jarred-vegetables': 'Зеленчуци в буркан',
+    } satisfies Record<RecipeCategory, string>,
+    units: RECIPE_UNITS,
+    ingredient: recipeIngredient,
+    facts: {
+      category: 'Вид',
+      yield: 'Количество',
+      prep: 'Подготовка',
+      cook: 'Варене',
+      processing: 'Във водна баня',
+      wait: 'Престояване',
+      days: (days: number) => (days === 1 ? '1 ден' : `${days} дни`),
+      processingNote:
+        'Времето във водна баня е за надморска височина до 300 м; за по-голяма височина виж „Буркани и стерилизация“.',
+    },
+    headings: {
+      ingredients: 'Съставки',
+      steps: 'Приготвяне',
+      safety: 'Безопасност',
+      sterilisation: 'Буркани и стерилизация',
+      storage: 'Съхранение',
+      sources: SOURCES,
+    },
+    waterBath: {
+      heading: 'Водна баня',
+      items: [
+        'Използвай буркани за консервиране и нови плоски капачки при всяко затваряне: бурканите може да се ползват отново, капачките – не.',
+        'Подреди бурканите на скара в съда и налей гореща вода поне 2,5 см над капачките, а когато варенето е над 30 минути – поне 5 см над тях.',
+        'Отчитай времето от момента, в който водата заври силно, и дръж съда покрит.',
+        'Ако водата спре да ври, доведи я отново до силно кипене и започни отначало с цялото време.',
+        'Извади бурканите, без да ги накланяш, и ги остави да изстинат 12–24 часа, без да ги местиш.',
+        'После натисни средата на всяка капачка: ако е вдлъбната и не пружинира, бурканът е затворен херметично.',
+        'Буркан, който не се е затворил до 24 часа, дръж в хладилник и го изяж до седмица.',
+      ],
+    },
+    safetySourcesLabel: 'Източници за безопасността:',
+    sourcesNote: 'Рецептата е по тези публикации.',
   },
   calendar: {
     navLabel: 'Календар',

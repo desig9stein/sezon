@@ -130,6 +130,7 @@ src/
     geography/                Region (the 28 provinces)
     farms/                    Farm, contact info
     advertising/              Sponsors, ad placements (Phase 4)
+    recipes/                  Recipes for winter preserves, food-safety notes
       <context>/
         domain/               Entities, value objects, repository interfaces. Pure TS.
         application/          Use cases / query services. Depends on domain only.
@@ -155,7 +156,7 @@ tests/
 
 1. `domain/` imports only `src/shared/domain`, its own context, and the public `index.ts` of an
    upstream context (allowed upstreams: `catalog` → `seasonality`; `farms` → none;
-   `advertising` → none). No Astro, no I/O.
+   `advertising` → none; `recipes` → none). No Astro, no I/O.
 2. `application/` imports only `domain/` (own context and `shared`), plus other contexts'
    public `index.ts`.
 3. `infrastructure/` may import `astro:content` and `astro/zod`. It is imported only by

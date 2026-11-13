@@ -112,3 +112,13 @@ export class FarmNotFoundError extends DomainError {
 export class InvalidSponsorError extends DomainError {
   readonly code = 'INVALID_SPONSOR';
 }
+
+/** Thrown when recipe data violates an entity invariant (e.g. a non-positive quantity). */
+export class InvalidRecipeError extends DomainError {
+  readonly code = 'INVALID_RECIPE';
+}
+
+/** Thrown when no recipe has the requested slug. */
+export class RecipeNotFoundError extends DomainError {
+  readonly code = 'RECIPE_NOT_FOUND';
+}

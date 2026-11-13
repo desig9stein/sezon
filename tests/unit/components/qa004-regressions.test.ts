@@ -69,6 +69,8 @@ describe('QA 004 regressions', () => {
       'privacy',
       'produce',
       'produceSection',
+      'recipe',
+      'recipes',
       'region',
       'regions',
       'reportError',
