@@ -75,7 +75,36 @@ const EXPECTED = {
     regions: SOUTH_CENTRAL,
     varieties: ['Български 12'],
   },
+  tikvichki: {
+    group: 'tikvovi',
+    fdcId: '169291',
+    description: 'Squash, summer, zucchini, includes skin, raw',
+    regions: [],
+    varieties: ['Бистра', 'Изобилна'],
+  },
+  'zelen-fasul': {
+    group: 'bobovi',
+    fdcId: '169961',
+    description: 'Beans, snap, green, raw',
+    regions: [],
+    varieties: ['Еврос', 'Никос'],
+  },
+  bamya: {
+    group: 'slezovi',
+    fdcId: '169260',
+    description: 'Okra, raw',
+    regions: [],
+    varieties: ['Пловдивска', 'Лясковска', 'Тополовградска'],
+  },
 } as const;
+/** Produce for which no official source names a province (spec 042). */
+const WITHOUT_REGIONS: ReadonlySet<string> = new Set(['tikvichki', 'zelen-fasul', 'bamya']);
+/** Groups added by spec 041: id, Bulgarian name and family. */
+const NEW_GROUPS = [
+  ['kartofovi', 'Картофови', 'Solanaceae'],
+  ['bobovi', 'Бобови', 'Fabaceae'],
+  ['slezovi', 'Слезови', 'Malvaceae'],
+] as const;
 const SLUGS = Object.keys(EXPECTED) as ReadonlyArray<keyof typeof EXPECTED>;
 
 const pathOf = (slug: string) => join(PRODUCE_DIR, `${slug}.yaml`);
@@ -94,12 +123,12 @@ describe('summer vegetables (spec 041)', () => {
     expect(produce.group).toBe(EXPECTED[slug].group);
   });
 
-  it('AC1: the Solanaceae group exists', () => {
-    const path = join(DATA_DIR, 'groups', 'kartofovi.yaml');
+  it.each(NEW_GROUPS)('AC1: the group %s exists as %s (%s)', (id, name, latinName) => {
+    const path = join(DATA_DIR, 'groups', `${id}.yaml`);
     expect(existsSync(path)).toBe(true);
     const group = parse(readFileSync(path, 'utf8')) as { name: string; latinName: string };
-    expect(group.name).toBe('Картофови');
-    expect(group.latinName).toBe('Solanaceae');
+    expect(group.name).toBe(name);
+    expect(group.latinName).toBe(latinName);
   });
 
   it.each(SLUGS)('AC2: %s cites its USDA SR Legacy record', (slug) => {
@@ -110,7 +139,7 @@ describe('summer vegetables (spec 041)', () => {
     expect(source.name).toBe(`USDA FoodData Central, SR Legacy: ${EXPECTED[slug].description}`);
   });
 
-  it.each(SLUGS)('AC3: %s names the provinces of the leading МЗХ region', (slug) => {
+  it.each(SLUGS)('AC3: %s names only provinces of the leading МЗХ region, or none', (slug) => {
     const { regions } = read(slug);
     expect(regions.map((entry) => entry.region)).toEqual(EXPECTED[slug].regions);
     for (const entry of regions) {
@@ -154,8 +183,14 @@ describe('summer vegetables (spec 041)', () => {
     expect(updatedAt).toBe(CHANGE_DATE);
   });
 
-  it.each(SLUGS)('AC7: %s lists only varieties from the ИАСАС official list', (slug) => {
+  it.each(SLUGS)('AC7: %s lists only varieties from the ИАСАС list or Български фермер', (slug) => {
     expect(read(slug).varieties.map((variety) => variety.name)).toEqual(EXPECTED[slug].varieties);
+  });
+
+  it('AC3: produce without official regional data names no province', () => {
+    for (const slug of WITHOUT_REGIONS) {
+      expect(read(slug).regions, slug).toEqual([]);
+    }
   });
 
   it('AC8: the checklist has a row for each new produce', () => {
@@ -163,7 +198,9 @@ describe('summer vegetables (spec 041)', () => {
     for (const slug of SLUGS) {
       const row = checklist.split('\n').find((line) => line.startsWith(`| \`${slug}\``)) ?? '';
       expect(row, slug).toContain(EXPECTED[slug].fdcId);
-      expect(row, slug).toContain('NUTS2');
+      expect(row, slug).toContain(
+        WITHOUT_REGIONS.has(slug) ? 'no official regional data' : 'NUTS2',
+      );
     }
   });
 
