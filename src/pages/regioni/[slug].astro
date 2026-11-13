@@ -19,7 +19,13 @@ const page = await regionPagesQuery.forSlug(Astro.params.slug, BUILD_DATE);
 const { region } = page;
 const labels = ui.regions;
 const path = routes.region(region.slug);
-const description = labels.pageDescription(region.name, page.produce.length, page.farms.length);
+const { profile } = region;
+const description = labels.pageDescription(
+  region.name,
+  page.produce.length,
+  page.farms.length,
+  profile,
+);
 const linkedRegions = (await regionPagesQuery.overview())
   .filter((summary) => summary.hasPage && summary.region.slug !== region.slug)
   .map((summary) => ({ region: summary.region, href: routes.region(summary.region.slug) }));
@@ -47,12 +53,29 @@ const jsonLd = [
   jsonLd={jsonLd}
 >
   <h1>{placeName}</h1>
-  <p class="region__intro">{labels.pageIntro}</p>
+  <p class="region__intro">{labels.pageIntro(page.produce.length, page.farms.length)}</p>
   <ProvinceMap
     regions={[region]}
     links={linkedRegions}
     caption={labels.mapCaptionFor(region.name)}
   />
+
+  {profile !== undefined && page.areaRank !== undefined && (
+    <section aria-labelledby="region-profile">
+      <h2 class="section-heading" id="region-profile">
+        {labels.profile.heading}
+      </h2>
+      <p class="region__profile">{labels.profile.summary(profile, page.areaRank)}</p>
+      <p class="region__sources-label">{labels.profile.sourcesLabel}</p>
+      <ul class="region__sources">
+        {profile.sources.map((source) => (
+          <li>
+            <a href={source.url}>{source.name}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 
   <section aria-labelledby="region-produce">
     <h2 class="section-heading" id="region-produce">
@@ -89,6 +112,24 @@ const jsonLd = [
   .region__intro {
     max-width: var(--reading-width);
     margin-bottom: var(--space-4);
+  }
+
+  .region__profile {
+    max-width: var(--reading-width);
+  }
+
+  .region__sources-label {
+    margin-top: var(--space-3);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .region__sources {
+    display: grid;
+    gap: var(--space-1);
+    max-width: var(--reading-width);
+    font-size: var(--font-size-sm);
+    overflow-wrap: anywhere;
   }
 
   .region__produce {
