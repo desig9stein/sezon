@@ -1,0 +1,45 @@
+---
+import type { ResolvedGrowingRegion } from '@composition/ProduceDetailsQuery';
+import ProvinceMap from '@components/produce/ProvinceMap.astro';
+import { routes } from '@components/layout/routes';
+import { ui } from '@i18n/bg';
+
+/**
+ * The provinces where a produce grows, each linked to its region page with its note, and the
+ * linked province map. Without provinces it says that no official data names them.
+ */
+interface Props {
+  regions: ReadonlyArray<ResolvedGrowingRegion>;
+}
+
+const { regions } = Astro.props;
+---
+
+{regions.length === 0 ? (
+  <p>{ui.produce.regionsEmpty}</p>
+) : (
+  <>
+    <ul>
+      {regions.map(({ region, note }) => (
+        <li>
+          <a href={routes.region(region.slug)}>
+            <strong>{region.name}</strong>
+          </a>{' '}
+          – {note}
+        </li>
+      ))}
+    </ul>
+    <ProvinceMap
+      regions={regions.map(({ region }) => region)}
+      links={regions.map(({ region }) => ({ region, href: routes.region(region.slug) }))}
+    />
+  </>
+)}
+
+<style>
+  ul {
+    display: grid;
+    gap: var(--space-1);
+    padding-inline-start: var(--space-6);
+  }
+</style>

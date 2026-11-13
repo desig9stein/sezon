@@ -1,10 +1,11 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { getImage } from 'astro:assets';
+import AdSlot from '@components/ads/AdSlot.astro';
 import FarmList from '@components/produce/FarmList.astro';
 import GrowingGuide from '@components/produce/GrowingGuide.astro';
+import GrowingRegions from '@components/produce/GrowingRegions.astro';
 import ProducePhoto from '@components/produce/ProducePhoto.astro';
-import ProvinceMap from '@components/produce/ProvinceMap.astro';
 import NutritionTable from '@components/produce/NutritionTable.astro';
 import SeasonCalendarList from '@components/produce/SeasonCalendarList.astro';
 import ProduceNow from '@components/produce/ProduceNow.astro';
@@ -13,7 +14,11 @@ import SourceList from '@components/produce/SourceList.astro';
 import TraditionalUses from '@components/produce/TraditionalUses.astro';
 import { routes } from '@components/layout/routes';
 import { BUILD_DATE, buildMonth } from '@composition/clock';
-import { produceDetailsQuery, produceRepository } from '@composition/index';
+import {
+  produceDetailsQuery,
+  produceRepository,
+  sponsorSelectionService,
+} from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
 import { produceTitle, ui } from '@i18n/bg';
 import BaseLayout from '@layouts/BaseLayout.astro';
@@ -31,6 +36,7 @@ const path = routes.produce(produce);
 const siteUrl = requireSiteUrl(Astro.site);
 const labels = ui.produce;
 const toc = produceToc(produce);
+const sponsor = await sponsorSelectionService.forPlacement('produce', BUILD_DATE);
 const SHARE_IMAGE_WIDTH = 1200;
 const shareImage =
   produce.photo === undefined
@@ -124,23 +130,7 @@ const jsonLd = [
       )}
       <section aria-labelledby="regions">
         <h3 id="regions">{labels.headings.regions}</h3>
-        <ul>
-          {details.growingRegions.map(({ region, note }) => (
-            <li>
-              <a href={routes.region(region.slug)}>
-                <strong>{region.name}</strong>
-              </a>{' '}
-              – {note}
-            </li>
-          ))}
-        </ul>
-        <ProvinceMap
-          regions={details.growingRegions.map(({ region }) => region)}
-          links={details.growingRegions.map(({ region }) => ({
-            region,
-            href: routes.region(region.slug),
-          }))}
-        />
+        <GrowingRegions regions={details.growingRegions} />
         <p>
           <a href="#farms">{labels.farmsLink}</a>
         </p>
@@ -171,6 +161,8 @@ const jsonLd = [
         </section>
       )}
     </section>
+
+    <AdSlot sponsor={sponsor} placement="produce" />
 
     {produce.growing !== undefined && (
       <section id="grow" class="produce__group produce__wide" aria-labelledby="grow-heading">

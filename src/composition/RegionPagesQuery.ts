@@ -1,6 +1,11 @@
 import type { Produce, ProduceRepository } from '@contexts/catalog';
 import type { Farm, FarmRepository } from '@contexts/farms';
-import type { Region, RegionRepository } from '@contexts/geography';
+import {
+  type AreaRank,
+  type Region,
+  type RegionRepository,
+  utilisedAreaRank,
+} from '@contexts/geography';
 import { RegionNotFoundError } from '@shared/domain/errors';
 import type { FarmWithRegion } from './ProduceDetailsQuery';
 
@@ -9,7 +14,7 @@ export interface RegionSummary {
   readonly region: Region;
   readonly produceCount: number;
   readonly farmCount: number;
-  /** Whether the region has its own page (at least one produce or farm). */
+  /** Whether the region has its own page (a profile, or at least one produce or farm). */
   readonly hasPage: boolean;
 }
 
@@ -24,6 +29,8 @@ export interface RegionPage {
   readonly region: Region;
   readonly produce: ReadonlyArray<RegionProduce>;
   readonly farms: ReadonlyArray<FarmWithRegion>;
+  /** Rank of the utilised agricultural area, when the region has a profile. */
+  readonly areaRank: AreaRank | undefined;
 }
 
 /** Repositories the query reads from. */
@@ -51,7 +58,7 @@ export class RegionPagesQuery {
         region,
         produceCount,
         farmCount,
-        hasPage: produceCount + farmCount > 0,
+        hasPage: region.profile !== undefined || produceCount + farmCount > 0,
       });
     });
   }
@@ -65,13 +72,15 @@ export class RegionPagesQuery {
 
   /**
    * Returns the region with `slug`, its produce with notes in repository order and its farms with
-   * sponsored farms first; farms are marked organic for the day of `on`.
+   * sponsored farms first; farms are marked organic for the day of `on`. The rank of its utilised
+   * area is among all regions with a profile.
    * @throws RegionNotFoundError when no region has that slug.
    */
   async forSlug(slug: string, on: Date): Promise<RegionPage> {
     const region = await this.repositories.regions.findBySlug(slug);
     if (region === undefined) throw new RegionNotFoundError(`No region with slug "${slug}".`);
-    const [produce, farms] = await Promise.all([
+    const [regions, produce, farms] = await Promise.all([
+      this.repositories.regions.all(),
       this.repositories.produce.all(),
       this.repositories.farms.all(),
     ]);
@@ -93,6 +102,7 @@ export class RegionPagesQuery {
           Object.freeze({ farm, region, certifiedOrganic: farm.isOrganicOn(on) }),
         ),
       ),
+      areaRank: utilisedAreaRank(regions, slug),
     });
   }
 }

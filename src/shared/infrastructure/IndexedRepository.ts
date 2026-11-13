@@ -1,5 +1,6 @@
 import { DuplicateEntityError } from '@shared/domain/errors';
 import type { NamedEntity, Repository } from '@shared/domain/Repository';
+import { cachedLoad } from './cachedLoad';
 
 const bulgarianCollator = new Intl.Collator('bg');
 
@@ -14,10 +15,12 @@ interface EntityIndex<T> {
  * Bulgarian name, then by slug.
  */
 export class IndexedRepository<T extends NamedEntity> implements Repository<T> {
-  private index: Promise<EntityIndex<T>> | undefined;
+  private readonly getIndex: () => Promise<EntityIndex<T>>;
 
   /** @param load - Returns the entities. */
-  constructor(private readonly load: () => Promise<ReadonlyArray<T>>) {}
+  constructor(load: () => Promise<ReadonlyArray<T>>) {
+    this.getIndex = cachedLoad(async () => buildIndex(await load()));
+  }
 
   /** Returns every entity, sorted by Bulgarian name. @throws DuplicateEntityError */
   async all(): Promise<ReadonlyArray<T>> {
@@ -27,16 +30,6 @@ export class IndexedRepository<T extends NamedEntity> implements Repository<T> {
   /** Returns the entity with `slug`, or `undefined`. @throws DuplicateEntityError */
   async findBySlug(slug: string): Promise<T | undefined> {
     return (await this.getIndex()).bySlug.get(slug);
-  }
-
-  private getIndex(): Promise<EntityIndex<T>> {
-    this.index ??= this.load()
-      .then(buildIndex)
-      .catch((error: unknown) => {
-        this.index = undefined;
-        throw error;
-      });
-    return this.index;
   }
 }
 

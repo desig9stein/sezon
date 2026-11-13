@@ -1,6 +1,7 @@
 import { z } from 'astro/zod';
 import {
   httpsUrl,
+  type ImageSchemaFactory,
   isoDate,
   singleLineText,
   slugReference,
@@ -12,7 +13,6 @@ import { FIRST_MONTH_NUMBER, LAST_MONTH_NUMBER, SEASON_LEVEL_VALUES } from '@con
 import { NUTRIENT_KINDS, NUTRIENT_UNITS } from '../domain/Nutrient';
 import { TRADITIONAL_SYSTEMS } from '../domain/Produce';
 import { PRODUCE_KINDS } from '../domain/ProduceKind';
-import type { ImageAsset } from '../domain/ProducePhoto';
 import { ORGANIC_AVAILABILITIES } from '../domain/OrganicProduction';
 
 const SUMMARY_MIN_LENGTH = 70;
@@ -64,7 +64,6 @@ export const produceSchema = z.strictObject({
     .array(
       z.strictObject({ region: slugReference(), note: text(), source: sourceSchema.optional() }),
     )
-    .min(1)
     .superRefine(uniqueBy((entry) => entry.region, 'region')),
   nutrition: nutritionSchema,
   preparation: z.array(z.strictObject({ method: text(), tip: text() })).min(1),
@@ -133,8 +132,7 @@ export const organicSchema = z.strictObject({
   sources: z.array(sourceSchema).min(1),
 });
 
-/** Builds the schema of a local image: Astro's `image()` helper in the build, a stub in tests. */
-export type ImageSchemaFactory = () => z.ZodType<ImageAsset>;
+export type { ImageSchemaFactory };
 
 /**
  * Schema of a produce photo: a local image, its Bulgarian alternative text and its credit.

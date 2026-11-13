@@ -8,8 +8,11 @@ approval step (spec 034): a fact either has a source or the methodology page say
 - **Nutrition values (2026-11-12):** every value equals the USDA FoodData Central SR Legacy record
   cited by the produce (April 2018 release). `tests/unit/content/usda-nutrition.test.ts` checks
   this in the unit tests (CI) against `tests/fixtures/usda/sr-legacy-extract.json`.
-- **Traditional uses (2026-11-12):** the three uses that cited Wikipedia (dill, parsley, cabbage) were
-  removed, because no primary source was found. New uses need a primary source (not Wikipedia).
+- **Traditional uses (2026-11-12, specs 032 and 039):** the three uses that cited Wikipedia were
+  removed. Dill now has one folk use from a peer-reviewed Bulgarian ethnobotanical
+  study. Parsley has none: its source row also records an abortion effect, and the site cannot
+  show a caution next to a use. Cabbage has none: its Bulgarian lead (a fresh-leaf compress in Kozuharova
+  et al. 2013) could not be verified. New uses need a primary source (not Wikipedia).
 - **Growing regions (2026-11-12, spec 033):** apples, pears and walnuts list the provinces that lead
   the МЗХ orchard structure survey (2023), with the figures and the source in each note. Cabbage
   data exists only by NUTS2 region: Plovdiv and Pazardzhik are in the South Central region, which
@@ -36,7 +39,7 @@ approval step (spec 034): a fact either has a source or the methodology page say
 | ------------- | ---------- | ---------------------------------------------------------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | `domati`      | Домати     | ✓ FDC [170457](https://fdc.nal.usda.gov/food-details/170457/nutrients) | 0                | Seasons (regions supported at NUTS2 level: South Central region, open field, МЗХ 2025; no provincial data)             |
 | `dyuli`       | Дюли       | ✓ FDC [168163](https://fdc.nal.usda.gov/food-details/168163/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                                    |
-| `kopar`       | Копър      | ✓ FDC [172233](https://fdc.nal.usda.gov/food-details/172233/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                                    |
+| `kopar`       | Копър      | ✓ FDC [172233](https://fdc.nal.usda.gov/food-details/172233/nutrients) | 1                | Seasons; region notes (no official provincial data)                                                                    |
 | `krastavitsi` | Краставици | ✓ FDC [168409](https://fdc.nal.usda.gov/food-details/168409/nutrients) | 0                | Seasons (regions supported at NUTS2 level: South-East region, open field incl. gherkins, МЗХ 2025; no provincial data) |
 | `krushi`      | Круши      | ✓ FDC [169118](https://fdc.nal.usda.gov/food-details/169118/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics)                                                                         |
 | `magdanoz`    | Магданоз   | ✓ FDC [170416](https://fdc.nal.usda.gov/food-details/170416/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                                    |

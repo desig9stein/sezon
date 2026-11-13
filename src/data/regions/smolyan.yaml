@@ -1,1 +1,9 @@
 name: Смолян
+profile:
+  utilisedAreaHa: 34777
+  arableHa: 1277
+  grasslandHa: 32125
+  areaYear: 2025
+  sources:
+    - name: 'МЗХ, Агростатистика – БАНСИК 2025: Заетост и използване на територията през 2025 година – окончателни резултати, бюлетин № 465'
+      url: 'https://www.mzh.government.bg/media/filer_public/2025/12/04/ra_465_publicationbancik2025.pdf'

@@ -1,0 +1,29 @@
+slug,uaa_2025_ha,uaa_rank,arable_ha,grassland_ha,arable_pct_uaa,grassland_pct_uaa,largest_arable_group,largest_arable_ha,veg_flowers_ha,veg_rank,orchard11_2023_ha_lowerbound,orchard_rank,orchard_share_pct,top_fruit_1,top_fruit_2,confidential_cells
+blagoevgrad,89118,22,16075,64603,18.0,72.5,cereals,7334,1608,14,1045,18,1.9,sweet_cherries 339,peaches_nectarines 158,sour_cherries
+burgas,268377,3,211892,47378,79.0,17.7,cereals,112389,7557,2,5750,2,10.4,sweet_cherries 2163,almonds 888,-
+dobrich,357520,1,331256,24127,92.7,6.7,cereals,229253,6719,3,1959,12,3.5,walnuts 962,plums 316,-
+gabrovo,50668,26,21826,27575,43.1,54.4,cereals,14129,97,28,616,23,1.1,plums 388,walnuts 78,-
+haskovo,229010,6,144418,71852,63.1,31.4,cereals,78273,5504,5,2924,7,5.3,walnuts 926,almonds 802,sour_cherries
+kardzhali,51315,25,4826,44125,9.4,86.0,vegetables+flowers,1083,1083,16,653,21,1.2,plums 237,walnuts 160,raspberries
+kyustendil,81767,23,30868,43254,37.8,52.9,cereals,16644,1742,13,3502,6,6.3,sweet_cherries 2086,plums 691,-
+lovech,114647,20,69450,43093,60.6,37.6,cereals,44396,802,20,1937,13,3.5,plums 1246,apples 208,-
+montana,179698,13,139333,39767,77.5,22.1,cereals,89500,299,26,782,20,1.4,apples 182,plums 168,almonds dessert_grapes
+pazardzhik,96089,21,65477,24904,68.1,25.9,cereals,34140,3839,7,1989,11,3.6,sweet_cherries 628,plums 397,-
+pernik,80740,24,44215,36312,54.8,45.0,cereals,24243,961,19,229,26,0.4,plums 92,apples 52,apricots hazelnuts almonds
+pleven,325526,2,302339,22284,92.9,6.8,cereals,186703,5722,4,582,24,1.0,walnuts 268,plums 173,sour_cherries
+plovdiv,257175,5,195490,47201,76.0,18.4,cereals,111723,8508,1,6002,1,10.8,sweet_cherries 1676,plums 1551,-
+razgrad,161726,14,148299,10722,91.7,6.6,cereals,93088,701,23,1633,15,2.9,walnuts 580,plums 379,almonds
+ruse,180322,12,165117,10072,91.6,5.6,cereals,104300,2034,10,2681,8,4.8,walnuts 861,plums 472,-
+shumen,159358,15,144916,11277,90.9,7.1,cereals,73695,791,21,2109,10,3.8,walnuts 1021,plums 331,-
+silistra,158788,16,151449,694,95.4,0.4,cereals,99676,1785,12,4322,3,7.8,apricots 2151,plums 897,-
+sliven,150602,17,95408,47453,63.4,31.5,cereals,50167,1810,11,4001,4,7.2,peaches_nectarines 1475,sweet_cherries 1145,-
+smolyan,34777,28,1277,32125,3.7,92.4,vegetables+flowers,982,982,18,110,27,0.2,plums 47,walnuts 28,pears
+sofia-grad,36715,27,28047,8667,76.4,23.6,cereals,20646,487,24,40,28,0.1,sweet_cherries 11,plums 10,hazelnuts raspberries
+sofiyska,196278,10,72596,119698,37.0,61.0,cereals,43418,3286,9,1002,19,1.8,plums 330,raspberries 195,pears apricots almonds dessert_grapes
+stara-zagora,261119,4,182814,64749,70.0,24.8,cereals,103497,4755,6,3957,5,7.1,walnuts 1504,sweet_cherries 1238,-
+targovishte,128746,18,101129,22408,78.5,17.4,cereals,63390,393,25,2316,9,4.2,plums 736,walnuts 704,-
+varna,188133,11,166854,15857,88.7,8.4,cereals,102302,1023,17,1804,14,3.3,walnuts 579,hazelnuts 433,-
+veliko-tarnovo,210349,8,172996,32494,82.2,15.4,cereals,121269,709,22,1414,16,2.5,walnuts 790,plums 245,almonds
+vidin,124382,19,109532,13255,88.1,10.7,cereals,70961,100,27,294,25,0.5,plums 120,walnuts 108,raspberries
+vratsa,211029,7,186232,23593,88.2,11.2,cereals,115554,1406,15,633,22,1.1,walnuts 293,plums 141,almonds
+yambol,198106,9,163483,32114,82.5,16.2,cereals,92530,3513,8,1194,17,2.2,walnuts 384,plums 291,raspberries

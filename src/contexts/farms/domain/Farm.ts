@@ -1,10 +1,8 @@
-import { calendarDayIn } from '@shared/domain/calendarDay';
+import { calendarDayIn, isoDay } from '@shared/domain/calendarDay';
 import { isHttpsUrl } from '@shared/domain/contact';
 import { InvalidFarmError } from '@shared/domain/errors';
 import { frozenList } from '@shared/domain/freeze';
 import type { ContactInfo } from './ContactInfo';
-
-const ISO_DATE_LENGTH = 10;
 
 /** An organic production certificate: who issued it, its number and its last valid day. */
 export interface OrganicCertificate {
@@ -90,8 +88,7 @@ export class Farm {
    */
   isOrganicOn(date: Date, timeZone?: string): boolean {
     if (this.organic === undefined) return false;
-    const lastDay = this.organic.validUntil.toISOString().slice(0, ISO_DATE_LENGTH);
-    return calendarDayIn(date, timeZone) <= lastDay;
+    return calendarDayIn(date, timeZone) <= isoDay(this.organic.validUntil);
   }
 
   /** Returns `true` when the farm lists `produceSlug` among the produce it sells. */
