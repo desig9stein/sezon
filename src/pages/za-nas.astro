@@ -8,6 +8,7 @@ import {
   REPOSITORY_URL,
   SITE_OWNER,
 } from '@composition/contact';
+import { ADSENSE } from '@composition/adsense';
 import { requireSiteUrl } from '@composition/site';
 import { ui } from '@i18n/bg';
 import BaseLayout from '@layouts/BaseLayout.astro';
@@ -143,14 +144,25 @@ const jsonLd = [
       <h2 class="section-heading" id="about-ads">
         {labels.adsHeading}
       </h2>
-      <p>{labels.ads}</p>
+      <p>{ADSENSE === undefined ? labels.adsOff : labels.adsOn}</p>
+      <p>
+        <a href={routes.advertising}>{labels.adsLink}</a>
+      </p>
     </section>
 
     <section aria-labelledby="about-privacy">
       <h2 class="section-heading" id="about-privacy">
         {labels.privacyHeading}
       </h2>
-      <p>{labels.privacy}</p>
+      <p>{ADSENSE === undefined ? labels.privacyOff : labels.privacyOn}</p>
+      <ul>
+        <li>
+          <a href={routes.privacy}>{labels.privacyLink}</a>
+        </li>
+        <li>
+          <a href={routes.cookies}>{labels.cookiesLink}</a>
+        </li>
+      </ul>
     </section>
 
     <section aria-labelledby="about-health">

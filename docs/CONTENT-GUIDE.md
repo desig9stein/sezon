@@ -301,9 +301,14 @@ The file name is the sponsor's id (a Latin slug). The folder is empty until a sp
 What is sourced and what is editorial for every produce is recorded in
 `docs/content-review/README.md`: nutrition is checked against USDA by the unit tests, the
 Wikipedia-sourced traditional uses were removed, the regions of apples, pears, walnuts and cabbage
-follow МЗХ statistics (spec 033), the regions of tomatoes, peppers, aubergines and cucumbers follow
-МЗХ statistics at NUTS2 level (spec 041), and seasons are editorial (no official monthly calendar
-exists).
+follow МЗХ statistics (spec 033), the regions of tomatoes, peppers, aubergines and cucumbers
+(spec 041) and of potatoes and onions (spec 044) follow МЗХ statistics at NUTS2 level, and
+seasons are editorial (no official monthly calendar exists).
 
+- **Autumn staples (2026-11-13, spec 044):** potatoes, onions, broccoli, cauliflower and chestnuts
+  cite USDA SR Legacy; potatoes and onions name the provinces of the leading NUTS2 region of the
+  МЗХ 2025 vegetable bulletin; broccoli, cauliflower and chestnuts have `regions: []`. The rosehip
+  of issue #41 is left out: SR Legacy has no raw record of it and the EFSA database gives no energy
+  or macronutrients.
 - **Farms (checked 2026-11-11, #16):** 10 real farms from their own websites. None publishes a
   full organic certificate, so none has an `organic` block.
