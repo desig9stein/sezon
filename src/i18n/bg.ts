@@ -557,6 +557,9 @@ export const ui = {
     none: 'Няма резултати за „{query}“.',
     failed: 'Търсенето не може да се зареди.',
   },
+  ads: {
+    label: 'Реклама',
+  },
   farms: {
     title: 'Местни ферми, които продават сезонни продукти',
     heading: LOCAL_FARMS,

@@ -1,0 +1,72 @@
+---
+import { Image } from 'astro:assets';
+import type { AdPlacement, Sponsor } from '@contexts/advertising';
+import { ui } from '@i18n/bg';
+
+/**
+ * A direct sponsor's banner (ADR-0003): an `<aside>` named „Реклама“ with a visible label before
+ * a `rel="sponsored"` link around a lazy, size-reserved 4:1 image. Renders nothing without a
+ * sponsor.
+ */
+interface Props {
+  sponsor: Sponsor | undefined;
+  placement: AdPlacement;
+}
+
+const BANNER_WIDTH = 960;
+const BANNER_HEIGHT = 240;
+const WIDTHS = [480, BANNER_WIDTH];
+const SIZES = '(min-width: 48rem) 42rem, calc(100vw - 2rem)';
+
+const { sponsor, placement } = Astro.props;
+---
+
+{sponsor !== undefined && (
+  <aside class="ad-slot" aria-label={ui.ads.label} data-placement={placement}>
+    <p class="ad-slot__label">{ui.ads.label}</p>
+    <a class="ad-slot__link" href={sponsor.url} rel="sponsored noopener">
+      <Image
+        src={sponsor.image}
+        alt={sponsor.alt}
+        width={BANNER_WIDTH}
+        height={BANNER_HEIGHT}
+        widths={WIDTHS}
+        sizes={SIZES}
+        fit="cover"
+        loading="lazy"
+        decoding="async"
+      />
+    </a>
+  </aside>
+)}
+
+<style>
+  .ad-slot {
+    display: grid;
+    gap: var(--space-1);
+    width: 100%;
+    max-width: var(--reading-width);
+  }
+
+  .ad-slot__label {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .ad-slot__link {
+    display: block;
+    aspect-ratio: 4 / 1;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+  }
+
+  .ad-slot__link :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>

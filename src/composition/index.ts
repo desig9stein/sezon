@@ -17,6 +17,10 @@ import type {
   ProduceRepository,
 } from '@contexts/catalog';
 import { toNutrient, toProduce, toProduceGroup } from '@contexts/catalog/infrastructure/mappers';
+import { SponsorSelectionService } from '@contexts/advertising';
+import type { SponsorRepository } from '@contexts/advertising';
+import { LoadedSponsorRepository } from '@contexts/advertising/infrastructure/LoadedSponsorRepository';
+import { toSponsor } from '@contexts/advertising/infrastructure/mappers';
 import type { Farm, FarmRepository } from '@contexts/farms';
 import { IndexedFarmRepository } from '@contexts/farms/infrastructure/IndexedFarmRepository';
 import { toFarm } from '@contexts/farms/infrastructure/mappers';
@@ -144,3 +148,10 @@ export const catalogIndexService = new CatalogIndexService(
 );
 /** Builds the year-at-a-glance calendar of the catalogue. */
 export const seasonCalendarService = new SeasonCalendarService(produceRepository);
+
+/** Sponsors loaded from the `sponsors` content collection (empty until a sponsor signs up). */
+export const sponsorRepository: SponsorRepository = new LoadedSponsorRepository(async () =>
+  (await getCollection('sponsors')).map((entry) => toSponsor(entry.id, entry.data)),
+);
+/** Chooses the sponsor shown in each ad slot. */
+export const sponsorSelectionService = new SponsorSelectionService(sponsorRepository);

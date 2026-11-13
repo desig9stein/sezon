@@ -102,3 +102,8 @@ export class RegionNotFoundError extends DomainError {
 export class FarmNotFoundError extends DomainError {
   readonly code = 'FARM_NOT_FOUND';
 }
+
+/** Thrown when sponsor data violates an entity invariant (e.g. an end date before the start). */
+export class InvalidSponsorError extends DomainError {
+  readonly code = 'INVALID_SPONSOR';
+}

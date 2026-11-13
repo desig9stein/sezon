@@ -154,7 +154,7 @@ tests/
 ### Dependency rules (enforced by review and ESLint `no-restricted-imports`)
 
 1. `domain/` imports only `src/shared/domain`, its own context, and the public `index.ts` of an
-   upstream context (allowed upstreams: `catalog` → `seasonality`; `farms` → none). No Astro, no I/O.
+   upstream context (allowed upstreams: `catalog` → `seasonality`; `farms` → none; `advertising` → none). No Astro, no I/O.
 2. `application/` imports only `domain/` (own context and `shared`), plus other contexts'
    public `index.ts`.
 3. `infrastructure/` may import `astro:content` and `astro/zod`. It is imported only by

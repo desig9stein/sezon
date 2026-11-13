@@ -1,5 +1,6 @@
 import { z } from 'astro/zod';
 import { BULGARIAN_PHONE, EMAIL, isHttpsUrl } from '@shared/domain/contact';
+import type { ImageAsset } from '@shared/domain/ImageAsset';
 import { SLUG_PATTERN } from '@shared/domain/Slug';
 
 const ISO_DATE_MESSAGE = 'Expected an ISO date (YYYY-MM-DD).';
@@ -28,6 +29,9 @@ export const bulgarianPhone = () =>
 /** A calendar date given as a YAML timestamp or an ISO `YYYY-MM-DD` string. */
 export const isoDate = () =>
   z.union([z.date(), z.iso.date(ISO_DATE_MESSAGE).transform((value) => new Date(value))]);
+
+/** Builds the schema of a local image: Astro's `image()` helper in the build, a stub in tests. */
+export type ImageSchemaFactory = () => z.ZodType<ImageAsset>;
 
 /** A citation with a name and an https URL. */
 export const sourceSchema = z.strictObject({ name: text(), url: httpsUrl() });
