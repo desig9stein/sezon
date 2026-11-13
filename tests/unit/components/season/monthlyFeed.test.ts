@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { feedPubDate, monthlyFeedChannel, monthlyFeedItems } from '@components/season/monthlyFeed';
+import { monthlyFeedChannel, monthlyFeedItems } from '@components/season/monthlyFeed';
 import { SeasonOverviewService } from '@contexts/catalog';
 import { Month } from '@contexts/seasonality';
 import { ui } from '@i18n/bg';
@@ -76,20 +76,21 @@ describe('monthlyFeedItems (spec 047)', () => {
   });
 });
 
-describe('feedPubDate (spec 047)', () => {
-  it.each([
-    [11, '2026-11-13T10:00:00Z', '2026-10-31T22:00:00.000Z'],
-    [12, '2026-11-13T10:00:00Z', '2025-11-30T22:00:00.000Z'],
-    [7, '2026-11-13T10:00:00Z', '2026-06-30T21:00:00.000Z'],
-    [1, '2026-11-13T10:00:00Z', '2025-12-31T22:00:00.000Z'],
-    [11, '2026-10-31T22:05:00Z', '2026-10-31T22:00:00.000Z'],
-    [11, '2026-10-31T21:59:00Z', '2025-10-31T22:00:00.000Z'],
-  ])(
-    'AC4: month %i at %s starts at %s (00:00 Europe/Sofia, never in the future)',
-    (month, now, expected) => {
-      expect(feedPubDate(Month.of(month), new Date(now)).toISOString()).toBe(expected);
-    },
-  );
+describe('monthlyFeedItems guid (QA 047)', () => {
+  it('AC11: gives each item a guid of its link and the Sofia year of its pubDate', () => {
+    expect(itemFor(NOVEMBER)?.guid).toBe('https://sezon.example/sezon/noemvri#2026');
+    expect(itemFor(Month.of(12))?.guid).toBe('https://sezon.example/sezon/dekemvri#2025');
+    expect(itemFor(Month.of(1))?.pubDate.toISOString()).toBe('2025-12-31T22:00:00.000Z');
+    expect(itemFor(Month.of(1))?.guid).toBe('https://sezon.example/sezon/yanuari#2026');
+  });
+
+  it('AC11: moves the January and December guids across the new year', () => {
+    const newYear = monthlyFeedItems(overviews, SITE, new Date('2027-01-05T10:00:00Z'));
+    const guidOf = (month: Month) =>
+      newYear.find((item) => item.title === ui.monthPage.title(month))?.guid;
+    expect(guidOf(Month.of(1))).toBe('https://sezon.example/sezon/yanuari#2027');
+    expect(guidOf(Month.of(12))).toBe('https://sezon.example/sezon/dekemvri#2026');
+  });
 });
 
 describe('monthlyFeedChannel (spec 047)', () => {

@@ -7,6 +7,13 @@ const MONTHS_IN_YEAR = 12;
 const AUTODISCOVERY =
   /<link rel="alternate" type="application\/rss\+xml" title="[^"]+" href="https?:\/\/[^"]+\/rss\.xml">/g;
 
+/** Returns the Europe/Sofia calendar year of an RFC 822 date. */
+function sofiaYear(date: string): string {
+  return new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Sofia', year: 'numeric' }).format(
+    new Date(date),
+  );
+}
+
 /** Returns the paths of all HTML pages in `dist`, relative to it, except Pagefind's assets. */
 function builtPages(): ReadonlyArray<string> {
   return readdirSync(DIST, { recursive: true, encoding: 'utf8' }).filter(
@@ -62,8 +69,8 @@ test.describe('monthly RSS feed (spec 047)', () => {
     for (const item of feed.items) {
       expect(item.title).toMatch(/^Какво е в сезон през [а-я]+$/);
       expect(item.link).toMatch(/^https?:\/\/[^/]+\/sezon\/[a-z]+$/);
-      expect(item.guid).toBe(item.link);
-      expect(item.isPermaLink).toBe('true');
+      expect(item.guid).toBe(`${item.link ?? ''}#${sofiaYear(item.pubDate ?? '')}`);
+      expect(item.isPermaLink).toBe('false');
       expect(item.description).toMatch(/^През [а-я]+ /);
       expect(item.description).not.toMatch(/[<>]/);
       expect(Date.parse(item.pubDate ?? '')).toBeLessThanOrEqual(Date.now());
