@@ -187,6 +187,11 @@ reach 15 %, the next highest are added to show three.
 
 ### Editorial text
 
+The chickpea summary dates the Dobrich harvest to the 2018 report it rests on. The sweet potato
+summary („Попари ли слана върховете, не отлагай прибирането“) restates Article 17353461: „При
+кратка сутрешна слана върховете на сладките картофи умират - сигурен знак, че прибирането на
+реколтата не може да се отлага повече.“
+
 Summaries are 70–160 characters, „ти“ voice where they address the reader, restate only the
 quoted facts, and contain no health claims („богат“, „полез“, „лекува“, „действие“). The lemon
 balm summary speaks of the leaves and their harvest only, not of the medicinal uses in the
@@ -291,3 +296,15 @@ No new third-party API. Content sources (all fetched 2026-11-13):
 | en.wikipedia.org „Endive“, „Napa cabbage“                                                                                                                                                          | Latin names                                                        |
 | bgfermer.bg 12628459, 19272138, 21047709, 1848907, 17559607, 13320773, 12577189, 19918561, 11088602, 20536159, 8918772, 7443886, 15268259; agrozona.bg goji, черен корен, аспержов фасул articles  | Left-out candidates                                                |
 | Unsplash photo pages in section 5                                                                                                                                                                  | Photos                                                             |
+
+## 11. QA review (2026-11-13)
+
+No `qa-reviewer` subagent could be launched from this session; the reviewer checklist was followed
+manually, and the full unit, type, lint, build, html-validate and e2e runs passed.
+`tests/unit/content/cultivated-056.test.ts` carries the regression checks („QA 056“):
+
+| Finding                                                                                                                            | Fix                                                                          |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| AC7 listed iceberg lettuce as `ayzberg`; `Slug.fromBulgarian('Салата айсберг')` is `salata-aysberg`, so the check could never fail | Slug corrected; a test derives the left-out slugs from their Bulgarian names |
+| The chickpea summary turned one 2018 Dobrich news report into a general rule („В Добричко се прибира през юли“)                    | The summary dates the harvest to the 2018 report                             |
+| The sweet potato summary's frost sentence had no quote in the spec                                                                 | Quoted under „Editorial text“                                                |
