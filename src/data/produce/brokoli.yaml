@@ -1,0 +1,66 @@
+name: Броколи
+latinName: Brassica oleracea var. italica
+kind: vegetable
+group: krastotsvetni
+summary: У нас броколите са късна есенна култура и се берат през октомври. Имат високо съдържание на витамин C и витамин K.
+varieties:
+  - name: ИЗК Искра
+    note: Първият български сорт броколи, предназначен за късно полско производство.
+season:
+  - { month: 9, level: available }
+  - { month: 10, level: peak }
+  - { month: 11, level: available }
+regions: []
+nutrition:
+  energyKcal: 34
+  proteinG: 2.82
+  fatG: 0.37
+  carbohydrateG: 6.64
+  fiberG: 2.6
+  sugarsG: 1.7
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 89.2 }
+    - { nutrient: vitamin-k, amount: 101.6 }
+    - { nutrient: folat, amount: 63 }
+    - { nutrient: kaliy, amount: 316 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Broccoli, raw'
+    url: https://fdc.nal.usda.gov/food-details/170379/nutrients
+preparation:
+  - method: На пара
+    tip: Няколко минути на пара запазват повече витамин C, отколкото варенето във вода.
+  - method: Бланширани
+    tip: Бланширай розичките за кратко във вряла вода и ги охлади, за да останат яркозелени и хрупкави.
+traditionalUses: []
+howToChoose: Избери плътна, тъмнозелена глава със стегнати пъпки, без жълти цветчета и меко стъбло.
+storage: Броколите не се съхраняват дълго – изяж ги до няколко дни. Нарязани на розички, може да ги замразиш.
+faq:
+  - question: Кога е сезонът на броколите в България?
+    answer: У нас броколите се отглеждат като късна култура – засаждат се в края на юли, а главите се берат през есента.
+  - question: Защо броколите пожълтяват?
+    answer: Пъпките на главата започват да цъфтят няколко дни след прибирането. Затова е добре броколите да се изядат скоро.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/brokoli.jpg
+  alt: 'Тъмнозелена глава броколи със светло стъбло, легнала на светла дървена маса'
+  credit:
+    author: 'Annie Spratt'
+    authorUrl: https://unsplash.com/@anniespratt
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/green-broccoli-on-brown-wooden-table-fccAsIqdpeM
+growing:
+  sow: [6]
+  transplant: [7]
+  plant: []
+  plantingNote: 'Сей разсада през първата половина на юни и разсаждай след 35–40 дни, към края на юли.'
+  tips:
+    - 'Разсаждай, когато растенията имат 5–6 листа, на дълбочина до първия лист.'
+    - 'Остави 65–70 см между браздите и 35–40 см между растенията в реда.'
+    - 'Полей веднага след разсаждането и пак след 4–5 дни, за да се прихванат растенията.'
+    - 'През август растенията растат усилено – поливай редовно и дръж почвата рохкава и влажна.'
+    - 'Главите се развиват най-добре при 16–24 °C; над 25 °C растенията прорастват и цъфтят.'
+  sources:
+    - name: 'Български фермер – Как се отглеждат броколи'
+      url: https://www.bgfermer.bg/Article/968291
+    - name: 'Български фермер – Броколито е късен зеленчук, не е трудно за отглеждане'
+      url: https://www.bgfermer.bg/Article/8831900
