@@ -22,4 +22,4 @@ and in the EEA require consent (GDPR, Google Consent Mode v2 with a certified CM
 
 - Lighthouse measures pages without third-party ad code, so scores stay at 100.
 - Real users see AdSense only after consent and scrolling, which lowers ad revenue per view.
-- Choosing a certified CMP is an open decision for Phase 4.
+- The certified CMP is Google Privacy & messaging (ADR-0007).
