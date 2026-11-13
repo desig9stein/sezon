@@ -6,10 +6,10 @@ import { Slug } from '@shared/domain/Slug';
 import { readSeedCollection } from '@tests/fixtures/seedData';
 
 const FARMS_DIR = join(process.cwd(), 'src', 'data', 'farms');
-const MIN_FARMS = 51;
-const MIN_PROVINCES = 22;
+const MIN_FARMS = 50;
+const MIN_PROVINCES = 21;
 
-/** The 41 farms added by spec 051, by id. */
+/** The 40 farms added by spec 051, by id. */
 const NEW_FARMS = [
   'vkusnagradina',
   'ferma-biotiful',
@@ -44,7 +44,6 @@ const NEW_FARMS = [
   'hrana-za-badeshte',
   'ferma-krumovi',
   'our-garden',
-  'ti-vi-mel',
   'biotikva-eood',
   'ot-gradinata-ni',
   'lyubimata-ni-ferma',
@@ -89,7 +88,7 @@ function farm(id: string): FarmRecord {
 }
 
 describe('more farms (spec 051)', () => {
-  it('AC1: adds the 41 farms, at least 51 farms in at least 22 provinces', () => {
+  it('AC1: adds the 40 farms, at least 50 farms in at least 21 provinces', () => {
     expect(NEW_FARMS.filter((id) => !farms.has(id))).toEqual([]);
     expect(farms.size).toBeGreaterThanOrEqual(MIN_FARMS);
     const provinces = new Set([...farms.values()].map(({ region }) => region));

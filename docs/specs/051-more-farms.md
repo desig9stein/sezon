@@ -9,8 +9,8 @@
 
 The site lists only 10 farms in 7 provinces, so most produce and region pages show few or no
 local growers. The owner asked for as many real farms as possible from any source, with no
-invented data and without gradinata.bg as a source. This spec adds 41 real farms (51 in total,
-in 22 provinces), each fact re-checked on the cited page on 2026-11-13, and the first farm with a
+invented data and without gradinata.bg as a source. This spec adds 40 real farms (50 in total,
+in 21 provinces), each fact re-checked on the cited page on 2026-11-13, and the first farm with a
 verified organic certificate.
 
 ## 2. User stories
@@ -24,11 +24,11 @@ verified organic certificate.
 
 ### In scope
 
-- **Data:** 41 new files in `src/data/farms/` (list and sources in section 5).
+- **Data:** 40 new files in `src/data/farms/` (list and sources in section 5).
   - **Tier A** (own website or shop, organic certificate, or a current Хранкооп listing priced in
     € in November 2026): 12 farms.
   - **Tier B** (LocalStore.bg producer profile only, fetched on 2026-11-13, naming at least one
-    site produce): 24 farms.
+    site produce): 23 farms.
   - **Tier C promoted** (in the research notes as „incomplete“ only because the profile shows no
     clear contact): 5 farms whose profile names a site produce. A profile link is a usable
     contact (see section 5).
@@ -150,7 +150,6 @@ C contact, A address, O organic.
 | Храна за бъдеще (`hrana-za-badeshte`)                                              | blagoevgrad    | spanak, zelen-luk, krastavitsi, domati                                                  | hrana-za-budeshte                       | „зеленчукопроизводство в Благоевград“                                                                                            | „зелена салата, спанак, рукола, зелен лук, краставици и домати“                                                                   |
 | Ферма Крумови (`ferma-krumovi`)                                                    | kyustendil     | chereshi, slivi, krushi, yabalki                                                        | ferma-krumovi-1234 and ferma-krumovi    | „Горна Гращица и Скриняно, край Кюстендил“; „Скриняно, с. Скриняно, Кюстендил“                                                   | „стари сортове череши“; „също сини сливи, круши и ябълки“                                                                         |
 | Our Garden (`our-garden`)                                                          | kyustendil     | yagodi                                                                                  | our-garden                              | „в покрайнините на град Кюстендил“, „Жабокрът, с. Жабокрът, Кюстендил“                                                           | „ягоди, малини, къпини, американски боровинки, годжи бери“                                                                        |
-| ТИ-ВИ МЕЛ (`ti-vi-mel`)                                                            | stara-zagora   | chereshi                                                                                | ti-vi-mel                               | „Николаево, ул. Тунджа 1“; W: Николаево is a town in Стара Загора province                                                       | „550 декара, на които се отглеждат 16 сорта череши“                                                                               |
 | Биотиква ЕООД (`biotikva-eood`)                                                    | sofia-grad     | tikva                                                                                   | biotikva-eood                           | „край село Кубратово, Софийско“, shop „бул. „Сливница“ 233“; W: Кубратово is unique, Столична община (София-град)                | „отглеждането на тикви върху 10 декара“                                                                                           |
 | От Градината ни (`ot-gradinata-ni`)                                                | pazardzhik     | praskovi, grozde, dyuli, smokini, slivi                                                 | ot-gradinata-ni                         | location „Мененкьово“; W: Мененкьово is unique, община Белово, област Пазарджик (the research notes guessed Софийска; corrected) | „праскови, грозде, дюли, смокини и сливи“                                                                                         |
 
@@ -168,6 +167,7 @@ C contact, A address, O organic.
 
 | Candidate                                                                                    | Reason                                                                                                                                   |
 | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| ТИ-ВИ МЕЛ (Николаево, череши)                                                                | A large commercial grower (550 декара); the profile does not say it sells to consumers. Its name also trips the „ти“ voice guard (`ВИ`). |
 | Ферма „Елбетица“ (Медковец)                                                                  | Profile names only „сезонни пакети със зеленчуци“, no site produce.                                                                      |
 | Тревясалата ферма, ЗП Петрови, Биоферма Пчеларово, Кованлъшки градини, NorDig, Моравско село | Profile names no site produce (moravskoselo.bg also answers with a script check).                                                        |
 | Ферма „София“                                                                                | No location on the profile; fermasofiya.com unreachable (proxy 502).                                                                     |
@@ -206,8 +206,8 @@ internal links from produce and region pages to farm pages and back.
 
 ## 8. Acceptance criteria
 
-1. **AC1:** Given the farm data, when it is read, then all 41 farms of section 5 exist and the
-   site has at least 51 farms in at least 22 provinces.
+1. **AC1:** Given the farm data, when it is read, then all 40 farms of section 5 exist and the
+   site has at least 50 farms in at least 21 provinces.
 2. **AC2:** Given any farm, when its sources are read, then it has at least one source, every
    source is an https URL, and no source or contact is on gradinata.bg.
 3. **AC3:** Given the farm data files, when they are read as text, then no file contains `*`
