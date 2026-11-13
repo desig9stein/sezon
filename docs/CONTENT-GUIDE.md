@@ -369,6 +369,10 @@ follow МЗХ statistics (spec 033), the regions of tomatoes, peppers, aubergine
 (spec 041) and of potatoes and onions (spec 044) follow МЗХ statistics at NUTS2 level, and
 seasons are editorial (no official monthly calendar exists).
 
+- **More fruits and nuts (2026-11-13, spec 052):** 21 fruits and nuts whose season a Bulgarian
+  source states. Only blocks with a source are filled: 12 cite USDA SR Legacy, 7 name provinces or
+  the leading NUTS2 region from МЗХ bulletins, the others have no nutrition or regions. Red currant
+  and wild strawberry are left out (no source with months); elder is excluded (toxic look-alike).
 - **Autumn staples (2026-11-13, spec 044):** potatoes, onions, broccoli, cauliflower and chestnuts
   cite USDA SR Legacy; potatoes and onions name the provinces of the leading NUTS2 region of the
   МЗХ 2025 vegetable bulletin; broccoli, cauliflower and chestnuts have `regions: []`. The rosehip

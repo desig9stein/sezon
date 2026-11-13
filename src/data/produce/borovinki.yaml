@@ -1,0 +1,34 @@
+name: Боровинки
+latinName: Vaccinium corymbosum
+kind: fruit
+group: pirenovi
+summary: Културната (американска) боровинка узрява според сорта от юни до септември. Плодовете не зреят едновременно и се берат около месец.
+season:
+  - { month: 6, level: peak }
+  - { month: 7, level: peak }
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+nutrition:
+  energyKcal: 57
+  proteinG: 0.74
+  fatG: 0.33
+  carbohydrateG: 14.49
+  fiberG: 2.4
+  sugarsG: 9.96
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 19.3 }
+    - { nutrient: mangan, amount: 0.336 }
+    - { nutrient: vitamin-c, amount: 9.7 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Blueberries, raw'
+    url: https://fdc.nal.usda.gov/food-details/171711/nutrients
+storage: Бери ги напълно узрели – след откъсване боровинките спират да зреят. В хладилник издържат около две седмици.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/borovinki.jpg
+  alt: 'Бяла купичка, пълна с боровинки, и разпилени боровинки около нея'
+  credit:
+    author: 'Joanna Kosinska'
+    authorUrl: https://unsplash.com/@joannakosinska
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/blueberries-on-white-ceramic-container-4qujjbj3srs

@@ -1,0 +1,34 @@
+name: Фъстъци
+latinName: Arachis hypogaea
+kind: nut
+group: bobovi
+summary: Фъстъците се засяват в края на април и узряват от септември. Растенията се изскубват, а шушулките се прибират, след като просъхнат.
+season:
+  - { month: 9, level: peak }
+nutrition:
+  energyKcal: 567
+  proteinG: 25.8
+  fatG: 49.24
+  carbohydrateG: 16.13
+  fiberG: 8.5
+  sugarsG: 4.72
+  micronutrients:
+    - { nutrient: folat, amount: 240 }
+    - { nutrient: med-cu, amount: 1.144 }
+    - { nutrient: mangan, amount: 1.934 }
+    - { nutrient: fosfor, amount: 376 }
+    - { nutrient: magneziy, amount: 168 }
+    - { nutrient: kaliy, amount: 705 }
+    - { nutrient: zhelyazo, amount: 4.58 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Peanuts, all types, raw'
+    url: https://fdc.nal.usda.gov/food-details/172430/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/fastatsi.jpg
+  alt: 'Сурови фъстъци в черупки и белени печени фъстъци на купчина'
+  credit:
+    author: 'Nasiru Othman'
+    authorUrl: https://unsplash.com/@othmanspixel
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/raw-and-roasted-peanuts-pile-8ThqdYrRFiw

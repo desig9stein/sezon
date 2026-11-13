@@ -1,0 +1,32 @@
+name: Нар
+latinName: Punica granatum
+kind: fruit
+group: blatievi
+summary: Нарът се бере през октомври, в консумативна зрелост. При подходящо съхранение плодовете остават годни за ядене няколко месеца.
+season:
+  - { month: 10, level: peak }
+  - { month: 11, level: storage }
+  - { month: 12, level: storage }
+nutrition:
+  energyKcal: 83
+  proteinG: 1.67
+  fatG: 1.17
+  carbohydrateG: 18.7
+  fiberG: 4
+  sugarsG: 13.67
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 16.4 }
+    - { nutrient: folat, amount: 38 }
+    - { nutrient: med-cu, amount: 0.158 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Pomegranates, raw'
+    url: https://fdc.nal.usda.gov/food-details/169134/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/nar.jpg
+  alt: 'Купчина червени нарове, някои разчупени, с видими зърна'
+  credit:
+    author: 'Jonas Renner'
+    authorUrl: https://unsplash.com/@jonasrnr
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/pomegranate-fruits-LOdAL10JejI
