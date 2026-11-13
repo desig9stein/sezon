@@ -96,8 +96,22 @@ eight summer fruits: ягоди, череши, кайсии, праскови, �
   - смокини: fruit ripens „от август до края на октомври“ → 8 peak, 9 peak, 10 available;
   - пъпеши: „Първите пъпеши ще са през юли, продаваме ги до септември“ → 7 peak, 8 peak,
     9 available.
-- **Growing guides** (spec 018 and 035 rules) for пъпеши and смокини only, from Български фермер.
-  The other six have no guide: their planting advice would need a separate check per tree.
+- **Growing guides** (spec 018 and 035 rules) for all eight, because spec 018 (AC6) requires one
+  for every seed produce. Every month, note and tip is stated by a cited Български фермер
+  article:
+  - fruit trees (череши, кайсии, праскови, сливи): planting from November to 15–20 December
+    („Ноември е най-подходящият месец за есенно засаждане на нови дръвчета“) and in early March
+    („Купете фиданки за пролетно засаждане“); altitude, soil, frost and slope from „За есенното
+    засаждане на овошки изберете подходящо място и сорт“; pollination from the variety articles;
+  - грозде: spring planting in the second half of March and early April and the frost rule („Кога
+    и как се засаждат лозите“), altitude („Как да подготвите мястото за лозов масив“), exposure,
+    planting material and ripening groups (the dessert grape article);
+  - ягоди: planting periods, site, spacing, watering and sorts („Есенното засаждане на ягоди се
+    прави със свеж разсад“);
+  - пъпеши: sowing at the end of April and in May, nest sowing, thinning and watering (three
+    bostan articles), fruits per plant and harvest sign („8 съвета за по-сладки пъпеши“);
+  - смокини: a planting note (early autumn or spring after the frosts) and site, soil, earthing up,
+    training and harvest tips from three fig articles.
 - **Photos:** eight Unsplash photos, stored and credited as in spec 015 (1600 × 1200 px, JPEG
   quality 82, no metadata), downloaded through the Unsplash download endpoint.
 - **Checklist:** one row per new produce in `docs/content-review/README.md`.
@@ -154,8 +168,8 @@ No change. Two new `groups` entries: Лозови (Vitaceae) and Черниче�
 7. **AC7:** Given each new produce, it has a photo file of 1600 × 1200 px and a credit with an
    author and an `unsplash.com` source URL.
 8. **AC8:** Given each new produce, `traditionalUses` is empty and no text contains „богат на“.
-9. **AC9:** Given the growing guides, only пъпеши and смокини have one, and every source of it is
-   on bgfermer.bg or agrozona.bg.
+9. **AC9:** Given each new produce, it has a growing guide and every source of it is on
+   bgfermer.bg or agrozona.bg.
 10. **AC10:** Given the checklist, it has a row for each new produce with its FDC id.
 11. **AC11:** Given the groups, `lozovi` (Vitaceae) and `chernichevi` (Moraceae) exist.
 
@@ -198,4 +212,11 @@ No third-party API is used. Content sources:
 | Български фермер: „Смокинята – ароматна и изключително сладка“                                    | 28.08.2024                   | https://www.bgfermer.bg/Article/18744542                                                                                 | Fig growing tips                                        |
 | Български фермер: „Искате да си засадите смокиня през пролетта“                                   | 06.04.2020                   | https://www.bgfermer.bg/Article/8392127                                                                                  | Fig planting time and tips                              |
 | Agrozona: „Кои екзотични овошки са най-подходящи за печеливш бизнес у нас“                        | 04.02.2017                   | https://agrozona.bg/koi-ekzotichni-ovoshki-sa-naj-podhodyashti-za-pechelivsh-biznes-u-nas/                               | Fig-growing areas                                       |
+| Български фермер: „Ноември е най-подходящият месец за есенно засаждане на нови дръвчета“          | 27.10.2023                   | https://www.bgfermer.bg/Article/15941772                                                                                 | Autumn planting window for fruit trees                  |
+| Български фермер: „Купете фиданки за пролетно засаждане“                                          | 06.03.2024                   | https://www.bgfermer.bg/Article/17307642                                                                                 | Spring planting of fruit trees                          |
+| Български фермер: „За есенното засаждане на овошки изберете подходящо място и сорт“               | 20.10.2022                   | https://www.bgfermer.bg/Article/12819793                                                                                 | Altitude, soil, frost and slope by species              |
+| Български фермер: „Кога и как се засаждат лозите“                                                 | 23.03.2022                   | https://www.bgfermer.bg/Article/11164624                                                                                 | Grape planting time and preparation                     |
+| Български фермер: „Как да подготвите мястото за лозов масив“                                      | 21.09.2025                   | https://www.bgfermer.bg/Article/21333575                                                                                 | Altitude for dessert grapes                             |
+| Български фермер: „Есенното засаждане на ягоди се прави със свеж разсад“                          | 19.10.2017                   | https://www.bgfermer.bg/Article/6502522                                                                                  | Strawberry planting, Клери                              |
+| Български фермер: „Тежките и студени почви са неподходящи за отглеждане на бостан“                | 22.04.2019                   | https://www.bgfermer.bg/Article/7408985                                                                                  | Melon sowing and care                                   |
 | Unsplash photos (eight, credited in each produce file)                                            | Unsplash License             | https://unsplash.com/license                                                                                             | Photos                                                  |

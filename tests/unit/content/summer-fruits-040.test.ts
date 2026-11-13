@@ -76,7 +76,6 @@ const ORCHARD_REGIONS: Readonly<Record<string, ReadonlyArray<string>>> = {
 const NUTS2_PRODUCE = ['yagodi', 'papeshi'] as const;
 const NUTS2_REGIONS = ['plovdiv', 'pazardzhik'];
 const FIG_REGIONS = ['blagoevgrad', 'haskovo'];
-const WITH_GROWING = ['papeshi', 'smokini'];
 const GROWING_HOSTS = new Set(['www.bgfermer.bg', 'agrozona.bg']);
 
 const exists = (slug: string) => existsSync(join(PRODUCE_DIR, `${slug}.yaml`));
@@ -170,18 +169,15 @@ describe('summer fruits (spec 040)', () => {
     expect(raw(slug).toLowerCase()).not.toMatch(/богат[аио]? на/);
   });
 
-  it.each(SLUGS)(
-    'AC9: %s has a growing guide only when sourced from Bulgarian farm media',
-    (slug) => {
-      expect(exists(slug)).toBe(true);
-      if (!exists(slug)) return;
-      const growing = fruit(slug).growing;
-      expect(growing !== undefined, slug).toBe(WITH_GROWING.includes(slug));
-      for (const source of growing?.sources ?? []) {
-        expect(GROWING_HOSTS.has(hostOf(source.url)), source.url).toBe(true);
-      }
-    },
-  );
+  it.each(SLUGS)('AC9: %s has a growing guide sourced only from Bulgarian farm media', (slug) => {
+    expect(exists(slug)).toBe(true);
+    if (!exists(slug)) return;
+    const growing = fruit(slug).growing;
+    expect(growing, slug).toBeDefined();
+    for (const source of growing?.sources ?? []) {
+      expect(GROWING_HOSTS.has(hostOf(source.url)), source.url).toBe(true);
+    }
+  });
 
   it('AC10: the checklist has a row with the FDC id for every new produce', () => {
     const checklist = readFileSync('docs/content-review/README.md', 'utf8');
