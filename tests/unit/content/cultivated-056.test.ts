@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
@@ -71,7 +71,7 @@ const ADDED: Readonly<Record<string, Added>> = {
     kind: 'vegetable',
     group: 'krastotsvetni',
     latinName: 'Lepidium sativum',
-    season: months('available', 3, 4, 5, 6, 8, 9),
+    season: months('available', 3, 4, 5, 6, 9),
     fdc: { id: '168407', description: 'Cress, garden, raw' },
   },
   'kitaysko-zele': {
@@ -86,14 +86,18 @@ const ADDED: Readonly<Record<string, Added>> = {
     kind: 'fruit',
     group: 'rozotsvetni',
     latinName: 'Chaenomeles japonica',
-    season: { ...months('peak', 9, 10), ...months('storage', 11, 12, 1, 2) },
+    season: {
+      ...months('peak', 9, 10),
+      ...months('available', 11),
+      ...months('storage', 12, 1, 2),
+    },
     storage: true,
   },
   nahut: {
     kind: 'vegetable',
     group: 'bobovi',
     latinName: 'Cicer arietinum',
-    season: months('available', 7),
+    season: months('available', 7, 8),
     fdc: {
       id: '173756',
       description: 'Chickpeas (garbanzo beans, bengal gram), mature seeds, raw',
@@ -110,33 +114,39 @@ const ADDED: Readonly<Record<string, Added>> = {
   },
 };
 const SLUGS = Object.keys(ADDED);
-const LEFT_OUT = [
-  'godzhi-beri',
-  'kamchatska-borovinka',
-  'fizalis',
-  'shafran',
-  'kervel',
-  'momordika',
-  'irga',
-  'tuchenitsa',
-  'salata-aysberg',
-  'shalot',
-  'zelen-chesan',
-  'cherna-ryapa',
-  'patison',
-  'magdanozen-koren',
-  'tsarigradsko-grozde',
-  'radikio',
-  'koriandar',
-  'rezene',
-  'mangold',
-  'mayorana',
-  'leshta',
-  'brukva',
-  'polska-salata',
+/** Bulgarian names of the candidates left out by spec 056 (section 3, „Out of scope“). */
+const LEFT_OUT_NAMES = [
+  'Годжи бери',
+  'Камчатска боровинка',
+  'Физалис',
+  'Шафран',
+  'Кервел',
+  'Момордика',
+  'Ирга',
+  'Тученица',
+  'Салата айсберг',
+  'Шалот',
+  'Зелен чесън',
+  'Черна ряпа',
+  'Патисон',
+  'Магданозен корен',
+  'Цариградско грозде',
+  'Радикио',
+  'Кориандър',
+  'Резене',
+  'Манголд',
+  'Майорана',
+  'Леща',
+  'Бруква',
+  'Полска салата',
 ];
+const LEFT_OUT = LEFT_OUT_NAMES.map((name) => Slug.fromBulgarian(name).value);
 const NEW_GROUPS = { smradlikovi: 'Anacardiaceae', povetitsovi: 'Convolvulaceae' } as const;
 const FORBIDDEN = /богат|полез|лекува|действие/i;
+const REGION_WORDS = /област|добрич|(?:централен|източен|западен) (?:район|регион)/i;
+const REGION_NAMES = readdirSync(join(DATA_DIR, 'regions')).map(
+  (file) => (parse(readFileSync(join(DATA_DIR, 'regions', file), 'utf8')) as { name: string }).name,
+);
 const SUMMARY_MIN = 70;
 const SUMMARY_MAX = 160;
 const PHOTO_WIDTH = 1600;
@@ -196,6 +206,11 @@ describe('more cultivated produce (spec 056)', () => {
 
   it.each(SLUGS)('AC4: %s names no province and cites no gradinata.bg page', (slug) => {
     expect(recordOf(slug).regions).toEqual([]);
+    const { summary } = recordOf(slug);
+    expect(summary).not.toMatch(REGION_WORDS);
+    for (const name of REGION_NAMES) {
+      expect(summary, name).not.toContain(name);
+    }
     expect(readFileSync(produceFile(slug), 'utf8')).not.toMatch(/gradinata\.bg/i);
   });
 
@@ -261,20 +276,7 @@ describe('more cultivated produce (spec 056)', () => {
     expect(text).toBeUndefined();
   });
 
-  it('QA 056: left-out slugs are the slugs of their Bulgarian names', () => {
-    const names: Readonly<Record<string, string>> = {
-      'salata-aysberg': 'Салата айсберг',
-      'godzhi-beri': 'Годжи бери',
-      'tsarigradsko-grozde': 'Цариградско грозде',
-      koriandar: 'Кориандър',
-      'kamchatska-borovinka': 'Камчатска боровинка',
-    };
-    for (const [slug, name] of Object.entries(names)) {
-      expect(Slug.fromBulgarian(name).value).toBe(slug);
-    }
-  });
-
-  it('QA 056: the chickpea summary dates the Dobrich harvest to its 2018 report', () => {
-    expect(recordOf('nahut').summary).toMatch(/2018/);
+  it('QA 056: the Japanese quince summary says the fruit is not eaten raw', () => {
+    expect(recordOf('yaponska-dyulya').summary).toMatch(/не се ядат сурови/);
   });
 });
