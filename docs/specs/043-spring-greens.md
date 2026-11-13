@@ -72,6 +72,11 @@ Five new produce entries and two new groups:
   sheet (`thead` as `table-header-group`), rows never split, and a kind heading („Плодове“,
   „Зеленчуци“, …) stays with its first produce row. Two sheets hold about 70 rows, i.e. about 60
   produce. This amends spec 014 AC7 (one page).
+- **Supersedes spec 044's one-sheet squeeze:** spec 044 kept one sheet by setting the print line
+  height to 1 and the vertical cell padding to 0 (`--print-table-line-height: 1`,
+  `--print-cell-padding: 0 3pt`), which fits at most 39 produce. With two sheets allowed, the
+  print spacing goes back to the readable line height 1.15 and padding `1pt 3pt`, and spec 014
+  AC7 stays at one or two sheets.
 
 ### Out of scope
 

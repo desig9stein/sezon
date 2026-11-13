@@ -1,0 +1,70 @@
+name: Кестени
+latinName: Castanea sativa
+kind: nut
+group: bukovi
+summary: Ядливите кестени са на пазара основно от средата на септември до края на ноември. Печени или варени, те са вкусът на есента.
+varieties:
+  - name: Вольотика
+    note: Гръцки сорт, засаден в кестенова градина край Сандански.
+  - name: Морони
+    note: Гръцки сорт, използван в същата градина като опрашител.
+season:
+  - { month: 9, level: available }
+  - { month: 10, level: peak }
+  - { month: 11, level: peak }
+regions: []
+nutrition:
+  energyKcal: 213
+  proteinG: 2.42
+  fatG: 2.26
+  carbohydrateG: 45.54
+  fiberG: 8.1
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 43 }
+    - { nutrient: med-cu, amount: 0.447 }
+    - { nutrient: folat, amount: 62 }
+    - { nutrient: kaliy, amount: 518 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Nuts, chestnuts, european, raw, unpeeled'
+    url: https://fdc.nal.usda.gov/food-details/170574/nutrients
+preparation:
+  - method: Печени
+    tip: Нарежи черупката на кръст преди печене, за да не се пръснат кестените, и ги обели, докато са топли.
+  - method: Варени
+    tip: Вари ги с нарязана черупка, докато омекнат, и ги обели топли – вътрешната ципа се маха по-лесно.
+traditionalUses: []
+howToChoose: Избери тежки, лъскави кестени с твърда черупка, без дупчици, пукнатини и мухъл.
+storage: Пресните кестени пази в хладилника в хартиен плик и ги изяж скоро.
+faq:
+  - question: Ядливият кестен и конският кестен едно и също ли са?
+    answer: Не, това са различни дървета. Плодовете на конския кестен не стават за храна – отровни са.
+  - question: Защо някои кестени имат дупчица?
+    answer: Ларвите на кестеновия хоботник се хранят с ядката и излизат от плода през кръгъл отвор. Такива кестени не купувай.
+  - question: За какви кестени са хранителните стойности?
+    answer: За сурови ядливи кестени без черупката, но с вътрешната ципа (запис на USDA). Ципата обикновено се маха, затова стойностите са ориентировъчни.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/kesteni.jpg
+  alt: 'Лъскав кафяв кестен в отворена бодлива черупка с дълги златисти шипове върху горска почва'
+  credit:
+    author: 'Diego Romeo'
+    authorUrl: https://unsplash.com/@gopitri_prem
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/chestnut-inside-spiky-burr--rkmg-y5ECc
+growing:
+  sow: []
+  transplant: []
+  plant: [9, 10, 11]
+  plantingNote: 'Кестенът се засажда наесен – от края на септември до началото или средата на ноември, ако времето е топло.'
+  tips:
+    - 'Кестенът расте бавно: по-сериозно ражда на 5–6 година, а с пълна сила – след десетата.'
+    - 'Купи здрав посадъчен материал: мастилената болест по кестена е гъбна и няма лечение.'
+    - 'Събирай и унищожавай окапалите червиви плодове, за да ограничиш кестеновия хоботник.'
+    - 'Събирай и унищожавай окапалите листа – по тях зимува гъбата, която причинява листни петна.'
+  sources:
+    - name: 'Български фермер – Есенното засаждане на дръвчета - за и против'
+      url: https://www.bgfermer.bg/Article/12974658
+    - name: 'Български фермер – Професионално отглеждане на кестени има вече и у нас'
+      url: https://www.bgfermer.bg/Article/13294825
+    - name: 'Български фермер – Болести и неприятели по кестена'
+      url: https://www.bgfermer.bg/Article/6826227

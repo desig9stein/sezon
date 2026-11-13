@@ -1,0 +1,95 @@
+name: Лук
+latinName: Allium cepa
+kind: vegetable
+group: amarilisovi
+summary: Кромидът се прибира в края на юли и началото на август. Изсушен и на сухо място, издържа през цялата зима до следващата пролет.
+varieties:
+  - name: Асеновградска 5
+  - name: Лясковски 58
+  - name: Испанска 482
+season:
+  - { month: 7, level: available }
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+  - { month: 11, level: storage }
+  - { month: 12, level: storage }
+  - { month: 1, level: storage }
+  - { month: 2, level: storage }
+  - { month: 3, level: storage }
+regions:
+  - region: burgas
+    note: 'Областта е в Югоизточния район, който има най-много реколтирани открити площи със зрял лук кромид в страната – 1 425 от 2 965 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025, бюлетин № 468'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+  - region: sliven
+    note: 'Областта е в Югоизточния район, който има най-много реколтирани открити площи със зрял лук кромид в страната – 1 425 от 2 965 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025, бюлетин № 468'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+  - region: yambol
+    note: 'Областта е в Югоизточния район, който има най-много реколтирани открити площи със зрял лук кромид в страната – 1 425 от 2 965 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025, бюлетин № 468'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+  - region: stara-zagora
+    note: 'Областта е в Югоизточния район, който има най-много реколтирани открити площи със зрял лук кромид в страната – 1 425 от 2 965 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025, бюлетин № 468'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+nutrition:
+  energyKcal: 40
+  proteinG: 1.1
+  fatG: 0.1
+  carbohydrateG: 9.34
+  fiberG: 1.7
+  sugarsG: 4.24
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 7.4 }
+    - { nutrient: folat, amount: 19 }
+    - { nutrient: kaliy, amount: 146 }
+    - { nutrient: mangan, amount: 0.129 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Onions, raw'
+    url: https://fdc.nal.usda.gov/food-details/170000/nutrients
+preparation:
+  - method: Суров
+    tip: Нарежи го на салата малко преди да го сервираш, за да запази свежия си вкус и витамин C.
+  - method: Задушен
+    tip: Задушавай го на слаб огън с малко мазнина, докато омекне и стане сладък.
+traditionalUses: []
+howToChoose: Избери твърди глави със суха, шумоляща люспа, без кълнове, меки места и мухъл.
+storage: Изсушен добре, лукът се пази на тъмно, сухо и проветриво място – сплетен на плитка или в мрежест чувал – до следващата пролет.
+faq:
+  - question: Кога се прибира лукът кромид?
+    answer: Обикновено в края на юли и началото на август, когато луковиците спрат да растат, а стъблата омекнат и полегнат.
+  - question: Колко дълго се пази лукът?
+    answer: Ако е добре изсушен и стои на тъмно, сухо и проветриво място, лукът издържа до следващата пролет.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/luk.jpg
+  alt: 'Купчина глави жълт лук кромид със златисти, леко обелени люспи и сухи корени'
+  credit:
+    author: 'Lars Blankers'
+    authorUrl: https://unsplash.com/@lmablankers
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/brown-onion-lot-pmS8XSz5NU0
+growing:
+  sow: [3]
+  transplant: []
+  plant: [2, 3]
+  plantingNote: 'Арпаджика засаждай от втората половина на февруари до средата на март; семената за арпаджик се сеят в началото на март.'
+  tips:
+    - 'Засаждай арпаджика на 5–6 см дълбочина, на 15–20 см между редовете и на 10 см в реда.'
+    - 'За едри глави избери арпаджик с диаметър около 10 мм, но не повече от 15 мм.'
+    - 'Лукът иска светлина и леки, песъчливо-глинести почви – не го сади между овощни дръвчета.'
+    - 'Поливай напролет, ако е сухо, но не преполивай – излишната влага влошава луковиците и съхранението им.'
+    - 'Прибери, когато стъблата омекнат и полегнат, и просуши лука на сянка под навес.'
+  sources:
+    - name: 'Български фермер – Как да си отгледате лук от арпаджик'
+      url: https://www.bgfermer.bg/Article/10970651
+    - name: 'Български фермер – Засадете арпаджик, ако искате големи глави лук'
+      url: https://www.bgfermer.bg/Article/3742630
+    - name: 'Български фермер – Засява се арпаджик'
+      url: https://www.bgfermer.bg/Article/13899207
