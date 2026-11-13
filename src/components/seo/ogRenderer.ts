@@ -53,9 +53,13 @@ const STAMP_LETTER_SPACING = '0.06em';
 const BRAND_LETTER_SPACING = '0.04em';
 const STAMP_PADDING = '0.1em 0.45em';
 
-/** A satori element: a tag, its style and its children. */
+/**
+ * A satori element: a tag, its style and its children. `key` makes it a React element, the type
+ * satori's API expects when React's types are installed.
+ */
 interface Node {
   readonly type: string;
+  readonly key: null;
   readonly props: {
     readonly style: Readonly<Record<string, string | number>>;
     readonly children?: string | ReadonlyArray<Node>;
@@ -66,7 +70,11 @@ interface Node {
 const node = (
   style: Readonly<Record<string, string | number>>,
   children?: string | ReadonlyArray<Node>,
-): Node => ({ type: 'div', props: { style, ...(children === undefined ? {} : { children }) } });
+): Node => ({
+  type: 'div',
+  key: null,
+  props: { style, ...(children === undefined ? {} : { children }) },
+});
 
 /** Returns a font family list with the Cyrillic subset first and the Latin subset as fallback. */
 const families = (family: string): string =>

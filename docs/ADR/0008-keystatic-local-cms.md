@@ -86,6 +86,9 @@ ADR because it adds a server adapter, secrets and on-demand routes to production
   because that field stores files in a per-entry folder and would drop a banner kept elsewhere.
 - React, Keystatic and their dependencies are added to `devDependencies` (larger install, not a
   larger site). A major upgrade of any of them needs an ADR (AGENTS.md section 2).
+- React's types (`@types/react`, a dependency of `@keystatic/core`) are now in the dependency
+  tree, so libraries with optional React types, such as satori for the OG images (spec 050),
+  type-check against them.
 - The dev server binds to `127.0.0.1` unless `server.host` is set, because the Keystatic
   integration sets it.
 
