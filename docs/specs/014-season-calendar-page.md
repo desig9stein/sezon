@@ -122,7 +122,7 @@ colspan="13">` holds the section name (e.g. „Плодове“), and the name 
    - zero axe violations in light and dark mode and at 320 px;
    - no horizontal page scroll at 320 px;
    - it passes the spec 009 checks (e2e).
-7. **AC7:** In print media at A4 landscape, the header, footer and breadcrumbs are not displayed, and the current catalogue prints on one page (e2e, PDF page count).
+7. **AC7:** In print media at A4 landscape, the header, footer and breadcrumbs are not displayed, and the current catalogue prints on one page (e2e, PDF page count). Amended by spec 043: at most two pages, with the month header repeated.
 
 ## 9. Test plan
 

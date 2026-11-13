@@ -64,6 +64,15 @@ Five new produce entries and two new groups:
   `luk` (branch 044) shares the Latin name _Allium cepa_: both are the same species, eaten at
   different stages, so the shared name is intended.
 
+- **Printed calendar:** with the summer vegetables (spec 041) and these five, the calendar has 33
+  produce, and the printed table no longer fits one A4 landscape sheet even at the tightened print
+  line height. A smaller font would buy only a few rows (at 9 pt one row is about 18 px, and a
+  sheet holds about 34 rows), so it would not reach the 40–50 produce planned. Instead the
+  calendar may print on **at most two** A4 landscape sheets: the month header row repeats on each
+  sheet (`thead` as `table-header-group`), rows never split, and a kind heading („Плодове“,
+  „Зеленчуци“, …) stays with its first produce row. Two sheets hold about 70 rows, i.e. about 60
+  produce. This amends spec 014 AC7 (one page).
+
 ### Out of scope
 
 - **Nettle (коприва).** SR Legacy has only „Stinging Nettles, blanched (Northern Plains Indians)“
@@ -233,21 +242,24 @@ stems, and its `alt` names sorrel.
    guide's „Seed data status“ names nettle as left out.
 10. **AC10:** Given the catalogue page, then it links to every group page, including the two new
     ones (covered by `main`'s spec 023 AC5 test, which reads the group files).
+11. **AC11:** Given the calendar in print media at A4 landscape, then it prints on one or two
+    sheets, repeats the month header row and keeps each kind heading with its first row.
 
 ## 9. Test plan
 
-| AC   | Test type | Test file                                      |
-| ---- | --------- | ---------------------------------------------- |
-| AC1  | unit      | `tests/unit/content/spring-greens-043.test.ts` |
-| AC2  | unit      | `tests/unit/content/spring-greens-043.test.ts` |
-| AC3  | unit      | `tests/unit/content/spring-greens-043.test.ts` |
-| AC4  | unit      | `tests/unit/content/spring-greens-043.test.ts` |
-| AC5  | unit      | `tests/unit/content/spring-greens-043.test.ts` |
-| AC6  | unit      | `tests/unit/content/spring-greens-043.test.ts` |
-| AC7  | unit      | `tests/unit/content/spring-greens-043.test.ts` |
-| AC8  | unit      | `tests/unit/content/spring-greens-043.test.ts` |
-| AC9  | unit      | `tests/unit/content/spring-greens-043.test.ts` |
-| AC10 | e2e       | `tests/e2e/site-shell.spec.ts` (spec 023 AC5)  |
+| AC   | Test type | Test file                                       |
+| ---- | --------- | ----------------------------------------------- |
+| AC1  | unit      | `tests/unit/content/spring-greens-043.test.ts`  |
+| AC2  | unit      | `tests/unit/content/spring-greens-043.test.ts`  |
+| AC3  | unit      | `tests/unit/content/spring-greens-043.test.ts`  |
+| AC4  | unit      | `tests/unit/content/spring-greens-043.test.ts`  |
+| AC5  | unit      | `tests/unit/content/spring-greens-043.test.ts`  |
+| AC6  | unit      | `tests/unit/content/spring-greens-043.test.ts`  |
+| AC7  | unit      | `tests/unit/content/spring-greens-043.test.ts`  |
+| AC8  | unit      | `tests/unit/content/spring-greens-043.test.ts`  |
+| AC9  | unit      | `tests/unit/content/spring-greens-043.test.ts`  |
+| AC10 | e2e       | `tests/e2e/site-shell.spec.ts` (spec 023 AC5)   |
+| AC11 | e2e       | `tests/e2e/calendar-page.spec.ts` (AC7, QA 043) |
 
 ## 10. Third-party documentation consulted
 
