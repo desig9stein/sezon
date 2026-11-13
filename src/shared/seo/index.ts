@@ -30,3 +30,4 @@ export type {
 } from './jsonLd';
 export { robotsTxt } from './robots';
 export { latinSearchText } from './searchText';
+export { escapeXml } from './xml';

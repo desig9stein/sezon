@@ -58,6 +58,7 @@ describe('QA 004 regressions', () => {
       'catalog',
       'farm',
       'farms',
+      'feed',
       'group',
       'home',
       'methodology',
