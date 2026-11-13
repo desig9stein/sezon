@@ -1,0 +1,10 @@
+name: 'ЗП Иван Терзиев'
+region: pazardzhik
+produce: [domati, piper, krushi, yabalki]
+description: 'Малко семейно стопанство в с. Мокрище, което отглежда розови домати, зелени чушки, подправки, круши, ябълки и вишни. Продава онлайн през Хранкооп; към ноември 2026 г. там предлага само консервирани розови домати. По данни на LocalStore.bg продава и на фермерския пазар „Римската стена“ в София.'
+contact:
+  website: https://coop.hrankoop.com/producer/ivan-terziev
+address: 'с. Мокрище, обл. Пазарджик'
+sources:
+  - https://coop.hrankoop.com/producer/ivan-terziev
+  - https://localstore.bg/producer/zp-ivan-terziev

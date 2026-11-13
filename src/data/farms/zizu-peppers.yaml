@@ -1,0 +1,10 @@
+name: 'Zizu Peppers'
+region: pazardzhik
+produce: [piper]
+description: 'Млада ферма в с. Пищигово, която отглежда люти чушки на 7 декара на открито и прави от тях сосове и сушени чушки. Продава пресни люти чушки и преработени продукти онлайн през Хранкооп. По данни на LocalStore.bg продава и на пазара „КоренЯк“ в Стара Загора. По данни на фермата отглежда по биологичен начин само с органичен тор.'
+contact:
+  website: https://coop.hrankoop.com/producer/zizu-peppers
+address: 'с. Пищигово, обл. Пазарджик'
+sources:
+  - https://coop.hrankoop.com/producer/zizu-peppers
+  - https://localstore.bg/producer/zizu-bio

@@ -1,0 +1,10 @@
+name: 'Vega Fruits'
+region: kyustendil
+produce: [kartofi, morkovi, spanak, yabalki, repichki, luk]
+description: 'Фирмата „Вега Фрутс“ ООД отглежда зеленчуци и ябълки в с. Долистово и ги продава онлайн през Хранкооп; към ноември 2026 г. там предлага картофи, моркови, бейби спанак, ябълки, репички и кромид лук. По данни на фермата зеленчуците се отглеждат без изкуствени торове и химикали.'
+contact:
+  website: https://coop.hrankoop.com/producer/vega-fruits
+address: 'с. Долистово, обл. Кюстендил'
+sources:
+  - https://coop.hrankoop.com/producer/vega-fruits
+  - https://localstore.bg/producer/vega-fruits

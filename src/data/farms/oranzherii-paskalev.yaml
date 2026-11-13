@@ -1,0 +1,9 @@
+name: 'Оранжерии Паскалев'
+region: razgrad
+produce: [krastavitsi, domati, piper, tikvichki, zele, magdanoz, kartofi]
+description: 'По данни на LocalStore.bg семейно стопанство с оранжерии в с. Пороище, което отглежда и продава на дребно краставици, домати, пипер, тиквички, зеле, магданоз, мента и картофи, включително на пазара в Разград (маса 83).'
+contact:
+  website: https://localstore.bg/producer/oranjerii-paskalev
+address: 'с. Пороище; пазар Разград, маса 83'
+sources:
+  - https://localstore.bg/producer/oranjerii-paskalev

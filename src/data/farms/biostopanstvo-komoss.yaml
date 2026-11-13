@@ -1,0 +1,10 @@
+name: 'Биостопанство „Комосс“'
+region: kyustendil
+produce: [orehi, yabalki]
+description: 'Наследник на овощния разсадник в Дупница, който от 2001 г. произвежда овощен посадъчен материал, а от 2013 г. и плодове и зеленчуци. Продава на пазарите „Римската стена“ и „Иван Вазов“ в София и онлайн през Хранкооп, където към ноември 2026 г. предлага орехи, ябълки и сушени сини сливи. По данни на фермата стопанството е сертифицирано за биологично производство.'
+contact:
+  website: https://coop.hrankoop.com/producer/komoss
+address: 'Дупница'
+sources:
+  - https://coop.hrankoop.com/producer/komoss
+  - https://localstore.bg/producer/ekostopanstvo-komoss

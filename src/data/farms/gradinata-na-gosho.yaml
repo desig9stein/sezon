@@ -1,0 +1,9 @@
+name: 'Градината на Гошо'
+region: ruse
+produce: [krastavitsi, domati, tikvichki, kartofi, piper, slivi]
+description: 'По данни на LocalStore.bg семейна ферма в Мартен, която отглежда краставици „Гергана“, розови домати, люти чушки, тиквички, картофи, пипер и сини сливи и прави домашен доматен сок.'
+contact:
+  website: https://localstore.bg/producer/gradinata-na-gosho
+address: 'Мартен'
+sources:
+  - https://localstore.bg/producer/gradinata-na-gosho

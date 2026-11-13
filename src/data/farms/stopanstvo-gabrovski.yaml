@@ -1,0 +1,10 @@
+name: 'Стопанство Габровски'
+region: veliko-tarnovo
+produce: [orehi]
+description: 'Семейно стопанство от Свищов с орехови насаждения и лозя, което продава орехи онлайн през Хранкооп. По данни на LocalStore.bg обработва 40 декара орехи и 150 декара лозя и продава всяка сряда на фермерски пазар в София.'
+contact:
+  website: https://coop.hrankoop.com/producer/stopanstvo-gabrovski
+address: 'Свищов'
+sources:
+  - https://coop.hrankoop.com/producer/stopanstvo-gabrovski
+  - https://localstore.bg/producer/stopanstvo-gabrovski

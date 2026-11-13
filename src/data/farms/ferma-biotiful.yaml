@@ -1,0 +1,12 @@
+name: 'Ферма Biotiful'
+region: burgas
+produce: [yabalki, kiselets, repichki, zelen-luk]
+description: 'Пермакултурна ферма край с. Росен, която продава плодове, зеленчуци и седмична фермерска кошница през собствен онлайн магазин. Приема посетители след предварително обаждане. По данни на LocalStore.bg фермата е създадена през 2015 г. и провежда образователни занимания за деца.'
+contact:
+  website: https://biotifulfarm.bg/
+  email: biotifulfarm@gmail.com
+  phone: '+359888448825'
+address: 'по пътя за с. Росен, общ. Созопол, обл. Бургас'
+sources:
+  - https://biotifulfarm.bg/produkt-kategoriya/svezhi-produkti-ot-gradinata/
+  - https://localstore.bg/producer/biotiful-590

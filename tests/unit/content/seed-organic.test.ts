@@ -17,8 +17,10 @@ describe('seed organic data', () => {
     }
   });
 
-  it('AC6: no seed farm has an organic block until a certificate is verified (#16)', () => {
-    const farms = readSeedCollection('farms').map(({ data }) => farmSchema.parse(data));
-    expect(farms.filter((farm) => farm.organic !== undefined)).toEqual([]);
+  it('AC6: only farms with a certificate verified in a spec have an organic block (#16, spec 051)', () => {
+    const organic = readSeedCollection('farms')
+      .filter(({ data }) => farmSchema.parse(data).organic !== undefined)
+      .map(({ id }) => id);
+    expect(organic).toEqual(['vkusnagradina']);
   });
 });

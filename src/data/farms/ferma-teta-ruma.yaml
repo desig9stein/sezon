@@ -1,0 +1,10 @@
+name: 'Ферма „Тета Рума“'
+region: blagoevgrad
+produce: [kartofi, morkovi, domati, krastavitsi]
+description: 'Семейно стопанство за плодове и зеленчуци в с. Горна Брезница, което отглежда ранни картофи, домати и краставици само от български сортове семена. Продава онлайн през Хранкооп, където към ноември 2026 г. предлага картофи и моркови. По данни на LocalStore.bg продава и на фермерските пазари „Римската стена“ и пред Министерството на земеделието в София.'
+contact:
+  website: https://coop.hrankoop.com/producer/ferma-teta-ruma
+address: 'с. Горна Брезница, общ. Кресна'
+sources:
+  - https://coop.hrankoop.com/producer/ferma-teta-ruma
+  - https://localstore.bg/producer/ferma-teta-ruma

@@ -256,10 +256,23 @@ sources: # pages the facts come from, https, at least one
 ```
 
 Only real farms, never invented examples. Every fact (province, produce, description, contacts)
-comes from the farm's own published pages, listed in `sources`. List only seed produce the farm
-says it grows or sells. Write the description in the third person; what a farm says about
+comes from the pages listed in `sources` (the farm's own pages or a directory, see below). List
+only seed produce the farm says it grows or sells. Write the description in the third person; what a farm says about
 itself that the site has not checked (e.g. „сертифицирана“ without a certifier, number and
 expiry) starts with „По данни на фермата …“. Note paused sales with the month of the check.
+
+- **Directories.** A Хранкооп producer page (coop.hrankoop.com) or a LocalStore.bg profile is a
+  valid source. Facts that come only from LocalStore.bg are introduced with „По данни на
+  LocalStore.bg …“. gradinata.bg is never a source.
+- **Contacts.** Publish a website, e-mail or phone only when a cited page shows it in clear text.
+  Never publish a number a directory masks („088 72* ****“), even if the full number is in the page
+  source. A farm without its own site links its Хранкооп page (where it sells) or its LocalStore.bg
+  profile as `contact.website`.
+- **Province.** Use the province the source names, or the one of the settlement when its name is
+  unique in Bulgaria or the source removes the ambiguity (e.g. „на 10 минути от Добрич“). Record
+  the basis in the spec.
+- **Organic.** Add an `organic` block only from a certificate you have read, e.g. in the EU TRACES
+  directory of organic operators, and cite it in `sources`.
 
 ## Add a recipe (`src/data/recipes/`)
 
@@ -367,3 +380,7 @@ seasons are editorial (no official monthly calendar exists).
   values per 100 g raw.
 - **Farms (checked 2026-11-11, #16):** 10 real farms from their own websites. None publishes a
   full organic certificate, so none has an `organic` block.
+- **More farms (checked 2026-11-13, spec 051):** 39 more farms from their own sites, Хранкооп
+  listings and LocalStore.bg profiles (sources and the province basis per farm in
+  `docs/specs/051-more-farms.md`). ВКУСнаГРАДИНА has the only `organic` block, from its COSMOCERT
+  certificate in TRACES; masked directory phones are not published.
