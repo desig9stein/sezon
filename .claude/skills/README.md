@@ -21,5 +21,8 @@ done
 cp /tmp/anthropic-skills/THIRD_PARTY_NOTICES.md .claude/skills/
 ```
 
+The project's own skills (`sezon-add-produce`, `sezon-feature`) are not vendored: edit them here
+and keep the update loop above away from them.
+
 Then update the source commit above and review the diff before committing: skills can run
 scripts. Which skill to use for which task in this project: `docs/SKILLS.md`.

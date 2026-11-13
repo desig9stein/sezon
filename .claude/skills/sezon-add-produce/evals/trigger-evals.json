@@ -1,0 +1,74 @@
+[
+  {
+    "query": "add тиква to the site, it's in season now. use the usda record and find an unsplash photo",
+    "should_trigger": true
+  },
+  {
+    "query": "Добави тиква и кестени в каталога, моля. Трябва им снимка и хранителни стойности.",
+    "should_trigger": true
+  },
+  {
+    "query": "Issue #41 asks for autumn staples: potatoes, onions, broccoli, cauliflower and chestnuts. Can you create the produce entries?",
+    "should_trigger": true
+  },
+  {
+    "query": "we're missing nettle (коприва) in src/data/produce, can you write the yaml? I know USDA only has blanched nettle, figure out what to do",
+    "should_trigger": true
+  },
+  {
+    "query": "The regions for домати look made up. Replace them with what the МЗХ vegetables bulletin for 2025 actually says, with the figures.",
+    "should_trigger": true
+  },
+  {
+    "query": "the photo for зеле is a red cabbage but the page is about white cabbage, swap it for a proper unsplash one and fix the alt and credit",
+    "should_trigger": true
+  },
+  {
+    "query": "can you add a sowing/planting guide to морковите? sources from bgfermer or agrozona please",
+    "should_trigger": true
+  },
+  {
+    "query": "Need malini.yaml for raspberries, season June-July peak. I don't have nutrition yet, is that allowed now?",
+    "should_trigger": true
+  },
+  {
+    "query": "The USDA test fails for krushi after I changed fiberG, can you correct the pear nutrition to match FDC 169118 and regenerate the extract?",
+    "should_trigger": true
+  },
+  {
+    "query": "Add the farm „Ферма Зелена долина“ from Пловдив, they sell tomatoes and peppers, here's their site https://zelenadolina.bg",
+    "should_trigger": false
+  },
+  {
+    "query": "write a recipe for компот от дюли based on the bgfermer article, with NCHFP processing times",
+    "should_trigger": false
+  },
+  {
+    "query": "add vitamin K as a nutrient with its EU reference intake and the authorised claims from Regulation 432/2012",
+    "should_trigger": false
+  },
+  {
+    "query": "The produce page layout puts the nutrition table above the season calendar; move the calendar up and keep the heading order valid",
+    "should_trigger": false
+  },
+  {
+    "query": "Why does Slug.fromBulgarian turn „ия“ at the end of a word into „ia“? Is that the official transliteration?",
+    "should_trigger": false
+  },
+  {
+    "query": "Sponsor „Био Пазар“ signed for December on produce pages, add their banner and dates",
+    "should_trigger": false
+  },
+  {
+    "query": "write the province profile for Кърджали from the МЗХ regional statistics",
+    "should_trigger": false
+  },
+  {
+    "query": "pnpm content:usda crashes with ENOENT on food_nutrient.csv, what's wrong with the script?",
+    "should_trigger": false
+  },
+  {
+    "query": "the monthly RSS feed should include newly added produce; implement that per a new spec",
+    "should_trigger": false
+  }
+]
