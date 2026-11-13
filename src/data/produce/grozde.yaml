@@ -1,0 +1,90 @@
+name: Грозде
+latinName: Vitis vinifera
+kind: fruit
+group: lozovi
+summary: Десертното грозде узрява от юли до октомври според сорта. Пловдивско е с най-голяма площ лозя с десертни сортове.
+varieties:
+  - name: Болгар
+    note: Един от най-ценените десертни сортове у нас, известен и като Афуз Али.
+  - name: Супер ран болгар
+  - name: Плевен
+    note: Български сорт с едри жълто-зелени зърна.
+  - name: Кардинал
+    note: С едри тъмновиолетови зърна и леко мискетов вкус.
+  - name: Хамбургски мискет
+    note: С тъмносини зърна и мискетов аромат.
+season:
+  - { month: 7, level: available }
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+regions:
+  - region: plovdiv
+    note: 'Областта с най-голяма площ с лозя с десертни сортове грозде в страната – 821 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: burgas
+    note: 'Областта с втората по големина площ с лозя с десертни сортове грозде – 345 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: haskovo
+    note: 'Областта с третата по големина площ с лозя с десертни сортове грозде – 338 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+nutrition:
+  energyKcal: 69
+  proteinG: 0.72
+  fatG: 0.16
+  carbohydrateG: 18.1
+  fiberG: 0.9
+  sugarsG: 15.48
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 14.6 }
+    - { nutrient: med-cu, amount: 0.127 }
+    - { nutrient: kaliy, amount: 191 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Grapes, red or green (European type, such as Thompson seedless), raw'
+    url: https://fdc.nal.usda.gov/food-details/174683/nutrients
+preparation:
+  - method: Прясно
+    tip: Измий гроздето точно преди ядене, като държиш грозда за чепката.
+  - method: Замразено
+    tip: Откъсни зърната, подсуши ги и ги замрази – стават хладна лятна хапка.
+traditionalUses: []
+howToChoose: Избери стегнати гроздове с плътни зърна, които не се ронят от чепката, и зелени, не изсъхнали дръжки.
+storage: Пази гроздето неизмито в хладилник и го изяж до около седмица.
+faq:
+  - question: Кога узрява десертното грозде?
+    answer: Ранните сортове дават грозде през юли и август, средните – през август и септември, а късните продължават през есента.
+  - question: Кои десертни сортове са познати у нас?
+    answer: Сред познатите сортове са Болгар, Супер ран болгар, Плевен, Кардинал и Хамбургски мискет.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/grozde.jpg
+  alt: 'Гроздове с жълто-зелени, тъмносини и розови зърна един до друг'
+  credit:
+    author: 'Botond Czapp'
+    authorUrl: https://unsplash.com/@czapp_botond
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-close-up-of-a-bunch-of-grapes-xSg_-tuuJsI
+growing:
+  sow: []
+  transplant: []
+  plant: [3, 4]
+  plantingNote: 'Напролет засаждай през втората половина на март и в началото на април – колкото по-рано, толкова по-добре се прихващат лозите.'
+  tips:
+    - 'Засади лозата на слънчево място, защитено от студени северни ветрове; южните изложения помагат на късните сортове да узреят.'
+    - 'Десертните сортове искат много топлина и се отглеждат до около 400 м надморска височина.'
+    - 'Не засаждай в дни под 0 °C – корените на лозичките са чувствителни на студ.'
+    - 'Накисни лозичките във вода за едно денонощие преди засаждането, за да се освежат.'
+    - 'Купувай сертифицирани лозички от надежден разсадник и засади два-три сорта с различен срок на узряване.'
+  sources:
+    - name: 'Български фермер – Кои десертни сортове грозде си заслужава да засадим в двора?'
+      url: https://www.bgfermer.bg/Article/23894249
+    - name: 'Български фермер – Кога и как се засаждат лозите'
+      url: https://www.bgfermer.bg/Article/11164624
+    - name: 'Български фермер – Как да подготвите мястото за лозов масив'
+      url: https://www.bgfermer.bg/Article/21333575

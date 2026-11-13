@@ -1,0 +1,70 @@
+name: Тиквички
+latinName: Cucurbita pepo
+kind: vegetable
+group: tikvovi
+summary: Тиквичките от открити площи се берат от май до края на септември и растат много бързо. Имат около 17 kcal на 100 г.
+varieties:
+  - name: Бистра
+  - name: Изобилна
+season:
+  - { month: 5, level: available }
+  - { month: 6, level: peak }
+  - { month: 7, level: peak }
+  - { month: 8, level: peak }
+  - { month: 9, level: available }
+regions: []
+nutrition:
+  energyKcal: 17
+  proteinG: 1.21
+  fatG: 0.32
+  carbohydrateG: 3.11
+  fiberG: 1
+  sugarsG: 2.5
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 17.9 }
+    - { nutrient: kaliy, amount: 261 }
+    - { nutrient: folat, amount: 24 }
+    - { nutrient: mangan, amount: 0.177 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Squash, summer, zucchini, includes skin, raw'
+    url: https://fdc.nal.usda.gov/food-details/169291/nutrients
+preparation:
+  - method: Сурови
+    tip: Младите тиквички може да ядеш и сурови, нарязани на тънко в салата.
+  - method: Задушени или печени
+    tip: Готви ги кратко, за да не се разкашкат; кората на младите тиквички не се бели.
+traditionalUses: []
+howToChoose: Избери малки до средни, твърди и лъскави тиквички с гладка кора; прекалено големите са по-груби и с едри семки.
+storage: Пази ги в хладилника и ги изяж до няколко дни. Може да ги замразиш и после да ги сложиш в крем супа или гювеч.
+faq:
+  - question: Кога е сезонът на тиквичките?
+    answer: При ранна сеитба под покритие първите беритби започват в края на април и продължават до края на септември.
+  - question: Има ли български сортове тиквички?
+    answer: Да, в Официалната сортова листа са вписани например Бистра и Изобилна.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/tikvichki.jpg
+  alt: 'Тъмнозелени тиквички със светлозелени дръжки, наредени изправени една до друга'
+  credit:
+    author: 'Bishwajit Ghose'
+    authorUrl: https://unsplash.com/@ghose_bishwajit
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-large-pile-of-fresh-green-zucchinis-at-a-market-RO0_s0SEazE
+growing:
+  sow: [3, 4, 5, 6]
+  transplant: []
+  plant: []
+  plantingNote: 'За ранна реколта сей през март в съоръжения; на открито сей директно през април, май и до юни, според района.'
+  tips:
+    - 'Сей, когато почвата трайно се затопли и мине опасността от късни пролетни мразове.'
+    - 'Подходяща е леха, в която миналата година са расли домати, пипер или бобови култури.'
+    - 'Сей по 4–5 семена в гнездо на 3–4 см дълбочина и след поникването остави по едно растение.'
+    - 'Остави 80–90 см между редовете и 60 см между растенията в реда.'
+    - 'Бери редовно, понякога всеки ден: прекалено големите тиквички загрубяват.'
+  sources:
+    - name: 'Български фермер – Директна сеитба на тиквички'
+      url: https://www.bgfermer.bg/Article/6862175
+    - name: 'Български фермер – Тиквичките понасят директна сеитба'
+      url: https://www.bgfermer.bg/Article/11400911
+    - name: 'Български фермер – Тиквичките – лесни за гледане и много вкусни'
+      url: https://www.bgfermer.bg/Article/14485662

@@ -60,6 +60,7 @@ describe('QA 004 regressions', () => {
       'cookies',
       'farm',
       'farms',
+      'feed',
       'group',
       'home',
       'methodology',
