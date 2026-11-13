@@ -1,0 +1,12 @@
+---
+/**
+ * The AdSense island (spec 045): loads the AdSense tag only when an AdSense slot nears the
+ * viewport. Rendered only next to an AdSense slot, so other pages get no script.
+ */
+---
+
+<script>
+  import { initAdSense } from './adsenseLoader';
+
+  initAdSense(window);
+</script>

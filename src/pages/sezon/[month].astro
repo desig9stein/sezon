@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import AdSlot from '@components/ads/AdSlot.astro';
+import { ADSENSE } from '@composition/adsense';
 import { routes } from '@components/layout/routes';
 import MonthChanges from '@components/season/MonthChanges.astro';
 import MonthPager from '@components/season/MonthPager.astro';
@@ -47,7 +48,7 @@ const sponsor = await sponsorSelectionService.forPlacement('month', BUILD_DATE);
   <SeasonLegend />
   <MonthChanges changes={changes} />
   <SeasonOverview overview={overview} groups={['comingSoon']} stripMonth={month} />
-  <AdSlot sponsor={sponsor} placement="month" />
+  <AdSlot sponsor={sponsor} placement="month" adsense={ADSENSE} />
   <MonthPager month={month} />
 </BaseLayout>
 
