@@ -1,0 +1,36 @@
+name: Къпини
+kind: fruit
+group: rozotsvetni
+summary: Културните къпини от сорта Торнфрий зреят от края на юли до края на септември или началото на октомври – беритбата трае над 40 дни.
+varieties:
+  - name: Торнфрий
+    note: 'Сред най-подходящите сортове за нашите условия; узрява от края на юли до началото на октомври.'
+season:
+  - { month: 7, level: available }
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+nutrition:
+  energyKcal: 43
+  proteinG: 1.39
+  fatG: 0.49
+  carbohydrateG: 9.61
+  fiberG: 5.3
+  sugarsG: 4.88
+  micronutrients:
+    - { nutrient: mangan, amount: 0.646 }
+    - { nutrient: vitamin-k, amount: 19.8 }
+    - { nutrient: vitamin-c, amount: 21 }
+    - { nutrient: med-cu, amount: 0.165 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Blackberries, raw'
+    url: https://fdc.nal.usda.gov/food-details/173946/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/kapini.jpg
+  alt: 'Черни узрели и червени неузрели къпини на храста'
+  credit:
+    author: 'Amanda Hortiz'
+    authorUrl: https://unsplash.com/@amandahortiz
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/black-and-red-berries-in-tilt-shift-lens-l1uVrvjZrsQ

@@ -1,0 +1,57 @@
+name: Бадеми
+latinName: Prunus dulcis
+kind: nut
+group: rozotsvetni
+summary: Бадемите узряват от края на август до втората половина на септември, а беритбата продължава и през октомври.
+varieties:
+  - name: Ароматичен
+    note: 'Узрява към средата на септември.'
+  - name: Аспарух
+    note: 'Узрява в средата на септември.'
+  - name: Марково
+    note: 'Узрява в началото на септември.'
+  - name: Никитски
+    note: 'Узрява през първата половина на септември.'
+  - name: Нонпарел
+    note: 'Узрява в края на август и началото на септември.'
+  - name: Поморие
+    note: 'Узрява през втората половина на септември.'
+season:
+  - { month: 8, level: available }
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+regions:
+  - region: burgas
+    note: 'Областта с най-голяма площ с бадемови насаждения в страната – 888 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: haskovo
+    note: 'Областта с втората по големина площ с бадемови насаждения – 802 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: sliven
+    note: 'Областта с третата по големина площ с бадемови насаждения – 326 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+nutrition:
+  energyKcal: 579
+  proteinG: 21.15
+  fatG: 49.93
+  carbohydrateG: 21.55
+  fiberG: 12.5
+  sugarsG: 4.35
+  micronutrients:
+    - { nutrient: mangan, amount: 2.179 }
+    - { nutrient: med-cu, amount: 1.031 }
+    - { nutrient: magneziy, amount: 270 }
+    - { nutrient: fosfor, amount: 481 }
+    - { nutrient: kaliy, amount: 733 }
+    - { nutrient: zhelyazo, amount: 3.71 }
+    - { nutrient: folat, amount: 44 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Nuts, almonds'
+    url: https://fdc.nal.usda.gov/food-details/170567/nutrients
+updatedAt: 2026-11-13

@@ -1,0 +1,11 @@
+name: Джанки
+latinName: Prunus cerasifera
+kind: fruit
+group: rozotsvetni
+summary: Джанката цъфти сред първите дървета напролет, а плодовете ѝ – жълти, червени или почти черни – съзряват от юни до септември.
+season:
+  - { month: 6, level: peak }
+  - { month: 7, level: peak }
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+updatedAt: 2026-11-13

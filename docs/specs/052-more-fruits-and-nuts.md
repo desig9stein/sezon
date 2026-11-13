@@ -67,32 +67,34 @@ No change. The new groups and produce are data only.
 
 | Slug             | Name          | Latin name                      | Kind  | Group              | Optional blocks                      |
 | ---------------- | ------------- | ------------------------------- | ----- | ------------------ | ------------------------------------ |
-| `vishni`         | Вишни         | Prunus cerasus                  | fruit | `rozotsvetni`      | varieties, regions, nutrition, photo |
+| `vishni`         | Вишни         | Prunus cerasus                  | fruit | `rozotsvetni`      | varieties, regions, nutrition        |
 | `malini`         | Малини        | Rubus idaeus                    | fruit | `rozotsvetni`      | varieties, regions, nutrition, photo |
 | `kapini`         | Къпини        | –                               | fruit | `rozotsvetni`      | varieties, nutrition, photo          |
 | `borovinki`      | Боровинки     | Vaccinium corymbosum            | fruit | `pirenovi`         | nutrition, storage, photo            |
 | `kasis`          | Касис         | Ribes nigrum                    | fruit | `kasisovi`         | photo                                |
 | `dini`           | Дини          | Citrullus lanatus               | fruit | `tikvovi`          | regions, nutrition, photo            |
 | `nektarini`      | Нектарини     | Prunus persica var. nucipersica | fruit | `rozotsvetni`      | varieties, regions, nutrition, photo |
-| `mushmuli`       | Мушмули       | Mespilus germanica              | fruit | `rozotsvetni`      | storage, photo                       |
+| `mushmuli`       | Мушмули       | Mespilus germanica              | fruit | `rozotsvetni`      | storage                              |
 | `nar`            | Нар           | Punica granatum                 | fruit | `blatievi`         | nutrition, photo                     |
 | `rayska-yabalka` | Райска ябълка | Diospyros kaki                  | fruit | `abanosovi`        | nutrition, storage, photo            |
 | `kivi`           | Киви          | Actinidia deliciosa             | fruit | `aktinidievi`      | varieties, nutrition, photo          |
 | `shipka`         | Шипка         | Rosa canina                     | fruit | `rozotsvetni`      | regions, photo                       |
-| `drenki`         | Дренки        | Cornus mas                      | fruit | `dryanovi`         | photo                                |
-| `aronia`         | Арония        | Aronia melanocarpa              | fruit | `rozotsvetni`      | photo                                |
-| `dzhanki`        | Джанки        | Prunus cerasifera               | fruit | `rozotsvetni`      | photo                                |
-| `oblepiha`       | Облепиха      | Hippophae rhamnoides            | fruit | `mirizlivovarbovi` | photo                                |
-| `skorusha`       | Скоруша       | Sorbus domestica                | fruit | `rozotsvetni`      | storage, photo                       |
-| `hinap`          | Хинап         | Ziziphus jujuba                 | fruit | `zarnikovi`        | photo                                |
+| `drenki`         | Дренки        | Cornus mas                      | fruit | `dryanovi`         | –                                    |
+| `aronia`         | Арония        | Aronia melanocarpa              | fruit | `rozotsvetni`      | –                                    |
+| `dzhanki`        | Джанки        | Prunus cerasifera               | fruit | `rozotsvetni`      | –                                    |
+| `oblepiha`       | Облепиха      | Hippophae rhamnoides            | fruit | `mirizlivovarbovi` | –                                    |
+| `skorusha`       | Скоруша       | Sorbus domestica                | fruit | `rozotsvetni`      | storage                              |
+| `hinap`          | Хинап         | Ziziphus jujuba                 | fruit | `zarnikovi`        | –                                    |
 | `leshnitsi`      | Лешници       | Corylus avellana                | nut   | `brezovi`          | varieties, regions, nutrition, photo |
-| `bademi`         | Бадеми        | Prunus dulcis                   | nut   | `rozotsvetni`      | varieties, regions, nutrition, photo |
+| `bademi`         | Бадеми        | Prunus dulcis                   | nut   | `rozotsvetni`      | varieties, regions, nutrition        |
 | `fastatsi`       | Фъстъци       | Arachis hypogaea                | nut   | `bobovi`           | nutrition, photo                     |
 
-The photo column lists a photo only where one was found (section „Photos“); an entry without a
-suitable photo omits the block. The blackberry has no Latin name: the source describes the
+A photo is listed only where one clearly shows the produce (section „Photos“); the others have no
+`photo` block. The blackberry has no Latin name: the source describes the
 thornless cultivar Торнфрий, and the cultivated thornless blackberries are hybrids whose species
-name the source does not give.
+name the source does not give. The blueberry is the cultivated „американска“ blueberry of the
+source; its species name follows the English Wikipedia article „Vaccinium corymbosum“ („a North
+American species of blueberry … commonly cultivated as a fresh fruit crop“).
 
 ### Seasons
 
@@ -222,9 +224,26 @@ stated there.
 ### Photos
 
 Unsplash, downloaded through the download endpoint, cropped to 4:3, 1600 × 1200 JPEG at quality 80
-without metadata (spec 015). Each photo was checked visually for the right species; the table is
-filled in with the photo id and author in the content commit. A produce without a photo that
-clearly shows it has no `photo` block.
+without metadata (spec 015). Each photo was checked visually for the right species.
+
+| Slug             | Unsplash photo | Author                                     |
+| ---------------- | -------------- | ------------------------------------------ |
+| `malini`         | `BM27BzBrhVM`  | Stan Slade (@rofostan)                     |
+| `kapini`         | `l1uVrvjZrsQ`  | Amanda Hortiz (@amandahortiz)              |
+| `borovinki`      | `4qujjbj3srs`  | Joanna Kosinska (@joannakosinska)          |
+| `kasis`          | `r7Y6wdEFVdE`  | Anna Evans (@anevans)                      |
+| `dini`           | `aFUHu9WNO3Q`  | Floh Keitgen (@flohkeitgen)                |
+| `nektarini`      | `m6U3YgHnncc`  | Michael Breucker (@michaelb61)             |
+| `nar`            | `LOdAL10JejI`  | Jonas Renner (@jonasrnr)                   |
+| `rayska-yabalka` | `wEjZtyvHs1w`  | Gabriella Clare Marino (@gabiontheroad)    |
+| `kivi`           | `jPVcZsxRGJo`  | engin akyurt (@enginakyurt)                |
+| `shipka`         | `XqhK2sJcTg0`  | Gabi Repaska (@emotionphotography_by_gabi) |
+| `leshnitsi`      | `SCpXCeUvgdY`  | engin akyurt (@enginakyurt)                |
+| `fastatsi`       | `8ThqdYrRFiw`  | Nasiru Othman (@othmanspixel)              |
+
+No photo: sour cherries (the candidates could not be told apart from sweet cherries), almonds (no
+photo of almonds was found), and medlar, cornelian cherry, chokeberry, cherry plum, sea buckthorn,
+service tree and jujube (the searches returned other species or none).
 
 ## 6. Accessibility requirements
 
@@ -301,4 +320,5 @@ No new third-party API is used. Content sources (all fetched 2026-11-13):
 | Български фермер – Френското грозде се отглежда много лесно                                                                            | 2022-07-26     | https://www.bgfermer.bg/Article/12117296                                                                                 | Red currant: no months (left out)                  |
 | Bulgarian Wikipedia – Джанка, Обикновена леска, Обикновен дрян                                                                         | 2026-11-13     | https://bg.wikipedia.org/                                                                                                | Seasons of cherry plum, hazelnut, cornelian cherry |
 | Bulgarian Wikipedia – Боровинка, Касис, Нар, Райска ябълка, Киви (растение), Обикновен дрян, Облепиха, Хинап, Обикновена леска, Арония | 2026-11-13     | https://bg.wikipedia.org/                                                                                                | Family names of the new groups                     |
+| English Wikipedia – Vaccinium corymbosum                                                                                               | 2026-11-13     | https://en.wikipedia.org/wiki/Vaccinium_corymbosum                                                                       | Species of the cultivated blueberry                |
 | Unsplash photos                                                                                                                        | 2026-11-13     | https://unsplash.com/                                                                                                    | Photos                                             |

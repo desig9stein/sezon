@@ -1,0 +1,32 @@
+name: Райска ябълка
+latinName: Diospyros kaki
+kind: fruit
+group: abanosovi
+summary: Райската ябълка узрява през втората половина на октомври, но става за ядене по-късно, когато плодовете омекнат.
+season:
+  - { month: 10, level: peak }
+  - { month: 11, level: available }
+nutrition:
+  energyKcal: 70
+  proteinG: 0.58
+  fatG: 0.19
+  carbohydrateG: 18.59
+  fiberG: 3.6
+  sugarsG: 12.53
+  micronutrients:
+    - { nutrient: mangan, amount: 0.355 }
+    - { nutrient: med-cu, amount: 0.113 }
+    - { nutrient: vitamin-a, amount: 81 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Persimmons, japanese, raw'
+    url: https://fdc.nal.usda.gov/food-details/169941/nutrients
+storage: Пази плодовете на хладно – при 1–2 °C и висока влажност на въздуха. Яж ги, когато омекнат.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/rayska-yabalka.jpg
+  alt: 'Две оранжеви райски ябълки с чашки на тъмен каменен фон'
+  credit:
+    author: 'Gabriella Clare Marino'
+    authorUrl: https://unsplash.com/@gabiontheroad
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/3-red-tomato-on-black-textile-wEjZtyvHs1w

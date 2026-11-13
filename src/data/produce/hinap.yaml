@@ -1,0 +1,9 @@
+name: Хинап
+latinName: Ziziphus jujuba
+kind: fruit
+group: zarnikovi
+summary: Хинапът, или китайската фурма, се бере в края на септември и през октомври, преди първите слани. Яде се пресен или сушен.
+season:
+  - { month: 9, level: available }
+  - { month: 10, level: peak }
+updatedAt: 2026-11-13

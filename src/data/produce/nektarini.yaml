@@ -1,0 +1,51 @@
+name: Нектарини
+latinName: Prunus persica var. nucipersica
+kind: fruit
+group: rozotsvetni
+summary: Нектарините узряват през август – сортът Индипендънс в началото на месеца, а Фантазия около 15–20 август.
+varieties:
+  - name: Индипендънс
+    note: 'Узрява в началото на август.'
+  - name: Фантазия
+    note: 'Сорт от Калифорния; узрява 15–20 август.'
+season:
+  - { month: 8, level: peak }
+regions:
+  - region: sliven
+    note: 'Областта с най-голяма площ с насаждения от праскови и нектарини в страната – 1 475 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: burgas
+    note: 'Областта с втората по големина площ с насаждения от праскови и нектарини – 398 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: ruse
+    note: 'Областта с третата по големина площ с насаждения от праскови и нектарини – 218 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+nutrition:
+  energyKcal: 44
+  proteinG: 1.06
+  fatG: 0.32
+  carbohydrateG: 10.55
+  fiberG: 1.7
+  sugarsG: 7.89
+  micronutrients:
+    - { nutrient: kaliy, amount: 201 }
+    - { nutrient: med-cu, amount: 0.086 }
+    - { nutrient: vitamin-c, amount: 5.4 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Nectarines, raw'
+    url: https://fdc.nal.usda.gov/food-details/169914/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/nektarini.jpg
+  alt: 'Нектарини с гладка жълто-червена кожица, цели и нарязани, на тъмен фон'
+  credit:
+    author: 'Michael Breucker'
+    authorUrl: https://unsplash.com/@michaelb61
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/two-red-and-yellow-fruits-m6U3YgHnncc

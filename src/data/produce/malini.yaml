@@ -1,0 +1,55 @@
+name: Малини
+latinName: Rubus idaeus
+kind: fruit
+group: rozotsvetni
+summary: Малините зреят от края на юни, а ремонтантните сортове дават втора реколта от средата на август до началото на октомври.
+varieties:
+  - name: Люлин
+    note: 'Български ремонтантен сорт – плододава два пъти в годината; узрява в края на август и началото на септември.'
+  - name: Херитидж
+    note: 'Втората реколта зрее от 15–20 август, а при топла есен се бере до 5–10 октомври.'
+season:
+  - { month: 6, level: available }
+  - { month: 7, level: available }
+  - { month: 8, level: available }
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+regions:
+  - region: targovishte
+    note: 'Областта с най-голяма площ с малинови насаждения в страната – 374 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: razgrad
+    note: 'Областта с втората по големина площ с малинови насаждения – 210 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: sofiyska
+    note: 'Областта с третата по големина площ с малинови насаждения – 195 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+nutrition:
+  energyKcal: 52
+  proteinG: 1.2
+  fatG: 0.65
+  carbohydrateG: 11.94
+  fiberG: 6.5
+  sugarsG: 4.42
+  micronutrients:
+    - { nutrient: mangan, amount: 0.67 }
+    - { nutrient: vitamin-c, amount: 26.2 }
+    - { nutrient: folat, amount: 21 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Raspberries, raw'
+    url: https://fdc.nal.usda.gov/food-details/167755/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/malini.jpg
+  alt: 'Узрели червени малини на клонка между зелени листа'
+  credit:
+    author: 'Stan Slade'
+    authorUrl: https://unsplash.com/@rofostan
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/red-raspberry-fruit-in-close-up-photography-BM27BzBrhVM
