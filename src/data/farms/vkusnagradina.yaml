@@ -1,0 +1,42 @@
+name: 'ВКУСнаГРАДИНА'
+region: varna
+produce:
+  [
+    morkovi,
+    spanak,
+    magdanoz,
+    repichki,
+    kartofi,
+    tikva,
+    zele,
+    domati,
+    krastavitsi,
+    piper,
+    brokoli,
+    tsveklo,
+    luk,
+    chesan,
+    kopar,
+    patladzhan,
+    tikvichki,
+    tselina,
+    yagodi,
+  ]
+description: 'Производител с 11 оранжерии край Игнатиево, които се напояват от собствен водоизточник и получават ток от фотоволтаична инсталация. Продава био зеленчуци през собствен онлайн магазин. Стопанството има сертификат за биологично производство от COSMOCERT, издаден на „Храна за Ритъм и Живот ЕООД“; част от земята е в преход към биологично производство.'
+contact:
+  website: https://vkusnagradina.com/
+  email: vkusnagradina@zzb-bg.com
+  phone: '+359883597319'
+address: 'гр. Игнатиево, общ. Аксаково, обл. Варна (оранжерии)'
+sources:
+  - https://vkusnagradina.com/
+  - https://vkusnagradina.com/page/about-us
+  - https://vkusnagradina.com/page/bio
+  - https://vkusnagradina.com/page/contacts
+  - https://vkusnagradina.com/storage/files/BG-BIO-18.100-0004936.2026.001.pdf
+  - https://webgate.ec.europa.eu/tracesnt/directory/publication/organic-operator/BG-BIO-18.100-0004936.2026.001.pdf
+  - https://localstore.bg/producer/vkusnagradina
+organic:
+  certifier: 'COSMOCERT (BG-BIO-18)'
+  certificateId: 'BG-BIO-18.100-0004936.2026.001'
+  validUntil: 2027-07-20

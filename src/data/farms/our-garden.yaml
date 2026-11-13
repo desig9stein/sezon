@@ -1,0 +1,9 @@
+name: 'Our Garden'
+region: kyustendil
+produce: [yagodi]
+description: 'По данни на LocalStore.bg малка семейна ферма в с. Жабокрът, в покрайнините на Кюстендил, която отглежда ягоди, малини, къпини, боровинки и годжи бери.'
+contact:
+  website: https://localstore.bg/producer/our-garden
+address: 'с. Жабокрът'
+sources:
+  - https://localstore.bg/producer/our-garden

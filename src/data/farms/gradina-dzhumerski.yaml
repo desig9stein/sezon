@@ -1,0 +1,9 @@
+name: 'Градина „Джумерски“'
+region: plovdiv
+produce: [kartofi, morkovi, spanak, tsveklo, tikva, zelen-luk, chesan, tselina, yabalki, magdanoz]
+description: 'По данни на LocalStore.bg градина в с. Крислово, която отглежда картофи, моркови, бейби спанак, салатно цвекло, тиква, зелен лук, чесън, целина, пащърнак, ябълки и магданоз и доставя редовно до Пловдив.'
+contact:
+  website: https://localstore.bg/producer/dzhumerski
+address: 'с. Крислово'
+sources:
+  - https://localstore.bg/producer/dzhumerski

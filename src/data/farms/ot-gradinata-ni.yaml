@@ -1,0 +1,9 @@
+name: 'От Градината ни'
+region: pazardzhik
+produce: [praskovi, grozde, dyuli, smokini, slivi]
+description: 'По данни на LocalStore.bg стопанство в с. Мененкьово, което отглежда праскови, грозде, дюли, смокини и сливи и прави от тях сладка, нектари и сокове.'
+contact:
+  website: https://localstore.bg/producer/ot-gradinata-ni
+address: 'с. Мененкьово'
+sources:
+  - https://localstore.bg/producer/ot-gradinata-ni

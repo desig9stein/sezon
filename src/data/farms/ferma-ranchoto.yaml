@@ -1,0 +1,9 @@
+name: 'Ферма „Ранчото“'
+region: pleven
+produce: [domati]
+description: 'По данни на LocalStore.bg ферма в с. Рибен, започнала с оранжерия за домати и разширена до 8 декара зеленчуци, която доставя редовно до Плевен.'
+contact:
+  website: https://localstore.bg/producer/ferma-ranchoto
+address: 'с. Рибен'
+sources:
+  - https://localstore.bg/producer/ferma-ranchoto

@@ -1,0 +1,9 @@
+name: 'Българска домашна ягода'
+region: veliko-tarnovo
+produce: [yagodi]
+description: 'По данни на LocalStore.bg малка семейна ферма в с. Мерданя, която отглежда ягоди от сорта „Клери“ и продава продукцията си в България.'
+contact:
+  website: https://localstore.bg/producer/bulgarska-domashna-yagoda
+address: 'с. Мерданя'
+sources:
+  - https://localstore.bg/producer/bulgarska-domashna-yagoda

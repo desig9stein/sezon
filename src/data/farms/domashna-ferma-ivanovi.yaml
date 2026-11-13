@@ -1,0 +1,9 @@
+name: 'Домашна ферма „Иванови“'
+region: burgas
+produce: [domati, repichki, luk]
+description: 'По данни на LocalStore.bg семейна ферма в с. Искра, Карнобатско, с оранжерия за домати, която предлага сезонни плодове, зеленчуци и билки, сред тях салата, репички и лук, с доставка до Бургас.'
+contact:
+  website: https://localstore.bg/producer/domashna-ferma-ivanovi
+address: 'с. Искра, Карнобатско'
+sources:
+  - https://localstore.bg/producer/domashna-ferma-ivanovi
