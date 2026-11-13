@@ -18,4 +18,17 @@ test.describe('more farms (spec 051)', () => {
     );
     await expectNoAxeViolations(page);
   });
+
+  test('AC10: a directory profile link is named after the directory', async ({ page }) => {
+    await page.goto('/fermi/oranzherii-paskalev');
+    await expect(
+      page.getByRole('link', { name: 'Профил на Оранжерии Паскалев в LocalStore.bg' }),
+    ).toHaveAttribute('href', 'https://localstore.bg/producer/oranjerii-paskalev');
+    await page.goto('/fermi/vantana');
+    await expect(page.getByRole('link', { name: 'Профил на Вантана в Хранкооп' })).toHaveAttribute(
+      'href',
+      'https://coop.hrankoop.com/producer/vantana',
+    );
+    await expect(page.getByRole('link', { name: /^Уебсайт на / })).toHaveCount(0);
+  });
 });

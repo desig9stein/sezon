@@ -6,15 +6,14 @@ import { Slug } from '@shared/domain/Slug';
 import { readSeedCollection } from '@tests/fixtures/seedData';
 
 const FARMS_DIR = join(process.cwd(), 'src', 'data', 'farms');
-const MIN_FARMS = 50;
-const MIN_PROVINCES = 21;
+const MIN_FARMS = 49;
+const MIN_PROVINCES = 20;
 
-/** The 40 farms added by spec 051, by id. */
+/** The 39 farms added by spec 051, by id. */
 const NEW_FARMS = [
   'vkusnagradina',
   'ferma-biotiful',
   'lyuta-ferma-hot-farm',
-  'calladan',
   'vantana',
   'vega-fruits',
   'biostopanstvo-komoss',
@@ -59,8 +58,12 @@ const SELF_CLAIMED_CERTIFICATION = [
   'bio-ferma-pokrayna',
   'zp-snezhana-kotseva',
   'gradini-devar',
-  'calladan',
 ] as const;
+
+/** Words of a certification or organic claim. */
+const CERTIFICATION_CLAIM = /сертифиц|биологич/u;
+const FARM_STATEMENT = 'По данни на фермата';
+const SENTENCE_END = /(?<=\.)\s+/u;
 
 const LOCALSTORE = 'localstore.bg';
 const DIRECTORY_HOSTS = new Set([LOCALSTORE, 'coop.hrankoop.com']);
@@ -88,7 +91,7 @@ function farm(id: string): FarmRecord {
 }
 
 describe('more farms (spec 051)', () => {
-  it('AC1: adds the 40 farms, at least 50 farms in at least 21 provinces', () => {
+  it('AC1: adds the 39 farms, at least 49 farms in at least 20 provinces', () => {
     expect(NEW_FARMS.filter((id) => !farms.has(id))).toEqual([]);
     expect(farms.size).toBeGreaterThanOrEqual(MIN_FARMS);
     const provinces = new Set([...farms.values()].map(({ region }) => region));
@@ -144,6 +147,7 @@ describe('more farms (spec 051)', () => {
     const directoryOnly = NEW_FARMS.filter((id) =>
       farm(id).sources.every((url) => DIRECTORY_HOSTS.has(hostOf(url))),
     );
+    expect(directoryOnly.length).toBeGreaterThan(0);
     for (const id of directoryOnly) {
       const record = farm(id);
       expect(record.contact.phone, id).toBeUndefined();
@@ -162,7 +166,37 @@ describe('more farms (spec 051)', () => {
 
   it('AC8: an unverified certification is worded as the farm’s own statement', () => {
     for (const id of SELF_CLAIMED_CERTIFICATION) {
-      expect(farm(id).description, id).toContain('По данни на фермата');
+      const claims = farm(id)
+        .description.split(SENTENCE_END)
+        .filter((sentence) => CERTIFICATION_CLAIM.test(sentence));
+      expect(claims.length, id).toBeGreaterThan(0);
+      for (const sentence of claims) {
+        const statement = sentence.indexOf(FARM_STATEMENT);
+        expect(statement, `${id}: ${sentence}`).toBeGreaterThanOrEqual(0);
+        expect(statement, `${id}: ${sentence}`).toBeLessThan(sentence.search(CERTIFICATION_CLAIM));
+      }
     }
+  });
+});
+
+describe('more farms, QA findings (spec 051)', () => {
+  it('QA2: no farm rests only on dried fruit (Calladan dropped, Комосс without plums)', () => {
+    expect(farms.has('calladan')).toBe(false);
+    expect(farm('biostopanstvo-komoss').produce).not.toContain('slivi');
+  });
+
+  it('QA3: the Hot Farm description does not mention pickles', () => {
+    expect(farm('lyuta-ferma-hot-farm').description).not.toContain('туршии');
+  });
+
+  it('QA4: ЗП Снежана Коцева is described as the source words it', () => {
+    const description = farm('zp-snezhana-kotseva').description;
+    expect(description).toContain('стопанство от 5 декара');
+    expect(description).toContain('регистрирано за ябълки и други трайни насаждения');
+    expect(description).not.toContain('ябълкова градина');
+  });
+
+  it('QA7: Ферма „Бесика“ has the address Хранкооп states', () => {
+    expect(farm('ferma-besika').address).toBe('с. Бяга, обл. Пазарджик');
   });
 });
