@@ -329,7 +329,7 @@ seasons are editorial (no official monthly calendar exists).
   values per 100 g raw.
 - **Farms (checked 2026-11-11, #16):** 10 real farms from their own websites. None publishes a
   full organic certificate, so none has an `organic` block.
-- **More farms (checked 2026-11-13, spec 051):** 40 more farms from their own sites, Хранкооп
+- **More farms (checked 2026-11-13, spec 051):** 39 more farms from their own sites, Хранкооп
   listings and LocalStore.bg profiles (sources and the province basis per farm in
   `docs/specs/051-more-farms.md`). ВКУСнаГРАДИНА has the only `organic` block, from its COSMOCERT
   certificate in TRACES; masked directory phones are not published.
