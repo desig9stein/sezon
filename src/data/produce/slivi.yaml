@@ -1,0 +1,85 @@
+name: Сливи
+latinName: Prunus domestica
+kind: fruit
+group: rozotsvetni
+summary: Сливите узряват от юли до септември. Ядат се пресни, сушат се и стават на компот, мармалад и конфитюр.
+varieties:
+  - name: Стенлей
+    note: Американски сорт с голямо разпространение у нас, стандарт.
+  - name: Чачанска лепотица
+    note: Сръбски самоопрашващ се сорт.
+  - name: Пловдивска ренклода
+    note: Български сорт, получен от Стенлей.
+season:
+  - { month: 7, level: available }
+  - { month: 8, level: peak }
+  - { month: 9, level: available }
+regions:
+  - region: plovdiv
+    note: 'Областта с най-голяма площ със сливови насаждения в страната – 1 551 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: lovech
+    note: 'Областта с втората по големина площ със сливови насаждения – 1 246 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: silistra
+    note: 'Областта с третата по големина площ със сливови насаждения – 897 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+nutrition:
+  energyKcal: 46
+  proteinG: 0.7
+  fatG: 0.28
+  carbohydrateG: 11.42
+  fiberG: 1.4
+  sugarsG: 9.92
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 9.5 }
+    - { nutrient: vitamin-k, amount: 6.4 }
+    - { nutrient: kaliy, amount: 157 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Plums, raw'
+    url: https://fdc.nal.usda.gov/food-details/169949/nutrients
+preparation:
+  - method: Пресни
+    tip: Белият восъчен налеп по кората е естествен – измий го точно преди ядене.
+  - method: Компот и мармалад
+    tip: Сливите от сорта Стенлей стават на компот, мармалад и конфитюр, а се и сушат.
+traditionalUses: []
+howToChoose: Избери плътни сливи с восъчен налеп, които поддават съвсем леко при натиск.
+storage: Твърдите сливи дозряват на стайна температура; узрелите пази в хладилник и ги изяж до няколко дни.
+faq:
+  - question: Кога е сезонът на сливите в България?
+    answer: Ранните сортове узряват през юли, а Стенлей – в края на август и началото на септември.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/slivi.jpg
+  alt: 'Сини сливи с восъчен налеп, висящи на клон между зелени листа'
+  credit:
+    author: 'Shahab Vejdanian'
+    authorUrl: https://unsplash.com/@shahabvj
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/purple-round-fruits-on-tree-6eXRx8Goj9Y
+growing:
+  sow: []
+  transplant: []
+  plant: [3, 11, 12]
+  plantingNote: 'Наесен засаждай от ноември до 15–20 декември, преди големите студове; напролет – в началото на март.'
+  tips:
+    - 'Сливата е сред най-издръжливите на силни мразове овошки и вирее до около 800 м надморска височина.'
+    - 'Става и за по-хълмисти участъци – на склон с наклон 5–12°.'
+    - 'Расте добре на слабокисела до неутрална почва.'
+    - 'Стенлей и Чачанска лепотица се самоопрашват.'
+  sources:
+    - name: 'Български фермер – За есенното засаждане на овошки изберете подходящо място и сорт'
+      url: https://www.bgfermer.bg/Article/12819793
+    - name: 'Български фермер – Ноември е най-подходящият месец за есенно засаждане на нови дръвчета'
+      url: https://www.bgfermer.bg/Article/15941772
+    - name: 'Български фермер – Купете фиданки за пролетно засаждане'
+      url: https://www.bgfermer.bg/Article/17307642
+    - name: 'Български фермер – Сортове овошки, подходящи за нашите условия'
+      url: https://www.bgfermer.bg/Article/10439096
