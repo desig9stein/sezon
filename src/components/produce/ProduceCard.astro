@@ -10,7 +10,8 @@ import { displayHeight } from './photo';
 
 /**
  * One produce as a plate (name, Latin name, kind, badge and summary on a surface panel) or as an
- * index row (name, Latin name and badge on a hairline). A plate shows the produce photo first, as
+ * index row (name, Latin name and badge on a hairline). A wild produce shows „Диворастящо“ after the
+ * kind (spec 055). A plate shows the produce photo first, as
  * decoration because the name says what it shows; `priority` loads it eagerly for the first plate
  * of a page. `levelFrom` marks the badge level as applying from a later month; with
  * `stripMonth`, the produce's year strip follows the badge with that month marked.
@@ -65,6 +66,7 @@ const photo = variant === 'plate' ? produce.photo : undefined;
   <p class="produce-card__meta">
     {produce.latinName !== undefined && <i lang="la">{produce.latinName}</i>}
     <span>{ui.produceKinds[produce.kind]}</span>
+    {produce.wild && <span class="produce-card__wild">{ui.produce.wild.label}</span>}
     {level !== undefined && <SeasonBadge level={level} fromMonth={levelFrom} />}
     {stripMonth !== undefined && <YearStrip produce={produce} current={stripMonth} />}
   </p>
@@ -133,6 +135,12 @@ const photo = variant === 'plate' ? produce.photo : undefined;
     gap: var(--space-1) var(--space-3);
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
+  }
+
+  .produce-card__wild {
+    padding: 0 var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
   }
 
   .produce-card__summary {

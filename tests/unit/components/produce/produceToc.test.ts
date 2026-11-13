@@ -4,7 +4,12 @@ import { toProduce } from '@contexts/catalog/infrastructure/mappers';
 import { growingRecord } from '@tests/fixtures/growing';
 import { produceSchemaWith } from '@contexts/catalog/infrastructure/schemas';
 import { testImage } from '@tests/fixtures/photos';
-import { MINIMAL_PRODUCE_INPUT, produceRecord } from '@tests/fixtures/records';
+import {
+  CAUTION_SOURCE,
+  MINIMAL_PRODUCE_INPUT,
+  produceRecord,
+  WILD_PRODUCE_INPUT,
+} from '@tests/fixtures/records';
 
 describe('produceToc (QA 025)', () => {
   it('lists every group when the produce has a guide and questions', () => {
@@ -53,5 +58,42 @@ describe('produceToc (spec 049)', () => {
   it('AC8: keeps the eat entry when only one of its sections has data', () => {
     const record = produceRecord({ preparation: [], traditionalUses: [] });
     expect(produceToc(toProduce('zele', record), 0).map((entry) => entry.id)).toContain('eat');
+  });
+});
+
+describe('produceToc (spec 055)', () => {
+  const schema = produceSchemaWith({ image: testImage });
+
+  it('AC9: lists the cautions right after the stall for a produce with cautions', () => {
+    const produce = toProduce('gluharche', schema.parse(WILD_PRODUCE_INPUT));
+    expect(produceToc(produce, 0).map((entry) => entry.id)).toEqual([
+      'stall',
+      'cautions',
+      'farms',
+      'sources',
+    ]);
+    expect(produceToc(produce, 0)[1]?.label).toBe('Внимание');
+  });
+
+  it('AC9: lists the cautions of a cultivated produce too', () => {
+    const produce = toProduce(
+      'hryan',
+      schema.parse({
+        ...MINIMAL_PRODUCE_INPUT,
+        cautions: [
+          {
+            kind: 'allergy',
+            text: 'Тестов текст за алергия към растението.',
+            source: CAUTION_SOURCE,
+          },
+        ],
+      }),
+    );
+    expect(produceToc(produce, 0).map((entry) => entry.id)).toContain('cautions');
+  });
+
+  it('AC9: leaves the cautions out when there are none', () => {
+    const produce = toProduce('zele', produceRecord());
+    expect(produceToc(produce, 0).map((entry) => entry.id)).not.toContain('cautions');
   });
 });

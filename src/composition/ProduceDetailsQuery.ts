@@ -151,6 +151,7 @@ export class ProduceDetailsQuery {
         uniqueSources([
           ...(produce.nutrition === undefined ? [] : [produce.nutrition.source]),
           ...produce.traditionalUses.map((use) => use.source),
+          ...produce.cautions.map((caution) => caution.source),
           ...produce.growingRegions.flatMap((region) =>
             region.source === undefined ? [] : [region.source],
           ),

@@ -4,7 +4,7 @@ import { expectNoAxeViolations, jsonLdOf } from './a11y';
 import { removeAllCss } from './noCss';
 
 const ABOUT_SECTIONS = 10;
-const METHODOLOGY_SECTIONS = 7;
+const METHODOLOGY_SECTIONS = 8;
 const FORM = 'https://github.com/desig9stein/sezon/issues/new';
 
 test.describe('about and methodology (spec 031)', () => {
@@ -44,7 +44,7 @@ test.describe('about and methodology (spec 031)', () => {
     await expect(farm.locator('a[href^="mailto:mspopovv@gmail.com"]')).toHaveCount(1);
   });
 
-  test('AC6 (spec 031), AC4 (spec 034): the methodology names its sources, has no review section and links to corrections', async ({
+  test('AC6 (spec 031), AC4 (spec 034), AC16 (spec 055): the methodology names its sources, has no review section and links to corrections', async ({
     page,
   }) => {
     await page.goto('/metodologiya');
@@ -55,6 +55,7 @@ test.describe('about and methodology (spec 031)', () => {
       method.seasonHeading,
       method.regionsHeading,
       method.traditionalHeading,
+      method.wildHeading,
       method.growingHeading,
       method.farmsHeading,
       method.correctionsHeading,
