@@ -27,6 +27,11 @@ approval step (spec 034): a fact either has a source or the methodology page say
   no official regional data (the survey counts them only nationally; okra under „Други
   зеленчуци“), so they list no province (`regions: []`, spec 042). Two okra varieties come from
   Български фермер, as the list has only Лясковска.
+- **Summer fruits (2026-11-13, spec 040):** cherries, apricots, peaches, plums and dessert grapes
+  list the provinces that lead the same МЗХ orchard survey (2023). Strawberries and melons follow
+  the cabbage pattern (NUTS2, vegetables bulletin 2022). Figs have no official data: their two
+  provinces quote an Agrozona interview with the Fruit-Growing Institute in Plovdiv, without
+  figures. Varieties come from the ИАСАС official variety list and Български фермер articles.
 - **Growing guides (2026-11-12, specs 034 and 035):** every month, planting note and tip was
   checked against its cited source after the owner ruled out one gardening portal as unreliable.
   Items no source states were reworded to what the source says or removed (e.g. dill is no
@@ -39,23 +44,31 @@ approval step (spec 034): a fact either has a source or the methodology page say
 | Produce       | Name        | Nutrition                                                              | Traditional uses | Editorial parts                                                                                                        |
 | ------------- | ----------- | ---------------------------------------------------------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | `bamya`       | Бамя        | ✓ FDC [169260](https://fdc.nal.usda.gov/food-details/169260/nutrients) | 0                | Seasons; no official regional data, so no province is named (spec 042)                                                 |
+| `chereshi`    | Череши      | ✓ FDC [171719](https://fdc.nal.usda.gov/food-details/171719/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics)                                                                         |
 | `domati`      | Домати      | ✓ FDC [170457](https://fdc.nal.usda.gov/food-details/170457/nutrients) | 0                | Seasons (regions supported at NUTS2 level: South Central region, open field, МЗХ 2025; no provincial data)             |
 | `dyuli`       | Дюли        | ✓ FDC [168163](https://fdc.nal.usda.gov/food-details/168163/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                                    |
+| `grozde`      | Грозде      | ✓ FDC [174683](https://fdc.nal.usda.gov/food-details/174683/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics)                                                                         |
+| `kaysii`      | Кайсии      | ✓ FDC [171697](https://fdc.nal.usda.gov/food-details/171697/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics)                                                                         |
 | `kopar`       | Копър       | ✓ FDC [172233](https://fdc.nal.usda.gov/food-details/172233/nutrients) | 1                | Seasons; region notes (no official provincial data)                                                                    |
 | `krastavitsi` | Краставици  | ✓ FDC [168409](https://fdc.nal.usda.gov/food-details/168409/nutrients) | 0                | Seasons (regions supported at NUTS2 level: South-East region, open field incl. gherkins, МЗХ 2025; no provincial data) |
 | `krushi`      | Круши       | ✓ FDC [169118](https://fdc.nal.usda.gov/food-details/169118/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics)                                                                         |
 | `magdanoz`    | Магданоз    | ✓ FDC [170416](https://fdc.nal.usda.gov/food-details/170416/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                                    |
 | `morkovi`     | Моркови     | ✓ FDC [170393](https://fdc.nal.usda.gov/food-details/170393/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                                    |
 | `orehi`       | Орехи       | ✓ FDC [170187](https://fdc.nal.usda.gov/food-details/170187/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics)                                                                         |
+| `papeshi`     | Пъпеши      | ✓ FDC [169911](https://fdc.nal.usda.gov/food-details/169911/nutrients) | 0                | Seasons (regions supported at NUTS2 level: South Central region, melons and watermelons together; no provincial data)  |
 | `patladzhan`  | Патладжан   | ✓ FDC [169228](https://fdc.nal.usda.gov/food-details/169228/nutrients) | 0                | Seasons (regions supported at NUTS2 level: South Central region, open field, МЗХ 2025; no provincial data)             |
 | `piper`       | Пипер       | ✓ FDC [170427](https://fdc.nal.usda.gov/food-details/170427/nutrients) | 0                | Seasons (regions supported at NUTS2 level: South Central region, open field, МЗХ 2025; no provincial data)             |
+| `praskovi`    | Праскови    | ✓ FDC [169928](https://fdc.nal.usda.gov/food-details/169928/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics)                                                                         |
 | `praz`        | Праз        | ✓ FDC [169246](https://fdc.nal.usda.gov/food-details/169246/nutrients) | 0                | Seasons; region notes (no official provincial data). Growing guide from Wikipedia only (spec 034)                      |
+| `slivi`       | Сливи       | ✓ FDC [169949](https://fdc.nal.usda.gov/food-details/169949/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics)                                                                         |
+| `smokini`     | Смокини     | ✓ FDC [173021](https://fdc.nal.usda.gov/food-details/173021/nutrients) | 0                | Seasons; region notes from Agrozona, no official provincial data; no varieties                                         |
 | `spanak`      | Спанак      | ✓ FDC [168462](https://fdc.nal.usda.gov/food-details/168462/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                                    |
 | `tikva`       | Тиква       | ✓ FDC [168448](https://fdc.nal.usda.gov/food-details/168448/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                                    |
 | `tikvichki`   | Тиквички    | ✓ FDC [169291](https://fdc.nal.usda.gov/food-details/169291/nutrients) | 0                | Seasons; no official regional data, so no province is named (spec 042)                                                 |
 | `tselina`     | Целина      | ✓ FDC [170400](https://fdc.nal.usda.gov/food-details/170400/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                                    |
 | `tsveklo`     | Цвекло      | ✓ FDC [169145](https://fdc.nal.usda.gov/food-details/169145/nutrients) | 0                | Seasons; region notes (no official provincial data)                                                                    |
 | `yabalki`     | Ябълки      | ✓ FDC [171688](https://fdc.nal.usda.gov/food-details/171688/nutrients) | 0                | Seasons (regions verified: МЗХ agrostatistics)                                                                         |
+| `yagodi`      | Ягоди       | ✓ FDC [167762](https://fdc.nal.usda.gov/food-details/167762/nutrients) | 0                | Seasons (regions supported at NUTS2 level: South Central region; no provincial data)                                   |
 | `zele`        | Зеле        | ✓ FDC [169975](https://fdc.nal.usda.gov/food-details/169975/nutrients) | 0                | Seasons (regions supported at NUTS2 level: South Central region; no provincial data)                                   |
 | `zelen-fasul` | Зелен фасул | ✓ FDC [169961](https://fdc.nal.usda.gov/food-details/169961/nutrients) | 0                | Seasons; no official regional data, so no province is named (spec 042)                                                 |
 

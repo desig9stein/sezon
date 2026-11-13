@@ -1,0 +1,72 @@
+name: Смокини
+latinName: Ficus carica
+kind: fruit
+group: chernichevi
+summary: Смокините узряват от август до октомври и се отглеждат главно в Южна България. Пресните плодове са нежни и издържат само няколко дни.
+varieties: []
+season:
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+regions:
+  - region: blagoevgrad
+    note: 'Смокините се отглеждат много в районите на Сандански и Петрич, които са в областта, по думите на проф. Аргир Живондов от Института по овощарство в Пловдив.'
+    source:
+      name: 'Agrozona.bg – Кои екзотични овошки са най-подходящи за печеливш бизнес у нас'
+      url: https://agrozona.bg/koi-ekzotichni-ovoshki-sa-naj-podhodyashti-za-pechelivsh-biznes-u-nas/
+  - region: haskovo
+    note: 'Смокините се отглеждат много в районите на Ивайловград и Свиленград, които са в областта, по думите на проф. Аргир Живондов от Института по овощарство в Пловдив.'
+    source:
+      name: 'Agrozona.bg – Кои екзотични овошки са най-подходящи за печеливш бизнес у нас'
+      url: https://agrozona.bg/koi-ekzotichni-ovoshki-sa-naj-podhodyashti-za-pechelivsh-biznes-u-nas/
+nutrition:
+  energyKcal: 74
+  proteinG: 0.75
+  fatG: 0.3
+  carbohydrateG: 19.18
+  fiberG: 2.9
+  sugarsG: 16.26
+  micronutrients:
+    - { nutrient: kaliy, amount: 232 }
+    - { nutrient: magneziy, amount: 17 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Figs, raw'
+    url: https://fdc.nal.usda.gov/food-details/173021/nutrients
+preparation:
+  - method: Пресни
+    tip: Яж ги с кората, само отрежи дръжката.
+  - method: Сушени
+    tip: Сушените смокини се пазят месеци, но имат много повече захари на 100 г от пресните.
+traditionalUses: []
+howToChoose: Избери меки, но не смачкани смокини с цяла кора – неузрялата смокиня не дозрява след беритбата.
+storage: Пази пресните смокини в хладилник и ги изяж до един-два дни.
+faq:
+  - question: Кога е сезонът на смокините в България?
+    answer: Плодовете узряват от август до края на октомври, главно в топлите южни райони.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/smokini.jpg
+  alt: 'Цяла лилава смокиня и разрязана половинка с розова сърцевина върху розов плат'
+  credit:
+    author: 'Auguste A'
+    authorUrl: https://unsplash.com/@auguste_studio
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/red-and-green-fruit-on-black-leather-textile-c7RB9bg-EVs
+growing:
+  sow: []
+  transplant: []
+  plant: []
+  plantingNote: 'Засади смокинята рано наесен, докато е топло, или напролет, след като мине опасността от измръзване.'
+  tips:
+    - 'Избери топло южно изложение, защитено от студени ветрове.'
+    - 'Смокинята расте най-добре на дълбока, пропусклива и топла почва; избягвай сухите, плитките, киселите и засолените почви.'
+    - 'При есенно засаждане загърли дръвчето на 20–30 см над почвата, за да не измръзне.'
+    - 'Където зимата е по-студена, оформи смокинята с няколко стъбла вместо като дърво с едно стъбло.'
+    - 'Бери плодовете узрели – откъсната неузряла, смокинята не дозрява и остава безвкусна.'
+  sources:
+    - name: 'Български фермер – Смокинята – ароматна и изключително сладка'
+      url: https://www.bgfermer.bg/Article/18744542
+    - name: 'Български фермер – Искате да си засадите смокиня през пролетта'
+      url: https://www.bgfermer.bg/Article/8392127
+    - name: 'Български фермер – Смокинята е типично южно растение'
+      url: https://www.bgfermer.bg/Article/10091520

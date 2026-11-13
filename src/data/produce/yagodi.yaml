@@ -1,0 +1,75 @@
+name: Ягоди
+latinName: Fragaria × ananassa
+kind: fruit
+group: rozotsvetni
+summary: Ягодите от открити площи се берат през май и юни. Сочни и ароматни, те са най-вкусни пресни, скоро след беритбата.
+varieties:
+  - name: Клери
+    note: Италиански много ранен сорт за прясна консумация.
+  - name: Антея
+  - name: Елсанта
+season:
+  - { month: 5, level: peak }
+  - { month: 6, level: peak }
+regions:
+  - region: plovdiv
+    note: 'Областта е в Южния централен район, който има почти половината от реколтираните открити площи с ягоди в страната – 366 от 748 ха през 2022 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци, реколта 2022'
+      url: https://www.mzh.government.bg/media/filer_public/2023/04/11/ra423_publicationvegetables2022.pdf
+  - region: pazardzhik
+    note: 'Областта е в Южния централен район, който има почти половината от реколтираните открити площи с ягоди в страната – 366 от 748 ха през 2022 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци, реколта 2022'
+      url: https://www.mzh.government.bg/media/filer_public/2023/04/11/ra423_publicationvegetables2022.pdf
+nutrition:
+  energyKcal: 32
+  proteinG: 0.67
+  fatG: 0.3
+  carbohydrateG: 7.68
+  fiberG: 2
+  sugarsG: 4.89
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 58.8 }
+    - { nutrient: folat, amount: 24 }
+    - { nutrient: mangan, amount: 0.386 }
+    - { nutrient: kaliy, amount: 153 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Strawberries, raw'
+    url: https://fdc.nal.usda.gov/food-details/167762/nutrients
+preparation:
+  - method: Пресни
+    tip: Измий ги, преди да махнеш чашките, за да не поемат вода, и ги яж скоро след това.
+  - method: Замразени
+    tip: Замрази ги цели върху поднос и после ги прибери в торбичка – така не се слепват.
+traditionalUses: []
+howToChoose: Избери лъскави, изцяло червени ягоди със свежи зелени чашки, без меки или мухлясали места.
+storage: Пази ги неизмити в хладилник и ги изяж до два-три дни.
+faq:
+  - question: Кога е сезонът на ягодите в България?
+    answer: Ягодите от открити площи се берат главно през май и юни.
+  - question: Защо да не мия ягодите предварително?
+    answer: Водата ги размеква и те мухлясват по-бързо – мий ги точно преди ядене.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/yagodi.jpg
+  alt: 'Купчина узрели червени ягоди със зелени чашки, снимани отгоре'
+  credit:
+    author: 'Anton Darius'
+    authorUrl: https://unsplash.com/@thesollers
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/strawberry-lot-FCrgmqqvl-w
+growing:
+  sow: []
+  transplant: []
+  plant: [3, 4, 9, 10]
+  plantingNote: 'Засаждай напролет (март–април) или наесен (септември–октомври); при поливане може и през лятото.'
+  tips:
+    - 'Избери място, защитено от ветрове, с добре дренирана, слабо кисела почва; избягвай много тежките и варовитите почви.'
+    - 'При мулчиране със слама засаждай на 25 см в реда и на 80 см между редовете.'
+    - 'Полей задължително след засаждането и до 15–20 дни подсади растенията, които не са се прихванали.'
+    - 'Най-много вода ягодите искат напролет, когато растат листата и се оформят плодовете.'
+    - 'Засади няколко сорта с различен срок на узряване, за да береш по-дълго.'
+  sources:
+    - name: 'Български фермер – Есенното засаждане на ягоди се прави със свеж разсад'
+      url: https://www.bgfermer.bg/Article/6502522
