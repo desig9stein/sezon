@@ -3,6 +3,8 @@ import { expectNoAxeViolations, jsonLdOf } from './a11y';
 
 const A4_LANDSCAPE_PX = 1123;
 const BLACK = 'rgb(0, 0, 0)';
+/** The printed calendar may take two A4 landscape sheets, so it scales to about 60 produce (spec 043). */
+const MAX_PRINT_SHEETS = 2;
 
 test.describe('calendar page', () => {
   test('AC6: /kalendar has one h1, canonical and BreadcrumbList JSON-LD', async ({ page }) => {
@@ -39,7 +41,9 @@ test.describe('calendar page', () => {
     await expectNoAxeViolations(page);
   });
 
-  test('AC7: prints on one A4 landscape sheet without the site chrome', async ({ page }) => {
+  test('AC7 (amended by spec 043): prints on at most two A4 landscape sheets without the site chrome', async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: A4_LANDSCAPE_PX, height: 794 });
     await page.goto('/kalendar');
     await page.emulateMedia({ media: 'print' });
@@ -47,7 +51,23 @@ test.describe('calendar page', () => {
     await expect(page.locator('body > footer')).toBeHidden();
     await expect(page.locator('nav.breadcrumbs')).toBeHidden();
     const pdf = await page.pdf({ preferCSSPageSize: true });
-    expect(pdf.toString('latin1').match(/\/Type\s*\/Page\b/g)).toHaveLength(1);
+    const sheets = pdf.toString('latin1').match(/\/Type\s*\/Page\b/g) ?? [];
+    expect(sheets.length).toBeGreaterThanOrEqual(1);
+    expect(sheets.length).toBeLessThanOrEqual(MAX_PRINT_SHEETS);
+  });
+
+  test('QA 043: a printed calendar repeats its month header and keeps each kind heading with its rows', async ({
+    page,
+  }) => {
+    await page.goto('/kalendar');
+    await page.emulateMedia({ media: 'print' });
+    await expect(page.locator('.year thead')).toHaveCSS('display', 'table-header-group');
+    const headingRows = page.locator('.year tbody tr:has(th[scope="rowgroup"])');
+    expect(await headingRows.count()).toBeGreaterThan(0);
+    const breaks = await headingRows.evaluateAll((rows) =>
+      rows.map((row) => getComputedStyle(row).breakAfter),
+    );
+    expect(new Set(breaks)).toEqual(new Set(['avoid']));
   });
 
   test('QA 014: prints links and legend in black in dark mode', async ({ page }) => {
