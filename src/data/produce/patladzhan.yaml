@@ -1,0 +1,80 @@
+name: Патладжан
+latinName: Solanum melongena
+kind: vegetable
+group: kartofovi
+summary: Патладжанът е топлолюбив и от открити площи се бере от юли до октомври. Най-много се отглежда в Южния централен район.
+varieties:
+  - name: Български 12
+season:
+  - { month: 7, level: available }
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+regions:
+  - region: plovdiv
+    note: 'Областта е в Южния централен район, който има най-много реколтирани открити площи с патладжан в страната – 237 от 323 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+  - region: pazardzhik
+    note: 'Областта е в Южния централен район, който има най-много реколтирани открити площи с патладжан в страната – 237 от 323 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+nutrition:
+  energyKcal: 25
+  proteinG: 0.98
+  fatG: 0.18
+  carbohydrateG: 5.88
+  fiberG: 3
+  sugarsG: 3.53
+  micronutrients:
+    - { nutrient: kaliy, amount: 229 }
+    - { nutrient: folat, amount: 22 }
+    - { nutrient: mangan, amount: 0.232 }
+    - { nutrient: vitamin-k, amount: 3.5 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Eggplant, raw'
+    url: https://fdc.nal.usda.gov/food-details/169228/nutrients
+preparation:
+  - method: Печен
+    tip: Изпечи го цял до омекване, обели го и го използвай за кьопоолу или салата.
+  - method: Задушен
+    tip: Нарязан на кубчета и задушен с домати и лук поема по-малко мазнина, отколкото пържен.
+traditionalUses: []
+howToChoose: Избери лъскав, тежък за размера си патладжан с опъната кора и свежа зелена чашка, без меки петна.
+storage: Пази го на хладно място или в хладилника и го изяж до няколко дни; не го мий преди съхранение.
+faq:
+  - question: Кога е сезонът на патладжана?
+    answer: Патладжанът се засажда навън едва при трайно затопляне, обикновено след втората половина на май, затова от открити площи се бере от юли до октомври.
+  - question: Има ли български сортове патладжан?
+    answer: Да, в Официалната сортова листа е вписан сортът Български 12.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/patladzhan.jpg
+  alt: 'Купчина лъскави тъмнолилави продълговати патладжани със зелени чашки'
+  credit:
+    author: 'engin akyurt'
+    authorUrl: https://unsplash.com/@enginakyurt
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-pile-of-purple-eggplant-with-green-stems-d6I1ZNZJcNo
+growing:
+  sow: [1, 2, 4]
+  transplant: [5, 6]
+  plant: []
+  plantingNote: 'Разсада за ранен патладжан сей от края на януари до средата на февруари, за късен – през април; засаждай навън след втората половина на май и до юни.'
+  tips:
+    - 'Засаждай, когато почвата трайно се задържи над 13–14 °C; в студена почва растенията са потиснати.'
+    - 'Сади разсада във фаза 4–5 лист, на 70 см между редовете и 40 см между растенията.'
+    - 'Не сади патладжан след домати, пипер или картофи; добре расте след бобови, тикви, дини и пъпеши.'
+    - 'Подхрани с минерален тор около 20 дни след засаждането, а после – на всеки две седмици.'
+    - 'Бери редовно готовите плодове, за да узряват по-бързо останалите.'
+  sources:
+    - name: 'Български фермер – Календар на сеитбите'
+      url: https://www.bgfermer.bg/Article/9378131
+    - name: 'Agrozona.bg – Патладжанът е любител на слънцето'
+      url: https://agrozona.bg/patladzhanat-e-lyubitel-na-slantseto/
+    - name: 'Български фермер – Патладжанът трябва да се засажда в топла почва'
+      url: https://www.bgfermer.bg/Article/20603788
+    - name: 'Български фермер – Патладжанът се засажда при трайно затопляне'
+      url: https://www.bgfermer.bg/Article/11624730

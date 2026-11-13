@@ -1,0 +1,93 @@
+name: Краставици
+latinName: Cucumis sativus
+kind: vegetable
+group: tikvovi
+summary: Краставиците от открити площи са в сезон от края на юни до септември, а през пролетта идват основно от оранжерии. Имат около 15 kcal на 100 г.
+varieties:
+  - name: Гергана
+  - name: Тереза
+season:
+  - { month: 4, level: available }
+  - { month: 5, level: available }
+  - { month: 6, level: available }
+  - { month: 7, level: peak }
+  - { month: 8, level: peak }
+  - { month: 9, level: available }
+regions:
+  - region: burgas
+    note: 'Областта е в Югоизточния район, който има най-много реколтирани открити площи с краставици и корнишони в страната – 360 от 755 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+  - region: sliven
+    note: 'Областта е в Югоизточния район, който има най-много реколтирани открити площи с краставици и корнишони в страната – 360 от 755 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+  - region: yambol
+    note: 'Областта е в Югоизточния район, който има най-много реколтирани открити площи с краставици и корнишони в страната – 360 от 755 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+  - region: stara-zagora
+    note: 'Областта е в Югоизточния район, който има най-много реколтирани открити площи с краставици и корнишони в страната – 360 от 755 ха през 2025 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
+      url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
+nutrition:
+  energyKcal: 15
+  proteinG: 0.65
+  fatG: 0.11
+  carbohydrateG: 3.63
+  fiberG: 0.5
+  sugarsG: 1.67
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 16.4 }
+    - { nutrient: kaliy, amount: 147 }
+    - { nutrient: vitamin-c, amount: 2.8 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Cucumber, with peel, raw'
+    url: https://fdc.nal.usda.gov/food-details/168409/nutrients
+preparation:
+  - method: Сурови с кората
+    tip: Измий ги добре и ги яж с кората; стойностите на USDA са за краставица с кора.
+  - method: В салата или таратор
+    tip: Нарязвай или настъргвай краставиците малко преди сервиране, за да останат хрупкави.
+traditionalUses: []
+howToChoose: Избери твърди, равномерно зелени краставици без пожълтели или меки краища.
+storage: Пази краставиците в хладилника, в отделението за зеленчуци, и ги изяж до около седмица.
+faq:
+  - question: Защо има краставици и през пролетта?
+    answer: Те идват основно от оранжерии. През 2025 г. около три четвърти от краставиците в България са от оранжерии по данни на МЗХ.
+  - question: Кога се засаждат краставиците навън?
+    answer: Под покритие – около 10–15 май, а без покритие – в началото на юни, когато опасността от слани е отминала.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/krastavitsi.jpg
+  alt: 'Купчина тъмнозелени краставици с дребни брадавички по кората'
+  credit:
+    author: 'Eric Prouzet'
+    authorUrl: https://unsplash.com/@eprouzet
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/green-cucumber-lot-Ky6x9T8j128
+growing:
+  sow: [3, 4, 6, 7]
+  transplant: [5, 6]
+  plant: []
+  plantingNote: 'Разсада сей в края на март; директно в лехата – от втората половина на април, а за късна реколта – от края на юни до началото на юли.'
+  tips:
+    - 'Разсаждай без покритие в началото на юни, когато през деня е 18–20 °C.'
+    - 'При директна сеитба в редове остави 90–100 см между тях и прореди растенията на 25–30 см.'
+    - 'Поливай обилно веднъж или два пъти седмично, сутрин, без да мокриш листата.'
+    - 'Осигури опора от телове или мрежа, по която стъблата да се катерят над земята.'
+  sources:
+    - name: 'Български фермер – Календар на сеитбите'
+      url: https://www.bgfermer.bg/Article/9378131
+    - name: 'Български фермер – Кога и как се засажда разсадът от краставици'
+      url: https://www.bgfermer.bg/Article/22935996
+    - name: 'Български фермер – Кога и как се сеят краставици директно'
+      url: https://www.bgfermer.bg/Article/8392111
+    - name: 'Български фермер – Директна сеитба на краставици'
+      url: https://www.bgfermer.bg/Article/9734189
+    - name: 'Agrozona.bg – Как да отгледате краставици: От разсада до брането'
+      url: https://agrozona.bg/kak-da-otgledate-krastavitsi-ot-razsada-do-braneto/

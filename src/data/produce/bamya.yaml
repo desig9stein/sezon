@@ -1,0 +1,71 @@
+name: Бамя
+latinName: Abelmoschus esculentus
+kind: vegetable
+group: slezovi
+summary: Бамята се сее през втората половина на май и плододава от лятото до първите есенни слани. Има високо съдържание на витамин K.
+varieties:
+  - name: Пловдивска
+  - name: Лясковска
+  - name: Тополовградска
+season:
+  - { month: 7, level: available }
+  - { month: 8, level: peak }
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+regions: []
+nutrition:
+  energyKcal: 33
+  proteinG: 1.93
+  fatG: 0.19
+  carbohydrateG: 7.45
+  fiberG: 3.2
+  sugarsG: 1.48
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 31.3 }
+    - { nutrient: folat, amount: 60 }
+    - { nutrient: vitamin-c, amount: 23 }
+    - { nutrient: magneziy, amount: 57 }
+    - { nutrient: mangan, amount: 0.788 }
+    - { nutrient: kaliy, amount: 299 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Okra, raw'
+    url: https://fdc.nal.usda.gov/food-details/169260/nutrients
+preparation:
+  - method: В яхния или гювеч
+    tip: Сложи бамята цяла или нарязана в яхния или гювеч.
+  - method: Туршия
+    tip: Малките чушки на бамята стават и за туршия.
+traditionalUses: []
+howToChoose: Избери малки, крехки чушки, дълги около 4–5 см; по-големите загрубяват.
+storage: Приготви бамята до 2–3 дни след брането, защото бързо завяхва; дотогава я пази в хладилника.
+faq:
+  - question: Кога е сезонът на бамята?
+    answer: Бамята влиза в плододаване около два месеца след сеитбата през втората половина на май и плододава до първите есенни слани.
+  - question: Къде се отглежда бамята в България?
+    answer: Предимно в южните райони на страната. Официални данни по области за нея няма.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/bamya.jpg
+  alt: 'Зелени власинести чушки бамя в сива метална купа на тъмен фон'
+  credit:
+    author: 'Neha Deshmukh'
+    authorUrl: https://unsplash.com/@nehadeshmukh
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/okra-vegetable-in-white-bowl-CoIJlCZEjnw
+growing:
+  sow: [5]
+  transplant: []
+  plant: []
+  tips:
+    - 'Сей във втората половина на май, когато почвата на 10 см дълбочина се стопли до 18–19 °C.'
+    - 'Подходяща е леха след ранни зеленчуци като спанак, лук, репички или салати.'
+    - 'В малка градина сей в гнезда през 35–40 см, с 60–70 см между редовете, по 3–4 семена на 4–5 см дълбочина.'
+    - 'Поливай редовно: бамята иска най-много влага в началото и докато цъфти и връзва плодове.'
+    - 'Бери плодовете при дължина 4–5 см, преди да загрубеят; бамята плододава до първите есенни слани.'
+  sources:
+    - name: 'Български фермер – Сеитбата на бамята се провежда през втората половина на май'
+      url: https://www.bgfermer.bg/Article/22659480
+    - name: 'Български фермер – Продължава да се засява бамя'
+      url: https://www.bgfermer.bg/Article/5532488
+    - name: 'Български фермер – Отгледайте си бамя, няма да съжалявате'
+      url: https://www.bgfermer.bg/Article/8637639

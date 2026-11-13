@@ -40,11 +40,18 @@ test.describe('group pages', () => {
   });
 
   test('QA 017: a produce outranks its group in search', async ({ page }) => {
-    await page.goto('/tarsene?q=тикви');
-    await expect(page.locator('[data-search-results] a').first()).toHaveAttribute(
-      'href',
-      '/zelenchutsi/tikva',
+    await page.goto('/tarsene?q=тикв');
+    const results = page.locator('[data-search-results] a');
+    await expect(page.locator('[data-search-results] a[href="/grupi/tikvovi"]')).toHaveCount(1);
+    const hrefs = await results.evaluateAll((links) =>
+      links.map((link) => link.getAttribute('href') ?? ''),
     );
+    const groupIndex = hrefs.indexOf('/grupi/tikvovi');
+    expect(groupIndex).toBeGreaterThan(-1);
+    for (const produce of ['/zelenchutsi/tikva', '/zelenchutsi/tikvichki']) {
+      expect(hrefs, produce).toContain(produce);
+      expect(hrefs.indexOf(produce), produce).toBeLessThan(groupIndex);
+    }
   });
 
   for (const colorScheme of ['light', 'dark'] as const) {

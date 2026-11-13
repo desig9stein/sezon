@@ -184,6 +184,7 @@ main:focus {
     --print-title-font-size: 16pt;
     --print-cell-padding: 1pt 3pt;
     --print-gap: 4pt;
+    --print-table-line-height: 1.15;
   }
 
   body > header,
