@@ -42,7 +42,7 @@ const ADDED: Readonly<Record<string, Added>> = {
     kind: 'vegetable',
     group: 'bobovi',
     season: months('peak', 9, 10),
-    fdcId: '175193',
+    fdcId: '175202',
     photo: 'b6h5nTVD1Hw',
   },
   ryapa: {
@@ -50,19 +50,23 @@ const ADDED: Readonly<Record<string, Added>> = {
     group: 'krastotsvetni',
     season: months('peak', 10, 11),
     fdcId: '170465',
-    photo: 'DIYv7TerQI4',
+    photo: 'f7i3SDvhDik',
   },
   alabash: {
     kind: 'vegetable',
     group: 'krastotsvetni',
-    season: { ...months('peak', 7, 10, 11), ...months('storage', 12, 1, 2, 3, 4) },
+    season: {
+      ...months('peak', 7),
+      ...months('available', 10, 11),
+      ...months('storage', 12, 1, 2, 3, 4),
+    },
     fdcId: '168424',
     photo: 'tpZOOZLYC28',
   },
   'bryukselsko-zele': {
     kind: 'vegetable',
     group: 'krastotsvetni',
-    season: months('peak', 9, 10, 11, 12, 1),
+    season: months('available', 9, 10, 11, 12, 1),
     fdcId: '170383',
     photo: 'q6HCBFaL-ZU',
   },
@@ -97,7 +101,7 @@ const ADDED: Readonly<Record<string, Added>> = {
   rukola: {
     kind: 'vegetable',
     group: 'krastotsvetni',
-    season: months('available', 5, 6, 7, 10),
+    season: months('available', 4, 5, 6, 7, 10, 11),
     fdcId: '169387',
   },
   keyl: {
@@ -109,45 +113,45 @@ const ADDED: Readonly<Record<string, Added>> = {
   bosilek: {
     kind: 'herb',
     group: 'ustnotsvetni',
-    season: months('peak', 6, 7, 8),
+    season: months('available', 7, 8),
     fdcId: '172232',
     photo: '0wWYos3ZGqU',
   },
   menta: {
     kind: 'herb',
     group: 'ustnotsvetni',
-    season: months('peak', 6, 7, 8),
+    season: { ...months('available', 6), ...months('peak', 7, 8) },
     fdcId: '173474',
     photo: 'dJ4JgX5I5y8',
   },
   dzhodzhen: {
     kind: 'herb',
     group: 'ustnotsvetni',
-    season: { ...months('peak', 7, 8), ...months('available', 9, 10) },
+    season: months('available', 7, 8, 9, 10),
     fdcId: '173475',
   },
   rigan: { kind: 'herb', group: 'ustnotsvetni', season: months('peak', 6, 7, 8) },
   mashterka: {
     kind: 'herb',
     group: 'ustnotsvetni',
-    season: months('peak', 6, 7, 8),
+    season: months('available', 6, 7, 8),
     fdcId: '173470',
-    photo: 'ite5WrQaDaE',
+    photo: 'GhoC01t5gT0',
   },
   rozmarin: {
     kind: 'herb',
     group: 'ustnotsvetni',
-    season: months('peak', 6, 7, 8),
+    season: months('available', 6, 7, 8),
     fdcId: '173473',
     photo: 'Wl-z9lbwkSI',
   },
   salvia: {
     kind: 'herb',
     group: 'ustnotsvetni',
-    season: months('peak', 5, 6, 7, 8),
+    season: { ...months('peak', 5), ...months('available', 6, 7, 8) },
     photo: 'ZbxEgEaxDew',
   },
-  estragon: { kind: 'herb', group: 'slozhnotsvetni', season: months('peak', 6, 7, 8) },
+  estragon: { kind: 'herb', group: 'slozhnotsvetni', season: months('available', 6, 7, 8) },
 };
 const SLUGS = Object.keys(ADDED);
 const LEFT_OUT = [

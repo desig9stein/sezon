@@ -58,7 +58,10 @@ test.describe('calendar page', () => {
     const rows = await page.locator('.year th[scope="row"]').count();
     const maxSheets = Math.max(MIN_PRINT_SHEETS_ALLOWED, Math.ceil(rows / ROWS_PER_SHEET));
     expect(sheets.length).toBeLessThanOrEqual(maxSheets);
-    await expect(page.locator('.year tbody tr').first()).toHaveCSS('break-inside', 'avoid');
+    const rowBreaks = await page
+      .locator('.year tbody tr')
+      .evaluateAll((elements) => elements.map((row) => getComputedStyle(row).breakInside));
+    expect(new Set(rowBreaks)).toEqual(new Set(['avoid']));
   });
 
   test('QA 043: a printed calendar repeats its month header and keeps each kind heading with its rows', async ({
