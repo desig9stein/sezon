@@ -211,3 +211,62 @@ describe('autumn and winter staples (spec 044)', () => {
     }
   });
 });
+
+interface QaFile {
+  readonly summary: string;
+  readonly storage: string;
+  readonly season: ReadonlyArray<{ readonly month: number; readonly level: string }>;
+  readonly nutrition: { readonly micronutrients: ReadonlyArray<{ readonly nutrient: string }> };
+  readonly faq: ReadonlyArray<{ readonly question: string; readonly answer: string }>;
+}
+
+const qaOf = (slug: string): QaFile => parse(readFileSync(pathOf(slug), 'utf8')) as QaFile;
+const faqText = (slug: string) =>
+  qaOf(slug)
+    .faq.map((entry) => `${entry.question} ${entry.answer}`)
+    .join(' ');
+const DECEMBER = 12;
+
+describe('autumn and winter staples QA (spec 044)', () => {
+  it('QA 044: chestnuts list no manganese (the USDA record includes the inner skin)', () => {
+    const nutrients = qaOf('kesteni').nutrition.micronutrients.map((item) => item.nutrient);
+    expect(nutrients).not.toContain('mangan');
+  });
+
+  it('QA 044: the chestnut FAQ says the values include the inner skin, without the shell', () => {
+    const text = faqText('kesteni');
+    expect(text).toContain('ципа');
+    expect(text).toContain('без черупката');
+  });
+
+  it('QA 044: the horse-chestnut FAQ says they are poisonous', () => {
+    expect(faqText('kesteni')).toContain('не стават за храна – отровни са');
+  });
+
+  it('QA 044: chestnuts are not in season in December, as the summary says', () => {
+    expect(qaOf('kesteni').season.map((entry) => entry.month)).not.toContain(DECEMBER);
+  });
+
+  it('QA 044: potatoes are stored at 3–5 °C in the storage text and the FAQ', () => {
+    const potatoes = qaOf('kartofi');
+    expect(potatoes.storage).toContain('3–5 °C');
+    expect(potatoes.storage).not.toContain('2–5 °C');
+    expect(faqText('kartofi')).toContain('3–5 °C');
+  });
+
+  it('QA 044: the onion summary matches its source on the harvest time', () => {
+    expect(qaOf('luk').summary).toContain('в края на юли и началото на август');
+  });
+
+  it('QA 044: the methodology and about texts say potatoes and onions are NUTS2 data', () => {
+    for (const text of [ui.methodology.regions, ui.about.sources]) {
+      expect(text).toContain('NUTS2');
+    }
+  });
+
+  it('QA 044: the checklist no longer speaks of „the other nine products“', () => {
+    expect(readFileSync('docs/content-review/README.md', 'utf8')).not.toContain(
+      'The other nine products',
+    );
+  });
+});
