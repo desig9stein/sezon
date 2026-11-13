@@ -116,14 +116,11 @@ const ADDED: Readonly<Record<string, Added>> = {
 const SLUGS = Object.keys(ADDED);
 /** Bulgarian names of the candidates left out by spec 056 (section 3, „Out of scope“). */
 const LEFT_OUT_NAMES = [
-  'Годжи бери',
-  'Камчатска боровинка',
   'Физалис',
   'Шафран',
   'Кервел',
   'Момордика',
   'Ирга',
-  'Тученица',
   'Салата айсберг',
   'Шалот',
   'Зелен чесън',

@@ -23,6 +23,12 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Thyme, fresh'
     url: https://fdc.nal.usda.gov/food-details/173470/nutrients
+cautions:
+  - kind: protected
+    text: 'Прицветниковата, пиринската и стояновата мащерка са защитени видове: Законът за биологичното разнообразие забранява брането им в природата.'
+    source:
+      name: 'Закон за биологичното разнообразие (обн. ДВ, бр. 77 от 2002 г., посл. доп. ДВ, бр. 70 от 2024 г.), текст на МОСВ'
+      url: https://www.moew.government.bg/static/media/ups/tiny/filebase/Nature/Legislation/ZAKON_za_biologichnoto_raznoobrazie24.pdf
 updatedAt: 2026-11-13
 photo:
   src: ../../assets/produce/mashterka.jpg

@@ -1,0 +1,22 @@
+name: Офика
+latinName: Sorbus aucuparia
+kind: fruit
+group: rozotsvetni
+summary: 'Плодовете на офиката се берат от септември до първия сняг и стават сладки след първата слана. От тях се правят мармалади, желета и сиропи.'
+wild: true
+season:
+  - { month: 9, level: peak }
+  - { month: 10, level: available }
+  - { month: 11, level: available }
+cautions:
+  - kind: toxic-part
+    text: 'Горскостопанският план на ДГС „Елена“ описва офиката като отровна при предозиране, когато се използва като лечебно растение.'
+    source:
+      name: 'ТП ДГС „Елена“ – Обяснителна записка към горскостопанския план (2024)'
+      url: https://vtarnovo.iag.bg/data/news/18625/_ZAPISKA_DGS-ELENA.pdf
+  - kind: protected
+    text: 'Офиката е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 10 кг плодове на ден, а за търговия ти трябва позволително.'
+    source:
+      name: 'Закон за лечебните растения (обн. ДВ, бр. 29 от 2000 г., посл. изм. ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      url: https://faolex.fao.org/docs/pdf/bul40297.pdf
+updatedAt: 2026-11-13

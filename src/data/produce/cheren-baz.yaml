@@ -1,0 +1,61 @@
+name: Черен бъз
+latinName: Sambucus nigra
+kind: fruit
+group: meshkovitsovi
+summary: 'Черният бъз (свирчовина) цъфти в края на пролетта, а плодовете му се берат от средата на август. Зелените плодчета не се берат.'
+wild: true
+season:
+  - { month: 8, level: peak }
+cautions:
+  - kind: toxic-part
+    text: 'Никога не бери зелените плодчета. Презрелите плодове също не са подходящи.'
+    source:
+      name: 'Български фермер – Бъз за красота и здраве'
+      url: https://www.bgfermer.bg/article/7636932
+  - kind: toxic-part
+    text: 'Кората, листата, семките и неузрелите плодове на черния бъз съдържат цианогенни гликозиди.'
+    source:
+      name: 'Avena, Ozola, Ķeķe (2024), Sambucus nigra fruits and their processing solutions: a review, Research for Rural Development 39'
+      url: https://lbtufb.lbtu.lv/conference/Research-for-Rural-Development/2024/LBTU_LatviaResRuralDev_30th_2024-67-72.pdf
+  - kind: preparation
+    text: 'Плодовете съдържат цианогенни гликозиди и лектини, които са риск за здравето без обработка. Топлинната обработка ги намалява – не яж плодовете сурови.'
+    source:
+      name: 'Avena, Ozola, Ķeķe (2024), Sambucus nigra fruits and their processing solutions: a review, Research for Rural Development 39'
+      url: https://lbtufb.lbtu.lv/conference/Research-for-Rural-Development/2024/LBTU_LatviaResRuralDev_30th_2024-67-72.pdf
+  - kind: look-alike
+    text: 'Не го бъркай с бъзака: той е тревисто растение до 2 м и цъфти през юни–юли, а черният бъз е дърво до 3–5 м, цъфтящо в края на пролетта.'
+    source:
+      name: 'Български фермер – Бъз за красота и здраве'
+      url: https://www.bgfermer.bg/article/7636932
+  - kind: protected
+    text: 'Черният бъз е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 0,5 кг цвят и до 10 кг плодове на ден, а за търговия ти трябва позволително.'
+    source:
+      name: 'Закон за лечебните растения (обн. ДВ, бр. 29 от 2000 г., посл. изм. ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      url: https://faolex.fao.org/docs/pdf/bul40297.pdf
+  - kind: protected
+    text: 'Дебърският бъз (Sambucus deborensis) е защитен вид: Законът за биологичното разнообразие забранява брането му в природата.'
+    source:
+      name: 'Закон за биологичното разнообразие (обн. ДВ, бр. 77 от 2002 г., посл. доп. ДВ, бр. 70 от 2024 г.), текст на МОСВ'
+      url: https://www.moew.government.bg/static/media/ups/tiny/filebase/Nature/Legislation/ZAKON_za_biologichnoto_raznoobrazie24.pdf
+nutrition:
+  energyKcal: 73
+  proteinG: 0.66
+  fatG: 0.5
+  carbohydrateG: 18.4
+  fiberG: 7
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 36 }
+    - { nutrient: kaliy, amount: 280 }
+    - { nutrient: zhelyazo, amount: 1.6 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Elderberries, raw'
+    url: https://fdc.nal.usda.gov/food-details/171727/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/cheren-baz.jpg
+  alt: 'Гроздове черни плодчета на бъз по червеникави дръжки между зелени листа'
+  credit:
+    author: 'Tadeusz Zachwieja'
+    authorUrl: https://unsplash.com/@haiku_ted
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-bunch-of-berries-hanging-from-a-tree-ITFBAchRAiI

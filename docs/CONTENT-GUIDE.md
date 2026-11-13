@@ -235,8 +235,20 @@ cautions: # optional; required (at least one) when wild is true
   „Заповед № РД-…/2026 г. на министъра на околната среда и водите“). A caution based on a yearly
   order also names the year in its text („През 2026 г. …“). Re-check every yearly order whenever you
   change the produce's `updatedAt`, and update the caution and its source to the order in force.
-- Every caution has its own `source` (https): the act or order, an official document, a poison
-  centre or a scientific publication. Wikipedia is not a source.
+- Every caution has its own `source` (https): the act or order, an official document (for example
+  an ИАГ forest management plan), a poison centre or a scientific publication (search PubMed first).
+  Wikipedia is not a source.
+- An editorial Bulgarian farming article (bgfermer.bg, agrozona.bg) is accepted only as a fallback,
+  and the spec records the search for official, poison-centre and scientific sources that came
+  first. The article must state the fact about this species and about people (not about livestock
+  or a related species). The press may only **add** cautions: it is never a reason to leave out a
+  known toxic look-alike. If no acceptable source exists for a known deadly look-alike, the plant
+  is not published (spec 057).
+- Name the protected relatives a gatherer could confuse with the plant: a species of Приложение 3
+  of the Закон за биологичното разнообразие gets its own `protected` caution with its Bulgarian and
+  Latin name (e.g. кавказка боровинка on the bilberry page, spec 057).
+- A Закон за лечебните растения caution states the personal-needs amounts of § 1, т. 18 for the
+  part that is gathered and that commercial gathering needs a permit (spec 057).
 - Write facts, never health claims: no „полезен“, „лекува“ or „действие“. Do not write what to do
   after poisoning; the page links no medical advice.
 - The page shows the cautions in one „Внимание“ callout before the season, with the gathering note
@@ -444,6 +456,11 @@ follow МЗХ statistics (spec 033), the regions of tomatoes, peppers, aubergine
 (spec 041) and of potatoes and onions (spec 044) follow МЗХ statistics at NUTS2 level, and
 seasons are editorial (no official monthly calendar exists).
 
+- **Wild produce (2026-11-13, spec 057):** nettle, dandelion, ramsons, elder, hawthorn, sloe, wild
+  strawberry, bilberry, lingonberry, rowan, barberry and purslane are marked `wild: true`, and goji
+  and haskap are cultivated entries with a caution. Every month and caution is quoted in the spec;
+  none lists regions. Sea buckthorn, oregano, thyme and chestnuts gained a caution. Dock, white
+  goosefoot, wild cherry and juniper are left out (reasons in the spec).
 - **More fruits and nuts (2026-11-13, spec 052):** 21 fruits and nuts whose season a Bulgarian
   source states. Only blocks with a source are filled: 12 cite USDA SR Legacy, 7 name provinces or
   the leading NUTS2 region from МЗХ bulletins, the others have no nutrition or regions. Red currant

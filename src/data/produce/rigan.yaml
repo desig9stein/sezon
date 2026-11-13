@@ -7,4 +7,10 @@ season:
   - { month: 6, level: peak }
   - { month: 7, level: peak }
   - { month: 8, level: peak }
+cautions:
+  - kind: protected
+    text: 'По заповед на МОСВ за 2026 г. белият риган (Origanum vulgare ssp. hirtum) не се бере от природата в цялата страна, освен за лични нужди – до 2 кг стръкове на ден.'
+    source:
+      name: 'МОСВ – Заповед № РД-178 от 18 февруари 2026 г. (ДВ, бр. 24 от 2026 г.)'
+      url: https://www.moew.government.bg/static/media/ups/tiny/filebase/Nature/Legislation/Zapovedi/MedicinalPlants/RD-178-18.02.2026-MedPlants.pdf
 updatedAt: 2026-11-13

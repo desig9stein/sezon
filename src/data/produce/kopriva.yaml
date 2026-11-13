@@ -1,0 +1,30 @@
+name: Коприва
+latinName: Urtica dioica
+kind: vegetable
+group: koprivovi
+summary: 'Младите листа на копривата се берат от май до юли и са най-подходящи за готвене. Работи с ръкавици и ги попари преди ядене.'
+wild: true
+season:
+  - { month: 5, level: peak }
+  - { month: 6, level: peak }
+  - { month: 7, level: peak }
+cautions:
+  - kind: preparation
+    text: 'Работи с копривата с ръкавици и попари листата, преди да ги ядеш – иначе парят не само ръцете, но и езика и небцето.'
+    source:
+      name: 'Български фермер – Дойде времето на прясната коприва'
+      url: https://www.bgfermer.bg/Article/14721904
+  - kind: allergy
+    text: 'Копривата пари кожата, а ако имаш алергия, изгарянията стават още по-тежки.'
+    source:
+      name: 'Български фермер – В сезона на свежата коприва'
+      url: https://www.bgfermer.bg/Article/11372935
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/kopriva.jpg
+  alt: 'Стрък коприва с назъбени листа и висящи зелени съцветия в бяла ваза'
+  credit:
+    author: 'Bakd&Raw by Karolin Baitinger'
+    authorUrl: https://unsplash.com/@bakdandraw
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/green-and-white-plant-in-close-up-photography-yaKZ4f0tZ4Y

@@ -1,0 +1,20 @@
+name: Черна боровинка
+latinName: Vaccinium myrtillus
+kind: fruit
+group: pirenovi
+summary: 'Дивата черна боровинка расте в светли гори между 1200 и 2200 м надморска височина. Цъфти през юни–юли и плодоноси през август.'
+wild: true
+season:
+  - { month: 8, level: peak }
+cautions:
+  - kind: protected
+    text: 'Черната боровинка е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 10 кг плодове на ден, а за търговия ти трябва позволително.'
+    source:
+      name: 'Закон за лечебните растения (обн. ДВ, бр. 29 от 2000 г., посл. изм. ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      url: https://faolex.fao.org/docs/pdf/bul40297.pdf
+  - kind: protected
+    text: 'Кавказката боровинка (Vaccinium arctostaphyllos) е защитен вид: Законът за биологичното разнообразие забранява брането ѝ. Не я бъркай с черната боровинка.'
+    source:
+      name: 'Закон за биологичното разнообразие (обн. ДВ, бр. 77 от 2002 г., посл. доп. ДВ, бр. 70 от 2024 г.), текст на МОСВ'
+      url: https://www.moew.government.bg/static/media/ups/tiny/filebase/Nature/Legislation/ZAKON_za_biologichnoto_raznoobrazie24.pdf
+updatedAt: 2026-11-13
