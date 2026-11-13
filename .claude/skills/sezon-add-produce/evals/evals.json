@@ -1,0 +1,45 @@
+{
+  "skill_name": "sezon-add-produce",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add тиква (pumpkin) to the catalog. Use the USDA raw record and an Unsplash photo. Do not open a PR, just prepare the files and tell me what you did.",
+      "expected_output": "A new src/data/produce/tikva.yaml with a USDA SR Legacy citation on the food-details page, a photo block crediting Unsplash, an updated USDA extract, and passing content tests.",
+      "files": [],
+      "expectations": [
+        "The file is named tikva.yaml, the slug of „Тиква“",
+        "The nutrition source URL has the form https://fdc.nal.usda.gov/food-details/<fdcId>/nutrients and names an SR Legacy raw record",
+        "The agent runs or tells the user to run `pnpm content:usda <SR Legacy CSV dir>` and commits tests/fixtures/usda/sr-legacy-extract.json",
+        "The photo credit names Unsplash, an author URL and the photo page URL, and the image is a 4:3 1600 × 1200 JPEG at src/assets/produce/tikva.jpg",
+        "Regions cite an МЗХ bulletin or are `[]` with a reason; no province is named without an official source",
+        "No source URL is on gradinata.bg",
+        "No text contains „полезен“, „лекува“, „действие“ or „богат на“",
+        "The agent runs `pnpm test tests/unit/content` and reports the result"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Can you add regions for малини (raspberries)? I think Кюстендил and Смолян grow the most. Use the latest МЗХ orchard survey.",
+      "expected_output": "The agent reads the МЗХ orchard survey table, checks its legend for confidential cells, names only provinces the table ranks, quotes the figures with the exact bulletin title, and does not treat the user's guess as a source.",
+      "files": [],
+      "expectations": [
+        "The agent cites an МЗХ „Агростатистика“ bulletin with its exact title and a URL on www.mzh.government.bg",
+        "The agent checks the table for confidential cells and says how they affect the ranking",
+        "Each region note that quotes a figure has a source",
+        "The agent does not add Кюстендил or Смолян unless the table supports them"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Add a growing guide to копър. gradinata.bg has a nice sowing calendar for dill: https://gradinata.bg/kopar",
+      "expected_output": "The agent does not cite gradinata.bg, explains that the owner ruled it unreliable (spec 034), and uses bgfermer.bg or agrozona.bg pages that state each month and tip.",
+      "files": [],
+      "expectations": [
+        "No source in the growing block is on gradinata.bg",
+        "The agent says why gradinata.bg is not used",
+        "Every month and tip in the growing block is supported by a quoted sentence from a cited bgfermer.bg or agrozona.bg page",
+        "Tips use the „ти“ voice and are at most 140 characters"
+      ]
+    }
+  ]
+}

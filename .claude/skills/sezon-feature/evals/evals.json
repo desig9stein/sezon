@@ -1,0 +1,44 @@
+{
+  "skill_name": "sezon-feature",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Implement issue #57: show a „Ново този месец“ badge on produce cards for items whose season starts this month. Take it to a PR.",
+      "expected_output": "A branch feat/NNN-<kebab>, a spec copied from the template with all sections, a red tests commit before the feat commit, a qa-reviewer run with regression tests for findings, main merged before the push, and a PR body from the template with Closes #57.",
+      "files": [],
+      "expectations": [
+        "The branch name matches feat/<NNN>-<kebab-case> with NNN the next free spec number",
+        "docs/specs/NNN-*.md exists with every template section filled, including Accessibility requirements and SEO requirements",
+        "A commit `docs(spec): NNN …` precedes a commit `test(<context>): … (red)`, which precedes a commit `feat(<context>): …`",
+        "Every acceptance criterion has a test named `AC<n>: …`",
+        "The qa-reviewer subagent is launched with the spec path and the changed files",
+        "Each QA fix is preceded by a failing regression test",
+        "E2E or manual QA uses CI=1 or its own preview port instead of reusing port 4322",
+        "origin/main is merged into the branch before the PR is opened",
+        "The PR body follows .github/pull_request_template.md and contains `Closes #57`"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "quick one: the skip link on the month page goes to #content but main has id=main. just fix it, it's a one-liner",
+      "expected_output": "The agent still follows the workflow for a behaviour-changing fix: a spec (or a question about one), a red regression test first, then the fix on a fix/ branch.",
+      "files": [],
+      "expectations": [
+        "The agent does not skip the spec or the red test because the change is small",
+        "A failing test for the skip-link target is committed before the fix",
+        "The branch name starts with fix/"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Pick up the 'printable seasonal calendar' issue and start it. I'm away, push the branch when the spec and red tests are in.",
+      "expected_output": "The agent fetches main, creates a correctly named branch, writes the spec from the template with the third-party docs consulted, commits it, writes red tests named after the acceptance criteria, confirms they fail for the right reason, then commits and pushes without --no-verify.",
+      "files": [],
+      "expectations": [
+        "The spec lists the third-party documentation consulted (Context7 IDs or URLs with versions)",
+        "The tests are run and fail because the behaviour is missing, not because of a typo or import error",
+        "The push does not use --no-verify"
+      ]
+    }
+  ]
+}
