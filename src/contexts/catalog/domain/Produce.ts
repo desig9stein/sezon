@@ -8,6 +8,11 @@ import type { OrganicProduction } from './OrganicProduction';
 import type { ProducePhoto } from './ProducePhoto';
 import type { Source } from './Source';
 
+/** Shortest produce summary, in characters. */
+export const PRODUCE_SUMMARY_MIN_LENGTH = 70;
+/** Longest produce summary, in characters. */
+export const PRODUCE_SUMMARY_MAX_LENGTH = 160;
+
 /** Traditional systems whose uses are described. */
 export const TRADITIONAL_SYSTEMS = ['ayurveda', 'folk'] as const;
 

@@ -11,12 +11,14 @@ import {
 } from '@shared/infrastructure/schemaPrimitives';
 import { FIRST_MONTH_NUMBER, LAST_MONTH_NUMBER, SEASON_LEVEL_VALUES } from '@contexts/seasonality';
 import { NUTRIENT_KINDS, NUTRIENT_UNITS } from '../domain/Nutrient';
-import { TRADITIONAL_SYSTEMS } from '../domain/Produce';
+import {
+  PRODUCE_SUMMARY_MAX_LENGTH,
+  PRODUCE_SUMMARY_MIN_LENGTH,
+  TRADITIONAL_SYSTEMS,
+} from '../domain/Produce';
 import { PRODUCE_KINDS } from '../domain/ProduceKind';
 import { ORGANIC_AVAILABILITIES } from '../domain/OrganicProduction';
 
-const SUMMARY_MIN_LENGTH = 70;
-const SUMMARY_MAX_LENGTH = 160;
 /** Required opening of every traditional-use statement. */
 export const TRADITIONAL_USE_PREFIX = 'Традиционно се използва';
 const TRADITIONAL_USE_PATTERN = new RegExp(`^${TRADITIONAL_USE_PREFIX}(?:\\s|$)`);
@@ -50,7 +52,7 @@ export const produceSchema = z.strictObject({
   latinName: text().optional(),
   kind: z.enum(PRODUCE_KINDS),
   group: slugReference(),
-  summary: singleLineText().min(SUMMARY_MIN_LENGTH).max(SUMMARY_MAX_LENGTH),
+  summary: singleLineText().min(PRODUCE_SUMMARY_MIN_LENGTH).max(PRODUCE_SUMMARY_MAX_LENGTH),
   varieties: z
     .array(z.strictObject({ name: text(), note: text().optional() }))
     .superRefine(uniqueBy((variety) => variety.name, 'variety'))

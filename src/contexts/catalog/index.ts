@@ -12,7 +12,12 @@ export type {
   MicronutrientAmount,
   NutritionFactsInput,
 } from './domain/NutritionFacts';
-export { Produce, TRADITIONAL_SYSTEMS } from './domain/Produce';
+export {
+  Produce,
+  PRODUCE_SUMMARY_MAX_LENGTH,
+  PRODUCE_SUMMARY_MIN_LENGTH,
+  TRADITIONAL_SYSTEMS,
+} from './domain/Produce';
 export type {
   FaqItem,
   GrowingRegion,
