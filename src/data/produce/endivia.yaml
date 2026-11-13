@@ -1,0 +1,27 @@
+name: Ендивия
+latinName: Cichorium endivia
+kind: vegetable
+group: slozhnotsvetni
+summary: 'Ендивията се бере през юни и юли от пролетна сеитба и от октомври до декември от есенна. Ескариолът е есенният ѝ вид.'
+season:
+  - { month: 6, level: peak }
+  - { month: 7, level: peak }
+  - { month: 10, level: peak }
+  - { month: 11, level: peak }
+  - { month: 12, level: peak }
+nutrition:
+  energyKcal: 17
+  proteinG: 1.25
+  fatG: 0.2
+  carbohydrateG: 3.35
+  fiberG: 3.1
+  sugarsG: 0.25
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 231 }
+    - { nutrient: folat, amount: 142 }
+    - { nutrient: mangan, amount: 0.42 }
+    - { nutrient: kaliy, amount: 314 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Endive, raw'
+    url: https://fdc.nal.usda.gov/food-details/168412/nutrients
+updatedAt: 2026-11-13

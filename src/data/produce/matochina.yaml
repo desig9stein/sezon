@@ -1,0 +1,20 @@
+name: Маточина
+latinName: Melissa officinalis
+kind: herb
+group: ustnotsvetni
+summary: 'Листата на маточината се берат на няколко пъти преди цъфтежа – през май, юни и август, а реколта има и до началото на есента.'
+season:
+  - { month: 5, level: peak }
+  - { month: 6, level: peak }
+  - { month: 7, level: available }
+  - { month: 8, level: peak }
+  - { month: 9, level: available }
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/matochina.jpg
+  alt: 'Гъсти зелени листа на маточина с назъбени ръбове'
+  credit:
+    author: 'Victor Serban'
+    authorUrl: https://unsplash.com/@victorserban
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/green-leaves-in-macro-lens-whTrv7kvGJY

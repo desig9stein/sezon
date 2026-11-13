@@ -162,7 +162,6 @@ const LEFT_OUT = [
   'loboda',
   'chubritsa',
   'devesil',
-  'sladak-kartof',
   'sladka-tsarevitsa',
   'cherveno-zele',
 ];

@@ -1,0 +1,34 @@
+name: Земна ябълка
+latinName: Helianthus tuberosus
+kind: vegetable
+group: slozhnotsvetni
+summary: 'Земната ябълка (топинамбур) се вади наесен, през октомври и ноември. В по-топлите райони клубените зимуват в почвата и се вадят и през зимата.'
+season:
+  - { month: 10, level: peak }
+  - { month: 11, level: peak }
+  - { month: 12, level: available }
+  - { month: 1, level: available }
+  - { month: 2, level: available }
+nutrition:
+  energyKcal: 73
+  proteinG: 2
+  fatG: 0.01
+  carbohydrateG: 17.44
+  fiberG: 1.6
+  sugarsG: 9.6
+  micronutrients:
+    - { nutrient: zhelyazo, amount: 3.4 }
+    - { nutrient: kaliy, amount: 429 }
+    - { nutrient: med-cu, amount: 0.14 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Jerusalem-artichokes, raw'
+    url: https://fdc.nal.usda.gov/food-details/169236/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/zemna-yabalka.jpg
+  alt: 'Пластмасова каса, пълна с кафеникави грудки на земна ябълка'
+  credit:
+    author: 'Ela Mar'
+    authorUrl: https://unsplash.com/@ela_mar
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-basket-filled-with-lots-of-food-sitting-on-top-of-a-table-wsJJ-tSct2g

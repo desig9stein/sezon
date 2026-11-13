@@ -1,0 +1,33 @@
+name: Шамфъстък
+latinName: Pistacia vera
+kind: nut
+group: smradlikovi
+summary: 'Шамфъстъкът е южна култура, която у нас вирее в по-топлите райони. Плодовете му узряват до края на септември.'
+season:
+  - { month: 9, level: peak }
+nutrition:
+  energyKcal: 560
+  proteinG: 20.16
+  fatG: 45.32
+  carbohydrateG: 27.17
+  fiberG: 10.6
+  sugarsG: 7.66
+  micronutrients:
+    - { nutrient: med-cu, amount: 1.3 }
+    - { nutrient: fosfor, amount: 490 }
+    - { nutrient: mangan, amount: 1.2 }
+    - { nutrient: kaliy, amount: 1025 }
+    - { nutrient: magneziy, amount: 121 }
+    - { nutrient: zhelyazo, amount: 3.92 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Nuts, pistachio nuts, raw'
+    url: https://fdc.nal.usda.gov/food-details/170184/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/shamfastak.jpg
+  alt: 'Купчина шамфъстъци в светли черупки, някои отворени със зелено ядро'
+  credit:
+    author: 'Kairi Kaljo'
+    authorUrl: https://unsplash.com/@kairika
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-pile-of-pistachio-nuts-sitting-on-top-of-each-other-ES9YQ5HAwPI

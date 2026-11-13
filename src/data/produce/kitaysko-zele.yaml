@@ -1,0 +1,31 @@
+name: Китайско зеле
+latinName: Brassica rapa subsp. pekinensis
+kind: vegetable
+group: krastotsvetni
+summary: 'Китайското зеле се отглежда като обикновеното. При есенното отглеждане, което градинарите предпочитат, се прибира през октомври и ноември.'
+season:
+  - { month: 10, level: peak }
+  - { month: 11, level: peak }
+nutrition:
+  energyKcal: 16
+  proteinG: 1.2
+  fatG: 0.2
+  carbohydrateG: 3.23
+  fiberG: 1.2
+  sugarsG: 1.41
+  micronutrients:
+    - { nutrient: vitamin-k, amount: 42.9 }
+    - { nutrient: folat, amount: 79 }
+    - { nutrient: vitamin-c, amount: 27 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Cabbage, chinese (pe-tsai), raw'
+    url: https://fdc.nal.usda.gov/food-details/169979/nutrients
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/kitaysko-zele.jpg
+  alt: 'Няколко глави светлозелено китайско зеле, наредени една до друга'
+  credit:
+    author: 'Jason Leung'
+    authorUrl: https://unsplash.com/@ninjason
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/several-heads-of-fresh-napa-cabbage-lined-up-BCXgdJJ5nPY
