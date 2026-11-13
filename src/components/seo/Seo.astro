@@ -1,4 +1,5 @@
 ---
+import { FEED_MEDIA_TYPE } from '@components/layout/routes';
 import { palettes } from '@design/tokens';
 import type { PageMeta } from '@shared/seo';
 
@@ -35,4 +36,4 @@ const { meta, feed, noindex = false } = Astro.props;
 />
 <meta name="theme-color" content={palettes.dark.background} media="(prefers-color-scheme: dark)" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-<link rel="alternate" type="application/rss+xml" title={feed.title} href={feed.url} />
+<link rel="alternate" type={FEED_MEDIA_TYPE} title={feed.title} href={feed.url} />
