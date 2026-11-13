@@ -54,7 +54,8 @@ const EDITION_2025 = 'реколта 2025';
 const BANNED_HOST = 'gradinata.bg';
 const CHANGE_DATE = '2026-11-13';
 const LEVELS: Readonly<Record<string, string>> = { P: 'peak', A: 'available', S: 'storage' };
-const SOUTH_CENTRAL = ['kardzhali', 'pazardzhik', 'plovdiv', 'smolyan', 'haskovo'];
+/** The South Central provinces the site names for NUTS2 data, as for cabbage (spec 041). */
+const SOUTH_CENTRAL = ['plovdiv', 'pazardzhik'];
 
 /** Expected data of each new produce (spec 052, section 5). */
 const EXPECTED: Readonly<Record<string, Expected>> = {
@@ -333,7 +334,7 @@ describe('more fruits and nuts (spec 052)', () => {
   );
 
   it.each(Object.keys(NUTS2_REGIONS))(
-    'AC5: %s names the provinces of the South Central region',
+    'AC5: %s names Plovdiv and Pazardzhik for the South Central region',
     (slug) => {
       const regions = read(slug).regions ?? [];
       expect(regions.map((entry) => entry.region)).toEqual(SOUTH_CENTRAL);
