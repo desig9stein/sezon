@@ -1,4 +1,4 @@
-# 039. Traditional uses of dill and parsley from Bulgarian ethnobotany
+# 039. Traditional use of dill from Bulgarian ethnobotany
 
 - **Status:** Approved
 - **Bounded context(s):** catalog (content data)
@@ -19,17 +19,23 @@ ethnobotanical studies.
 
 ### In scope
 
-- **Dill (`kopar`):** one folk use from Dragoeva et al. 2022 (Bulgaria). In Table 1, entry 8
-  lists _Anethum graveolens_, aerial parts, as „stomachic, … carminative“, used internally as an
-  infusion. The sentence keeps to digestion and bloating. It leaves out the disease entries and
-  the infant use.
-- **Parsley (`magdanoz`):** one folk use from Ivancheva & Stantcheva 2000 (Bulgaria). Table 1
-  lists _Petroselinum hortense_ (a synonym of _P. crispum_), leaves and roots, as „Diuretic“,
-  prepared by maceration. The other effects in that row are left out, including the abortion
-  effect.
+- **Dill (`kopar`):** one folk use from Dragoeva et al. 2022 (Bulgaria).
+  - Table 1, entry 8 lists _Anethum graveolens_ with the actions „stomachic, … carminative“ and
+    the use „int – infusion, decoction, raw plant“.
+  - „(AP)“ belongs to the spice column, so the medicinal use names no plant part. The sentence
+    therefore names no part either. Ivancheva & Stantcheva 2000 also record a digestive dill
+    infusion, from the fruit.
+  - The sentence follows the „при …“ template: „… като запарка при храносмилателен дискомфорт и
+    подуване“. It leaves out the disease entries and the infant use.
+- **Parsley (`magdanoz`):** stays without a use.
+  - Ivancheva & Stantcheva 2000 list _Petroselinum hortense_ (leaves, seeds, roots) as „Diuretic,
+    spasmolytic, abortion effect“.
+  - The site cannot show a caution next to a use, and quoting only the diuretic action would hide
+    a safety-relevant fact from the same row. The paper also says that such recipes should be
+    used under a healer's direction.
 - **Cabbage (`zele`):** stays without a use.
   - The Bulgarian lead (Kozuharova et al. 2013, fresh-leaf compress) could not be opened from the
-    build session, so it is not verified.
+    build session.
   - The only verified Balkan source (Kosovo, 2012) describes fermented leaves, a different part
     from the head the site describes.
 - The checklist rows are updated.
@@ -63,11 +69,11 @@ No change.
 
 1. **AC1:** Given dill, then it has exactly one folk use that starts with „Традиционно се използва“
    and cites DOI 10.2478/asn-2022-0021.
-2. **AC2:** Given parsley, then it has exactly one folk use that starts with „Традиционно се
-   използва“ and cites DOI 10.1016/S0378-8741(99)00129-4.
+2. **AC2:** Given parsley, then it has no traditional use.
 3. **AC3:** Given cabbage, then it has no traditional use.
-4. **AC4:** Given the two new uses, then neither mentions a disease, abortion or infants.
-5. **AC5:** Given the checklist, then dill and parsley show one traditional use each.
+4. **AC4:** Given the dill use, then it mentions no disease, pregnancy, abortion or infants, and
+   it follows the „при …“ template without naming a plant part.
+5. **AC5:** Given the checklist, then dill shows one traditional use and parsley none.
 
 ## 9. Test plan
 
