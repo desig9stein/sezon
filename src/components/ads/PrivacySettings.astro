@@ -1,0 +1,55 @@
+---
+import type { AdSenseConfig } from '@composition/adsense';
+import { ui } from '@i18n/bg';
+
+/**
+ * Privacy settings on the cookies page (spec 046). With AdSense on: a „Настройки за
+ * поверителност“ button, hidden until its script reveals it, that reopens Google's privacy message
+ * (ADR-0007), and a note for readers without JavaScript. With AdSense off: a sentence that no
+ * consent is stored, and no script.
+ */
+interface Props {
+  /** The AdSense configuration; `undefined` while AdSense is off. */
+  adsense: AdSenseConfig | undefined;
+}
+
+const { adsense } = Astro.props;
+const labels = ui.cookies;
+---
+
+{adsense === undefined && <p>{labels.noConsentStored}</p>}
+
+{adsense !== undefined && (
+  <>
+    <p>{labels.settingsIntro}</p>
+    <button
+      class="privacy-settings"
+      type="button"
+      data-privacy-settings
+      data-ad-client={adsense.client}
+      hidden
+    >
+      {labels.settingsButton}
+    </button>
+    <p>{labels.settingsNoScript}</p>
+    <script>
+      import { initPrivacySettings } from './privacySettings';
+
+      initPrivacySettings(window);
+    </script>
+  </>
+)}
+
+<style>
+  .privacy-settings {
+    min-height: var(--target-min);
+    padding: var(--space-2) var(--space-4);
+    border: 0;
+    border-radius: var(--radius-sm);
+    color: var(--color-accent-text);
+    background: var(--color-accent);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+</style>

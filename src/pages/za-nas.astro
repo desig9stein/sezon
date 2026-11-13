@@ -144,6 +144,9 @@ const jsonLd = [
         {labels.adsHeading}
       </h2>
       <p>{labels.ads}</p>
+      <p>
+        <a href={routes.advertising}>{labels.adsLink}</a>
+      </p>
     </section>
 
     <section aria-labelledby="about-privacy">
@@ -151,6 +154,14 @@ const jsonLd = [
         {labels.privacyHeading}
       </h2>
       <p>{labels.privacy}</p>
+      <ul>
+        <li>
+          <a href={routes.privacy}>{labels.privacyLink}</a>
+        </li>
+        <li>
+          <a href={routes.cookies}>{labels.cookiesLink}</a>
+        </li>
+      </ul>
     </section>
 
     <section aria-labelledby="about-health">

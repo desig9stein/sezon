@@ -1,0 +1,62 @@
+---
+import { GOOGLE_PARTNER_SITES_URL } from '@components/ads/googlePolicies';
+import PrivacySettings from '@components/ads/PrivacySettings.astro';
+import { routes } from '@components/layout/routes';
+import { ADSENSE } from '@composition/adsense';
+import { requireSiteUrl } from '@composition/site';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { webPageJsonLd } from '@shared/seo';
+
+const labels = ui.cookies;
+const path = routes.cookies;
+const jsonLd = [
+  webPageJsonLd({
+    siteUrl: requireSiteUrl(Astro.site),
+    path,
+    type: 'WebPage',
+    name: labels.heading,
+    description: labels.description,
+  }),
+];
+---
+
+<BaseLayout
+  title={labels.title}
+  description={labels.description}
+  path={path}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: labels.heading, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <article class="info-page">
+    <h1>{labels.heading}</h1>
+    <p>{labels.intro}</p>
+
+    <section aria-labelledby="cookies-site">
+      <h2 class="section-heading" id="cookies-site">
+        {labels.siteHeading}
+      </h2>
+      <p>{labels.siteNone}</p>
+    </section>
+
+    <section aria-labelledby="cookies-google">
+      <h2 class="section-heading" id="cookies-google">
+        {labels.googleHeading}
+      </h2>
+      <p>{ADSENSE === undefined ? labels.googleOff : labels.googleOn}</p>
+      <p>
+        <a href={GOOGLE_PARTNER_SITES_URL}>{labels.googlePolicyLink}</a>
+      </p>
+    </section>
+
+    <section aria-labelledby="cookies-settings">
+      <h2 class="section-heading" id="cookies-settings">
+        {labels.settingsHeading}
+      </h2>
+      <PrivacySettings adsense={ADSENSE} />
+    </section>
+  </article>
+</BaseLayout>

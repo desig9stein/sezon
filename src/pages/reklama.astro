@@ -1,0 +1,72 @@
+---
+import { routes } from '@components/layout/routes';
+import { CONTACT_EMAIL } from '@composition/contact';
+import { requireSiteUrl } from '@composition/site';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { webPageJsonLd } from '@shared/seo';
+
+const labels = ui.advertising;
+const path = routes.advertising;
+const jsonLd = [
+  webPageJsonLd({
+    siteUrl: requireSiteUrl(Astro.site),
+    path,
+    type: 'WebPage',
+    name: labels.heading,
+    description: labels.description,
+  }),
+];
+---
+
+<BaseLayout
+  title={labels.title}
+  description={labels.description}
+  path={path}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: labels.heading, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <article class="info-page">
+    <h1>{labels.heading}</h1>
+    <p>{labels.intro}</p>
+
+    <section aria-labelledby="ad-offer">
+      <h2 class="section-heading" id="ad-offer">
+        {labels.offerHeading}
+      </h2>
+      <ul>
+        {labels.offerItems.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+      <p>{labels.offerFarms}</p>
+    </section>
+
+    <section aria-labelledby="ad-labels">
+      <h2 class="section-heading" id="ad-labels">
+        {labels.labelsHeading}
+      </h2>
+      <p>{labels.labels}</p>
+    </section>
+
+    <section aria-labelledby="ad-data">
+      <h2 class="section-heading" id="ad-data">
+        {labels.dataHeading}
+      </h2>
+      <p>{labels.data}</p>
+    </section>
+
+    <section aria-labelledby="ad-contact">
+      <h2 class="section-heading" id="ad-contact">
+        {labels.contactHeading}
+      </h2>
+      <p>{labels.contact}</p>
+      <p>
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+      </p>
+    </section>
+  </article>
+</BaseLayout>

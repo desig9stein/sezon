@@ -1,0 +1,78 @@
+---
+import { routes } from '@components/layout/routes';
+import { ADSENSE } from '@composition/adsense';
+import { CONTACT_EMAIL, SITE_OWNER } from '@composition/contact';
+import { requireSiteUrl } from '@composition/site';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { webPageJsonLd } from '@shared/seo';
+
+const labels = ui.privacy;
+const path = routes.privacy;
+const jsonLd = [
+  webPageJsonLd({
+    siteUrl: requireSiteUrl(Astro.site),
+    path,
+    type: 'WebPage',
+    name: labels.heading,
+    description: labels.description,
+  }),
+];
+---
+
+<BaseLayout
+  title={labels.title}
+  description={labels.description}
+  path={path}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: labels.heading, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <article class="info-page">
+    <h1>{labels.heading}</h1>
+    <p>{labels.intro}</p>
+
+    <section aria-labelledby="privacy-controller">
+      <h2 class="section-heading" id="privacy-controller">
+        {labels.controllerHeading}
+      </h2>
+      <p>{labels.controller(SITE_OWNER.name)}</p>
+      <p>
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+      </p>
+    </section>
+
+    <section aria-labelledby="privacy-collected">
+      <h2 class="section-heading" id="privacy-collected">
+        {labels.collectedHeading}
+      </h2>
+      <p>{labels.collected}</p>
+    </section>
+
+    <section aria-labelledby="privacy-email">
+      <h2 class="section-heading" id="privacy-email">
+        {labels.emailHeading}
+      </h2>
+      <p>{labels.email}</p>
+    </section>
+
+    <section aria-labelledby="privacy-github">
+      <h2 class="section-heading" id="privacy-github">
+        {labels.githubHeading}
+      </h2>
+      <p>{labels.github}</p>
+    </section>
+
+    <section aria-labelledby="privacy-ads">
+      <h2 class="section-heading" id="privacy-ads">
+        {labels.adsHeading}
+      </h2>
+      <p>{ADSENSE === undefined ? labels.adsOff : labels.adsOn}</p>
+      <p>
+        <a href={routes.cookies}>{labels.cookiesLink}</a>
+      </p>
+    </section>
+  </article>
+</BaseLayout>

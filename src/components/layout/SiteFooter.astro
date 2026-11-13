@@ -8,8 +8,9 @@ import { routes } from './routes';
 
 /**
  * Site footer: a year strip of links to every month page with the build month marked, then links
- * to the calendar, the about and methodology pages, adding a farm, and an error report for the current page (the
- * GitHub form and an email) at `path`, the health disclaimer and the copyright.
+ * to the calendar, the about and methodology pages, adding a farm, the advertising, privacy and
+ * cookies pages, and an error report for the current page (the GitHub form and an email) at
+ * `path`, the health disclaimer and the copyright.
  */
 interface Props {
   /** Site-relative canonical path of the page the footer is on. */
@@ -48,6 +49,15 @@ const labels = ui.footer;
         </li>
         <li>
           <a href={routes.addFarm}>{labels.addFarm}</a>
+        </li>
+        <li>
+          <a href={routes.advertising}>{labels.advertising}</a>
+        </li>
+        <li>
+          <a href={routes.privacy}>{labels.privacy}</a>
+        </li>
+        <li>
+          <a href={routes.cookies}>{labels.cookies}</a>
         </li>
         <li>
           <a href={report.github}>{labels.report}</a>
