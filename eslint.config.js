@@ -25,7 +25,13 @@ const APP_LAYERS = {
   group: ['@contexts/*', '@i18n/*', '@composition/*', '@components/*', '@layouts/*', '@design/*'],
   message: 'The shared kernel must not depend on contexts, UI or composition.',
 };
-const UPSTREAM_CONTEXTS = { catalog: ['seasonality'], farms: [], geography: [], seasonality: [] };
+const UPSTREAM_CONTEXTS = {
+  advertising: [],
+  catalog: ['seasonality'],
+  farms: [],
+  geography: [],
+  seasonality: [],
+};
 
 /** Builds `no-restricted-imports` blocks that enforce the dependency rules in AGENTS.md section 6. */
 function architectureRules() {

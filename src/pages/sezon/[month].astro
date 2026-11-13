@@ -1,5 +1,6 @@
 ---
 import type { GetStaticPaths } from 'astro';
+import AdSlot from '@components/ads/AdSlot.astro';
 import { routes } from '@components/layout/routes';
 import MonthChanges from '@components/season/MonthChanges.astro';
 import MonthPager from '@components/season/MonthPager.astro';
@@ -7,7 +8,12 @@ import SeasonLegend from '@components/season/SeasonLegend.astro';
 import SeasonList from '@components/season/SeasonList.astro';
 import SeasonOverview from '@components/season/SeasonOverview.astro';
 import { freshProduceItemList } from '@components/season/seasonJsonLd';
-import { monthChangesService, seasonOverviewService } from '@composition/index';
+import { BUILD_DATE } from '@composition/clock';
+import {
+  monthChangesService,
+  seasonOverviewService,
+  sponsorSelectionService,
+} from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
 import { Month } from '@contexts/seasonality';
 import { monthName, ui } from '@i18n/bg';
@@ -23,6 +29,7 @@ const changes = await monthChangesService.changesFor(month);
 const freshNames = [...overview.peak, ...overview.available].map((produce) => produce.name);
 const path = routes.month(month);
 const itemList = freshProduceItemList(overview, siteUrl);
+const sponsor = await sponsorSelectionService.forPlacement('month', BUILD_DATE);
 ---
 
 <BaseLayout
@@ -40,6 +47,7 @@ const itemList = freshProduceItemList(overview, siteUrl);
   <SeasonLegend />
   <MonthChanges changes={changes} />
   <SeasonOverview overview={overview} groups={['comingSoon']} stripMonth={month} />
+  <AdSlot sponsor={sponsor} placement="month" />
   <MonthPager month={month} />
 </BaseLayout>
 
