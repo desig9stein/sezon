@@ -37,7 +37,7 @@ const ADDED: Readonly<Record<string, Added>> = {
     wild: true,
     season: months('peak', 5, 6, 7),
     cautions: ['preparation', 'allergy'],
-    photo: 'VRjJ6MA1X-Q',
+    photo: 'yaKZ4f0tZ4Y',
   },
   gluharche: {
     name: 'Глухарче',
@@ -45,7 +45,7 @@ const ADDED: Readonly<Record<string, Added>> = {
     kind: 'vegetable',
     group: 'slozhnotsvetni',
     wild: true,
-    season: { ...months('available', 3), ...months('peak', 4, 5) },
+    season: months('available', 3, 4),
     cautions: ['protected'],
     fdcId: '169226',
     photo: 'f-02pTFLV14',
@@ -57,7 +57,7 @@ const ADDED: Readonly<Record<string, Added>> = {
     group: 'amarilisovi',
     wild: true,
     season: months('available', 3, 4),
-    cautions: ['look-alike', 'look-alike', 'protected'],
+    cautions: ['look-alike', 'look-alike', 'look-alike', 'look-alike', 'protected'],
   },
   'cheren-baz': {
     name: 'Черен бъз',
@@ -65,8 +65,8 @@ const ADDED: Readonly<Record<string, Added>> = {
     kind: 'fruit',
     group: 'meshkovitsovi',
     wild: true,
-    season: months('peak', 5, 6, 8),
-    cautions: ['toxic-part', 'toxic-part', 'toxic-part', 'look-alike', 'protected'],
+    season: months('peak', 8),
+    cautions: ['toxic-part', 'toxic-part', 'preparation', 'look-alike', 'protected', 'protected'],
     fdcId: '171727',
     photo: 'ITFBAchRAiI',
   },
@@ -77,7 +77,7 @@ const ADDED: Readonly<Record<string, Added>> = {
     group: 'rozotsvetni',
     wild: true,
     season: { ...months('peak', 9), ...months('available', 10) },
-    cautions: ['protected'],
+    cautions: ['protected', 'protected'],
   },
   tranka: {
     name: 'Трънка',
@@ -104,7 +104,7 @@ const ADDED: Readonly<Record<string, Added>> = {
     group: 'pirenovi',
     wild: true,
     season: months('peak', 8),
-    cautions: ['protected'],
+    cautions: ['protected', 'protected'],
   },
   'chervena-borovinka': {
     name: 'Червена боровинка',
@@ -155,7 +155,7 @@ const ADDED: Readonly<Record<string, Added>> = {
     name: 'Камчатска боровинка',
     latinName: 'Lonicera kamtschatica',
     kind: 'fruit',
-    group: 'bazovi',
+    group: 'nokatovi',
     wild: false,
     season: months('peak', 6, 7),
     cautions: [],
@@ -206,9 +206,13 @@ const NEW_GROUPS = {
   meshkovitsovi: 'Adoxaceae',
   kiselotranovi: 'Berberidaceae',
   tuchenitsovi: 'Portulacaceae',
-  bazovi: 'Caprifoliaceae',
+  nokatovi: 'Caprifoliaceae',
 } as const;
 const FORBIDDEN = /богат|полез|лекува|действие/i;
+/** An act or order named with its gazette number or order number and its year. */
+const ACT_WITH_NUMBER_AND_YEAR = /(бр\.\s*\d+ от \d{4})|(№\s*\S+ от .*\d{4})/;
+/** Press articles about livestock: never a caution source for people (QA 057). */
+const LIVESTOCK_SOURCES = ['https://www.bgfermer.bg/Article/22826799'];
 
 const readYaml = (path: string): unknown => parse(readFileSync(path, 'utf8'));
 const produceFile = (slug: string) => join(DATA_DIR, 'produce', `${slug}.yaml`);
@@ -317,6 +321,80 @@ describe('wild produce (spec 057)', () => {
   it.each(Object.entries(NEW_GROUPS))('AC11: group %s is %s', (id, latinName) => {
     const group = readYaml(join(DATA_DIR, 'groups', `${id}.yaml`)) as { latinName: string };
     expect(group.latinName).toBe(latinName);
+  });
+
+  it('QA 057: ramsons warns of autumn crocus from the poison-centre case series', () => {
+    const lookAlikes = recordOf('levurda').cautions.filter(
+      (caution) => caution.kind === 'look-alike',
+    );
+    const urls = lookAlikes.map((caution) => caution.source.url);
+    expect(urls).toContain('https://pubmed.ncbi.nlm.nih.gov/33156711/');
+    expect(urls).toContain('https://pubmed.ncbi.nlm.nih.gov/16626006/');
+    expect(lookAlikes.some((caution) => caution.text.includes('мразовец'))).toBe(true);
+    expect(lookAlikes.some((caution) => caution.text.includes('чесън'))).toBe(true);
+  });
+
+  it('QA 057: elder cites no livestock article, no „safe“ claim and needs heat treatment', () => {
+    const { cautions, summary } = recordOf('cheren-baz');
+    for (const caution of cautions) {
+      expect(LIVESTOCK_SOURCES).not.toContain(caution.source.url);
+      expect(caution.text).not.toMatch(/безопасн/i);
+    }
+    expect(cautions.some((caution) => caution.kind === 'preparation')).toBe(true);
+    expect(summary).toContain('края на пролетта');
+  });
+
+  it.each([
+    ['cheren-baz', 'Sambucus deborensis'],
+    ['glog', 'Crataegus microphylla'],
+    ['glog', 'C. stevenii'],
+    ['cherna-borovinka', 'Vaccinium arctostaphyllos'],
+  ])('QA 057: %s names its protected relative %s', (slug, latin) => {
+    const zbr = recordOf(slug).cautions.filter(
+      (caution) => caution.kind === 'protected' && caution.source.url === ZBR_URL,
+    );
+    expect(zbr.some((caution) => caution.text.includes(latin))).toBe(true);
+  });
+
+  it.each([
+    ['kisel-tran', '10 кг плодове'],
+    ['rigan', '2 кг стръкове'],
+  ])('QA 057: %s states the personal-needs amount %s', (slug, amount) => {
+    const yearly = recordOf(slug).cautions.filter(
+      (caution) => caution.source.url === ORDER_2026_URL,
+    );
+    expect(yearly.some((caution) => caution.text.includes(amount))).toBe(true);
+  });
+
+  it('QA 057: every protected caution cites an act or order with its number and year', () => {
+    const slugs = [...SLUGS, ...Object.keys(EXISTING)];
+    for (const slug of slugs) {
+      for (const caution of recordOf(slug).cautions.filter(({ kind }) => kind === 'protected')) {
+        expect(caution.source.name, slug).toMatch(ACT_WITH_NUMBER_AND_YEAR);
+      }
+    }
+  });
+
+  it('QA 057: rowan and purslane cautions stay with their sources', () => {
+    const rowan = recordOf('ofika')
+      .cautions.map((caution) => caution.text)
+      .join(' ');
+    expect(rowan).not.toContain('не ги яж');
+    expect(rowan).toContain('лечебно растение');
+    const purslane = recordOf('tuchenitsa').cautions.find(({ kind }) => kind === 'preparation');
+    expect(purslane?.text).toContain('водата');
+  });
+
+  it('QA 057: dandelion lists manganese, which ties with copper and sorts first by name', () => {
+    const nutrients = recordOf('gluharche').nutrition?.micronutrients.map(
+      ({ nutrient }) => nutrient,
+    );
+    expect(nutrients).toContain('mangan');
+    expect(nutrients).not.toContain('med-cu');
+  });
+
+  it('QA 057: the old honeysuckle group id is gone', () => {
+    expect(existsSync(join(DATA_DIR, 'groups', 'bazovi.yaml'))).toBe(false);
   });
 
   it('AC12: the checklist has a row per new produce', () => {
