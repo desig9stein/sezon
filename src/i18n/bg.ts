@@ -1,5 +1,5 @@
 import type { GrowingActivity, OrganicAvailability, ProduceKind } from '@contexts/catalog';
-import type { AreaRank, RegionProfile } from '@contexts/geography';
+import type { AreaRank, RegionProfile, TopFruit } from '@contexts/geography';
 import { LAST_MONTH_NUMBER, Month, type SeasonLevelValue } from '@contexts/seasonality';
 import { InvalidPageMetaError } from '@shared/domain/errors';
 import { characterCount, DESCRIPTION_MAX_LENGTH, TITLE_MAX_LENGTH } from '@shared/seo';
@@ -59,21 +59,25 @@ function inRegion(name: string): string {
 
 /**
  * Returns the region page description for the counts the page shows. With no produce and no farm,
- * it describes the province's agricultural data instead.
- * @param utilisedAreaHa - Utilised agricultural area of the province, when it has a profile.
- * @throws InvalidPageMetaError when there is no produce, no farm and no utilised area.
+ * it describes the province's agricultural profile instead, naming fruit species only when the
+ * profile has top fruits.
+ * @param profile - Agricultural profile of the province, when it has one.
+ * @throws InvalidPageMetaError when there is no produce, no farm and no profile.
  */
 function regionPageDescription(
   name: string,
   produceCount: number,
   farmCount: number,
-  utilisedAreaHa?: number,
+  profile?: RegionProfile,
 ): string {
   if (produceCount + farmCount === 0) {
-    if (utilisedAreaHa === undefined) {
+    if (profile === undefined) {
       throw new InvalidPageMetaError(`Region "${name}" has no data to describe.`);
     }
-    return `${inRegion(name)} използваната земеделска площ е ${formatHectares(utilisedAreaHa)} (${AREA_YEAR} г.). Виж колко от нея е обработваема земя и кои овощни видове заемат най-голяма площ.`;
+    const area = `${inRegion(name)} използваната земеделска площ е ${formatHectares(profile.utilisedAreaHa)} (${profile.areaYear} г.).`;
+    return profile.topFruits.length > 0
+      ? `${area} Виж колко от нея е обработваема и кои от основните овощни видове заемат най-голяма площ.`
+      : `${area} Виж колко от нея е обработваема земя и колко – постоянно затревени площи.`;
   }
   const grows =
     produceCount === 1
@@ -88,13 +92,10 @@ function regionPageDescription(
   return `${grows} Виж кои са и кои местни ферми има в областта.`;
 }
 const MAP_TITLE = 'Карта на България.';
-/** Year of the БАНСИК survey behind the farmland figures of the province profiles. */
-const AREA_YEAR = 2025;
-/** Year of the orchard survey behind the top fruits of the province profiles. */
-const ORCHARD_YEAR = 2023;
+const REGION_NO_DATA = 'Още няма данни';
 const PERCENT = 100;
 
-/** Feminine ordinal words for 1–9, 10–19 and the tens 20–90 (index 0 = 20). */
+/** Feminine ordinal words for 1–9 (index 0 = 1). */
 const ORDINAL_UNITS = [
   'първа',
   'втора',
@@ -106,6 +107,7 @@ const ORDINAL_UNITS = [
   'осма',
   'девета',
 ] as const;
+/** Feminine ordinal words for 10–19 (index 0 = 10). */
 const ORDINAL_TEENS = [
   'десета',
   'единадесета',
@@ -118,6 +120,7 @@ const ORDINAL_TEENS = [
   'осемнадесета',
   'деветнадесета',
 ] as const;
+/** Cardinal words for the tens 20–90 (index 0 = 20); the ordinal adds „а“. */
 const TENS = [
   'двадесет',
   'тридесет',
@@ -175,19 +178,54 @@ function formatShare(share: number): string {
 
 /**
  * Returns the sentences of a province's agricultural profile: its utilised area and rank, the
- * shares of arable land and grassland, and the fruit species with the largest area.
+ * shares of arable land and permanent grassland, and, when the profile has them, the main fruit
+ * species with the largest area in the МЗХ orchard survey.
  */
 function regionProfileSummary(profile: RegionProfile, areaRank: AreaRank): string {
-  const area = `Използваната земеделска площ е ${formatHectares(profile.utilisedAreaHa)} (${AREA_YEAR} г.) – ${feminineOrdinal(areaRank.rank)} по големина сред ${areaRank.total}-те области.`;
-  const use = `Обработваемата земя е ${formatShare(profile.arableShare)} от нея, а постоянните пасища и ливади – ${formatShare(profile.grasslandShare)}.`;
-  const last = profile.topFruits.length - 1;
-  const fruits = profile.topFruits
-    .map(
-      (fruit, index) =>
-        `${fruit.name} (${formatHectares(fruit.areaHa)}${index === last ? `, ${ORCHARD_YEAR} г.` : ''})`,
-    )
-    .join(' и ');
-  return `${area} ${use} С най-голяма площ от овощните видове са ${fruits}.`;
+  const area = `Използваната земеделска площ е ${formatHectares(profile.utilisedAreaHa)} (${profile.areaYear} г.) – ${feminineOrdinal(areaRank.rank)} по големина сред ${areaRank.total}-те области.`;
+  const use = `Обработваемата земя е ${formatShare(profile.arableShare)} от нея, а постоянно затревените площи – ${formatShare(profile.grasslandShare)}.`;
+  const [first, second] = profile.topFruits;
+  if (first === undefined) return `${area} ${use}`;
+  const fruitArea = (fruit: TopFruit) => `${fruit.name} (${formatHectares(fruit.areaHa)})`;
+  const fruits =
+    second === undefined
+      ? fruitArea(first)
+      : `${fruitArea(first)}, следвани от ${fruitArea(second)}`;
+  return `${area} ${use} От основните овощни видове, изследвани от МЗХ, най-голяма площ заемат ${fruits} – ${profile.orchardYear} г., предварителни данни.`;
+}
+
+/** Counts and profile of a region in the overview list. */
+interface RegionOverviewFacts {
+  readonly produceCount: number;
+  readonly farmCount: number;
+  readonly profile: RegionProfile | undefined;
+}
+
+/** Returns the produce and farm counts of a region, e.g. „3 продукта · 1 ферма“. */
+function regionCounts(produce: number, farms: number): string {
+  return [
+    produce === 0 ? undefined : produce === 1 ? '1 продукт' : `${produce} продукта`,
+    farms === 0 ? undefined : farms === 1 ? '1 ферма' : `${farms} ферми`,
+  ]
+    .filter((part) => part !== undefined)
+    .join(' · ');
+}
+
+/**
+ * Returns the text after a region in the overview list: its counts, else its utilised area, else
+ * „Още няма данни“.
+ */
+function regionOverviewLabel({ produceCount, farmCount, profile }: RegionOverviewFacts): string {
+  if (produceCount + farmCount > 0) return regionCounts(produceCount, farmCount);
+  if (profile === undefined) return REGION_NO_DATA;
+  return `${formatHectares(profile.utilisedAreaHa)} земеделска площ`;
+}
+
+/** Returns the region page intro: what grows and which farms, or the МЗХ data alone. */
+function regionPageIntro(produceCount: number, farmCount: number): string {
+  return produceCount + farmCount === 0
+    ? 'Земеделието в областта според статистиката на МЗХ.'
+    : 'Какво расте тук и кои местни ферми има в областта.';
 }
 
 /** Formats a calendar date in Bulgarian, e.g. „10 ноември 2026 г.“. */
@@ -411,7 +449,7 @@ export const ui = {
     outOfSeasonText: 'в България не се бере и не е от хранилище; ако го има, вероятно е внос',
     regionsHeading: 'Области',
     regions:
-      'За всеки продукт посочваме областите, в които се отглежда, с кратка бележка. За ябълки, круши, орехи и зеле областите и бележките следват статистиката на МЗХ (отдел „Агростатистика“) и имат източник; за останалите продукти официални данни по области няма и бележките са редакторски. Земеделските данни на всяка област – използваната земеделска площ, обработваемата земя, пасищата и ливадите и овощните видове с най-голяма площ – са от бюлетините на МЗХ „БАНСИК 2025“ и „Структура на основни овощни видове в България през 2023 година“.',
+      'За всеки продукт посочваме областите, в които се отглежда, с кратка бележка. За ябълки, круши, орехи и зеле областите и бележките следват статистиката на МЗХ (отдел „Агростатистика“) и имат източник; за останалите продукти официални данни по области няма и бележките са редакторски. Земеделските данни на всяка област – използваната земеделска площ, обработваемата земя, постоянно затревените площи и основните овощни видове с най-голяма площ – са от бюлетините на МЗХ „БАНСИК 2025“ и „Структура на основни овощни видове в България през 2023 година“ (предварителни резултати). Овощни видове не посочваме, когато поверителни данни в бюлетина биха могли да променят класирането.',
     traditionalHeading: 'Традиционна употреба',
     traditional:
       'Традиционната употреба описва традиции, а не доказани ефекти, и винаги започва с „Традиционно се използва“. Не твърдим, че храна лекува или предпазва от болест (Регламент (ЕО) № 1924/2006). Всяка употреба има първичен източник – фармакопея, официална монография или етноботаническо изследване; Уикипедия не се приема.',
@@ -464,10 +502,13 @@ export const ui = {
     toc: 'На тази страница',
     garden: { label: GARDEN_LABEL, none: 'нищо', separator: LIST_SEPARATOR },
     map: {
-      label: (regions: ReadonlyArray<string>) =>
-        regions.length === 0
-          ? `${MAP_TITLE} Няма отбелязани области`
-          : `${MAP_TITLE} Отбелязани области: ${regions.join(LIST_SEPARATOR)}`,
+      label: (regions: ReadonlyArray<string>, provinceCount: number) => {
+        if (regions.length === 0) return `${MAP_TITLE} Няма отбелязани области`;
+        if (regions.length === provinceCount) {
+          return `${MAP_TITLE} Отбелязани са всички ${provinceCount} области.`;
+        }
+        return `${MAP_TITLE} Отбелязани области: ${regions.join(LIST_SEPARATOR)}`;
+      },
       caption: 'Оцветени са областите, изброени по-горе.',
       creditPrefix: 'Граници на областите:',
       creditName: 'Natural Earth',
@@ -684,23 +725,15 @@ export const ui = {
       'Кои плодове и зеленчуци растат най-добре във всяка от 28-те области на България и кои местни ферми има в тях.',
     intro:
       'Избери област на картата или в списъка, за да видиш какво расте там и кои местни ферми има.',
-    mapCaption: 'С щрихи са областите, за които вече има данни.',
+    mapCaption: 'Всяка област на картата води към своята страница.',
     listHeading: 'Всички области',
-    noData: 'Още няма данни',
-    areaOnly: (utilisedAreaHa: number) => `${formatHectares(utilisedAreaHa)} земеделска площ`,
-    counts: (produce: number, farms: number) =>
-      [
-        produce === 0 ? undefined : produce === 1 ? '1 продукт' : `${produce} продукта`,
-        farms === 0 ? undefined : farms === 1 ? '1 ферма' : `${farms} ферми`,
-      ]
-        .filter((part) => part !== undefined)
-        .join(' · '),
+    overviewLabel: regionOverviewLabel,
     placeName: regionPlaceName,
     pageTitle: (name: string) => `${regionPlaceName(name)}: какво расте и местни ферми`,
     pageDescription: regionPageDescription,
-    pageIntro: 'Какво расте тук и кои местни ферми има в областта.',
+    pageIntro: regionPageIntro,
     mapCaptionFor: (name: string) =>
-      `На картата: ${regionPlaceName(name)} – с плътни щрихи; другите области със страница – с тънки щрихи.`,
+      `На картата: ${regionPlaceName(name)} – с плътни щрихи. Избери друга област, за да видиш нейната страница.`,
     profile: {
       heading: 'Земеделие в областта',
       summary: regionProfileSummary,

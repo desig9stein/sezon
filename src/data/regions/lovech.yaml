@@ -3,6 +3,8 @@ profile:
   utilisedAreaHa: 114647
   arableHa: 69450
   grasslandHa: 43093
+  areaYear: 2025
+  orchardYear: 2023
   topFruits:
     - name: сливите
       areaHa: 1246

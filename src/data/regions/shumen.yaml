@@ -3,6 +3,8 @@ profile:
   utilisedAreaHa: 159358
   arableHa: 144916
   grasslandHa: 11277
+  areaYear: 2025
+  orchardYear: 2023
   topFruits:
     - name: орехите
       areaHa: 1021

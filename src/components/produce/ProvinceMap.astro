@@ -49,7 +49,10 @@ for (const slug of [...marked, ...linkBySlug.keys()]) {
   if (paths[slug] === undefined) throw new BrokenReferenceError(`No province on the map: ${slug}`);
 }
 const isLinked = linkBySlug.size > 0;
-const label = ui.produce.map.label(regions.map((region) => region.name));
+const label = ui.produce.map.label(
+  regions.map((region) => region.name),
+  Object.keys(paths).length,
+);
 const labels = ui.produce.map;
 const fillOf = (slug: string) => {
   if (marked.has(slug)) return `url(#${HATCH_ID})`;

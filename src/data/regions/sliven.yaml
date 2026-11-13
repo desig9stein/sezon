@@ -3,6 +3,8 @@ profile:
   utilisedAreaHa: 150602
   arableHa: 95408
   grasslandHa: 47453
+  areaYear: 2025
+  orchardYear: 2023
   topFruits:
     - name: прасковите и нектарините
       areaHa: 1475

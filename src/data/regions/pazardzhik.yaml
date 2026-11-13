@@ -3,6 +3,8 @@ profile:
   utilisedAreaHa: 96089
   arableHa: 65477
   grasslandHa: 24904
+  areaYear: 2025
+  orchardYear: 2023
   topFruits:
     - name: черешите
       areaHa: 628

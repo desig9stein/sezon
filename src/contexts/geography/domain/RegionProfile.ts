@@ -23,27 +23,38 @@ export interface RegionProfileInput {
   readonly utilisedAreaHa: number;
   readonly arableHa: number;
   readonly grasslandHa: number;
-  readonly topFruits: ReadonlyArray<TopFruit>;
+  readonly areaYear: number;
+  readonly topFruits?: ReadonlyArray<TopFruit> | undefined;
+  readonly orchardYear?: number | undefined;
   readonly sources: ReadonlyArray<RegionSource>;
 }
 
-/** Official agricultural figures of a province: farmland use and the largest fruit species. */
+/**
+ * Official agricultural figures of a province: farmland use and, when the orchard survey supports
+ * them, the fruit species with the largest area.
+ */
 export class RegionProfile {
   /** Utilised agricultural area, in hectares. */
   readonly utilisedAreaHa: number;
   /** Arable land, in hectares. */
   readonly arableHa: number;
-  /** Permanent grassland (pastures and meadows), in hectares. */
+  /** Permanent grassland, in hectares. */
   readonly grasslandHa: number;
-  /** One or two fruit species with the largest area, in descending order of area. */
+  /** Year of the farmland survey behind the three areas. */
+  readonly areaYear: number;
+  /** Up to two fruit species with the largest area, in descending order of area. */
   readonly topFruits: ReadonlyArray<TopFruit>;
+  /** Year of the orchard survey behind the top fruits; set exactly when there are top fruits. */
+  readonly orchardYear: number | undefined;
   readonly sources: ReadonlyArray<RegionSource>;
 
   private constructor(input: RegionProfileInput) {
     this.utilisedAreaHa = input.utilisedAreaHa;
     this.arableHa = input.arableHa;
     this.grasslandHa = input.grasslandHa;
-    this.topFruits = frozenRecords(input.topFruits);
+    this.areaYear = input.areaYear;
+    this.topFruits = frozenRecords(input.topFruits ?? []);
+    this.orchardYear = input.orchardYear;
     this.sources = frozenRecords(input.sources);
     Object.freeze(this);
   }
@@ -51,15 +62,17 @@ export class RegionProfile {
   /**
    * Creates a validated profile.
    * @throws InvalidRegionProfileError when an area is not positive, arable land and grassland
-   * exceed the utilised area, the top fruits are not one or two in descending order, or there is
-   * no source or a source is not HTTPS.
+   * exceed the utilised area, there are more than two top fruits or they are not in descending
+   * order, a survey year is not a positive integer, the orchard year is missing with top fruits or
+   * set without them, or there is no source or a source is not HTTPS.
    */
   static create(input: RegionProfileInput): RegionProfile {
+    const topFruits = input.topFruits ?? [];
     const areas = [
       input.utilisedAreaHa,
       input.arableHa,
       input.grasslandHa,
-      ...input.topFruits.map((fruit) => fruit.areaHa),
+      ...topFruits.map((fruit) => fruit.areaHa),
     ];
     if (!areas.every(isPositiveArea)) {
       throw new InvalidRegionProfileError('Every area must be a finite number above zero.');
@@ -69,7 +82,8 @@ export class RegionProfile {
         'Arable land and grassland exceed the utilised agricultural area.',
       );
     }
-    assertTopFruits(input.topFruits);
+    assertTopFruits(topFruits);
+    assertYears(input.areaYear, input.orchardYear, topFruits.length > 0);
     if (input.sources.length === 0 || !input.sources.every((source) => isHttpsUrl(source.url))) {
       throw new InvalidRegionProfileError('A profile needs at least one source, all HTTPS.');
     }
@@ -89,10 +103,30 @@ export class RegionProfile {
 
 const isPositiveArea = (value: number): boolean => Number.isFinite(value) && value > 0;
 
-/** @throws InvalidRegionProfileError unless there are one or two named fruits, largest first. */
+const isYear = (value: number): boolean => Number.isInteger(value) && value > 0;
+
+/**
+ * @throws InvalidRegionProfileError unless both years are positive integers and the orchard year is
+ * set exactly when there are top fruits.
+ */
+function assertYears(areaYear: number, orchardYear: number | undefined, hasFruits: boolean): void {
+  if (!isYear(areaYear)) {
+    throw new InvalidRegionProfileError('The farmland survey year must be a positive integer.');
+  }
+  if (hasFruits !== (orchardYear !== undefined)) {
+    throw new InvalidRegionProfileError(
+      'The orchard year is set exactly when there are top fruits.',
+    );
+  }
+  if (orchardYear !== undefined && !isYear(orchardYear)) {
+    throw new InvalidRegionProfileError('The orchard survey year must be a positive integer.');
+  }
+}
+
+/** @throws InvalidRegionProfileError unless there are at most two named fruits, largest first. */
 function assertTopFruits(fruits: ReadonlyArray<TopFruit>): void {
-  if (fruits.length === 0 || fruits.length > MAX_TOP_FRUITS) {
-    throw new InvalidRegionProfileError(`A profile lists 1–${MAX_TOP_FRUITS} top fruits.`);
+  if (fruits.length > MAX_TOP_FRUITS) {
+    throw new InvalidRegionProfileError(`A profile lists at most ${MAX_TOP_FRUITS} top fruits.`);
   }
   if (fruits.some((fruit) => fruit.name.trim() === '')) {
     throw new InvalidRegionProfileError('A top fruit needs a name.');

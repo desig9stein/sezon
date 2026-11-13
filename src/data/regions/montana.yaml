@@ -3,6 +3,8 @@ profile:
   utilisedAreaHa: 179698
   arableHa: 139333
   grasslandHa: 39767
+  areaYear: 2025
+  orchardYear: 2023
   topFruits:
     - name: ябълките
       areaHa: 182

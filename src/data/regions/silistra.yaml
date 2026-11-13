@@ -3,6 +3,8 @@ profile:
   utilisedAreaHa: 158788
   arableHa: 151449
   grasslandHa: 694
+  areaYear: 2025
+  orchardYear: 2023
   topFruits:
     - name: кайсиите
       areaHa: 2151

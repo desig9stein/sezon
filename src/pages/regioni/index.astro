@@ -2,7 +2,6 @@
 import { routes } from '@components/layout/routes';
 import ProvinceMap from '@components/produce/ProvinceMap.astro';
 import { regionPagesQuery } from '@composition/index';
-import type { Region } from '@contexts/geography';
 import { requireSiteUrl } from '@composition/site';
 import { ui } from '@i18n/bg';
 import BaseLayout from '@layouts/BaseLayout.astro';
@@ -11,14 +10,6 @@ import { collectionPageJsonLd } from '@shared/seo';
 const labels = ui.regions;
 const path = routes.regions;
 const overview = await regionPagesQuery.overview();
-/** Returns the text after a province in the list: its counts, its farmland or „no data“. */
-const countsLabel = (region: Region, produceCount: number, farmCount: number, hasPage: boolean) => {
-  if (!hasPage) return labels.noData;
-  if (produceCount + farmCount > 0) return labels.counts(produceCount, farmCount);
-  return region.profile === undefined
-    ? labels.noData
-    : labels.areaOnly(region.profile.utilisedAreaHa);
-};
 const withPages = overview.filter((summary) => summary.hasPage).map(({ region }) => region);
 const jsonLd = [
   collectionPageJsonLd({
@@ -61,7 +52,7 @@ const jsonLd = [
             <span class="regions__name">{region.name}</span>
           )}
           <span class="regions__counts">
-            {countsLabel(region, produceCount, farmCount, hasPage)}
+            {labels.overviewLabel({ produceCount, farmCount, profile: region.profile })}
           </span>
         </li>
       ))}
