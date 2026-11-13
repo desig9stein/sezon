@@ -1,0 +1,88 @@
+name: Кайсии
+latinName: Prunus armeniaca
+kind: fruit
+group: rozotsvetni
+summary: Кайсиите узряват от края на юни до началото на август. Силистра е областта с най-много кайсиеви градини в страната.
+varieties:
+  - name: Унгарска
+    note: Стар сорт, един от най-разпространените в страната.
+  - name: Харкот
+    note: Канадски сорт, който се развива много добре у нас.
+  - name: Роксана
+    note: Български сорт.
+  - name: Силистренска компотна
+    note: Български сорт, подходящ за преработка.
+season:
+  - { month: 6, level: available }
+  - { month: 7, level: peak }
+  - { month: 8, level: available }
+regions:
+  - region: silistra
+    note: 'Областта с най-голяма площ с насаждения от кайсии и зарзали в страната – 2 151 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: ruse
+    note: 'Областта с втората по големина площ с насаждения от кайсии и зарзали – 273 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: dobrich
+    note: 'Областта с третата по големина площ с насаждения от кайсии и зарзали – 140 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+nutrition:
+  energyKcal: 48
+  proteinG: 1.4
+  fatG: 0.39
+  carbohydrateG: 11.12
+  fiberG: 2
+  sugarsG: 9.24
+  micronutrients:
+    - { nutrient: vitamin-a, amount: 96 }
+    - { nutrient: vitamin-c, amount: 10 }
+    - { nutrient: kaliy, amount: 259 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Apricots, raw'
+    url: https://fdc.nal.usda.gov/food-details/171697/nutrients
+preparation:
+  - method: Пресни
+    tip: Яж ги с кората – само ги измий добре.
+  - method: Сушени
+    tip: Сушените кайсии са по-сладки и с повече калории на 100 г, защото водата в тях е изпарена.
+traditionalUses: []
+howToChoose: Избери ароматни, наситено оранжеви кайсии, които поддават леко при натиск.
+storage: Твърдите кайсии дозряват на стайна температура; узрелите пази в хладилник и ги изяж до няколко дни.
+faq:
+  - question: Кога е сезонът на кайсиите в България?
+    answer: Ранните сортове узряват през втората половина на юни, повечето – през юли, а някои късни сортове – в началото на август.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/kaysii.jpg
+  alt: 'Купчина оранжеви кайсии със зелени листа между плодовете'
+  credit:
+    author: 'Georgi Zvezdov'
+    authorUrl: https://unsplash.com/@gzvezdov
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-pile-of-apricots-with-leaves-on-them-i6VVkVh11YM
+growing:
+  sow: []
+  transplant: []
+  plant: [3, 11, 12]
+  plantingNote: 'Наесен засаждай от ноември до 15–20 декември, преди големите студове; напролет – в началото на март.'
+  tips:
+    - 'Кайсията се развива добре до около 600 м надморска височина.'
+    - 'Тя е сред най-податливите на зимни повреди овошки – избягвай ниски места и котловини, където се задържа студен въздух.'
+    - 'Цъфти рано и късните пролетни студове могат да повредят цвета – където ги има, избирай сорта особено внимателно.'
+    - 'Може да расте и на слабо алкална почва.'
+    - 'Роксана е самофертилен сорт, а Харкот – частично самофертилен.'
+  sources:
+    - name: 'Български фермер – За есенното засаждане на овошки изберете подходящо място и сорт'
+      url: https://www.bgfermer.bg/Article/12819793
+    - name: 'Български фермер – Ноември е най-подходящият месец за есенно засаждане на нови дръвчета'
+      url: https://www.bgfermer.bg/Article/15941772
+    - name: 'Български фермер – Купете фиданки за пролетно засаждане'
+      url: https://www.bgfermer.bg/Article/17307642
+    - name: 'Български фермер – Подходящи за нашите условия праскови, нектарини и кайсии'
+      url: https://www.bgfermer.bg/Article/10501421

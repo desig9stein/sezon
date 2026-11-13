@@ -1,0 +1,84 @@
+name: Праскови
+latinName: Prunus persica
+kind: fruit
+group: rozotsvetni
+summary: Прасковите се берат от юни до септември, като сортовете узряват един след друг. Най-много прасковени градини има в Сливенско.
+varieties:
+  - name: Редхейвън
+    note: Американски сорт, дълго време основен стандартен сорт у нас.
+  - name: Глоухейвън
+  - name: Файет
+    note: Много ранен американски сорт.
+  - name: Ласкава
+    note: Устойчив на брашнеста мана сорт, узрява седмица след Редхейвън.
+season:
+  - { month: 6, level: available }
+  - { month: 7, level: peak }
+  - { month: 8, level: peak }
+  - { month: 9, level: available }
+regions:
+  - region: sliven
+    note: 'Областта с най-голяма площ с насаждения от праскови и нектарини в страната – 1 475 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: burgas
+    note: 'Областта с втората по големина площ с насаждения от праскови и нектарини – 398 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+  - region: ruse
+    note: 'Областта с третата по големина площ с насаждения от праскови и нектарини – 218 ха към 2023 г.'
+    source:
+      name: 'МЗХ, Агростатистика – Структура на основни овощни видове в България през 2023 г. (предварителни резултати), бюлетин № 448'
+      url: https://www.mzh.government.bg/media/filer_public/2025/01/17/ra448_publicationstructureorchard2023-preliminaryresults.pdf
+nutrition:
+  energyKcal: 39
+  proteinG: 0.91
+  fatG: 0.25
+  carbohydrateG: 9.54
+  fiberG: 1.5
+  sugarsG: 8.39
+  micronutrients:
+    - { nutrient: vitamin-c, amount: 6.6 }
+    - { nutrient: kaliy, amount: 190 }
+  source:
+    name: 'USDA FoodData Central, SR Legacy: Peaches, yellow, raw'
+    url: https://fdc.nal.usda.gov/food-details/169928/nutrients
+preparation:
+  - method: Пресни
+    tip: Измий ги добре и ги яж с кората или я обели, ако мъхът ти пречи.
+  - method: Печени
+    tip: Разрежи ги на половини, махни костилката и ги опечи за бърз десерт без добавена захар.
+traditionalUses: []
+howToChoose: Узрялата праскова ухае сладко и поддава леко при натиск около дръжката.
+storage: Твърдите праскови дозряват на стайна температура; узрелите пази в хладилник и ги изяж до няколко дни.
+faq:
+  - question: Кога е сезонът на прасковите в България?
+    answer: Най-ранните сортове узряват в края на юни, повечето – през юли и август, а късните – до края на септември.
+updatedAt: 2026-11-13
+photo:
+  src: ../../assets/produce/praskovi.jpg
+  alt: 'Купчина румени жълто-червени праскови и зелено листо отгоре'
+  credit:
+    author: 'NisonCo PR and SEO'
+    authorUrl: https://unsplash.com/@nisoncoprseo
+    sourceName: Unsplash
+    sourceUrl: https://unsplash.com/photos/a-pile-of-peaches-with-a-leaf-on-top-H4QpChoce7I
+growing:
+  sow: []
+  transplant: []
+  plant: [3, 11, 12]
+  plantingNote: 'Наесен засаждай от ноември до 15–20 декември, преди големите студове; напролет – в началото на март.'
+  tips:
+    - 'Прасковата се развива добре до около 600 м надморска височина и на по-равни места.'
+    - 'Засади я там, където можеш да поливаш – валежите у нас не стигат на прасковата.'
+    - 'Тя е сред най-податливите на зимни повреди овошки – избягвай ниски места, където се задържа студен въздух.'
+    - 'Цъфти рано, затова там, където има късни пролетни студове, избирай сорта особено внимателно.'
+  sources:
+    - name: 'Български фермер – За есенното засаждане на овошки изберете подходящо място и сорт'
+      url: https://www.bgfermer.bg/Article/12819793
+    - name: 'Български фермер – Ноември е най-подходящият месец за есенно засаждане на нови дръвчета'
+      url: https://www.bgfermer.bg/Article/15941772
+    - name: 'Български фермер – Купете фиданки за пролетно засаждане'
+      url: https://www.bgfermer.bg/Article/17307642
