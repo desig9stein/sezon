@@ -34,16 +34,17 @@ describe('produce details without optional data (spec 049)', () => {
     expect(details.sources).toEqual([]);
   });
 
-  it('AC7: reports only the group of a produce without nutrition as a reference', () => {
+  it('AC7: reports only the group and regions of a produce without nutrition', () => {
+    const withRegion = { ...record, regions: [{ region: 'plovdiv', note: 'Бележка.' }] };
     expect(
       findBrokenReferences({
-        produce: new Map([['hryan', record]]),
+        produce: new Map([['hryan', withRegion]]),
         groups: new Map(),
         nutrients: new Map(),
         regions: new Map(),
         farms: new Map(),
         recipes: new Map(),
       }),
-    ).toEqual(['produce/hryan → groups/krastotsvetni']);
+    ).toEqual(['produce/hryan → groups/krastotsvetni', 'produce/hryan → regions/plovdiv']);
   });
 });
