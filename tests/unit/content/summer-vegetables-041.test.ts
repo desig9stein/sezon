@@ -175,3 +175,58 @@ describe('summer vegetables (spec 041)', () => {
     }
   });
 });
+
+interface SeasonFile {
+  readonly summary: string;
+  readonly season: ReadonlyArray<{ readonly month: number; readonly level: string }>;
+  readonly faq: ReadonlyArray<{ readonly question: string; readonly answer: string }>;
+  readonly growing: { readonly sow: ReadonlyArray<number> };
+  readonly photo: { readonly alt: string };
+}
+
+const seasonOf = (slug: string): SeasonFile =>
+  parse(readFileSync(pathOf(slug), 'utf8')) as SeasonFile;
+const levelIn = (slug: string, month: number) =>
+  seasonOf(slug).season.find((entry) => entry.month === month)?.level;
+const JANUARY = 1;
+
+describe('summer vegetables QA (spec 041)', () => {
+  it('QA 041: greenhouse tomatoes make April and May available', () => {
+    expect(levelIn('domati', 4)).toBe('available');
+    expect(levelIn('domati', 5)).toBe('available');
+  });
+
+  it('QA 041: open-field cucumbers peak from July, June is available', () => {
+    expect(levelIn('krastavitsi', 6)).toBe('available');
+    expect(levelIn('krastavitsi', 7)).toBe('peak');
+    expect(levelIn('krastavitsi', 8)).toBe('peak');
+    expect(seasonOf('krastavitsi').summary).toContain('от края на юни');
+  });
+
+  it('QA 041: the pepper note names the bulletin column and the page says which pepper', () => {
+    for (const entry of read('piper').regions) {
+      expect(entry.note, entry.region).toContain('пипер (вкл. лют)');
+    }
+    const pepper = seasonOf('piper');
+    const texts = [pepper.summary, ...pepper.faq.map((item) => item.answer)].join(' ');
+    expect(texts).toContain('зелен сладък пипер');
+    expect(readFileSync(pathOf('piper'), 'utf8')).not.toMatch(/\d mg\b/);
+  });
+
+  it('QA 041: early peppers and aubergines are sown from January, as the calendar says', () => {
+    expect(seasonOf('piper').growing.sow).toContain(JANUARY);
+    expect(seasonOf('patladzhan').growing.sow).toContain(JANUARY);
+  });
+
+  it('QA 041: the cucumber alt describes a heap', () => {
+    expect(seasonOf('krastavitsi').photo.alt).toMatch(/^Купчина /);
+  });
+
+  it('QA 041: the content guide lists the new МЗХ-sourced vegetables', () => {
+    const guide = readFileSync('docs/CONTENT-GUIDE.md', 'utf8');
+    const status = guide.slice(guide.indexOf('## Seed data status'));
+    for (const word of ['tomatoes', 'peppers', 'aubergines', 'cucumbers', 'spec 041']) {
+      expect(status, word).toContain(word);
+    }
+  });
+});
