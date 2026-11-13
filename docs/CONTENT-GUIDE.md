@@ -44,7 +44,7 @@ varieties:
     note: Optional note.
 season: # at least one month; each month once
   - { month: 9, level: peak } # peak | available | storage
-regions: # at least one; ids from src/data/regions
+regions: # ids from src/data/regions; use [] only when no official source names a province
   - region: kyustendil
     note: Why this region is named; quote figures only with a source.
     source: { name: …, url: https://… } # optional; required when the note quotes figures

@@ -64,7 +64,6 @@ export const produceSchema = z.strictObject({
     .array(
       z.strictObject({ region: slugReference(), note: text(), source: sourceSchema.optional() }),
     )
-    .min(1)
     .superRefine(uniqueBy((entry) => entry.region, 'region')),
   nutrition: nutritionSchema,
   preparation: z.array(z.strictObject({ method: text(), tip: text() })).min(1),
