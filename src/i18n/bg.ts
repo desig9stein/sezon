@@ -1,4 +1,9 @@
-import type { GrowingActivity, OrganicAvailability, ProduceKind } from '@contexts/catalog';
+import type {
+  CautionKind,
+  GrowingActivity,
+  OrganicAvailability,
+  ProduceKind,
+} from '@contexts/catalog';
 import type { AreaRank, RegionProfile, TopFruit } from '@contexts/geography';
 import type { Ingredient, IngredientUnit, RecipeCategory } from '@contexts/recipes';
 import { LAST_MONTH_NUMBER, Month, type SeasonLevelValue } from '@contexts/seasonality';
@@ -547,6 +552,8 @@ export const ui = {
     traditionalHeading: 'Традиционна употреба',
     traditional:
       'Традиционната употреба описва традиции, а не доказани ефекти, и винаги започва с „Традиционно се използва“. Не твърдим, че храна лекува или предпазва от болест (Регламент (ЕО) № 1924/2006). Всяка употреба има първичен източник – фармакопея, официална монография или етноботаническо изследване; Уикипедия не се приема.',
+    wildHeading: 'Диворастящи растения',
+    wild: 'Растенията, които се събират от природата, са отбелязани „Диворастящ“. Всяко от тях има раздел „Внимание“ с поне едно предупреждение – за отровни двойници, отровни части, алергии, защитен вид или задължително приготвяне – и всяко предупреждение има собствен източник: закон (например Закона за лечебните растения или Закона за биологичното разнообразие), официален документ или научна публикация. Предупрежденията описват факти, а не здравни твърдения, и не заместват познаването на растението.',
     growingHeading: 'Отглеждане',
     growing:
       'Месеците за сеитба, разсаждане и засаждане и съветите за отглеждане имат собствени източници, посочени в раздел „Източници“ на страницата на продукта.',
@@ -629,6 +636,7 @@ export const ui = {
     outOfSeasonIn: (month: string) => `Извън сезона през ${month}`,
     headings: {
       stall: 'На сергията',
+      cautions: 'Внимание',
       eat: 'Яж',
       grow: 'Отгледай',
       season: 'Сезон по месеци',
@@ -663,6 +671,21 @@ export const ui = {
       sourcePrefix: 'Източник:',
       referenceNote:
         'РСП е референтният прием за възрастен човек (8400 kJ/2000 ккал) според Регламент (ЕС) № 1169/2011.',
+    },
+    wild: {
+      label: 'Диворастящ',
+      gatheringNote:
+        'Събирай само растения, които познаваш със сигурност. Ако се съмняваш, не бери и не яж. Спазвай ограниченията за събиране на защитени и лечебни растения.',
+    },
+    cautions: {
+      sourcePrefix: 'източник:',
+      kinds: {
+        'look-alike': 'Отровни двойници',
+        'toxic-part': 'Отровни части',
+        allergy: 'Алергия',
+        protected: 'Защитен вид',
+        preparation: 'Приготвяне',
+      } satisfies Record<CautionKind, string>,
     },
     traditional: {
       disclaimer:

@@ -1,0 +1,101 @@
+---
+import type { Caution } from '@contexts/catalog';
+import { ui } from '@i18n/bg';
+
+/**
+ * The cautions of a produce (spec 055): for wild produce the general gathering note first, then
+ * one item per caution with a decorative warning icon, the kind label, the text and its source.
+ * Static content, not a live region. Renders nothing without cautions.
+ */
+interface Props {
+  cautions: ReadonlyArray<Caution>;
+  wild: boolean;
+}
+
+const { cautions, wild } = Astro.props;
+const labels = ui.produce.cautions;
+/** Size of the warning icon in CSS pixels, also set as attributes so it stays small without CSS. */
+const ICON_SIZE = 16;
+---
+
+{cautions.length > 0 && (
+  <>
+    {wild && <p class="cautions__note">{ui.produce.wild.gatheringNote}</p>}
+    <ul class="cautions" role="list">
+      {cautions.map((caution) => (
+        <li class="caution">
+          <svg
+            class="caution__icon"
+            viewBox="0 0 16 16"
+            width={ICON_SIZE}
+            height={ICON_SIZE}
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M8 1.75 15 14.25H1Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+            />
+            <path d="M8 6v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            <circle cx="8" cy="12.1" r="0.9" fill="currentColor" />
+          </svg>
+          <span>
+            <strong>{labels.kinds[caution.kind]}:</strong> {caution.text}{' '}
+            <span class="caution__source">
+              ({labels.sourcePrefix} <a href={caution.source.url}>{caution.source.name}</a>)
+            </span>
+          </span>
+        </li>
+      ))}
+    </ul>
+  </>
+)}
+
+<style>
+  .cautions__note {
+    font-weight: 600;
+  }
+
+  .cautions {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding: var(--space-3) var(--space-4);
+    border-inline-start: 4px solid var(--color-text);
+    background: var(--color-surface);
+    list-style: none;
+  }
+
+  .caution {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-2);
+    align-items: start;
+  }
+
+  .caution__icon {
+    width: 1.1em;
+    height: 1.1em;
+    margin-top: 0.2em;
+  }
+
+  .caution__source {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  @media print {
+    .cautions {
+      border-color: var(--print-ink);
+      background: none;
+    }
+
+    .cautions,
+    .caution__source {
+      color: var(--print-ink);
+    }
+  }
+</style>

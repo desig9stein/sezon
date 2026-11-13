@@ -56,6 +56,8 @@ export function toProduce(id: string, record: ProduceRecord): Produce {
         : { image: record.photo.src, alt: record.photo.alt, credit: record.photo.credit },
     growing: record.growing === undefined ? undefined : GrowingGuide.create(record.growing),
     organic: record.organic,
+    wild: record.wild,
+    cautions: record.cautions,
   });
 }
 

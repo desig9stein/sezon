@@ -68,7 +68,9 @@ describe('wild produce and cautions schema (spec 055)', () => {
 
   it('AC4: accepts texts of exactly 20 and 200 characters', () => {
     for (const text of ['а'.repeat(20), 'а'.repeat(200)]) {
-      expect(schema.safeParse(withCautions([caution({ text })])).success, text.length).toBe(true);
+      expect(schema.safeParse(withCautions([caution({ text })])).success, String(text.length)).toBe(
+        true,
+      );
     }
   });
 

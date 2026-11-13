@@ -438,6 +438,8 @@ The traditional-uses disclaimer: a `surface` panel with a 4px ultramarine inline
 - **Groups:** „На сергията“, „Яж“ and „Отгледай“ are `h2` groups with a 2px `text` top rule, full container width; their `h3` subsections keep the 42rem reading width.
 - **Level now:** one large stamp (`lg`, tilted −3°, the only tilted stamp in the system) followed by „през <месец>“; out of season it is plain text „Извън сезона през <месец>“ with no stamp.
 - **Farms link:** „На сергията“ ends with an in-page link to the farms section.
+- **Cautions (spec 055):** when a produce has cautions, an `h3` „Внимание“ follows the level line, before „Сезон по месеци“. For wild produce a 600-weight gathering note comes first; then the cautions as one `surface` panel with a 4px `text` inline-start bar (the callout form in stencil ink, not ultramarine, so it is not read as the traditional-uses disclaimer), padding 0.75rem 1rem. Each item is a 1.1em warning-triangle icon in `currentColor` (decorative, `aria-hidden`, 16px attributes so it stays small without CSS), the bold kind label with a colon, the text and the muted `sm` source in parentheses. No red or yellow: stamp red means „Разгар“ and marker yellow the current month. Not a live region. Print: no fill, ink bar and text.
+- **Wild label (spec 055):** „Диворастящ“ as an outlined tag (1px `border`, `radius-sm`, `text`) in the header meta and the card meta row; in the in-season list it is plain text after the kind („ · Диворастящ“).
 
 ## Do's and Don'ts
 

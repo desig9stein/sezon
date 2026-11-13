@@ -1,6 +1,6 @@
 # 055. Wild produce and cautions
 
-- **Status:** Approved
+- **Status:** Implemented
 - **Bounded context(s):** catalog (content model, `Produce`), composition (produce details), UI
   (produce page, produce lists, methodology page), CMS (Keystatic config)
 - **Related:** spec 002 (content model), spec 025 (produce page groups), spec 049 (season-only

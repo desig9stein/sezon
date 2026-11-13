@@ -6,6 +6,7 @@ import { ADSENSE } from '@composition/adsense';
 import FarmList from '@components/produce/FarmList.astro';
 import GrowingGuide from '@components/produce/GrowingGuide.astro';
 import GrowingRegions from '@components/produce/GrowingRegions.astro';
+import ProduceCautions from '@components/produce/ProduceCautions.astro';
 import ProducePhoto from '@components/produce/ProducePhoto.astro';
 import NutritionTable from '@components/produce/NutritionTable.astro';
 import SeasonCalendarList from '@components/produce/SeasonCalendarList.astro';
@@ -87,6 +88,11 @@ const jsonLd = [
           </li>
         )}
         <li>{ui.produceKinds[produce.kind]}</li>
+        {produce.wild && (
+          <li>
+            <span class="produce__wild">{labels.wild.label}</span>
+          </li>
+        )}
         <li>
           {labels.familyLabel}{' '}
           <a href={routes.group(group.slug)}>
@@ -113,6 +119,12 @@ const jsonLd = [
     <section id="stall" class="produce__group produce__wide" aria-labelledby="stall-heading">
       <h2 id="stall-heading">{labels.headings.stall}</h2>
       <ProduceNow produce={produce} month={buildMonth} />
+      {produce.cautions.length > 0 && (
+        <section aria-labelledby="cautions">
+          <h3 id="cautions">{labels.headings.cautions}</h3>
+          <ProduceCautions cautions={produce.cautions} wild={produce.wild} />
+        </section>
+      )}
       <section class="produce__wide" aria-labelledby="season">
         <h3 id="season">{labels.headings.season}</h3>
         <SeasonCalendarList produce={produce} currentMonth={buildMonth} />
@@ -306,6 +318,13 @@ const jsonLd = [
     padding: 0;
     list-style: none;
     color: var(--color-text-muted);
+  }
+
+  .produce__wild {
+    padding: 0 var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
   }
 
   .produce__meta > li > [lang='la'] {

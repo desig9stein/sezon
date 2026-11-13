@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { describe, expect, it, vi } from 'vitest';
-import { Window } from 'happy-dom';
+import { type Element as DomElement, Window } from 'happy-dom';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import type Axe from 'axe-core';
 import ProduceCard from '@components/produce/ProduceCard.astro';
@@ -117,7 +117,7 @@ function windowOf(html: string): Window {
   return window;
 }
 
-const follows = (first: Element | null | undefined, second: Element | null | undefined) =>
+const follows = (first: DomElement | null | undefined, second: DomElement | null | undefined) =>
   first !== null &&
   first !== undefined &&
   second !== null &&
@@ -134,7 +134,7 @@ describe('wild produce page (spec 055)', () => {
     expect(heading?.tagName).toBe('H3');
     expect(heading?.textContent?.trim()).toBe(CAUTIONS_HEADING);
     const stall = wild.getElementById('stall');
-    expect(stall?.contains(heading as unknown as Node)).toBe(true);
+    expect(heading?.closest('#stall')).toBe(stall);
     expect(follows(stall?.querySelector('.produce-now'), heading)).toBe(true);
     expect(follows(heading, wild.getElementById('season'))).toBe(true);
   });

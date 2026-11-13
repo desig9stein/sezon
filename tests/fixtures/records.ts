@@ -55,6 +55,8 @@ export function produceRecord(
     howToChoose: 'Избери плътна и тежка глава с лъскави листа.',
     storage: 'В хладилник до две седмици.',
     faq: [{ question: 'Кога е сезонът на зелето?', answer: 'От септември до ноември.' }],
+    wild: false,
+    cautions: [],
     updatedAt: new Date('2026-11-10'),
     ...overrides,
   };

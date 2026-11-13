@@ -8,7 +8,7 @@ import YearStrip from './YearStrip.astro';
 /**
  * Everything in season in one month as one compact list: peak first, then available, then
  * storage. Each row has the produce link, its year strip and its stamp, then the Latin name and
- * the kind, under a heading with the count.
+ * the kind (and „Диворастящ“ for wild produce, spec 055), under a heading with the count.
  */
 interface Props {
   overview: SeasonOverview;
@@ -44,6 +44,7 @@ const headingId = 'season-list-heading';
                 </>
               )}
               {ui.produceKinds[produce.kind]}
+              {produce.wild && ` · ${ui.produce.wild.label}`}
             </span>
           </li>
         );
