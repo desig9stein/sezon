@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { matchesAllTerms, searchQuery } from '@shared/seo';
+import { matchesAllTerms, matchesHeading, searchQuery } from '@shared/seo';
 
 describe('searchQuery (spec 059)', () => {
   it('AC9: returns no words for an empty or blank query', () => {
@@ -67,5 +67,62 @@ describe('matchesAllTerms (spec 059)', () => {
 
   it('AC9: is true for no terms', () => {
     expect(matchesAllTerms('Ябълки', [])).toBe(true);
+  });
+});
+
+describe('searchQuery, QA 059', () => {
+  it.each([
+    ['ябълки!', ['ябълк']],
+    ['ябълки, круши', ['ябълк', 'круш']],
+    ['"ябълки"', ['ябълк']],
+    ['София-град', ['софи', 'град']],
+    ['Био-ферма', ['био', 'ферм']],
+  ])('QA 059: splits %s on punctuation and hyphens', (raw, words) => {
+    expect(searchQuery(raw)).toEqual(words);
+  });
+
+  it.each([
+    ['ягодата', 'ягод'],
+    ['крушата', 'круш'],
+    ['ябълката', 'ябълк'],
+    ['дюлята', 'дюл'],
+    ['гроздето', 'грозд'],
+    ['зелето', 'зеле'],
+    ['кивито', 'киви'],
+  ])('QA 059: strips the definite form of %s', (raw, stem) => {
+    expect(searchQuery(raw)).toEqual([stem]);
+  });
+
+  it('QA 059: drops Bulgarian stop words', () => {
+    expect(searchQuery('кога се сее пипер')).toEqual(['сеитб', 'пипер']);
+    expect(searchQuery('какво да засадя през март')).toEqual(['засажд', 'март']);
+    expect(searchQuery('за нас')).toEqual(['нас']);
+  });
+
+  it('QA 059: keeps the words when every word is a stop word', () => {
+    expect(searchQuery('как е')).toEqual(['как', 'е']);
+  });
+
+  it('QA 059: keeps the vitamin letter even though „с“ is a stop word', () => {
+    expect(searchQuery('витамин С')).toEqual(['витамин', 'c']);
+  });
+
+  it('QA 059: maps „витамин Ц“ to C', () => {
+    expect(searchQuery('витамин Ц')).toEqual(['витамин', 'c']);
+  });
+
+  it('QA 059: known false positive, „сладко“ also matches „сладки картофи“', () => {
+    expect(searchQuery('сладко')).toEqual(['сладк']);
+    expect(matchesAllTerms('Сладки картофи', searchQuery('сладко'))).toBe(true);
+  });
+});
+
+describe('matchesHeading, QA 059', () => {
+  it('QA 059: matches a whole heading word or one at most two letters longer', () => {
+    expect(matchesHeading('Местни ферми', ['ферм'])).toBe(true);
+    expect(matchesHeading('Рецепти за зимнина', ['рецепт'])).toBe(true);
+    expect(matchesHeading('Зеленчуци', ['зеле'])).toBe(false);
+    expect(matchesHeading('Плодове', ['плод'])).toBe(false);
+    expect(matchesHeading('Плодове', ['плодов'])).toBe(true);
   });
 });

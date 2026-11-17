@@ -55,4 +55,13 @@ describe('SiteFooter (spec 059)', () => {
     expect(now?.current).toBe('page');
     expect(now?.text).toMatch(/\(сега\)$/);
   });
+
+  it('QA 059: links home and the subscription page', async () => {
+    const html = await render(SiteFooter, { path: '/fermi' });
+    const nav = /<nav[^>]*aria-label="За сайта"[^>]*>([\s\S]*?)<\/nav>/.exec(html)?.[1] ?? '';
+    expect(nav).toMatch(/<a[^>]*href="\/"[^>]*>\s*Начало\s*<\/a>/);
+    const follow = /<p[^>]*class="site-footer__follow"[^>]*>([\s\S]*?)<\/p>/.exec(html)?.[1] ?? '';
+    expect(follow).toContain('href="/abonament"');
+    expect(follow).toContain('href="/rss.xml"');
+  });
 });

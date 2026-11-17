@@ -165,6 +165,38 @@ describe('site search (spec 059)', () => {
     expect(parts.status.textContent).toBe('Резултати: 3 за „ферма“.');
   });
 
+  it('QA 059: does not promote a list page whose heading only starts like the query', async () => {
+    const parts = mount();
+    parts.root.dataset.hubType = 'Раздел';
+    const zele: FakeResult & { id: string } = {
+      id: 'zele',
+      url: '/zelenchutsi/zele.html',
+      excerpt: '<mark>Зеле</mark>',
+      content: 'Зеле. Зелето се бере наесен.',
+      meta: { title: 'Зеле', type: 'Зеленчук' },
+    };
+    const section = {
+      ...zele,
+      id: 'zelenchutsi',
+      url: '/zelenchutsi.html',
+      content: 'Зеленчуци',
+      meta: { title: 'Зеленчуци', type: 'Раздел' },
+    };
+    const api = {
+      init: async () => undefined,
+      search: vi.fn(async (...args: [string, { filters?: Record<string, string> }?]) => ({
+        results: (args[1]?.filters === undefined ? [zele, section] : [section]).map((result) => ({
+          id: result.id,
+          data: async () => result,
+        })),
+      })),
+    };
+    initSiteSearch(parts.root, async () => api);
+    await submit(parts, 'зеле');
+    const hrefs = [...parts.list.querySelectorAll('a')].map((link) => link.getAttribute('href'));
+    expect(hrefs).toEqual(['/zelenchutsi/zele', '/zelenchutsi']);
+  });
+
   it('AC14: a new query resets the list and hides „Покажи още“ when everything is shown', async () => {
     const parts = mount();
     const many = Array.from({ length: 12 }, (_, index) => page(index + 1));

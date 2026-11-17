@@ -1,3 +1,5 @@
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { expect, test, type Page } from '@playwright/test';
 import { expectNoAxeViolations } from './a11y';
 
@@ -127,5 +129,34 @@ test.describe('search findability (spec 059)', () => {
     expect((await resultLinks(page)).length).toBeGreaterThan(10);
     await expect(page.getByRole('status')).toContainText(/Показани са \d+ от \d+\./);
     await expectNoAxeViolations(page);
+  });
+
+  for (const [query, first] of [
+    ['ябълката', '/plodove/yabalki'],
+    ['кога се сее пипер', '/zelenchutsi/piper'],
+    ['какво да засадя през март', '/sezon/mart'],
+    ['за нас', '/za-nas'],
+    ['зеле', '/zelenchutsi/zele'],
+    ['"ябълки"', '/plodove/yabalki'],
+    ['София-град', '/regioni/sofia-grad'],
+  ] as const) {
+    test(`QA 059: „${query}“ lists ${first} first`, async ({ page }) => {
+      await searchFor(page, query);
+      expect((await resultLinks(page))[0]).toBe(first);
+    });
+  }
+
+  test('QA 059: „ферма“ finds the farm list and the farm pages, not every page with a farm label', async ({
+    page,
+  }) => {
+    await searchFor(page, 'ферма');
+    const count = Number(
+      /Резултати: (\d+)/.exec((await page.getByRole('status').textContent()) ?? '')?.[1],
+    );
+    const farmPages = readdirSync(join(process.cwd(), 'src', 'data', 'farms')).filter((file) =>
+      file.endsWith('.yaml'),
+    ).length;
+    expect(count).toBeGreaterThanOrEqual(farmPages);
+    expect(count).toBeLessThanOrEqual(farmPages + 10);
   });
 });
