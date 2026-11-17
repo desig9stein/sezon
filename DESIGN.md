@@ -302,7 +302,7 @@ Both are self-hosted through the Astro Fonts API (`fontProviders.local()`) as WO
 - **Container:** one centred column, `min(100% − 2rem, 72rem)`. Header, breadcrumbs, main and footer all use it; there is no sidebar.
 - **Reading width:** 42rem for prose, ledes, the home intro, search and the footer disclaimer. Tables, calendars and the in-season list opt out.
 - **Spacing rhythm:** a rem scale of steps 1, 2, 3, 4, 6, 8, 12, 16 (0.25–4rem). Within a block 0.25–0.75rem; between sections 1.5–2rem; before group headings, the month pager and the home links 3rem; before the footer 4rem.
-- **Home (`/`):** a compact two-line `h1` (margins 0.75rem above, 0.5rem below), then the in-season list „Всичко в сезон (N)“, the legend, the muted intro, the coming-soon index rows with year strips, and a wrapping row of links (this month, next month, calendar). No photos and no hero ribbon: the list starts on the first screen.
+- **Home (`/`):** a compact two-line `h1` (margins 0.75rem above, 0.5rem below), then a `sm` row of month links („← Октомври“, „Декември →“, „Всички месеци“ to the footer strip, spec 059), the muted intro, the legend, the in-season list „Всичко в сезон (N)“, the coming-soon index rows with year strips, and a wrapping row of links (this month, next month, calendar). No photos and no hero ribbon: the first rows of the list are on the first screen of a phone, after the legend that explains their stamps.
 - **Month pages (`/sezon/<месец>`):** `h1`, the in-season list „В сезон през <месец> (N)“, the legend, the „what changes“ block, coming-soon rows with year strips, then the month pager.
 - **In-season list:** a 2px `text` rule on top, then rows on 1px `rule` hairlines with 0.25rem block padding. Each row is a grid `minmax(0, 1fr) auto 7rem` with a 0.75rem column gap: name, year strip, stamp (end-aligned in a fixed 7rem column so stamps line up), then the meta line (Latin name · kind) across the full row. Below 23rem the row becomes two columns: name and stamp on line 1, meta and strip on line 2. From 48rem the rows flow into two columns with a 2rem gap.
 - **Grids:** produce plates (section and group pages) use `auto-fill, minmax(min(100%, 20rem), 1fr)` with a 1rem gap; farm cards the same at 18rem. Index lists are one column, two from 40rem. The footer's month links are 3, 4, 6 or 12 equal columns (see Components).
@@ -369,7 +369,7 @@ A `figure` on `surface` with a 0.75rem mat and `radius-sm` on frame and image; t
 
 ### Season calendar
 
-- **Calendar table (`/kalendar`):** a full-year table in `ScrollTable` with a legend above. The current-month column header is filled ultramarine. Level cells take the level fill (stamp red with `on-peak`, or a wash with `on-badge`) with a `LevelMark`; out-of-season cells are `text-muted`.
+- **Calendar table (`/kalendar`):** a legend, a „На тази страница“ row of links to the kinds, then one section per kind with an `h2` (the kind, linked to its section) and its own full-year table in `ScrollTable`; the tables use fixed layout with a 10rem name column so they line up (spec 059). The current-month column header is filled ultramarine. Level cells take the level fill (stamp red with `on-peak`, or a wash with `on-badge`) with a `LevelMark`; out-of-season cells are `text-muted`.
 - **Produce calendar list:** 12 linked tiles (at least 2.75rem) with 2px gaps: underlined month abbreviation, mark, `sm` level label. Out-of-season tiles use `surface`. The current month gets the inset ultramarine ring and weight 700.
 - **Garden row (spec 026):** under the produce calendar, when the growing guide names a month: a bold label „В градината“, then 12 unlinked cells on the same grid (12, 6 or 4 columns) with the month abbreviation and the activities („Сеитба“, „Разсаждане“, „Засаждане“) or a dash. Active cells take the `available` wash with `on-badge` text and a bold activity; never a frame, which means the current month one row above. Print: ink outlines, no wash.
 
@@ -385,7 +385,7 @@ Under „Откъде“ on produce pages, and on the region pages (spec 029): a
 
 ### Farm pages (spec 030)
 
-`/fermi` shows the `h1`, an intro and „Всички ферми (N)“, with the farm cards grouped organic first when any farm is certified. A farm card's name is a link to its page. A farm page is a single reading column:
+`/fermi` shows the `h1`, an intro, a „Ферми по области“ row of 600-weight jump links („Пловдив (3)“), then one section per province in alphabetical order: an `h2` with the `.section-heading` rule, a link to the region page and the farm cards (spec 059). A farm card's name is a link to its page; its province comes first in the meta line, in `text` at 600. A farm page is a single reading column:
 
 - the `h1`;
 - a muted meta row: the province as a link, plus outlined `border` tags for organic (with the certifier) and sponsored;
@@ -408,7 +408,7 @@ A `surface` card, `radius-sm`, padding 1rem, in an 18rem auto-fill grid: name, a
 
 ### Search
 
-A no-JS form capped at the reading width: bold label, muted hint, then a wrapping row of input and button. The input has a 1px `border`, `background` fill, `radius-sm`, min-height 2.75rem. The button is solid ultramarine with `accent-text`, weight 600. Results have muted snippets with matched terms on the blue wash, followed by a browse list.
+A no-JS form capped at the reading width: bold label, muted hint, then a wrapping row of input and button. The input has a 1px `border`, `background` fill, `radius-sm`, min-height 2.75rem. The button is solid ultramarine with `accent-text`, weight 600. Each result is the page type as a muted `sm` 600 line („Ферма“, „Рецепта“, „Месец“ …), the title link at `lg` 700 and a muted snippet with matched terms on the blue wash; „Покажи още“ (the same button style) adds ten more. A browse list follows.
 
 ### Data tables
 
@@ -418,11 +418,11 @@ A no-JS form capped at the reading width: bold label, muted hint, then a wrappin
 
 ### Navigation
 
-- **Header (spec 023):** a `shell` bar with `on-shell` text: the logo "Сезон" in upright condensed capitals at `xl` (800, tracking 0.06em) and four links (600): Сега, Каталог, Календар, Търсене. Links are 44px tall; the current page has a 3px `focus-on-shell` underline, the area containing the page (Каталог for sections, produce, groups and nutrients; Календар for month pages) a dotted one. Focus rings on the shell use `focus-on-shell`. Logo and links share one row from about 380px; below, the nav wraps under the logo.
+- **Header (specs 023, 059):** a `shell` bar with `on-shell` text: the logo "Сезон" in upright condensed capitals at `xl` (800, tracking 0.06em), which is the link to the home page, and five links (600): Каталог, Календар, Ферми, Рецепти, Търсене. Links are 44px tall; the current page has a 3px `focus-on-shell` underline (the logo on the home page), the area containing the page (Каталог for sections, produce, groups, nutrients and regions; Календар for month pages; Ферми and Рецепти for their pages) a dotted one. Focus rings on the shell use `focus-on-shell`. From 40rem logo and links share one row; below, the links take their own full-width row under the logo at `sm`, spread across it (one row from about 350px).
 - **Skip link:** a `surface` box with a `text` border and text, shown on focus over the shell with a `focus-on-shell` ring.
 - **Catalogue page (`/katalog`):** section cards on `shell` with `on-shell` text and a `border` edge (condensed capitals name, count below), then chip links for the botanical families (with counts) and the nutrients.
 - **Breadcrumbs:** `sm` muted trail with "/" separators.
-- **Footer:** `surface` band with a top `rule`. First the month links: 12 bordered cells (`border` edge, `background` fill, `text`), 3 per row, 4 from 23rem, 6 from 36rem, 12 from 64rem; the build month is `marker` with `on-marker` text, a `text` border and `aria-current="date"`; a focused cell rises above its neighbours so its ring shows. Then the calendar link, the disclaimer and the copyright in muted `sm`.
+- **Footer:** `surface` band with a top `rule`. First the month links (`id="mesetsi"`): 12 bordered cells (`border` edge, `background` fill, `text`), 3 per row, 4 from 23rem, 6 from 36rem, 12 from 64rem; the build month is `marker` with `on-marker` text, a `text` border, `aria-current="date"` and the word „(сега)“; on a month page that month has a 2px `text` border, weight 700 and `aria-current="page"` (spec 059); a focused cell rises above its neighbours so its ring shows. Then the links (calendar, farms, recipes, regions, about, methodology, adding a farm, advertising, privacy, cookies, error reports), the „Следи сезона:“ line with the RSS link, the disclaimer and the copyright in muted `sm`.
 
 ### Links and focus
 
