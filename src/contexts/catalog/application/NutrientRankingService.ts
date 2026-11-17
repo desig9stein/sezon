@@ -9,7 +9,7 @@ export interface NutrientRankingEntry {
   readonly produce: Produce;
   readonly amount: number;
   readonly percentOfReferenceIntake: number;
-  readonly claimLevel: ClaimLevel | undefined;
+  readonly claimLevel: ClaimLevel;
   readonly seasonLevel: SeasonLevel | undefined;
 }
 
@@ -50,13 +50,15 @@ export class NutrientRankingService {
         const amount = produce.nutrition?.micronutrients.find(
           (micronutrient) => micronutrient.nutrientSlug === slug,
         )?.amount;
-        if (amount === undefined || nutrient.claimLevel(amount) === undefined) return [];
+        if (amount === undefined) return [];
+        const claimLevel = nutrient.claimLevel(amount);
+        if (claimLevel === undefined) return [];
         return [
           Object.freeze({
             produce,
             amount,
             percentOfReferenceIntake: nutrient.percentOfReferenceIntake(amount),
-            claimLevel: nutrient.claimLevel(amount),
+            claimLevel,
             seasonLevel: produce.levelIn(month),
           }),
         ];

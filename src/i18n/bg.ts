@@ -873,13 +873,13 @@ export const ui = {
       high: (name: string) => `Високо съдържание на ${inSentence(name)}`,
       source: (name: string) => `Източник на ${inSentence(name)}`,
     },
-    noClaim: 'под прага за претенция',
     labelSeparator: DASH_SEPARATOR,
     balancedDiet:
       'Важно е храненето да е разнообразно и балансирано, както и да се води здравословен начин на живот.',
     quantityNote:
       'Количествата са на 100 г сурова ядлива част. Претенцията „Източник на“ изисква поне 15 %, а „Високо съдържание на“ – поне 30 % от референтния прием на 100 г.',
-    empty: (name: string) => `Все още няма продукти с данни за ${inSentence(name)}.`,
+    empty: (name: string) =>
+      `Нито един продукт не достига 15 % от референтния прием на ${inSentence(name)} на 100 г.`,
     sourcePrefix: 'Източник:',
     source: {
       name: 'USDA FoodData Central, SR Legacy',
@@ -1131,9 +1131,16 @@ export const ui = {
         toMetres === undefined
           ? `от ${fromMetres} м нагоре`
           : `${fromMetres}${DASH_RANGE}${toMetres} м`,
+      range: (fromMetres: number, toMetres: number | undefined) => {
+        if (fromMetres === 0 && toMetres !== undefined) return `до ${toMetres} м`;
+        return toMetres === undefined
+          ? `над ${fromMetres} м`
+          : `${fromMetres}${DASH_RANGE}${toMetres} м`;
+      },
+      bandShort: (range: string, minutes: number) => `${range} (${formatDuration(minutes)})`,
       spanning: (town: string, group: string, bands: ReadonlyArray<string>) =>
-        `${town} (${group}) попада в ${bands.join(' и в ')}: провери точната височина на мястото, където вариш.`,
-      note: 'Височината е групата, в която НСИ води града; части от града може да са по-високо или по-ниско.',
+        `${town} (${group}) попада в ${bands.join(' и в ')}, затова провери точната височина на мястото, където вариш.`,
+      note: 'Височината е групата, в която НСИ води града; части от града може да са по-високо или по-ниско. Ако не знаеш височината си, провери надморската височина на мястото, където вариш.',
       sourcePrefix: 'Източник:',
     },
     headings: {

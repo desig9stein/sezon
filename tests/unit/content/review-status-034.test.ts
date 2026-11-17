@@ -43,17 +43,19 @@ describe('no review status (spec 034)', () => {
     expect(Object.keys(ui.methodology)).not.toContain('review');
   });
 
-  it('AC5: leek no longer cites gradinata.bg and grows by Wikipedia alone', () => {
+  it('AC5 (amended by QA 061): leek cites neither gradinata.bg nor Wikipedia for growing', () => {
     const leek = parse(readFileSync(join(PRODUCE_DIR, 'praz.yaml'), 'utf8')) as ProduceFile;
     expect(leek.growing?.transplant).toEqual([]);
-    expect(leek.growing?.sources.map((source) => source.url)).toEqual([LEEK_WIKIPEDIA]);
+    const urls = leek.growing?.sources.map((source) => source.url) ?? [];
+    expect(urls).not.toContain(LEEK_WIKIPEDIA);
+    expect(urls.every((url) => url.startsWith('https://www.bgfermer.bg/'))).toBe(true);
   });
 
   it('QA 034: leek shows the date of its growing-guide change', () => {
     const leek = parse(readFileSync(join(PRODUCE_DIR, 'praz.yaml'), 'utf8')) as {
       updatedAt: string;
     };
-    expect(String(leek.updatedAt)).toBe('2026-11-12');
+    expect(String(leek.updatedAt)).toBe('2026-11-17');
   });
 
   it('QA 034: the checklist marks every produce whose growing guide still cites gradinata.bg', () => {

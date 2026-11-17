@@ -35,9 +35,8 @@ nutrition:
   sugarsG: 2.63
   micronutrients:
     - { nutrient: vitamin-c, amount: 13.7 }
-    - { nutrient: vitamin-a, amount: 42 }
-    - { nutrient: vitamin-k, amount: 7.9 }
     - { nutrient: kaliy, amount: 237 }
+    - { nutrient: vitamin-k, amount: 7.9 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Tomatoes, red, ripe, raw, year round average'
     url: https://fdc.nal.usda.gov/food-details/170457/nutrients

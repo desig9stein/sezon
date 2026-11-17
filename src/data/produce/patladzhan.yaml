@@ -29,10 +29,9 @@ nutrition:
   fiberG: 3
   sugarsG: 3.53
   micronutrients:
+    - { nutrient: mangan, amount: 0.232 }
     - { nutrient: kaliy, amount: 229 }
     - { nutrient: folat, amount: 22 }
-    - { nutrient: mangan, amount: 0.232 }
-    - { nutrient: vitamin-k, amount: 3.5 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Eggplant, raw'
     url: https://fdc.nal.usda.gov/food-details/169228/nutrients

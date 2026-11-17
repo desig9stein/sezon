@@ -189,8 +189,8 @@ band exists. A band with no town shows no town list.
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `cheren-baz` | Summary: „Черният бъз (свирчовина) цъфти в края на пролетта, а плодовете се берат през август – от средата на месеца. Зелените плодчета не се берат.“                                                                                 | Български фермер 7636932: „Периодът от средата на август е много подходящ за добив на плод“; „Цъфтят в края на пролетта.“                                                                                                                                                                                                                                                                     |
 | `cheren-baz` | `look-alike` (reworded): „Не го бъркай с бъзака (Sambucus ebulus): той е тревисто растение до 2 м и цъфти през юни–юли, а черният бъз е дърво до 3–5 м, цъфтящо в края на пролетта.“                                                  | Български фермер 7636932: „Sambucus ebulus е познат като бъзак, бъзвуняк, бъзе, бъзей, тревист бъз и др.“ plus the quotes of spec 057.                                                                                                                                                                                                                                                        |
-| `cheren-baz` | New `look-alike`: „Бъзакът (Sambucus ebulus) е отровно растение – заради токсичността му употребата му като храна е ограничена.“                                                                                                      | Jiménez P, Tejero J, Cordoba-Diaz D, Quinto EJ, Garrosa M, Gayoso MJ, Girbés T. „Ebulin from dwarf elder (Sambucus ebulus L.): a mini-review.“ Toxins 2015;7(3):648–658, doi 10.3390/toxins7030648 (PMID 25723322, PMC4379516): „Sambucus ebulus L. (dwarf elder) is a medicinal plant, the usefulness of which also as food is restricted due to its toxicity.“; „since the plant is toxic“. |
-| `tuchenitsa` | New `look-alike`: „Тученицата прилича на стелещите се млечки (Euphorbia maculata): млечката пуска бял млечен сок, щом счупиш стъбло или лист, и не е месеста като тученицата.“                                                        | Penn State Extension, „Purslane“ (updated September 11, 2025, https://extension.psu.edu/purslane): „The prostrate nature of purslane is similar to knotweed and spotted spurge, but there are distinct differences. Spurge produces a milky sap when a stem or leaf is broken. … Neither spurge nor knotweed is succulent like purslane.“                                                     |
+| `cheren-baz` | New `look-alike`: „Бъзакът (Sambucus ebulus) е отровно растение.“                                                                                                                                                                     | Jiménez P, Tejero J, Cordoba-Diaz D, Quinto EJ, Garrosa M, Gayoso MJ, Girbés T. „Ebulin from dwarf elder (Sambucus ebulus L.): a mini-review.“ Toxins 2015;7(3):648–658, doi 10.3390/toxins7030648 (PMID 25723322, PMC4379516): „Sambucus ebulus L. (dwarf elder) is a medicinal plant, the usefulness of which also as food is restricted due to its toxicity.“; „since the plant is toxic“. |
+| `tuchenitsa` | New `look-alike`: „Тученицата прилича на стелещите се млечки (Euphorbia): млечката пуска млечен сок, щом счупиш стъбло или лист, и не е месеста като тученицата.“                                                                     | Penn State Extension, „Purslane“ (updated September 11, 2025, https://extension.psu.edu/purslane): „The prostrate nature of purslane is similar to knotweed and spotted spurge, but there are distinct differences. Spurge produces a milky sap when a stem or leaf is broken. … Neither spurge nor knotweed is succulent like purslane.“                                                     |
 | `rigan`      | `protected` (ЗЛР, reworded): „Белият и обикновеният риган са в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 2 кг стръкове на ден, а за търговия ти трябва позволително.“                               | ЗЛР (FAOLEX copy) Приложение към чл. 1, ал. 2: „Риган бял Origanum vulgare L. ssp. hirtum (Link.) Jetswaart (O. heracleoticum L.) Lamiaceae“, „Риган обикновен Origanum vulgare L. Lamiaceae“; § 1, т. 18, б) „стръкове - до 2 кг“.                                                                                                                                                           |
 | `rigan`      | `protected` (order, reworded): „През 2026 г. заповед на МОСВ забранява брането на бял риган (Origanum vulgare ssp. hirtum) от природата освен за лични нужди – до 2 кг стръкове на ден. Ако не знаеш кой риган е, бери само толкова.“ | Заповед № РД-178/2026, т. II.4 „Събирането на билки от естествените им находища на територията на цялата страна от следните видове лечебни растения: … – Риган бял (Origanum vulgare L. ssp. Hirtum (Link) Ietswaart);“; т. II.5 „Ограниченията и забраните по настоящата заповед не се отнасят за количествата билки, събирани за лични нужди …“ (spec 057).                                 |
 
@@ -259,7 +259,7 @@ become „… сред районите в страната“, so the superlati
 | ------------- | -------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `domati`      | 2, 3           | –          | Български фермер „Календар на сеитбите“ (9378131): „около 10-и февруари се засява разсадът за ранно полско производство на домати“, „През първата половина на месеца … се засява разсадът за средноранните домати.“         |
 | `piper`       | 1, 2, 3        | –          | Same: „се извършва сеитбата на разсада за ранно полско производство на пипер“, „се засява разсадът за ранен полски пипер“, „се засява и средноранният пипер“.                                                               |
-| `tselina`     | 3              | –          | Български фермер 7466953: „Целината се отглежда основно чрез разсад.“; 9670112: „Целината се отглежда чрез предварително произведен разсад.“                                                                                |
+| `tselina`     | 3              | –          | Български фермер 7466953: „Целината се отглежда основно чрез разсад.“; 9230195 (a source of the produce): „Отглежда се чрез разсад, който се получава в парници или в открити лехи.“                                        |
 | `krastavitsi` | 3              | 4, 6, 7    | Its note: „Разсада сей в края на март; директно в лехата – от втората половина на април, а за късна реколта – от края на юни до началото на юли.“; „Календар на сеитбите“: „се засява разсадът за краставици … на открито“. |
 | `brokoli`     | 6              | –          | Its note: „Сей разсада през първата половина на юни …“                                                                                                                                                                      |
 | `karfiol`     | 5, 6, 7        | –          | Its note: „… сей разсада от края на май до края на юли …“                                                                                                                                                                   |
@@ -366,7 +366,7 @@ BG-BIO-18.100-0004936.2026.001“ and links there. When the certificate has expi
 | Penn State Extension „Purslane“       | 2025-09-11     | https://extension.psu.edu/purslane                                                                 | spurge look-alike                       |
 | Закон за лечебните растения           | FAOLEX copy    | https://faolex.fao.org/docs/pdf/bul40297.pdf                                                       | oregano, бъзак names                    |
 | European Commission „Organic farming“ | 2026-11-17     | https://agriculture.ec.europa.eu/farming/organic-farming_en                                        | TRACES list of organic operators        |
-| Български фермер                      | as dated       | https://www.bgfermer.bg/Article/9378131, /7466953, /9670112, /article/7636932                      | sowing seedlings, бъзак name            |
+| Български фермер                      | as dated       | https://www.bgfermer.bg/Article/9378131, /7466953, /article/9230195, /article/7636932              | sowing seedlings, бъзак name            |
 
 ## 11. QA
 
@@ -377,3 +377,30 @@ expectations this spec changes were updated and name spec 061: the ranking no lo
 below 15 % (spec 011 tables), dandelion now lists copper (QA 057), the elder summary wording (spec
 058 AC9), the transplant label „Разсаждане навън“, the NUTS2 note wording (specs 040, 052) and
 pepper and aubergine January sowing as seedlings (QA 041).
+
+### QA findings (fixed)
+
+- Caution sources: the content guide now accepts a university extension publication only after the
+  spec records the PubMed and poison-centre search, and ranks it above the press fallback.
+- Purslane: the caution names the genus („стелещите се млечки (Euphorbia)“) and „млечен сок“, as
+  Penn State does, without „бял“.
+- Бъзак: the caution ends at „Бъзакът (Sambucus ebulus) е отровно растение.“, the review's „since the
+  plant is toxic“.
+- Altitude note: NCHFP „Ensuring Safe Canned Foods“ says „select the proper processing time … for
+  the elevation where you live. If you do not know the elevation, contact your local county
+  Extension agent.“ It does not say to use the longer time, so the note says to check the altitude
+  of the place („провери надморската височина на мястото, където вариш“). The spanning-town
+  sentence no longer chains colons.
+- Rankings: the unreachable „под прага“ branch is gone (`claimLevel` is always set); the empty text
+  says no produce reaches 15 %.
+- Leek: its growing guide cited Wikipedia. It now cites Български фермер 8004865 („Празът се сее
+  рано напролет. … Семената за отглеждане на разсад се засяват разпръснато от началото до края на
+  март.“, „на редове - с междуредово разстояние около 15 см … една част от растенията могат да
+  останат … а другите - ще бъдат преместени.“, „редовно плевене и поливане“), 14275035 („семената на
+  праза поникват много бавно“) and 14534686 („празът се отглежда на плодородни почви, торени с
+  минерални и органични торове“, weeds compete „за вода, храна, светлина“). April sowing, the
+  watering months, the transplant size, the thinning distance and the harvest months had no such
+  source and were dropped.
+- Micronutrients: every USDA produce now lists exactly the spec 043 selection: all mapped
+  micronutrients at ≥ 15 % (chestnut manganese excepted), or the three highest when fewer reach
+  15 %, highest share first, ties by slug. 25 older lists were normalised (fillers, counts, order).

@@ -21,11 +21,11 @@ nutrition:
   fiberG: 2.9
   micronutrients:
     - { nutrient: vitamin-c, amount: 48 }
-    - { nutrient: vitamin-a, amount: 200 }
     - { nutrient: magneziy, amount: 103 }
+    - { nutrient: vitamin-a, amount: 200 }
     - { nutrient: kaliy, amount: 390 }
-    - { nutrient: zhelyazo, amount: 2.4 }
     - { nutrient: mangan, amount: 0.349 }
+    - { nutrient: zhelyazo, amount: 2.4 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Dock, raw'
     url: https://fdc.nal.usda.gov/food-details/170076/nutrients

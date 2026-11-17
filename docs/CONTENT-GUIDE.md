@@ -250,6 +250,9 @@ cautions: # optional; required (at least one) when wild is true
 - Every caution has its own `source` (https): the act or order, an official document (for example
   an ИАГ forest management plan), a poison centre or a scientific publication (search PubMed first).
   Wikipedia is not a source.
+- A university extension publication (a `.edu` extension service) is accepted only after the spec
+  records the PubMed and poison-centre search that came first and found nothing; it ranks above the
+  press fallback below (spec 061, purslane).
 - An editorial Bulgarian farming article (bgfermer.bg, agrozona.bg) is accepted only as a fallback,
   and the spec records the search for official, poison-centre and scientific sources that came
   first. The article must state the fact about this species and about people (not about livestock

@@ -42,8 +42,15 @@ const bandLines = sorted.bands
       band.towns.map((town) => town.name),
     ),
   );
+/** Labels a band without a colon, for a sentence: „300–900 м (30 мин)“. */
+const bandInSentence = (band: AltitudeBand): string =>
+  labels.bandShort(labels.range(band.fromMetres, band.toMetres), band.minutes);
 const spanningLines = sorted.spanning.map(({ town, bands }) =>
-  labels.spanning(town.name, labels.group(town.fromMetres, town.toMetres), bands.map(bandLabel)),
+  labels.spanning(
+    town.name,
+    labels.group(town.fromMetres, town.toMetres),
+    bands.map(bandInSentence),
+  ),
 );
 ---
 

@@ -33,6 +33,7 @@ nutrition:
   micronutrients:
     - { nutrient: vitamin-c, amount: 18 }
     - { nutrient: kaliy, amount: 228 }
+    - { nutrient: folat, amount: 19 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Melons, honeydew, raw'
     url: https://fdc.nal.usda.gov/food-details/169911/nutrients

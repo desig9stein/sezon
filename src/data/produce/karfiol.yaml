@@ -18,9 +18,8 @@ nutrition:
   sugarsG: 1.91
   micronutrients:
     - { nutrient: vitamin-c, amount: 48.2 }
-    - { nutrient: vitamin-k, amount: 15.5 }
     - { nutrient: folat, amount: 57 }
-    - { nutrient: kaliy, amount: 299 }
+    - { nutrient: vitamin-k, amount: 15.5 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Cauliflower, raw'
     url: https://fdc.nal.usda.gov/food-details/169986/nutrients

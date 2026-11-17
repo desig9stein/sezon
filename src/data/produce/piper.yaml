@@ -33,7 +33,6 @@ nutrition:
   sugarsG: 2.4
   micronutrients:
     - { nutrient: vitamin-c, amount: 80.4 }
-    - { nutrient: vitamin-a, amount: 18 }
     - { nutrient: vitamin-k, amount: 7.4 }
     - { nutrient: kaliy, amount: 175 }
   source:

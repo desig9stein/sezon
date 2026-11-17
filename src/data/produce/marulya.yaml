@@ -22,8 +22,8 @@ nutrition:
   sugarsG: 1.19
   micronutrients:
     - { nutrient: vitamin-k, amount: 102.5 }
-    - { nutrient: vitamin-a, amount: 436 }
     - { nutrient: folat, amount: 136 }
+    - { nutrient: vitamin-a, amount: 436 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Lettuce, cos or romaine, raw'
     url: https://fdc.nal.usda.gov/food-details/169247/nutrients

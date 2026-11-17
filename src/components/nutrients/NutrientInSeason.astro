@@ -19,8 +19,7 @@ const labels = ui.nutrients;
       {ranking.inSeason.map((entry) => (
         <li>
           <a href={routes.produce(entry.produce)}>{entry.produce.name}</a>
-          {entry.claimLevel !== undefined &&
-            `${labels.labelSeparator}${labels.claimLabels[entry.claimLevel](ranking.nutrient.name)}`}
+          {`${labels.labelSeparator}${labels.claimLabels[entry.claimLevel](ranking.nutrient.name)}`}
         </li>
       ))}
     </ul>

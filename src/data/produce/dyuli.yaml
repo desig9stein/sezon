@@ -25,6 +25,7 @@ nutrition:
   fiberG: 1.9
   micronutrients:
     - { nutrient: vitamin-c, amount: 15 }
+    - { nutrient: med-cu, amount: 0.13 }
     - { nutrient: kaliy, amount: 197 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Quinces, raw'

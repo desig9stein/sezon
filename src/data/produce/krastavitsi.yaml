@@ -44,7 +44,7 @@ nutrition:
   micronutrients:
     - { nutrient: vitamin-k, amount: 16.4 }
     - { nutrient: kaliy, amount: 147 }
-    - { nutrient: vitamin-c, amount: 2.8 }
+    - { nutrient: med-cu, amount: 0.041 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Cucumber, with peel, raw'
     url: https://fdc.nal.usda.gov/food-details/168409/nutrients

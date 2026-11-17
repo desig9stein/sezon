@@ -19,8 +19,8 @@ nutrition:
   fiberG: 2.6
   sugarsG: 1.7
   micronutrients:
-    - { nutrient: vitamin-c, amount: 89.2 }
     - { nutrient: vitamin-k, amount: 101.6 }
+    - { nutrient: vitamin-c, amount: 89.2 }
     - { nutrient: folat, amount: 63 }
     - { nutrient: kaliy, amount: 316 }
   source:

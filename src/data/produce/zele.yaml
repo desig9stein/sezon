@@ -40,10 +40,9 @@ nutrition:
   fiberG: 2.5
   sugarsG: 3.2
   micronutrients:
-    - { nutrient: vitamin-c, amount: 36.6 }
     - { nutrient: vitamin-k, amount: 76 }
+    - { nutrient: vitamin-c, amount: 36.6 }
     - { nutrient: folat, amount: 43 }
-    - { nutrient: kaliy, amount: 170 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Cabbage, raw'
     url: https://fdc.nal.usda.gov/food-details/169975/nutrients
