@@ -100,7 +100,8 @@ home page contradiction („Няма данни за този месец.“ und
      credit, the „this month“ line, the month-by-month calendar, the farm list, the sources and the
      ad slot, the „Местни ферми, които го продават“ link and the caution sources. Farm cards (on any
      page) ignore their description and contacts; farm lists ignore the „add your farm“ link and the
-     empty text; region pages ignore their intro and farm section; recipe pages their sources. So
+     empty text; region pages ignore their intro and farm section; recipe pages their sources; every `SourceLink` (spec 060) carries
+     `data-pagefind-ignore`, so cited titles never match a query or fill a snippet. So
      „ферма“ finds the farm list, the farm pages and a few pages that discuss farms (56 of 256).
    - **Query normalisation** (`searchQuery`, pure function), applied before Pagefind:
      - lower case, words are runs of letters and digits, so punctuation, quotes and hyphens
