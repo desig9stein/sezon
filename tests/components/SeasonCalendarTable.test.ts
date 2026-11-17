@@ -32,14 +32,15 @@ describe('SeasonCalendarTable', () => {
       currentMonth: Month.of(11),
     });
 
-    expect(html).toMatch(/<caption[^>]*>[^<]+<\/caption>/);
-    expect(html.match(/<th[^>]*scope="col"/g)).toHaveLength(13);
-    expect(html.match(/aria-current="date"/g)).toHaveLength(1);
+    expect(html.match(/<caption[^>]*>[^<]+<\/caption>/g)).toHaveLength(2);
+    expect(html.match(/<th[^>]*scope="col"/g)).toHaveLength(26);
+    expect(html.match(/aria-current="date"/g)).toHaveLength(2);
     expect(html).toMatch(/<th[^>]*aria-current="date"[^>]*>[\s\S]*?Ное</);
     expect(html.match(/<tbody/g)).toHaveLength(2);
     expect(html).toMatch(
-      /<th[^>]*scope="rowgroup"[^>]*colspan="13"[^>]*>\s*<a href="\/plodove"[^>]*>Плодове<\/a>/,
+      /<h2[^>]*id="kalendar-plodove"[^>]*>\s*<a href="\/plodove"[^>]*>Плодове<\/a>/,
     );
+    expect(html).toMatch(/<caption[^>]*>Плодове по месеци<\/caption>/);
     expect(html).toMatch(
       /<th[^>]*scope="row"[^>]*>\s*<a href="\/zelenchutsi\/zele"[^>]*>Зеле<\/a>/,
     );

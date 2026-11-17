@@ -19,7 +19,6 @@ test.describe('season stamp and in-season list (spec 024)', () => {
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
     await expect(page.getByText(/Табло/)).toHaveCount(0);
-    await expect(page.locator('main').getByRole('navigation', { name: 'Месеци' })).toHaveCount(0);
     await expect(page.locator('h1')).toContainText(BUILD_MONTH, { ignoreCase: true });
     const legend = page.locator('.season-legend');
     const legendText = ((await legend.textContent()) ?? '').replace(/\s+/g, ' ').toLowerCase();

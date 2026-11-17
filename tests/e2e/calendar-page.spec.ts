@@ -64,16 +64,19 @@ test.describe('calendar page', () => {
     expect(new Set(rowBreaks)).toEqual(new Set(['avoid']));
   });
 
-  test('QA 043: a printed calendar repeats its month header and keeps each kind heading with its rows', async ({
+  test('QA 043 (amended by spec 059): a printed calendar repeats its month header and keeps each kind heading with its rows', async ({
     page,
   }) => {
     await page.goto('/kalendar');
     await page.emulateMedia({ media: 'print' });
-    await expect(page.locator('.year thead')).toHaveCSS('display', 'table-header-group');
-    const headingRows = page.locator('.year tbody tr:has(th[scope="rowgroup"])');
-    expect(await headingRows.count()).toBeGreaterThan(0);
-    const breaks = await headingRows.evaluateAll((rows) =>
-      rows.map((row) => getComputedStyle(row).breakAfter),
+    const heads = await page
+      .locator('.year thead')
+      .evaluateAll((elements) => elements.map((element) => getComputedStyle(element).display));
+    expect(new Set(heads)).toEqual(new Set(['table-header-group']));
+    const headings = page.locator('.calendar-kind > h2');
+    expect(await headings.count()).toBe(4);
+    const breaks = await headings.evaluateAll((elements) =>
+      elements.map((element) => getComputedStyle(element).breakAfter),
     );
     expect(new Set(breaks)).toEqual(new Set(['avoid']));
   });
@@ -85,7 +88,7 @@ test.describe('calendar page', () => {
       [
         document.querySelector('.calendar-legend li'),
         document.querySelector('th[scope="row"] a'),
-        document.querySelector('th[scope="rowgroup"] a'),
+        document.querySelector('.calendar-kind > h2 a'),
       ].map((element) => (element ? getComputedStyle(element).color : '')),
     );
     expect(colours).toEqual([BLACK, BLACK, BLACK]);
@@ -96,7 +99,7 @@ test.describe('calendar page', () => {
   }) => {
     await page.setViewportSize({ width: 320, height: 640 });
     await page.goto('/kalendar');
-    const region = page.getByRole('region', { name: 'Сезон на всеки продукт по месеци' });
+    const region = page.getByRole('region', { name: 'Плодове по месеци' });
     await region.evaluate((element) => element.scrollTo({ left: element.scrollWidth }));
     const [regionBox, headerBox] = await Promise.all([
       region.boundingBox(),

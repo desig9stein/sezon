@@ -34,13 +34,20 @@ test.describe('site shell, QA 023', () => {
     expect(await link.evaluate((el) => getComputedStyle(el).zIndex)).toBe('1');
   });
 
-  test('QA 023: at 390 px the logo and the four links share one row', async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
+  test('QA 023 (amended by spec 059 AC6): at 1024 px the logo and the five links share one row of at most 64px', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1024, height: 800 });
     await page.goto('/');
+    await page.evaluate(() => document.fonts.ready);
     const logo = await page.locator('.site-header__logo').boundingBox();
     const tops = await page
       .locator('.site-header__nav a')
       .evaluateAll((links) => links.map((link) => link.getBoundingClientRect().top));
+    expect(tops).toHaveLength(5);
     for (const top of tops) expect(top).toBeLessThan((logo?.y ?? 0) + (logo?.height ?? 0));
+    expect(
+      (await page.locator('body > header').boundingBox())?.height ?? Infinity,
+    ).toBeLessThanOrEqual(64);
   });
 });

@@ -28,7 +28,7 @@ test.describe('site search', () => {
     expect(sitemap).toContain('/tarsene');
   });
 
-  test('AC4: only produce, section, nutrient and group pages are indexed, with Latin headings', async ({
+  test('AC4 (amended by spec 059 AC10): produce, section, nutrient and group pages are indexed with Latin headings, home and search are not', async ({
     page,
   }) => {
     for (const path of [
@@ -43,7 +43,7 @@ test.describe('site search', () => {
       await expect(h1).toHaveAttribute('data-pagefind-index-attrs', 'data-search-latin');
       await expect(h1).toHaveAttribute('data-search-latin', /^[a-z0-9 ]+$/);
     }
-    for (const path of ['/', '/sezon/noemvri', '/kalendar', SEARCH]) {
+    for (const path of ['/', SEARCH]) {
       await page.goto(path);
       await expect(page.locator('[data-pagefind-body]')).toHaveCount(0);
     }

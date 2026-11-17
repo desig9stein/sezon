@@ -4,7 +4,8 @@ import { expect, test } from '@playwright/test';
 import { expectNoAxeViolations } from './a11y';
 
 const SHELL = { light: 'rgb(28, 63, 170)', dark: 'rgb(34, 51, 122)' };
-const MAX_HEADER_HEIGHT = 64;
+/** Header height with the nav on its own row at 390 px (spec 059 AC6). */
+const MAX_HEADER_HEIGHT = 100;
 /** Group page links the catalogue must show: one per file in the content data. */
 const GROUP_HREFS = readdirSync(join(process.cwd(), 'src', 'data', 'groups'))
   .filter((file) => file.endsWith('.yaml'))
@@ -36,7 +37,9 @@ test.describe('site shell (spec 023)', () => {
       await expectNoAxeViolations(page);
     });
 
-    test(`AC6: at 390 px the header is one shell-coloured row (${scheme})`, async ({ page }) => {
+    test(`AC6 (amended by spec 059 AC6): at 390 px the header is a short shell-coloured bar (${scheme})`, async ({
+      page,
+    }) => {
       await page.emulateMedia({ colorScheme: scheme });
       await page.setViewportSize({ width: 390, height: 844 });
       await page.goto('/');

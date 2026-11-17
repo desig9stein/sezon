@@ -44,7 +44,9 @@ test.describe('farm pages (spec 030)', () => {
     expect(types).toEqual(expect.arrayContaining(['LocalBusiness', 'BreadcrumbList']));
   });
 
-  test('AC10: produce pages and the catalogue link to farm pages', async ({ page }) => {
+  test('AC10 (amended by spec 059 AC5): produce pages and the catalogue link to farm pages, the header marks Ферми', async ({
+    page,
+  }) => {
     await page.goto('/plodove/yabalki');
     await expect(
       page
@@ -56,7 +58,7 @@ test.describe('farm pages (spec 030)', () => {
     await page.goto('/katalog');
     await expect(page.locator('main a[href="/fermi"]')).toHaveCount(1);
     await page.goto('/fermi/venets');
-    await expect(page.locator('header nav a', { hasText: 'Каталог' })).toHaveAttribute(
+    await expect(page.locator('header nav a', { hasText: 'Ферми' })).toHaveAttribute(
       'aria-current',
       'true',
     );
