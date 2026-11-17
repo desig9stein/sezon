@@ -27,7 +27,12 @@ export type {
   TraditionalUse,
   Variety,
 } from './domain/Produce';
-export { CAUTION_KINDS, CAUTION_TEXT_MAX_LENGTH, CAUTION_TEXT_MIN_LENGTH } from './domain/Caution';
+export {
+  CAUTION_KINDS,
+  CAUTION_TEXT_MAX_LENGTH,
+  CAUTION_TEXT_MIN_LENGTH,
+  POISONING_CAUTION_KINDS,
+} from './domain/Caution';
 export type { Caution, CautionKind } from './domain/Caution';
 export { GROWING_ACTIVITIES, GrowingGuide } from './domain/GrowingGuide';
 export type { GrowingActivity, GrowingGuideInput } from './domain/GrowingGuide';

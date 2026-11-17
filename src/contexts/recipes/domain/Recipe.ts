@@ -32,6 +32,15 @@ export interface RecipeSafety {
   readonly sources: ReadonlyArray<RecipeSource>;
 }
 
+/**
+ * The water-bath time from an altitude upwards (spec 058): `minutes` apply from `fromMetres` up to
+ * the next band's `fromMetres`, or without limit for the last band.
+ */
+export interface AltitudeProcessing {
+  readonly fromMetres: number;
+  readonly minutes: number;
+}
+
 /** Input for {@link Recipe.create}. */
 export interface RecipeInput {
   readonly slug: string;
@@ -46,6 +55,8 @@ export interface RecipeInput {
   readonly cookMinutes?: number | undefined;
   /** Minutes in a boiling-water bath, for the largest jar at the lowest altitude band. */
   readonly processingMinutes: number;
+  /** Minutes for the same jar in each higher altitude band, lowest first. */
+  readonly processingAtAltitude: ReadonlyArray<AltitudeProcessing>;
   /** Days of fermentation or maturing before the preserve is ready. */
   readonly waitDays: number;
   readonly ingredients: ReadonlyArray<Ingredient>;
@@ -68,6 +79,7 @@ export class Recipe {
   readonly prepMinutes: number | undefined;
   readonly cookMinutes: number | undefined;
   readonly processingMinutes: number;
+  readonly processingAtAltitude: ReadonlyArray<AltitudeProcessing>;
   readonly waitDays: number;
   readonly ingredients: ReadonlyArray<Ingredient>;
   readonly steps: ReadonlyArray<string>;
@@ -86,6 +98,7 @@ export class Recipe {
     this.prepMinutes = input.prepMinutes;
     this.cookMinutes = input.cookMinutes;
     this.processingMinutes = input.processingMinutes;
+    this.processingAtAltitude = frozenRecords(input.processingAtAltitude);
     this.waitDays = input.waitDays;
     this.ingredients = frozenRecords(input.ingredients);
     this.steps = frozenList(input.steps);
@@ -103,8 +116,9 @@ export class Recipe {
    * Creates a recipe.
    * @throws InvalidRecipeError when the slug is not a slug; a text is blank; the category or a
    * unit is unknown; there is no produce, ingredient, step, recipe source or safety source; a
-   * produce is listed twice; a quantity is not positive; a time is not a non-negative integer; a
-   * source is not HTTPS; a date is invalid; or `updatedAt` is before `publishedAt`.
+   * produce is listed twice; a quantity is not positive; a time is not a non-negative integer; the
+   * altitude bands are missing, do not rise or take less time than a lower band; a source is not
+   * HTTPS; a date is invalid; or `updatedAt` is before `publishedAt`.
    */
   static create(input: RecipeInput): Recipe {
     const problem = findProblem(input);
@@ -144,6 +158,29 @@ function findIngredientProblem(ingredients: ReadonlyArray<Ingredient>): string |
   return undefined;
 }
 
+/**
+ * Returns why the altitude bands are invalid, or `undefined`: there must be at least one band, the
+ * altitudes positive integers that rise, and the minutes integers that never fall below the band
+ * below (starting from `processingMinutes`).
+ */
+function findAltitudeProblem(
+  lowestMinutes: number,
+  bands: ReadonlyArray<AltitudeProcessing>,
+): string | undefined {
+  if (bands.length === 0) return 'has no water-bath time above the lowest altitude';
+  let previous = { fromMetres: 0, minutes: lowestMinutes };
+  for (const band of bands) {
+    if (!Number.isInteger(band.fromMetres) || band.fromMetres <= previous.fromMetres) {
+      return 'has altitude bands that do not rise in whole metres';
+    }
+    if (!Number.isInteger(band.minutes) || band.minutes < previous.minutes) {
+      return 'has a water-bath time that falls with altitude or is not whole';
+    }
+    previous = band;
+  }
+  return undefined;
+}
+
 function findProblem(input: RecipeInput): string | undefined {
   if (!SLUG_PATTERN.test(input.slug)) return 'has a slug that is not a slug';
   if (isBlank(input.name) || isBlank(input.summary) || isBlank(input.yield)) {
@@ -168,6 +205,7 @@ function findProblem(input: RecipeInput): string | undefined {
     return 'was updated before it was published';
   }
   return (
+    findAltitudeProblem(input.processingMinutes, input.processingAtAltitude) ??
     findIngredientProblem(input.ingredients) ??
     findSourceProblem(input.sources, 'recipe source') ??
     findSourceProblem(safety.sources, 'safety source')

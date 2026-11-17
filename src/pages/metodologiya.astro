@@ -91,6 +91,14 @@ const jsonLd = [
         {labels.wildHeading}
       </h2>
       <p>{labels.wild}</p>
+      <p>{labels.emergency}</p>
+      <ul>
+        {labels.emergencySources.map((source) => (
+          <li>
+            <a href={source.url}>{source.name}</a>
+          </li>
+        ))}
+      </ul>
     </section>
 
     <section aria-labelledby="method-growing">

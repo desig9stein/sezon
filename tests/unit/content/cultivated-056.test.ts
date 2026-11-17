@@ -239,7 +239,11 @@ describe('more cultivated produce (spec 056)', () => {
     expect(record.summary.length).toBeLessThanOrEqual(SUMMARY_MAX);
     expect(record.traditionalUses).toEqual([]);
     expect(record.organic).toBeUndefined();
-    expect(readFileSync(produceFile(slug), 'utf8')).toMatch(/^updatedAt: 2026-11-13$/m);
+    // Accepts the change date or any later update date.
+    const updatedAt = /^updatedAt: (\d{4}-\d{2}-\d{2})$/m.exec(
+      readFileSync(produceFile(slug), 'utf8'),
+    )?.[1];
+    expect(updatedAt?.localeCompare('2026-11-13')).toBeGreaterThanOrEqual(0);
   });
 
   it.each(LEFT_OUT)('AC7: %s is left out', (slug) => {

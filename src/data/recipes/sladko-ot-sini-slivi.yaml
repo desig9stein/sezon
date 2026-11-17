@@ -5,6 +5,9 @@ produce: [slivi]
 yield: от 1 кг сини сливи
 cookMinutes: 55
 processingMinutes: 5
+processingAtAltitude:
+  - { fromMetres: 300, minutes: 10 }
+  - { fromMetres: 1800, minutes: 15 }
 ingredients:
   - { name: Сини сливи, quantity: 1, unit: kg }
   - { name: Захар, quantity: 1, unit: kg }
@@ -45,4 +48,4 @@ sources:
   - name: 'Български фермер – Сладко за зимни дни и вечери (и не само)'
     url: https://www.bgfermer.bg/Article/10249570
 publishedAt: 2026-11-13
-updatedAt: 2026-11-13
+updatedAt: 2026-11-17

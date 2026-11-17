@@ -2,7 +2,7 @@ name: Фъстъци
 latinName: Arachis hypogaea
 kind: nut
 group: bobovi
-summary: Фъстъците се засяват в края на април и узряват от септември. Растенията се изскубват, а шушулките се прибират, след като просъхнат.
+summary: Фъстъците се засяват в края на април, а узряването им започва през септември. Растенията се изскубват, а шушулките се прибират, след като просъхнат.
 season:
   - { month: 9, level: peak }
 nutrition:
@@ -24,7 +24,7 @@ nutrition:
     name: 'USDA FoodData Central, SR Legacy: Peanuts, all types, raw'
     url: https://fdc.nal.usda.gov/food-details/172430/nutrients
     lang: en
-updatedAt: 2026-11-13
+updatedAt: 2026-11-17
 photo:
   src: ../../assets/produce/fastatsi.jpg
   alt: 'Сурови фъстъци в черупки и белени печени фъстъци на купчина'

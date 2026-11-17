@@ -45,7 +45,13 @@ nutrition:
     name: 'USDA FoodData Central, SR Legacy: Raspberries, raw'
     url: https://fdc.nal.usda.gov/food-details/167755/nutrients
     lang: en
-updatedAt: 2026-11-13
+cautions:
+  - kind: protected
+    text: 'Малината е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 10 кг плодове на ден, а за търговия ти трябва позволително.'
+    source:
+      name: 'Закон за лечебните растения (обн. ДВ, бр. 29 от 2000 г., посл. изм. ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      url: https://faolex.fao.org/docs/pdf/bul40297.pdf
+updatedAt: 2026-11-17
 photo:
   src: ../../assets/produce/malini.jpg
   alt: 'Узрели червени малини на клонка между зелени листа'

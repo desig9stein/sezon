@@ -4,6 +4,9 @@ category: sauerkraut
 produce: [zele]
 yield: около 1,7 л
 processingMinutes: 15
+processingAtAltitude:
+  - { fromMetres: 300, minutes: 20 }
+  - { fromMetres: 1800, minutes: 25 }
 waitDays: 21
 ingredients:
   - { name: Бяло зеле, quantity: 2.3, unit: kg }
@@ -51,4 +54,4 @@ sources:
   - name: 'Български фермер – Как да си направим кисело зеле в буркани'
     url: https://www.bgfermer.bg/Article/7113883
 publishedAt: 2026-11-13
-updatedAt: 2026-11-13
+updatedAt: 2026-11-17

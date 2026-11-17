@@ -4,6 +4,10 @@ category: compote
 produce: [praskovi]
 yield: от 900 г праскови
 processingMinutes: 30
+processingAtAltitude:
+  - { fromMetres: 300, minutes: 35 }
+  - { fromMetres: 900, minutes: 40 }
+  - { fromMetres: 1800, minutes: 45 }
 ingredients:
   - { name: Праскови с жълта сърцевина, quantity: 900, unit: g }
   - { name: Захар, quantity: 200, unit: g }
@@ -40,4 +44,4 @@ sources:
   - name: 'Български фермер – Най-вкусните компоти за зимата'
     url: https://www.bgfermer.bg/Article/23461966
 publishedAt: 2026-11-13
-updatedAt: 2026-11-13
+updatedAt: 2026-11-17

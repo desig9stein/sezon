@@ -57,6 +57,7 @@ export function produceRecord(
     faq: [{ question: 'Кога е сезонът на зелето?', answer: 'От септември до ноември.' }],
     wild: false,
     cautions: [],
+    notEatenRaw: false,
     updatedAt: new Date('2026-11-10'),
     ...overrides,
   };

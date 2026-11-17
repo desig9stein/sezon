@@ -11,6 +11,13 @@ const RECIPE_SOURCE = {
   url: 'https://www.bgfermer.bg/Article/23461966',
 } as const;
 
+/** Water-bath minutes of the fixture's jar above 300 m (NCHFP pears, quart jar). */
+const ALTITUDE_BANDS = [
+  { fromMetres: 300, minutes: 30 },
+  { fromMetres: 900, minutes: 35 },
+  { fromMetres: 1800, minutes: 40 },
+] as const;
+
 /** Returns valid {@link RecipeInput}; `overrides` replace top-level fields. */
 export function recipeInput(overrides: Partial<RecipeInput> = {}): RecipeInput {
   return {
@@ -24,6 +31,7 @@ export function recipeInput(overrides: Partial<RecipeInput> = {}): RecipeInput {
     prepMinutes: 30,
     cookMinutes: 10,
     processingMinutes: 25,
+    processingAtAltitude: ALTITUDE_BANDS,
     waitDays: 0,
     ingredients: [
       { name: 'Круши', quantity: 10, unit: 'piece' },
@@ -60,6 +68,7 @@ export function rawRecipeRecord(overrides: Record<string, unknown> = {}): Record
     prepMinutes: 30,
     cookMinutes: 10,
     processingMinutes: 25,
+    processingAtAltitude: ALTITUDE_BANDS.map((band) => ({ ...band })),
     ingredients: [
       { name: 'Круши', quantity: 10, unit: 'piece' },
       { name: 'Захар', quantity: 1, unit: 'cup' },

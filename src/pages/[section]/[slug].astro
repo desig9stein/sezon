@@ -119,7 +119,7 @@ const jsonLd = [
     <section id="stall" class="produce__group produce__wide" aria-labelledby="stall-heading">
       <h2 id="stall-heading">{labels.headings.stall}</h2>
       <ProduceNow produce={produce} month={buildMonth} />
-      <ProduceCautions cautions={produce.cautions} wild={produce.wild} />
+      <ProduceCautions produce={produce} />
       <section class="produce__wide" aria-labelledby="season">
         <h3 id="season">{labels.headings.season}</h3>
         <SeasonCalendarList produce={produce} currentMonth={buildMonth} />

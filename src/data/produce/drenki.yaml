@@ -3,8 +3,15 @@ latinName: Cornus mas
 kind: fruit
 group: dryanovi
 summary: Дрянът расте диво из цялата страна до 1500 м надморска височина, а дренките узряват от август до октомври.
+wild: true
 season:
   - { month: 8, level: peak }
   - { month: 9, level: peak }
   - { month: 10, level: peak }
-updatedAt: 2026-11-13
+cautions:
+  - kind: protected
+    text: 'Дрянът е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 10 кг плодове на ден, а за търговия ти трябва позволително.'
+    source:
+      name: 'Закон за лечебните растения (обн. ДВ, бр. 29 от 2000 г., посл. изм. ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      url: https://faolex.fao.org/docs/pdf/bul40297.pdf
+updatedAt: 2026-11-17

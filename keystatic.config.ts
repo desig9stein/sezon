@@ -261,6 +261,10 @@ const produce = collection({
       }),
       { label: 'Cautions', itemLabel: (props) => props.fields.kind.value },
     ),
+    notEatenRaw: fields.checkbox({
+      label:
+        'Not eaten raw: no nutrition block; needs a preparation or toxic-part caution (spec 058)',
+    }),
     updatedAt: requiredDate('Updated at'),
     photo: keptAsIs(),
     growing: keptAsIs(),
@@ -380,6 +384,23 @@ const recipes = collection({
       label: 'Processing (minutes)',
       validation: { isRequired: true, min: 0 },
     }),
+    processingAtAltitude: fields.array(
+      fields.object({
+        fromMetres: fields.integer({
+          label: 'From altitude (metres)',
+          validation: { isRequired: true, min: 1 },
+        }),
+        minutes: fields.integer({
+          label: 'Processing (minutes)',
+          validation: { isRequired: true, min: 0 },
+        }),
+      }),
+      {
+        label: 'Processing above the lowest altitude band',
+        itemLabel: (props) => `${props.fields.fromMetres.value ?? ''} m`,
+        validation: { length: { min: 1 } },
+      },
+    ),
     waitDays: fields.integer({ label: 'Wait (days)', validation: { min: 0 } }),
     ingredients: fields.array(
       fields.object({
