@@ -1,6 +1,6 @@
 # 058. Safety and content accuracy
 
-- **Status:** Approved
+- **Status:** Implemented
 - **Bounded context(s):** catalog (content model, `Produce`, produce data), recipes (`Recipe`,
   recipe data), farms (farm data), UI (produce cautions callout, recipe facts card, methodology
   page), CMS (Keystatic config)
@@ -234,7 +234,7 @@ and `drenki` (section 3).
 | AC1  | unit      | `tests/unit/contexts/catalog/infrastructure/schemas-058.test.ts`                     |
 | AC2  | unit      | `tests/unit/content/safety-058.test.ts`                                              |
 | AC3  | unit      | `tests/unit/content/safety-058.test.ts`                                              |
-| AC4  | component | `tests/components/ProducePage-058.test.ts`                                           |
+| AC4  | component | `tests/components/ProduceCautions-058.test.ts`                                       |
 | AC5  | unit      | `tests/unit/contexts/catalog/domain/Produce-058.test.ts`                             |
 | AC6  | unit      | `tests/unit/content/safety-058.test.ts`                                              |
 | AC7  | unit      | `tests/unit/content/safety-058.test.ts`                                              |
@@ -242,9 +242,18 @@ and `drenki` (section 3).
 | AC9  | unit      | `tests/unit/content/season-text-058.test.ts`                                         |
 | AC10 | unit      | `tests/unit/contexts/recipes/Recipe-058.test.ts`                                     |
 | AC11 | unit      | `tests/unit/content/safety-058.test.ts`                                              |
-| AC12 | component | `tests/components/RecipePage-058.test.ts`                                            |
+| AC12 | component | `tests/components/RecipeFacts-058.test.ts`                                           |
 | AC13 | unit      | `tests/unit/content/safety-058.test.ts`                                              |
 | AC14 | unit      | `tests/unit/content/safety-058.test.ts`, `tests/unit/cms/keystaticRoundTrip.test.ts` |
+
+The callout takes the produce (`<ProduceCautions produce={produce} />`), so the component test
+covers the page's wiring; the recipe facts card is its own component (`RecipeFacts.astro`) for the
+same reason.
+
+Existing tests adjusted for the new facts: the spec 041, 044, 052 and 056 tests accept an
+`updatedAt` on or after their change date; the spec 057 test no longer expects elder nutrition,
+expects a fifth ramsons look-alike and checks that the 2026 order caution stays first on oregano;
+the spec 054 Keystatic test lists `processingAtAltitude` as required.
 
 E2E: the existing suites (axe on produce and recipe pages) cover the rendered pages; run locally
 on a private port.
