@@ -383,7 +383,7 @@ describe('more fruits and nuts (spec 052)', () => {
       produce.updatedAt instanceof Date
         ? produce.updatedAt.toISOString().slice(0, 10)
         : produce.updatedAt;
-    // A later content fix (spec 058) may move the date forward, never back.
+    // Accepts the change date or any later update date.
     expect(updatedAt.localeCompare(CHANGE_DATE)).toBeGreaterThanOrEqual(0);
   });
 

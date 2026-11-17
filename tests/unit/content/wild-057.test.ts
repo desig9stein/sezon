@@ -307,7 +307,7 @@ describe('wild produce (spec 057)', () => {
   it.each(Object.entries(EXISTING))('AC10: %s gains its sourced caution', (slug, expected) => {
     const record = recordOf(slug);
     expect(record.wild).toBe(false);
-    // Spec 058 adds an Act caution after the oregano order caution; the 057 caution stays first.
+    // The caution this spec added comes first; later cautions may follow it.
     expect(record.cautions.map(({ kind, source }) => ({ kind, url: source.url }))[0]).toEqual(
       expected,
     );

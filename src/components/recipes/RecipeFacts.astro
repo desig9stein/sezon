@@ -1,5 +1,5 @@
 ---
-import type { Recipe } from '@contexts/recipes';
+import type { AltitudeProcessing, Recipe } from '@contexts/recipes';
 import { formatDuration, ui } from '@i18n/bg';
 
 /**
@@ -23,12 +23,19 @@ const facts = [
     : [{ term: labels.cook, value: formatDuration(recipe.cookMinutes) }]),
   ...(recipe.waitDays > 0 ? [{ term: labels.wait, value: labels.days(recipe.waitDays) }] : []),
 ];
+const { altitudeBands } = labels;
+/** Labels the band from `band.fromMetres` up to the next band, or upwards for the last one. */
+const higherBand = (band: AltitudeProcessing, next: AltitudeProcessing | undefined) =>
+  next === undefined
+    ? altitudeBands.highest(band.fromMetres, band.minutes)
+    : altitudeBands.middle(band.fromMetres, next.fromMetres, band.minutes);
 const bands = recipe.processingAtAltitude;
+const [firstBand] = bands;
 const altitudeLabels = [
-  labels.altitudeBand(undefined, bands[0]?.fromMetres, recipe.processingMinutes),
-  ...bands.map((band, index) =>
-    labels.altitudeBand(band.fromMetres, bands[index + 1]?.fromMetres, band.minutes),
-  ),
+  ...(firstBand === undefined
+    ? []
+    : [altitudeBands.lowest(firstBand.fromMetres, recipe.processingMinutes)]),
+  ...bands.map((band, index) => higherBand(band, bands[index + 1])),
 ];
 ---
 

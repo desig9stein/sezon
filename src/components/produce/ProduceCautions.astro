@@ -1,6 +1,7 @@
 ---
 import type { Produce } from '@contexts/catalog';
 import { ui } from '@i18n/bg';
+import PoisoningEmergency from './PoisoningEmergency.astro';
 
 /**
  * The cautions of a produce (spec 055) as one callout: the `h3` „Внимание“ (id `cautions`), for
@@ -25,7 +26,7 @@ const ICON_SIZE = 16;
   <section class="cautions" aria-labelledby={HEADING_ID}>
     <h3 id={HEADING_ID}>{ui.produce.headings.cautions}</h3>
     {wild && <p class="cautions__note">{ui.produce.wild.gatheringNote}</p>}
-    {showEmergency && <p class="cautions__note">{labels.emergency}</p>}
+    {showEmergency && <PoisoningEmergency />}
     <ul class="cautions__list" role="list">
       {cautions.map((caution) => (
         <li class="caution">

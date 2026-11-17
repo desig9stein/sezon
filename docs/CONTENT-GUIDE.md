@@ -254,8 +254,9 @@ cautions: # optional; required (at least one) when wild is true
   part that is gathered and that commercial gathering needs a permit (spec 057).
 - Write facts, never health claims: no „полезен“, „лекува“ or „действие“. A caution never gives
   treatment advice. The only text about what to do after a suspected poisoning is the shared
-  emergency line (`ui.produce.cautions.emergency`: call 112, and the 24-hour poison information of
-  the toxicology clinic at УМБАЛСМ „Н. И. Пирогов“), sourced on the methodology page (spec 058).
+  emergency line (`ui.produce.cautions.emergency`: „При съмнение за отравяне веднага звъни на
+  112.“, with 112 as a `tel:` link). No other phone number is published; the methodology page names
+  the toxicology clinic of УМБАЛСМ „Н. И. Пирогов“ and cites both sources (spec 058).
 - The page shows the cautions in one „Внимание“ callout before the season, with the gathering note
   for wild produce, and lists their sources in „Източници“. The emergency line appears for a wild
   produce and for any produce with a `look-alike` or `toxic-part` caution.

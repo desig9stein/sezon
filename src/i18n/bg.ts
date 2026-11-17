@@ -42,9 +42,10 @@ const DASH_SEPARATOR = ' – ';
 const GARDEN_LABEL = 'В градината';
 const LOCAL_FARMS = 'Местни ферми';
 const SOURCES = 'Източници';
-/** What to do on a suspected poisoning; shown in cautions and explained in the methodology. */
-const POISONING_EMERGENCY =
-  'При съмнение за отравяне веднага звъни на 112. Денонощна информация за отравяния дава Клиниката по токсикология на УМБАЛСМ „Н. И. Пирогов“ в София (телефон на болницата: 02 9154 411).';
+/** The EU emergency number, called on a suspected poisoning (spec 058). */
+const EMERGENCY_NUMBER = '112';
+/** Text before the emergency number in the line shown with poisoning cautions. */
+const POISONING_EMERGENCY_TEXT = 'При съмнение за отравяне веднага звъни на';
 const RECIPES_HEADING = 'Рецепти за зимнина';
 const NO_TIME = '–';
 /** Dash between the two ends of a numeric range, e.g. „300–1800 м“. */
@@ -313,22 +314,16 @@ export function formatDuration(minutes: number): string {
 }
 
 /**
- * Labels one altitude band of a water-bath time, e.g. „до 300 м: 5 мин“, „300–1800 м: 10 мин“ or
- * „над 1800 м: 15 мин“.
- * @param fromMetres - Lower bound of the band; `undefined` for the lowest band.
- * @param toMetres - Upper bound of the band; `undefined` for the highest band.
- * @param minutes - Water-bath minutes in the band.
+ * Labels of the altitude bands of a water-bath time: the lowest band („до 300 м: 5 мин“), a middle
+ * band („300–1800 м: 10 мин“) and the highest band („над 1800 м: 15 мин“).
  */
-function altitudeBand(
-  fromMetres: number | undefined,
-  toMetres: number | undefined,
-  minutes: number,
-): string {
-  const time = formatDuration(minutes);
-  if (fromMetres === undefined) return `до ${toMetres ?? 0} м: ${time}`;
-  if (toMetres === undefined) return `над ${fromMetres} м: ${time}`;
-  return `${fromMetres}${DASH_RANGE}${toMetres} м: ${time}`;
-}
+const ALTITUDE_BANDS = {
+  lowest: (toMetres: number, minutes: number) => `до ${toMetres} м: ${formatDuration(minutes)}`,
+  middle: (fromMetres: number, toMetres: number, minutes: number) =>
+    `${fromMetres}${DASH_RANGE}${toMetres} м: ${formatDuration(minutes)}`,
+  highest: (fromMetres: number, minutes: number) =>
+    `над ${fromMetres} м: ${formatDuration(minutes)}`,
+} as const;
 
 const RECIPE_UNITS: Readonly<Record<IngredientUnit, string>> = {
   g: 'г',
@@ -577,7 +572,7 @@ export const ui = {
       'Традиционната употреба описва традиции, а не доказани ефекти, и винаги започва с „Традиционно се използва“. Не твърдим, че храна лекува или предпазва от болест (Регламент (ЕО) № 1924/2006). Всяка употреба има първичен източник – фармакопея, официална монография или етноботаническо изследване; Уикипедия не се приема.',
     wildHeading: 'Диворастящи растения',
     wild: 'Отбелязваме „Диворастящо“ растенията, чиято страница описва събирането им от природата. Всяко от тях има раздел „Внимание“ с поне едно предупреждение – за отровни двойници, отровни части, алергии, защита и ограничения при събирането или задължително приготвяне – и всяко предупреждение има собствен източник: закон (например Закона за лечебните растения или Закона за биологичното разнообразие), официален документ или научна публикация. Култури, които се отглеждат в градини и насаждения, но растат и диво – например шипка, къпини, малини, облепиха, киселец и риган – не отбелязваме така; ако береш дивата им форма, важат същите правила. Видове, които изобщо не бива да се събират – по Приложение 3 на Закона за биологичното разнообразие, от Червената книга на България или напълно забранени със заповед – не добавяме. Предупрежденията описват факти, а не здравни твърдения, и не заместват познаването на растението.',
-    emergency: `Когато страницата предупреждава за отровни двойници или отровни части, а и при всяко диворастящо растение, разделът „Внимание“ казва какво да направиш при съмнение за отравяне: „${POISONING_EMERGENCY}“ Номерът 112 е за спешни медицински случаи, а клиниката дава денонощна информация за отравяния. Не даваме съвети за лечение.`,
+    emergency: `Когато страницата предупреждава за отровни двойници или отровни части, а и при всяко диворастящо растение, разделът „Внимание“ съдържа и изречението: ${POISONING_EMERGENCY_TEXT} ${EMERGENCY_NUMBER}. Номерът ${EMERGENCY_NUMBER} е за спешни медицински случаи. Клиниката по токсикология на УМБАЛСМ „Н. И. Пирогов“ в София лекува остри отравяния, включително след контакт с отровни растения, и дава денонощна информация за тях. Не даваме съвети за лечение.`,
     emergencySources: [
       {
         name: 'МВР, Дирекция „Национална система 112“ – Кога звъним на 112?',
@@ -713,7 +708,12 @@ export const ui = {
     },
     cautions: {
       sourcePrefix: 'източник:',
-      emergency: POISONING_EMERGENCY,
+      emergency: {
+        text: POISONING_EMERGENCY_TEXT,
+        number: EMERGENCY_NUMBER,
+        href: `tel:${EMERGENCY_NUMBER}`,
+        end: '.',
+      },
       kinds: {
         'look-alike': 'Отровни двойници',
         'toxic-part': 'Отровни части',
@@ -1046,7 +1046,7 @@ export const ui = {
       days: (days: number) => (days === 1 ? '1 ден' : `${days} дни`),
       processingNote:
         'Времето във водна баня зависи от надморската височина на мястото, където вариш, и е за най-големия буркан в рецептата. Подробности има в „Буркани и стерилизация“.',
-      altitudeBand,
+      altitudeBands: ALTITUDE_BANDS,
     },
     headings: {
       ingredients: 'Съставки',

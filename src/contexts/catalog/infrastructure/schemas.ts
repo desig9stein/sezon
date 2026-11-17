@@ -10,7 +10,12 @@ import {
   uniqueBy,
 } from '@shared/infrastructure/schemaPrimitives';
 import { FIRST_MONTH_NUMBER, LAST_MONTH_NUMBER, SEASON_LEVEL_VALUES } from '@contexts/seasonality';
-import { CAUTION_KINDS, CAUTION_TEXT_MAX_LENGTH, CAUTION_TEXT_MIN_LENGTH } from '../domain/Caution';
+import {
+  CAUTION_KINDS,
+  CAUTION_TEXT_MAX_LENGTH,
+  CAUTION_TEXT_MIN_LENGTH,
+  type CautionKind,
+} from '../domain/Caution';
 import { NUTRIENT_KINDS, NUTRIENT_UNITS } from '../domain/Nutrient';
 import {
   PRODUCE_SUMMARY_MAX_LENGTH,
@@ -69,7 +74,7 @@ function requireCautionsWhenWild(
 }
 
 /** Caution kinds that can say why a produce is not eaten raw (spec 058). */
-const NOT_EATEN_RAW_REASONS: ReadonlyArray<string> = ['preparation', 'toxic-part'];
+const NOT_EATEN_RAW_REASONS: ReadonlyArray<CautionKind> = ['preparation', 'toxic-part'];
 
 /**
  * Adds issues when a produce marked `notEatenRaw` has nutrition values, which are per 100 g of the
@@ -80,7 +85,7 @@ function requireNoRawNutrition(
   produce: {
     notEatenRaw: boolean;
     nutrition?: unknown;
-    cautions: ReadonlyArray<{ kind: string }>;
+    cautions: ReadonlyArray<{ kind: CautionKind }>;
   },
   ctx: z.RefinementCtx,
 ): void {
