@@ -203,7 +203,8 @@ describe('wild produce page (spec 055)', () => {
     const targets = [...wild.querySelectorAll('.produce__toc a')].map((link) =>
       (link.getAttribute('href') ?? '').slice(1),
     );
-    expect(targets).toEqual(['stall', 'cautions', 'eat', 'farms', 'sources']);
+    // Spec 060 AC11: without farms the contents leaves out the farm section.
+    expect(targets).toEqual(['stall', 'cautions', 'eat', 'sources']);
     for (const id of targets) expect(wild.getElementById(id), id).not.toBeNull();
   });
 
