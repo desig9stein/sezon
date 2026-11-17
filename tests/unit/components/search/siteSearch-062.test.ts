@@ -131,6 +131,36 @@ describe('site search (spec 062)', () => {
     expect(parts.list.querySelector('a')?.getAttribute('href')).toBe('/grupi/kartofovi');
   });
 
+  it('QA 062: a 3-letter prefix that names no whole word keeps the prefix results', async () => {
+    const parts = mount();
+    const api = fakePagefind([
+      result('plodove/yabalki', 'Ябълки', 'Ябълки. Ябълката е плод.'),
+      result('plodove/krushi', 'Круши', 'Круши. Крушата е като ябълката.'),
+    ]);
+    initSiteSearch(parts.root, async () => api);
+    await submit(parts, 'ябъ');
+    const links = [...parts.list.querySelectorAll('a')].map((link) => link.getAttribute('href'));
+    expect(links[0]).toBe('/plodove/yabalki');
+    expect(parts.status.textContent).toBe('Резултати: 2 за „ябъ“.');
+  });
+
+  it('QA 062: „семейство ябълки“ lists the family whose produce is named exactly first', async () => {
+    const parts = mount();
+    parts.root.dataset.groupType = 'Ботаническо семейство';
+    const family = (slug: string, title: string, members: string): FakeResult => ({
+      ...result(`grupi/${slug}`, title, `семейство. ${title}.`),
+      meta: { title, members, type: 'Ботаническо семейство' },
+    });
+    const api = fakePagefind([
+      family('abanosovi', 'Абаносови', 'Райска ябълка'),
+      family('slozhnotsvetni', 'Сложноцветни', 'Глухарче, Земна ябълка'),
+      family('rozotsvetni', 'Розоцветни', 'Круши, Ябълки'),
+    ]);
+    initSiteSearch(parts.root, async () => api);
+    await submit(parts, 'семейство ябълки');
+    expect(parts.list.querySelector('a')?.getAttribute('href')).toBe('/grupi/rozotsvetni');
+  });
+
   it('AC12: without the family word, lists a family page after the produce it names', async () => {
     const parts = mount();
     parts.root.dataset.groupType = 'Ботаническо семейство';

@@ -30,4 +30,17 @@ describe('Produce aliases (spec 062)', () => {
   it('AC11: rejects an alias that its own text does not use', () => {
     expect(() => Produce.create({ ...input, aliases: ['камби'] })).toThrow(InvalidProduceError);
   });
+
+  it('QA 062: rejects an alias that is only a fragment of a word its text uses', () => {
+    expect(() => Produce.create({ ...input, aliases: ['чушк'] })).toThrow(InvalidProduceError);
+    expect(() =>
+      Produce.create({ ...input, name: 'Ябълки', slug: 'yabalki', aliases: ['ябъл'] }),
+    ).toThrow(InvalidProduceError);
+  });
+
+  it('QA 062: keeps an alias that its text uses in another form', () => {
+    expect(
+      Produce.create({ ...input, name: 'Ябълки', slug: 'yabalki', aliases: ['ябълка'] }).aliases,
+    ).toEqual(['ябълка']);
+  });
 });

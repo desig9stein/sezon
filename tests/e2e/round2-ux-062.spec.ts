@@ -101,6 +101,8 @@ test.describe('screen-reader and keyboard fixes (spec 062)', () => {
     );
     expect(named.length).toBeGreaterThan(0);
     for (const tag of named) expect(tag).toBe('H2');
+    const scrolling = await page.locator('main .table-scroll[tabindex="0"]').count();
+    await expect(page.locator('main').getByRole('region')).toHaveCount(named.length + scrolling);
   });
 
   test('AC5: in-page links move the keyboard focus to their target', async ({ page }) => {
@@ -207,6 +209,13 @@ test.describe('search tuning (spec 062)', () => {
     for (const text of texts) expect(text.toLowerCase()).toMatch(/(^|[^\p{L}])нар/u);
   });
 
+  test('QA 062: a 3-letter prefix while typing still finds the produce („ябъ“)', async ({
+    page,
+  }) => {
+    await searchFor(page, 'ябъ');
+    expect((await resultLinks(page))[0]).toBe('/plodove/yabalki');
+  });
+
   test('AC11: „чушки“ lists Пипер first', async ({ page }) => {
     await searchFor(page, 'чушки');
     expect((await resultLinks(page))[0]).toBe('/zelenchutsi/piper');
@@ -311,6 +320,7 @@ test.describe('phones, subscribe, farms, groups and print (spec 062)', () => {
     page,
   }) => {
     await page.goto(CALENDAR);
+    await expect(page.locator('tr.year__key').first()).toBeHidden();
     await page.emulateMedia({ media: 'print' });
     await expect(page.locator('.calendar-print-hint')).toBeHidden();
     const tables = page.locator('table.year');
