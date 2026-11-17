@@ -4,8 +4,10 @@ import type { GetStaticPaths } from 'astro';
 import { routes } from '@components/layout/routes';
 import { searchBodyAttributes, searchHeadingAttributes } from '@components/search/searchAttributes';
 import SourceList from '@components/produce/SourceList.astro';
+import AltitudeTowns from '@components/recipes/AltitudeTowns.astro';
 import RecipeFacts from '@components/recipes/RecipeFacts.astro';
-import { recipePagesQuery, recipeRepository } from '@composition/index';
+import { provinceSeatTowns } from '@composition/altitudeTowns';
+import { recipePagesQuery, recipeRepository, regionRepository } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
 import { ui } from '@i18n/bg';
 import BaseLayout from '@layouts/BaseLayout.astro';
@@ -17,6 +19,7 @@ export const getStaticPaths = (async () =>
   }))) satisfies GetStaticPaths;
 
 const { recipe, produce } = await recipePagesQuery.forSlug(Astro.params.slug);
+const seatTowns = await provinceSeatTowns(regionRepository);
 const labels = ui.recipes;
 const path = routes.recipe(recipe.slug);
 const category = labels.categories[recipe.category];
@@ -62,6 +65,9 @@ const jsonLd = [
       </p>
       <p class="recipe__summary">{recipe.summary}</p>
       <RecipeFacts recipe={recipe} />
+      {seatTowns !== undefined && (
+        <AltitudeTowns recipe={recipe} towns={seatTowns.towns} source={seatTowns.source} />
+      )}
       <p>
         {labels.produceLabel}{' '}
         {produce.map((item, index) => (

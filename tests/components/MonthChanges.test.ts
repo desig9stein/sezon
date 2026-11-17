@@ -55,7 +55,7 @@ describe('MonthChanges', () => {
 
   it('AC7: lists the garden activities after the name', async () => {
     const text = textOf(await render(MonthChanges, { changes }));
-    expect(text).toContain('Чесън – Сеитба, Разсаждане');
+    expect(text).toContain('Чесън – Сеитба, Разсаждане навън');
     expect(text).not.toContain('сега:');
   });
 

@@ -13,3 +13,11 @@ export type {
 export type { RecipeRepository } from './domain/repositories';
 export { RecipeIndexService } from './application/RecipeIndexService';
 export type { RecipeCategoryGroup } from './application/RecipeIndexService';
+export { townsByAltitudeBand } from './application/townsByAltitudeBand';
+export type {
+  AltitudeBand,
+  AltitudeBandTowns,
+  AltitudeTown,
+  SpanningTown,
+  TownsByAltitudeBand,
+} from './application/townsByAltitudeBand';

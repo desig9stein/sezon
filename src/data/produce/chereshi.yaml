@@ -39,8 +39,9 @@ nutrition:
   fiberG: 2.1
   sugarsG: 12.82
   micronutrients:
-    - { nutrient: vitamin-c, amount: 7 }
     - { nutrient: kaliy, amount: 222 }
+    - { nutrient: vitamin-c, amount: 7 }
+    - { nutrient: med-cu, amount: 0.06 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Cherries, sweet, raw'
     url: https://fdc.nal.usda.gov/food-details/171719/nutrients

@@ -19,6 +19,7 @@ nutrition:
     - { nutrient: kaliy, amount: 1025 }
     - { nutrient: magneziy, amount: 121 }
     - { nutrient: zhelyazo, amount: 3.92 }
+    - { nutrient: folat, amount: 51 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Nuts, pistachio nuts, raw'
     url: https://fdc.nal.usda.gov/food-details/170184/nutrients

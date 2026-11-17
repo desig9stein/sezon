@@ -108,7 +108,7 @@ nutrition: # optional; when present, complete and sourced, per 100 g raw edible 
   carbohydrateG: 13.81
   fiberG: 2.4
   sugarsG: 10.39 # optional
-  micronutrients: # ids from src/data/nutrients; amount in the nutrient's unit
+  micronutrients: # ids from src/data/nutrients; amount in the nutrient's unit (rule below)
     - { nutrient: vitamin-c, amount: 4.6 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Apples, raw, with skin'
@@ -131,6 +131,10 @@ updatedAt: 2026-11-10
 ```
 
 The `photo`, `growing` and `organic` blocks below are optional too.
+
+A region note that quotes statistics for a NUTS2 statistical region starts with that region, not
+with the province, so it does not read as a province ranking: „Южният централен район (в който е
+областта) има най-много … сред районите в страната – … ха през 2025 г.“ (spec 061).
 
 ### Photo
 
@@ -168,8 +172,9 @@ The optional `growing` block tells home gardeners when to sow and plant:
 
 ```yaml
 growing:
-  sow: [2, 3] # sowing, for seedlings or directly in the bed
-  transplant: [4] # setting seedlings out
+  sowSeedlings: [2, 3] # optional: sowing seed for seedlings („Сеитба на разсад“)
+  sow: [] # sowing („Сеитба“): in the bed, or where the source does not say how
+  transplant: [4] # setting seedlings out („Разсаждане навън“)
   plant: [] # planting saplings, sets or plants
   plantingNote: 'Optional single line, e.g. for trees or a regional caveat.'
   tips:
@@ -178,6 +183,9 @@ growing:
     - name: 'Site – article title'
       url: https://example.bg/article
 ```
+
+Put a month in `sowSeedlings` only when the cited source or the planting note says the seed is
+sown for seedlings (spec 061); otherwise keep it in `sow`.
 
 Every month and tip must come from a cited Bulgarian source about growing vegetables or fruit
 (e.g. agrozona.bg or bgfermer.bg). Do not cite gradinata.bg: the owner judged it unreliable
@@ -202,7 +210,8 @@ organic:
 
 Leave the block out when no source states it (no „unknown“ is shown). Organic is a production
 method: never write it as a health or quality claim. A farm gets an `organic` block
-(`certifier`, `certificateId`, `validUntil`) only with a real certificate. When the only
+(`certifier`, `certificateId`, `validUntil` and `url`, the certificate in the EU TRACES directory,
+which the organic label links to) only with a real certificate. When the only
 evidence is a producer's own website, write that the producer states it is certified („посочва,
 че е сертифицирана“), credit each figure only to the source that gives it, and do not name
 individual products or offers.
@@ -246,6 +255,9 @@ cautions: # optional; required (at least one) when wild is true
 - Every caution has its own `source` (https): the act or order, an official document (for example
   an ИАГ forest management plan), a poison centre or a scientific publication (search PubMed first).
   Wikipedia is not a source.
+- A university extension publication (a `.edu` extension service) is accepted only after the spec
+  records the PubMed and poison-centre search that came first and found nothing; it ranks above the
+  press fallback below (spec 061, purslane).
 - An editorial Bulgarian farming article (bgfermer.bg, agrozona.bg) is accepted only as a fallback,
   and the spec records the search for official, poison-centre and scientific sources that came
   first. The article must state the fact about this species and about people (not about livestock
@@ -279,6 +291,11 @@ needs a `preparation` or `toxic-part` caution that says why. `pnpm build` reject
 
 ### Health content (YMYL)
 
+- List every micronutrient of `src/data/nutrients` that the record gives at 15 % or more of the
+  reference intake (no cap, spec 061); when fewer than three reach 15 %, add the highest others up
+  to three. A test checks this against the USDA extract. A value left out on purpose needs a reason
+  in a spec and an exception in `tests/unit/content/round2-061.test.ts` (chestnut manganese, spec
+  044). Nutrient rankings list only produce at or above 15 %.
 - Take nutrition values from USDA FoodData Central (SR Legacy, raw) or EFSA, and cite the item.
   Prefer the item page URL `https://fdc.nal.usda.gov/food-details/<fdcId>/nutrients`.
   Then regenerate the USDA extract (`pnpm content:usda <SR Legacy CSV dir>`, see
@@ -408,7 +425,11 @@ updatedAt: 2026-11-13
 - NCHFP's altitudes are in feet: 0–1,000 ft is „до 300 м“, 1,001–3,000 ft „300–900 м“, 3,001–6,000 ft
   „900–1800 м“ and above 6,000 ft „над 1800 м“; give every band. A pint jar is „до 470 мл“, a quart
   „до 950 мл“; larger jars have no tested time.
-- The processing step says „от момента, в който водата заври“. The water-bath rules (water depth,
+- The processing step names no minutes: it says „от момента, в който водата заври“ and sends the
+  reader to the „Във водна баня“ card for the altitude of the place where they boil; with two jar
+  sizes it says the card is for the larger jar and how much shorter the smaller one is (spec 061).
+  The card also lists the province seats by altitude band, from the `seat` of each region (ЕКАТТЕ
+  altitude group, НСИ). The water-bath rules (water depth,
   timing, restart, cooling, seal check, new lids) are one shared list on every recipe page
   (`ui.recipes.waterBath`), so cite NCHFP „Using Boiling Water Canners“ and „Recommended Jars and
   Lids“ in every recipe's `safety.sources` and do not repeat the rules in the notes.
@@ -520,3 +541,9 @@ seasons are editorial (no official monthly calendar exists).
   listings and LocalStore.bg profiles (sources and the province basis per farm in
   `docs/specs/051-more-farms.md`). ВКУСнаГРАДИНА has the only `organic` block, from its COSMOCERT
   certificate in TRACES; masked directory phones are not published.
+- **Content and safety, round 2 (2026-11-17, spec 061):** recipe steps point to the altitude card,
+  which lists the province seats by ЕКАТТЕ altitude group; elder names бъзак (_Sambucus ebulus_) as
+  poisonous; oregano's two legal cautions read as one rule; purslane warns of spurges; 15
+  produce gained the micronutrients the cap of six left out; NUTS2 region notes start with the
+  region; seedling sowing has its own months; the ВКУСнаГРАДИНА label links its TRACES certificate.
+  Elder stays August only (no source dates the berries in September) and its flowers have no months.

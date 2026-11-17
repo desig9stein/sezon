@@ -24,7 +24,6 @@ nutrition:
   sugarsG: 1.6
   micronutrients:
     - { nutrient: vitamin-k, amount: 41 }
-    - { nutrient: vitamin-c, amount: 8 }
     - { nutrient: fosfor, amount: 115 }
     - { nutrient: kaliy, amount: 300 }
   source:
@@ -52,7 +51,8 @@ photo:
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/a-single-celeriac-root-on-a-dark-background-UpM9Z7c2-1s
 growing:
-  sow: [3]
+  sowSeedlings: [3]
+  sow: []
   transplant: [6]
   plant: []
   tips:

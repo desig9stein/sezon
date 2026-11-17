@@ -13,12 +13,12 @@ season:
   - { month: 6, level: peak }
 regions:
   - region: plovdiv
-    note: 'Областта е в Южния централен район, който има почти половината от реколтираните открити площи с ягоди в страната – 366 от 748 ха през 2022 г.'
+    note: 'Южният централен район (в който е областта) има почти половината от реколтираните открити площи с ягоди в страната – 366 от 748 ха през 2022 г.'
     source:
       name: 'МЗХ, Агростатистика – Производство на зеленчуци, реколта 2022'
       url: https://www.mzh.government.bg/media/filer_public/2023/04/11/ra423_publicationvegetables2022.pdf
   - region: pazardzhik
-    note: 'Областта е в Южния централен район, който има почти половината от реколтираните открити площи с ягоди в страната – 366 от 748 ха през 2022 г.'
+    note: 'Южният централен район (в който е областта) има почти половината от реколтираните открити площи с ягоди в страната – 366 от 748 ха през 2022 г.'
     source:
       name: 'МЗХ, Агростатистика – Производство на зеленчуци, реколта 2022'
       url: https://www.mzh.government.bg/media/filer_public/2023/04/11/ra423_publicationvegetables2022.pdf
@@ -31,9 +31,8 @@ nutrition:
   sugarsG: 4.89
   micronutrients:
     - { nutrient: vitamin-c, amount: 58.8 }
-    - { nutrient: folat, amount: 24 }
     - { nutrient: mangan, amount: 0.386 }
-    - { nutrient: kaliy, amount: 153 }
+    - { nutrient: folat, amount: 24 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Strawberries, raw'
     url: https://fdc.nal.usda.gov/food-details/167762/nutrients

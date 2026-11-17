@@ -21,10 +21,8 @@ nutrition:
   sugarsG: 3.26
   micronutrients:
     - { nutrient: vitamin-k, amount: 43 }
-    - { nutrient: vitamin-c, amount: 12.2 }
     - { nutrient: folat, amount: 33 }
-    - { nutrient: kaliy, amount: 211 }
-    - { nutrient: mangan, amount: 0.216 }
+    - { nutrient: vitamin-c, amount: 12.2 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Beans, snap, green, raw'
     url: https://fdc.nal.usda.gov/food-details/169961/nutrients

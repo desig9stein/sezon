@@ -3,20 +3,17 @@ import { routes } from '@components/layout/routes';
 import LevelMark from '@components/season/LevelMark.astro';
 import SeasonBadge from '@components/season/SeasonBadge.astro';
 import ScrollTable from '@components/ui/ScrollTable.astro';
-import {
-  HIGH_PERCENT,
-  SOURCE_PERCENT,
-  type NutrientRanking,
-  type NutrientRankingEntry,
-} from '@contexts/catalog';
+import SourceLink from '@components/ui/SourceLink.astro';
+import { HIGH_PERCENT, type NutrientRanking, type NutrientRankingEntry } from '@contexts/catalog';
 import { formatNumber, monthNameLower, ui } from '@i18n/bg';
 
 /**
  * Ranking of produce by the amount of one nutrient per 100 g: the season level in the ranking's
  * month (second, so it is visible on a phone without scrolling), amount, % of the reference intake
- * and the nutrition claim the amount allows. On a phone each row is a stacked block of labelled
- * cells; explicit ARIA table roles keep the table semantics that a changed `display` drops
- * in WebKit (spec 062). Renders the empty-state text when no produce lists the nutrient.
+ * and the nutrition claim the amount allows, followed by the data source (spec 061). On a phone
+ * each row is a stacked block of labelled cells; explicit ARIA table roles keep the table
+ * semantics that a changed `display` drops in WebKit (spec 062). Renders the empty-state text
+ * when no produce lists the nutrient.
  */
 interface Props {
   ranking: NutrientRanking;
@@ -38,14 +35,11 @@ const columns = {
 
 /**
  * Returns the percentage as shown: an integer, or one decimal (rounded down) when the integer
- * would reach a claim threshold that the exact value does not reach.
+ * would reach the „high“ threshold that the exact value does not reach.
  */
 const percentText = (entry: NutrientRankingEntry): string => {
   const rounded = entry.percentOfReferenceIntake;
-  const misleading =
-    (entry.claimLevel === undefined && rounded >= SOURCE_PERCENT) ||
-    (entry.claimLevel === 'source' && rounded >= HIGH_PERCENT);
-  if (!misleading) return `${rounded}%`;
+  if (entry.claimLevel !== 'source' || rounded < HIGH_PERCENT) return `${rounded}%`;
   const exact = nutrient.exactPercentOfReferenceIntake(entry.amount);
   return `${formatNumber(Math.floor(exact * TENTHS) / TENTHS)}%`;
 };
@@ -54,67 +48,65 @@ const percentText = (entry: NutrientRankingEntry): string => {
 {ranking.entries.length === 0 ? (
   <p>{labels.empty(nutrient.name)}</p>
 ) : (
-  <ScrollTable caption={labels.caption(nutrient.name)}>
-    {/* eslint-disable astro/jsx-a11y/no-redundant-roles, astro/jsx-a11y/no-interactive-element-to-noninteractive-role -- WebKit drops table semantics when the stacked phone layout changes `display`; explicit roles keep them (spec 062). */}
-    <table class="ranking" role="table">
-      <caption id={captionId}>{labels.caption(nutrient.name)}</caption>
-      <thead class="visually-hidden-narrow" role="rowgroup">
-        <tr role="row">
-          <th scope="col" role="columnheader">
-            {columns.produce}
-          </th>
-          <th scope="col" role="columnheader">
-            {columns.season}
-          </th>
-          <th scope="col" role="columnheader">
-            {columns.amount}
-          </th>
-          <th scope="col" role="columnheader">
-            {nutrition.percent}
-            <abbr title={nutrition.percentTitle}>{nutrition.percentAbbreviation}</abbr>
-          </th>
-          <th scope="col" role="columnheader">
-            {columns.claim}
-          </th>
-        </tr>
-      </thead>
-      <tbody role="rowgroup">
-        {ranking.entries.map((entry) => (
+  <>
+    <ScrollTable caption={labels.caption(nutrient.name)}>
+      {/* eslint-disable astro/jsx-a11y/no-redundant-roles, astro/jsx-a11y/no-interactive-element-to-noninteractive-role -- WebKit drops table semantics when the stacked phone layout changes `display`; explicit roles keep them (spec 062). */}
+      <table class="ranking" role="table">
+        <caption id={captionId}>{labels.caption(nutrient.name)}</caption>
+        <thead class="visually-hidden-narrow" role="rowgroup">
           <tr role="row">
-            <th scope="row" role="rowheader">
-              <a href={routes.produce(entry.produce)}>{entry.produce.name}</a>
+            <th scope="col" role="columnheader">
+              {columns.produce}
             </th>
-            <td class="ranking__text" role="cell" data-label={columns.season}>
-              {entry.seasonLevel === undefined ? (
-                <span>
-                  <LevelMark /> {ui.produce.outOfSeason}
-                </span>
-              ) : (
-                <SeasonBadge level={entry.seasonLevel} />
-              )}
-            </td>
-            <td role="cell" data-label={columns.amount}>
-              {`${formatNumber(entry.amount)} ${nutrition.units[nutrient.unit]}`}
-            </td>
-            <td role="cell" data-label={columns.percent}>
-              {percentText(entry)}
-            </td>
-            <td class="ranking__text" role="cell" data-label={columns.claim}>
-              {entry.claimLevel === undefined ? (
-                <span>
-                  <span aria-hidden="true">–</span>
-                  <span class="visually-hidden">{labels.noClaim}</span>
-                </span>
-              ) : (
-                labels.claimLabels[entry.claimLevel](nutrient.name)
-              )}
-            </td>
+            <th scope="col" role="columnheader">
+              {columns.season}
+            </th>
+            <th scope="col" role="columnheader">
+              {columns.amount}
+            </th>
+            <th scope="col" role="columnheader">
+              {nutrition.percent}
+              <abbr title={nutrition.percentTitle}>{nutrition.percentAbbreviation}</abbr>
+            </th>
+            <th scope="col" role="columnheader">
+              {columns.claim}
+            </th>
           </tr>
-        ))}
-      </tbody>
-    </table>
-    {/* eslint-enable astro/jsx-a11y/no-redundant-roles, astro/jsx-a11y/no-interactive-element-to-noninteractive-role */}
-  </ScrollTable>
+        </thead>
+        <tbody role="rowgroup">
+          {ranking.entries.map((entry) => (
+            <tr role="row">
+              <th scope="row" role="rowheader">
+                <a href={routes.produce(entry.produce)}>{entry.produce.name}</a>
+              </th>
+              <td class="ranking__text" role="cell" data-label={columns.season}>
+                {entry.seasonLevel === undefined ? (
+                  <span>
+                    <LevelMark /> {ui.produce.outOfSeason}
+                  </span>
+                ) : (
+                  <SeasonBadge level={entry.seasonLevel} />
+                )}
+              </td>
+              <td role="cell" data-label={columns.amount}>
+                {`${formatNumber(entry.amount)} ${nutrition.units[nutrient.unit]}`}
+              </td>
+              <td role="cell" data-label={columns.percent}>
+                {percentText(entry)}
+              </td>
+              <td class="ranking__text" role="cell" data-label={columns.claim}>
+                {labels.claimLabels[entry.claimLevel](nutrient.name)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {/* eslint-enable astro/jsx-a11y/no-redundant-roles, astro/jsx-a11y/no-interactive-element-to-noninteractive-role */}
+    </ScrollTable>
+    <p class="ranking__source">
+      {labels.sourcePrefix} <SourceLink source={labels.source} /> {labels.sourceSuffix}
+    </p>
+  </>
 )}
 
 <style>
@@ -124,6 +116,11 @@ const percentText = (entry: NutrientRankingEntry): string => {
 
   .ranking .ranking__text {
     text-align: start;
+  }
+
+  .ranking__source {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
   }
 
   @media (width < 40rem) {

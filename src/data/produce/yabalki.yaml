@@ -41,6 +41,7 @@ nutrition:
   micronutrients:
     - { nutrient: vitamin-c, amount: 4.6 }
     - { nutrient: kaliy, amount: 107 }
+    - { nutrient: vitamin-k, amount: 2.2 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Apples, raw, with skin'
     url: https://fdc.nal.usda.gov/food-details/171688/nutrients
