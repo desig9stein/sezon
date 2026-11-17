@@ -52,7 +52,7 @@ async function tabStopsInMain(page: Page): Promise<TabStop[]> {
           index: position,
           label: (active.textContent ?? '').trim().slice(0, 60) || active.outerHTML.slice(0, 80),
           href: active.getAttribute('href'),
-          inRegions: active.closest('section[aria-labelledby="regions"]') !== null,
+          inRegions: active.closest('section.produce__regions') !== null,
           focused: {
             outline: `${style.outlineStyle} ${style.outlineWidth} ${style.outlineColor}`,
             boxShadow: style.boxShadow,
@@ -164,7 +164,7 @@ test.describe('accessibility polish (spec 060)', () => {
     expect(box).not.toBeNull();
     expect(cellBox).not.toBeNull();
     if (box && cellBox) expect(cellBox.x + cellBox.width).toBeLessThanOrEqual(box.x + box.width);
-    await expect(page.locator('.table-scroll thead th').nth(1)).toHaveText(/^През /);
+    await expect(page.locator('.table-scroll thead th').nth(1)).toHaveText(/^\s*През /);
   });
 
   for (const viewport of [WIDE_VIEWPORT, PHONE_VIEWPORT]) {
@@ -186,19 +186,19 @@ test.describe('accessibility polish (spec 060)', () => {
     });
   }
 
-  test('QA 060: every scroll region on a page has its own name, built from its caption', async ({
+  test('QA 060 (amended by spec 062): every scrolling region on a page has its own name, built from its caption', async ({
     page,
   }) => {
-    for (const path of [APPLES, VITAMIN_C, CALENDAR]) {
-      await page.goto(path);
-      const names = await page
-        .locator('.table-scroll')
-        .evaluateAll((regions) => regions.map((region) => region.getAttribute('aria-label') ?? ''));
-      const captions = await page.locator('.table-scroll caption').allTextContents();
-      expect(names.length, path).toBeGreaterThan(0);
-      expect(new Set(names).size, path).toBe(names.length);
-      expect(names, path).toEqual(captions.map((caption) => `${caption.trim()} (превъртане)`));
-    }
+    await page.setViewportSize(PHONE_VIEWPORT);
+    await page.goto(CALENDAR);
+    const regions = page.locator('.table-scroll[tabindex="0"]');
+    const names = await regions.evaluateAll((items) =>
+      items.map((region) => region.getAttribute('aria-label') ?? ''),
+    );
+    const captions = await regions.locator('caption').allTextContents();
+    expect(names.length).toBeGreaterThan(0);
+    expect(new Set(names).size).toBe(names.length);
+    expect(names).toEqual(captions.map((caption) => `${caption.trim()} (превъртане)`));
   });
 
   test('AC11: a produce without farms has no contents link to the farm section', async ({
@@ -224,7 +224,7 @@ test.describe('accessibility polish (spec 060)', () => {
       [CALENDAR, '.table-scroll th a'],
       [VITAMIN_C, '.table-scroll th a'],
       [APPLES, '.table-scroll th a'],
-      [APPLES, 'section[aria-labelledby="regions"] > ul a'],
+      [APPLES, 'section.produce__regions > ul a'],
     ];
     for (const [path, selector] of checks) {
       await page.goto(path);

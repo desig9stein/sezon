@@ -52,3 +52,23 @@ const HUB_HEADING_WEIGHT = '10';
 export function searchHubHeadingAttributes(name: string): Readonly<Record<string, string>> {
   return { ...searchHeadingAttributes(name), 'data-pagefind-weight': HUB_HEADING_WEIGHT };
 }
+
+/**
+ * Returns the attributes of a family page that serve „семейство <продукт>“ queries (spec 062): the
+ * family word is indexed (so a search for it finds every family page) and the names of the
+ * family's produce are stored as Pagefind `members` metadata without being indexed, so „домати“
+ * alone still lists the produce before the family.
+ * @param familyWord - The word „семейство“.
+ * @param names - Names of the family's produce, e.g. „Домати, Пипер, Патладжан“.
+ */
+export function searchFamilyAttributes(
+  familyWord: string,
+  names: string,
+): Readonly<Record<string, string>> {
+  return {
+    'data-search-family': familyWord,
+    'data-pagefind-index-attrs': 'data-search-family',
+    'data-search-members': names,
+    'data-pagefind-meta': 'members[data-search-members]',
+  };
+}

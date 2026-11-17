@@ -58,6 +58,7 @@ export function produceRecord(
     wild: false,
     cautions: [],
     notEatenRaw: false,
+    aliases: [],
     updatedAt: new Date('2026-11-10'),
     ...overrides,
   };

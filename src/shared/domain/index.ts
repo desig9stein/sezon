@@ -8,3 +8,4 @@ export { Slug, SLUG_PATTERN } from './Slug';
 export { transliterate } from './transliterate';
 export { DEFAULT_SOURCE_LANGUAGE, foreignLanguage, SOURCE_LANGUAGES } from './sourceLanguage';
 export type { SourceLanguage } from './sourceLanguage';
+export { containsWordForms, INFLECTION_ENDINGS, isWordForm } from './wordForms';

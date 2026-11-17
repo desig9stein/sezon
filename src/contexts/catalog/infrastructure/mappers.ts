@@ -58,6 +58,7 @@ export function toProduce(id: string, record: ProduceRecord): Produce {
     organic: record.organic,
     wild: record.wild,
     cautions: record.cautions,
+    aliases: record.aliases,
   });
 }
 

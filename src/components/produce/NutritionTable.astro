@@ -12,7 +12,8 @@ import { foreignLanguage } from '@shared/domain';
  * the reference intake (РСП) and describes the table, and a note after it names the data source,
  * which the page's source list links.
  * Micronutrient rows link to their nutrient page. Each percentage is followed by a decorative bar
- * filled to the percentage, capped at 100.
+ * filled to the percentage, capped at 100, which wraps under the number when the column is narrow
+ * (enlarged text, spec 062).
  */
 interface Props {
   nutrition: NutritionFacts;
@@ -130,12 +131,18 @@ const rows: ReadonlyArray<Row> = [
 </p>
 
 <style>
-  .nutrition {
-    min-width: 18rem;
+  /* Narrow screens and enlarged text: tighter cells keep the „% РСП“ column in the box (spec 062). */
+  @media (width < 48rem) {
+    .nutrition th,
+    .nutrition td {
+      padding-inline: var(--space-1);
+    }
   }
 
   .nutrition__percent {
     display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     align-items: center;
     gap: var(--space-2);
     font-variant-numeric: tabular-nums;

@@ -6,7 +6,9 @@ import { formatPhone } from './formatPhone';
 
 /**
  * A farm's contact links as a list: website, email and phone, whichever the farm has. Each link's
- * accessible name includes the farm name; a website that is a LocalStore.bg or Хранкооп profile is
+ * accessible name includes the farm name; the e-mail address is shown as text so it can be copied,
+ * and a directory profile that is the only contact gets a note that the contacts are there
+ * (spec 062); a website that is a LocalStore.bg or Хранкооп profile is
  * named as a profile in that directory; the phone number is shown in digit groups (the `tel:` link
  * keeps the E.164 number) and does not wrap. A sponsored farm's
  * website link is marked `rel="sponsored noopener"`.
@@ -22,6 +24,9 @@ const websiteRel = farm.sponsored ? 'sponsored noopener' : 'noopener';
 const website = farm.contact.website;
 const directory = website === undefined ? undefined : directoryName(website);
 const phone = farm.contact.phone;
+const email = farm.contact.email;
+/** A directory profile is the farm's only contact: the reader opens it to get in touch. */
+const profileOnly = directory !== undefined && email === undefined && phone === undefined;
 const websiteLabel =
   directory === undefined
     ? labels.website(farm.name)
@@ -34,11 +39,19 @@ const websiteLabel =
       <a href={website} rel={websiteRel}>
         {websiteLabel}
       </a>
+      {profileOnly && <p class="farm-contacts__note">{labels.profileNote(directory)}</p>}
     </li>
   )}
-  {farm.contact.email !== undefined && (
+  {email !== undefined && (
     <li>
-      <a href={`mailto:${farm.contact.email}`}>{labels.email(farm.name)}</a>
+      <span aria-hidden="true">{labels.emailLabel}</span>{' '}
+      <a
+        class="farm-contacts__email"
+        href={`mailto:${email}`}
+        aria-label={labels.email(farm.name, email)}
+      >
+        {email}
+      </a>
     </li>
   )}
   {phone !== undefined && (
@@ -70,5 +83,14 @@ const websiteLabel =
 
   .farm-contacts__phone {
     white-space: nowrap;
+  }
+
+  .farm-contacts__email {
+    overflow-wrap: anywhere;
+  }
+
+  .farm-contacts__note {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
   }
 </style>

@@ -489,7 +489,10 @@ export const ui = {
       'Всеки месец ще виждаш новия запис в приложението.',
     ],
     addressLabel: 'Адрес на абонамента',
-    addressHint: 'Докосни полето и копирай адреса.',
+    addressHint: 'Копирай адреса от полето и го постави в приложението.',
+    copy: 'Копирай',
+    copied: 'Адресът е копиран.',
+    copyFailed: 'Копирането не успя – избери адреса и го копирай.',
     feedLink: 'Отвори самия абонамент (XML)',
     itemsHeading: 'Записи в абонамента',
   },
@@ -782,7 +785,9 @@ export const ui = {
       } satisfies Record<OrganicAvailability, string>,
       website: (farm: string) => `Уебсайт на ${farm}`,
       directoryProfile: (farm: string, directory: string) => `Профил на ${farm} в ${directory}`,
-      email: (farm: string) => `Имейл до ${farm}`,
+      emailLabel: 'Имейл:',
+      email: (farm: string, address: string) => `Имейл до ${farm}: ${address}`,
+      profileNote: (directory: string) => `За връзка с фермата отвори профила ѝ в ${directory}.`,
       phoneLabel: 'Телефон:',
       phone: (farm: string, phone: string) => `Телефон на ${farm}: ${phone}`,
     },
@@ -832,12 +837,16 @@ export const ui = {
     available: 'бере се в България сега',
     storage: 'от последната бера, съхранявано',
     outOfSeason: 'Извън сезона: вероятно е внос',
-    strip: 'Лентата е годината от януари до декември; текущият месец е в рамка.',
+    strip:
+      'Лентата е годината от януари до декември; текущият месец е в рамка; прочетена, лентата изрежда месеците на всяко ниво.',
     /** Compact key on the home page (spec 059). */
-    keyStrip: 'Лентата е годината; месецът е в рамка.',
+    keyStrip:
+      'Лентата е годината; месецът е в рамка; прочетена, лентата изрежда месеците на всяко ниво.',
     keyLink: 'Какво значат печатите',
   },
   yearStrip: {
+    /** Starts the strip's text alternative, so it is not heard as the current status (spec 062). */
+    prefix: 'През годината:',
     part: (level: string, ranges: string) => `${level}: ${ranges}`,
     separator: '; ',
     outOfSeason: 'Извън сезона през цялата година',
@@ -908,6 +917,30 @@ export const ui = {
     intro: (name: string, month: Month) =>
       `Продуктите от семейство ${name}, подредени по сезона през ${monthNameLower(month)}.`,
     empty: 'Все още няма добавени продукти от това семейство.',
+    /** Indexed on family pages so that „семейство <продукт>“ finds them (spec 062). */
+    familyWord: 'семейство',
+    inSeasonHeading: (month: Month, count: number) =>
+      `В сезон през ${monthNameLower(month)} (${count})`,
+    noneInSeason: (month: Month) =>
+      `Нищо от семейството не е в сезон през ${monthNameLower(month)}.`,
+  },
+  /** The wild plants page `/divorastyashti` and the wild sections of month pages (spec 062). */
+  wild: {
+    title: 'Диворастящи растения в България по сезони',
+    heading: 'Диворастящи растения',
+    description:
+      'Диворастящите растения в Сезон: кога се берат през годината, кои са в сезон сега и какво да знаеш, преди да ги събираш.',
+    intro:
+      'Растенията, които се събират от природата, с месеците, в които се берат. Всяко има раздел „Внимание“ с предупреждения и източници.',
+    methodologyLink: 'Как отбелязваме диворастящите растения',
+    monthsLabel: 'Диворастящи по месеци',
+    now: (month: Month) => `През ${monthNameLower(month)}:`,
+    empty: 'Все още няма диворастящи растения.',
+    monthHeading: (month: Month, count: number) =>
+      `Диворастящи през ${monthNameLower(month)} (${count})`,
+    monthEmpty: (month: Month) =>
+      `През ${monthNameLower(month)} няма диворастящи растения в сезон.`,
+    listLink: 'Всички диворастящи растения',
   },
   search: {
     navLabel: 'Търсене',
@@ -920,6 +953,9 @@ export const ui = {
     submit: 'Търси',
     noscript: 'Търсенето изисква JavaScript. Разгледай каталога по-долу.',
     browseHeading: 'Разгледай',
+    resultsHeading: 'Резултати',
+    scope: 'Сайтът покрива пресни плодове, зеленчуци, билки и ядки от България.',
+    pageTitle: `Търсене: {query} | ${SITE_NAME}`,
     loading: 'Търсене…',
     found: 'Резултати: {count} за „{query}“.',
     none: 'Няма резултати за „{query}“.',
@@ -1028,6 +1064,8 @@ export const ui = {
     regionCount: (name: string, count: number) => `${name} (${count})`,
     regionPageLink: (name: string) => `Какво расте ${inRegionLower(name)}`,
     regionsLink: 'Към областите на картата',
+    organicLabel: 'Сертифицирани био ферми:',
+    nearbyFarms: (name: string, count: number) => `Ферми в ${name} (${count})`,
     produceHeading: 'Какво предлага',
     produceSeparator: DASH_SEPARATOR,
     contactsHeading: 'Контакти',
@@ -1172,8 +1210,9 @@ export const ui = {
     heading: 'Сезонен календар',
     description:
       'Целогодишен календар на сезонните плодове, зеленчуци, подправки и ядки в България: кога са в разгара си, кога в сезон и кога от хранилище.',
-    intro:
-      'Кога е сезонът на всеки продукт през годината. Разпечатва се на няколко листа A4 в хоризонтален формат: избери „Печат“ в менюто на браузъра или натисни Ctrl+P (Cmd+P на Mac).',
+    intro: 'Кога е сезонът на всеки продукт през годината.',
+    printHint:
+      'Разпечатва се на няколко листа A4 в хоризонтален формат: избери „Печат“ в менюто на браузъра или натисни Ctrl+P (Cmd+P на Mac).',
     kindCaption: (kindName: string) => `${kindName} по месеци`,
     toc: 'На тази страница',
     produceColumn: 'Продукт',

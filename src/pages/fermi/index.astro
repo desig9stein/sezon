@@ -17,6 +17,7 @@ const path = routes.farms;
 const groups = await farmPagesQuery.byRegion(BUILD_DATE);
 const farms = groups.flatMap((group) => group.farms);
 const sectionId = (slug: string) => `oblast-${slug}`;
+const organicFarms = farms.filter((entry) => entry.certifiedOrganic);
 const jsonLd = [
   collectionPageJsonLd({
     siteUrl: requireSiteUrl(Astro.site),
@@ -53,17 +54,38 @@ const jsonLd = [
       ))}
     </ul>
   </nav>
+  {organicFarms.length > 0 && (
+    <p class="farms__organic">
+      {labels.organicLabel}{' '}
+      {organicFarms.map(({ farm }, index) => (
+        <>
+          {index > 0 && ', '}
+          <a href={routes.farm(farm.slug)}>{farm.name}</a>
+        </>
+      ))}
+    </p>
+  )}
   <p class="farms__regions-link">
     <a href={routes.regions}>{labels.regionsLink}</a>
   </p>
-  {groups.map(({ region, farms: regionFarms }) => (
+  {groups.map(({ region, farms: regionFarms, surrounding }) => (
     <section class="farms__region" aria-labelledby={sectionId(region.slug)}>
-      <h2 class="section-heading" id={sectionId(region.slug)}>
+      <h2 class="section-heading" id={sectionId(region.slug)} tabindex="-1">
         {ui.regions.placeName(region.name)}
       </h2>
       <p>
         <a href={routes.region(region.slug)}>{labels.regionPageLink(region.name)}</a>
       </p>
+      {surrounding !== undefined && (
+        <p>
+          <a href={`#${sectionId(surrounding.region.slug)}`}>
+            {labels.nearbyFarms(
+              ui.regions.placeName(surrounding.region.name),
+              surrounding.farmCount,
+            )}
+          </a>
+        </p>
+      )}
       <ul class="farms" role="list">
         {regionFarms.map((entry) => (
           <FarmCard {...entry} headingLevel={3} currentRegionSlug={region.slug} />

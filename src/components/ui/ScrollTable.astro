@@ -5,7 +5,9 @@ import { ui } from '@i18n/bg';
  * Focusable, horizontally scrollable region for a data table, with the shared table styles:
  * start-aligned headers, end-aligned numbers, hairline rows and row-header links at least 24 px
  * tall. The region is named after the table caption with a short scrolling suffix, so it is told
- * apart from other tables on the page without repeating the caption as is.
+ * apart from other tables on the page without repeating the caption as is. A small script removes
+ * the Tab stop and the name while the table fits its box and restores them when it overflows
+ * (spec 062); without JavaScript the region stays focusable.
  */
 interface Props {
   /** Caption text of the table inside. */
@@ -15,9 +17,20 @@ interface Props {
 const { caption } = Astro.props;
 ---
 
-<section class="table-scroll" aria-label={ui.scrollTable.label(caption)} tabindex="0">
+<section
+  class="table-scroll"
+  aria-label={ui.scrollTable.label(caption)}
+  tabindex="0"
+  data-scroll-table
+>
   <slot />
 </section>
+
+<script>
+  import { watchScrollTables } from './scrollTable';
+
+  watchScrollTables(document.querySelectorAll<HTMLElement>('[data-scroll-table]'));
+</script>
 
 <style>
   .table-scroll {

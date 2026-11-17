@@ -13,6 +13,8 @@ import { absoluteUrl, webPageJsonLd } from '@shared/seo';
 /**
  * `/abonament` (spec 059): explains what RSS is and how to follow the site, shows the feed address
  * in a read-only field to copy, links the raw feed and lists the monthly entries the feed holds.
+ * With JavaScript the field selects its address on focus and a „Копирай“ button copies it
+ * (spec 062); without it the button stays hidden.
  */
 const labels = ui.feedPage;
 const path = routes.subscribe;
@@ -74,14 +76,26 @@ const jsonLd = [
         <p id={hintId} class="feed-address__hint">
           {labels.addressHint}
         </p>
-        <input
-          id={addressId}
-          type="url"
-          readonly
-          value={feedUrl}
-          aria-describedby={hintId}
-          spellcheck="false"
-        />
+        <div class="feed-address__row">
+          <input
+            id={addressId}
+            type="url"
+            readonly
+            value={feedUrl}
+            aria-describedby={hintId}
+            spellcheck="false"
+            data-feed-address
+          />
+          <button type="button" data-copy-feed hidden>
+            {labels.copy}
+          </button>
+        </div>
+        <p
+          class="feed-address__status"
+          role="status"
+          data-copied={labels.copied}
+          data-copy-failed={labels.copyFailed}
+        ></p>
         <p>
           <a href={routes.feed}>{labels.feedLink}</a>
         </p>
@@ -104,6 +118,12 @@ const jsonLd = [
   </article>
 </BaseLayout>
 
+<script>
+  import { initFeedCopy } from '@components/feed/feedCopy';
+
+  initFeedCopy(document);
+</script>
+
 <style>
   .feed-address {
     display: grid;
@@ -116,6 +136,37 @@ const jsonLd = [
   }
 
   .feed-address__hint {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .feed-address__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .feed-address__row input {
+    flex: 1 1 16rem;
+  }
+
+  .feed-address button {
+    min-height: var(--target-min);
+    padding: var(--space-2) var(--space-4);
+    border: 0;
+    border-radius: var(--radius-sm);
+    color: var(--color-accent-text);
+    background: var(--color-accent);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .feed-address button[hidden] {
+    display: none;
+  }
+
+  .feed-address__status {
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
   }

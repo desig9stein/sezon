@@ -27,7 +27,7 @@ describe('FarmList', () => {
       /<a[^>]*href="https:\/\/example\.com"[^>]*>\s*Уебсайт на Зелена долина\s*<\/a>/,
     );
     expect(html).toMatch(
-      /<a[^>]*href="mailto:farm@example\.com"[^>]*>\s*Имейл до Зелена долина\s*<\/a>/,
+      /<a[^>]*href="mailto:farm@example\.com"[^>]*aria-label="Имейл до Зелена долина: farm@example\.com"[^>]*>\s*farm@example\.com\s*<\/a>/,
     );
     expect(html).toMatch(
       /<a[^>]*href="tel:\+359888123456"[^>]*aria-label="Телефон на Сад: \+359\u00a0888\u00a0123\u00a0456"[^>]*>\s*\+359\u00a0888\u00a0123\u00a0456\s*<\/a>/,

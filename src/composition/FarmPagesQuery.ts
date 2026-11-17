@@ -1,6 +1,6 @@
 import type { Produce, ProduceRepository } from '@contexts/catalog';
 import type { Farm, FarmRepository } from '@contexts/farms';
-import type { Region, RegionRepository } from '@contexts/geography';
+import { surroundingRegionSlug, type Region, type RegionRepository } from '@contexts/geography';
 import { BrokenReferenceError, FarmNotFoundError } from '@shared/domain/errors';
 import type { FarmWithRegion } from './ProduceDetailsQuery';
 
@@ -15,6 +15,8 @@ export interface RegionFarms {
   readonly region: Region;
   /** The region's farms in Bulgarian name order. */
   readonly farms: ReadonlyArray<FarmWithRegion>;
+  /** The province around this one and its number of farms, when it has farms (spec 062). */
+  readonly surrounding?: { readonly region: Region; readonly farmCount: number } | undefined;
 }
 
 const bulgarianCollator = new Intl.Collator('bg');
@@ -42,7 +44,8 @@ export class FarmPagesQuery {
 
   /**
    * Returns the farms grouped by region, regions in Bulgarian alphabetical order of their name,
-   * farms in name order; regions without farms are left out.
+   * farms in name order; regions without farms are left out. A region inside another province
+   * names that province and its farm count (`surrounding`).
    * @param on - Day for the organic status.
    * @throws BrokenReferenceError when a farm's region does not exist.
    */
@@ -53,10 +56,22 @@ export class FarmPagesQuery {
       group.farms.push(entry);
       groups.set(entry.region.slug, group);
     }
+    const surroundingOf = (slug: string) => {
+      const around = groups.get(surroundingRegionSlug(slug) ?? '');
+      return around === undefined
+        ? undefined
+        : Object.freeze({ region: around.region, farmCount: around.farms.length });
+    };
     return Object.freeze(
       [...groups.values()]
         .sort((a, b) => bulgarianCollator.compare(a.region.name, b.region.name))
-        .map((group) => Object.freeze({ region: group.region, farms: Object.freeze(group.farms) })),
+        .map((group) =>
+          Object.freeze({
+            region: group.region,
+            farms: Object.freeze(group.farms),
+            surrounding: surroundingOf(group.region.slug),
+          }),
+        ),
     );
   }
 

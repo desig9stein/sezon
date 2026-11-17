@@ -65,6 +65,7 @@ describe('QA 004 regressions', () => {
       'home',
       'methodology',
       'methodologySeason',
+      'methodologyWild',
       'month',
       'nutrient',
       'ogImage',
@@ -79,6 +80,7 @@ describe('QA 004 regressions', () => {
       'search',
       'section',
       'subscribe',
+      'wild',
     ]);
   });
 

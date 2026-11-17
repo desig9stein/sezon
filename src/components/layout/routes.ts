@@ -20,6 +20,9 @@ const OG_IMAGE_EXTENSION = '.png';
 /** Id of the footer's month strip, the target of „Всички месеци“ links (spec 059). */
 export const MONTHS_STRIP_ID = 'mesetsi';
 
+/** Id of the wild produce section of a month page, linked from the wild plants page (spec 062). */
+export const WILD_SECTION_ID = 'divorastyashti';
+
 /** Media type of the RSS feed at `routes.feed`. */
 export const FEED_MEDIA_TYPE = 'application/rss+xml';
 
@@ -35,12 +38,16 @@ export const routes = {
   privacy: '/poveritelnost',
   cookies: '/biskvitki',
   calendar: '/kalendar',
+  /** List of the wild produce with their seasons (spec 062). */
+  wild: '/divorastyashti',
   search: '/tarsene',
   feed: '/rss.xml',
   /** Page that explains the RSS feed and how to follow it (spec 059). */
   subscribe: '/abonament',
   /** Methodology section that explains the season levels. */
   methodologySeason: '/metodologiya#method-season',
+  /** Methodology section that explains which produce is marked as wild (spec 062). */
+  methodologyWild: '/metodologiya#method-wild',
   farms: FARMS_PREFIX,
   farm: (slug: string) => `${FARMS_PREFIX}/${slug}`,
   regions: REGIONS_PREFIX,

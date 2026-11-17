@@ -33,7 +33,7 @@ const currentOf = (month: Month): 'page' | 'date' | undefined => {
 
 <footer class="site-footer">
   <div class="container site-footer__inner">
-    <nav id={MONTHS_STRIP_ID} aria-label={ui.footer.monthsLabel}>
+    <nav id={MONTHS_STRIP_ID} tabindex="-1" aria-label={ui.footer.monthsLabel}>
       <ol class="site-footer__months" role="list">
         {Month.all().map((month) => (
           <li>

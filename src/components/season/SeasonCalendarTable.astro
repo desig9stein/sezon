@@ -9,7 +9,10 @@ import MonthAbbr from './MonthAbbr.astro';
 
 /**
  * Year-at-a-glance calendar of every produce against the 12 months: a legend, a jump list to the
- * kinds, then one section per kind with an `h2` and its own table (spec 059). Each cell shows the
+ * kinds, then one section per kind with an `h2` and its own table (spec 059). Each table head
+ * starts with a compact key (kind and levels) for print, where it repeats on every sheet (spec
+ * 062); on screen the legend above serves, so the key is visually hidden, and it is hidden from
+ * assistive technology because every cell carries its level as text. Each cell shows the
  * level mark (decorative) and the level text (visually hidden). The tables share fixed column
  * widths so they line up. An empty calendar renders the empty message instead.
  */
@@ -50,7 +53,7 @@ const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, un
     </nav>
     {calendar.groups.map((group) => (
       <section class="calendar-kind" aria-labelledby={sectionId(group.kind)}>
-        <h2 id={sectionId(group.kind)}>
+        <h2 id={sectionId(group.kind)} tabindex="-1">
           <a href={routes.section(group.kind)}>{ui.sections.names[group.kind]}</a>
         </h2>
         <ScrollTable caption={labels.kindCaption(ui.sections.names[group.kind])}>
@@ -58,7 +61,21 @@ const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, un
             <caption id={captionId(group.kind)}>
               {labels.kindCaption(ui.sections.names[group.kind])}
             </caption>
+            <colgroup>
+              <col class="year__produce-column" />
+              <col span={months.length} />
+            </colgroup>
             <thead>
+              <tr class="year__key visually-hidden" aria-hidden="true">
+                <td colspan={months.length + 1}>
+                  <strong>{ui.sections.names[group.kind]}</strong>
+                  {legend.map((level) => (
+                    <span class="year__key-item">
+                      <LevelMark level={level} /> {levelLabel(level)}
+                    </span>
+                  ))}
+                </td>
+              </tr>
               <tr>
                 <th scope="col">{labels.produceColumn}</th>
                 {months.map((month) => (
@@ -134,7 +151,7 @@ const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, un
     table-layout: fixed;
   }
 
-  .year th[scope='col']:first-child {
+  .year__produce-column {
     width: 10rem;
   }
 
@@ -156,6 +173,23 @@ const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, un
 
   .year td {
     text-align: center;
+  }
+
+  .year .year__key td {
+    padding-block: var(--space-1);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    text-align: start;
+  }
+
+  .year__key strong {
+    margin-inline-end: var(--space-3);
+    color: var(--color-text);
+  }
+
+  .year__key-item {
+    margin-inline-end: var(--space-3);
+    white-space: nowrap;
   }
 
   .year td[data-level='peak'] {
@@ -248,6 +282,16 @@ const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, un
 
     .year th[aria-current='date'] {
       text-decoration: underline;
+    }
+
+    .year .year__key.visually-hidden {
+      position: static;
+      width: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      clip-path: none;
+      white-space: normal;
     }
   }
 </style>

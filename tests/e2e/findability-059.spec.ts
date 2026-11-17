@@ -88,7 +88,7 @@ test.describe('findability (spec 059)', () => {
     page,
   }) => {
     await page.goto('/kalendar');
-    await expect(page.locator('.calendar-intro')).toContainText('няколко листа A4');
+    await expect(page.locator('.calendar-print-hint')).toContainText('няколко листа A4');
     await expect(page.locator('main')).not.toContainText('подготвен за разпечатване');
     const headings = await page.locator('main h2').allTextContents();
     expect(headings.map((text) => text.trim())).toEqual(

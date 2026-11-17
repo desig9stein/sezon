@@ -23,6 +23,7 @@ const labels = ui.calendar;
   <div {...searchBodyAttributes(ui.search.types.calendar)}>
     <h1 {...searchHeadingAttributes(labels.heading)}>{labels.heading}</h1>
     <p class="calendar-intro">{labels.intro}</p>
+    <p class="calendar-intro calendar-print-hint">{labels.printHint}</p>
   </div>
   <SeasonCalendarTable calendar={calendar} currentMonth={buildMonth} />
 </BaseLayout>
@@ -50,6 +51,10 @@ const labels = ui.calendar;
 
     .calendar-intro {
       font-size: var(--print-font-size);
+    }
+
+    .calendar-print-hint {
+      display: none;
     }
   }
 </style>

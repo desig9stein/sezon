@@ -1,8 +1,12 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import SeasonGroupsList from '@components/produce/SeasonGroupsList.astro';
+import ProduceGroupList from '@components/produce/ProduceGroupList.astro';
 import { routes } from '@components/layout/routes';
-import { searchBodyAttributes, searchHeadingAttributes } from '@components/search/searchAttributes';
+import {
+  searchBodyAttributes,
+  searchFamilyAttributes,
+  searchHeadingAttributes,
+} from '@components/search/searchAttributes';
 import { buildMonth } from '@composition/clock';
 import { produceGroupIndexService } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
@@ -20,6 +24,23 @@ const { group } = index;
 const labels = ui.groups;
 const path = routes.group(group.slug);
 const description = labels.description(group.description, buildMonth);
+const inSeason = [
+  { id: 'group-peak', heading: ui.overview.peak, items: index.peak, variant: 'plate' as const },
+  {
+    id: 'group-available',
+    heading: ui.overview.available,
+    items: index.available,
+    variant: 'index' as const,
+  },
+  {
+    id: 'group-storage',
+    heading: ui.overview.storage,
+    items: index.storage,
+    variant: 'index' as const,
+  },
+].filter((group) => group.items.length > 0);
+const inSeasonCount = index.peak.length + index.available.length + index.storage.length;
+const memberNames = index.all.map((produce) => produce.name).join(', ');
 const jsonLd = [
   collectionPageJsonLd({
     siteUrl: requireSiteUrl(Astro.site),
@@ -44,18 +65,42 @@ const jsonLd = [
   <header class="group-header">
     <div class="group-header__title" {...searchBodyAttributes(ui.search.types.group)}>
       <h1 {...searchHeadingAttributes(group.name)}>{group.name}</h1>
-      <p class="group-header__latin">
+      <p class="group-header__latin" {...searchFamilyAttributes(labels.familyWord, memberNames)}>
         <i lang="la">{group.latinName}</i>
       </p>
     </div>
     <p class="group-header__description">{group.description}</p>
+    {index.count === 0 ? (
+      <p>{labels.empty}</p>
+    ) : (
+      <p class="group-header__intro">{labels.intro(group.name, buildMonth)}</p>
+    )}
   </header>
-  <SeasonGroupsList
-    groups={index}
-    intro={labels.intro(group.name, buildMonth)}
-    empty={labels.empty}
-    idPrefix="group"
-  />
+  {index.count > 0 && (
+    <section class="group-season" aria-labelledby="group-in-season">
+      <h2 id="group-in-season">{labels.inSeasonHeading(buildMonth, inSeasonCount)}</h2>
+      {inSeasonCount === 0 && <p>{labels.noneInSeason(buildMonth)}</p>}
+      {inSeason.map((group) => (
+        <ProduceGroupList
+          id={group.id}
+          heading={group.heading}
+          items={group.items}
+          variant={group.variant}
+          levelOf={(produce) => produce.levelIn(buildMonth)}
+          headingLevel={3}
+        />
+      ))}
+    </section>
+  )}
+  {index.outOfSeason.length > 0 && (
+    <ProduceGroupList
+      id="group-out-of-season"
+      heading={ui.sections.outOfSeason(buildMonth)}
+      items={index.outOfSeason}
+      variant="index"
+      levelOf={() => undefined}
+    />
+  )}
 </BaseLayout>
 
 <style>
@@ -73,6 +118,23 @@ const jsonLd = [
   .group-header__latin {
     color: var(--color-text-muted);
     font-size: var(--font-size-lg);
+  }
+
+  .group-header__intro {
+    max-width: var(--reading-width);
+    font-size: var(--font-size-lg);
+  }
+
+  .group-season {
+    margin-top: var(--space-12);
+  }
+
+  .group-season > :global(.group) {
+    margin-top: var(--space-6);
+  }
+
+  .group-season > h2 {
+    font-size: var(--font-size-2xl);
   }
 
   .group-header__description {

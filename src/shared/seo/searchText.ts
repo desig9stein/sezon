@@ -1,4 +1,5 @@
 import { Slug } from '@shared/domain/Slug';
+import { INFLECTION_ENDINGS } from '@shared/domain/wordForms';
 
 /**
  * Returns the Latin transliteration of a Bulgarian heading for the search index: lower case,
@@ -234,3 +235,38 @@ export function matchesHeading(heading: string, terms: ReadonlyArray<string>): b
 export function wordsOf(text: string): ReadonlyArray<string> {
   return folded(text).match(WORD) ?? [];
 }
+
+/** Longest query word that must match a whole word or one of its forms, not any longer word. */
+export const SHORT_TERM_MAX_LENGTH = 3;
+const CYRILLIC_TERM = /^\p{Script=Cyrillic}+$/u;
+
+/**
+ * Returns whether `term` is a short Cyrillic query word that must match a whole word or one of its
+ * forms (spec 062). Latin words such as the vitamin letter „c“ keep prefix matching.
+ */
+export function isShortTerm(term: string): boolean {
+  return term.length <= SHORT_TERM_MAX_LENGTH && CYRILLIC_TERM.test(term);
+}
+
+/**
+ * Returns whether every term names a word of `text`: a short Cyrillic term (see
+ * {@link isShortTerm}) the word itself or the word plus a Bulgarian ending („нар“ matches „нара“,
+ * not „нарязани“), any other term the start of a word.
+ * @param text - Page text (content, title and aliases of a search result).
+ * @param terms - Normalised query words from {@link searchQuery}.
+ */
+export function matchesWordForms(text: string, terms: ReadonlyArray<string>): boolean {
+  const words = folded(text).match(WORD) ?? [];
+  return terms.every((term) => {
+    const wanted = folded(term);
+    if (!isShortTerm(term)) return words.some((word) => word.startsWith(wanted));
+    return words.some(
+      (word) =>
+        word === wanted ||
+        (word.startsWith(wanted) && INFLECTION_ENDINGS.has(word.slice(wanted.length))),
+    );
+  });
+}
+
+/** The normalised query word for „семейство“ (family): it asks for a family page (spec 062). */
+export const FAMILY_TERM = 'семейств';

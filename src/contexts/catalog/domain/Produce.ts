@@ -1,4 +1,5 @@
 import { InvalidProduceError } from '@shared/domain/errors';
+import { containsWordForms } from '@shared/domain/wordForms';
 import { frozenList, frozenRecords } from '@shared/domain/freeze';
 import type { Month, SeasonCalendar, SeasonLevel } from '@contexts/seasonality';
 import { type Caution, POISONING_CAUTION_KINDS } from './Caution';
@@ -75,6 +76,27 @@ export interface ProduceInput {
   readonly wild?: boolean | undefined;
   /** Sourced cautions shown on the produce page (spec 055); defaults to none. */
   readonly cautions?: ReadonlyArray<Caution> | undefined;
+  /**
+   * Other names the produce goes by, used by the search (spec 062); each must occur in the
+   * produce's own text. Defaults to none.
+   */
+  readonly aliases?: ReadonlyArray<string> | undefined;
+}
+
+/**
+ * Returns the text a produce writes about itself: name, summary, varieties, preparation tips, how
+ * to choose, storage and FAQ. Aliases must occur in it as words or word forms (spec 062).
+ */
+function ownText(input: ProduceInput): string {
+  return [
+    input.name,
+    input.summary,
+    ...input.varieties.flatMap((variety) => [variety.name, variety.note ?? '']),
+    ...input.preparation.flatMap((tip) => [tip.method, tip.tip]),
+    input.howToChoose ?? '',
+    input.storage ?? '',
+    ...input.faq.flatMap((item) => [item.question, item.answer]),
+  ].join(' ');
 }
 
 /** A fruit, vegetable, herb or nut grown in Bulgaria, identified by its slug. */
@@ -99,6 +121,7 @@ export class Produce {
   readonly organic: OrganicProduction | undefined;
   readonly wild: boolean;
   readonly cautions: ReadonlyArray<Caution>;
+  readonly aliases: ReadonlyArray<string>;
   private readonly updatedAtEpochMs: number;
 
   private constructor(input: ProduceInput) {
@@ -144,15 +167,24 @@ export class Produce {
         Object.freeze({ ...caution, source: Object.freeze({ ...caution.source }) }),
       ),
     );
+    this.aliases = frozenList([...(input.aliases ?? [])]);
     Object.freeze(this);
   }
 
   /**
    * Creates a produce entity.
    * @throws InvalidProduceError when `updatedAt` is not a valid date, the photo has an empty
-   * `alt`, organic information has no source, or a wild produce has no caution.
+   * `alt`, organic information has no source, a wild produce has no caution, or an alias does not
+   * occur in the produce's own text as a whole word or one of its forms.
    */
   static create(input: ProduceInput): Produce {
+    const text = ownText(input);
+    const unused = (input.aliases ?? []).find((alias) => !containsWordForms(text, alias));
+    if (unused !== undefined) {
+      throw new InvalidProduceError(
+        `Produce "${input.slug}" has the alias "${unused}" that its own text does not use.`,
+      );
+    }
     if (Number.isNaN(input.updatedAt.getTime())) {
       throw new InvalidProduceError(`Produce "${input.slug}" has an invalid updatedAt date.`);
     }
