@@ -1,7 +1,7 @@
 import { InvalidProduceError } from '@shared/domain/errors';
 import { frozenList, frozenRecords } from '@shared/domain/freeze';
 import type { Month, SeasonCalendar, SeasonLevel } from '@contexts/seasonality';
-import type { Caution } from './Caution';
+import { type Caution, POISONING_CAUTION_KINDS } from './Caution';
 import type { NutritionFacts } from './NutritionFacts';
 import type { ProduceKind } from './ProduceKind';
 import type { GrowingGuide } from './GrowingGuide';
@@ -188,5 +188,15 @@ export class Produce {
   /** Returns `true` when the produce lists `regionSlug` among its growing regions. */
   isGrownIn(regionSlug: string): boolean {
     return this.growingRegions.some((region) => region.regionSlug === regionSlug);
+  }
+
+  /**
+   * Returns `true` when the page warns of a poisoning risk (spec 058): the produce is gathered from
+   * the wild, or it has a look-alike or toxic-part caution.
+   */
+  warnsOfPoisoning(): boolean {
+    return (
+      this.wild || this.cautions.some((caution) => POISONING_CAUTION_KINDS.includes(caution.kind))
+    );
   }
 }

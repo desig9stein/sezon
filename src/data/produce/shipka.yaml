@@ -2,7 +2,7 @@ name: Шипка
 latinName: Rosa canina
 kind: fruit
 group: rozotsvetni
-summary: Шипките се берат от септември до първите слани, преди да омекнат. Най-много култивирани шипки се берат в Южния централен район.
+summary: Беритбата на шипките започва през септември – бери ги, преди да омекнат. Най-много култивирани шипки се берат в Южния централен район.
 season:
   - { month: 9, level: peak }
 regions:
@@ -16,7 +16,7 @@ regions:
     source:
       name: 'МЗХ, Агростатистика – Производство на плодове в България – реколта 2025 (бюлетин № 469)'
       url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra469_publicationfruits2025_bg.pdf
-updatedAt: 2026-11-13
+updatedAt: 2026-11-17
 photo:
   src: ../../assets/produce/shipka.jpg
   alt: 'Три червени шипки на клонка между назъбени зелени листа'

@@ -27,6 +27,9 @@ export const recipeSchema = z
     prepMinutes: wholeCount().optional(),
     cookMinutes: wholeCount().optional(),
     processingMinutes: wholeCount(),
+    processingAtAltitude: z
+      .array(z.strictObject({ fromMetres: z.number().int().positive(), minutes: wholeCount() }))
+      .min(1),
     waitDays: wholeCount().default(0),
     ingredients: z
       .array(

@@ -2,7 +2,7 @@ name: Бакла
 latinName: Vicia faba
 kind: vegetable
 group: bobovi
-summary: 'Баклата е студоустойчива бобова култура. Зелените ѝ шушулки се берат на няколко пъти, от началото на май.'
+summary: 'Баклата е студоустойчива бобова култура. Беритбата на зелените ѝ шушулки започва в началото на май и се прави на няколко пъти.'
 season:
   - { month: 5, level: peak }
 nutrition:
@@ -18,7 +18,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Broadbeans, immature seeds, raw'
     url: https://fdc.nal.usda.gov/food-details/170377/nutrients
-updatedAt: 2026-11-13
+updatedAt: 2026-11-17
 photo:
   src: ../../assets/produce/bakla.jpg
   alt: 'Купчина пресни зелени шушулки бакла с тъмни петънца'

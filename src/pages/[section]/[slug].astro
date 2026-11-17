@@ -121,7 +121,7 @@ const jsonLd = [
       <div data-pagefind-ignore>
         <ProduceNow produce={produce} month={buildMonth} />
       </div>
-      <ProduceCautions cautions={produce.cautions} wild={produce.wild} />
+      <ProduceCautions produce={produce} />
       <section class="produce__wide" aria-labelledby="season" data-pagefind-ignore>
         <h3 id="season">{labels.headings.season}</h3>
         <SeasonCalendarList produce={produce} currentMonth={buildMonth} />
