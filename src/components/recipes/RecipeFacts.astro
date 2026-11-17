@@ -1,0 +1,103 @@
+---
+import type { Recipe } from '@contexts/recipes';
+import { formatDuration, ui } from '@i18n/bg';
+
+/**
+ * The facts card of a recipe page: yield, the sourced preparation and cooking times, the
+ * water-bath time for every altitude band (spec 058) as a full-width cell, and the waiting days,
+ * followed by the note on what the water-bath time depends on.
+ */
+interface Props {
+  recipe: Recipe;
+}
+
+const { recipe } = Astro.props;
+const labels = ui.recipes.facts;
+const facts = [
+  { term: labels.yield, value: recipe.yield },
+  ...(recipe.prepMinutes === undefined
+    ? []
+    : [{ term: labels.prep, value: formatDuration(recipe.prepMinutes) }]),
+  ...(recipe.cookMinutes === undefined
+    ? []
+    : [{ term: labels.cook, value: formatDuration(recipe.cookMinutes) }]),
+  ...(recipe.waitDays > 0 ? [{ term: labels.wait, value: labels.days(recipe.waitDays) }] : []),
+];
+const bands = recipe.processingAtAltitude;
+const altitudeLabels = [
+  labels.altitudeBand(undefined, bands[0]?.fromMetres, recipe.processingMinutes),
+  ...bands.map((band, index) =>
+    labels.altitudeBand(band.fromMetres, bands[index + 1]?.fromMetres, band.minutes),
+  ),
+];
+---
+
+<dl class="recipe__facts">
+  {facts.map((fact) => (
+    <div>
+      <dt>{fact.term}</dt>
+      <dd>{fact.value}</dd>
+    </div>
+  ))}
+  <div class="recipe__processing">
+    <dt>{labels.processing}</dt>
+    <dd>
+      <ul class="recipe__altitude-bands" role="list">
+        {altitudeLabels.map((label) => (
+          <li>{label}</li>
+        ))}
+      </ul>
+    </dd>
+  </div>
+</dl>
+<p>{labels.processingNote}</p>
+
+<style>
+  .recipe__facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 9rem), 1fr));
+    gap: var(--space-2);
+    margin: 0;
+  }
+
+  .recipe__facts div {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
+  }
+
+  .recipe__facts dt {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .recipe__facts dd {
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .recipe__facts .recipe__processing {
+    grid-column: 1 / -1;
+    border-width: 2px;
+    border-color: var(--color-text);
+  }
+
+  .recipe__altitude-bands {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media print {
+    .recipe__facts div {
+      border-color: var(--print-ink);
+      break-inside: avoid;
+    }
+
+    .recipe__facts dt {
+      color: var(--print-ink);
+    }
+  }
+</style>

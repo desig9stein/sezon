@@ -2,7 +2,7 @@ name: Черен бъз
 latinName: Sambucus nigra
 kind: fruit
 group: meshkovitsovi
-summary: 'Черният бъз (свирчовина) цъфти в края на пролетта, а плодовете му се берат от средата на август. Зелените плодчета не се берат.'
+summary: 'Черният бъз (свирчовина) цъфти в края на пролетта, а плодовете му се берат през втората половина на август. Зелените плодчета не се берат.'
 wild: true
 season:
   - { month: 8, level: peak }
@@ -37,20 +37,8 @@ cautions:
     source:
       name: 'Закон за биологичното разнообразие (обн. ДВ, бр. 77 от 2002 г., посл. доп. ДВ, бр. 70 от 2024 г.), текст на МОСВ'
       url: https://www.moew.government.bg/static/media/ups/tiny/filebase/Nature/Legislation/ZAKON_za_biologichnoto_raznoobrazie24.pdf
-nutrition:
-  energyKcal: 73
-  proteinG: 0.66
-  fatG: 0.5
-  carbohydrateG: 18.4
-  fiberG: 7
-  micronutrients:
-    - { nutrient: vitamin-c, amount: 36 }
-    - { nutrient: kaliy, amount: 280 }
-    - { nutrient: zhelyazo, amount: 1.6 }
-  source:
-    name: 'USDA FoodData Central, SR Legacy: Elderberries, raw'
-    url: https://fdc.nal.usda.gov/food-details/171727/nutrients
-updatedAt: 2026-11-13
+notEatenRaw: true
+updatedAt: 2026-11-17
 photo:
   src: ../../assets/produce/cheren-baz.jpg
   alt: 'Гроздове черни плодчета на бъз по червеникави дръжки между зелени листа'

@@ -153,7 +153,7 @@ describe('safety and content accuracy (spec 058)', () => {
   });
 
   it('AC13: Джумерски names no produce outside its list', () => {
-    expect(farmOf('dzhumerski').description).not.toMatch(/пащърнак/);
+    expect(farmOf('gradina-dzhumerski').description).not.toMatch(/пащърнак/);
   });
 
   it('AC14: the content guide documents the new rules', () => {

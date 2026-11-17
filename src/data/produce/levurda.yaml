@@ -28,9 +28,14 @@ cautions:
     source:
       name: 'Hermanns-Clausen et al. (2006), Poisoning by the autumn crocus plant, MMW Fortschr Med 148(12)'
       url: https://pubmed.ncbi.nlm.nih.gov/16626006/
+  - kind: look-alike
+    text: 'Мирисът не е сигурен знак, ако ръцете ти вече миришат на чесън от предишно листо. Ако листото не мирише на чесън, остави го и веднага измий ръцете си.'
+    source:
+      name: 'BfR (Bundesinstitut für Risikobewertung), Presseinformation Nr. 9/2025 от 21.03.2025 – Geruchstest mit Tücken: Worauf beim Bärlauch-Sammeln geachtet werden sollte'
+      url: https://www.bfr.bund.de/presseinformation/geruchstest-mit-tuecken-worauf-beim-baerlauch-sammeln-geachtet-werden-sollte/
   - kind: protected
     text: 'Левурдата е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 1 кг листа на ден, а за търговия ти трябва позволително.'
     source:
       name: 'Закон за лечебните растения (обн. ДВ, бр. 29 от 2000 г., посл. изм. ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
       url: https://faolex.fao.org/docs/pdf/bul40297.pdf
-updatedAt: 2026-11-13
+updatedAt: 2026-11-17

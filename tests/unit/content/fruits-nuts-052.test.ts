@@ -383,7 +383,8 @@ describe('more fruits and nuts (spec 052)', () => {
       produce.updatedAt instanceof Date
         ? produce.updatedAt.toISOString().slice(0, 10)
         : produce.updatedAt;
-    expect(updatedAt).toBe(CHANGE_DATE);
+    // A later content fix (spec 058) may move the date forward, never back.
+    expect(updatedAt.localeCompare(CHANGE_DATE)).toBeGreaterThanOrEqual(0);
   });
 
   it('AC8: exactly the produce of the photo table have a photo', () => {

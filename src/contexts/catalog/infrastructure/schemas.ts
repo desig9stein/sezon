@@ -68,10 +68,44 @@ function requireCautionsWhenWild(
   }
 }
 
+/** Caution kinds that can say why a produce is not eaten raw (spec 058). */
+const NOT_EATEN_RAW_REASONS: ReadonlyArray<string> = ['preparation', 'toxic-part'];
+
+/**
+ * Adds issues when a produce marked `notEatenRaw` has nutrition values, which are per 100 g of the
+ * raw edible portion, or has no `preparation` or `toxic-part` caution that says why (spec 058).
+ * @param produce - The parsed flag, nutrition and cautions of a produce entry.
+ */
+function requireNoRawNutrition(
+  produce: {
+    notEatenRaw: boolean;
+    nutrition?: unknown;
+    cautions: ReadonlyArray<{ kind: string }>;
+  },
+  ctx: z.RefinementCtx,
+): void {
+  if (!produce.notEatenRaw) return;
+  if (produce.nutrition !== undefined) {
+    ctx.addIssue({
+      code: 'custom',
+      message: 'A produce that is not eaten raw has no raw nutrition values.',
+      path: ['nutrition'],
+    });
+  }
+  if (!produce.cautions.some((caution) => NOT_EATEN_RAW_REASONS.includes(caution.kind))) {
+    ctx.addIssue({
+      code: 'custom',
+      message: 'A produce that is not eaten raw needs a preparation or toxic-part caution.',
+      path: ['cautions'],
+    });
+  }
+}
+
 /**
  * Schema of a `produce` content entry. Only the name, kind, group, summary, season and update date
  * are required (spec 049); omitted lists are parsed as empty, other omitted blocks stay undefined.
- * A wild produce must have at least one caution (spec 055).
+ * A wild produce must have at least one caution (spec 055); a produce that is not eaten raw has no
+ * nutrition and a caution that says why (spec 058).
  */
 export const produceSchema = z
   .strictObject({
@@ -118,9 +152,11 @@ export const produceSchema = z
     faq: z.array(z.strictObject({ question: text(), answer: text() })).default(() => []),
     wild: z.boolean().default(false),
     cautions: z.array(cautionSchema).default(() => []),
+    notEatenRaw: z.boolean().default(false),
     updatedAt: isoDate(),
   })
-  .superRefine(requireCautionsWhenWild);
+  .superRefine(requireCautionsWhenWild)
+  .superRefine(requireNoRawNutrition);
 
 /** Schema of a `groups` content entry. */
 export const groupSchema = z.strictObject({

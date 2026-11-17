@@ -178,7 +178,8 @@ describe('autumn and winter staples (spec 044)', () => {
       produce.updatedAt instanceof Date
         ? produce.updatedAt.toISOString().slice(0, 10)
         : produce.updatedAt;
-    expect(updatedAt).toBe(CHANGE_DATE);
+    // A later content fix (spec 058) may move the date forward, never back.
+    expect(updatedAt.localeCompare(CHANGE_DATE)).toBeGreaterThanOrEqual(0);
   });
 
   it.each(SLUGS)('AC8: %s lists only verified varieties', (slug) => {
