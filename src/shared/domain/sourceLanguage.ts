@@ -1,5 +1,5 @@
 /** Languages a source title can be written in; the first is the site language. */
-export const SOURCE_LANGUAGES = ['bg', 'en'] as const;
+export const SOURCE_LANGUAGES = ['bg', 'en', 'de', 'fr', 'la'] as const;
 
 /** Language of a source title, as a BCP 47 code. */
 export type SourceLanguage = (typeof SOURCE_LANGUAGES)[number];

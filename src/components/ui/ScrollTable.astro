@@ -4,11 +4,18 @@ import { ui } from '@i18n/bg';
 /**
  * Focusable, horizontally scrollable region for a data table, with the shared table styles:
  * start-aligned headers, end-aligned numbers, hairline rows and row-header links at least 24 px
- * tall. The region has a short name of its own, so the table caption is announced once.
+ * tall. The region is named after the table caption with a short scrolling suffix, so it is told
+ * apart from other tables on the page without repeating the caption as is.
  */
+interface Props {
+  /** Caption text of the table inside. */
+  caption: string;
+}
+
+const { caption } = Astro.props;
 ---
 
-<section class="table-scroll" aria-label={ui.scrollTable.label} tabindex="0">
+<section class="table-scroll" aria-label={ui.scrollTable.label(caption)} tabindex="0">
   <slot />
 </section>
 

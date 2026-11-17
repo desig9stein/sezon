@@ -43,18 +43,22 @@ any content text or the navigation.
 
 1. **Focus visible on the map credit.** `ProvinceMap` removes the outline only from the links in
    the SVG (which draw their own ring), not from the „Natural Earth“ link in the caption.
-2. **Language of source titles.** `sourceSchema` gains an optional `lang` (`bg` or `en`; absent
-   means Bulgarian, the page language). The source types of catalog, recipes and geography carry
-   it. Every source whose name has no Cyrillic letter declares `lang: en` in the data (USDA
+2. **Language of source titles.** `sourceSchema` gains an optional `lang` (`bg`, `en`, `de`, `fr`
+   or `la`; absent means Bulgarian, the page language). The source types of catalog, recipes and
+   geography carry it. Every source whose name has no Cyrillic letter declares a language other
+   than `bg`; today all of them are English and declare `lang: en` in the data (USDA
    FoodData Central, PubMed and journal titles, NCHFP, CORDIS). A shared `SourceLink` component
    renders a source link with `lang` when the source is not Bulgarian, and every page that links a
-   source uses it. Keystatic edits `lang` as a select (`bg`, `en`) that leaves `bg` out of the file.
+   source uses it. Keystatic edits `lang` as a select of the same languages that leaves `bg` out
+   of the file.
 3. **Ranking tables on phones.** The vitamin and mineral ranking tables (`/nutrienti/*`) put the
    „През <месец>“ column right after the produce name, so it is visible on a 390 px phone without
    scrolling. The table keeps `caption`, `th scope="col"` and `th scope="row"`.
 4. **Scroll region name.** `ScrollTable` stays a focusable scroll region (it is needed at 200 %
-   zoom and for the calendar), but its accessible name is the short „Таблица с хоризонтално
-   превъртане“ instead of the caption, so the caption is not announced twice.
+   zoom and for the calendar), but its accessible name is the caption with a short suffix,
+   „<caption> (превъртане)“, instead of the bare caption: the region is told apart from other
+   tables on the page (unique landmark names) and is not announced as a copy of the caption (QA
+   060 replaced a generic name that did not say which table it was).
 5. **„% РСП“ before the nutrition table.** The note that explains РСП moves from after the table to
    a paragraph before it, and the table refers to it with `aria-describedby`. The `abbr` in the
    column header stays.
@@ -72,9 +76,10 @@ any content text or the navigation.
    small (spec 012). Table row-header links drop their minimum height in print, so the printed
    calendar keeps its sheet count.
 8. **Readable phone numbers.** A `formatPhone` function groups a Bulgarian E.164 number for
-   display, joined by no-break spaces (html-validate `tel-non-breaking`): mobile (9 digits)
-   `+359 899 909 310`, Sofia (`2` + 7 digits) `+359 2 123 4567`, other 8-digit numbers
-   `+359 32 123 456`. The `tel:` href keeps the E.164 number. The accessible name
+   display, joined by no-break spaces (html-validate `tel-non-breaking`): mobile (9 digits in the
+   8x or 9x range) `+359 899 909 310` and Sofia (`2` + 7 digits) `+359 2 123 4567`. Other numbers
+   keep their national digits in one group (`+359 30112345`), because an area code can have two
+   or three digits. The `tel:` href keeps the E.164 number. The accessible name
    uses the grouped number.
 9. **No contents link to an empty farm section.** Without farms, the produce page leaves out the
    „Местни ферми“ contents entry and the „Местни ферми, които го продават“ link under „Откъде“. The
@@ -93,7 +98,7 @@ any content text or the navigation.
 
 ## 4. Domain model
 
-- `src/shared/domain/sourceLanguage.ts`: `SOURCE_LANGUAGES = ['bg', 'en']`, type
+- `src/shared/domain/sourceLanguage.ts`: `SOURCE_LANGUAGES = ['bg', 'en', 'de', 'fr', 'la']`, type
   `SourceLanguage`, `DEFAULT_SOURCE_LANGUAGE = 'bg'`.
 - `Source` (catalog), `RecipeSource` (recipes) and `RegionSource` (geography) gain
   `readonly lang?: SourceLanguage | undefined`. No new invariant: an absent `lang` is Bulgarian.
@@ -105,7 +110,8 @@ any content text or the navigation.
 ## 5. Behaviour and edge cases
 
 - `SourceLink` sets `lang` only when the source's `lang` is set and differs from `bg`.
-- A source name with no Cyrillic letter and no `lang` fails a content test; a source with
+- A source name with no Cyrillic letter and no `lang` other than `bg` fails a content test; a
+  source with
   `lang: bg` written out also fails (Keystatic would drop it, so the file would change on save).
 - `formatPhone`: input must match `^\+359\d{8,9}$` (the schema guarantees it); anything else is
   returned as given.
@@ -121,8 +127,8 @@ any content text or the navigation.
 - 3.1.2 Language of Parts: English source titles have `lang="en"`.
 - 1.3.1 / 1.3.2: tables keep caption and header scopes; the reordered ranking column keeps a
   header; the РСП note is in reading order before the table.
-- 4.1.2: the scroll region is a named `section` (role `region`) with a name distinct from the
-  caption (a `div role="region"` fails html-validate `prefer-native-element`); the produce-page
+- 4.1.2: the scroll region is a named `section` (role `region`) named „<caption>
+  (превъртане)“, unique on the page and distinct from the bare caption (a `div role="region"` fails html-validate `prefer-native-element`); the produce-page
   map stays a group named by its title, and its links are `aria-hidden` with `tabindex="-1"` (axe
   `aria-hidden-focus` passes for non-tabbable links).
 - 2.4.3 / 2.1.1: the text region list is the keyboard path to region pages; nothing that was only
@@ -143,10 +149,11 @@ any content text or the navigation.
    then its computed outline or box-shadow differs from its unfocused style, including the
    „Natural Earth“ link.
 2. **AC2:** Given `sourceSchema`, then it accepts a source with `lang` `en` or `bg` or without
-   `lang`, and rejects any other `lang`; given the Keystatic source field, then it has a `lang`
-   select with `bg` and `en`, and saving `bg` leaves the key out while `en` is kept.
-3. **AC3:** Given every source in `src/data`, then each name without a Cyrillic letter has
-   `lang: en`, and no source writes `lang: bg`.
+   `lang`, also `de`, `fr` and `la`, and rejects a language it does not list; given the Keystatic
+   source field, then it has a `lang` select with the same languages, and saving `bg` leaves the
+   key out while `en` is kept.
+3. **AC3:** Given every source in `src/data`, then each name without a Cyrillic letter declares a
+   `lang` other than `bg`, and no source writes `lang: bg`.
 4. **AC4:** Given `SourceLink` with an English source, then the link has `lang="en"`; with a
    Bulgarian source (no `lang` or `bg`), then it has no `lang` attribute. Given the built apple,
    ramsons and a recipe page, then every USDA, PubMed and NCHFP title has `lang="en"`.
@@ -154,7 +161,8 @@ any content text or the navigation.
    `/nutrienti/vitamin-c` at a 390 px wide viewport, then the season cell of the first row lies
    within the scroll box without scrolling.
 6. **AC6:** Given a `ScrollTable`, then it is a focusable named `section` whose accessible name is
-   „Таблица с хоризонтално превъртане“, not the caption.
+   „<caption> (превъртане)“, not the bare caption; given the apple, vitamin C and calendar pages,
+   then every scroll region name on the page is unique.
 7. **AC7:** Given a nutrition table, then a paragraph explaining РСП comes before the table and the
    table's `aria-describedby` points to it.
 8. **AC8:** Given a produce page with growing regions, then the map links have
@@ -162,10 +170,11 @@ any content text or the navigation.
    the nutrition note, then it names the source without a link, and the source URL is tabbable
    once on the page. Given `ProvinceMap` without the pointer-only option, then the links stay
    tabbable (spec 029).
-9. **AC9:** Given the home page, when the root font size doubles, then the year strip's rendered
-   height doubles.
+9. **AC9:** Given the home page at 1280 px and at 390 px, when the browser text size doubles
+   (Chromium `Page.setFontSizes`), then the year strip's rendered height doubles.
 10. **AC10:** Given `formatPhone`, then `+359899909310` gives `+359 899 909 310`, `+35921234567`
-    gives `+359 2 123 4567`, `+35932123456` gives `+359 32 123 456`, and `0899` is returned
+    gives `+359 2 123 4567`, `+35930112345` gives `+359 30112345` (not grouped), `+359700123456`
+    is not grouped either, and `0899` is returned
     unchanged; given `FarmContacts`, then the link text and name use the grouped number and the
     href stays `tel:+359…`.
 11. **AC11:** Given a produce with no farms, then the contents has no `#farms` entry and the page
@@ -198,10 +207,12 @@ any content text or the navigation.
 
 ## 10. Third-party documentation consulted
 
-| Package          | Version | Source (URL or Context7 ID)                                                        | Topic                                                    |
-| ---------------- | ------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| axe-core         | 4.14.0  | Context7 `/dequelabs/axe-core` (rule descriptions); `node_modules/axe-core/axe.js` | `aria-hidden-focus` passes when links have tabindex `-1` |
-| @keystatic/core  | 0.6.9   | `node_modules/@keystatic/core/dist` (`select`, `text` serialize)                   | a field serializing `{ value: undefined }` omits the key |
-| MDN              | n/a     | https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Attribute/tabindex      | `tabindex` on SVG `<a>`                                  |
-| @playwright/test | 1.63.0  | https://playwright.dev/docs/api/class-keyboard                                     | `keyboard.press('Tab')`, `evaluate`                      |
-| astro            | 7.4.8   | Context7 `/withastro/docs` (scoped styles, `:global`)                              | scoped selectors in `ProvinceMap` and `ScrollTable`      |
+| Package                  | Version     | Source (URL or Context7 ID)                                                        | Topic                                                    |
+| ------------------------ | ----------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| axe-core                 | 4.14.0      | Context7 `/dequelabs/axe-core` (rule descriptions); `node_modules/axe-core/axe.js` | `aria-hidden-focus` passes when links have tabindex `-1` |
+| @keystatic/core          | 0.6.9       | `node_modules/@keystatic/core/dist` (`select`, `text` serialize)                   | a field serializing `{ value: undefined }` omits the key |
+| MDN                      | n/a         | https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Attribute/tabindex      | `tabindex` on SVG `<a>`                                  |
+| @playwright/test         | 1.63.0      | https://playwright.dev/docs/api/class-keyboard                                     | `keyboard.press('Tab')`, `evaluate`                      |
+| @playwright/test         | 1.63.0      | https://playwright.dev/docs/api/class-cdpsession                                   | `newCDPSession`, `send`                                  |
+| Chrome DevTools Protocol | tip-of-tree | https://chromedevtools.github.io/devtools-protocol/tot/Page/#method-setFontSizes   | `Page.setFontSizes` (standard and fixed text sizes)      |
+| astro                    | 7.4.8       | Context7 `/withastro/docs` (scoped styles, `:global`)                              | scoped selectors in `ProvinceMap` and `ScrollTable`      |

@@ -46,7 +46,7 @@ const percentText = (entry: NutrientRankingEntry): string => {
 {ranking.entries.length === 0 ? (
   <p>{labels.empty(nutrient.name)}</p>
 ) : (
-  <ScrollTable>
+  <ScrollTable caption={labels.caption(nutrient.name)}>
     <table class="ranking">
       <caption id={captionId}>{labels.caption(nutrient.name)}</caption>
       <thead>
