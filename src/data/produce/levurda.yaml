@@ -23,15 +23,18 @@ cautions:
     source:
       name: 'Razinger et al. (2021), Accidental poisoning with autumn crocus (Colchicum autumnale): a case series, Clin Toxicol 59(6)'
       url: https://pubmed.ncbi.nlm.nih.gov/33156711/
+      lang: en
   - kind: look-alike
     text: 'Листата на левурдата имат типичен мирис и вкус на чесън, а тези на мразовеца – не. Ако листото не мирише на чесън, не го бери.'
     source:
       name: 'Hermanns-Clausen et al. (2006), Poisoning by the autumn crocus plant, MMW Fortschr Med 148(12)'
       url: https://pubmed.ncbi.nlm.nih.gov/16626006/
+      lang: en
   - kind: look-alike
     text: 'Мирисът подвежда, ако ръцете ти още миришат на чесън от предишна проба: щом листото не мирише на чесън, остави го и веднага измий ръцете си.'
     source:
       name: 'BfR (Bundesinstitut für Risikobewertung), Presseinformation Nr. 9/2025 от 21.03.2025 – Geruchstest mit Tücken: Worauf beim Bärlauch-Sammeln geachtet werden sollte'
+      lang: de
       url: https://www.bfr.bund.de/presseinformation/geruchstest-mit-tuecken-worauf-beim-baerlauch-sammeln-geachtet-werden-sollte/
   - kind: protected
     text: 'Левурдата е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 1 кг листа на ден, а за търговия ти трябва позволително.'

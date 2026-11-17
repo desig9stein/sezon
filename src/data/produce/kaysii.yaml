@@ -46,6 +46,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Apricots, raw'
     url: https://fdc.nal.usda.gov/food-details/171697/nutrients
+    lang: en
 preparation:
   - method: Пресни
     tip: Яж ги с кората – само ги измий добре.

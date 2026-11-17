@@ -30,6 +30,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Okra, raw'
     url: https://fdc.nal.usda.gov/food-details/169260/nutrients
+    lang: en
 preparation:
   - method: В яхния или гювеч
     tip: Сложи бамята цяла или нарязана в яхния или гювеч.

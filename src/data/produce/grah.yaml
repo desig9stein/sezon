@@ -23,6 +23,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Peas, green, raw'
     url: https://fdc.nal.usda.gov/food-details/170419/nutrients
+    lang: en
 updatedAt: 2026-11-13
 photo:
   src: ../../assets/produce/grah.jpg

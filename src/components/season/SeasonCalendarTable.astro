@@ -53,7 +53,7 @@ const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, un
         <h2 id={sectionId(group.kind)}>
           <a href={routes.section(group.kind)}>{ui.sections.names[group.kind]}</a>
         </h2>
-        <ScrollTable captionId={captionId(group.kind)}>
+        <ScrollTable caption={labels.kindCaption(ui.sections.names[group.kind])}>
           <table class="year">
             <caption id={captionId(group.kind)}>
               {labels.kindCaption(ui.sections.names[group.kind])}

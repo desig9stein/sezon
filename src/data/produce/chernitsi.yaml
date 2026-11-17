@@ -21,6 +21,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Mulberries, raw'
     url: https://fdc.nal.usda.gov/food-details/169913/nutrients
+    lang: en
 storage: 'Черниците са нетрайни: в хладилник, неизмити, издържат 1–2 дни. Измий ги точно преди ядене.'
 updatedAt: 2026-11-13
 photo:

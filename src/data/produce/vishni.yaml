@@ -49,4 +49,5 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Cherries, sour, red, raw'
     url: https://fdc.nal.usda.gov/food-details/173954/nutrients
+    lang: en
 updatedAt: 2026-11-13

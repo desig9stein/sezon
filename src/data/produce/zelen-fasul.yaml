@@ -28,6 +28,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Beans, snap, green, raw'
     url: https://fdc.nal.usda.gov/food-details/169961/nutrients
+    lang: en
 preparation:
   - method: Сварен или задушен
     tip: Готви го кратко, докато омекне, но остане ярко зелен; при дълго варене се губят повече водоразтворими витамини.

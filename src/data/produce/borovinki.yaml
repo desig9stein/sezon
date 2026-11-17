@@ -22,6 +22,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Blueberries, raw'
     url: https://fdc.nal.usda.gov/food-details/171711/nutrients
+    lang: en
 storage: Бери ги напълно узрели – след откъсване боровинките спират да зреят. В хладилник издържат около две седмици.
 updatedAt: 2026-11-13
 photo:

@@ -27,6 +27,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Lettuce, cos or romaine, raw'
     url: https://fdc.nal.usda.gov/food-details/169247/nutrients
+    lang: en
 preparation:
   - method: Сурова в салата
     tip: Късай листата и подправяй салатата непосредствено преди сервиране, за да останат хрупкави.

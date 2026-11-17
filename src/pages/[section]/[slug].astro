@@ -42,7 +42,7 @@ const siteUrl = requireSiteUrl(Astro.site);
 const labels = ui.produce;
 const sponsor = await sponsorSelectionService.forPlacement('produce', BUILD_DATE);
 const recipes = await recipeIndexService.forProduce(produce.slug);
-const toc = produceToc(produce, recipes.length);
+const toc = produceToc(produce, { recipes: recipes.length, farms: details.farms.length });
 const SHARE_IMAGE_WIDTH = 1200;
 const shareImage =
   produce.photo === undefined
@@ -154,9 +154,11 @@ const jsonLd = [
       <section aria-labelledby="regions">
         <h3 id="regions">{labels.headings.regions}</h3>
         <GrowingRegions regions={details.growingRegions} />
-        <p data-pagefind-ignore>
-          <a href="#farms">{labels.farmsLink}</a>
-        </p>
+        {details.farms.length > 0 && (
+          <p data-pagefind-ignore>
+            <a href="#farms">{labels.farmsLink}</a>
+          </p>
+        )}
       </section>
     </section>
 

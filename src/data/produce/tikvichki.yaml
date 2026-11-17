@@ -28,6 +28,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Squash, summer, zucchini, includes skin, raw'
     url: https://fdc.nal.usda.gov/food-details/169291/nutrients
+    lang: en
 preparation:
   - method: Сурови
     tip: Младите тиквички може да ядеш и сурови, нарязани на тънко в салата.

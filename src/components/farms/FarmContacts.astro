@@ -2,11 +2,13 @@
 import type { Farm } from '@contexts/farms';
 import { ui } from '@i18n/bg';
 import { directoryName } from './directoryName';
+import { formatPhone } from './formatPhone';
 
 /**
  * A farm's contact links as a list: website, email and phone, whichever the farm has. Each link's
  * accessible name includes the farm name; a website that is a LocalStore.bg or Хранкооп profile is
- * named as a profile in that directory; the phone number does not wrap. A sponsored farm's
+ * named as a profile in that directory; the phone number is shown in digit groups (the `tel:` link
+ * keeps the E.164 number) and does not wrap. A sponsored farm's
  * website link is marked `rel="sponsored noopener"`.
  */
 interface Props {
@@ -19,6 +21,7 @@ const labels = ui.produce.farms;
 const websiteRel = farm.sponsored ? 'sponsored noopener' : 'noopener';
 const website = farm.contact.website;
 const directory = website === undefined ? undefined : directoryName(website);
+const phone = farm.contact.phone;
 const websiteLabel =
   directory === undefined
     ? labels.website(farm.name)
@@ -38,15 +41,15 @@ const websiteLabel =
       <a href={`mailto:${farm.contact.email}`}>{labels.email(farm.name)}</a>
     </li>
   )}
-  {farm.contact.phone !== undefined && (
+  {phone !== undefined && (
     <li>
       <span aria-hidden="true">{labels.phoneLabel}</span>{' '}
       <a
         class="farm-contacts__phone"
-        href={`tel:${farm.contact.phone}`}
-        aria-label={labels.phone(farm.name, farm.contact.phone)}
+        href={`tel:${phone}`}
+        aria-label={labels.phone(farm.name, formatPhone(phone))}
       >
-        {farm.contact.phone}
+        {formatPhone(phone)}
       </a>
     </li>
   )}

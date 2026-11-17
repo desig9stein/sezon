@@ -23,6 +23,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Peanuts, all types, raw'
     url: https://fdc.nal.usda.gov/food-details/172430/nutrients
+    lang: en
 updatedAt: 2026-11-17
 photo:
   src: ../../assets/produce/fastatsi.jpg

@@ -143,7 +143,8 @@ describe('minimal produce page (spec 049)', () => {
     const targets = [...minimal.querySelectorAll('.produce__toc a')].map((link) =>
       (link.getAttribute('href') ?? '').slice(1),
     );
-    expect(targets).toEqual(['stall', 'farms', 'sources']);
+    // Spec 060 AC11: without farms the contents leaves out the farm section.
+    expect(targets).toEqual(['stall', 'sources']);
     for (const id of targets) expect(minimal.getElementById(id), id).not.toBeNull();
   });
 

@@ -195,7 +195,7 @@ This file describes the system as built after spec 024 (#93): the tokens and typ
 - The season level is carried by form and word: a solid, outlined or hatched stamp with its short Bulgarian word, and the same three forms in the year strip. Never colour alone.
 - Flat surfaces and hairline rules, no shadows, no motion.
 - One small corner radius (0.375rem) on panels and controls; stamps and strip cells are square-cornered.
-- Touch targets of at least 2.75rem on primary links and controls; at least 24px in compact list rows.
+- Touch targets of at least 2.75rem (`--target-min`) on primary links and controls; at least 24px (`--target-compact`, 1.5rem) in compact list rows, table row headers and the produce page region list (spec 060).
 
 ## Colors
 

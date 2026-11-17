@@ -36,7 +36,7 @@ describe('Keystatic wild and cautions fields (spec 055)', () => {
     expect(item?.kind).toBe('object');
     expect(Object.keys(item?.fields ?? {}).sort()).toEqual(['kind', 'source', 'text']);
     expect(item?.fields?.kind?.options?.map((option) => option.value)).toEqual(KINDS);
-    expect(Object.keys(item?.fields?.source?.fields ?? {}).sort()).toEqual(['name', 'url']);
+    expect(Object.keys(item?.fields?.source?.fields ?? {}).sort()).toEqual(['lang', 'name', 'url']);
   });
 
   it('AC17: saves a wild produce with cautions without changing its entry', () => {

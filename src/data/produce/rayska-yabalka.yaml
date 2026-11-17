@@ -19,6 +19,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Persimmons, japanese, raw'
     url: https://fdc.nal.usda.gov/food-details/169941/nutrients
+    lang: en
 storage: Пази плодовете на хладно – при 1–2 °C и висока влажност на въздуха. Яж ги, когато омекнат.
 updatedAt: 2026-11-13
 photo:

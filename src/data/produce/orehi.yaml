@@ -49,6 +49,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Nuts, walnuts, english'
     url: https://fdc.nal.usda.gov/food-details/170187/nutrients
+    lang: en
 preparation:
   - method: Сурови
     tip: Суровите орехи запазват полиненаситените мазнини, които се окисляват при силно печене.

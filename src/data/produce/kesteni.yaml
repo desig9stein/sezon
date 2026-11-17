@@ -27,6 +27,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Nuts, chestnuts, european, raw, unpeeled'
     url: https://fdc.nal.usda.gov/food-details/170574/nutrients
+    lang: en
 preparation:
   - method: Печени
     tip: Нарежи черупката на кръст преди печене, за да не се пръснат кестените, и ги обели, докато са топли.

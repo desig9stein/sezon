@@ -26,6 +26,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Kohlrabi, raw'
     url: https://fdc.nal.usda.gov/food-details/168424/nutrients
+    lang: en
 updatedAt: 2026-11-13
 photo:
   src: ../../assets/produce/alabash.jpg

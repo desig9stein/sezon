@@ -39,6 +39,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Pears, raw'
     url: https://fdc.nal.usda.gov/food-details/169118/nutrients
+    lang: en
 preparation:
   - method: Сурови
     tip: Яж ги с кората – там е голяма част от фибрите.

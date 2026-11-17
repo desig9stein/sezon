@@ -22,4 +22,5 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Rhubarb, raw'
     url: https://fdc.nal.usda.gov/food-details/167758/nutrients
+    lang: en
 updatedAt: 2026-11-13

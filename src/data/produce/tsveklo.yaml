@@ -35,6 +35,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Beets, raw'
     url: https://fdc.nal.usda.gov/food-details/169145/nutrients
+    lang: en
 preparation:
   - method: Печено цяло
     tip: Печи го с кората – така губи по-малко водоразтворими витамини, отколкото при варене.
