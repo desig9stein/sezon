@@ -39,9 +39,10 @@ describe('source languages (spec 060)', () => {
     expect(SOURCES.length).toBeGreaterThan(100);
   });
 
-  it('AC3: every source title without a Cyrillic letter is marked English', () => {
+  it('AC3 (QA 060): every source title without a Cyrillic letter declares a language other than bg', () => {
     const missing = SOURCES.filter(
-      (source) => !CYRILLIC.test(source.name) && source.lang !== 'en',
+      (source) =>
+        !CYRILLIC.test(source.name) && (source.lang === undefined || source.lang === 'bg'),
     ).map((source) => `${source.file}: ${source.name}`);
     expect(missing).toEqual([]);
   });

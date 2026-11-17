@@ -27,12 +27,24 @@ describe('source language (spec 060)', () => {
     expect(sourceSchema.parse(SOURCE)).toEqual(SOURCE);
   });
 
-  it('AC2: the source schema rejects any other language', () => {
-    expect(sourceSchema.safeParse({ ...SOURCE, lang: 'de' }).success).toBe(false);
+  it('QA 060: the source schema accepts German, French and Latin titles', () => {
+    for (const lang of ['de', 'fr', 'la']) {
+      expect(sourceSchema.safeParse({ ...SOURCE, lang }).success, lang).toBe(true);
+    }
   });
 
-  it('AC2: Keystatic edits the language as a bg/en select', () => {
-    expect(langField?.options.map((option) => option.value)).toEqual(['bg', 'en']);
+  it('AC2: the source schema rejects a language it does not list', () => {
+    expect(sourceSchema.safeParse({ ...SOURCE, lang: 'xx' }).success).toBe(false);
+  });
+
+  it('QA 060: Keystatic edits the language as a select of the same languages', () => {
+    expect(langField?.options.map((option) => option.value)).toEqual([
+      'bg',
+      'en',
+      'de',
+      'fr',
+      'la',
+    ]);
     expect(langField?.parse(undefined)).toBe('bg');
   });
 

@@ -11,6 +11,10 @@ const PHONE_WIDTH = 390;
 const PHONE_HEIGHT = 800;
 /** Wide enough that the doubled text does not reflow the home list into its narrow layout. */
 const WIDE_VIEWPORT = { width: 1280, height: 800 };
+const PHONE_VIEWPORT = { width: PHONE_WIDTH, height: PHONE_HEIGHT };
+/** Chromium's default standard and fixed-width text sizes, in px. */
+const DEFAULT_TEXT_SIZE = 16;
+const DEFAULT_FIXED_TEXT_SIZE = 13;
 const MIN_TARGET = 24;
 const MAX_TAB_STOPS = 400;
 const STOP_ATTRIBUTE = 'data-e2e-stop';
@@ -163,18 +167,38 @@ test.describe('accessibility polish (spec 060)', () => {
     await expect(page.locator('.table-scroll thead th').nth(1)).toHaveText(/^През /);
   });
 
-  test('AC9: the home year strip doubles with the root font size', async ({ page }) => {
-    await page.setViewportSize(WIDE_VIEWPORT);
-    await page.goto('/');
-    const strip = page.locator('.year-strip').first();
-    const before = (await strip.boundingBox())?.height ?? 0;
-    await page.evaluate(() => {
-      const root = document.documentElement;
-      root.style.fontSize = `${parseFloat(getComputedStyle(root).fontSize) * 2}px`;
+  for (const viewport of [WIDE_VIEWPORT, PHONE_VIEWPORT]) {
+    test(`AC9 (QA 060): the home year strip doubles with the browser text size at ${viewport.width} px`, async ({
+      page,
+    }) => {
+      await page.setViewportSize(viewport);
+      await page.goto('/');
+      const strip = page.locator('.year-strip').first();
+      const before = (await strip.boundingBox())?.height ?? 0;
+      const session = await page.context().newCDPSession(page);
+      await session.send('Page.setFontSizes', {
+        fontSizes: { standard: DEFAULT_TEXT_SIZE * 2, fixed: DEFAULT_FIXED_TEXT_SIZE * 2 },
+      });
+      await page.reload();
+      const after = (await strip.boundingBox())?.height ?? 0;
+      expect(before).toBeGreaterThan(0);
+      expect(after / before).toBeCloseTo(2, 1);
     });
-    const after = (await strip.boundingBox())?.height ?? 0;
-    expect(before).toBeGreaterThan(0);
-    expect(after / before).toBeCloseTo(2, 1);
+  }
+
+  test('QA 060: every scroll region on a page has its own name, built from its caption', async ({
+    page,
+  }) => {
+    for (const path of [APPLES, VITAMIN_C, CALENDAR]) {
+      await page.goto(path);
+      const names = await page
+        .locator('.table-scroll')
+        .evaluateAll((regions) => regions.map((region) => region.getAttribute('aria-label') ?? ''));
+      const captions = await page.locator('.table-scroll caption').allTextContents();
+      expect(names.length, path).toBeGreaterThan(0);
+      expect(new Set(names).size, path).toBe(names.length);
+      expect(names, path).toEqual(captions.map((caption) => `${caption.trim()} (превъртане)`));
+    }
   });
 
   test('AC11: a produce without farms has no contents link to the farm section', async ({

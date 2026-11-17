@@ -34,7 +34,7 @@ describe('NutritionTable', () => {
     expect(html).toMatch(/<abbr[^>]*title="референтен прием"[^>]*>РСП<\/abbr>/);
     expect(html).toMatch(/<cite[^>]*>USDA FoodData Central/);
     expect(html).toMatch(
-      /<section[^>]*aria-label="Таблица с хоризонтално превъртане"[^>]*tabindex="0"/,
+      /<section[^>]*aria-label="Хранителни стойности на 100 г \(превъртане\)"[^>]*tabindex="0"/,
     );
   });
 

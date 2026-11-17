@@ -75,7 +75,7 @@ describe('NutrientRankingTable', () => {
     expect(html.indexOf('Зеле')).toBeLessThan(html.indexOf('Праз'));
     expect(html.indexOf('Праз')).toBeLessThan(html.indexOf('Моркови'));
     expect(html).toMatch(
-      /<section[^>]*aria-label="Таблица с хоризонтално превъртане"[^>]*tabindex="0"/,
+      /<section[^>]*aria-label="Витамин C на 100 г \(превъртане\)"[^>]*tabindex="0"/,
     );
   });
 
