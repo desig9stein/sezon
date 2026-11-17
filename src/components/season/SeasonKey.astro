@@ -1,0 +1,46 @@
+---
+import { routes } from '@components/layout/routes';
+import { SeasonLevel } from '@contexts/seasonality';
+import { ui } from '@i18n/bg';
+import SeasonBadge from './SeasonBadge.astro';
+
+/**
+ * Compact key of the season stamps for the home page (spec 059): the three stamps in one row, a
+ * short sentence on the year strip and a link to the methodology section that explains the levels.
+ * Month pages keep the full `SeasonLegend`.
+ */
+const levels = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE];
+---
+
+<aside class="season-key" aria-label={ui.legend.label}>
+  <ul role="list">
+    {levels.map((level) => (
+      <li>
+        <SeasonBadge level={level} />
+      </li>
+    ))}
+  </ul>
+  <p>
+    {ui.legend.keyStrip} <a href={routes.methodologySeason}>{ui.legend.keyLink}</a>
+  </p>
+</aside>
+
+<style>
+  .season-key {
+    display: grid;
+    gap: var(--space-1);
+    font-size: var(--font-size-sm);
+  }
+
+  .season-key ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .season-key p {
+    color: var(--color-text-muted);
+  }
+</style>

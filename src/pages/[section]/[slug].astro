@@ -28,7 +28,7 @@ import { requireSiteUrl } from '@composition/site';
 import { produceSeasonTitle, produceTitle, ui } from '@i18n/bg';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { articleJsonLd, faqPageJsonLd } from '@shared/seo';
-import { searchHeadingAttributes } from '@components/search/searchAttributes';
+import { searchBodyAttributes, searchHeadingAttributes } from '@components/search/searchAttributes';
 
 export const getStaticPaths = (async () =>
   (await produceRepository.all()).map((produce) => ({
@@ -78,7 +78,7 @@ const jsonLd = [
   ]}
   jsonLd={jsonLd}
 >
-  <article class="produce" data-pagefind-body>
+  <article class="produce" {...searchBodyAttributes(ui.produceKinds[produce.kind])}>
     <header class="produce__header">
       <h1 {...searchHeadingAttributes(produce.name)}>{produce.name}</h1>
       <ul class="produce__meta" role="list">
@@ -106,7 +106,7 @@ const jsonLd = [
       )}
     </header>
 
-    <nav class="produce__toc" aria-label={labels.toc}>
+    <nav class="produce__toc" aria-label={labels.toc} data-pagefind-ignore>
       <ul role="list">
         {toc.map((entry) => (
           <li>
@@ -118,9 +118,11 @@ const jsonLd = [
 
     <section id="stall" class="produce__group produce__wide" aria-labelledby="stall-heading">
       <h2 id="stall-heading">{labels.headings.stall}</h2>
-      <ProduceNow produce={produce} month={buildMonth} />
+      <div data-pagefind-ignore>
+        <ProduceNow produce={produce} month={buildMonth} />
+      </div>
       <ProduceCautions produce={produce} />
-      <section class="produce__wide" aria-labelledby="season">
+      <section class="produce__wide" aria-labelledby="season" data-pagefind-ignore>
         <h3 id="season">{labels.headings.season}</h3>
         <SeasonCalendarList produce={produce} currentMonth={buildMonth} />
       </section>
@@ -153,7 +155,7 @@ const jsonLd = [
         <h3 id="regions">{labels.headings.regions}</h3>
         <GrowingRegions regions={details.growingRegions} />
         {details.farms.length > 0 && (
-          <p>
+          <p data-pagefind-ignore>
             <a href="#farms">{labels.farmsLink}</a>
           </p>
         )}
@@ -201,7 +203,7 @@ const jsonLd = [
       </section>
     )}
 
-    <section class="produce__wide" aria-labelledby="farms">
+    <section class="produce__wide" aria-labelledby="farms" data-pagefind-ignore>
       <h2 id="farms">{labels.headings.farms}</h2>
       <FarmList farms={details.farms} organic={produce.organic} />
     </section>
@@ -218,7 +220,7 @@ const jsonLd = [
       </section>
     )}
 
-    <section aria-labelledby="sources">
+    <section aria-labelledby="sources" data-pagefind-ignore>
       <h2 id="sources">{labels.headings.sources}</h2>
       <SourceList sources={details.sources} updatedAt={produce.updatedAt} />
     </section>

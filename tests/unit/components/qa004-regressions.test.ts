@@ -64,6 +64,7 @@ describe('QA 004 regressions', () => {
       'group',
       'home',
       'methodology',
+      'methodologySeason',
       'month',
       'nutrient',
       'ogImage',
@@ -77,6 +78,7 @@ describe('QA 004 regressions', () => {
       'reportError',
       'search',
       'section',
+      'subscribe',
     ]);
   });
 

@@ -11,6 +11,10 @@ const nutrients = await nutrientRankingService.allNutrients();
 const browse = [
   ...PRODUCE_KINDS.map((kind) => ({ href: routes.section(kind), label: ui.sections.names[kind] })),
   { href: routes.calendar, label: ui.calendar.heading },
+  { href: routes.catalog, label: ui.nav.catalog },
+  { href: routes.farms, label: ui.nav.farms },
+  { href: routes.recipes, label: ui.nav.recipes },
+  { href: routes.regions, label: ui.footer.regions },
   ...nutrients.map((nutrient) => ({ href: routes.nutrient(nutrient.slug), label: nutrient.name })),
 ];
 ---

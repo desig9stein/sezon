@@ -3,6 +3,8 @@ import { expectNoAxeViolations } from './a11y';
 
 const APPLES = '/plodove/yabalki';
 const SECOND_SCREEN_BOTTOM = 1688;
+/** Header height when spec 025 set the budget; spec 059 gives the phone nav its own row. */
+const SPEC_023_HEADER_HEIGHT = 64;
 
 const headingsOf = (page: Page, level: string, scope = 'main') =>
   page
@@ -54,12 +56,18 @@ test.describe('produce page groups (spec 025)', () => {
     for (const href of hrefs) await expect(page.locator(href ?? '#missing')).toHaveCount(1);
   });
 
-  test('AC4: the level and how to choose come within two phone screens', async ({ page }) => {
+  test('AC4 (amended by spec 059 AC6): the level and how to choose come within two phone screens below the header', async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(APPLES);
+    const header = await page.locator('body > header').boundingBox();
+    const headerBottom = (header?.y ?? 0) + (header?.height ?? 0);
     for (const selector of ['.produce-now', 'h3:text-is("Как да избереш")']) {
       const box = await page.locator(selector).first().boundingBox();
-      expect(box?.y ?? Infinity, selector).toBeLessThan(SECOND_SCREEN_BOTTOM);
+      expect((box?.y ?? Infinity) - headerBottom, selector).toBeLessThan(
+        SECOND_SCREEN_BOTTOM - SPEC_023_HEADER_HEIGHT,
+      );
     }
   });
 

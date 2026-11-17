@@ -1,7 +1,10 @@
 import { expect, test } from '@playwright/test';
 import { expectNoAxeViolations } from './a11y';
 
-const FIRST_ROWS = 10;
+/** Rows on the first 390 × 844 screen, after the month links, intro and compact key (spec 059). */
+const FIRST_ROWS = 6;
+/** Stamp words of the home page's compact key (spec 059). */
+const KEY = ['Разгар', 'В сезон', 'От хранилище'];
 const LEGEND = [
   'Разгар прясно от полето',
   'В сезон бере се в България сега',
@@ -14,23 +17,24 @@ const BUILD_MONTH = new Intl.DateTimeFormat('bg-BG', {
 }).format(new Date());
 
 test.describe('season stamp and in-season list (spec 024)', () => {
-  test('AC4: the home page opens on the in-season list', async ({ page }) => {
+  test('AC4 (amended by spec 059 AC2): the home page shows the first in-season rows on the first screen', async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
     await expect(page.getByText(/Табло/)).toHaveCount(0);
-    await expect(page.locator('main').getByRole('navigation', { name: 'Месеци' })).toHaveCount(0);
     await expect(page.locator('h1')).toContainText(BUILD_MONTH, { ignoreCase: true });
-    const legend = page.locator('.season-legend');
-    const legendText = ((await legend.textContent()) ?? '').replace(/\s+/g, ' ').toLowerCase();
-    for (const entry of LEGEND) expect(legendText).toContain(entry.toLowerCase());
+    const key = page.locator('.season-key');
+    const keyText = ((await key.textContent()) ?? '').replace(/\s+/g, ' ').toLowerCase();
+    for (const entry of KEY) expect(keyText).toContain(entry.toLowerCase());
     const bottoms = await page
       .locator('.season-list li')
       .evaluateAll(
         (rows, count) => rows.slice(0, count).map((row) => row.getBoundingClientRect().bottom),
         FIRST_ROWS,
       );
-    expect(bottoms.length).toBeGreaterThan(0);
+    expect(bottoms).toHaveLength(FIRST_ROWS);
     for (const bottom of bottoms) expect(bottom).toBeLessThanOrEqual(844);
   });
 
@@ -38,6 +42,10 @@ test.describe('season stamp and in-season list (spec 024)', () => {
     await page.goto('/sezon/noemvri');
     await expect(page.locator('.season-list li').first()).toBeVisible();
     await expect(page.locator('.season-legend')).toBeVisible();
+    const legendText = ((await page.locator('.season-legend').textContent()) ?? '')
+      .replace(/\s+/g, ' ')
+      .toLowerCase();
+    for (const entry of LEGEND) expect(legendText).toContain(entry.toLowerCase());
     await expect(page.getByRole('navigation', { name: 'Други месеци' })).toBeVisible();
   });
 

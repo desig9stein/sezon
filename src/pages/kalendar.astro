@@ -1,5 +1,6 @@
 ---
 import { routes } from '@components/layout/routes';
+import { searchBodyAttributes, searchHeadingAttributes } from '@components/search/searchAttributes';
 import SeasonCalendarTable from '@components/season/SeasonCalendarTable.astro';
 import { buildMonth } from '@composition/clock';
 import { seasonCalendarService } from '@composition/index';
@@ -19,8 +20,10 @@ const labels = ui.calendar;
     { name: labels.heading, path: routes.calendar },
   ]}
 >
-  <h1>{labels.heading}</h1>
-  <p class="calendar-intro">{labels.intro}</p>
+  <div {...searchBodyAttributes(ui.search.types.calendar)}>
+    <h1 {...searchHeadingAttributes(labels.heading)}>{labels.heading}</h1>
+    <p class="calendar-intro">{labels.intro}</p>
+  </div>
   <SeasonCalendarTable calendar={calendar} currentMonth={buildMonth} />
 </BaseLayout>
 

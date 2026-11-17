@@ -3,14 +3,10 @@ import SiteFooter from '@components/layout/SiteFooter.astro';
 import { render } from './render';
 
 describe('SiteFooter (spec 047)', () => {
-  it('AC7: links the RSS feed from the „За сайта“ list, after the methodology link', async () => {
+  it('AC7 (amended by spec 059 AC7): links the RSS feed from the „Следи сезона“ paragraph', async () => {
     const html = await render(SiteFooter, { path: '/' });
-    const nav = /<nav[^>]*aria-label="За сайта"[^>]*>([\s\S]*?)<\/nav>/.exec(html)?.[1] ?? '';
-    const links = [...nav.matchAll(/<a[^>]*href="([^"]+)"[^>]*>([^<]*)<\/a>/g)].map(
-      ([, href = '', text = '']) => ({ href, text: text.trim() }),
-    );
-    const feed = links.findIndex((link) => link.href === '/rss.xml');
-    expect(links[feed]?.text).toBe('RSS абонамент');
-    expect(links[feed - 1]?.href).toBe('/metodologiya');
+    const follow = /<p[^>]*class="site-footer__follow"[^>]*>([\s\S]*?)<\/p>/.exec(html)?.[1] ?? '';
+    expect(follow).toContain('Следи сезона');
+    expect(follow).toMatch(/<a[^>]*href="\/rss\.xml"[^>]*>\s*RSS абонамент\s*<\/a>/);
   });
 });

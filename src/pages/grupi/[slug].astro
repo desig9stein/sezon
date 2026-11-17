@@ -2,7 +2,7 @@
 import type { GetStaticPaths } from 'astro';
 import SeasonGroupsList from '@components/produce/SeasonGroupsList.astro';
 import { routes } from '@components/layout/routes';
-import { searchHeadingAttributes } from '@components/search/searchAttributes';
+import { searchBodyAttributes, searchHeadingAttributes } from '@components/search/searchAttributes';
 import { buildMonth } from '@composition/clock';
 import { produceGroupIndexService } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
@@ -42,7 +42,7 @@ const jsonLd = [
   jsonLd={jsonLd}
 >
   <header class="group-header">
-    <div class="group-header__title" data-pagefind-body>
+    <div class="group-header__title" {...searchBodyAttributes(ui.search.types.group)}>
       <h1 {...searchHeadingAttributes(group.name)}>{group.name}</h1>
       <p class="group-header__latin">
         <i lang="la">{group.latinName}</i>

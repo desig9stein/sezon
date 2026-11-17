@@ -39,7 +39,7 @@ const groups =
     {organic.note}
   </p>
 )}
-{farms.length === 0 && <p>{emptyText ?? labels.empty}</p>}
+{farms.length === 0 && <p data-pagefind-ignore>{emptyText ?? labels.empty}</p>}
 {farms.length > 0 && groups.length === 0 && (
   <ul class="farms" role="list">
     {farms.map((entry) => (
@@ -57,7 +57,7 @@ const groups =
     </ul>
   </section>
 ))}
-<p class="farm-list__add">
+<p class="farm-list__add" data-pagefind-ignore>
   <a href={routes.addFarm}>{labels.addFarmLink}</a>
 </p>
 

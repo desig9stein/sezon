@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { expect, test } from '@playwright/test';
 
@@ -86,5 +86,36 @@ test.describe('monthly RSS feed (spec 047)', () => {
       (file) => readFileSync(join(DIST, file), 'utf8').match(AUTODISCOVERY)?.length !== 1,
     );
     expect(withoutOne).toEqual([]);
+  });
+});
+
+test.describe('subscription page (spec 059, QA)', () => {
+  test('QA 059: /abonament explains the feed, shows its address and lists the entries', async ({
+    page,
+  }) => {
+    await page.goto('/abonament');
+    await expect(page.locator('h1')).toHaveCount(1);
+    await expect(page.locator('h1')).toHaveText('Следи сезона');
+    await expect(page.locator('main')).toContainText('Какво е RSS');
+    const address = page.getByLabel('Адрес на абонамента');
+    await expect(address).toHaveAttribute('readonly', '');
+    await expect(address).toHaveValue(/^https?:\/\/[^/]+\/rss\.xml$/);
+    await expect(page.locator('main a[href="/rss.xml"]')).toHaveCount(1);
+    expect(await page.locator('main .feed-entries a[href^="/sezon/"]').count()).toBe(
+      MONTHS_IN_YEAR,
+    );
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/abonament$/);
+  });
+
+  test('QA 059: /abonament is in the sitemap and the footer links it', async ({ page }) => {
+    const sitemap = await (await page.request.get('/sitemap-0.xml')).text();
+    expect(sitemap).toMatch(/\/abonament</);
+    await page.goto('/');
+    await expect(page.locator('footer .site-footer__follow a[href="/abonament"]')).toHaveCount(1);
+  });
+
+  test('QA 059: the feed has no XSL stylesheet', () => {
+    expect(readFileSync(join(DIST, 'rss.xml'), 'utf8')).not.toContain('xml-stylesheet');
+    expect(existsSync(join(DIST, 'rss.xsl'))).toBe(false);
   });
 });

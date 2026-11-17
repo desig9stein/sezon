@@ -80,10 +80,10 @@ describe('recipe page strings (spec 048)', () => {
     expect(formatDuration(minutes)).toBe(expected);
   });
 
-  it('AC8: routes and catalogue areas include the recipes', () => {
+  it('AC8 (amended by spec 059 AC5): routes include the recipes, which have their own header link', () => {
     expect(routes.recipes).toBe('/retsepti');
     expect(routes.recipe('kiselo-zele')).toBe('/retsepti/kiselo-zele');
-    expect(CATALOG_AREAS).toContain('/retsepti');
+    expect(CATALOG_AREAS).not.toContain('/retsepti');
   });
 
   it('AC8: the produce block and catalogue strings exist', () => {

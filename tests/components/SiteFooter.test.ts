@@ -20,7 +20,11 @@ const MONTHS: [string, string][] = [
 describe('SiteFooter', () => {
   it.each(MONTHS)('AC10: links to /sezon/%s labelled %s', async (slug, name) => {
     const html = await render(SiteFooter, { path: '/' });
-    expect(html).toMatch(new RegExp(`<a[^>]*href="/sezon/${slug}"[^>]*>\\s*${name}\\s*</a>`));
+    expect(html).toMatch(
+      new RegExp(
+        `<a[^>]*href="/sezon/${slug}"[^>]*>\\s*${name}(?:\\s*<span[^>]*>\\(сега\\)</span>)?\\s*</a>`,
+      ),
+    );
   });
 
   it('AC10: shows the health disclaimer', async () => {

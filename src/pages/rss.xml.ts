@@ -11,7 +11,8 @@ import { escapeXml } from '@shared/seo';
 const ATOM_NAMESPACE = 'http://www.w3.org/2005/Atom';
 
 /**
- * Generates `/rss.xml`: an RSS 2.0 feed with one item per month page. Each item's guid goes in its
+ * Generates `/rss.xml`: an RSS 2.0 feed with one item per month page. `/abonament` explains it to people
+ * (spec 059). Each item's guid goes in its
  * `customData`, which replaces the permalink guid `@astrojs/rss` derives from the link.
  */
 export const GET: APIRoute = async ({ site }) => {

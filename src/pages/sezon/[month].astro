@@ -3,6 +3,7 @@ import type { GetStaticPaths } from 'astro';
 import AdSlot from '@components/ads/AdSlot.astro';
 import { ADSENSE } from '@composition/adsense';
 import { routes } from '@components/layout/routes';
+import { searchBodyAttributes, searchHeadingAttributes } from '@components/search/searchAttributes';
 import MonthChanges from '@components/season/MonthChanges.astro';
 import MonthPager from '@components/season/MonthPager.astro';
 import SeasonLegend from '@components/season/SeasonLegend.astro';
@@ -45,7 +46,9 @@ const sponsor = await sponsorSelectionService.forPlacement('month', BUILD_DATE);
   ]}
   jsonLd={itemList === undefined ? [] : [itemList]}
 >
-  <h1>{ui.monthPage.heading(month)}</h1>
+  <div {...searchBodyAttributes(ui.search.types.month)}>
+    <h1 {...searchHeadingAttributes(ui.monthPage.heading(month))}>{ui.monthPage.heading(month)}</h1>
+  </div>
   <SeasonList overview={overview} />
   <SeasonLegend />
   <MonthChanges changes={changes} />

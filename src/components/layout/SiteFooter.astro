@@ -4,13 +4,16 @@ import { buildMonth, buildYear } from '@composition/clock';
 import { CONTACT_EMAIL, correctionLinks } from '@composition/contact';
 import { requireSiteUrl } from '@composition/site';
 import { monthName, ui } from '@i18n/bg';
-import { routes } from './routes';
+import { MONTHS_STRIP_ID, routes } from './routes';
 
 /**
- * Site footer: a year strip of links to every month page with the build month marked, then links
- * to the calendar, the about and methodology pages, the RSS feed, adding a farm, the
- * advertising, privacy and cookies pages, and an error report for the current page (the GitHub
- * form and an email) at `path`, the health disclaimer and the copyright.
+ * Site footer: a year strip of links to every month page (`id="mesetsi"`) with the build month
+ * marked and labelled „(сега)“ and the month of the page at `path` marked as the current page,
+ * then links to the home page, the calendar, the farms, recipes and regions, the about and methodology pages,
+ * adding a farm, the advertising, privacy and cookies pages, and an error report for the current
+ * page (the GitHub form and an email), a line on following the site (the subscription page and the
+ * RSS feed), the health
+ * disclaimer and the copyright.
  */
 interface Props {
   /** Site-relative canonical path of the page the footer is on. */
@@ -21,16 +24,26 @@ const { path } = Astro.props;
 const pageUrl = new URL(path, requireSiteUrl(Astro.site)).toString();
 const report = correctionLinks(pageUrl, CONTACT_EMAIL);
 const labels = ui.footer;
+/** `page` for the month of the page, `date` for the build month, otherwise nothing. */
+const currentOf = (month: Month): 'page' | 'date' | undefined => {
+  if (routes.month(month) === path) return 'page';
+  return month === buildMonth ? 'date' : undefined;
+};
 ---
 
 <footer class="site-footer">
   <div class="container site-footer__inner">
-    <nav aria-label={ui.footer.monthsLabel}>
+    <nav id={MONTHS_STRIP_ID} aria-label={ui.footer.monthsLabel}>
       <ol class="site-footer__months" role="list">
         {Month.all().map((month) => (
           <li>
-            <a href={routes.month(month)} aria-current={month === buildMonth ? 'date' : undefined}>
+            <a
+              href={routes.month(month)}
+              aria-current={currentOf(month)}
+              data-now={month === buildMonth ? '' : undefined}
+            >
               {monthName(month)}
+              {month === buildMonth && <span class="site-footer__now">{labels.now}</span>}
             </a>
           </li>
         ))}
@@ -39,16 +52,25 @@ const labels = ui.footer;
     <nav aria-label={labels.linksLabel}>
       <ul class="site-footer__links" role="list">
         <li>
+          <a href={routes.home}>{labels.home}</a>
+        </li>
+        <li>
           <a href={routes.calendar}>{ui.calendar.heading}</a>
+        </li>
+        <li>
+          <a href={routes.farms}>{labels.farms}</a>
+        </li>
+        <li>
+          <a href={routes.recipes}>{labels.recipes}</a>
+        </li>
+        <li>
+          <a href={routes.regions}>{labels.regions}</a>
         </li>
         <li>
           <a href={routes.about}>{labels.about}</a>
         </li>
         <li>
           <a href={routes.methodology}>{labels.methodology}</a>
-        </li>
-        <li>
-          <a href={routes.feed}>{labels.feed}</a>
         </li>
         <li>
           <a href={routes.addFarm}>{labels.addFarm}</a>
@@ -70,6 +92,11 @@ const labels = ui.footer;
         </li>
       </ul>
     </nav>
+    <p class="site-footer__follow">
+      <strong>{labels.followLead}</strong>
+      {labels.followText} <a href={routes.subscribe}>{labels.followLink}</a> ·
+      <a href={routes.feed}>{labels.feed}</a>
+    </p>
     <p class="site-footer__disclaimer">{ui.footer.disclaimer}</p>
     <p>{ui.footer.copyright(buildYear)}</p>
   </div>
@@ -114,7 +141,9 @@ const labels = ui.footer;
 
   .site-footer__months a {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
+    column-gap: 0.25em;
     justify-content: center;
     min-height: var(--target-min);
     border: 1px solid var(--color-border);
@@ -133,11 +162,25 @@ const labels = ui.footer;
     text-decoration: underline;
   }
 
-  .site-footer__months a[aria-current='date'] {
+  .site-footer__months a[aria-current='page'] {
+    border-width: 2px;
+    border-color: var(--color-text);
+    font-weight: 700;
+  }
+
+  .site-footer__months a[data-now] {
     border-color: var(--color-text);
     color: var(--color-on-marker);
     background: var(--color-marker);
     font-weight: 700;
+  }
+
+  .site-footer__now {
+    font-weight: 400;
+  }
+
+  .site-footer__follow {
+    max-width: var(--reading-width);
   }
 
   .site-footer__disclaimer {

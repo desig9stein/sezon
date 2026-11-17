@@ -10,6 +10,15 @@ export interface FarmPage extends FarmWithRegion {
   readonly produce: ReadonlyArray<Produce>;
 }
 
+/** The farms of one region, for the farm list grouped by province. */
+export interface RegionFarms {
+  readonly region: Region;
+  /** The region's farms in Bulgarian name order. */
+  readonly farms: ReadonlyArray<FarmWithRegion>;
+}
+
+const bulgarianCollator = new Intl.Collator('bg');
+
 /** Repositories the query reads from. */
 export interface FarmPagesRepositories {
   readonly farms: FarmRepository;
@@ -29,6 +38,26 @@ export class FarmPagesQuery {
   async all(on: Date): Promise<ReadonlyArray<FarmWithRegion>> {
     const farms = await this.repositories.farms.all();
     return Promise.all(farms.map((farm) => this.withRegion(farm, on)));
+  }
+
+  /**
+   * Returns the farms grouped by region, regions in Bulgarian alphabetical order of their name,
+   * farms in name order; regions without farms are left out.
+   * @param on - Day for the organic status.
+   * @throws BrokenReferenceError when a farm's region does not exist.
+   */
+  async byRegion(on: Date): Promise<ReadonlyArray<RegionFarms>> {
+    const groups = new Map<string, { region: Region; farms: FarmWithRegion[] }>();
+    for (const entry of await this.all(on)) {
+      const group = groups.get(entry.region.slug) ?? { region: entry.region, farms: [] };
+      group.farms.push(entry);
+      groups.set(entry.region.slug, group);
+    }
+    return Object.freeze(
+      [...groups.values()]
+        .sort((a, b) => bulgarianCollator.compare(a.region.name, b.region.name))
+        .map((group) => Object.freeze({ region: group.region, farms: Object.freeze(group.farms) })),
+    );
   }
 
   /**

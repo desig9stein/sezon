@@ -10,7 +10,7 @@ import { requireSiteUrl } from '@composition/site';
 import { ui } from '@i18n/bg';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { itemListJsonLd } from '@shared/seo';
-import { searchHeadingAttributes } from '@components/search/searchAttributes';
+import { searchBodyAttributes, searchHeadingAttributes } from '@components/search/searchAttributes';
 
 export const getStaticPaths = (async () =>
   (await nutrientRankingService.allNutrients()).map((nutrient) => ({
@@ -44,7 +44,7 @@ const jsonLd = [
   ]}
   jsonLd={jsonLd}
 >
-  <article class="nutrient" data-pagefind-body>
+  <article class="nutrient" {...searchBodyAttributes(ui.search.types.nutrient)}>
     <h1 {...searchHeadingAttributes(nutrient.name)}>{labels.heading(nutrient.name)}</h1>
 
     <section aria-labelledby="claims">

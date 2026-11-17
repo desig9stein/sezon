@@ -73,10 +73,10 @@ test.describe('season stamp, QA 024', () => {
     expect(cut).toBe(0);
   });
 
-  test('QA 024: the legend explains the strip and does not repeat the stamp word', async ({
+  test('QA 024 (amended by spec 059): the month-page legend explains the strip and does not repeat the stamp word', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto('/sezon/noemvri');
     const legend = page.locator('.season-legend');
     await expect(legend.locator('.year-strip, .season-legend__cell')).not.toHaveCount(0);
     const lines = await legend

@@ -2,6 +2,7 @@
 import SourceLink from '@components/ui/SourceLink.astro';
 import type { GetStaticPaths } from 'astro';
 import { routes } from '@components/layout/routes';
+import { searchBodyAttributes, searchHeadingAttributes } from '@components/search/searchAttributes';
 import FarmList from '@components/produce/FarmList.astro';
 import ProvinceMap from '@components/produce/ProvinceMap.astro';
 import { BUILD_DATE } from '@composition/clock';
@@ -53,56 +54,62 @@ const jsonLd = [
   ]}
   jsonLd={jsonLd}
 >
-  <h1>{placeName}</h1>
-  <p class="region__intro">{labels.pageIntro(page.produce.length, page.farms.length)}</p>
-  <ProvinceMap
-    regions={[region]}
-    links={linkedRegions}
-    caption={labels.mapCaptionFor(region.name)}
-  />
+  <div class="region" {...searchBodyAttributes(ui.search.types.region)}>
+    <h1 {...searchHeadingAttributes(placeName)}>{placeName}</h1>
+    <p class="region__intro" data-pagefind-ignore>
+      {labels.pageIntro(page.produce.length, page.farms.length)}
+    </p>
+    <div data-pagefind-ignore>
+      <ProvinceMap
+        regions={[region]}
+        links={linkedRegions}
+        caption={labels.mapCaptionFor(region.name)}
+      />
+    </div>
 
-  {profile !== undefined && page.areaRank !== undefined && (
-    <section aria-labelledby="region-profile">
-      <h2 class="section-heading" id="region-profile">
-        {labels.profile.heading}
-      </h2>
-      <p class="region__profile">{labels.profile.summary(profile, page.areaRank)}</p>
-      <p class="region__sources-label">{labels.profile.sourcesLabel}</p>
-      <ul class="region__sources">
-        {profile.sources.map((source) => (
-          <li>
-            <SourceLink source={source} />
-          </li>
-        ))}
-      </ul>
-    </section>
-  )}
-
-  <section aria-labelledby="region-produce">
-    <h2 class="section-heading" id="region-produce">
-      {labels.growsHeading}
-    </h2>
-    {page.produce.length === 0 ? (
-      <p>{labels.noProduce}</p>
-    ) : (
-      <ul class="region__produce" role="list">
-        {page.produce.map(({ produce, note }) => (
-          <li>
-            <a href={routes.produce(produce)}>{produce.name}</a>
-            {labels.noteSeparator}
-            <span class="region__note">{note}</span>
-          </li>
-        ))}
-      </ul>
+    {profile !== undefined && page.areaRank !== undefined && (
+      <section aria-labelledby="region-profile">
+        <h2 class="section-heading" id="region-profile">
+          {labels.profile.heading}
+        </h2>
+        <p class="region__profile">{labels.profile.summary(profile, page.areaRank)}</p>
+        <p class="region__sources-label">{labels.profile.sourcesLabel}</p>
+        <ul class="region__sources">
+          {profile.sources.map((source) => (
+            <li>
+              <SourceLink source={source} />
+            </li>
+          ))}
+        </ul>
+      </section>
     )}
-  </section>
 
-  <section aria-labelledby="region-farms">
-    <h2 class="section-heading" id="region-farms">
-      {labels.farmsHeading}
-    </h2>
-    <FarmList farms={page.farms} currentRegionSlug={region.slug} emptyText={labels.noFarms} />
-  </section>
+    <section aria-labelledby="region-produce">
+      <h2 class="section-heading" id="region-produce">
+        {labels.growsHeading}
+      </h2>
+      {page.produce.length === 0 ? (
+        <p>{labels.noProduce}</p>
+      ) : (
+        <ul class="region__produce" role="list">
+          {page.produce.map(({ produce, note }) => (
+            <li>
+              <a href={routes.produce(produce)}>{produce.name}</a>
+              {labels.noteSeparator}
+              <span class="region__note">{note}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+
+    <section aria-labelledby="region-farms" data-pagefind-ignore>
+      <h2 class="section-heading" id="region-farms">
+        {labels.farmsHeading}
+      </h2>
+      <FarmList farms={page.farms} currentRegionSlug={region.slug} emptyText={labels.noFarms} />
+    </section>
+  </div>
 </BaseLayout>
 
 <style>

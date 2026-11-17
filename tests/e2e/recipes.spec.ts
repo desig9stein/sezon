@@ -60,13 +60,13 @@ test.describe('recipes (spec 048)', () => {
     await expect(page.locator('#recipes')).toHaveCount(0);
   });
 
-  test('AC14: the catalogue links the recipes and the header marks the catalogue', async ({
+  test('AC14 (amended by spec 059 AC5): the catalogue links the recipes and the header marks Рецепти', async ({
     page,
   }) => {
     await page.goto('/katalog');
     await expect(page.locator('main a[href="/retsepti"]')).toHaveCount(1);
     await page.goto('/retsepti/kiselo-zele');
-    await expect(page.locator('header nav a', { hasText: 'Каталог' })).toHaveAttribute(
+    await expect(page.locator('header nav a', { hasText: 'Рецепти' })).toHaveAttribute(
       'aria-current',
       'true',
     );

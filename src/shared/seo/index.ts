@@ -33,5 +33,11 @@ export type {
   WebPageJsonLdInput,
 } from './jsonLd';
 export { robotsTxt } from './robots';
-export { latinSearchText } from './searchText';
+export {
+  latinSearchText,
+  matchesAllTerms,
+  matchesHeading,
+  searchQuery,
+  wordsOf,
+} from './searchText';
 export { escapeXml } from './xml';

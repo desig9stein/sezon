@@ -37,7 +37,7 @@ const { image, alt, credit } = photo;
   />
   <figcaption>
     {latinName !== undefined && <i lang="la">{latinName}</i>}
-    <span class="produce-photo__credit">
+    <span class="produce-photo__credit" data-pagefind-ignore>
       {ui.produce.photoCredit} <a href={creditHref(credit.authorUrl)}>{credit.author}</a> /{' '}
       <a href={creditHref(credit.sourceUrl)}>{credit.sourceName}</a>
     </span>

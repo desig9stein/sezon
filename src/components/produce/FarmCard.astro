@@ -7,7 +7,9 @@ import { routes } from '@components/layout/routes';
 
 /**
  * One farm as a list item: name (heading at `headingLevel`, linked to the farm page), province
- * (linked to its page unless it is `currentRegionSlug`), labels, description and contact links.
+ * first and in bold (linked to its page unless it is `currentRegionSlug`), labels, description and
+ * contact links. The description and contacts stay out of the search index, so a page that lists
+ * farms is not found by their texts (spec 059).
  */
 interface Props {
   farm: Farm;
@@ -28,14 +30,18 @@ const Heading = `h${headingLevel}` as const;
   </Heading>
   <p class="farm__meta">
     {region.slug === currentRegionSlug ? (
-      <span>{region.name}</span>
+      <span class="farm__region">{region.name}</span>
     ) : (
-      <a href={routes.region(region.slug)}>{region.name}</a>
+      <a class="farm__region" href={routes.region(region.slug)}>
+        {region.name}
+      </a>
     )}
     <FarmLabels farm={farm} certifiedOrganic={certifiedOrganic} />
   </p>
-  <p>{farm.description}</p>
-  <FarmContacts farm={farm} />
+  <div class="farm__details" data-pagefind-ignore>
+    <p>{farm.description}</p>
+    <FarmContacts farm={farm} />
+  </div>
 </li>
 
 <style>
@@ -46,6 +52,16 @@ const Heading = `h${headingLevel}` as const;
     padding: var(--space-4);
     border-radius: var(--radius-sm);
     background: var(--color-surface);
+  }
+
+  .farm__details {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .farm__region {
+    color: var(--color-text);
+    font-weight: 600;
   }
 
   .farm__meta {

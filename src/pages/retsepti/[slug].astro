@@ -2,6 +2,7 @@
 import SourceLink from '@components/ui/SourceLink.astro';
 import type { GetStaticPaths } from 'astro';
 import { routes } from '@components/layout/routes';
+import { searchBodyAttributes, searchHeadingAttributes } from '@components/search/searchAttributes';
 import SourceList from '@components/produce/SourceList.astro';
 import RecipeFacts from '@components/recipes/RecipeFacts.astro';
 import { recipePagesQuery, recipeRepository } from '@composition/index';
@@ -53,9 +54,9 @@ const jsonLd = [
   ]}
   jsonLd={jsonLd}
 >
-  <article class="recipe">
+  <article class="recipe" {...searchBodyAttributes(ui.search.types.recipe)}>
     <header class="recipe__header">
-      <h1>{recipe.name}</h1>
+      <h1 {...searchHeadingAttributes(recipe.name)}>{recipe.name}</h1>
       <p class="recipe__meta">
         {labels.facts.category}: {category}
       </p>
@@ -113,7 +114,7 @@ const jsonLd = [
       </ul>
     </section>
 
-    <section aria-labelledby="sources">
+    <section aria-labelledby="sources" data-pagefind-ignore>
       <h2 id="sources">{labels.headings.sources}</h2>
       <p class="recipe__muted">{labels.sourcesNote}</p>
       <SourceList sources={recipe.sources} updatedAt={recipe.updatedAt} />

@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { routes } from '@components/layout/routes';
+import { searchBodyAttributes, searchHeadingAttributes } from '@components/search/searchAttributes';
 import FarmContacts from '@components/farms/FarmContacts.astro';
 import FarmLabels from '@components/farms/FarmLabels.astro';
 import { sourceLabel } from '@components/farms/sourceLabel';
@@ -51,8 +52,8 @@ const jsonLd = [
   ]}
   jsonLd={jsonLd}
 >
-  <article class="farm-page">
-    <h1>{farm.name}</h1>
+  <article class="farm-page" {...searchBodyAttributes(ui.search.types.farm)}>
+    <h1 {...searchHeadingAttributes(farm.name)}>{farm.name}</h1>
     <p class="farm-page__meta">
       <a href={routes.region(region.slug)}>{ui.regions.placeName(region.name)}</a>
       <FarmLabels farm={farm} certifiedOrganic={certifiedOrganic} />

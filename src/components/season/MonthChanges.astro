@@ -7,7 +7,8 @@ import { ui } from '@i18n/bg';
  * What changed in a month compared with the previous one: produce entering, staying at and leaving
  * its peak (split by its level now), moving from fresh to storage, and the month's garden jobs.
  * Each non-empty group is an `h3` with a list of produce links: groups without details wrap on one
- * line, garden jobs list their activities. Nothing is rendered when nothing changed.
+ * line, garden jobs list their activities and go into the search index (spec 059). Nothing is
+ * rendered when nothing changed.
  */
 interface Props {
   changes: MonthChanges;
@@ -21,6 +22,8 @@ interface Item {
 interface Group {
   readonly title: string;
   readonly items: ReadonlyArray<Item>;
+  /** Whether the group goes into the search index (the garden jobs, spec 059). */
+  readonly indexed?: boolean;
 }
 
 const HEADING_ID = 'month-changes-heading';
@@ -45,6 +48,7 @@ const groups: ReadonlyArray<Group> = [
   { title: labels.groups.toStorage, items: plain(changes.toStorage) },
   {
     title: labels.groups.garden,
+    indexed: true,
     items: changes.garden.map(({ produce, activities }) => ({
       produce,
       detail: activities
@@ -61,7 +65,10 @@ const hasDetails = (group: Group) => group.items.some((item) => item.detail !== 
     <h2 id={HEADING_ID}>{labels.heading(changes.month)}</h2>
     <div class="month-changes__groups">
       {groups.map((group) => (
-        <section class="month-changes__group">
+        <section
+          class="month-changes__group"
+          data-pagefind-body={group.indexed === true ? '' : undefined}
+        >
           <h3>{group.title}</h3>
           <ul
             role="list"

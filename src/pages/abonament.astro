@@ -1,0 +1,148 @@
+---
+import { routes } from '@components/layout/routes';
+import { searchBodyAttributes, searchHeadingAttributes } from '@components/search/searchAttributes';
+import { monthlyFeedItems } from '@components/season/monthlyFeed';
+import { BUILD_DATE } from '@composition/clock';
+import { seasonOverviewService } from '@composition/index';
+import { requireSiteUrl } from '@composition/site';
+import { Month } from '@contexts/seasonality';
+import { ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { absoluteUrl, webPageJsonLd } from '@shared/seo';
+
+/**
+ * `/abonament` (spec 059): explains what RSS is and how to follow the site, shows the feed address
+ * in a read-only field to copy, links the raw feed and lists the monthly entries the feed holds.
+ */
+const labels = ui.feedPage;
+const path = routes.subscribe;
+const siteUrl = requireSiteUrl(Astro.site);
+const feedUrl = absoluteUrl(siteUrl, routes.feed);
+const overviews = await Promise.all(
+  Month.all().map((month) => seasonOverviewService.overviewFor(month)),
+);
+const entries = monthlyFeedItems(overviews, siteUrl, BUILD_DATE).map((item) => ({
+  title: item.title,
+  description: item.description,
+  path: new URL(item.link).pathname,
+}));
+const addressId = 'feed-address';
+const hintId = 'feed-address-hint';
+const jsonLd = [
+  webPageJsonLd({
+    siteUrl,
+    path,
+    type: 'WebPage',
+    name: labels.heading,
+    description: labels.description,
+  }),
+];
+---
+
+<BaseLayout
+  title={labels.title}
+  description={labels.description}
+  path={path}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: labels.heading, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <article class="info-page" {...searchBodyAttributes(ui.search.types.page)}>
+    <h1 {...searchHeadingAttributes(labels.heading, ui.footer.feed)}>{labels.heading}</h1>
+    <p>{labels.lead}</p>
+
+    <section aria-labelledby="feed-what">
+      <h2 class="section-heading" id="feed-what">
+        {labels.whatHeading}
+      </h2>
+      <p>{labels.what}</p>
+    </section>
+
+    <section aria-labelledby="feed-how">
+      <h2 class="section-heading" id="feed-how">
+        {labels.howHeading}
+      </h2>
+      <ol>
+        {labels.steps.map((step) => (
+          <li>{step}</li>
+        ))}
+      </ol>
+      <div class="feed-address">
+        <label for={addressId}>{labels.addressLabel}</label>
+        <p id={hintId} class="feed-address__hint">
+          {labels.addressHint}
+        </p>
+        <input
+          id={addressId}
+          type="url"
+          readonly
+          value={feedUrl}
+          aria-describedby={hintId}
+          spellcheck="false"
+        />
+        <p>
+          <a href={routes.feed}>{labels.feedLink}</a>
+        </p>
+      </div>
+    </section>
+
+    <section aria-labelledby="feed-entries">
+      <h2 class="section-heading" id="feed-entries">
+        {labels.itemsHeading}
+      </h2>
+      <ul class="feed-entries" role="list">
+        {entries.map((entry) => (
+          <li>
+            <a href={entry.path}>{entry.title}</a>
+            <p>{entry.description}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .feed-address {
+    display: grid;
+    gap: var(--space-1);
+    max-width: var(--reading-width);
+  }
+
+  .feed-address label {
+    font-weight: 600;
+  }
+
+  .feed-address__hint {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .feed-address input {
+    min-height: var(--target-min);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    background: var(--color-surface);
+    font: inherit;
+  }
+
+  .feed-entries {
+    display: grid;
+    gap: var(--space-3);
+    padding: 0;
+    list-style: none;
+  }
+
+  .feed-entries a {
+    font-weight: 700;
+  }
+
+  .feed-entries p {
+    margin-top: var(--space-1);
+    color: var(--color-text-muted);
+  }
+</style>

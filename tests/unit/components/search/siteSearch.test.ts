@@ -33,7 +33,8 @@ function fakePagefind(result: FakeResult, count = 1) {
 function mount() {
   document.body.innerHTML = `
     <div data-site-search data-loading="Търсене…" data-found="Резултати: {count} за „{query}“."
-      data-none="Няма резултати за „{query}“." data-failed="Грешка.">
+      data-none="Няма резултати за „{query}“." data-failed="Грешка."
+      data-first-shown="Показани са първите {shown}." data-shown-of="Показани са {shown} от {count}.">
       <form><input type="search" name="q" /><button type="submit">Търси</button></form>
       <p role="status"></p><ol data-search-results></ol>
     </div>`;
@@ -89,7 +90,7 @@ describe('initSiteSearch', () => {
     expect(links[0]?.getAttribute('href')).toBe('/plodove/yabalki');
     expect(links[0]?.textContent).toBe('Ябълки');
     expect(parts.list.querySelector('p')?.innerHTML).toBe('<mark>Ябълки</mark> Malus domestica');
-    expect(parts.status.textContent).toBe('Резултати: 10 за „ябълки“.');
+    expect(parts.status.textContent).toBe('Резултати: 15 за „ябълки“. Показани са първите 10.');
     expect(new URL(window.location.href).searchParams.get('q')).toBe('ябълки');
   });
 
@@ -134,12 +135,21 @@ describe('initSiteSearch', () => {
     const api = {
       init: async () => undefined,
       search: vi.fn(async (query: string) => {
-        if (query === 'бавно') await slow;
-        return { results: [{ data: async () => ({ ...APPLE, meta: { title: query } }) }] };
+        if (query === 'бавен') await slow;
+        return {
+          results: [
+            {
+              data: async () => ({
+                ...APPLE,
+                meta: { title: query === 'бавен' ? 'бавен' : 'круши' },
+              }),
+            },
+          ],
+        };
       }),
     };
     initSiteSearch(parts.root, async () => api);
-    parts.input.value = 'бавно';
+    parts.input.value = 'бавен';
     parts.form.dispatchEvent(new Event('submit', { cancelable: true }));
     await submit(parts, 'круши');
     release();

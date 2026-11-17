@@ -1,5 +1,9 @@
 ---
 import { routes } from '@components/layout/routes';
+import {
+  searchBodyAttributes,
+  searchHubHeadingAttributes,
+} from '@components/search/searchAttributes';
 import { recipePagesQuery } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
 import { ui } from '@i18n/bg';
@@ -32,8 +36,10 @@ const jsonLd = [
   ]}
   jsonLd={jsonLd}
 >
-  <h1>{labels.heading}</h1>
-  <p class="recipes__intro">{labels.intro}</p>
+  <div {...searchBodyAttributes(ui.search.types.section)}>
+    <h1 {...searchHubHeadingAttributes(labels.heading)}>{labels.heading}</h1>
+    <p class="recipes__intro">{labels.intro}</p>
+  </div>
   <p class="recipes__safety">{labels.safetyIntro}</p>
 
   {groups.map(({ category, recipes }) => (

@@ -1,5 +1,6 @@
 ---
 import { routes } from '@components/layout/routes';
+import { searchBodyAttributes, searchHeadingAttributes } from '@components/search/searchAttributes';
 import { CONTACT_EMAIL } from '@composition/contact';
 import { requireSiteUrl } from '@composition/site';
 import { ui } from '@i18n/bg';
@@ -29,8 +30,8 @@ const jsonLd = [
   ]}
   jsonLd={jsonLd}
 >
-  <article class="info-page">
-    <h1>{labels.heading}</h1>
+  <article class="info-page" {...searchBodyAttributes(ui.search.types.page)}>
+    <h1 {...searchHeadingAttributes(labels.heading)}>{labels.heading}</h1>
     <p>{labels.intro}</p>
 
     <section aria-labelledby="ad-offer">

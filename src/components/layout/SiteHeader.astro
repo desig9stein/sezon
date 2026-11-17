@@ -3,8 +3,10 @@ import { ui } from '@i18n/bg';
 import { CALENDAR_AREAS, CATALOG_AREAS, routes } from './routes';
 
 /**
- * Site banner on the stamp-blue shell: the logo link and four navigation links. The current page
- * gets `aria-current="page"`; the link whose area contains the page gets `aria-current="true"`.
+ * Site banner on the stamp-blue shell: the logo, which links to the home page, and five
+ * navigation links (catalogue, calendar, farms, recipes, search). The current page gets
+ * `aria-current="page"` (the logo on the home page); the link whose area contains the page gets
+ * `aria-current="true"`. Below 40rem the links take their own row under the logo.
  */
 interface Props {
   currentPath: string;
@@ -12,11 +14,13 @@ interface Props {
 
 const { currentPath } = Astro.props;
 
+const NO_AREAS: ReadonlyArray<string> = [];
 const links = [
-  { href: routes.home, label: ui.nav.now, areas: [] as ReadonlyArray<string> },
   { href: routes.catalog, label: ui.nav.catalog, areas: CATALOG_AREAS },
   { href: routes.calendar, label: ui.calendar.navLabel, areas: CALENDAR_AREAS },
-  { href: routes.search, label: ui.search.navLabel, areas: [] as ReadonlyArray<string> },
+  { href: routes.farms, label: ui.nav.farms, areas: NO_AREAS },
+  { href: routes.recipes, label: ui.nav.recipes, areas: NO_AREAS },
+  { href: routes.search, label: ui.search.navLabel, areas: NO_AREAS },
 ];
 
 const within = (path: string, prefix: string) => path === prefix || path.startsWith(`${prefix}/`);
@@ -24,14 +28,19 @@ const within = (path: string, prefix: string) => path === prefix || path.startsW
 /** `page` for the current page, `true` for the area that contains it, otherwise nothing. */
 const currentOf = (link: (typeof links)[number]): 'page' | 'true' | undefined => {
   if (link.href === currentPath) return 'page';
-  if (link.href !== routes.home && within(currentPath, link.href)) return 'true';
+  if (within(currentPath, link.href)) return 'true';
   return link.areas.some((area) => within(currentPath, area)) ? 'true' : undefined;
 };
 ---
 
 <header class="site-header">
   <div class="container site-header__inner">
-    <a class="site-header__logo" href={routes.home} aria-label={ui.homeLinkLabel}>
+    <a
+      class="site-header__logo"
+      href={routes.home}
+      aria-label={ui.homeLinkLabel}
+      aria-current={currentPath === routes.home ? 'page' : undefined}
+    >
       {ui.siteName}
     </a>
     <nav aria-label={ui.nav.label}>
@@ -98,7 +107,8 @@ const currentOf = (link: (typeof links)[number]): 'page' | 'true' | undefined =>
     text-decoration-color: currentColor;
   }
 
-  .site-header__nav a[aria-current] {
+  .site-header__nav a[aria-current],
+  .site-header__logo[aria-current] {
     text-decoration-color: var(--color-focus-on-shell);
     text-decoration-thickness: 3px;
   }
@@ -111,9 +121,27 @@ const currentOf = (link: (typeof links)[number]): 'page' | 'true' | undefined =>
     outline-color: var(--color-focus-on-shell);
   }
 
-  @media (max-width: 26rem) {
+  .site-header__logo[aria-current] {
+    text-decoration-line: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  @media (width < 40rem) {
+    .site-header nav {
+      flex-basis: 100%;
+    }
+
     .site-header__nav {
-      gap: 0 var(--space-3);
+      justify-content: space-between;
+      gap: 0 var(--space-2);
+      font-size: var(--font-size-sm);
+    }
+  }
+
+  @media (width < 22rem) {
+    .site-header__nav {
+      gap: 0 var(--space-1);
+      font-size: 0.8125rem;
     }
   }
 </style>

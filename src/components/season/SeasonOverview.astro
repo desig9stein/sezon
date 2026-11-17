@@ -10,6 +10,7 @@ type GroupId = 'peak' | 'available' | 'comingSoon' | 'storage';
 /**
  * Produce of one month grouped into labelled sections: peak, available, coming soon, storage.
  * `groups` limits and orders the sections; coming-soon badges name the month they apply from; `stripMonth` adds year strips.
+ * The empty text is shown only when the whole month has no produce, not when the selected groups are empty.
  */
 interface Props {
   overview: SeasonOverview;
@@ -59,7 +60,7 @@ const groups = selected
   .filter((group): group is Group => group !== undefined && group.items.length > 0);
 ---
 
-{groups.length === 0 && <p>{ui.overview.empty}</p>}
+{allGroups.every((group) => group.items.length === 0) && <p>{ui.overview.empty}</p>}
 {groups.map((group) => (
   <ProduceGroupList
     id={`group-${group.id}`}

@@ -3,7 +3,8 @@ import { foreignLanguage, type SourceLanguage } from '@shared/domain';
 
 /**
  * A link to a cited source, named by its title. The link carries `lang` when the title is not in
- * the site language (WCAG 3.1.2), so screen readers read it in that language.
+ * the site language (WCAG 3.1.2), so screen readers read it in that language. The name stays out
+ * of the search index, so citations do not match queries or fill result snippets (spec 059).
  */
 interface Props {
   source: {
@@ -16,4 +17,9 @@ interface Props {
 const { source } = Astro.props;
 ---
 
-<a href={source.url} lang={foreignLanguage(source.lang)} set:text={source.name} />
+<a
+  href={source.url}
+  lang={foreignLanguage(source.lang)}
+  data-pagefind-ignore
+  set:text={source.name}
+/>
