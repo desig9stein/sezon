@@ -8,7 +8,7 @@ import { CAUTION_SOURCE, MINIMAL_PRODUCE_INPUT, WILD_PRODUCE_INPUT } from '@test
 import { render } from './render';
 
 const schema = produceSchemaWith({ image: testImage });
-const EMERGENCY_PATTERN = /112.*Пирогов/s;
+const EMERGENCY_PATTERN = /^При съмнение за отравяне веднага звъни на 112\.$/;
 const GATHERING_NOTE_START = 'Събирай само';
 
 const cultivatedWith = (kind: string) =>
@@ -34,7 +34,9 @@ async function calloutOf(produce: ReturnType<typeof toProduce>) {
 }
 
 const paragraphs = (callout: Awaited<ReturnType<typeof calloutOf>>) =>
-  [...(callout?.querySelectorAll('p') ?? [])].map((p) => p.textContent?.trim() ?? '');
+  [...(callout?.querySelectorAll('p') ?? [])].map(
+    (p) => p.textContent?.replace(/\s+/g, ' ').trim() ?? '',
+  );
 
 describe('emergency line in the cautions callout (spec 058)', () => {
   it('AC4: a wild produce shows the gathering note, then the emergency line, then the list', async () => {
@@ -42,6 +44,10 @@ describe('emergency line in the cautions callout (spec 058)', () => {
     const [note, emergency] = paragraphs(callout);
     expect(note?.startsWith(GATHERING_NOTE_START)).toBe(true);
     expect(emergency).toMatch(EMERGENCY_PATTERN);
+    const call = callout?.querySelectorAll('p')[1]?.querySelector('a[href="tel:112"]');
+    expect(call?.textContent?.trim()).toBe('112');
+    expect(call?.className).toContain('cautions__call');
+    expect(callout?.textContent).not.toMatch(/9154|Пирогов/);
     const emergencyParagraph = callout?.querySelectorAll('p')[1];
     const list = callout?.querySelector('ul');
     expect(

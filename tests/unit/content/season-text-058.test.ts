@@ -6,6 +6,7 @@ import { parse } from 'yaml';
 interface ProduceText {
   readonly summary: string;
   readonly howToChoose?: string;
+  readonly faq?: ReadonlyArray<{ readonly answer: string }>;
   readonly season: ReadonlyArray<{ month: number }>;
 }
 
@@ -41,23 +42,26 @@ const OPEN_FROM = new RegExp(
 );
 
 /**
- * Months a text names for another event than the harvest (sowing, planting out, flowering), so they
- * need not be season months. Each entry must still appear in its text.
+ * Months a text names for another event than the open-field harvest (sowing, planting out,
+ * flowering, a harvest under cover), so they need not be season months. Each entry must still appear in its text.
  */
 const OTHER_EVENT_MONTHS: Readonly<Record<string, ReadonlyArray<[number, string]>>> = {
   bamya: [[5, 'sowing']],
   bosilek: [[6, 'planting out']],
+  brokoli: [[7, 'planting out']],
   'cherna-borovinka': [
     [6, 'flowering'],
     [7, 'flowering'],
   ],
   fastatsi: [[4, 'sowing']],
   gluharche: [[5, 'flowering']],
+  patladzhan: [[5, 'planting out']],
   'godzhi-beri': [
     [7, 'flowering'],
     [8, 'flowering'],
   ],
   rukola: [[9, 'sowing']],
+  tikvichki: [[4, 'first harvest under cover, before the open-field season (spec 041)']],
 };
 
 const monthNumber = (name: string): number =>
@@ -77,15 +81,21 @@ const entries = globSync('src/data/produce/*.yaml').map((file) => {
   const record = parse(readFileSync(file, 'utf8')) as ProduceText;
   return {
     slug: basename(file, '.yaml'),
-    texts: [record.summary, record.howToChoose ?? ''],
+    texts: [
+      record.summary,
+      record.howToChoose ?? '',
+      ...(record.faq ?? []).map((item) => item.answer),
+    ],
+    faqAnswers: (record.faq ?? []).map((item) => item.answer),
     season: new Set(record.season.map(({ month }) => month)),
     summary: record.summary,
   };
 });
-const summaryOf = (slug: string) => entries.find((entry) => entry.slug === slug)?.summary ?? '';
+const entryOf = (slug: string) => entries.find((entry) => entry.slug === slug);
+const summaryOf = (slug: string) => entryOf(slug)?.summary ?? '';
 
 describe('season texts match the season strip (spec 058)', () => {
-  it('AC8 (a): every month named in a summary or how-to-choose is a season month or whitelisted', () => {
+  it('AC8 (a): every month named in a summary, how-to-choose or FAQ answer is a season month or whitelisted', () => {
     const problems = entries.flatMap(({ slug, texts, season }) => {
       const allowed = new Set((OTHER_EVENT_MONTHS[slug] ?? []).map(([month]) => month));
       return MONTHS.flatMap((name, index) => {
@@ -135,13 +145,14 @@ describe('season texts match the season strip (spec 058)', () => {
     expect(problems).toEqual([]);
   });
 
-  it('AC9: broccoli names September to November', () => {
-    expect(summaryOf('brokoli')).toMatch(/септември/);
-    expect(summaryOf('brokoli')).toMatch(/ноември/);
+  it('AC9: broccoli follows its source: harvested in autumn, mostly in October', () => {
+    expect(summaryOf('brokoli')).toContain('най-вече през октомври');
+    expect(summaryOf('brokoli')).not.toMatch(/септември/);
   });
 
-  it('AC9: tomatoes name October', () => {
-    expect(summaryOf('domati')).toMatch(/октомври/);
+  it('AC9: the tomato summary and FAQ give the same open-field harvest, July to September', () => {
+    expect(summaryOf('domati')).toContain('от юли до септември');
+    expect(entryOf('domati')?.faqAnswers.join(' ')).toContain('От юли до септември');
   });
 
   it('AC9: rose hips do not claim a harvest until the first frosts', () => {
@@ -151,6 +162,6 @@ describe('season texts match the season strip (spec 058)', () => {
 
   it('AC9: elder does not claim a harvest from mid-August onwards', () => {
     expect(summaryOf('cheren-baz')).not.toContain('от средата на август');
-    expect(summaryOf('cheren-baz')).toMatch(/август/);
+    expect(summaryOf('cheren-baz')).toContain('започва в средата на август');
   });
 });

@@ -31,6 +31,49 @@ interface FarmRecord {
   readonly sources: ReadonlyArray<string>;
 }
 
+/** Lowest-band minutes and higher bands of each recipe's jar, from its NCHFP table (spec 058). */
+const EXPECTED_BANDS: Readonly<
+  Record<string, { lowest: number; bands: ReadonlyArray<{ fromMetres: number; minutes: number }> }>
+> = {
+  'kiselo-zele': {
+    lowest: 15,
+    bands: [
+      { fromMetres: 300, minutes: 20 },
+      { fromMetres: 1800, minutes: 25 },
+    ],
+  },
+  'kompot-ot-krushi': {
+    lowest: 25,
+    bands: [
+      { fromMetres: 300, minutes: 30 },
+      { fromMetres: 900, minutes: 35 },
+      { fromMetres: 1800, minutes: 40 },
+    ],
+  },
+  'kompot-ot-praskovi': {
+    lowest: 30,
+    bands: [
+      { fromMetres: 300, minutes: 35 },
+      { fromMetres: 900, minutes: 40 },
+      { fromMetres: 1800, minutes: 45 },
+    ],
+  },
+  'sladko-ot-sini-slivi': {
+    lowest: 5,
+    bands: [
+      { fromMetres: 300, minutes: 10 },
+      { fromMetres: 1800, minutes: 15 },
+    ],
+  },
+  'sladko-ot-yabalki': {
+    lowest: 5,
+    bands: [
+      { fromMetres: 300, minutes: 10 },
+      { fromMetres: 1800, minutes: 15 },
+    ],
+  },
+};
+
 const read = <T>(file: string): T => parse(readFileSync(file, 'utf8')) as T;
 const produceOf = (slug: string) => read<ProduceRecord>(`src/data/produce/${slug}.yaml`);
 const farmOf = (slug: string) => read<FarmRecord>(`src/data/farms/${slug}.yaml`);
@@ -77,13 +120,18 @@ describe('safety and content accuracy (spec 058)', () => {
     expect(bfr[0]?.text).toMatch(/измий/);
     expect(bfr[0]?.source.name).toMatch(/BfR/);
     expect(bfr[0]?.source.name).toMatch(/2025/);
+    expect(bfr[0]?.text).not.toContain('Ако листото не мирише на чесън, не го бери');
   });
 
-  it('AC4: the emergency line names 112 and the Pirogov toxicology clinic', () => {
-    const cautions = ui.produce.cautions as Record<string, unknown>;
-    expect(cautions.emergency).toMatch(/112/);
-    expect(cautions.emergency).toMatch(/Пирогов/);
-    expect(cautions.emergency).toMatch(/токсикология/);
+  it('AC4: the emergency line tells the reader to call 112 and gives no other number', () => {
+    const { emergency } = ui.produce.cautions as unknown as {
+      emergency: { text: string; number: string; href: string };
+    };
+    expect(`${emergency.text} ${emergency.number}.`).toBe(
+      'При съмнение за отравяне веднага звъни на 112.',
+    );
+    expect(emergency.href).toBe('tel:112');
+    expect(JSON.stringify(emergency)).not.toMatch(/9154|Пирогов/);
   });
 
   it('AC6: the methodology states the wild rule, the emergency line and its sources', () => {
@@ -92,6 +140,11 @@ describe('safety and content accuracy (spec 058)', () => {
     expect(methodology.wild).toMatch(/шипка/);
     expect(methodology.wild).toMatch(/не отбелязваме/);
     expect(methodology.emergency).toMatch(/112/);
+    expect(methodology.emergency).toMatch(/Пирогов/);
+    expect(methodology.emergency).toMatch(/лекува остри отравяния/);
+    expect(methodology.emergency).not.toMatch(/9154/);
+    // No quotation inside a quotation: every „ closes with “ before the next „ opens.
+    expect(String(methodology.emergency)).not.toMatch(/„[^“]*„/);
     const links = methodology.emergencySources as ReadonlyArray<{ name: string; url: string }>;
     const urls = links.map((link) => link.url);
     expect(urls).toContain(PIROGOV_URL);
@@ -105,6 +158,18 @@ describe('safety and content accuracy (spec 058)', () => {
     const zlr = (record.cautions ?? []).filter((caution) => caution.source.url === ZLR_URL);
     expect(zlr.map((caution) => caution.kind)).toEqual(['protected']);
     expect(zlr[0]?.text).toContain('10 кг плодове');
+  });
+
+  it.each([
+    ['malini', '10 кг плодове'],
+    ['kiselets', '1 кг листа'],
+  ])('AC7: %s has the Medicinal Plants Act caution for %s and stays unmarked', (slug, amount) => {
+    const record = produceOf(slug);
+    const zlr = (record.cautions ?? []).filter((caution) => caution.source.url === ZLR_URL);
+    expect(zlr.map((caution) => caution.kind)).toEqual(['protected']);
+    expect(zlr[0]?.text).toContain(amount);
+    expect(zlr[0]?.text).toContain('позволително');
+    expect(record.wild ?? false).toBe(false);
   });
 
   it('AC7: oregano keeps the 2026 order first and adds the Act caution for 2 kg of stems', () => {
@@ -133,16 +198,18 @@ describe('safety and content accuracy (spec 058)', () => {
     }
   });
 
-  it('AC11: sweet spreads take 10 minutes from 300 m and 15 minutes from 1800 m', () => {
-    for (const file of globSync('src/data/recipes/*.yaml')) {
-      const recipe = read<RecipeRecord>(file);
-      if (recipe.category !== 'preserve') continue;
-      expect(recipe.processingMinutes, file).toBe(5);
-      expect(recipe.processingAtAltitude, file).toEqual([
-        { fromMetres: 300, minutes: 10 },
-        { fromMetres: 1800, minutes: 15 },
-      ]);
-    }
+  it.each(Object.entries(EXPECTED_BANDS))(
+    'AC11: %s has the altitude bands of its NCHFP table',
+    (slug, { lowest, bands }) => {
+      const recipe = read<RecipeRecord>(`src/data/recipes/${slug}.yaml`);
+      expect(recipe.processingMinutes).toBe(lowest);
+      expect(recipe.processingAtAltitude).toEqual(bands);
+    },
+  );
+
+  it('AC11: every recipe has its expected bands listed', () => {
+    const slugs = globSync('src/data/recipes/*.yaml').map((file) => basename(file, '.yaml'));
+    expect(slugs.sort()).toEqual(Object.keys(EXPECTED_BANDS).sort());
   });
 
   it('AC13: ВКУСнаГРАДИНА says its certificate covers strawberries', () => {
@@ -152,8 +219,23 @@ describe('safety and content accuracy (spec 058)', () => {
     expect(farm.sources).toContain(TRACES_URL);
   });
 
-  it('AC13: Джумерски names no produce outside its list', () => {
-    expect(farmOf('gradina-dzhumerski').description).not.toMatch(/пащърнак/);
+  it('AC13: Джумерски names no site produce outside its produce list', () => {
+    const farm = farmOf('gradina-dzhumerski');
+    const names = globSync('src/data/produce/*.yaml').map((file) => ({
+      slug: basename(file, '.yaml'),
+      name: read<{ name: string }>(file).name.toLowerCase(),
+    }));
+    const listed = names.filter(({ slug }) => farm.produce.includes(slug));
+    // Remove the listed names first, longest first, so „зелен лук“ does not count as „лук“.
+    const rest = [...listed]
+      .sort((a, b) => b.name.length - a.name.length)
+      .reduce((text, { name }) => text.replaceAll(name, ' '), farm.description.toLowerCase());
+    const named = names
+      .filter(({ slug }) => !farm.produce.includes(slug))
+      .filter(({ name }) => new RegExp(`(?<!\\p{L})${name}(?!\\p{L})`, 'u').test(rest))
+      .map(({ slug }) => slug);
+    expect(named).toEqual([]);
+    expect(farm.description).not.toMatch(/пащърнак/);
   });
 
   it('AC14: the content guide documents the new rules', () => {
