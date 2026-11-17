@@ -15,8 +15,8 @@ import { formatNumber, monthNameLower, ui } from '@i18n/bg';
  * Ranking of produce by the amount of one nutrient per 100 g: the season level in the ranking's
  * month (second, so it is visible on a phone without scrolling), amount, % of the reference intake
  * and the nutrition claim the amount allows. On a phone each row is a stacked block of labelled
- * cells; explicit `table` and `row` roles keep the table semantics that a changed `display` may drop
- * (spec 062). Renders the empty-state text when no produce lists the nutrient.
+ * cells; explicit ARIA table roles keep the table semantics that a changed `display` drops
+ * in WebKit (spec 062). Renders the empty-state text when no produce lists the nutrient.
  */
 interface Props {
   ranking: NutrientRanking;
@@ -55,9 +55,10 @@ const percentText = (entry: NutrientRankingEntry): string => {
   <p>{labels.empty(nutrient.name)}</p>
 ) : (
   <ScrollTable caption={labels.caption(nutrient.name)}>
+    {/* eslint-disable astro/jsx-a11y/no-redundant-roles, astro/jsx-a11y/no-interactive-element-to-noninteractive-role -- WebKit drops table semantics when the stacked phone layout changes `display`; explicit roles keep them (spec 062). */}
     <table class="ranking" role="table">
       <caption id={captionId}>{labels.caption(nutrient.name)}</caption>
-      <thead class="visually-hidden-narrow">
+      <thead class="visually-hidden-narrow" role="rowgroup">
         <tr role="row">
           <th scope="col" role="columnheader">
             {columns.produce}
@@ -77,13 +78,13 @@ const percentText = (entry: NutrientRankingEntry): string => {
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody role="rowgroup">
         {ranking.entries.map((entry) => (
           <tr role="row">
-            <th scope="row">
+            <th scope="row" role="rowheader">
               <a href={routes.produce(entry.produce)}>{entry.produce.name}</a>
             </th>
-            <td class="ranking__text" data-label={columns.season}>
+            <td class="ranking__text" role="cell" data-label={columns.season}>
               {entry.seasonLevel === undefined ? (
                 <span>
                   <LevelMark /> {ui.produce.outOfSeason}
@@ -92,11 +93,13 @@ const percentText = (entry: NutrientRankingEntry): string => {
                 <SeasonBadge level={entry.seasonLevel} />
               )}
             </td>
-            <td data-label={columns.amount}>
+            <td role="cell" data-label={columns.amount}>
               {`${formatNumber(entry.amount)} ${nutrition.units[nutrient.unit]}`}
             </td>
-            <td data-label={columns.percent}>{percentText(entry)}</td>
-            <td class="ranking__text" data-label={columns.claim}>
+            <td role="cell" data-label={columns.percent}>
+              {percentText(entry)}
+            </td>
+            <td class="ranking__text" role="cell" data-label={columns.claim}>
               {entry.claimLevel === undefined ? (
                 <span>
                   <span aria-hidden="true">–</span>
@@ -110,6 +113,7 @@ const percentText = (entry: NutrientRankingEntry): string => {
         ))}
       </tbody>
     </table>
+    {/* eslint-enable astro/jsx-a11y/no-redundant-roles, astro/jsx-a11y/no-interactive-element-to-noninteractive-role */}
   </ScrollTable>
 )}
 

@@ -1,7 +1,8 @@
 /**
  * Wires the feed address on `/abonament` (spec 062): the read-only field selects its address on
- * focus and on a tap, and the „Копирай“ button, shown only when the clipboard API exists, copies the address
- * and reports the outcome in the status line.
+ * focus and on a tap, and the „Копирай“ button, shown only when the clipboard API exists, copies
+ * the address and reports the outcome in the status line; when copying fails, it says so and
+ * focuses the field so the address can be copied by hand.
  * @param root - Document or element that holds the field, the button and the status line.
  */
 export function initFeedCopy(root: ParentNode): void {

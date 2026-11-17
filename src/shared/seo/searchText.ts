@@ -1,4 +1,5 @@
 import { Slug } from '@shared/domain/Slug';
+import { INFLECTION_ENDINGS } from '@shared/domain/wordForms';
 
 /**
  * Returns the Latin transliteration of a Bulgarian heading for the search index: lower case,
@@ -237,26 +238,6 @@ export function wordsOf(text: string): ReadonlyArray<string> {
 
 /** Longest query word that must match a whole word or one of its forms, not any longer word. */
 export const SHORT_TERM_MAX_LENGTH = 3;
-/**
- * Bulgarian endings a short query word may carry and still name the same thing: plural, definite
- * and count forms („нар“ → „нара“, „нарът“, „нарове“; „лук“ → „лукът“).
- */
-const INFLECTION_ENDINGS: ReadonlySet<string> = new Set([
-  'а',
-  'я',
-  'е',
-  'и',
-  'ът',
-  'ят',
-  'та',
-  'то',
-  'те',
-  'ите',
-  'ове',
-  'овете',
-  'ева',
-  'ета',
-]);
 const CYRILLIC_TERM = /^\p{Script=Cyrillic}+$/u;
 
 /**

@@ -23,6 +23,9 @@ interface Props {
 }
 
 const LANDMARK_HEADING_LEVEL = 2;
+/** Card heading level under an `h2` group, and under an `h3` group. */
+const CARD_UNDER_LANDMARK = 3;
+const CARD_UNDER_NESTED = 4;
 const {
   id,
   heading,
@@ -34,7 +37,8 @@ const {
   headingLevel = LANDMARK_HEADING_LEVEL,
 } = Astro.props;
 const Heading = `h${headingLevel}` as const;
-const cardHeadingLevel = headingLevel === LANDMARK_HEADING_LEVEL ? 3 : 4;
+const cardHeadingLevel =
+  headingLevel === LANDMARK_HEADING_LEVEL ? CARD_UNDER_LANDMARK : CARD_UNDER_NESTED;
 ---
 
 <section

@@ -138,10 +138,34 @@ async function withMatchingHubsFirst(
   return [...leading, ...results.filter((result) => !ids.has(result.id))];
 }
 
+/** Separator of the produce names in a family page's `members` metadata. */
+const MEMBER_SEPARATOR = ', ';
+/** Weight of a name's title rank against its word count when ranking families. */
+const RANK_WEIGHT = 100;
+
+/**
+ * Ranks a family page for the query words without the family word, lower is better, or returns
+ * `undefined` when neither its name nor one of its produce names matches them. A name is ranked
+ * like a result title (`titleRank`: every word exact, then close), then by its word count, so
+ * „ябълки“ ranks Розоцветни (Ябълки) above Абаносови (Райска ябълка).
+ * @param data - Data of a family page result.
+ * @param terms - Normalised query words without the family word.
+ */
+function familyRank(data: PagefindResultData, terms: ReadonlyArray<string>): number | undefined {
+  const NO_MATCH = 2;
+  const names = [data.meta.title ?? '', ...(data.meta.members?.split(MEMBER_SEPARATOR) ?? [])];
+  const ranks = names
+    .map((name) => ({ name, rank: nameRank(name, terms) }))
+    .filter(({ rank }) => rank < NO_MATCH)
+    .map(({ name, rank }) => rank * RANK_WEIGHT + wordsOf(name).length);
+  return ranks.length === 0 ? undefined : Math.min(...ranks);
+}
+
 /**
  * Returns the results with the family pages that a „семейство <продукт>“ query asks for moved to
  * the front (spec 062): family pages whose name or produce names (`members` metadata) match every
- * other query word. Without the family word, or without other words, the results stay as they are.
+ * other query word, best match first (see `familyRank`). Without the family word, or without
+ * other words, the results stay as they are.
  * @param results - All results of the query, in order.
  * @param families - Results of a search for the family word limited to family pages.
  * @param terms - Normalised query words.
@@ -157,9 +181,9 @@ async function withAskedFamiliesFirst(
     families.map(async (family) => ({ family, data: await family.data() })),
   );
   const asked = checked
-    .filter(({ data }) =>
-      matchesAllTerms([data.meta.title, data.meta.members].filter(Boolean).join(' '), others),
-    )
+    .map(({ family, data }) => ({ family, rank: familyRank(data, others) }))
+    .filter(({ rank }) => rank !== undefined)
+    .sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0))
     .map(({ family }) => family);
   const ids = new Set(asked.map((family) => family.id));
   return [...asked, ...results.filter((result) => !ids.has(result.id))];
@@ -167,8 +191,9 @@ async function withAskedFamiliesFirst(
 
 /**
  * Keeps the results whose title, alias or content name every short query word as a word form
- * (spec 062): Pagefind matches word prefixes, so „нар“ would also find „нарязани“. Loads the data
- * of every result, so it runs only when the query has a short word.
+ * (spec 062): Pagefind matches word prefixes, so „нар“ would also find „нарязани“. When no result
+ * does, the short word is the start of a longer word being typed („ябъ“), and every result is
+ * kept. Loads the data of every result, so it runs only when the query has a short word.
  * @param results - All results of the query, in order.
  * @param terms - Normalised query words.
  */
@@ -180,14 +205,19 @@ async function withShortTermsAsWords(
   const checked = await Promise.all(
     results.map(async (result) => ({ result, data: await result.data() })),
   );
-  return checked
+  const words = checked
     .filter(({ data }) => matchesWordForms(`${namesOf(data)} ${data.content ?? ''}`, terms))
     .map(({ result }) => result);
+  return words.length === 0 ? results : words;
 }
 
 /** How well a result's title names the query: 0 every word exact, 1 every word close, 2 neither. */
 function titleRank(data: PagefindResultData, terms: ReadonlyArray<string>): number {
-  const names = namesOf(data);
+  return nameRank(namesOf(data), terms);
+}
+
+/** How well `names` name the query: 0 every word exact, 1 every word close, 2 neither. */
+function nameRank(names: string, terms: ReadonlyArray<string>): number {
   const words = wordsOf(names);
   if (terms.every((term) => words.includes(wordsOf(term)[0] ?? term))) return 0;
   return matchesHeading(names, terms) ? 1 : 2;
@@ -225,8 +255,8 @@ export function byTitleMatch(
 /**
  * Wires the search form inside `root` to the Pagefind index: loads Pagefind on the first focus,
  * input or `?q=` query, searches while typing with the normalised query, keeps `?q=` in the address
- * bar, shows results ten at a time with a „Покажи още“ button and announces the outcome in the
- * status line.
+ * bar, shows results ten at a time with a „Покажи още“ button under the „Резултати“ heading,
+ * names the query in the page title and announces the outcome in the status line.
  * @param root - Element rendered by `SiteSearch.astro`, with the status templates as data attributes.
  * @param loader - Loads the Pagefind API; a failed load is retried on the next query.
  */

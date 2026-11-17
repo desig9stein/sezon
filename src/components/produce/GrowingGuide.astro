@@ -16,7 +16,7 @@ interface Props {
 
 /** Heading level whose section is a named landmark; nested guides are plain sections (spec 062). */
 const LANDMARK_HEADING_LEVEL = 2;
-const { growing, headingLevel = 2 } = Astro.props;
+const { growing, headingLevel = LANDMARK_HEADING_LEVEL } = Astro.props;
 const Heading = `h${headingLevel}` as const;
 const labels = ui.produce;
 const RANGE_SEPARATOR = labels.monthListSeparator;

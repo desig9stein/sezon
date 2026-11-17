@@ -190,17 +190,15 @@ test.describe('accessibility polish (spec 060)', () => {
     page,
   }) => {
     await page.setViewportSize(PHONE_VIEWPORT);
-    for (const path of [CALENDAR]) {
-      await page.goto(path);
-      const regions = page.locator('.table-scroll[tabindex="0"]');
-      const names = await regions.evaluateAll((items) =>
-        items.map((region) => region.getAttribute('aria-label') ?? ''),
-      );
-      const captions = await regions.locator('caption').allTextContents();
-      expect(names.length, path).toBeGreaterThan(0);
-      expect(new Set(names).size, path).toBe(names.length);
-      expect(names, path).toEqual(captions.map((caption) => `${caption.trim()} (превъртане)`));
-    }
+    await page.goto(CALENDAR);
+    const regions = page.locator('.table-scroll[tabindex="0"]');
+    const names = await regions.evaluateAll((items) =>
+      items.map((region) => region.getAttribute('aria-label') ?? ''),
+    );
+    const captions = await regions.locator('caption').allTextContents();
+    expect(names.length).toBeGreaterThan(0);
+    expect(new Set(names).size).toBe(names.length);
+    expect(names).toEqual(captions.map((caption) => `${caption.trim()} (превъртане)`));
   });
 
   test('AC11: a produce without farms has no contents link to the farm section', async ({

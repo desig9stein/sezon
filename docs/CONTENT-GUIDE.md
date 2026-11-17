@@ -73,10 +73,13 @@ table of contents entry.
 | `organic`         | The organic production note above the farms.                                 |
 | `wild`            | The „Диворастящо“ label on the page and in lists, and the gathering note.    |
 | `cautions`        | The „Внимание“ section at the top of „На сергията“, each with its source.    |
+| `aliases`         | Other names the search finds the page by (spec 062), e.g. „чушки“ for Пипер. |
 
 A block that is present is checked in full: nutrition needs every macronutrient and a source,
 each traditional use and growing guide needs its sources, and a photo needs `alt` and a credit.
-Omitted lists are the same as empty lists. A recipe in `src/data/recipes/` that lists the produce
+Omitted lists are the same as empty lists. An alias must occur as a whole word or one of its
+forms in the entry's own text (name, summary, varieties, preparation tips, how to choose, storage
+or FAQ); a fragment such as „ябъл“ is rejected, so aliases stay sourced by the page itself. A recipe in `src/data/recipes/` that lists the produce
 adds the „Рецепти за зимнина“ block to „На масата“, even when the produce has no other block there.
 
 ### Full entry
@@ -122,6 +125,8 @@ storage: … # optional
 faq: # optional
   - question: …
     answer: …
+aliases: # optional; each a whole word (or word form) the entry's own text already uses
+  - ябълка
 updatedAt: 2026-11-10
 ```
 

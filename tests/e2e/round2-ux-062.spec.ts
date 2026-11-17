@@ -295,7 +295,7 @@ test.describe('phones, subscribe, farms, groups and print (spec 062)', () => {
     ).toContainText('Био');
     await expect(
       page.locator('#oblast-sofia-grad').locator('..').locator('a[href="#oblast-sofiyska"]'),
-    ).toHaveText(/^Ферми в Софийска област \(\d+\)$/);
+    ).toHaveText(/^\s*Ферми в Софийска област \(\d+\)\s*$/);
     await page.goto(PROFILE_ONLY_FARM);
     await expect(page.locator('main')).toContainText(
       'За връзка с фермата отвори профила ѝ в LocalStore.bg.',
@@ -320,7 +320,9 @@ test.describe('phones, subscribe, farms, groups and print (spec 062)', () => {
     page,
   }) => {
     await page.goto(CALENDAR);
-    await expect(page.locator('tr.year__key').first()).toBeHidden();
+    const screenKey = page.locator('tr.year__key').first();
+    await expect(screenKey).toHaveClass(/visually-hidden/);
+    expect((await screenKey.boundingBox())?.height ?? 0).toBeLessThanOrEqual(1);
     await page.emulateMedia({ media: 'print' });
     await expect(page.locator('.calendar-print-hint')).toBeHidden();
     const tables = page.locator('table.year');

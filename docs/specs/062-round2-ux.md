@@ -97,8 +97,9 @@ they could not read. This spec fixes these without changing content texts (spec 
     - No results: the status adds „Сайтът покрива пресни плодове, зеленчуци, билки и ядки от
       България.“
 11. **Nutrient ranking tables on phones.** Below 40rem each row is a stacked block (produce name
-    on its own line, then labelled cells); explicit `table`, `row` and `columnheader` roles keep the
-    table semantics (eslint-plugin-jsx-a11y rejects explicit roles on `td` and row `th`); the
+    on its own line, then labelled cells); explicit ARIA table roles (`table`, `rowgroup`, `row`,
+    `columnheader`, `rowheader`, `cell`) keep the table semantics that WebKit drops when `display`
+    changes (QA 062; a scoped eslint-disable with its reason covers the jsx-a11y rules); the
     header row is visually hidden on narrow screens (`.visually-hidden-narrow`); no
     horizontal overflow at 390 px and 320 px.
 12. **/abonament.** The hint reads „Копирай адреса от полето и го постави в приложението.“; the
@@ -118,6 +119,8 @@ they could not read. This spec fixes these without changing content texts (spec 
 15. **Calendar print.** The print instruction is its own paragraph, hidden in print. Each table
     head starts with a key row (kind name and the four level marks with their words), hidden from
     assistive technology (the cells already carry the level text), repeated on every printed sheet.
+    On screen the legend above the tables serves, so the row is `.visually-hidden` there (QA 062);
+    print shows it, and without CSS it reads as part of the table head.
 
 ### Out of scope
 
@@ -127,9 +130,15 @@ they could not read. This spec fixes these without changing content texts (spec 
 
 ## 4. Domain model
 
-- `Produce.aliases: ReadonlyArray<string>` (input `aliases?`). Invariant: every alias, lower case,
-  occurs in the lower-cased text of the produce (name, summary, varieties, preparation tips,
-  choose, storage, FAQ); otherwise `InvalidProduceError`. Duplicates are rejected by the schema.
+- `Produce.aliases: ReadonlyArray<string>` (input `aliases?`). Invariant: every word of every
+  alias occurs in the text of the produce (name, summary, varieties, preparation tips, choose,
+  storage, FAQ) as a whole word or another form of it (`containsWordForms` in
+  `src/shared/domain/wordForms.ts`: same stem, each side ending in an inflection ending or equal),
+  so „ябълка“ is accepted for „Ябълки“ but the fragments „ябъл“ and „чушк“ are not (QA 062);
+  otherwise `InvalidProduceError`. Duplicates are rejected by the schema.
+- Geography: `surroundingRegionSlug(slug)` names the province around another (София-град →
+  Софийска); `FarmPagesQuery.byRegion` adds `surrounding: { region, farmCount }` to a group whose
+  surrounding province has farms (QA 062).
 - `produceSchema.aliases: z.array(text()).default([])`, unique; Keystatic `aliases` array.
 - `searchText.ts`: `matchesWordForms(text, terms)` – a term of at most 3 letters matches a word
   equal to it or the term plus an inflection ending; longer terms keep prefix matching.
@@ -144,9 +153,15 @@ terms, laterType?)`.
 
 - Overflow check: `scrollWidth > clientWidth + 1`. Without JavaScript every scroll table stays a
   focusable named region.
-- Short-term filter: only when at least one normalised term has at most 3 letters; Latin vitamin
-  letters (`c`, `b6`) are excluded from the rule. If no result passes, the search shows „Няма
-  резултати“ with the scope note.
+- Short-term filter: only when at least one normalised term has at most 3 Cyrillic letters;
+  Latin vitamin letters (`c`, `b6`) are excluded from the rule. It applies only when at least one
+  result passes it: otherwise the short word is the start of a longer word being typed („ябъ“,
+  „дом“, „чуш“) and the prefix results are kept (QA 062). „нар“ keeps only the pages with „нар“
+  as a word form.
+- Family queries: the asked family pages are ordered by their best matching name (family name or
+  produce name), ranked like result titles (every word exact, then close), then by fewer words:
+  „семейство ябълки“ lists Розоцветни (Ябълки) before Абаносови (Райска ябълка) and Сложноцветни
+  (Земна ябълка).
 - Month without wild produce in season: the section shows its empty text and the link.
 - `/divorastyashti` with no wild produce: the empty text „Все още няма диворастящи растения.“
 - Copy fails (permission denied): status „Копирането не успя – избери адреса и го копирай.“
@@ -156,8 +171,8 @@ terms, laterType?)`.
 
 ## 6. Accessibility requirements
 
-- 1.3.1: tables keep caption, `th scope`; stacked ranking rows keep roles `table`, `row` and
-  `columnheader` (Chromium keeps row headers and cells, checked in e2e). Ordered list for sequential steps. Group headings h2 → h3 →
+- 1.3.1: tables keep caption, `th scope`; stacked ranking rows carry explicit roles `table`,
+  `rowgroup`, `row`, `columnheader`, `rowheader` and `cell`, so WebKit keeps them too. Ordered list for sequential steps. Group headings h2 → h3 →
   h4 without skips.
 - 1.3.2 / without CSS: no CSS reordering; the calendar key row and the stacked labels add no
   content that needs CSS to make sense; the print hint is hidden only in print.
@@ -257,5 +272,5 @@ terms, laterType?)`.
 | pagefind         | 1.5.2   | Context7 `/pagefind/pagefind`: `docs/indexing.md` (`data-pagefind-index-attrs` indexed inline), `docs/weighting.md` | Aliases and group members in the index    |
 | HTML Standard    | living  | „Scroll to the fragment“ (focusing steps on a focusable target); verified in Chromium with Playwright 1.63.0        | Focus moves to `tabindex="-1"` targets    |
 | MDN              | n/a     | `Clipboard.writeText()`, `ResizeObserver`, `HTMLInputElement.select()`                                              | Copy button, overflow check, select       |
-| WAI-ARIA 1.2     | current | Roles `table`, `row`, `columnheader`                                                                                | Stacked ranking rows keep table semantics |
+| WAI-ARIA 1.2     | current | Roles `table`, `rowgroup`, `row`, `columnheader`, `rowheader`, `cell`                                               | Stacked ranking rows keep table semantics |
 | @playwright/test | 1.63.0  | https://playwright.dev/docs/api/class-page (`emulateMedia`, `context.grantPermissions` for clipboard)               | Print and copy tests                      |

@@ -25,7 +25,7 @@ const website = farm.contact.website;
 const directory = website === undefined ? undefined : directoryName(website);
 const phone = farm.contact.phone;
 const email = farm.contact.email;
-/** A directory profile is the farm's only contact, so the reader needs to open it to get in touch. */
+/** A directory profile is the farm's only contact: the reader opens it to get in touch. */
 const profileOnly = directory !== undefined && email === undefined && phone === undefined;
 const websiteLabel =
   directory === undefined

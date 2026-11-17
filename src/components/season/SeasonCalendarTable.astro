@@ -10,8 +10,9 @@ import MonthAbbr from './MonthAbbr.astro';
 /**
  * Year-at-a-glance calendar of every produce against the 12 months: a legend, a jump list to the
  * kinds, then one section per kind with an `h2` and its own table (spec 059). Each table head
- * starts with a compact key (kind and levels), hidden from assistive technology because every cell
- * carries its level as text; printed, it repeats on every sheet (spec 062). Each cell shows the
+ * starts with a compact key (kind and levels) for print, where it repeats on every sheet (spec
+ * 062); on screen the legend above serves, so the key is visually hidden, and it is hidden from
+ * assistive technology because every cell carries its level as text. Each cell shows the
  * level mark (decorative) and the level text (visually hidden). The tables share fixed column
  * widths so they line up. An empty calendar renders the empty message instead.
  */
@@ -65,7 +66,7 @@ const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, un
               <col span={months.length} />
             </colgroup>
             <thead>
-              <tr class="year__key" aria-hidden="true">
+              <tr class="year__key visually-hidden" aria-hidden="true">
                 <td colspan={months.length + 1}>
                   <strong>{ui.sections.names[group.kind]}</strong>
                   {legend.map((level) => (
@@ -281,6 +282,16 @@ const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, un
 
     .year th[aria-current='date'] {
       text-decoration: underline;
+    }
+
+    .year .year__key.visually-hidden {
+      position: static;
+      width: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      clip-path: none;
+      white-space: normal;
     }
   }
 </style>

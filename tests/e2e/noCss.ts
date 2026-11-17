@@ -22,13 +22,16 @@ export async function removeAllCss(page: Page): Promise<void> {
  * or, inside a scroll container (other than `html` and `body`), outside its scrollable area.
  * `[hidden]` elements that CSS reveals are reported with the suffix ` (revealed)`.
  * Non-rendered elements, `[hidden]`, `.visually-hidden`, `.visually-hidden-inline`,
- * `.visually-hidden-narrow` (hidden only on narrow screens, spec 062), `.skip-link` and their
+ * `.visually-hidden-narrow` below 40rem (where it is hidden, spec 062), `.skip-link` and their
  * descendants are exempt.
  */
 export async function hiddenByCss(page: Page): Promise<string[]> {
   return page.evaluate(() => {
-    const exempt =
-      'script, style, template, noscript, [hidden], .visually-hidden, .visually-hidden-inline, .visually-hidden-narrow, .skip-link';
+    const narrow = window.matchMedia('(width < 40rem)').matches;
+    const exempt = [
+      'script, style, template, noscript, [hidden], .visually-hidden, .visually-hidden-inline, .skip-link',
+      ...(narrow ? ['.visually-hidden-narrow'] : []),
+    ].join(', ');
     const describe = (element: Element): string =>
       `${element.tagName.toLowerCase()}${[...element.classList].map((name) => `.${name}`).join('')}`;
     const documentWidth = document.documentElement.scrollWidth;

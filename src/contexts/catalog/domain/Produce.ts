@@ -1,4 +1,5 @@
 import { InvalidProduceError } from '@shared/domain/errors';
+import { containsWordForms } from '@shared/domain/wordForms';
 import { frozenList, frozenRecords } from '@shared/domain/freeze';
 import type { Month, SeasonCalendar, SeasonLevel } from '@contexts/seasonality';
 import { type Caution, POISONING_CAUTION_KINDS } from './Caution';
@@ -83,8 +84,8 @@ export interface ProduceInput {
 }
 
 /**
- * Returns the lower-cased text a produce writes about itself: name, summary, varieties,
- * preparation tips, how to choose, storage and FAQ. Aliases must occur in it (spec 062).
+ * Returns the text a produce writes about itself: name, summary, varieties, preparation tips, how
+ * to choose, storage and FAQ. Aliases must occur in it as words or word forms (spec 062).
  */
 function ownText(input: ProduceInput): string {
   return [
@@ -95,9 +96,7 @@ function ownText(input: ProduceInput): string {
     input.howToChoose ?? '',
     input.storage ?? '',
     ...input.faq.flatMap((item) => [item.question, item.answer]),
-  ]
-    .join(' ')
-    .toLowerCase();
+  ].join(' ');
 }
 
 /** A fruit, vegetable, herb or nut grown in Bulgaria, identified by its slug. */
@@ -176,11 +175,11 @@ export class Produce {
    * Creates a produce entity.
    * @throws InvalidProduceError when `updatedAt` is not a valid date, the photo has an empty
    * `alt`, organic information has no source, a wild produce has no caution, or an alias does not
-   * occur in the produce's own text.
+   * occur in the produce's own text as a whole word or one of its forms.
    */
   static create(input: ProduceInput): Produce {
     const text = ownText(input);
-    const unused = (input.aliases ?? []).find((alias) => !text.includes(alias.toLowerCase()));
+    const unused = (input.aliases ?? []).find((alias) => !containsWordForms(text, alias));
     if (unused !== undefined) {
       throw new InvalidProduceError(
         `Produce "${input.slug}" has the alias "${unused}" that its own text does not use.`,

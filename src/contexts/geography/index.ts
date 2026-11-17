@@ -5,3 +5,4 @@ export type { RegionProfileInput, RegionSource, TopFruit } from './domain/Region
 export type { RegionRepository } from './domain/repositories';
 export { utilisedAreaRank } from './application/utilisedAreaRank';
 export type { AreaRank } from './application/utilisedAreaRank';
+export { surroundingRegionSlug } from './domain/surroundingRegion';
