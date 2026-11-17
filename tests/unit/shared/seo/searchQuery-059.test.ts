@@ -20,8 +20,8 @@ describe('searchQuery (spec 059)', () => {
     },
   );
 
-  it('AC9: keeps a Cyrillic one-letter word that does not follow a vitamin word', () => {
-    expect(searchQuery('ябълки с мед')).toEqual(['ябълк', 'с', 'мед']);
+  it('AC9 (amended by QA 059): drops a Cyrillic one-letter stop word that does not follow a vitamin word', () => {
+    expect(searchQuery('ябълки с мед')).toEqual(['ябълк', 'мед']);
   });
 
   it.each([

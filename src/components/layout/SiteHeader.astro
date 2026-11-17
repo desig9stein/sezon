@@ -126,7 +126,7 @@ const currentOf = (link: (typeof links)[number]): 'page' | 'true' | undefined =>
     text-underline-offset: 0.2em;
   }
 
-  @media (max-width: 39.99rem) {
+  @media (width < 40rem) {
     .site-header nav {
       flex-basis: 100%;
     }
@@ -135,6 +135,13 @@ const currentOf = (link: (typeof links)[number]): 'page' | 'true' | undefined =>
       justify-content: space-between;
       gap: 0 var(--space-2);
       font-size: var(--font-size-sm);
+    }
+  }
+
+  @media (width < 22rem) {
+    .site-header__nav {
+      gap: 0 var(--space-1);
+      font-size: 0.8125rem;
     }
   }
 </style>

@@ -37,8 +37,10 @@ export const routes = {
   calendar: '/kalendar',
   search: '/tarsene',
   feed: '/rss.xml',
-  /** XSL stylesheet that renders the feed as a page in browsers (spec 059). */
-  feedStylesheet: '/rss.xsl',
+  /** Page that explains the RSS feed and how to follow it (spec 059). */
+  subscribe: '/abonament',
+  /** Methodology section that explains the season levels. */
+  methodologySeason: '/metodologiya#method-season',
   farms: FARMS_PREFIX,
   farm: (slug: string) => `${FARMS_PREFIX}/${slug}`,
   regions: REGIONS_PREFIX,

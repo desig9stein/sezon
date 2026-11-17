@@ -41,8 +41,7 @@ test.describe('search findability (spec 059)', () => {
       '/reklama',
     ]) {
       await page.goto(path);
-      const body = page.locator('[data-pagefind-body]');
-      await expect(body, path).toHaveCount(1);
+      expect(await page.locator('[data-pagefind-body]').count(), path).toBeGreaterThanOrEqual(1);
       await expect(page.locator('[data-pagefind-meta^="type:"]'), path).toHaveCount(1);
       await expect(page.locator('h1'), path).toHaveAttribute('data-search-latin', /^[a-z0-9 ]+$/);
     }

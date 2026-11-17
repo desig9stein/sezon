@@ -151,7 +151,7 @@ describe('site search (spec 059)', () => {
     };
     const api = {
       init: async () => undefined,
-      search: vi.fn(async (...args: [string, { filters?: Record<string, string> }?]) => ({
+      search: vi.fn(async (...args: [string, { filters?: Record<string, unknown> }?]) => ({
         results: (args[1]?.filters === undefined ? [farm, other, hub] : [other, hub]).map(
           (result) => ({ id: result.id, data: async () => result }),
         ),
@@ -159,7 +159,7 @@ describe('site search (spec 059)', () => {
     };
     initSiteSearch(parts.root, async () => api);
     await submit(parts, 'ферма');
-    expect(api.search).toHaveBeenCalledWith('ферм', { filters: { type: 'Раздел' } });
+    expect(api.search).toHaveBeenCalledWith('ферм', { filters: { type: { any: ['Раздел'] } } });
     const hrefs = [...parts.list.querySelectorAll('a')].map((link) => link.getAttribute('href'));
     expect(hrefs).toEqual(['/fermi', '/fermi/ferma-1', '/katalog']);
     expect(parts.status.textContent).toBe('Резултати: 3 за „ферма“.');
@@ -184,7 +184,7 @@ describe('site search (spec 059)', () => {
     };
     const api = {
       init: async () => undefined,
-      search: vi.fn(async (...args: [string, { filters?: Record<string, string> }?]) => ({
+      search: vi.fn(async (...args: [string, { filters?: Record<string, unknown> }?]) => ({
         results: (args[1]?.filters === undefined ? [zele, section] : [section]).map((result) => ({
           id: result.id,
           data: async () => result,

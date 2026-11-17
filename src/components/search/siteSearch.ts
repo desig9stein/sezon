@@ -1,4 +1,4 @@
-import { matchesAllTerms, searchQuery } from '@shared/seo/searchText';
+import { matchesAllTerms, matchesHeading, searchQuery, wordsOf } from '@shared/seo/searchText';
 
 /** URL of the Pagefind browser bundle written by `pagefind --site dist`. */
 const PAGEFIND_URL = '/pagefind/pagefind.js';
@@ -16,7 +16,13 @@ interface PagefindResultData {
   readonly excerpt: string;
   /** Plain text of the indexed part of the page. */
   readonly content?: string;
-  readonly meta: { readonly title?: string; readonly latin?: string; readonly type?: string };
+  readonly meta: {
+    readonly title?: string;
+    readonly latin?: string;
+    /** Other name of the page, e.g. „За нас“ (spec 059). */
+    readonly alias?: string;
+    readonly type?: string;
+  };
 }
 
 /** One Pagefind result before its data is loaded. */
@@ -28,7 +34,7 @@ interface PagefindResult {
 
 /** Options of a Pagefind search that the search page uses. */
 interface PagefindSearchOptions {
-  readonly filters?: Readonly<Record<string, string>>;
+  readonly filters?: Readonly<Record<string, { readonly any: ReadonlyArray<string> }>>;
 }
 
 /** The parts of the Pagefind browser API that the search page uses. */
@@ -91,12 +97,18 @@ function isRelevant(best: PagefindResultData, terms: ReadonlyArray<string>): boo
   return matchesAllTerms(text, terms);
 }
 
+/** The names a result goes by: its title and, when it has one, its alias. */
+function namesOf(data: PagefindResultData): string {
+  return [data.meta.title, data.meta.alias].filter(Boolean).join(' ');
+}
+
 /**
- * Returns the results with the list pages whose heading matches every query word moved to the
- * front. Pagefind ranks a short list page („Местни ферми“) below single pages that repeat a common
- * word („Ферма …“), but the list is the best entry point for such a query.
+ * Returns the results with the list and site pages whose heading or alias names every query word
+ * (see `matchesHeading`) moved to the front. Pagefind ranks a short list page („Местни ферми“)
+ * below single pages that repeat a common word („Ферма …“), but the list is the best entry point
+ * for such a query.
  * @param results - All results of the query, in Pagefind order.
- * @param hubs - Results of the same query limited to list pages.
+ * @param hubs - Results of the same query limited to list and site pages.
  * @param terms - Normalised query words.
  */
 async function withMatchingHubsFirst(
@@ -108,14 +120,40 @@ async function withMatchingHubsFirst(
     hubs.slice(0, MAX_HUBS).map(async (hub) => ({ hub, data: await hub.data() })),
   );
   const leading = checked
-    .filter(
-      ({ hub, data }) =>
-        hub.id !== undefined &&
-        matchesAllTerms([data.meta.title, data.meta.latin].filter(Boolean).join(' '), terms),
-    )
+    .filter(({ hub, data }) => hub.id !== undefined && matchesHeading(namesOf(data), terms))
     .map(({ hub }) => hub);
   const ids = new Set(leading.map((hub) => hub.id));
   return [...leading, ...results.filter((result) => !ids.has(result.id))];
+}
+
+/** How well a result's title names the query: 0 every word exact, 1 every word close, 2 neither. */
+function titleRank(data: PagefindResultData, terms: ReadonlyArray<string>): number {
+  const names = namesOf(data);
+  const words = wordsOf(names);
+  if (terms.every((term) => words.includes(wordsOf(term)[0] ?? term))) return 0;
+  return matchesHeading(names, terms) ? 1 : 2;
+}
+
+/**
+ * Orders the first page of results so that a page named by the query comes first: titles with
+ * every query word as a whole word, then titles with close words, shorter titles first within
+ * each group; other results keep Pagefind's order („зеле“ lists „Зеле“ before „Зелен лук“).
+ * @param items - Data of the first page of results, in Pagefind order.
+ * @param terms - Normalised query words.
+ */
+export function byTitleMatch(
+  items: ReadonlyArray<PagefindResultData>,
+  terms: ReadonlyArray<string>,
+): ReadonlyArray<PagefindResultData> {
+  const NO_MATCH = 2;
+  const ranked = items.map((item, index) => {
+    const rank = titleRank(item, terms);
+    const length = rank === NO_MATCH ? 0 : wordsOf(item.meta.title ?? '').length;
+    return { item, index, rank, length };
+  });
+  return ranked
+    .sort((a, b) => a.rank - b.rank || a.length - b.length || a.index - b.index)
+    .map(({ item }) => item);
 }
 
 /**
@@ -142,7 +180,7 @@ export function initSiteSearch(root: HTMLElement, loader: PagefindLoader = loadP
     firstShown: root.dataset.firstShown ?? '',
     shownOf: root.dataset.shownOf ?? '',
   };
-  const hubType = root.dataset.hubType;
+  const hubTypes = root.dataset.hubType?.split(',');
   let pagefind: Promise<PagefindApi> | undefined;
   let latest = 0;
   let timer: ReturnType<typeof setTimeout> | undefined;
@@ -209,14 +247,19 @@ export function initSiteSearch(root: HTMLElement, loader: PagefindLoader = loadP
       const normalised = terms.join(' ');
       const [search, hubSearch] = await Promise.all([
         api.search(normalised),
-        hubType === undefined ? null : api.search(normalised, { filters: { type: hubType } }),
+        hubTypes === undefined
+          ? null
+          : api.search(normalised, { filters: { type: { any: hubTypes } } }),
       ]);
       const results = await withMatchingHubsFirst(
         search?.results ?? [],
         hubSearch?.results ?? [],
         terms,
       );
-      const items = await Promise.all(results.slice(0, PAGE_SIZE).map((result) => result.data()));
+      const items = byTitleMatch(
+        await Promise.all(results.slice(0, PAGE_SIZE).map((result) => result.data())),
+        terms,
+      );
       if (id !== latest) return;
       const best = items[0];
       if (best === undefined || !isRelevant(best, terms)) {

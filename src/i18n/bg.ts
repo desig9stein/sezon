@@ -446,31 +446,34 @@ export const ui = {
     /** Visible word after the build month in the year strip, so its marker is not read as the page. */
     now: '(сега)',
     followLead: 'Следи сезона:',
+    followText: 'по един запис всеки месец за това, което е в сезон.',
+    followLink: 'Как да се абонираш',
     feed: 'RSS абонамент',
-    followText:
-      '– по един запис всеки месец за това, което е в сезон. Добави адреса в приложение за новини като Feedly или Inoreader.',
+    home: 'Начало',
   },
   feed: {
     title: `${SITE_NAME} – какво е в сезон в България`,
     description: 'Всеки месец: кои плодове, зеленчуци и подправки са в сезон в България.',
     itemDescription: monthFeedDescription,
   },
-  /** The page a browser shows for the RSS feed, through its XSL stylesheet (spec 059). */
+  /** The page that explains the RSS feed, `/abonament` (spec 059). */
   feedPage: {
-    title: `RSS абонамент – ${SITE_NAME}`,
-    heading: 'RSS абонамент',
-    lead: 'Това е абонаментът на Сезон. Всеки месец в него излиза нов запис за това, което е в сезон в България.',
+    title: `Следи сезона: RSS абонамент на ${SITE_NAME}`,
+    heading: 'Следи сезона',
+    description: `Как да получаваш всеки месец какво е в сезон в България: RSS абонаментът на ${SITE_NAME}, какво е RSS и как да го добавиш в приложение за новини.`,
+    lead: `Всеки месец ${SITE_NAME} публикува нов запис за това, което е в сезон в България. Можеш да го получаваш в приложение за новини.`,
     whatHeading: 'Какво е RSS?',
     what: 'RSS е начин да следиш сайтове, без да ги проверяваш сам. Приложение за новини (четец на RSS) проверява абонамента вместо теб и ти показва новите записи.',
-    howHeading: 'Как да следиш Сезон',
+    howHeading: `Как да следиш ${SITE_NAME}`,
     steps: [
       'Отвори приложение за новини, например Feedly, Inoreader или NetNewsWire.',
       'Избери „Добави“ или „Абонирай се“ и постави адреса по-долу.',
       'Всеки месец ще виждаш новия запис в приложението.',
     ],
-    addressLabel: 'Адрес на абонамента:',
+    addressLabel: 'Адрес на абонамента',
+    addressHint: 'Докосни полето и копирай адреса.',
+    feedLink: 'Отвори самия абонамент (XML)',
     itemsHeading: 'Записи в абонамента',
-    homeLink: 'Към началната страница на Сезон',
   },
   corrections: {
     mailSubject: (page: string) => `Грешка в Сезон: ${page}`,
@@ -594,8 +597,7 @@ export const ui = {
     title: 'Какво е в сезон сега',
     heading: (month: Month) => `${HOME_HEADING_LEAD} ${monthNameLower(month)}`,
     headingLead: HOME_HEADING_LEAD,
-    intro:
-      'Сезонните плодове и зеленчуци са най-вкусни, най-евтини и идват от по-близо. Ето какво се бере в България този месец.',
+    intro: 'Това се бере в България този месец: най-вкусно, най-евтино и от по-близо.',
     description: (month: Month) =>
       `Какво е в сезон в България сега – ${monthNameLower(month)}. Виж кои плодове и зеленчуци са в разгара си и кои идват скоро.`,
     fullMonthLink: (month: Month) => `Виж всичко в сезон през ${monthNameLower(month)}`,
@@ -785,6 +787,9 @@ export const ui = {
     storage: 'от последната бера, съхранявано',
     outOfSeason: 'Извън сезона: вероятно е внос',
     strip: 'Лентата е годината от януари до декември; текущият месец е в рамка.',
+    /** Compact key on the home page (spec 059). */
+    keyStrip: 'Лентата е годината; месецът е в рамка.',
+    keyLink: 'Какво значат печатите',
   },
   yearStrip: {
     part: (level: string, ranges: string) => `${level}: ${ranges}`,
@@ -964,6 +969,7 @@ export const ui = {
     byRegionLabel: 'Ферми по области',
     regionCount: (name: string, count: number) => `${name} (${count})`,
     regionPageLink: (name: string) => `Какво расте ${inRegionLower(name)}`,
+    regionsLink: 'Към областите на картата',
     produceHeading: 'Какво предлага',
     produceSeparator: DASH_SEPARATOR,
     contactsHeading: 'Контакти',
@@ -1087,7 +1093,7 @@ export const ui = {
     description:
       'Целогодишен календар на сезонните плодове, зеленчуци, подправки и ядки в България: кога са в разгара си, кога в сезон и кога от хранилище.',
     intro:
-      'Кога е сезонът на всеки продукт през годината. Разпечатва се на няколко листа A4 в хоризонтален формат: избери „Печат“ в менюто на браузъра или натисни Ctrl+P.',
+      'Кога е сезонът на всеки продукт през годината. Разпечатва се на няколко листа A4 в хоризонтален формат: избери „Печат“ в менюто на браузъра или натисни Ctrl+P (Cmd+P на Mac).',
     kindCaption: (kindName: string) => `${kindName} по месеци`,
     toc: 'На тази страница',
     produceColumn: 'Продукт',

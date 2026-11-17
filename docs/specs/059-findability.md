@@ -46,8 +46,12 @@ home page contradiction („Няма данни за този месец.“ und
    - The empty text of `SeasonOverview` is shown only when the whole month overview is empty (no
      peak, available, storage or coming-soon produce), not when only the selected groups are
      empty (the home page selects only „Идват скоро“, which is empty in November).
-   - Source order: `h1`, month navigation, intro paragraph, legend, in-season list, coming soon,
-     more links.
+   - Source order: `h1`, month navigation, intro paragraph (one sentence), a compact key, in-season
+     list, coming soon, more links.
+   - The compact key (`SeasonKey`, QA 059) replaces the full legend on the home page: the three
+     stamps in one row, „Лентата е годината; месецът е в рамка.“ and a link „Какво значат
+     печатите“ to `/metodologiya#method-season`. Month pages keep the full legend. At least 6 list
+     rows are on the first 390 × 844 screen and 3 at 320 × 844.
    - Month navigation under the heading: a `nav` labelled „Други месеци“ with the previous month,
      the next month and „Всички месеци“, a link to the footer's month strip (`#mesetsi`).
 2. **Header (`SiteHeader`):** the logo (link to `/`, `aria-current="page"` on the home page) and
@@ -57,7 +61,9 @@ home page contradiction („Няма данни за този месец.“ und
    - Календар: month pages;
    - Ферми: `/fermi` and farm pages;
    - Рецепти: `/retsepti` and recipe pages.
-     Below 40rem the nav takes its own full-width row under the logo, its links share that one row
+     Below 40rem (`width < 40rem`) the nav takes its own full-width row under the logo; below 22rem
+     the labels shrink to 0.8125rem with a 0.25rem gap so the five links stay on one row at 320 px;
+     its links share that one row
      (labels at `sm` size, spread across the row); from 40rem logo and links share one row.
 3. **Footer (`SiteFooter`):**
    - The month strip `nav` gets `id="mesetsi"`.
@@ -92,22 +98,42 @@ home page contradiction („Няма данни за този месец.“ und
 
    - **Ignored on produce pages** (`data-pagefind-ignore`): the table of contents, the photo
      credit, the „this month“ line, the month-by-month calendar, the farm list, the sources and the
-     ad slot. Farm cards (on any page) ignore their description and contacts.
+     ad slot, the „Местни ферми, които го продават“ link and the caution sources. Farm cards (on any
+     page) ignore their description and contacts; farm lists ignore the „add your farm“ link and the
+     empty text; region pages ignore their intro and farm section; recipe pages their sources. So
+     „ферма“ finds the farm list, the farm pages and a few pages that discuss farms (56 of 256).
    - **Query normalisation** (`searchQuery`, pure function), applied before Pagefind:
-     - lower case, words split on white space;
-     - a single Cyrillic letter А, В, С, Е or К (optionally followed by digits) right after a word
-       starting with „витамин“ or „vitamin“ becomes the Latin letter („витамин С“ → „витамин c“,
-       „витамин В6“ → „витамин b6“);
+     - lower case, words are runs of letters and digits, so punctuation, quotes and hyphens
+       separate words („ябълки!“ → „ябълк“, „София-град“ → „софи град“);
+     - a single Cyrillic letter А, В, С, Е, К or Ц (optionally followed by digits) right after a
+       word starting with „витамин“ or „vitamin“ becomes the Latin letter („витамин С“ and
+       „витамин Ц“ → „витамин c“, „витамин В6“ → „витамин b6“);
+     - Bulgarian stop words (question words, prepositions, conjunctions, particles, auxiliary
+       verbs; the named list `STOP_WORDS`) are dropped, unless every word is one; a vitamin letter
+       is never dropped;
+     - the garden verbs map to the nouns the site uses (`GARDEN_VERBS`: „сее“ → „сеитб“, „засадя“
+       → „засажд“, „разсадя“ → „разсажд“);
      - light Bulgarian stemming of Cyrillic words, because Pagefind has no Bulgarian stemmer (the
        build reports „Pagefind doesn't support stemming for the language bg“): a word of at least
-       6 letters ending in „ите“ loses it, a word of at least 5 letters ending in „ът“ or „ят“
-       loses it, and then a word of at least 5 letters ending in a vowel (а, я, е, и, о, у, ъ, ю)
+       6 letters ending in „ите“ or „ята“ loses it, one of at least 6 letters ending in „та“,
+       „то“ or „те“ after a vowel loses it („ябълката“, „гроздето“; „рецепта“ keeps its „та“), a
+       word of at least 5 letters ending in „ът“ or „ят“ loses it, and then a word of at least 5 letters ending in a vowel (а, я, е, и, о, у, ъ, ю)
        loses that vowel. Pagefind's prefix matching then finds both forms („ябълка“ → „ябълк“
        matches „ябълки“ and „ябълка“). Latin words are left alone.
    - **Relevance guard:** when no indexed word starts with a query word, Pagefind 1.5 falls back to
      the longest indexed word that is a prefix of it („гъби“ → „г“, „поверителност“ → „по“). The
      script therefore checks the best result: if its text has no word that starts with every
      normalised query word, the search shows „Няма резултати“.
+   - **Ordering:** list pages (`Раздел`) and site pages (`Страница`) whose heading or alias names
+     every query word (`matchesHeading`: a heading word that starts with the query word and is at
+     most 2 letters longer) come first, found with a second Pagefind search filtered on `type`. The
+     first ten results are then ordered by how their title names the query: every word exact, then
+     every word close, shorter titles first, the rest in Pagefind order („зеле“ → „Зеле“ before
+     „Зелен лук“).
+   - **Aliases:** `/za-nas` („За Сезон“) is also indexed as „За нас“ and `/abonament` as „RSS
+     абонамент“ (`data-search-alias`, stored as `alias` metadata).
+   - **Month pages** index their heading and the „В градината“ group, so „какво да засадя през
+     март“ finds the March page.
    - **Results:** 10 at a time. The status says „Резултати: N за „…“.“ with the full count N, and
      when N > 10 adds „Показани са първите 10.“. A „Покажи още“ button (with `hidden` until there
      are more) adds the next 10, moves focus to the first new result link and updates the status
@@ -121,19 +147,29 @@ home page contradiction („Няма данни за този месец.“ und
      region page, and the farm cards (`h3` names). The flat „Сертифицирани био ферми“ / „Други
      ферми“ grouping does not apply here; certified farms keep their badge on the card.
    - Farm cards show the province first in the meta line, in `text` colour at weight 600.
-6. **Feed (`/rss.xml`):** `@astrojs/rss` `stylesheet: '/rss.xsl'` adds
-   `<?xml-stylesheet href="/rss.xsl" type="text/xsl"?>`. `/rss.xsl` is generated from `bg.ts`
-   strings by an Astro endpoint: a Bulgarian page with a heading, what RSS is, how to follow the
-   site (copy the address into a reader app such as Feedly or Inoreader), the feed address and the
-   list of items (title as a link, description). `_headers` serves `/rss.xsl` as `text/xsl`. The
-   feed stays valid RSS 2.0.
+6. **Feed page (`/abonament`, „Следи сезона“):** a normal HTML page built from the same data as
+   the feed (`monthlyFeedItems`): what RSS is, how to follow the site in a reader app (Feedly,
+   Inoreader, NetNewsWire), the feed address in a labelled read-only field to copy, a link to the
+   raw feed and the list of monthly entries (title linked to the month page, description). It is
+   indexed for search (type „Страница“), in the sitemap, and the footer's „Следи сезона“ line links
+   it and the raw feed. **Decision (QA 059):** no XSL stylesheet. Chrome shows
+   `application/rss+xml` as plain text, so an `xml-stylesheet` never runs there, and browsers are
+   removing XSLT; a plain page is simpler and works everywhere. `/rss.xml` stays a plain RSS 2.0
+   feed with its media type.
 7. **Calendar (`/kalendar`):**
    - The intro says the calendar prints on several A4 sheets in landscape and how to print it
-     („Печат“ in the browser menu or Ctrl+P); no button (it would need JavaScript).
+     („Печат“ in the browser menu, Ctrl+P or Cmd+P on a Mac); no button (it would need
+     JavaScript).
    - One `section` per kind with an `h2` („Плодове“, „Зеленчуци“ …, `id="kalendar-<section>"`) and
      its own table (caption „<Kind> по месеци“, month header, produce rows); a „На тази страница“
      jump list to the four kinds above the tables. Column widths are fixed so the four tables line
-     up. Print keeps each `h2` with its table's first rows and repeats the month header.
+     up. Print keeps each `h2` with its table's first rows and repeats the month header: the
+     scroll box is `overflow: visible` in print (a scrolling box prints as one unbreakable block,
+     which stranded „Ядки“ at the bottom of a sheet), with `break-after: avoid` on the heading and
+     caption and `break-before: avoid` on the table box.
+8. **Footer and farm list extras (QA 059):** the footer links „Начало“ first; `/fermi` links
+   „Към областите на картата“ (`/regioni`). The logo gets no extra underline on inner pages:
+   DESIGN.md keeps header links undecorated except on hover and for the current page.
 
 ### Out of scope
 
@@ -218,8 +254,8 @@ No new entities. New pure functions and one read-model method:
 5. **AC5:** Given the header on `/fermi/venets` Ферми is `aria-current="true"`, on `/fermi` it is
    `page`; on `/retsepti/kiselo-zele` Рецепти is `true`; on `/regioni/plovdiv` Каталог is `true`;
    on `/` the logo is `page` and no nav link is marked.
-6. **AC6:** Given a 390 px viewport, all five nav links share one row, every link is at least
-   44px tall and the header is at most 100px tall; at 1024 px logo and links share one row of at
+6. **AC6:** Given a 390 px or 320 px viewport, all five nav links share one row, every link is at
+   least 44px tall and the header is at most 100px tall; at 1024 px logo and links share one row of at
    most 64px.
 7. **AC7:** Given the footer, it links `/fermi`, `/retsepti` and `/regioni`, and has a „Следи
    сезона“ paragraph with the RSS link.
@@ -244,11 +280,21 @@ No new entities. New pure functions and one read-model method:
 15. **AC15:** Given `/fermi`, it has a „Ферми по области“ nav linking one `h2` section per
     province with farms, every farm card sits in its province's section, and the page has no axe
     violations in light and dark mode.
-16. **AC16:** Given `/rss.xml`, it starts with an `xml-stylesheet` instruction for `/rss.xsl`,
-    still parses as RSS 2.0 with its items; `/rss.xsl` is a valid XSLT 1.0 stylesheet with the
-    Bulgarian explanation, and `_headers` serves it as `text/xsl`.
+16. **AC16:** Given `/abonament`, it has one `h1` „Следи сезона“, explains RSS, shows the feed
+    address in a labelled read-only field, links the raw feed and the 12 month entries, is in the
+    sitemap and linked from the footer; `/rss.xml` still parses as RSS 2.0 and has no
+    `xml-stylesheet`.
 17. **AC17:** Given `/kalendar`, the intro says it prints on several A4 sheets, there is one `h2`
     per kind with its own table and a jump list to them, and the page has no axe violations.
+18. **AC18 (QA 059):** Given the search, punctuation and hyphens split words, definite forms are
+    stemmed („ябълката“ finds `/plodove/yabalki`), stop words are dropped („кога се сее пипер“ →
+    Пипер, „какво да засадя през март“ → `/sezon/mart`, „за нас“ → `/za-nas`), „витамин Ц“ maps to
+    C, „зеле“ lists `/zelenchutsi/zele` first, a list page is promoted only by a whole or nearly
+    whole heading word, and „ферма“ returns at most the farm pages plus 10.
+19. **AC19 (QA 059):** Given the home page, the key is compact and links the methodology, the
+    intro is one sentence, and 6 rows (390 × 844) or 3 rows (320 × 844) are on the first screen;
+    the printed calendar lets tables break after their headings; the footer links „Начало“ and
+    `/fermi` links `/regioni`.
 
 ## 9. Test plan
 
@@ -269,15 +315,17 @@ No new entities. New pure functions and one read-model method:
 | AC13 | e2e            | `tests/e2e/search-059.spec.ts`                                                      |
 | AC14 | unit, e2e      | `tests/unit/components/search/siteSearch-059.test.ts`, `search-059.spec.ts`         |
 | AC15 | unit, e2e      | `tests/unit/composition/FarmPagesQuery-059.test.ts`, `findability-059.spec.ts`      |
-| AC16 | unit, e2e      | `tests/unit/repo/headers-059.test.ts`, `tests/e2e/rss-feed.spec.ts` (extended)      |
+| AC16 | e2e            | `tests/e2e/rss-feed.spec.ts` (extended)                                             |
 | AC17 | component, e2e | `tests/components/SeasonCalendarTable.test.ts` (updated), `findability-059.spec.ts` |
+| AC18 | unit, e2e      | `searchQuery-059.test.ts`, `siteSearch-059.test.ts`, `search-059.spec.ts`           |
+| AC19 | e2e, component | `findability-059.spec.ts`, `season-stamp.spec.ts`, `SiteFooter-059.test.ts`         |
 
 ## 10. Third-party documentation consulted
 
 | Package / source | Version | Source                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Topic                                 |
 | ---------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
 | pagefind         | 1.5.2   | Context7 `/pagefind/pagefind`: `docs/ranking.md` (`metaWeights`, `termSimilarity`), `docs/metadata.md` (`key:value` metadata, several captures with the inline value last), `docs/indexing.md` (`data-pagefind-ignore`), `docs/weighting.md`, `docs/search-config.md` (`exactDiacritics`), `pagefind_web/src/search.rs` (`find_word_extensions` prefix fallback, terms intersected); `node_modules/pagefind/types/index.d.ts`; build log „doesn't support stemming for the language bg“ | Indexing, metadata, matching, ranking |
-| @astrojs/rss     | 4.0.19  | `node_modules/@astrojs/rss/dist/index.d.ts` (`stylesheet?: string \| boolean`, „local custom XSL stylesheet“), `dist/index.js` (emits `?xml-stylesheet` with `type="text/xsl"` for `.xsl`)                                                                                                                                                                                                                                                                                              | Feed stylesheet                       |
+| @astrojs/rss     | 4.0.19  | `node_modules/@astrojs/rss/dist/index.d.ts` (`stylesheet?: string \| boolean`, „local custom XSL stylesheet“), `dist/index.js` (emits `?xml-stylesheet` with `type="text/xsl"` for `.xsl`); considered and dropped after QA 059. Pagefind compound filters (`any`) from Context7 `docs/js-api-filtering.md`, multiple `data-pagefind-body` elements from `docs/indexing.md`                                                                                                             | Feed stylesheet                       |
 | astro            | 7.4.8   | Context7 `/withastro/docs` (endpoints: static `GET` routes with a file extension)                                                                                                                                                                                                                                                                                                                                                                                                       | `/rss.xsl` endpoint                   |
 | XSLT 1.0         | W3C REC | https://www.w3.org/TR/xslt-10/ (`xsl:output method="html"`, `xsl:for-each`, `xsl:value-of`)                                                                                                                                                                                                                                                                                                                                                                                             | Feed page                             |
 | WAI-ARIA 1.2     | current | `aria-current` values `page`, `true`, `date`                                                                                                                                                                                                                                                                                                                                                                                                                                            | Header, footer                        |

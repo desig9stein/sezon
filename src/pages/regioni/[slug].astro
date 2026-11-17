@@ -55,7 +55,9 @@ const jsonLd = [
 >
   <div class="region" {...searchBodyAttributes(ui.search.types.region)}>
     <h1 {...searchHeadingAttributes(placeName)}>{placeName}</h1>
-    <p class="region__intro">{labels.pageIntro(page.produce.length, page.farms.length)}</p>
+    <p class="region__intro" data-pagefind-ignore>
+      {labels.pageIntro(page.produce.length, page.farms.length)}
+    </p>
     <div data-pagefind-ignore>
       <ProvinceMap
         regions={[region]}
@@ -100,7 +102,7 @@ const jsonLd = [
       )}
     </section>
 
-    <section aria-labelledby="region-farms">
+    <section aria-labelledby="region-farms" data-pagefind-ignore>
       <h2 class="section-heading" id="region-farms">
         {labels.farmsHeading}
       </h2>

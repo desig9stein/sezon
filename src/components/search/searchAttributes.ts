@@ -3,15 +3,27 @@ import { latinSearchText } from '@shared/seo';
 /**
  * Returns the attributes that let the search index match a page heading in Latin letters: the
  * transliterated name, indexed by Pagefind and kept as `latin` metadata so result excerpts can
- * drop it again.
- * @param name - Bulgarian name of the produce, section or nutrient.
+ * drop it again. An `alias`, the name the page goes by in links (e.g. „За нас“ for „За Сезон“),
+ * is indexed too (spec 059).
+ * @param name - Bulgarian name of the page's subject or heading.
+ * @param alias - Other name of the page, when its links use one.
  */
-export function searchHeadingAttributes(name: string): Readonly<Record<string, string>> {
-  return {
+export function searchHeadingAttributes(
+  name: string,
+  alias?: string,
+): Readonly<Record<string, string>> {
+  const latin = {
     'data-search-latin': latinSearchText(name),
-    'data-pagefind-index-attrs': 'data-search-latin',
     'data-pagefind-meta': 'latin[data-search-latin]',
   };
+  return alias === undefined
+    ? { ...latin, 'data-pagefind-index-attrs': 'data-search-latin' }
+    : {
+        ...latin,
+        'data-pagefind-meta': 'latin[data-search-latin], alias[data-search-alias]',
+        'data-search-alias': alias,
+        'data-pagefind-index-attrs': 'data-search-latin,data-search-alias',
+      };
 }
 
 /**

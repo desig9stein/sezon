@@ -220,6 +220,22 @@ const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, un
       color: var(--print-ink);
     }
 
+    /* A scrolling box prints as one unbreakable block; let the table break across sheets so its
+       heading, caption and month header stay with the first rows. */
+    .calendar-kind :global(.table-scroll) {
+      overflow: visible;
+      break-before: avoid;
+    }
+
+    .calendar-kind caption,
+    .year thead {
+      break-after: avoid;
+    }
+
+    .year tbody tr:nth-child(-n + 2) {
+      break-before: avoid;
+    }
+
     .year th,
     .year td,
     .year th[scope='row'],

@@ -1,6 +1,6 @@
 ---
 import { MONTHS_STRIP_ID, routes } from '@components/layout/routes';
-import SeasonLegend from '@components/season/SeasonLegend.astro';
+import SeasonKey from '@components/season/SeasonKey.astro';
 import SeasonList from '@components/season/SeasonList.astro';
 import SeasonOverview from '@components/season/SeasonOverview.astro';
 import { freshProduceItemList } from '@components/season/seasonJsonLd';
@@ -60,7 +60,7 @@ const itemList = freshProduceItemList(overview, siteUrl);
     </ul>
   </nav>
   <p class="home-intro">{ui.home.intro}</p>
-  <SeasonLegend />
+  <SeasonKey />
   <SeasonList
     overview={overview}
     heading={ui.seasonList.countHeading(
@@ -124,9 +124,8 @@ const itemList = freshProduceItemList(overview, siteUrl);
     color: var(--color-text-muted);
   }
 
-  .home-intro + :global(.season-legend) {
-    margin-top: var(--space-3);
-    margin-bottom: var(--space-6);
+  .home-intro + :global(.season-key) {
+    margin-block: var(--space-2) var(--space-4);
   }
 
   .more-links {

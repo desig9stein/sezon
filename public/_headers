@@ -9,8 +9,5 @@
 /rss.xml
   Content-Type: application/rss+xml; charset=utf-8
 
-/rss.xsl
-  Content-Type: text/xsl; charset=utf-8
-
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable

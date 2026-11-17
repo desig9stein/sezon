@@ -61,10 +61,10 @@ describe('QA 004 regressions', () => {
       'farm',
       'farms',
       'feed',
-      'feedStylesheet',
       'group',
       'home',
       'methodology',
+      'methodologySeason',
       'month',
       'nutrient',
       'ogImage',
@@ -78,6 +78,7 @@ describe('QA 004 regressions', () => {
       'reportError',
       'search',
       'section',
+      'subscribe',
     ]);
   });
 

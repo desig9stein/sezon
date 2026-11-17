@@ -27,7 +27,7 @@ const hintId = 'search-hint';
   data-failed={labels.failed}
   data-first-shown={labels.firstShown}
   data-shown-of={labels.shownOf}
-  data-hub-type={labels.types.section}
+  data-hub-type={[labels.types.section, labels.types.page].join(',')}
 >
   <search>
     <form class="site-search__form" method="get" action={routes.search}>

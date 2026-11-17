@@ -53,6 +53,9 @@ const jsonLd = [
       ))}
     </ul>
   </nav>
+  <p class="farms__regions-link">
+    <a href={routes.regions}>{labels.regionsLink}</a>
+  </p>
   {groups.map(({ region, farms: regionFarms }) => (
     <section class="farms__region" aria-labelledby={sectionId(region.slug)}>
       <h2 class="section-heading" id={sectionId(region.slug)}>
