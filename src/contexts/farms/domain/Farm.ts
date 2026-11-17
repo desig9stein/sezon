@@ -4,11 +4,15 @@ import { InvalidFarmError } from '@shared/domain/errors';
 import { frozenList } from '@shared/domain/freeze';
 import type { ContactInfo } from './ContactInfo';
 
-/** An organic production certificate: who issued it, its number and its last valid day. */
+/**
+ * An organic production certificate: who issued it, its number, its last valid day and the HTTPS
+ * address of the certificate document (in the EU TRACES directory, spec 061).
+ */
 export interface OrganicCertificate {
   readonly certifier: string;
   readonly certificateId: string;
   readonly validUntil: Date;
+  readonly url: string;
 }
 
 /** Input for {@link Farm.create}. */
@@ -59,8 +63,8 @@ export class Farm {
 
   /**
    * Creates a farm.
-   * @throws InvalidFarmError when the organic certificate has a blank certifier or id, or an
-   * invalid date, or when a source is not an HTTPS URL.
+   * @throws InvalidFarmError when the organic certificate has a blank certifier or id, an invalid
+   * date or a URL that is not HTTPS, or when a source is not an HTTPS URL.
    */
   static create(input: FarmInput): Farm {
     const badSource = (input.sources ?? []).find((source) => !isHttpsUrl(source));
@@ -76,6 +80,9 @@ export class Farm {
       }
       if (Number.isNaN(certificate.validUntil.getTime())) {
         throw new InvalidFarmError(`Farm "${input.slug}" has an invalid certificate date.`);
+      }
+      if (!isHttpsUrl(certificate.url)) {
+        throw new InvalidFarmError(`Farm "${input.slug}" has a certificate URL that is not HTTPS.`);
       }
     }
     return new Farm(input);

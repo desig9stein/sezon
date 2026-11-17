@@ -7,3 +7,9 @@ profile:
   sources:
     - name: 'МЗХ, Агростатистика – БАНСИК 2025: Заетост и използване на територията през 2025 година – окончателни резултати, бюлетин № 465'
       url: 'https://www.mzh.government.bg/media/filer_public/2025/12/04/ra_465_publicationbancik2025.pdf'
+seat:
+  town: Смолян
+  altitude: { fromMetres: 700, toMetres: 999 }
+  source:
+    name: 'НСИ, Национален регистър на населените места – ЕКАТТЕ, надморска височина на населените места'
+    url: https://nrnm.nsi.bg/ekatte/territorial-units

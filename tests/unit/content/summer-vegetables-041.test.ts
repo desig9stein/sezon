@@ -218,7 +218,7 @@ interface SeasonFile {
   readonly summary: string;
   readonly season: ReadonlyArray<{ readonly month: number; readonly level: string }>;
   readonly faq: ReadonlyArray<{ readonly question: string; readonly answer: string }>;
-  readonly growing: { readonly sow: ReadonlyArray<number> };
+  readonly growing: { readonly sowSeedlings: ReadonlyArray<number> };
   readonly photo: { readonly alt: string };
 }
 
@@ -252,8 +252,8 @@ describe('summer vegetables QA (spec 041)', () => {
   });
 
   it('QA 041: early peppers and aubergines are sown from January, as the calendar says', () => {
-    expect(seasonOf('piper').growing.sow).toContain(JANUARY);
-    expect(seasonOf('patladzhan').growing.sow).toContain(JANUARY);
+    expect(seasonOf('piper').growing.sowSeedlings).toContain(JANUARY);
+    expect(seasonOf('patladzhan').growing.sowSeedlings).toContain(JANUARY);
   });
 
   it('QA 041: the cucumber alt describes a heap', () => {

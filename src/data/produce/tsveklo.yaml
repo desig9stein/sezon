@@ -30,8 +30,8 @@ nutrition:
   sugarsG: 6.76
   micronutrients:
     - { nutrient: folat, amount: 109 }
-    - { nutrient: kaliy, amount: 325 }
     - { nutrient: mangan, amount: 0.329 }
+    - { nutrient: kaliy, amount: 325 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Beets, raw'
     url: https://fdc.nal.usda.gov/food-details/169145/nutrients

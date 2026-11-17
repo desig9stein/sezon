@@ -21,6 +21,7 @@ export function certificateRecord(
     certifier: 'Балкан Биосерт',
     certificateId: 'BG-BIO-03-0001',
     validUntil: new Date('2026-12-31'),
+    url: 'https://webgate.ec.europa.eu/tracesnt/directory/publication/organic-operator/BG-BIO-03-0001.pdf',
     ...overrides,
   };
 }

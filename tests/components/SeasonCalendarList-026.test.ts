@@ -31,7 +31,7 @@ describe('SeasonCalendarList garden row (spec 026)', () => {
     expect(items).toHaveLength(12);
     expect(items[2]).toBe('Март Сеитба');
     expect(items[3]).toBe('Април Сеитба');
-    expect(items[4]).toBe('Май Разсаждане');
+    expect(items[4]).toBe('Май Разсаждане навън');
     expect(items.filter((item) => item.endsWith('– нищо'))).toHaveLength(9);
     expect(html).toMatch(
       /<span aria-hidden="true"[^>]*>–<\/span>\s*<span class="visually-hidden"[^>]*>нищо<\/span>/,
@@ -43,7 +43,7 @@ describe('SeasonCalendarList garden row (spec 026)', () => {
     const { items } = gardenList(
       await render(SeasonCalendarList, { produce, currentMonth: Month.of(11) }),
     );
-    expect(items[2]).toBe('Март Сеитба, Разсаждане');
+    expect(items[2]).toBe('Март Сеитба, Разсаждане навън');
   });
 
   it('AC7: omits the garden row without a growing guide', async () => {

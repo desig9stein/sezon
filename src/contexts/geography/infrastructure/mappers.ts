@@ -13,5 +13,6 @@ export function toRegion(id: string, record: RegionRecord): Region {
     slug: Slug.parse(id).value,
     name: record.name,
     profile: record.profile === undefined ? undefined : RegionProfile.create(record.profile),
+    seat: record.seat,
   });
 }

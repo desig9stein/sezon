@@ -29,8 +29,8 @@ nutrition:
   sugarsG: 2.76
   micronutrients:
     - { nutrient: vitamin-a, amount: 426 }
-    - { nutrient: vitamin-c, amount: 9 }
     - { nutrient: kaliy, amount: 340 }
+    - { nutrient: med-cu, amount: 0.127 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Pumpkin, raw'
     url: https://fdc.nal.usda.gov/food-details/168448/nutrients

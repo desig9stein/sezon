@@ -20,6 +20,8 @@ nutrition:
     - { nutrient: folat, amount: 68 }
     - { nutrient: vitamin-a, amount: 264 }
     - { nutrient: zhelyazo, amount: 3.17 }
+    - { nutrient: vitamin-c, amount: 18 }
+    - { nutrient: magneziy, amount: 64 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Basil, fresh'
     url: https://fdc.nal.usda.gov/food-details/172232/nutrients

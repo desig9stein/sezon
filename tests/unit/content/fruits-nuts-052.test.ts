@@ -362,7 +362,7 @@ describe('more fruits and nuts (spec 052)', () => {
         const where = `${slug}/${entry.region}`;
         expect(hostOf(entry.source?.url ?? 'https://invalid'), where).toBe(MZH_HOST);
         expect(entry.source?.name, where).toContain(EDITION_2025);
-        expect(entry.note, where).toContain('Южния централен район');
+        expect(entry.note, where).toContain('Южният централен район (в който е областта)');
         expect(entry.note, where).toContain(NUTS2_REGIONS[slug]);
         expect(entry.note, where).toContain('2025');
       }

@@ -105,7 +105,9 @@ const jsonLd = [
         {farm.sources.map((url) => (
           <li>
             <a href={url} rel="noopener">
-              {sourceLabel(url)}
+              {url === farm.organic?.url
+                ? labels.certificateSource(farm.organic.certificateId)
+                : sourceLabel(url)}
             </a>
           </li>
         ))}

@@ -19,10 +19,25 @@ export const regionProfileSchema = z.strictObject({
   sources: z.array(sourceSchema).min(1),
 });
 
+const metres = () => z.number().int().nonnegative();
+
+/** Schema of a province seat and its ЕКАТТЕ altitude group (spec 061). */
+export const regionSeatSchema = z.strictObject({
+  town: text(),
+  altitude: z
+    .strictObject({ fromMetres: metres(), toMetres: metres().optional() })
+    .refine(({ fromMetres, toMetres }) => toMetres === undefined || toMetres > fromMetres, {
+      message: 'toMetres must be above fromMetres.',
+      path: ['toMetres'],
+    }),
+  source: sourceSchema,
+});
+
 /** Schema of a `regions` content entry. */
 export const regionSchema = z.strictObject({
   name: text(),
   profile: regionProfileSchema.optional(),
+  seat: regionSeatSchema.optional(),
 });
 
 export type RegionProfileRecord = z.infer<typeof regionProfileSchema>;

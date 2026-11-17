@@ -23,6 +23,7 @@ nutrition:
     - { nutrient: folat, amount: 80 }
     - { nutrient: kaliy, amount: 606 }
     - { nutrient: mangan, amount: 0.553 }
+    - { nutrient: med-cu, amount: 0.17 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Cress, garden, raw'
     url: https://fdc.nal.usda.gov/food-details/168407/nutrients

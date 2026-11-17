@@ -68,7 +68,6 @@ describe('NutrientRankingService', () => {
       ['zele', 36.6, 46, 'high', SeasonLevel.PEAK],
       ['tikva', 36.6, 46, 'high', SeasonLevel.STORAGE],
       ['praz', 12, 15, 'source', SeasonLevel.AVAILABLE],
-      ['morkovi', 5.9, 7, undefined, undefined],
     ]);
     expect(ranking.inSeason.map((entry) => entry.produce.slug)).toEqual(['zele', 'praz']);
     expect(Object.isFrozen(ranking.entries)).toBe(true);

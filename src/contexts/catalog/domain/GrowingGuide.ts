@@ -3,12 +3,16 @@ import { frozenList } from '@shared/domain/freeze';
 import { Month } from '@contexts/seasonality';
 import type { Source } from './Source';
 
-/** Garden activities with a month window. */
-export const GROWING_ACTIVITIES = ['sow', 'transplant', 'plant'] as const;
+/**
+ * Garden activities with a month window, in calendar order of a season: sowing seed for seedlings,
+ * sowing (in the bed, or where the sources do not say), transplanting seedlings out and planting.
+ */
+export const GROWING_ACTIVITIES = ['sowSeedlings', 'sow', 'transplant', 'plant'] as const;
 export type GrowingActivity = (typeof GROWING_ACTIVITIES)[number];
 
 /** Input for {@link GrowingGuide.create}: month numbers per activity, note, tips and sources. */
 export interface GrowingGuideInput {
+  readonly sowSeedlings?: ReadonlyArray<number> | undefined;
   readonly sow: ReadonlyArray<number>;
   readonly transplant: ReadonlyArray<number>;
   readonly plant: ReadonlyArray<number>;
@@ -19,6 +23,7 @@ export interface GrowingGuideInput {
 
 /** When to sow, transplant and plant a produce in a Bulgarian home garden, with tips. */
 export class GrowingGuide {
+  readonly sowSeedlings: ReadonlyArray<Month>;
   readonly sow: ReadonlyArray<Month>;
   readonly transplant: ReadonlyArray<Month>;
   readonly plant: ReadonlyArray<Month>;
@@ -29,6 +34,7 @@ export class GrowingGuide {
   private constructor(input: GrowingGuideInput) {
     const months = (numbers: ReadonlyArray<number>) =>
       frozenList([...new Set(numbers)].sort((a, b) => a - b).map((number) => Month.of(number)));
+    this.sowSeedlings = months(input.sowSeedlings ?? []);
     this.sow = months(input.sow);
     this.transplant = months(input.transplant);
     this.plant = months(input.plant);
@@ -44,7 +50,11 @@ export class GrowingGuide {
    * @throws InvalidMonthError when a month number is not 1–12.
    */
   static create(input: GrowingGuideInput): GrowingGuide {
-    const monthCount = input.sow.length + input.transplant.length + input.plant.length;
+    const monthCount =
+      (input.sowSeedlings ?? []).length +
+      input.sow.length +
+      input.transplant.length +
+      input.plant.length;
     if (monthCount === 0 && (input.plantingNote ?? '').trim() === '') {
       throw new InvalidProduceError('A growing guide needs a month or a planting note.');
     }
@@ -59,7 +69,7 @@ export class GrowingGuide {
     return this[activity];
   }
 
-  /** Returns the activities due in `month`, in the order sow, transplant, plant. */
+  /** Returns the activities due in `month`, in the order of {@link GROWING_ACTIVITIES}. */
   activitiesIn(month: Month): ReadonlyArray<GrowingActivity> {
     return GROWING_ACTIVITIES.filter((activity) => this[activity].includes(month));
   }

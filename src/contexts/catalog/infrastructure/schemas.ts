@@ -192,6 +192,7 @@ const monthList = () => z.array(monthNumber()).superRefine(uniqueBy((month) => m
 /** Schema of a produce's home-garden guide: month windows, an optional note, tips and sources. */
 export const growingSchema = z
   .strictObject({
+    sowSeedlings: monthList().optional(),
     sow: monthList(),
     transplant: monthList(),
     plant: monthList(),
@@ -201,8 +202,11 @@ export const growingSchema = z
   })
   .refine(
     (growing) =>
-      growing.sow.length + growing.transplant.length + growing.plant.length > 0 ||
-      growing.plantingNote !== undefined,
+      (growing.sowSeedlings ?? []).length +
+        growing.sow.length +
+        growing.transplant.length +
+        growing.plant.length >
+        0 || growing.plantingNote !== undefined,
     { message: 'A growing guide needs a month or a planting note.' },
   );
 

@@ -21,6 +21,8 @@ nutrition:
     - { nutrient: vitamin-a, amount: 203 }
     - { nutrient: med-cu, amount: 0.24 }
     - { nutrient: kaliy, amount: 458 }
+    - { nutrient: magneziy, amount: 63 }
+    - { nutrient: vitamin-c, amount: 13.3 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Spearmint, fresh'
     url: https://fdc.nal.usda.gov/food-details/173475/nutrients

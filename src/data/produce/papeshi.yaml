@@ -14,12 +14,12 @@ season:
   - { month: 9, level: available }
 regions:
   - region: plovdiv
-    note: 'Областта е в Южния централен район, който има най-голямата реколтирана открита площ с дини и пъпеши сред районите в страната – 2 404 от 5 418 ха през 2022 г.'
+    note: 'Южният централен район (в който е областта) има най-голямата реколтирана открита площ с дини и пъпеши сред районите в страната – 2 404 от 5 418 ха през 2022 г.'
     source:
       name: 'МЗХ, Агростатистика – Производство на зеленчуци, реколта 2022'
       url: https://www.mzh.government.bg/media/filer_public/2023/04/11/ra423_publicationvegetables2022.pdf
   - region: pazardzhik
-    note: 'Областта е в Южния централен район, който има най-голямата реколтирана открита площ с дини и пъпеши сред районите в страната – 2 404 от 5 418 ха през 2022 г.'
+    note: 'Южният централен район (в който е областта) има най-голямата реколтирана открита площ с дини и пъпеши сред районите в страната – 2 404 от 5 418 ха през 2022 г.'
     source:
       name: 'МЗХ, Агростатистика – Производство на зеленчуци, реколта 2022'
       url: https://www.mzh.government.bg/media/filer_public/2023/04/11/ra423_publicationvegetables2022.pdf
@@ -33,6 +33,7 @@ nutrition:
   micronutrients:
     - { nutrient: vitamin-c, amount: 18 }
     - { nutrient: kaliy, amount: 228 }
+    - { nutrient: folat, amount: 19 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Melons, honeydew, raw'
     url: https://fdc.nal.usda.gov/food-details/169911/nutrients

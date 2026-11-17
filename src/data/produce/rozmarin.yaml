@@ -20,6 +20,8 @@ nutrition:
     - { nutrient: kaliy, amount: 668 }
     - { nutrient: med-cu, amount: 0.301 }
     - { nutrient: vitamin-c, amount: 21.8 }
+    - { nutrient: magneziy, amount: 91 }
+    - { nutrient: vitamin-a, amount: 146 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Rosemary, fresh'
     url: https://fdc.nal.usda.gov/food-details/173473/nutrients

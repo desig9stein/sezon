@@ -15,12 +15,12 @@ season:
   - { month: 10, level: available }
 regions:
   - region: plovdiv
-    note: 'Областта е в Южния централен район, който има най-много реколтирани открити площи с пипер (вкл. лют) в страната – 1 529 от 2 412 ха през 2025 г.'
+    note: 'Южният централен район (в който е областта) има най-много реколтирани открити площи с пипер (вкл. лют) сред районите в страната – 1 529 от 2 412 ха през 2025 г.'
     source:
       name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
       url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
   - region: pazardzhik
-    note: 'Областта е в Южния централен район, който има най-много реколтирани открити площи с пипер (вкл. лют) в страната – 1 529 от 2 412 ха през 2025 г.'
+    note: 'Южният централен район (в който е областта) има най-много реколтирани открити площи с пипер (вкл. лют) сред районите в страната – 1 529 от 2 412 ха през 2025 г.'
     source:
       name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
       url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
@@ -33,7 +33,6 @@ nutrition:
   sugarsG: 2.4
   micronutrients:
     - { nutrient: vitamin-c, amount: 80.4 }
-    - { nutrient: vitamin-a, amount: 18 }
     - { nutrient: vitamin-k, amount: 7.4 }
     - { nutrient: kaliy, amount: 175 }
   source:
@@ -63,7 +62,8 @@ photo:
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/a-pile-of-green-peppers-sitting-next-to-each-other-GyTaoOAgQVc
 growing:
-  sow: [1, 2, 3]
+  sowSeedlings: [1, 2, 3]
+  sow: []
   transplant: [5]
   plant: []
   tips:

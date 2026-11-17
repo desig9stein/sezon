@@ -40,8 +40,9 @@ nutrition:
   fiberG: 1.5
   sugarsG: 8.39
   micronutrients:
-    - { nutrient: vitamin-c, amount: 6.6 }
     - { nutrient: kaliy, amount: 190 }
+    - { nutrient: vitamin-c, amount: 6.6 }
+    - { nutrient: med-cu, amount: 0.068 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Peaches, yellow, raw'
     url: https://fdc.nal.usda.gov/food-details/169928/nutrients

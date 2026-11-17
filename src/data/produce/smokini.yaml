@@ -28,7 +28,8 @@ nutrition:
   sugarsG: 16.26
   micronutrients:
     - { nutrient: kaliy, amount: 232 }
-    - { nutrient: magneziy, amount: 17 }
+    - { nutrient: med-cu, amount: 0.07 }
+    - { nutrient: mangan, amount: 0.128 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Figs, raw'
     url: https://fdc.nal.usda.gov/food-details/173021/nutrients

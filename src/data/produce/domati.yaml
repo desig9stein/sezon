@@ -17,12 +17,12 @@ season:
   - { month: 10, level: available }
 regions:
   - region: plovdiv
-    note: 'Областта е в Южния централен район, който има най-много реколтирани открити площи с домати в страната – 1 469 от 2 312 ха през 2025 г.'
+    note: 'Южният централен район (в който е областта) има най-много реколтирани открити площи с домати сред районите в страната – 1 469 от 2 312 ха през 2025 г.'
     source:
       name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
       url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
   - region: pazardzhik
-    note: 'Областта е в Южния централен район, който има най-много реколтирани открити площи с домати в страната – 1 469 от 2 312 ха през 2025 г.'
+    note: 'Южният централен район (в който е областта) има най-много реколтирани открити площи с домати сред районите в страната – 1 469 от 2 312 ха през 2025 г.'
     source:
       name: 'МЗХ, Агростатистика – Производство на зеленчуци в България – реколта 2025 (бюлетин № 468)'
       url: https://www.mzh.government.bg/media/filer_public/2026/03/31/ra468_publicationvegetables2025.pdf
@@ -35,9 +35,8 @@ nutrition:
   sugarsG: 2.63
   micronutrients:
     - { nutrient: vitamin-c, amount: 13.7 }
-    - { nutrient: vitamin-a, amount: 42 }
-    - { nutrient: vitamin-k, amount: 7.9 }
     - { nutrient: kaliy, amount: 237 }
+    - { nutrient: vitamin-k, amount: 7.9 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Tomatoes, red, ripe, raw, year round average'
     url: https://fdc.nal.usda.gov/food-details/170457/nutrients
@@ -65,7 +64,8 @@ photo:
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/a-pile-of-ripe-red-tomatoes-with-green-stems-DZumHRD1f1s
 growing:
-  sow: [2, 3]
+  sowSeedlings: [2, 3]
+  sow: []
   transplant: [4, 5]
   plant: []
   plantingNote: 'Ранните домати сей през февруари, средноранните – през първата половина на март; разсаждай от края на април и през целия май.'

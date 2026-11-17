@@ -30,8 +30,9 @@ nutrition:
   sugarsG: 3.9
   micronutrients:
     - { nutrient: vitamin-k, amount: 47 }
-    - { nutrient: vitamin-c, amount: 12 }
     - { nutrient: folat, amount: 64 }
+    - { nutrient: mangan, amount: 0.481 }
+    - { nutrient: vitamin-c, amount: 12 }
     - { nutrient: zhelyazo, amount: 2.1 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Leeks (bulb and lower leaf-portion), raw'
@@ -48,7 +49,7 @@ storage: Неизмит праз се пази в хладилник до две
 faq:
   - question: Как се почиства празът?
     answer: Разрежи го надлъжно и изплакни между листата, където често има пръст.
-updatedAt: 2026-11-12
+updatedAt: 2026-11-17
 photo:
   src: ../../assets/produce/praz.jpg
   alt: 'Плътно подредени стебла праз с бели основи и синкавозелени листа'
@@ -58,18 +59,21 @@ photo:
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/fresh-leeks-stacked-closely-together-ready-for-sale-uj3uG7tIg8s
 growing:
-  sow: [3, 4]
+  sow: [3]
   transplant: []
   plant: []
   tips:
-    - 'Празът иска дълбока и влагоемна почва с много органично вещество, наторена още наесен.'
-    - 'Поливай редовно – през юни, юли и август поне веднъж седмично, а при нужда и два пъти.'
-    - 'Разсаждай, когато разсадът е висок около 30 см и стъблото е дебело 8–9 мм.'
-    - 'При директна сеитба прореди растенията на 12–15 см едно от друго.'
-    - 'Прибирай в края на октомври и през ноември – празът понася добре студа.'
+    - 'Празът иска плодородна почва, наторена с минерални и органични торове.'
+    - 'Сей на редове през около 15 см: част от растенията остават на място, а другите се разсаждат.'
+    - 'Семената на праза поникват много бавно.'
+    - 'Плеви и поливай младите растения редовно: плевелите им отнемат вода, храна и светлина.'
   sources:
-    - name: 'Уикипедия – Праз'
-      url: https://bg.wikipedia.org/wiki/%D0%9F%D1%80%D0%B0%D0%B7
+    - name: 'Български фермер – Как се отглежда праз'
+      url: https://www.bgfermer.bg/Article/8004865
+    - name: 'Български фермер – Празът и китайското зеле се сеят директно в лехата'
+      url: https://www.bgfermer.bg/Article/14275035
+    - name: 'Български фермер – Разсадът от праз се нуждае от грижи'
+      url: https://www.bgfermer.bg/Article/14534686
 organic:
   availability: limited
   note: 'Биологичен праз предлагат отделни стопанства, които посочват, че са сертифицирани, напр. „Софина“.'

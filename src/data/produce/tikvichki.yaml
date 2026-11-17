@@ -24,7 +24,6 @@ nutrition:
     - { nutrient: vitamin-c, amount: 17.9 }
     - { nutrient: kaliy, amount: 261 }
     - { nutrient: folat, amount: 24 }
-    - { nutrient: mangan, amount: 0.177 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Squash, summer, zucchini, includes skin, raw'
     url: https://fdc.nal.usda.gov/food-details/169291/nutrients

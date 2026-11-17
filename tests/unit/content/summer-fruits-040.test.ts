@@ -147,7 +147,7 @@ describe('summer fruits (spec 040)', () => {
     for (const entry of regions) {
       expect(hostOf(entry.source?.url)).toBe(MZH_HOST);
       expect(entry.source?.name).toContain(VEGETABLES_TITLE);
-      expect(entry.note).toContain('Южния централен район');
+      expect(entry.note).toContain('Южният централен район (в който е областта)');
     }
   });
 

@@ -40,9 +40,9 @@ nutrition:
   fiberG: 2
   sugarsG: 9.24
   micronutrients:
-    - { nutrient: vitamin-a, amount: 96 }
-    - { nutrient: vitamin-c, amount: 10 }
     - { nutrient: kaliy, amount: 259 }
+    - { nutrient: vitamin-c, amount: 10 }
+    - { nutrient: vitamin-a, amount: 96 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Apricots, raw'
     url: https://fdc.nal.usda.gov/food-details/171697/nutrients

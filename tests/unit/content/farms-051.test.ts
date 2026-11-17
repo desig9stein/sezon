@@ -68,13 +68,14 @@ const SENTENCE_END = /(?<=\.)\s+/u;
 const LOCALSTORE = 'localstore.bg';
 const DIRECTORY_HOSTS = new Set([LOCALSTORE, 'coop.hrankoop.com']);
 const BANNED_HOST = /(^|\.)gradinata\.bg$/;
+const TRACES_CERTIFICATE =
+  'https://webgate.ec.europa.eu/tracesnt/directory/publication/organic-operator/BG-BIO-18.100-0004936.2026.001.pdf';
 const VKUSNAGRADINA_ORGANIC = {
   certifier: 'COSMOCERT (BG-BIO-18)',
   certificateId: 'BG-BIO-18.100-0004936.2026.001',
   validUntil: new Date('2027-07-20'),
+  url: TRACES_CERTIFICATE,
 };
-const TRACES_CERTIFICATE =
-  'https://webgate.ec.europa.eu/tracesnt/directory/publication/organic-operator/BG-BIO-18.100-0004936.2026.001.pdf';
 
 const farms = new Map<string, FarmRecord>(
   readSeedCollection('farms').map(({ id, data }) => [id, farmSchema.parse(data)]),

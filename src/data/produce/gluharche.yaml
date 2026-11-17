@@ -27,6 +27,7 @@ nutrition:
     - { nutrient: zhelyazo, amount: 3.1 }
     - { nutrient: kaliy, amount: 397 }
     - { nutrient: mangan, amount: 0.342 }
+    - { nutrient: med-cu, amount: 0.171 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Dandelion greens, raw'
     url: https://fdc.nal.usda.gov/food-details/169226/nutrients

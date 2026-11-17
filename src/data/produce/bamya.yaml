@@ -22,11 +22,10 @@ nutrition:
   sugarsG: 1.48
   micronutrients:
     - { nutrient: vitamin-k, amount: 31.3 }
+    - { nutrient: mangan, amount: 0.788 }
     - { nutrient: folat, amount: 60 }
     - { nutrient: vitamin-c, amount: 23 }
     - { nutrient: magneziy, amount: 57 }
-    - { nutrient: mangan, amount: 0.788 }
-    - { nutrient: kaliy, amount: 299 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Okra, raw'
     url: https://fdc.nal.usda.gov/food-details/169260/nutrients
