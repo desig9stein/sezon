@@ -7,7 +7,8 @@ import type { Month, SeasonLevel } from '@contexts/seasonality';
  * One labelled group of produce: `plate` shows surface panels of equal size,
  * `index` shows quiet rows on hairlines. `levelOf` gives each card's badge level and
  * `levelFrom` marks it as applying from a later month; `stripMonth` adds each produce's
- * year strip with that month marked. The first plate's photo loads eagerly.
+ * year strip with that month marked. The first plate's photo loads eagerly. `headingLevel` sets the
+ * group heading (default `h2`); the cards' headings are one level below.
  */
 interface Props {
   id: string;
@@ -17,13 +18,31 @@ interface Props {
   levelOf: (produce: Produce) => SeasonLevel | undefined;
   levelFrom?: Month | undefined;
   stripMonth?: Month | undefined;
+  /** Level of the group heading; an `h2` group is a named landmark, an `h3` group is not. */
+  headingLevel?: 2 | 3;
 }
 
-const { id, heading, items, variant, levelOf, levelFrom, stripMonth } = Astro.props;
+const LANDMARK_HEADING_LEVEL = 2;
+const {
+  id,
+  heading,
+  items,
+  variant,
+  levelOf,
+  levelFrom,
+  stripMonth,
+  headingLevel = LANDMARK_HEADING_LEVEL,
+} = Astro.props;
+const Heading = `h${headingLevel}` as const;
+const cardHeadingLevel = headingLevel === LANDMARK_HEADING_LEVEL ? 3 : 4;
 ---
 
-<section class="group" aria-labelledby={id} data-variant={variant}>
-  <h2 id={id}>{heading}</h2>
+<section
+  class="group"
+  aria-labelledby={headingLevel === LANDMARK_HEADING_LEVEL ? id : undefined}
+  data-variant={variant}
+>
+  <Heading id={id}>{heading}</Heading>
   <ul class="group__list" role="list">
     {items.map((produce, index) => (
       <li>
@@ -34,6 +53,7 @@ const { id, heading, items, variant, levelOf, levelFrom, stripMonth } = Astro.pr
           variant={variant}
           priority={index === 0}
           stripMonth={stripMonth}
+          headingLevel={cardHeadingLevel}
         />
       </li>
     ))}

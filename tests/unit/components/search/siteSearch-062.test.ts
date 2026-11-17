@@ -6,7 +6,7 @@ interface FakeResult {
   url: string;
   excerpt: string;
   content?: string;
-  meta: { title?: string; latin?: string; alias?: string; type?: string };
+  meta: { title?: string; latin?: string; alias?: string; members?: string; type?: string };
 }
 
 const SCOPE = 'Сайтът покрива пресни плодове, зеленчуци, билки и ядки от България.';
@@ -15,9 +15,20 @@ const PAGE_TITLE = 'Търсене – Сезон';
 function fakePagefind(results: ReadonlyArray<FakeResult>) {
   return {
     init: vi.fn(async () => undefined),
-    search: vi.fn(async () => ({
-      results: results.map((result, index) => ({ id: String(index), data: async () => result })),
-    })),
+    search: vi.fn(
+      async (
+        _query: string,
+        options?: { filters?: { type?: { any: ReadonlyArray<string> } } },
+      ) => ({
+        results: results
+          .map((result, index) => ({ id: String(index), data: async () => result, result }))
+          .filter(
+            ({ result }) =>
+              options?.filters?.type === undefined ||
+              options.filters.type.any.includes(result.meta.type ?? ''),
+          ),
+      }),
+    ),
   };
 }
 
@@ -103,6 +114,36 @@ describe('site search (spec 062)', () => {
     const links = [...parts.list.querySelectorAll('a')].map((link) => link.getAttribute('href'));
     expect(links).toEqual(['/plodove/nar']);
     expect(parts.status.textContent).toBe('Резултати: 1 за „нар“.');
+  });
+
+  it('AC12: lists the family page named by „семейство <продукт>“ first', async () => {
+    const parts = mount();
+    parts.root.dataset.groupType = 'Ботаническо семейство';
+    const api = fakePagefind([
+      result('zelenchutsi/domati', 'Домати', 'Домати. Семейство: Картофови.'),
+      {
+        ...result('grupi/kartofovi', 'Картофови', 'Продуктите от семейство Картофови.'),
+        meta: { title: 'Картофови', members: 'Домати, Пипер', type: 'Ботаническо семейство' },
+      },
+    ]);
+    initSiteSearch(parts.root, async () => api);
+    await submit(parts, 'семейство домати');
+    expect(parts.list.querySelector('a')?.getAttribute('href')).toBe('/grupi/kartofovi');
+  });
+
+  it('AC12: without the family word, lists a family page after the produce it names', async () => {
+    const parts = mount();
+    parts.root.dataset.groupType = 'Ботаническо семейство';
+    const api = fakePagefind([
+      {
+        ...result('grupi/tikvovi', 'Тиквови', 'Тиквови.'),
+        meta: { title: 'Тиквови', type: 'Ботаническо семейство' },
+      },
+      result('zelenchutsi/tikvichki', 'Тиквички', 'Тиквички. Тиквичките се берат млади.'),
+    ]);
+    initSiteSearch(parts.root, async () => api);
+    await submit(parts, 'тикв');
+    expect(parts.list.querySelector('a')?.getAttribute('href')).toBe('/zelenchutsi/tikvichki');
   });
 
   it('AC11: ranks a result whose alias names the query before other results', async () => {

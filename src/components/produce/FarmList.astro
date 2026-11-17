@@ -48,7 +48,7 @@ const groups =
   </ul>
 )}
 {groups.map((group) => (
-  <section class="farm-group" aria-labelledby={group.id}>
+  <section class="farm-group">
     <h3 id={group.id}>{group.heading}</h3>
     <ul class="farms" role="list">
       {group.farms.map((entry) => (

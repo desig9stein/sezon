@@ -80,7 +80,14 @@ const jsonLd = [
 >
   <article class="produce" {...searchBodyAttributes(ui.produceKinds[produce.kind])}>
     <header class="produce__header">
-      <h1 {...searchHeadingAttributes(produce.name)}>{produce.name}</h1>
+      <h1
+        {...searchHeadingAttributes(
+          produce.name,
+          produce.aliases.length === 0 ? undefined : produce.aliases.join(', '),
+        )}
+      >
+        {produce.name}
+      </h1>
       <ul class="produce__meta" role="list">
         {produce.latinName !== undefined && (
           <li>
@@ -90,7 +97,9 @@ const jsonLd = [
         <li>{ui.produceKinds[produce.kind]}</li>
         {produce.wild && (
           <li>
-            <span class="produce__wild">{labels.wild.label}</span>
+            <a class="produce__wild" href={routes.wild}>
+              {labels.wild.label}
+            </a>
           </li>
         )}
         <li>
@@ -116,30 +125,35 @@ const jsonLd = [
       </ul>
     </nav>
 
-    <section id="stall" class="produce__group produce__wide" aria-labelledby="stall-heading">
+    <section
+      id="stall"
+      tabindex="-1"
+      class="produce__group produce__wide"
+      aria-labelledby="stall-heading"
+    >
       <h2 id="stall-heading">{labels.headings.stall}</h2>
       <div data-pagefind-ignore>
         <ProduceNow produce={produce} month={buildMonth} />
       </div>
       <ProduceCautions produce={produce} />
-      <section class="produce__wide" aria-labelledby="season" data-pagefind-ignore>
+      <section class="produce__wide" data-pagefind-ignore>
         <h3 id="season">{labels.headings.season}</h3>
         <SeasonCalendarList produce={produce} currentMonth={buildMonth} />
       </section>
       {produce.howToChoose !== undefined && (
-        <section aria-labelledby="choose">
+        <section>
           <h3 id="choose">{labels.headings.choose}</h3>
           <p>{produce.howToChoose}</p>
         </section>
       )}
       {produce.storage !== undefined && (
-        <section aria-labelledby="storage">
+        <section>
           <h3 id="storage">{labels.headings.storage}</h3>
           <p>{produce.storage}</p>
         </section>
       )}
       {produce.varieties.length > 0 && (
-        <section aria-labelledby="varieties">
+        <section>
           <h3 id="varieties">{labels.headings.varieties}</h3>
           <ul>
             {produce.varieties.map((variety) => (
@@ -151,7 +165,7 @@ const jsonLd = [
           </ul>
         </section>
       )}
-      <section aria-labelledby="regions">
+      <section class="produce__regions">
         <h3 id="regions">{labels.headings.regions}</h3>
         <GrowingRegions regions={details.growingRegions} />
         {details.farms.length > 0 && (
@@ -163,16 +177,21 @@ const jsonLd = [
     </section>
 
     {hasEatContent(produce, recipes.length) && (
-      <section id="eat" class="produce__group produce__wide" aria-labelledby="eat-heading">
+      <section
+        id="eat"
+        tabindex="-1"
+        class="produce__group produce__wide"
+        aria-labelledby="eat-heading"
+      >
         <h2 id="eat-heading">{labels.headings.eat}</h2>
         {produce.nutrition !== undefined && (
-          <section aria-labelledby="nutrition">
+          <section>
             <h3 id="nutrition">{labels.headings.nutrition}</h3>
             <NutritionTable nutrition={produce.nutrition} micronutrients={details.micronutrients} />
           </section>
         )}
         {produce.preparation.length > 0 && (
-          <section aria-labelledby="preparation">
+          <section>
             <h3 id="preparation">{labels.headings.preparation}</h3>
             <dl class="preparation">
               {produce.preparation.map((tip) => (
@@ -185,7 +204,7 @@ const jsonLd = [
           </section>
         )}
         {produce.traditionalUses.length > 0 && (
-          <section aria-labelledby="traditional">
+          <section>
             <h3 id="traditional">{labels.headings.traditional}</h3>
             <TraditionalUses uses={produce.traditionalUses} />
           </section>
@@ -197,20 +216,29 @@ const jsonLd = [
     <AdSlot sponsor={sponsor} placement="produce" adsense={ADSENSE} />
 
     {produce.growing !== undefined && (
-      <section id="grow" class="produce__group produce__wide" aria-labelledby="grow-heading">
+      <section
+        id="grow"
+        tabindex="-1"
+        class="produce__group produce__wide"
+        aria-labelledby="grow-heading"
+      >
         <h2 id="grow-heading">{labels.headings.grow}</h2>
         <GrowingGuide growing={produce.growing} headingLevel={3} />
       </section>
     )}
 
     <section class="produce__wide" aria-labelledby="farms" data-pagefind-ignore>
-      <h2 id="farms">{labels.headings.farms}</h2>
+      <h2 id="farms" tabindex="-1">
+        {labels.headings.farms}
+      </h2>
       <FarmList farms={details.farms} organic={produce.organic} />
     </section>
 
     {produce.faq.length > 0 && (
       <section aria-labelledby="faq">
-        <h2 id="faq">{labels.headings.faq}</h2>
+        <h2 id="faq" tabindex="-1">
+          {labels.headings.faq}
+        </h2>
         {produce.faq.map((item) => (
           <>
             <h3>{item.question}</h3>
@@ -221,7 +249,9 @@ const jsonLd = [
     )}
 
     <section aria-labelledby="sources" data-pagefind-ignore>
-      <h2 id="sources">{labels.headings.sources}</h2>
+      <h2 id="sources" tabindex="-1">
+        {labels.headings.sources}
+      </h2>
       <SourceList sources={details.sources} updatedAt={produce.updatedAt} />
     </section>
   </article>

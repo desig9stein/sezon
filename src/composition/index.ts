@@ -7,6 +7,7 @@ import {
   SeasonCalendarService,
   SeasonOverviewService,
   SectionIndexService,
+  WildProduceService,
 } from '@contexts/catalog';
 import type {
   Nutrient,
@@ -159,6 +160,8 @@ export const catalogIndexService = new CatalogIndexService(
   produceGroupRepository,
   nutrientRepository,
 );
+/** Lists the produce gathered from the wild (spec 062). */
+export const wildProduceService = new WildProduceService(produceRepository);
 /** Builds the year-at-a-glance calendar of the catalogue. */
 export const seasonCalendarService = new SeasonCalendarService(produceRepository);
 

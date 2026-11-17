@@ -66,3 +66,4 @@ export { SeasonCalendarService } from './application/SeasonCalendarService';
 export type { SeasonCalendar } from './application/SeasonCalendarService';
 export { CatalogIndexService } from './application/CatalogIndexService';
 export type { CatalogIndex } from './application/CatalogIndexService';
+export { WildProduceService } from './application/WildProduceService';

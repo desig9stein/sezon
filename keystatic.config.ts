@@ -265,6 +265,10 @@ const produce = collection({
       label:
         'Not eaten raw: no nutrition block; needs a preparation or toxic-part caution (spec 058)',
     }),
+    aliases: fields.array(requiredText('Alias'), {
+      label: 'Search aliases (other names the produce text uses, spec 062)',
+      itemLabel: (props) => props.value || 'Alias',
+    }),
     updatedAt: requiredDate('Updated at'),
     photo: keptAsIs(),
     growing: keptAsIs(),

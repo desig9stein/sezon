@@ -8,48 +8,64 @@ import YearStrip from './YearStrip.astro';
 /**
  * Everything in season in one month as one compact list: peak first, then available, then
  * storage. Each row has the produce link, its year strip and its stamp, then the Latin name and
- * the kind (and „Диворастящо“ for wild produce, spec 055), under a heading with the count.
+ * the kind (and „Диворастящо“ for wild produce, spec 055), under a heading with the count. With
+ * `id` the section is an in-page link target (spec 062); with `empty` an empty list keeps its
+ * heading and shows that text. Slotted content follows the list.
  */
 interface Props {
-  overview: SeasonOverview;
+  overview: Pick<SeasonOverview, 'month' | 'peak' | 'available' | 'storage'>;
   /** Heading text; defaults to „В сезон през <месец> (<брой>)“. */
   heading?: string | undefined;
+  /** Id of the section, the target of in-page links. */
+  id?: string | undefined;
+  /** Text shown under the heading when nothing is in season. */
+  empty?: string | undefined;
 }
 
-const { overview, heading } = Astro.props;
+const { overview, heading, id, empty } = Astro.props;
 const { month } = overview;
 const items = [...overview.peak, ...overview.available, ...overview.storage];
-const headingId = 'season-list-heading';
+const headingId = id === undefined ? 'season-list-heading' : `${id}-heading`;
 ---
 
-{items.length === 0 ? (
+{items.length === 0 && empty === undefined ? (
   <p>{ui.overview.empty}</p>
 ) : (
-  <section class="season-list" aria-labelledby={headingId}>
+  <section
+    class="season-list"
+    id={id}
+    tabindex={id === undefined ? undefined : '-1'}
+    aria-labelledby={headingId}
+  >
     <h2 id={headingId}>{heading ?? ui.seasonList.heading(month, items.length)}</h2>
-    <ul class="season-list__rows" role="list">
-      {items.map((produce) => {
-        const level = produce.levelIn(month);
-        return (
-          <li class="season-row">
-            <a class="season-row__name" href={routes.produce(produce)}>
-              {produce.name}
-            </a>
-            <YearStrip produce={produce} current={month} />
-            {level !== undefined && <SeasonBadge level={level} />}
-            <span class="season-row__meta">
-              {produce.latinName !== undefined && (
-                <>
-                  <i lang="la">{produce.latinName}</i> ·{' '}
-                </>
-              )}
-              {ui.produceKinds[produce.kind]}
-              {produce.wild && ` · ${ui.produce.wild.label}`}
-            </span>
-          </li>
-        );
-      })}
-    </ul>
+    {items.length === 0 ? (
+      <p>{empty}</p>
+    ) : (
+      <ul class="season-list__rows" role="list">
+        {items.map((produce) => {
+          const level = produce.levelIn(month);
+          return (
+            <li class="season-row">
+              <a class="season-row__name" href={routes.produce(produce)}>
+                {produce.name}
+              </a>
+              <YearStrip produce={produce} current={month} />
+              {level !== undefined && <SeasonBadge level={level} />}
+              <span class="season-row__meta">
+                {produce.latinName !== undefined && (
+                  <>
+                    <i lang="la">{produce.latinName}</i> ·{' '}
+                  </>
+                )}
+                {ui.produceKinds[produce.kind]}
+                {produce.wild && ` · ${ui.produce.wild.label}`}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+    )}
+    <slot />
   </section>
 )}
 

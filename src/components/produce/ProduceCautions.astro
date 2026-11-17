@@ -24,8 +24,10 @@ const ICON_SIZE = 16;
 ---
 
 {cautions.length > 0 && (
-  <section class="cautions" aria-labelledby={HEADING_ID}>
-    <h3 id={HEADING_ID}>{ui.produce.headings.cautions}</h3>
+  <section class="cautions">
+    <h3 id={HEADING_ID} tabindex="-1">
+      {ui.produce.headings.cautions}
+    </h3>
     {wild && <p class="cautions__note">{ui.produce.wild.gatheringNote}</p>}
     {showEmergency && <PoisoningEmergency />}
     <ul class="cautions__list" role="list">

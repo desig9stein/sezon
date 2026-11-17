@@ -3,7 +3,8 @@ import { ui } from '@i18n/bg';
 import { routes } from '@components/layout/routes';
 
 /**
- * Site search: a GET form in a `<search>` landmark, a polite status line, the result list that
+ * Site search: a GET form in a `<search>` landmark, a polite status line, a „Резултати“ heading
+ * (hidden until a search shows results, spec 062), the result list that
  * `siteSearch.ts` fills from the Pagefind index ten results at a time, a „Покажи още“ button
  * (hidden until there are more results), plus browse links that also serve as the fallback
  * without JavaScript.
@@ -28,6 +29,9 @@ const hintId = 'search-hint';
   data-first-shown={labels.firstShown}
   data-shown-of={labels.shownOf}
   data-hub-type={[labels.types.section, labels.types.page].join(',')}
+  data-group-type={labels.types.group}
+  data-scope={labels.scope}
+  data-title={labels.pageTitle}
 >
   <search>
     <form class="site-search__form" method="get" action={routes.search}>
@@ -52,6 +56,9 @@ const hintId = 'search-hint';
     <p class="site-search__note">{labels.noscript}</p>
   </noscript>
   <p class="site-search__status" role="status"></p>
+  <h2 class="site-search__heading" data-search-heading hidden>
+    {labels.resultsHeading}
+  </h2>
   <ol class="site-search__results" role="list" data-search-results></ol>
   <button class="site-search__more" type="button" data-search-more hidden>
     {labels.more}
@@ -155,6 +162,7 @@ const hintId = 'search-hint';
     justify-self: start;
   }
 
+  .site-search__heading[hidden],
   .site-search__more[hidden] {
     display: none;
   }

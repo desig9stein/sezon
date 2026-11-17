@@ -1,0 +1,164 @@
+---
+import { routes, WILD_SECTION_ID } from '@components/layout/routes';
+import {
+  searchBodyAttributes,
+  searchHubHeadingAttributes,
+} from '@components/search/searchAttributes';
+import SeasonBadge from '@components/season/SeasonBadge.astro';
+import YearStrip from '@components/season/YearStrip.astro';
+import { buildMonth } from '@composition/clock';
+import { wildProduceService } from '@composition/index';
+import { requireSiteUrl } from '@composition/site';
+import { Month } from '@contexts/seasonality';
+import { monthName, ui } from '@i18n/bg';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { collectionPageJsonLd } from '@shared/seo';
+
+/**
+ * `/divorastyashti` (spec 062): every produce gathered from the wild in alphabetical order, each
+ * with its kind, Latin name, year strip (whose text lists the months of each level) and its level
+ * this month, after the gathering note and a jump list to the wild section of each month page.
+ */
+const labels = ui.wild;
+const path = routes.wild;
+const wild = await wildProduceService.all();
+const jsonLd = [
+  collectionPageJsonLd({
+    siteUrl: requireSiteUrl(Astro.site),
+    path,
+    name: labels.heading,
+    description: labels.description,
+    items: wild.map((produce) => ({ name: produce.name, path: routes.produce(produce) })),
+  }),
+];
+---
+
+<BaseLayout
+  title={labels.title}
+  description={labels.description}
+  path={path}
+  breadcrumbs={[
+    { name: ui.breadcrumbs.home, path: routes.home },
+    { name: ui.catalog.heading, path: routes.catalog },
+    { name: labels.heading, path },
+  ]}
+  jsonLd={jsonLd}
+>
+  <div {...searchBodyAttributes(ui.search.types.section)}>
+    <h1 {...searchHubHeadingAttributes(labels.heading)}>{labels.heading}</h1>
+    <p class="wild__intro">{labels.intro}</p>
+  </div>
+  <p class="wild__note">{ui.produce.wild.gatheringNote}</p>
+  <p>
+    <a href={routes.methodologyWild}>{labels.methodologyLink}</a>
+  </p>
+  <nav class="wild__months" aria-label={labels.monthsLabel}>
+    <ul role="list">
+      {Month.all().map((month) => (
+        <li>
+          <a href={`${routes.month(month)}#${WILD_SECTION_ID}`}>{monthName(month)}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+  {wild.length === 0 ? (
+    <p>{labels.empty}</p>
+  ) : (
+    <ul class="wild-list" role="list">
+      {wild.map((produce) => {
+        const level = produce.levelIn(buildMonth);
+        return (
+          <li class="wild-row">
+            <a class="wild-row__name" href={routes.produce(produce)}>
+              {produce.name}
+            </a>
+            <YearStrip produce={produce} current={buildMonth} />
+            <span class="wild-row__now">
+              {labels.now(buildMonth)}{' '}
+              {level === undefined ? ui.produce.outOfSeason : <SeasonBadge level={level} />}
+            </span>
+            <span class="wild-row__meta">
+              {produce.latinName !== undefined && (
+                <>
+                  <i lang="la">{produce.latinName}</i> ·{' '}
+                </>
+              )}
+              {ui.produceKinds[produce.kind]}
+            </span>
+          </li>
+        );
+      })}
+    </ul>
+  )}
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-block: var(--space-6) var(--space-3);
+  }
+
+  .wild__intro {
+    max-width: var(--reading-width);
+    font-size: var(--font-size-lg);
+  }
+
+  .wild__note {
+    max-width: var(--reading-width);
+    margin-top: var(--space-3);
+  }
+
+  .wild__months ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-4);
+    margin-block: var(--space-4);
+    padding: 0;
+    list-style: none;
+  }
+
+  .wild__months a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    font-weight: 600;
+  }
+
+  .wild-list {
+    display: grid;
+    padding: 0;
+    border-top: 2px solid var(--color-text);
+    list-style: none;
+  }
+
+  .wild-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-4);
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .wild-row__name {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-compact);
+    min-width: 10rem;
+    color: var(--color-text);
+    font-weight: 700;
+  }
+
+  .wild-row__now {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+
+  .wild-row__meta {
+    flex-basis: 100%;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+</style>

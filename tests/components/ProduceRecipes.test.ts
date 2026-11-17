@@ -12,7 +12,8 @@ describe('ProduceRecipes (spec 048)', () => {
         aRecipe({ slug: 'sladko-ot-krushi', name: 'Сладко от круши', category: 'preserve' }),
       ],
     });
-    expect(html).toMatch(/<section[^>]*aria-labelledby="recipes"/);
+    expect(html).toMatch(/<section[^>]*class="produce-recipes"/);
+    expect(html).not.toMatch(/<section[^>]*aria-labelledby="recipes"/);
     expect(html).toMatch(/<h3[^>]*id="recipes"[^>]*>Рецепти за зимнина<\/h3>/);
     expect(html).toContain('href="/retsepti/kompot-ot-krushi"');
     expect(html).toContain('href="/retsepti/sladko-ot-krushi"');

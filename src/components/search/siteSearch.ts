@@ -1,4 +1,12 @@
-import { matchesAllTerms, matchesHeading, searchQuery, wordsOf } from '@shared/seo/searchText';
+import {
+  FAMILY_TERM,
+  isShortTerm,
+  matchesAllTerms,
+  matchesHeading,
+  matchesWordForms,
+  searchQuery,
+  wordsOf,
+} from '@shared/seo/searchText';
 
 /** URL of the Pagefind browser bundle written by `pagefind --site dist`. */
 const PAGEFIND_URL = '/pagefind/pagefind.js';
@@ -21,6 +29,8 @@ interface PagefindResultData {
     readonly latin?: string;
     /** Other name of the page, e.g. „За нас“ (spec 059). */
     readonly alias?: string;
+    /** Names of a family page's produce (spec 062). */
+    readonly members?: string;
     readonly type?: string;
   };
 }
@@ -93,7 +103,9 @@ export function withoutLatinLabel(excerpt: string, latin: string | undefined): s
  * @param terms - Normalised query words.
  */
 function isRelevant(best: PagefindResultData, terms: ReadonlyArray<string>): boolean {
-  const text = [best.meta.title, best.meta.latin, best.content].filter(Boolean).join(' ');
+  const text = [best.meta.title, best.meta.latin, best.meta.members, best.content]
+    .filter(Boolean)
+    .join(' ');
   return matchesAllTerms(text, terms);
 }
 
@@ -126,6 +138,53 @@ async function withMatchingHubsFirst(
   return [...leading, ...results.filter((result) => !ids.has(result.id))];
 }
 
+/**
+ * Returns the results with the family pages that a „семейство <продукт>“ query asks for moved to
+ * the front (spec 062): family pages whose name or produce names (`members` metadata) match every
+ * other query word. Without the family word, or without other words, the results stay as they are.
+ * @param results - All results of the query, in order.
+ * @param families - Results of a search for the family word limited to family pages.
+ * @param terms - Normalised query words.
+ */
+async function withAskedFamiliesFirst(
+  results: ReadonlyArray<PagefindResult>,
+  families: ReadonlyArray<PagefindResult>,
+  terms: ReadonlyArray<string>,
+): Promise<ReadonlyArray<PagefindResult>> {
+  const others = terms.filter((term) => term !== FAMILY_TERM);
+  if (others.length === terms.length || others.length === 0) return results;
+  const checked = await Promise.all(
+    families.map(async (family) => ({ family, data: await family.data() })),
+  );
+  const asked = checked
+    .filter(({ data }) =>
+      matchesAllTerms([data.meta.title, data.meta.members].filter(Boolean).join(' '), others),
+    )
+    .map(({ family }) => family);
+  const ids = new Set(asked.map((family) => family.id));
+  return [...asked, ...results.filter((result) => !ids.has(result.id))];
+}
+
+/**
+ * Keeps the results whose title, alias or content name every short query word as a word form
+ * (spec 062): Pagefind matches word prefixes, so „нар“ would also find „нарязани“. Loads the data
+ * of every result, so it runs only when the query has a short word.
+ * @param results - All results of the query, in order.
+ * @param terms - Normalised query words.
+ */
+async function withShortTermsAsWords(
+  results: ReadonlyArray<PagefindResult>,
+  terms: ReadonlyArray<string>,
+): Promise<ReadonlyArray<PagefindResult>> {
+  if (!terms.some(isShortTerm)) return results;
+  const checked = await Promise.all(
+    results.map(async (result) => ({ result, data: await result.data() })),
+  );
+  return checked
+    .filter(({ data }) => matchesWordForms(`${namesOf(data)} ${data.content ?? ''}`, terms))
+    .map(({ result }) => result);
+}
+
 /** How well a result's title names the query: 0 every word exact, 1 every word close, 2 neither. */
 function titleRank(data: PagefindResultData, terms: ReadonlyArray<string>): number {
   const names = namesOf(data);
@@ -138,21 +197,28 @@ function titleRank(data: PagefindResultData, terms: ReadonlyArray<string>): numb
  * Orders the first page of results so that a page named by the query comes first: titles with
  * every query word as a whole word, then titles with close words, shorter titles first within
  * each group; other results keep Pagefind's order („зеле“ lists „Зеле“ before „Зелен лук“).
+ * Results of `laterType` come after the others of the same group: Pagefind ranks a short family
+ * page above the produce it names („тикв“), but the produce is what the reader wants (spec 062).
  * @param items - Data of the first page of results, in Pagefind order.
  * @param terms - Normalised query words.
+ * @param laterType - Result type listed after the others of its group, e.g. the family pages.
  */
 export function byTitleMatch(
   items: ReadonlyArray<PagefindResultData>,
   terms: ReadonlyArray<string>,
+  laterType?: string,
 ): ReadonlyArray<PagefindResultData> {
   const NO_MATCH = 2;
   const ranked = items.map((item, index) => {
     const rank = titleRank(item, terms);
     const length = rank === NO_MATCH ? 0 : wordsOf(item.meta.title ?? '').length;
-    return { item, index, rank, length };
+    const later = laterType !== undefined && item.meta.type === laterType ? 1 : 0;
+    return { item, index, rank, later, length };
   });
   return ranked
-    .sort((a, b) => a.rank - b.rank || a.length - b.length || a.index - b.index)
+    .sort(
+      (a, b) => a.rank - b.rank || a.later - b.later || a.length - b.length || a.index - b.index,
+    )
     .map(({ item }) => item);
 }
 
@@ -179,8 +245,18 @@ export function initSiteSearch(root: HTMLElement, loader: PagefindLoader = loadP
     failed: root.dataset.failed ?? '',
     firstShown: root.dataset.firstShown ?? '',
     shownOf: root.dataset.shownOf ?? '',
+    scope: root.dataset.scope ?? '',
+    title: root.dataset.title ?? '',
+  };
+  const heading = root.querySelector<HTMLElement>('[data-search-heading]');
+  const pageTitle = document.title;
+  const showResults = (query: string): void => {
+    if (heading !== null) heading.hidden = query === '';
+    document.title =
+      query === '' || text.title === '' ? pageTitle : fillTemplate(text.title, { query });
   };
   const hubTypes = root.dataset.hubType?.split(',');
+  const groupType = root.dataset.groupType;
   let pagefind: Promise<PagefindApi> | undefined;
   let latest = 0;
   let timer: ReturnType<typeof setTimeout> | undefined;
@@ -238,6 +314,7 @@ export function initSiteSearch(root: HTMLElement, loader: PagefindLoader = loadP
     if (query === '') {
       status.textContent = '';
       clear();
+      showResults('');
       return;
     }
     status.textContent = text.loading;
@@ -245,31 +322,43 @@ export function initSiteSearch(root: HTMLElement, loader: PagefindLoader = loadP
       const terms = searchQuery(query);
       const api = await load();
       const normalised = terms.join(' ');
-      const [search, hubSearch] = await Promise.all([
+      const asksFamily = groupType !== undefined && terms.includes(FAMILY_TERM);
+
+      const [search, hubSearch, familySearch] = await Promise.all([
         api.search(normalised),
         hubTypes === undefined
           ? null
           : api.search(normalised, { filters: { type: { any: hubTypes } } }),
+        asksFamily ? api.search(FAMILY_TERM, { filters: { type: { any: [groupType] } } }) : null,
       ]);
-      const results = await withMatchingHubsFirst(
-        search?.results ?? [],
-        hubSearch?.results ?? [],
+      const results = await withAskedFamiliesFirst(
+        await withShortTermsAsWords(
+          await withMatchingHubsFirst(search?.results ?? [], hubSearch?.results ?? [], terms),
+          terms,
+        ),
+        familySearch?.results ?? [],
         terms,
       );
       const items = byTitleMatch(
         await Promise.all(results.slice(0, PAGE_SIZE).map((result) => result.data())),
         terms,
+        asksFamily ? undefined : groupType,
       );
       if (id !== latest) return;
       const best = items[0];
       if (best === undefined || !isRelevant(best, terms)) {
         clear();
-        status.textContent = fillTemplate(text.none, { query });
+        showResults('');
+        document.title = fillTemplate(text.title, { query }) || pageTitle;
+        status.textContent = [fillTemplate(text.none, { query }), text.scope]
+          .filter((part) => part !== '')
+          .join(' ');
         return;
       }
       pending = results.slice(PAGE_SIZE);
       total = results.length;
       list.replaceChildren(...items.map(itemOf));
+      showResults(query);
       updateMore();
       const found = fillTemplate(text.found, { count: String(total), query });
       status.textContent =

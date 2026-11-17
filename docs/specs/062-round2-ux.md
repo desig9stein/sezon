@@ -1,6 +1,6 @@
 # 062. UX and accessibility, round 2
 
-- **Status:** Approved
+- **Status:** Implemented
 - **Bounded context(s):** catalog (produce aliases, wild produce listing), UI (season lists, legend,
   scroll tables, produce page, search, nutrient tables, subscribe page, farm list and farm pages,
   group pages, calendar, recipes), shared (search text matching)
@@ -64,15 +64,15 @@ they could not read. This spec fixes these without changing content texts (spec 
    (`#mesetsi`) and the wild section on month pages. No script.
 6. **Search results heading and title (P6-6).** A „Резултати“ `h2` precedes the result list and is
    `hidden` until a search ran; while a query is active, `document.title` is
-   „Търсене: <query> – Сезон“; an empty query restores the original title.
+   „Търсене: <query> | Сезон“ (the site's title pattern); an empty query restores the original title.
 7. **Water-bath steps (P6-7)** are an ordered list.
 8. **Nutrition table at 200 % text (P6-8).** The percentage bar wraps under the number and the
    table's minimum width is removed, so at 640 px with doubled text the „% РСП“ column is inside
    the box.
 9. **Wild plants.** New page `/divorastyashti` („Диворастящи растения“): intro with the gathering
    note and a methodology link, a month jump list (links to `/sezon/<month>#divorastyashti`), and
-   every wild produce in Bulgarian alphabetical order with its kind, Latin name, year strip, the
-   season in words and its level this month. The „Диворастящо“ tag on produce pages links it. Month
+   every wild produce in Bulgarian alphabetical order with its kind, Latin name, year strip (whose
+   text alternative names the months of each level) and its level this month. The „Диворастящо“ tag on produce pages links it. Month
    pages get a section „Диворастящи през <месец> (N)“ (`id="divorastyashti"`) after the main list,
    listing the wild produce in season that month, or „През <месец> няма диворастящи растения в
    сезон.“, plus a link to the page. `/tarsene` „Разгледай“ and `/katalog` link it. Indexed for
@@ -87,12 +87,19 @@ they could not read. This spec fixes these without changing content texts (spec 
       FAQ (domain invariant). They are indexed on the `h1` as alias metadata (spec 059 mechanism)
       and count as names for result ordering. Data: Пипер → „чушки“ (its own text says „чушките“,
       „чушки“).
-    - Group pages index their intro („Продуктите от семейство …“) and the names of their produce
-      (as an indexed attribute), so „семейство домати“ finds the family of tomatoes.
+    - Family pages index the word „семейство“ and store the names of their produce as `members`
+      metadata (not indexed, so „домати“ alone still lists the produce). A query with „семейство“
+      and other words also searches the family pages for „семейство“ and lists first those whose
+      name or members match the other words („семейство домати“ → Картофови). Without the family
+      word, family pages come after the other results of the same title rank (Pagefind ranks the
+      short family page „Тиквови“ above „Тиквички“ for „тикв“; spec 017 QA wants the produce
+      first).
     - No results: the status adds „Сайтът покрива пресни плодове, зеленчуци, билки и ядки от
       България.“
 11. **Nutrient ranking tables on phones.** Below 40rem each row is a stacked block (produce name
-    on its own line, then labelled cells); explicit ARIA table roles keep the table semantics; no
+    on its own line, then labelled cells); explicit `table`, `row` and `columnheader` roles keep the
+    table semantics (eslint-plugin-jsx-a11y rejects explicit roles on `td` and row `th`); the
+    header row is visually hidden on narrow screens (`.visually-hidden-narrow`); no
     horizontal overflow at 390 px and 320 px.
 12. **/abonament.** The hint reads „Копирай адреса от полето и го постави в приложението.“; the
     field selects its text on focus; a „Копирай“ button (hidden without JavaScript or without the
@@ -127,8 +134,11 @@ they could not read. This spec fixes these without changing content texts (spec 
 - `searchText.ts`: `matchesWordForms(text, terms)` – a term of at most 3 letters matches a word
   equal to it or the term plus an inflection ending; longer terms keep prefix matching.
   `SHORT_TERM_MAX_LENGTH = 3`, `INFLECTION_ENDINGS`.
-- Composition: `wildSeasonOverviewService` (a `SeasonOverviewService` over wild produce only) and
-  `wildProduceQuery` returning wild produce sorted by Bulgarian name.
+- Application: `WildProduceService` (catalog) with `all()` (wild produce in Bulgarian alphabetical
+  order) and `groupsFor(month)` (`seasonGroups` of the wild produce); wired in the composition root
+  as `wildProduceService`.
+- Search helpers: `FAMILY_TERM`, `searchFamilyAttributes(word, names)`, `byTitleMatch(items,
+terms, laterType?)`.
 
 ## 5. Behaviour and edge cases
 
@@ -146,8 +156,8 @@ they could not read. This spec fixes these without changing content texts (spec 
 
 ## 6. Accessibility requirements
 
-- 1.3.1: tables keep caption, `th scope`; stacked ranking rows keep roles `table`, `row`,
-  `rowheader`, `columnheader`, `cell`. Ordered list for sequential steps. Group headings h2 → h3 →
+- 1.3.1: tables keep caption, `th scope`; stacked ranking rows keep roles `table`, `row` and
+  `columnheader` (Chromium keeps row headers and cells, checked in e2e). Ordered list for sequential steps. Group headings h2 → h3 →
   h4 without skips.
 - 1.3.2 / without CSS: no CSS reordering; the calendar key row and the stacked labels add no
   content that needs CSS to make sense; the print hint is hidden only in print.
@@ -218,27 +228,27 @@ they could not read. This spec fixes these without changing content texts (spec 
 
 ## 9. Test plan
 
-| AC   | Type           | Test file                                                                            |
-| ---- | -------------- | ------------------------------------------------------------------------------------ |
-| AC1  | component, e2e | `tests/components/YearStrip.test.ts`, `tests/e2e/round2-ux-062.spec.ts`              |
-| AC2  | component      | `tests/components/SeasonLegend-062.test.ts`                                          |
-| AC3  | component, e2e | `tests/components/ScrollTable-060.test.ts`, `round2-ux-062.spec.ts`                  |
-| AC4  | e2e            | `round2-ux-062.spec.ts`                                                              |
-| AC5  | e2e            | `round2-ux-062.spec.ts`                                                              |
-| AC6  | unit, e2e      | `tests/unit/components/search/siteSearch-062.test.ts`, `round2-ux-062.spec.ts`       |
-| AC7  | e2e            | `round2-ux-062.spec.ts`                                                              |
-| AC8  | e2e            | `round2-ux-062.spec.ts`                                                              |
-| AC9  | unit, e2e      | `tests/unit/composition/wildProduce-062.test.ts`, `round2-ux-062.spec.ts`            |
-| AC10 | unit, e2e      | `tests/unit/shared/seo/searchText-062.test.ts`, `siteSearch-062.test.ts`, e2e        |
-| AC11 | unit, e2e      | `tests/unit/contexts/catalog/domain/Produce-062.test.ts`, `schemas-062.test.ts`, e2e |
-| AC12 | e2e            | `round2-ux-062.spec.ts`                                                              |
-| AC13 | unit, e2e      | `siteSearch-062.test.ts`, `round2-ux-062.spec.ts`                                    |
-| AC14 | e2e            | `round2-ux-062.spec.ts`                                                              |
-| AC15 | e2e            | `round2-ux-062.spec.ts`                                                              |
-| AC16 | e2e, component | `round2-ux-062.spec.ts`, `tests/components/FarmContacts-062.test.ts`                 |
-| AC17 | component      | `tests/components/FarmContacts-062.test.ts`                                          |
-| AC18 | e2e            | `round2-ux-062.spec.ts`                                                              |
-| AC19 | e2e            | `round2-ux-062.spec.ts`                                                              |
+| AC   | Type           | Test file                                                                                         |
+| ---- | -------------- | ------------------------------------------------------------------------------------------------- |
+| AC1  | component, e2e | `tests/components/YearStrip.test.ts`, `tests/e2e/round2-ux-062.spec.ts`                           |
+| AC2  | component      | `tests/components/SeasonLegend-062.test.ts`                                                       |
+| AC3  | component, e2e | `tests/components/ScrollTable-060.test.ts`, `round2-ux-062.spec.ts`                               |
+| AC4  | e2e            | `round2-ux-062.spec.ts`                                                                           |
+| AC5  | e2e            | `round2-ux-062.spec.ts`                                                                           |
+| AC6  | unit, e2e      | `tests/unit/components/search/siteSearch-062.test.ts`, `round2-ux-062.spec.ts`                    |
+| AC7  | e2e            | `round2-ux-062.spec.ts`                                                                           |
+| AC8  | e2e            | `round2-ux-062.spec.ts`                                                                           |
+| AC9  | unit, e2e      | `tests/unit/contexts/catalog/application/WildProduceService-062.test.ts`, `round2-ux-062.spec.ts` |
+| AC10 | unit, e2e      | `tests/unit/shared/seo/searchText-062.test.ts`, `siteSearch-062.test.ts`, e2e                     |
+| AC11 | unit, e2e      | `tests/unit/contexts/catalog/domain/Produce-062.test.ts`, `schemas-062.test.ts`, e2e              |
+| AC12 | e2e            | `round2-ux-062.spec.ts`                                                                           |
+| AC13 | unit, e2e      | `siteSearch-062.test.ts`, `round2-ux-062.spec.ts`                                                 |
+| AC14 | e2e            | `round2-ux-062.spec.ts`                                                                           |
+| AC15 | e2e            | `round2-ux-062.spec.ts`                                                                           |
+| AC16 | e2e, component | `round2-ux-062.spec.ts`, `tests/components/FarmContacts-062.test.ts`                              |
+| AC17 | component      | `tests/components/FarmContacts-062.test.ts`                                                       |
+| AC18 | e2e            | `round2-ux-062.spec.ts`                                                                           |
+| AC19 | e2e            | `round2-ux-062.spec.ts`                                                                           |
 
 ## 10. Third-party documentation consulted
 
@@ -247,5 +257,5 @@ they could not read. This spec fixes these without changing content texts (spec 
 | pagefind         | 1.5.2   | Context7 `/pagefind/pagefind`: `docs/indexing.md` (`data-pagefind-index-attrs` indexed inline), `docs/weighting.md` | Aliases and group members in the index    |
 | HTML Standard    | living  | „Scroll to the fragment“ (focusing steps on a focusable target); verified in Chromium with Playwright 1.63.0        | Focus moves to `tabindex="-1"` targets    |
 | MDN              | n/a     | `Clipboard.writeText()`, `ResizeObserver`, `HTMLInputElement.select()`                                              | Copy button, overflow check, select       |
-| WAI-ARIA 1.2     | current | Roles `table`, `row`, `rowheader`, `columnheader`, `cell`                                                           | Stacked ranking rows keep table semantics |
+| WAI-ARIA 1.2     | current | Roles `table`, `row`, `columnheader`                                                                                | Stacked ranking rows keep table semantics |
 | @playwright/test | 1.63.0  | https://playwright.dev/docs/api/class-page (`emulateMedia`, `context.grantPermissions` for clipboard)               | Print and copy tests                      |

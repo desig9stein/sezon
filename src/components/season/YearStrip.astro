@@ -8,7 +8,7 @@ import { monthNameLower, monthRanges, ui } from '@i18n/bg';
  * A produce's year as an inline SVG of 12 cells, January to December. The level is carried by
  * form: peak a solid cell, available an outlined cell, storage an outlined cell with hatch lines,
  * out of season a thin baseline; `current` is framed. The SVG has a title and a text alternative
- * listing the months of each level in ranges, and keeps its pixel size without CSS. With CSS it is
+ * that starts with „През годината:“ (spec 062) and lists the months of each level in ranges, and keeps its pixel size without CSS. With CSS it is
  * one `rem` tall (its drawn height at the default text size) and keeps its ratio, so it scales with
  * the text size.
  */
@@ -44,7 +44,9 @@ const rangeText = (level: SeasonLevelValue) =>
 const parts = LABEL_ORDER.map((level) => ({ level, ranges: rangeText(level) }))
   .filter((part) => part.ranges !== '')
   .map((part) => ui.yearStrip.part(ui.stamp[part.level], part.ranges));
-const label = parts.length === 0 ? ui.yearStrip.outOfSeason : parts.join(ui.yearStrip.separator);
+const label = `${ui.yearStrip.prefix} ${
+  parts.length === 0 ? ui.yearStrip.outOfSeason : parts.join(ui.yearStrip.separator)
+}`;
 const top = PAD;
 const bottom = PAD + CELL_HEIGHT;
 ---

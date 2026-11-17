@@ -2,7 +2,7 @@
 import type { GetStaticPaths } from 'astro';
 import AdSlot from '@components/ads/AdSlot.astro';
 import { ADSENSE } from '@composition/adsense';
-import { routes } from '@components/layout/routes';
+import { routes, WILD_SECTION_ID } from '@components/layout/routes';
 import { searchBodyAttributes, searchHeadingAttributes } from '@components/search/searchAttributes';
 import MonthChanges from '@components/season/MonthChanges.astro';
 import MonthPager from '@components/season/MonthPager.astro';
@@ -16,6 +16,7 @@ import {
   monthChangesService,
   seasonOverviewService,
   sponsorSelectionService,
+  wildProduceService,
 } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
 import { Month } from '@contexts/seasonality';
@@ -29,6 +30,8 @@ const month = Month.fromSlug(Astro.params.month);
 const siteUrl = requireSiteUrl(Astro.site);
 const overview = await seasonOverviewService.overviewFor(month);
 const changes = await monthChangesService.changesFor(month);
+const wild = await wildProduceService.groupsFor(month);
+const wildCount = wild.peak.length + wild.available.length + wild.storage.length;
 const freshNames = [...overview.peak, ...overview.available].map((produce) => produce.name);
 const path = routes.month(month);
 const itemList = freshProduceItemList(overview, siteUrl);
@@ -49,8 +52,18 @@ const sponsor = await sponsorSelectionService.forPlacement('month', BUILD_DATE);
   <div {...searchBodyAttributes(ui.search.types.month)}>
     <h1 {...searchHeadingAttributes(ui.monthPage.heading(month))}>{ui.monthPage.heading(month)}</h1>
   </div>
-  <SeasonList overview={overview} />
   <SeasonLegend />
+  <SeasonList overview={overview} />
+  <SeasonList
+    overview={wild}
+    id={WILD_SECTION_ID}
+    heading={ui.wild.monthHeading(month, wildCount)}
+    empty={ui.wild.monthEmpty(month)}
+  >
+    <p class="month-wild__link">
+      <a href={routes.wild}>{ui.wild.listLink}</a>
+    </p>
+  </SeasonList>
   <MonthChanges changes={changes} />
   <SeasonOverview overview={overview} groups={['comingSoon']} stripMonth={month} />
   <AdSlot sponsor={sponsor} placement="month" adsense={ADSENSE} />
@@ -58,6 +71,14 @@ const sponsor = await sponsorSelectionService.forPlacement('month', BUILD_DATE);
 </BaseLayout>
 
 <style>
+  :global(#divorastyashti) {
+    margin-top: var(--space-8);
+  }
+
+  .month-wild__link {
+    margin-top: var(--space-2);
+  }
+
   h1 {
     margin-block: var(--space-6) var(--space-3);
   }

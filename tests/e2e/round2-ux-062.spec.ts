@@ -256,7 +256,7 @@ test.describe('phones, subscribe, farms, groups and print (spec 062)', () => {
     const field = page.locator('#feed-address');
     await field.focus();
     const selected = await field.evaluate(
-      (input: HTMLInputElement) => input.selectionEnd - input.selectionStart,
+      (input: HTMLInputElement) => (input.selectionEnd ?? 0) - (input.selectionStart ?? 0),
     );
     expect(selected).toBe((await field.inputValue()).length);
     await page.getByRole('button', { name: 'Копирай' }).click();

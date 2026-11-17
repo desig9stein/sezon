@@ -17,6 +17,21 @@ const path = routes.farms;
 const groups = await farmPagesQuery.byRegion(BUILD_DATE);
 const farms = groups.flatMap((group) => group.farms);
 const sectionId = (slug: string) => `oblast-${slug}`;
+const organicFarms = farms.filter((entry) => entry.certifiedOrganic);
+/**
+ * Provinces whose section points to the province around them (spec 062): a Sofia resident looks
+ * under София-град, but most farms near Sofia are in Софийска област.
+ */
+const SURROUNDING_PROVINCE: Readonly<Record<string, string>> = { 'sofia-grad': 'sofiyska' };
+const nearbyLink = (slug: string) => {
+  const target = groups.find((group) => group.region.slug === SURROUNDING_PROVINCE[slug]);
+  return target === undefined
+    ? undefined
+    : {
+        href: `#${sectionId(target.region.slug)}`,
+        label: labels.nearbyFarms(ui.regions.placeName(target.region.name), target.farms.length),
+      };
+};
 const jsonLd = [
   collectionPageJsonLd({
     siteUrl: requireSiteUrl(Astro.site),
@@ -53,17 +68,36 @@ const jsonLd = [
       ))}
     </ul>
   </nav>
+  {organicFarms.length > 0 && (
+    <p class="farms__organic">
+      {labels.organicLabel}{' '}
+      {organicFarms.map(({ farm }, index) => (
+        <>
+          {index > 0 && ', '}
+          <a href={routes.farm(farm.slug)}>{farm.name}</a>
+        </>
+      ))}
+    </p>
+  )}
   <p class="farms__regions-link">
     <a href={routes.regions}>{labels.regionsLink}</a>
   </p>
   {groups.map(({ region, farms: regionFarms }) => (
     <section class="farms__region" aria-labelledby={sectionId(region.slug)}>
-      <h2 class="section-heading" id={sectionId(region.slug)}>
+      <h2 class="section-heading" id={sectionId(region.slug)} tabindex="-1">
         {ui.regions.placeName(region.name)}
       </h2>
       <p>
         <a href={routes.region(region.slug)}>{labels.regionPageLink(region.name)}</a>
       </p>
+      {[nearbyLink(region.slug)].map(
+        (link) =>
+          link !== undefined && (
+            <p>
+              <a href={link.href}>{link.label}</a>
+            </p>
+          ),
+      )}
       <ul class="farms" role="list">
         {regionFarms.map((entry) => (
           <FarmCard {...entry} headingLevel={3} currentRegionSlug={region.slug} />

@@ -113,7 +113,9 @@ test.describe('search findability (spec 059)', () => {
   for (const query of ['гъби', 'мечи лук', 'черемша']) {
     test(`AC13: „${query}“ honestly shows no results`, async ({ page }) => {
       await searchFor(page, query);
-      await expect(page.getByRole('status')).toHaveText(`Няма резултати за „${query}“.`);
+      await expect(page.getByRole('status')).toHaveText(
+        `Няма резултати за „${query}“. Сайтът покрива пресни плодове, зеленчуци, билки и ядки от България.`,
+      );
       expect(await resultLinks(page)).toEqual([]);
     });
   }

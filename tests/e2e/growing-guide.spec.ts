@@ -6,7 +6,8 @@ const CARROTS = '/zelenchutsi/morkovi';
 test.describe('growing guide', () => {
   test('AC6: the carrot page shows the growing section with month links', async ({ page }) => {
     await page.goto(CARROTS);
-    const section = page.getByRole('region', { name: 'Отглеждане в градината' });
+    const section = page.locator('section.growing');
+    await expect(section.getByRole('heading', { name: 'Отглеждане в градината' })).toBeVisible();
     await expect(section).toBeVisible();
     await expect(section.locator('dt').first()).toBeVisible();
     await expect(section.locator('a[href^="/sezon/"]').first()).toBeVisible();

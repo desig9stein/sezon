@@ -158,6 +158,10 @@ export const produceSchema = z
     wild: z.boolean().default(false),
     cautions: z.array(cautionSchema).default(() => []),
     notEatenRaw: z.boolean().default(false),
+    aliases: z
+      .array(text())
+      .superRefine(uniqueBy((alias) => alias, 'alias'))
+      .default(() => []),
     updatedAt: isoDate(),
   })
   .superRefine(requireCautionsWhenWild)

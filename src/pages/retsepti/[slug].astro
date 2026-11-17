@@ -99,11 +99,11 @@ const jsonLd = [
       <h3>{labels.headings.storage}</h3>
       <p>{recipe.safety.storage}</p>
       <h3 id="water-bath">{labels.waterBath.heading}</h3>
-      <ul class="recipe__water-bath">
+      <ol class="recipe__water-bath">
         {labels.waterBath.items.map((item) => (
           <li>{item}</li>
         ))}
-      </ul>
+      </ol>
       <p class="recipe__muted">{labels.safetySourcesLabel}</p>
       <ul class="recipe__sources">
         {recipe.safety.sources.map((source) => (
