@@ -1,0 +1,82 @@
+---
+import SourceLink from '@components/ui/SourceLink.astro';
+import {
+  townsByAltitudeBand,
+  type AltitudeBand,
+  type AltitudeTown,
+  type Recipe,
+  type RecipeSource,
+} from '@contexts/recipes';
+import { ui } from '@i18n/bg';
+
+/**
+ * The province towns sorted into the water-bath bands of a recipe (spec 061): one line per band
+ * that has towns, with the band's minutes, then a sentence for each town whose altitude group
+ * reaches into two bands, the note on what the group means and its source.
+ */
+interface Props {
+  recipe: Recipe;
+  towns: ReadonlyArray<AltitudeTown>;
+  source: RecipeSource;
+}
+
+const { recipe, towns, source } = Astro.props;
+const labels = ui.recipes.altitudeTowns;
+const { altitudeBands } = ui.recipes.facts;
+const sorted = townsByAltitudeBand(recipe.processingMinutes, recipe.processingAtAltitude, towns);
+
+/** Labels a band as on the facts card: „до 300 м: 5 мин“, „300–1800 м: 10 мин“, „над 1800 м: …“. */
+const bandLabel = (band: AltitudeBand): string => {
+  if (band.fromMetres === 0 && band.toMetres !== undefined) {
+    return altitudeBands.lowest(band.toMetres, band.minutes);
+  }
+  return band.toMetres === undefined
+    ? altitudeBands.highest(band.fromMetres, band.minutes)
+    : altitudeBands.middle(band.fromMetres, band.toMetres, band.minutes);
+};
+const bandLines = sorted.bands
+  .filter((band) => band.towns.length > 0)
+  .map((band) =>
+    labels.band(
+      bandLabel(band),
+      band.towns.map((town) => town.name),
+    ),
+  );
+const spanningLines = sorted.spanning.map(({ town, bands }) =>
+  labels.spanning(town.name, labels.group(town.fromMetres, town.toMetres), bands.map(bandLabel)),
+);
+---
+
+{towns.length > 0 && (
+  <div class="altitude-towns">
+    <p>{labels.intro}</p>
+    <ul>
+      {bandLines.map((line) => (
+        <li>{line}</li>
+      ))}
+    </ul>
+    {spanningLines.map((line) => (
+      <p>{line}</p>
+    ))}
+    <p class="altitude-towns__note">
+      {labels.note} {labels.sourcePrefix} <SourceLink source={source} />.
+    </p>
+  </div>
+)}
+
+<style>
+  .altitude-towns {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .altitude-towns ul {
+    margin: 0;
+    padding-inline-start: var(--space-6);
+  }
+
+  .altitude-towns__note {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+  }
+</style>

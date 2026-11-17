@@ -66,7 +66,15 @@ const ADDED: Readonly<Record<string, Added>> = {
     group: 'meshkovitsovi',
     wild: true,
     season: months('peak', 8),
-    cautions: ['toxic-part', 'toxic-part', 'preparation', 'look-alike', 'protected', 'protected'],
+    cautions: [
+      'toxic-part',
+      'toxic-part',
+      'preparation',
+      'look-alike',
+      'look-alike',
+      'protected',
+      'protected',
+    ],
     photo: 'ITFBAchRAiI',
   },
   glog: {
@@ -139,7 +147,7 @@ const ADDED: Readonly<Record<string, Added>> = {
     group: 'tuchenitsovi',
     wild: true,
     season: months('available', 6, 7, 8),
-    cautions: ['preparation', 'protected'],
+    cautions: ['preparation', 'look-alike', 'protected'],
   },
   'godzhi-beri': {
     name: 'Годжи бери',
@@ -385,12 +393,12 @@ describe('wild produce (spec 057)', () => {
     expect(purslane?.text).toContain('водата');
   });
 
-  it('QA 057: dandelion lists manganese, which ties with copper and sorts first by name', () => {
+  it('QA 057: dandelion lists manganese and, without the cap of six (spec 061), copper', () => {
     const nutrients = recordOf('gluharche').nutrition?.micronutrients.map(
       ({ nutrient }) => nutrient,
     );
     expect(nutrients).toContain('mangan');
-    expect(nutrients).not.toContain('med-cu');
+    expect(nutrients).toContain('med-cu');
   });
 
   it('QA 057: the old honeysuckle group id is gone', () => {

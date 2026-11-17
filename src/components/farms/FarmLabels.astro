@@ -3,8 +3,9 @@ import type { Farm } from '@contexts/farms';
 import { ui } from '@i18n/bg';
 
 /**
- * A farm's outlined labels, as inline items: organic with the certifier when `certifiedOrganic`,
- * and sponsored. Renders nothing when neither applies.
+ * A farm's outlined labels, as inline items: organic with the certifier and the certificate
+ * number, linked to the certificate (spec 061), when `certifiedOrganic`, and sponsored. Renders
+ * nothing when neither applies.
  */
 interface Props {
   farm: Farm;
@@ -16,7 +17,9 @@ const labels = ui.produce.farms;
 ---
 
 {certifiedOrganic && farm.organic !== undefined && (
-  <span class="farm-label">{labels.organic(farm.organic.certifier)}</span>
+  <a class="farm-label" href={farm.organic.url} rel="noopener">
+    {labels.organic(farm.organic.certifier, farm.organic.certificateId)}
+  </a>
 )}
 {farm.sponsored && <span class="farm-label">{labels.sponsored}</span>}
 

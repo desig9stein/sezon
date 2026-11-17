@@ -20,6 +20,7 @@ nutrition:
     - { nutrient: kaliy, amount: 1795 }
     - { nutrient: zhelyazo, amount: 10.44 }
     - { nutrient: magneziy, amount: 190 }
+    - { nutrient: fosfor, amount: 301 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Beans, white, mature seeds, raw'
     url: https://fdc.nal.usda.gov/food-details/175202/nutrients

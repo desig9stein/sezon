@@ -20,6 +20,9 @@ nutrition:
     - { nutrient: med-cu, amount: 0.555 }
     - { nutrient: magneziy, amount: 160 }
     - { nutrient: kaliy, amount: 609 }
+    - { nutrient: vitamin-a, amount: 238 }
+    - { nutrient: folat, amount: 45 }
+    - { nutrient: fosfor, amount: 106 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Thyme, fresh'
     url: https://fdc.nal.usda.gov/food-details/173470/nutrients

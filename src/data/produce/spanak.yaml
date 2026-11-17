@@ -27,12 +27,13 @@ nutrition:
   sugarsG: 0.42
   micronutrients:
     - { nutrient: vitamin-k, amount: 482.9 }
-    - { nutrient: vitamin-a, amount: 469 }
     - { nutrient: folat, amount: 194 }
+    - { nutrient: vitamin-a, amount: 469 }
+    - { nutrient: mangan, amount: 0.897 }
     - { nutrient: vitamin-c, amount: 28.1 }
-    - { nutrient: zhelyazo, amount: 2.71 }
-    - { nutrient: magneziy, amount: 79 }
     - { nutrient: kaliy, amount: 558 }
+    - { nutrient: magneziy, amount: 79 }
+    - { nutrient: zhelyazo, amount: 2.71 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Spinach, raw'
     url: https://fdc.nal.usda.gov/food-details/168462/nutrients

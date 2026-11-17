@@ -160,8 +160,8 @@ describe('season texts match the season strip (spec 058)', () => {
     expect(summaryOf('shipka')).toMatch(/септември/);
   });
 
-  it('AC9: elder does not claim a harvest from mid-August onwards', () => {
+  it('AC9: elder does not claim a harvest from mid-August onwards (wording of spec 061)', () => {
     expect(summaryOf('cheren-baz')).not.toContain('от средата на август');
-    expect(summaryOf('cheren-baz')).toContain('започва в средата на август');
+    expect(summaryOf('cheren-baz')).toContain('през август – от средата на месеца');
   });
 });

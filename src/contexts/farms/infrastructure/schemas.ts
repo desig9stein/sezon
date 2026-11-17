@@ -35,7 +35,12 @@ export const farmSchema = z.strictObject({
     .min(1)
     .superRefine(uniqueBy((url) => url, 'sources')),
   organic: z
-    .strictObject({ certifier: text(), certificateId: text(), validUntil: isoDate() })
+    .strictObject({
+      certifier: text(),
+      certificateId: text(),
+      validUntil: isoDate(),
+      url: httpsUrl(),
+    })
     .optional(),
 });
 

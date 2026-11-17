@@ -20,6 +20,8 @@ nutrition:
     - { nutrient: zhelyazo, amount: 5.08 }
     - { nutrient: med-cu, amount: 0.329 }
     - { nutrient: kaliy, amount: 569 }
+    - { nutrient: vitamin-a, amount: 212 }
+    - { nutrient: magneziy, amount: 80 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Peppermint, fresh'
     url: https://fdc.nal.usda.gov/food-details/173474/nutrients

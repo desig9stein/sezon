@@ -30,8 +30,9 @@ nutrition:
   sugarsG: 3.9
   micronutrients:
     - { nutrient: vitamin-k, amount: 47 }
-    - { nutrient: vitamin-c, amount: 12 }
     - { nutrient: folat, amount: 64 }
+    - { nutrient: mangan, amount: 0.481 }
+    - { nutrient: vitamin-c, amount: 12 }
     - { nutrient: zhelyazo, amount: 2.1 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Leeks (bulb and lower leaf-portion), raw'

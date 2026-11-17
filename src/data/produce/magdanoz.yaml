@@ -30,9 +30,10 @@ nutrition:
   micronutrients:
     - { nutrient: vitamin-k, amount: 1640 }
     - { nutrient: vitamin-c, amount: 133 }
-    - { nutrient: vitamin-a, amount: 421 }
     - { nutrient: folat, amount: 152 }
+    - { nutrient: vitamin-a, amount: 421 }
     - { nutrient: zhelyazo, amount: 6.2 }
+    - { nutrient: kaliy, amount: 554 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Parsley, fresh'
     url: https://fdc.nal.usda.gov/food-details/170416/nutrients

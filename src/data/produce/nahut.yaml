@@ -20,6 +20,7 @@ nutrition:
     - { nutrient: fosfor, amount: 252 }
     - { nutrient: kaliy, amount: 718 }
     - { nutrient: zhelyazo, amount: 4.31 }
+    - { nutrient: magneziy, amount: 79 }
   source:
     name: 'USDA FoodData Central, SR Legacy: Chickpeas (garbanzo beans, bengal gram), mature seeds, raw'
     url: https://fdc.nal.usda.gov/food-details/173756/nutrients

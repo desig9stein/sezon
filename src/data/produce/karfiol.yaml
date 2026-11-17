@@ -48,7 +48,8 @@ photo:
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/white-cauliflower-on-brown-wooden-chopping-board-PT-GXFtQj-s
 growing:
-  sow: [5, 6, 7]
+  sowSeedlings: [5, 6, 7]
+  sow: []
   transplant: [7, 8, 9]
   plant: []
   plantingNote: 'За есенна реколта сей разсада от края на май до края на юли и разсаждай около месец по-късно – до началото на септември.'

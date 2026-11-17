@@ -315,6 +315,7 @@ const regions = collection({
   schema: {
     name: nameAndSlug('Name'),
     profile: keptAsIs(),
+    seat: keptAsIs(),
   },
 });
 

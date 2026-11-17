@@ -1,4 +1,5 @@
 ---
+import SourceLink from '@components/ui/SourceLink.astro';
 import { routes } from '@components/layout/routes';
 import { searchBodyAttributes, searchHeadingAttributes } from '@components/search/searchAttributes';
 import { requireSiteUrl } from '@composition/site';
@@ -114,6 +115,14 @@ const jsonLd = [
         {labels.farmsHeading}
       </h2>
       <p>{labels.farms}</p>
+      <ul>
+        <li>
+          <SourceLink source={labels.organicCheckLink} />
+        </li>
+        <li>
+          <SourceLink source={labels.organicCheckSource} />
+        </li>
+      </ul>
     </section>
 
     <section aria-labelledby="method-corrections">

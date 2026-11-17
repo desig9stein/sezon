@@ -18,7 +18,7 @@ export interface NutrientRanking {
   readonly nutrient: Nutrient;
   readonly month: Month;
   readonly entries: ReadonlyArray<NutrientRankingEntry>;
-  /** Entries that are fresh in `month` and carry a claim level. */
+  /** Entries that are fresh in `month`. */
   readonly inSeason: ReadonlyArray<NutrientRankingEntry>;
 }
 
@@ -35,8 +35,9 @@ export class NutrientRankingService {
   }
 
   /**
-   * Ranks the produce that lists the nutrient, highest amount first; equal amounts keep the
-   * repository order. Produce without nutrition facts are left out. Season levels refer to `month`.
+   * Ranks the produce that lists the nutrient at or above the claim threshold (spec 061), highest
+   * amount first; equal amounts keep the repository order. Produce without nutrition facts or below
+   * the threshold are left out. Season levels refer to `month`.
    * @throws NutrientNotFoundError when no nutrient has `slug`.
    */
   async rankingFor(slug: string, month: Month): Promise<NutrientRanking> {
@@ -49,7 +50,7 @@ export class NutrientRankingService {
         const amount = produce.nutrition?.micronutrients.find(
           (micronutrient) => micronutrient.nutrientSlug === slug,
         )?.amount;
-        if (amount === undefined) return [];
+        if (amount === undefined || nutrient.claimLevel(amount) === undefined) return [];
         return [
           Object.freeze({
             produce,
@@ -61,9 +62,7 @@ export class NutrientRankingService {
         ];
       })
       .sort((a, b) => b.amount - a.amount);
-    const inSeason = entries.filter(
-      (entry) => entry.claimLevel !== undefined && entry.produce.isFreshIn(month),
-    );
+    const inSeason = entries.filter((entry) => entry.produce.isFreshIn(month));
     return Object.freeze({
       nutrient,
       month,

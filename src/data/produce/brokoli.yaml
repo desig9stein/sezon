@@ -50,7 +50,8 @@ photo:
     sourceName: Unsplash
     sourceUrl: https://unsplash.com/photos/green-broccoli-on-brown-wooden-table-fccAsIqdpeM
 growing:
-  sow: [6]
+  sowSeedlings: [6]
+  sow: []
   transplant: [7]
   plant: []
   plantingNote: 'Сей разсада през първата половина на юни и разсаждай след 35–40 дни, към края на юли.'

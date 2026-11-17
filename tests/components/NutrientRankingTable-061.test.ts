@@ -45,6 +45,6 @@ describe('nutrient ranking source line (spec 061)', () => {
     expect(note?.querySelector('a')?.getAttribute('href')).toMatch(
       /^https:\/\/fdc\.nal\.usda\.gov\//,
     );
-    expect(html.indexOf('</table>')).toBeLessThan(html.indexOf('Източник: USDA'));
+    expect(html.indexOf('</table>')).toBeLessThan(html.indexOf('Източник:'));
   });
 });

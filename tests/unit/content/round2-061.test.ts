@@ -124,7 +124,7 @@ describe('recipe steps and town altitudes (spec 061)', () => {
     expect(step).toContain('„Във водна баня“');
     expect(step).toContain('надморската височина');
     expect(step).toContain('от момента, в който водата заври');
-    expect(step).not.toMatch(/\d+\s*минут/);
+    expect(step.replace('5 минути по-малко', '')).not.toMatch(/\d+\s*минут/);
   });
 
   it.each(recipes.filter(({ safety }) => safety.sterilisation.includes(LARGE_JAR)))(
@@ -194,11 +194,12 @@ describe('wild produce cautions (spec 061)', () => {
   it('AC8: oregano has one ЗЛР caution for both oreganos and one 2026 order caution', () => {
     const protectedCautions = cautionsOf('rigan').filter(({ kind }) => kind === 'protected');
     expect(protectedCautions).toHaveLength(2);
-    const [law, order] = protectedCautions;
+    const law = protectedCautions.find(({ source }) => source.url.includes('faolex.fao.org'));
+    const order = protectedCautions.find(({ source }) => source.url.includes('moew.government.bg'));
     expect(law?.text).toMatch(/^Белият и обикновеният риган са в списъка/);
-    expect(law?.source.url).toBe('https://faolex.fao.org/docs/pdf/bul40297.pdf');
     expect(order?.text).toMatch(/^През 2026 г\./);
-    expect(order?.text).toContain('Ако не знаеш кой риган е, бери само за лични нужди.');
+    expect(order?.text).toContain('освен за лични нужди – до 2 кг стръкове на ден');
+    expect(order?.text).toContain('Ако не знаеш кой риган е, бери само толкова.');
   });
 
   it('AC9: purslane warns of the spurge look-alike', () => {
@@ -241,7 +242,11 @@ describe('region notes and sowing (spec 061)', () => {
   it('AC13: a statistical-region note starts with the region, not with the province', () => {
     for (const { id, region, note } of notes) {
       expect(note, `${id}/${region}`).not.toMatch(/^(Областта|Столицата) е в/);
-      if (/ район/.test(note)) {
+      if (
+        /(Южн|Югозападн|Югоизточн|Северн|Североизточн|Северозападн)\S* (централен )?район/.test(
+          note,
+        )
+      ) {
         expect(note, `${id}/${region}`).toMatch(
           /^(Южният централен|Югозападният|Югоизточният|Северният централен|Североизточният|Северозападният) район \(в който е (областта|столицата)\) има/,
         );

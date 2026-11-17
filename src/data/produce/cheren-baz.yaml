@@ -2,7 +2,7 @@ name: Черен бъз
 latinName: Sambucus nigra
 kind: fruit
 group: meshkovitsovi
-summary: 'Черният бъз (свирчовина) цъфти в края на пролетта, а беритбата на плодовете започва в средата на август. Зелените плодчета не се берат.'
+summary: 'Черният бъз (свирчовина) цъфти в края на пролетта, а плодовете се берат през август – от средата на месеца. Зелените плодчета не се берат.'
 wild: true
 season:
   - { month: 8, level: peak }
@@ -25,7 +25,13 @@ cautions:
       url: https://lbtufb.lbtu.lv/conference/Research-for-Rural-Development/2024/LBTU_LatviaResRuralDev_30th_2024-67-72.pdf
       lang: en
   - kind: look-alike
-    text: 'Не го бъркай с бъзака: той е тревисто растение до 2 м и цъфти през юни–юли, а черният бъз е дърво до 3–5 м, цъфтящо в края на пролетта.'
+    text: 'Бъзакът (Sambucus ebulus) е отровно растение – заради токсичността му употребата му като храна е ограничена.'
+    source:
+      name: 'Jiménez, Tejero, Cordoba-Diaz et al. (2015), Ebulin from dwarf elder (Sambucus ebulus L.): a mini-review, Toxins 7(3)'
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC4379516/
+      lang: en
+  - kind: look-alike
+    text: 'Не го бъркай с бъзака (Sambucus ebulus): той е тревисто растение до 2 м и цъфти през юни–юли, а черният бъз е дърво до 3–5 м, цъфтящо в края на пролетта.'
     source:
       name: 'Български фермер – Бъз за красота и здраве'
       url: https://www.bgfermer.bg/article/7636932
