@@ -42,14 +42,14 @@ describe('YearStrip (spec 024)', () => {
     expect(html).toMatch(/data-month="11"[^>]*>(?:(?!data-month)[\s\S])*year-strip__current/);
   });
 
-  it('AC1: has a text alternative listing the months of each level', async () => {
+  it('AC1 (spec 062): has a text alternative that starts with „През годината:“ and lists the months of each level', async () => {
     const html = await render(YearStrip, { produce, current: Month.of(11) });
     expect(html).toMatch(/<svg[^>]*role="img"/);
     expect(html).toContain(
-      '<title>Разгар: септември – октомври; В сезон: август; От хранилище: декември – март</title>',
+      '<title>През годината: Разгар: септември – октомври; В сезон: август; От хранилище: декември – март</title>',
     );
     expect(html).toContain(
-      'aria-label="Разгар: септември – октомври; В сезон: август; От хранилище: декември – март"',
+      'aria-label="През годината: Разгар: септември – октомври; В сезон: август; От хранилище: декември – март"',
     );
   });
 });
