@@ -14,9 +14,9 @@ describe('feedStylesheet (spec 059)', () => {
     expect(root.namespaceURI).toBe(XSL_NAMESPACE);
     expect(root.localName).toBe('stylesheet');
     expect(root.getAttribute('version')).toBe('1.0');
-    expect(doc.getElementsByTagNameNS(XSL_NAMESPACE, 'output')[0]?.getAttribute('method')).toBe(
-      'html',
-    );
+    const output = [...root.children].find((child) => child.localName === 'output');
+    expect(output?.namespaceURI).toBe(XSL_NAMESPACE);
+    expect(output?.getAttribute('method')).toBe('html');
   });
 
   it('AC16: explains RSS in Bulgarian and lists the items', () => {

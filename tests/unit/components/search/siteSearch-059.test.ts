@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { initSiteSearch } from '@components/search/siteSearch';
+import { initSiteSearch, withoutLatinLabel } from '@components/search/siteSearch';
 
 interface FakeResult {
   url: string;
@@ -58,6 +58,13 @@ beforeEach(() => {
 });
 
 describe('site search (spec 059)', () => {
+  it('AC11: removes the end of the Latin label when the excerpt starts inside it', () => {
+    expect(withoutLatinLabel('biotiful. <mark>Ферма</mark> Biotiful', 'ferma biotiful')).toBe(
+      '<mark>Ферма</mark> Biotiful',
+    );
+    expect(withoutLatinLabel('<mark>ferma</mark> biotiful. Ферма', 'ferma biotiful')).toBe('Ферма');
+  });
+
   it('AC9: sends the normalised query to Pagefind and keeps the typed one in the status and URL', async () => {
     const parts = mount();
     const api = fakePagefind([
@@ -123,6 +130,39 @@ describe('site search (spec 059)', () => {
     await vi.waitFor(() => expect(parts.list.querySelectorAll('a')).toHaveLength(25));
     expect(parts.status.textContent).toBe('Показани са 25 от 25.');
     expect(parts.more.hidden).toBe(true);
+  });
+
+  it('AC12: puts a list page whose heading matches the query before the other results', async () => {
+    const parts = mount();
+    parts.root.dataset.hubType = 'Раздел';
+    const farm = { ...page(1), id: 'farm-1' };
+    const hub: FakeResult & { id: string } = {
+      id: 'fermi',
+      url: '/fermi.html',
+      excerpt: 'Местни <mark>ферми</mark>',
+      content: 'Местни ферми. Ферми, които продават направо на теб.',
+      meta: { title: 'Местни ферми', latin: 'mestni fermi', type: 'Раздел' },
+    };
+    const other = {
+      ...hub,
+      id: 'katalog',
+      url: '/katalog.html',
+      meta: { title: 'Каталог', type: 'Раздел' },
+    };
+    const api = {
+      init: async () => undefined,
+      search: vi.fn(async (...args: [string, { filters?: Record<string, string> }?]) => ({
+        results: (args[1]?.filters === undefined ? [farm, other, hub] : [other, hub]).map(
+          (result) => ({ id: result.id, data: async () => result }),
+        ),
+      })),
+    };
+    initSiteSearch(parts.root, async () => api);
+    await submit(parts, 'ферма');
+    expect(api.search).toHaveBeenCalledWith('ферм', { filters: { type: 'Раздел' } });
+    const hrefs = [...parts.list.querySelectorAll('a')].map((link) => link.getAttribute('href'));
+    expect(hrefs).toEqual(['/fermi', '/fermi/ferma-1', '/katalog']);
+    expect(parts.status.textContent).toBe('Резултати: 3 за „ферма“.');
   });
 
   it('AC14: a new query resets the list and hides „Покажи още“ when everything is shown', async () => {

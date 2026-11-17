@@ -1,7 +1,8 @@
 import { expect, test } from '@playwright/test';
 import { expectNoAxeViolations } from './a11y';
 
-const FIRST_ROWS = 10;
+/** Rows on the first 390 × 844 screen, after the month links, intro and legend (spec 059). */
+const FIRST_ROWS = 3;
 const LEGEND = [
   'Разгар прясно от полето',
   'В сезон бере се в България сега',
@@ -14,7 +15,9 @@ const BUILD_MONTH = new Intl.DateTimeFormat('bg-BG', {
 }).format(new Date());
 
 test.describe('season stamp and in-season list (spec 024)', () => {
-  test('AC4: the home page opens on the in-season list', async ({ page }) => {
+  test('AC4 (amended by spec 059 AC2): the home page shows the first in-season rows on the first screen', async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);

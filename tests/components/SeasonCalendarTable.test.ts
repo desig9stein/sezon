@@ -40,7 +40,7 @@ describe('SeasonCalendarTable', () => {
     expect(html).toMatch(
       /<h2[^>]*id="kalendar-plodove"[^>]*>\s*<a href="\/plodove"[^>]*>Плодове<\/a>/,
     );
-    expect(html).toMatch(/<caption[^>]*>Плодове по месеци<\/caption>/);
+    expect(html).toMatch(/<caption[^>]*>\s*Плодове по месеци\s*<\/caption>/);
     expect(html).toMatch(
       /<th[^>]*scope="row"[^>]*>\s*<a href="\/zelenchutsi\/zele"[^>]*>Зеле<\/a>/,
     );

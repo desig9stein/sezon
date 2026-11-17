@@ -136,7 +136,16 @@ describe('initSiteSearch', () => {
       init: async () => undefined,
       search: vi.fn(async (query: string) => {
         if (query === 'бавен') await slow;
-        return { results: [{ data: async () => ({ ...APPLE, meta: { title: query } }) }] };
+        return {
+          results: [
+            {
+              data: async () => ({
+                ...APPLE,
+                meta: { title: query === 'бавен' ? 'бавен' : 'круши' },
+              }),
+            },
+          ],
+        };
       }),
     };
     initSiteSearch(parts.root, async () => api);

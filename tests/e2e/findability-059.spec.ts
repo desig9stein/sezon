@@ -103,11 +103,12 @@ test.describe('findability (spec 059)', () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
-    const boxes = await page
-      .locator('.site-header__nav a')
-      .evaluateAll((links) =>
-        links.map((link) => ({ top: link.getBoundingClientRect().top, height: link.offsetHeight })),
-      );
+    const boxes = await page.locator('.site-header__nav a').evaluateAll((links) =>
+      links.map((link) => ({
+        top: link.getBoundingClientRect().top,
+        height: link.getBoundingClientRect().height,
+      })),
+    );
     expect(boxes).toHaveLength(5);
     expect(new Set(boxes.map((box) => Math.round(box.top))).size).toBe(1);
     for (const box of boxes) expect(box.height).toBeGreaterThanOrEqual(44);
