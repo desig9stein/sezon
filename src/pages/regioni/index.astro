@@ -1,5 +1,9 @@
 ---
 import { routes } from '@components/layout/routes';
+import {
+  searchBodyAttributes,
+  searchHubHeadingAttributes,
+} from '@components/search/searchAttributes';
 import ProvinceMap from '@components/produce/ProvinceMap.astro';
 import { regionPagesQuery } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
@@ -32,8 +36,10 @@ const jsonLd = [
   ]}
   jsonLd={jsonLd}
 >
-  <h1>{labels.heading}</h1>
-  <p class="regions__intro">{labels.intro}</p>
+  <div {...searchBodyAttributes(ui.search.types.section)}>
+    <h1 {...searchHubHeadingAttributes(labels.heading)}>{labels.heading}</h1>
+    <p class="regions__intro">{labels.intro}</p>
+  </div>
   <ProvinceMap
     regions={withPages}
     links={withPages.map((region) => ({ region, href: routes.region(region.slug) }))}

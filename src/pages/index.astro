@@ -1,5 +1,5 @@
 ---
-import { routes } from '@components/layout/routes';
+import { MONTHS_STRIP_ID, routes } from '@components/layout/routes';
 import SeasonLegend from '@components/season/SeasonLegend.astro';
 import SeasonList from '@components/season/SeasonList.astro';
 import SeasonOverview from '@components/season/SeasonOverview.astro';
@@ -8,13 +8,14 @@ import { siteOgCard } from '@components/seo/ogImage';
 import { buildMonth } from '@composition/clock';
 import { seasonOverviewService } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
-import { monthNameLower, ui } from '@i18n/bg';
+import { monthName, monthNameLower, ui } from '@i18n/bg';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { websiteJsonLd } from '@shared/seo';
 
 const siteUrl = requireSiteUrl(Astro.site);
 const overview = await seasonOverviewService.overviewFor(buildMonth);
 const nextMonth = buildMonth.next();
+const previousMonth = buildMonth.previous();
 const itemList = freshProduceItemList(overview, siteUrl);
 ---
 
@@ -37,14 +38,35 @@ const itemList = freshProduceItemList(overview, siteUrl);
     <span class="home-heading__lead">{ui.home.headingLead}</span>
     <span class="home-heading__month">{monthNameLower(buildMonth)}</span>
   </h1>
+  <nav class="home-months" aria-label={ui.monthPager.label}>
+    <ul role="list">
+      <li>
+        <a href={routes.month(previousMonth)} rel="prev">
+          <span class="visually-hidden">{ui.monthPager.previous}:</span>
+          <span aria-hidden="true">←</span>
+          {monthName(previousMonth)}
+        </a>
+      </li>
+      <li>
+        <a href={routes.month(nextMonth)} rel="next">
+          <span class="visually-hidden">{ui.monthPager.next}:</span>
+          {monthName(nextMonth)}
+          <span aria-hidden="true">→</span>
+        </a>
+      </li>
+      <li>
+        <a href={`#${MONTHS_STRIP_ID}`}>{ui.home.allMonths}</a>
+      </li>
+    </ul>
+  </nav>
+  <p class="home-intro">{ui.home.intro}</p>
+  <SeasonLegend />
   <SeasonList
     overview={overview}
     heading={ui.seasonList.countHeading(
       overview.peak.length + overview.available.length + overview.storage.length,
     )}
   />
-  <SeasonLegend />
-  <p class="home-intro">{ui.home.intro}</p>
   <SeasonOverview overview={overview} groups={['comingSoon']} stripMonth={buildMonth} />
   <ul class="more-links" role="list">
     <li>
@@ -79,10 +101,32 @@ const itemList = freshProduceItemList(overview, siteUrl);
     overflow-wrap: anywhere;
   }
 
+  .home-months ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-4);
+    padding: 0;
+    list-style: none;
+    font-size: var(--font-size-sm);
+  }
+
+  .home-months a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25em;
+    min-height: var(--target-min);
+    font-weight: 600;
+  }
+
   .home-intro {
     max-width: var(--reading-width);
-    margin-top: var(--space-6);
+    margin-top: var(--space-2);
     color: var(--color-text-muted);
+  }
+
+  .home-intro + :global(.season-legend) {
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-6);
   }
 
   .more-links {

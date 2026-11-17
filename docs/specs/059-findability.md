@@ -101,7 +101,7 @@ home page contradiction („Няма данни за този месец.“ und
      - light Bulgarian stemming of Cyrillic words, because Pagefind has no Bulgarian stemmer (the
        build reports „Pagefind doesn't support stemming for the language bg“): a word of at least
        6 letters ending in „ите“ loses it, a word of at least 5 letters ending in „ът“ or „ят“
-       loses it, and then a word of at least 4 letters ending in a vowel (а, я, е, и, о, у, ъ, ю)
+       loses it, and then a word of at least 5 letters ending in a vowel (а, я, е, и, о, у, ъ, ю)
        loses that vowel. Pagefind's prefix matching then finds both forms („ябълка“ → „ябълк“
        matches „ябълки“ and „ябълка“). Latin words are left alone.
    - **Relevance guard:** when no indexed word starts with a query word, Pagefind 1.5 falls back to
@@ -117,7 +117,7 @@ home page contradiction („Няма данни за този месец.“ und
    - After the intro, a `nav` „Ферми по области“ with one link per province that has farms
      („Пловдив (3)“) to its section.
    - One `section` per province, in Bulgarian alphabetical order of the province name, with an
-     `h2` (the region's place name, e.g. „Област Пловдив“, `id="oblast-<slug>"`), a link to the
+     `h2` (the region's place name, e.g. „Пловдив“, „Софийска област“, `id="oblast-<slug>"`), a link to the
      region page, and the farm cards (`h3` names). The flat „Сертифицирани био ферми“ / „Други
      ферми“ grouping does not apply here; certified farms keep their badge on the card.
    - Farm cards show the province first in the meta line, in `text` colour at weight 600.
@@ -155,8 +155,8 @@ No new entities. New pure functions and one read-model method:
 - `FarmPagesQuery.byRegion(on)`: farms grouped by region,
   `ReadonlyArray<{ region; farms: ReadonlyArray<FarmWithRegion> }>`, regions in Bulgarian
   alphabetical order of their name, farms in name order; regions without farms are absent.
-- `hasAnyProduce(overview)` (catalog application, exported): `true` when any of the four overview
-  groups has produce.
+- `SeasonOverview` (component) decides emptiness from all four overview groups, not from the
+  selected ones.
 
 ## 5. Behaviour and edge cases
 
@@ -164,7 +164,7 @@ No new entities. New pure functions and one read-model method:
   inside words is kept (Pagefind tokenises it). The homoglyph rule applies only right after a
   vitamin word, so „ябълки с мед“ keeps its Cyrillic „с“. Stemming applies only to words in
   Cyrillic script. „ябълки“ → „ябълк“, „ферма“ → „ферм“, „рецепта“ → „рецепт“, „доматите“ →
-  „домат“, „гъби“ → „гъб“, „март“ → „март“, „праз“ → „праз“, „yabalki“ → „yabalki“.
+  „домат“, „гъби“ → „гъби“ (four letters, kept, so it does not match „гъбата“ on the chestnut page), „дюля“ → „дюля“, „март“ → „март“, „праз“ → „праз“, „yabalki“ → „yabalki“.
 - The search sends the normalised words joined by spaces to Pagefind; the status and the URL keep
   the query as typed.
 - Relevance guard uses the first result's `content` plus its `title` and `latin` metadata.

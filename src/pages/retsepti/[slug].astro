@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { routes } from '@components/layout/routes';
+import { searchBodyAttributes, searchHeadingAttributes } from '@components/search/searchAttributes';
 import SourceList from '@components/produce/SourceList.astro';
 import { recipePagesQuery, recipeRepository } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
@@ -64,9 +65,9 @@ const facts = [
   ]}
   jsonLd={jsonLd}
 >
-  <article class="recipe">
+  <article class="recipe" {...searchBodyAttributes(ui.search.types.recipe)}>
     <header class="recipe__header">
-      <h1>{recipe.name}</h1>
+      <h1 {...searchHeadingAttributes(recipe.name)}>{recipe.name}</h1>
       <p class="recipe__meta">
         {labels.facts.category}: {category}
       </p>

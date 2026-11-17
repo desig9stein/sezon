@@ -1,6 +1,6 @@
 import rss from '@astrojs/rss';
 import type { APIRoute } from 'astro';
-import { FEED_MEDIA_TYPE } from '@components/layout/routes';
+import { FEED_MEDIA_TYPE, routes } from '@components/layout/routes';
 import { monthlyFeedChannel, monthlyFeedItems } from '@components/season/monthlyFeed';
 import { BUILD_DATE } from '@composition/clock';
 import { seasonOverviewService } from '@composition/index';
@@ -11,7 +11,8 @@ import { escapeXml } from '@shared/seo';
 const ATOM_NAMESPACE = 'http://www.w3.org/2005/Atom';
 
 /**
- * Generates `/rss.xml`: an RSS 2.0 feed with one item per month page. Each item's guid goes in its
+ * Generates `/rss.xml`: an RSS 2.0 feed with one item per month page, with the XSL stylesheet that
+ * renders it as a page in browsers (spec 059). Each item's guid goes in its
  * `customData`, which replaces the permalink guid `@astrojs/rss` derives from the link.
  */
 export const GET: APIRoute = async ({ site }) => {
@@ -29,6 +30,7 @@ export const GET: APIRoute = async ({ site }) => {
       customData: `<guid isPermaLink="false">${escapeXml(guid)}</guid>`,
     })),
     xmlns: { atom: ATOM_NAMESPACE },
+    stylesheet: routes.feedStylesheet,
     customData: `<language>${channel.language}</language><atom:link href="${escapeXml(channel.selfUrl)}" rel="self" type="${FEED_MEDIA_TYPE}"/>`,
   });
 };

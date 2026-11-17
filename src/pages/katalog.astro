@@ -1,5 +1,9 @@
 ---
 import { routes } from '@components/layout/routes';
+import {
+  searchBodyAttributes,
+  searchHubHeadingAttributes,
+} from '@components/search/searchAttributes';
 import { catalogIndexService } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
 import { ui } from '@i18n/bg';
@@ -36,8 +40,10 @@ const jsonLd = [
   ]}
   jsonLd={jsonLd}
 >
-  <h1>{labels.heading}</h1>
-  <p class="catalog__intro">{labels.intro}</p>
+  <div {...searchBodyAttributes(ui.search.types.section)}>
+    <h1 {...searchHubHeadingAttributes(labels.heading)}>{labels.heading}</h1>
+    <p class="catalog__intro">{labels.intro}</p>
+  </div>
 
   <section aria-labelledby="catalog-sections">
     <h2 class="section-heading" id="catalog-sections">

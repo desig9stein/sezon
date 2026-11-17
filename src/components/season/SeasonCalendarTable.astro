@@ -1,16 +1,17 @@
 ---
 import { routes } from '@components/layout/routes';
 import ScrollTable from '@components/ui/ScrollTable.astro';
-import type { SeasonCalendar } from '@contexts/catalog';
+import type { ProduceKind, SeasonCalendar } from '@contexts/catalog';
 import { Month, SeasonLevel } from '@contexts/seasonality';
 import { ui } from '@i18n/bg';
 import LevelMark from './LevelMark.astro';
 import MonthAbbr from './MonthAbbr.astro';
 
 /**
- * Year-at-a-glance table of every produce against the 12 months, grouped by kind. Each cell shows
- * the level mark (decorative) and the level text (visually hidden); a legend explains the marks.
- * An empty calendar renders the empty message instead.
+ * Year-at-a-glance calendar of every produce against the 12 months: a legend, a jump list to the
+ * kinds, then one section per kind with an `h2` and its own table (spec 059). Each cell shows the
+ * level mark (decorative) and the level text (visually hidden). The tables share fixed column
+ * widths so they line up. An empty calendar renders the empty message instead.
  */
 interface Props {
   calendar: SeasonCalendar;
@@ -20,7 +21,8 @@ interface Props {
 const { calendar, currentMonth } = Astro.props;
 const labels = ui.calendar;
 const months = Month.all();
-const captionId = 'season-calendar-caption';
+const sectionId = (kind: ProduceKind) => `kalendar-${routes.produceSection(kind)}`;
+const captionId = (kind: ProduceKind) => `${sectionId(kind)}-caption`;
 const levelLabel = (level: SeasonLevel | undefined) =>
   level === undefined ? ui.produce.outOfSeason : ui.seasonLevels[level.value];
 const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, undefined];
@@ -37,48 +39,59 @@ const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, un
         </li>
       ))}
     </ul>
-    <ScrollTable captionId={captionId}>
-      <table class="year">
-        <caption id={captionId}>{labels.caption}</caption>
-        <thead>
-          <tr>
-            <th scope="col">{labels.produceColumn}</th>
-            {months.map((month) => (
-              <th scope="col" aria-current={month === currentMonth ? 'date' : undefined}>
-                <span>
-                  <MonthAbbr month={month} />
-                </span>
-              </th>
-            ))}
-          </tr>
-        </thead>
+    <nav class="calendar-toc" aria-label={labels.toc}>
+      <ul role="list">
         {calendar.groups.map((group) => (
-          <tbody>
-            <tr>
-              <th scope="rowgroup" colspan={months.length + 1}>
-                <a href={routes.section(group.kind)}>{ui.sections.names[group.kind]}</a>
-              </th>
-            </tr>
-            {group.produce.map((produce) => (
-              <tr>
-                <th scope="row">
-                  <a href={routes.produce(produce)}>{produce.name}</a>
-                </th>
-                {months.map((month) => {
-                  const level = produce.levelIn(month);
-                  return (
-                    <td data-level={level?.value ?? 'none'}>
-                      <LevelMark level={level} />
-                      <span class="visually-hidden">{levelLabel(level)}</span>
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
+          <li>
+            <a href={`#${sectionId(group.kind)}`}>{ui.sections.names[group.kind]}</a>
+          </li>
         ))}
-      </table>
-    </ScrollTable>
+      </ul>
+    </nav>
+    {calendar.groups.map((group) => (
+      <section class="calendar-kind" aria-labelledby={sectionId(group.kind)}>
+        <h2 id={sectionId(group.kind)}>
+          <a href={routes.section(group.kind)}>{ui.sections.names[group.kind]}</a>
+        </h2>
+        <ScrollTable captionId={captionId(group.kind)}>
+          <table class="year">
+            <caption id={captionId(group.kind)}>
+              {labels.kindCaption(ui.sections.names[group.kind])}
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">{labels.produceColumn}</th>
+                {months.map((month) => (
+                  <th scope="col" aria-current={month === currentMonth ? 'date' : undefined}>
+                    <span>
+                      <MonthAbbr month={month} />
+                    </span>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {group.produce.map((produce) => (
+                <tr>
+                  <th scope="row">
+                    <a href={routes.produce(produce)}>{produce.name}</a>
+                  </th>
+                  {months.map((month) => {
+                    const level = produce.levelIn(month);
+                    return (
+                      <td data-level={level?.value ?? 'none'}>
+                        <LevelMark level={level} />
+                        <span class="visually-hidden">{levelLabel(level)}</span>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </ScrollTable>
+      </section>
+    ))}
   </>
 )}
 
@@ -93,8 +106,36 @@ const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, un
     color: var(--color-text-muted);
   }
 
+  .calendar-toc ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-6);
+    padding: 0;
+    list-style: none;
+  }
+
+  .calendar-toc a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    font-weight: 600;
+  }
+
+  .calendar-kind {
+    margin-top: var(--space-6);
+  }
+
+  .calendar-kind h2 {
+    margin-bottom: var(--space-2);
+  }
+
   .year {
     min-width: 40rem;
+    table-layout: fixed;
+  }
+
+  .year th[scope='col']:first-child {
+    width: 10rem;
   }
 
   .year th[scope='row'] {
@@ -111,12 +152,6 @@ const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, un
   .year th[aria-current='date'] {
     color: var(--color-accent-text);
     background: var(--color-accent);
-  }
-
-  .year th[scope='rowgroup'] {
-    padding-top: var(--space-4);
-    font-size: var(--font-size-lg);
-    font-weight: 700;
   }
 
   .year td {
@@ -167,14 +202,27 @@ const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, un
       break-inside: avoid;
     }
 
-    .year tr:has(th[scope='rowgroup']) {
+    .calendar-toc {
+      display: none;
+    }
+
+    .calendar-kind {
+      margin-top: var(--print-gap);
+    }
+
+    .calendar-kind h2 {
+      margin-bottom: 0;
+      font-size: var(--print-heading-font-size);
       break-after: avoid;
+    }
+
+    .calendar-kind h2 a {
+      color: var(--print-ink);
     }
 
     .year th,
     .year td,
     .year th[scope='row'],
-    .year th[scope='rowgroup'],
     .year th[aria-current='date'],
     .year td[data-level] {
       padding: var(--print-cell-padding);
@@ -184,10 +232,6 @@ const legend = [SeasonLevel.PEAK, SeasonLevel.AVAILABLE, SeasonLevel.STORAGE, un
 
     .year th[aria-current='date'] {
       text-decoration: underline;
-    }
-
-    .year th[scope='rowgroup'] {
-      font-size: var(--print-heading-font-size);
     }
   }
 </style>

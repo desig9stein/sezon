@@ -17,6 +17,9 @@ const RECIPES_PREFIX = '/retsepti';
 const OG_IMAGES_PREFIX = '/og';
 const OG_IMAGE_EXTENSION = '.png';
 
+/** Id of the footer's month strip, the target of „Всички месеци“ links (spec 059). */
+export const MONTHS_STRIP_ID = 'mesetsi';
+
 /** Media type of the RSS feed at `routes.feed`. */
 export const FEED_MEDIA_TYPE = 'application/rss+xml';
 
@@ -34,6 +37,8 @@ export const routes = {
   calendar: '/kalendar',
   search: '/tarsene',
   feed: '/rss.xml',
+  /** XSL stylesheet that renders the feed as a page in browsers (spec 059). */
+  feedStylesheet: '/rss.xsl',
   farms: FARMS_PREFIX,
   farm: (slug: string) => `${FARMS_PREFIX}/${slug}`,
   regions: REGIONS_PREFIX,
@@ -65,8 +70,6 @@ export const CATALOG_AREAS: ReadonlyArray<string> = [
   GROUPS_PREFIX,
   NUTRIENTS_PREFIX,
   REGIONS_PREFIX,
-  FARMS_PREFIX,
-  RECIPES_PREFIX,
 ];
 
 /** Path prefixes of the pages the main navigation counts as part of the calendar. */

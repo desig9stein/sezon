@@ -1,6 +1,10 @@
 ---
 import { routes } from '@components/layout/routes';
-import FarmList from '@components/produce/FarmList.astro';
+import FarmCard from '@components/produce/FarmCard.astro';
+import {
+  searchBodyAttributes,
+  searchHubHeadingAttributes,
+} from '@components/search/searchAttributes';
 import { BUILD_DATE } from '@composition/clock';
 import { farmPagesQuery } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
@@ -10,7 +14,9 @@ import { collectionPageJsonLd } from '@shared/seo';
 
 const labels = ui.farms;
 const path = routes.farms;
-const farms = await farmPagesQuery.all(BUILD_DATE);
+const groups = await farmPagesQuery.byRegion(BUILD_DATE);
+const farms = groups.flatMap((group) => group.farms);
+const sectionId = (slug: string) => `oblast-${slug}`;
 const jsonLd = [
   collectionPageJsonLd({
     siteUrl: requireSiteUrl(Astro.site),
@@ -32,14 +38,39 @@ const jsonLd = [
   ]}
   jsonLd={jsonLd}
 >
-  <h1>{labels.heading}</h1>
-  <p class="farms__intro">{labels.intro}</p>
-  <section aria-labelledby="farms-list">
-    <h2 class="section-heading" id="farms-list">
-      {labels.listHeading(farms.length)}
-    </h2>
-    <FarmList farms={farms} />
-  </section>
+  <div {...searchBodyAttributes(ui.search.types.section)}>
+    <h1 {...searchHubHeadingAttributes(labels.heading)}>{labels.heading}</h1>
+    <p class="farms__intro">{labels.intro}</p>
+  </div>
+  <nav class="farms__regions" aria-label={labels.byRegionLabel}>
+    <ul role="list">
+      {groups.map(({ region, farms: regionFarms }) => (
+        <li>
+          <a href={`#${sectionId(region.slug)}`}>
+            {labels.regionCount(ui.regions.placeName(region.name), regionFarms.length)}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+  {groups.map(({ region, farms: regionFarms }) => (
+    <section class="farms__region" aria-labelledby={sectionId(region.slug)}>
+      <h2 class="section-heading" id={sectionId(region.slug)}>
+        {ui.regions.placeName(region.name)}
+      </h2>
+      <p>
+        <a href={routes.region(region.slug)}>{labels.regionPageLink(region.name)}</a>
+      </p>
+      <ul class="farms" role="list">
+        {regionFarms.map((entry) => (
+          <FarmCard {...entry} headingLevel={3} currentRegionSlug={region.slug} />
+        ))}
+      </ul>
+    </section>
+  ))}
+  <p class="farms__add">
+    <a href={routes.addFarm}>{ui.produce.farms.addFarmLink}</a>
+  </p>
 </BaseLayout>
 
 <style>
@@ -49,6 +80,38 @@ const jsonLd = [
 
   .farms__intro {
     max-width: var(--reading-width);
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-4);
+  }
+
+  .farms__regions ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-4);
+    padding: 0;
+    list-style: none;
+  }
+
+  .farms__regions a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    font-weight: 600;
+  }
+
+  .farms__region {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .farms {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-4);
+    padding: 0;
+    list-style: none;
+  }
+
+  .farms__add {
+    margin-top: var(--space-8);
   }
 </style>
