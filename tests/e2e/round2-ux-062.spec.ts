@@ -167,6 +167,8 @@ test.describe('wild plants (spec 062)', () => {
     await expect(page.locator(`a[href="${AUGUST}#divorastyashti"]`)).toHaveCount(1);
     await expect(page.locator('nav a[href^="/sezon/"][href$="#divorastyashti"]')).toHaveCount(12);
     await expectNoAxeViolations(page);
+    await page.emulateMedia({ colorScheme: 'dark' });
+    await expectNoAxeViolations(page);
   });
 
   test('AC9: the wild tag links the list on wild produce pages only', async ({ page }) => {
