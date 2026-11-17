@@ -45,6 +45,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Peaches, yellow, raw'
     url: https://fdc.nal.usda.gov/food-details/169928/nutrients
+    lang: en
 preparation:
   - method: Пресни
     tip: Измий ги добре и ги яж с кората или я обели, ако мъхът ти пречи.

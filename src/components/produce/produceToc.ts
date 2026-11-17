@@ -21,21 +21,27 @@ export function hasEatContent(produce: Produce, recipeCount: number): boolean {
   );
 }
 
+/** How many recipes use a produce and how many farms sell it. */
+export interface ProduceCounts {
+  readonly recipes: number;
+  readonly farms: number;
+}
+
 /**
  * Returns the table of contents of a produce page in page order, leaving out each part the page
- * does not render: the cautions without any (spec 055), the eating group without nutrition,
- * preparation, traditional uses or recipes, the growing group without a guide and the questions
- * without any.
- * @param recipeCount - Number of recipes that use the produce.
+ * does not render or that would be empty: the cautions without any (spec 055), the eating group
+ * without nutrition, preparation, traditional uses or recipes, the growing group without a guide,
+ * the farms without a farm (spec 060) and the questions without any.
+ * @param counts - Recipes that use the produce and farms that sell it.
  */
-export function produceToc(produce: Produce, recipeCount: number): ReadonlyArray<TocEntry> {
+export function produceToc(produce: Produce, counts: ProduceCounts): ReadonlyArray<TocEntry> {
   const headings = ui.produce.headings;
   return [
     { id: 'stall', label: headings.stall },
     ...(produce.cautions.length > 0 ? [{ id: 'cautions', label: headings.cautions }] : []),
-    ...(hasEatContent(produce, recipeCount) ? [{ id: 'eat', label: headings.eat }] : []),
+    ...(hasEatContent(produce, counts.recipes) ? [{ id: 'eat', label: headings.eat }] : []),
     ...(produce.growing === undefined ? [] : [{ id: 'grow', label: headings.grow }]),
-    { id: 'farms', label: headings.farms },
+    ...(counts.farms > 0 ? [{ id: 'farms', label: headings.farms }] : []),
     ...(produce.faq.length > 0 ? [{ id: 'faq', label: headings.faq }] : []),
     { id: 'sources', label: headings.sources },
   ];

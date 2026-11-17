@@ -24,6 +24,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Cauliflower, raw'
     url: https://fdc.nal.usda.gov/food-details/169986/nutrients
+    lang: en
 preparation:
   - method: Сурово
     tip: Нарежи розичките на тънко в салата – така не губиш витамин C при готвене.

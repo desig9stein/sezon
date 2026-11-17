@@ -55,6 +55,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Potatoes, flesh and skin, raw'
     url: https://fdc.nal.usda.gov/food-details/170026/nutrients
+    lang: en
 preparation:
   - method: С кората
     tip: Свари или изпечи картофите неочистени – кората пази част от витамин C и калия.

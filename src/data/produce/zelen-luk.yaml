@@ -23,6 +23,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Onions, spring or scallions (includes tops and bulb), raw'
     url: https://fdc.nal.usda.gov/food-details/170005/nutrients
+    lang: en
 preparation:
   - method: Суров
     tip: Нарязвай го непосредствено преди сервиране – суровият лук запазва витамин C.

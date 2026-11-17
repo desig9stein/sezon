@@ -26,4 +26,5 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Arugula, raw'
     url: https://fdc.nal.usda.gov/food-details/169387/nutrients
+    lang: en
 updatedAt: 2026-11-13

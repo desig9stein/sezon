@@ -25,16 +25,22 @@ safety:
   sources:
     - name: 'National Center for Home Food Preservation – Plum Preserves'
       url: https://nchfp.uga.edu/how/make-jam-jelly/preserves/plum-preserves/
+      lang: en
     - name: 'National Center for Home Food Preservation – General Information on Canning Jams, Jellies, and Marmalades'
       url: https://nchfp.uga.edu/how/make-jam-jelly/jams-jellies-general-information/general-information-on-canning-jams-jellies-and-marmalades/
+      lang: en
     - name: 'National Center for Home Food Preservation – Using Boiling Water Canners'
       url: https://nchfp.uga.edu/publications/uga-publications/using-boiling-water-canners
+      lang: en
     - name: 'National Center for Home Food Preservation – Recommended Jars and Lids'
       url: https://nchfp.uga.edu/how/can/general-information/recommended-jars-and-lids/
+      lang: en
     - name: 'National Center for Home Food Preservation – Sterilization of Empty Jars'
       url: https://nchfp.uga.edu/how/can/general-information/sterilization-of-empty-jars/
+      lang: en
     - name: 'National Center for Home Food Preservation – Storing Home-Canned Jams and Jellies'
       url: https://nchfp.uga.edu/how/make-jam-jelly/jams-jellies-general-information/storing-home-canned-jams-and-jellies/
+      lang: en
 sources:
   - name: 'Български фермер – Сладко за зимни дни и вечери (и не само)'
     url: https://www.bgfermer.bg/Article/10249570

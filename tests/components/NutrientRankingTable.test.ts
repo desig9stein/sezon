@@ -74,7 +74,9 @@ describe('NutrientRankingTable', () => {
     expect(html).toContain('Извън сезона');
     expect(html.indexOf('Зеле')).toBeLessThan(html.indexOf('Праз'));
     expect(html.indexOf('Праз')).toBeLessThan(html.indexOf('Моркови'));
-    expect(html).toMatch(/<div[^>]*role="region"[^>]*tabindex="0"/);
+    expect(html).toMatch(
+      /<section[^>]*aria-label="Таблица с хоризонтално превъртане"[^>]*tabindex="0"/,
+    );
   });
 
   it('QA 011: shows one decimal when the rounded percent would reach a claim threshold', async () => {

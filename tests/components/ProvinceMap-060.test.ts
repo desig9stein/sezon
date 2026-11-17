@@ -13,11 +13,11 @@ const svgOf = (html: string) => /<svg[\s\S]*<\/svg>/.exec(html)?.[0] ?? '';
 const anchorsOf = (svg: string) => [...svg.matchAll(/<a\b[^>]*>/g)].map((match) => match[0]);
 
 describe('ProvinceMap keyboard path (spec 060)', () => {
-  it('AC8: with the list as the keyboard path, the map is an image with hidden, untabbable links', async () => {
+  it('AC8: with the list as the keyboard path, the map links are hidden and untabbable', async () => {
     const svg = svgOf(
       await render(ProvinceMap, { regions: [plovdiv], links, keyboardPath: 'list' }),
     );
-    expect(svg).toMatch(/^<svg[^>]*role="img"/);
+    expect(svg).toMatch(/^<svg[^>]*role="group"[^>]*aria-labelledby=/);
     const anchors = anchorsOf(svg);
     expect(anchors).toHaveLength(2);
     for (const anchor of anchors) expect(anchor).toContain('tabindex="-1"');

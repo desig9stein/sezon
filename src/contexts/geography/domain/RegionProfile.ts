@@ -1,3 +1,4 @@
+import type { SourceLanguage } from '@shared/domain/sourceLanguage';
 import { isHttpsUrl } from '@shared/domain/contact';
 import { InvalidRegionProfileError } from '@shared/domain/errors';
 import { frozenRecords } from '@shared/domain/freeze';
@@ -9,6 +10,8 @@ export const MAX_TOP_FRUITS = 2;
 export interface RegionSource {
   readonly name: string;
   readonly url: string;
+  /** Language of the name when it is not Bulgarian. */
+  readonly lang?: SourceLanguage | undefined;
 }
 
 /** A fruit species with one of the largest planted areas in a province. */

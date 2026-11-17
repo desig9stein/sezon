@@ -25,6 +25,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Blackberries, raw'
     url: https://fdc.nal.usda.gov/food-details/173946/nutrients
+    lang: en
 updatedAt: 2026-11-13
 photo:
   src: ../../assets/produce/kapini.jpg

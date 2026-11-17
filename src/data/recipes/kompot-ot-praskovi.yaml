@@ -23,14 +23,19 @@ safety:
   sources:
     - name: 'National Center for Home Food Preservation – Peaches-Halved or Sliced'
       url: https://nchfp.uga.edu/how/can/canning-fruits-and-fruit-products/peaches-halved-or-sliced/
+      lang: en
     - name: 'National Center for Home Food Preservation – Using Boiling Water Canners'
       url: https://nchfp.uga.edu/publications/uga-publications/using-boiling-water-canners
+      lang: en
     - name: 'National Center for Home Food Preservation – Recommended Jars and Lids'
       url: https://nchfp.uga.edu/how/can/general-information/recommended-jars-and-lids/
+      lang: en
     - name: 'National Center for Home Food Preservation – Sterilization of Empty Jars'
       url: https://nchfp.uga.edu/how/can/general-information/sterilization-of-empty-jars/
+      lang: en
     - name: 'National Center for Home Food Preservation – Storing Home Canned Foods'
       url: https://nchfp.uga.edu/how/can/general-information/storing-home-canned-foods/
+      lang: en
 sources:
   - name: 'Български фермер – Най-вкусните компоти за зимата'
     url: https://www.bgfermer.bg/Article/23461966

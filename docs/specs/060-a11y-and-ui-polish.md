@@ -1,6 +1,6 @@
 # 060. Accessibility and small UI fixes
 
-- **Status:** Approved
+- **Status:** Implemented
 - **Bounded context(s):** shared (source schema, citation language), catalog, recipes, geography
   (source types), farms UI (phone display), UI (produce page, province map, tables, year strip,
   nutrient pages, calendar), CMS (Keystatic source field)
@@ -61,15 +61,20 @@ any content text or the navigation.
 6. **Duplicate Tab stops on produce pages.**
    - The produce page map is pointer-only: the text list above it is the keyboard and
      screen-reader path (spec 029 already says the list repeats every map link). The map links get
-     `tabindex="-1"` inside an `aria-hidden` group, and the SVG is an image named by its title.
+     `tabindex="-1"` inside an `aria-hidden` group, so the SVG group reads as its title alone (it
+     stays `role="group"`: as `role="img"` axe reports `nested-interactive` for the links inside).
      Region pages and `/regioni` keep the keyboard-reachable map (spec 029 AC11).
    - The nutrition note names its source as text (`cite`, with `lang`) instead of a second link to
      the same URL; the link is in „Източници“.
-7. **Year strip scales with text.** The strip's width and height are set in `rem` (same size at the
-   default font size), so it doubles when the root font size doubles.
+7. **Year strip scales with text.** With CSS the strip is `1rem` tall (its drawn height at the
+   default font size) and its width follows the viewBox ratio, so it doubles when the root font
+   size doubles. It keeps its integer pixel `width` and `height` attributes, so without CSS it stays
+   small (spec 012). Table row-header links drop their minimum height in print, so the printed
+   calendar keeps its sheet count.
 8. **Readable phone numbers.** A `formatPhone` function groups a Bulgarian E.164 number for
-   display: mobile (9 digits) `+359 899 909 310`, Sofia (`2` + 7 digits) `+359 2 123 4567`, other
-   8-digit numbers `+359 32 123 456`. The `tel:` href keeps the E.164 number. The accessible name
+   display, joined by no-break spaces (html-validate `tel-non-breaking`): mobile (9 digits)
+   `+359 899 909 310`, Sofia (`2` + 7 digits) `+359 2 123 4567`, other 8-digit numbers
+   `+359 32 123 456`. The `tel:` href keeps the E.164 number. The accessible name
    uses the grouped number.
 9. **No contents link to an empty farm section.** Without farms, the produce page leaves out the
    „Местни ферми“ contents entry and the „Местни ферми, които го продават“ link under „Откъде“. The
@@ -116,9 +121,10 @@ any content text or the navigation.
 - 3.1.2 Language of Parts: English source titles have `lang="en"`.
 - 1.3.1 / 1.3.2: tables keep caption and header scopes; the reordered ranking column keeps a
   header; the РСП note is in reading order before the table.
-- 4.1.2: the scroll region has a role (`region`) and a name distinct from the caption; the
-  produce-page map is `role="img"` with its title, and its links are `aria-hidden` with
-  `tabindex="-1"` (axe `aria-hidden-focus` passes for non-tabbable links).
+- 4.1.2: the scroll region is a named `section` (role `region`) with a name distinct from the
+  caption (a `div role="region"` fails html-validate `prefer-native-element`); the produce-page
+  map stays a group named by its title, and its links are `aria-hidden` with `tabindex="-1"` (axe
+  `aria-hidden-focus` passes for non-tabbable links).
 - 2.4.3 / 2.1.1: the text region list is the keyboard path to region pages; nothing that was only
   reachable on the map is lost.
 - 1.4.4 Resize Text: the year strip scales with the root font size.
@@ -147,11 +153,11 @@ any content text or the navigation.
 5. **AC5:** Given a nutrient ranking table, then the season column is the second column; given
    `/nutrienti/vitamin-c` at a 390 px wide viewport, then the season cell of the first row lies
    within the scroll box without scrolling.
-6. **AC6:** Given a `ScrollTable`, then it is a focusable `role="region"` whose accessible name is
+6. **AC6:** Given a `ScrollTable`, then it is a focusable named `section` whose accessible name is
    „Таблица с хоризонтално превъртане“, not the caption.
 7. **AC7:** Given a nutrition table, then a paragraph explaining РСП comes before the table and the
    table's `aria-describedby` points to it.
-8. **AC8:** Given a produce page with growing regions, then the map is `role="img"`, its links have
+8. **AC8:** Given a produce page with growing regions, then the map links have
    `tabindex="-1"` inside an `aria-hidden` group, and each region page href is tabbable once; given
    the nutrition note, then it names the source without a link, and the source URL is tabbable
    once on the page. Given `ProvinceMap` without the pointer-only option, then the links stay

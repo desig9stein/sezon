@@ -33,7 +33,9 @@ describe('NutritionTable', () => {
     expect(html).toContain('няма референтен прием');
     expect(html).toMatch(/<abbr[^>]*title="референтен прием"[^>]*>РСП<\/abbr>/);
     expect(html).toMatch(/<cite[^>]*>USDA FoodData Central/);
-    expect(html).toMatch(/<div[^>]*role="region"[^>]*tabindex="0"/);
+    expect(html).toMatch(
+      /<section[^>]*aria-label="Таблица с хоризонтално превъртане"[^>]*tabindex="0"/,
+    );
   });
 
   it('AC8 (spec 011): links micronutrient rows to their nutrient page', async () => {

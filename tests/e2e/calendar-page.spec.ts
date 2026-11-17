@@ -96,7 +96,7 @@ test.describe('calendar page', () => {
   }) => {
     await page.setViewportSize({ width: 320, height: 640 });
     await page.goto('/kalendar');
-    const region = page.getByRole('region', { name: 'Сезон на всеки продукт по месеци' });
+    const region = page.getByRole('region', { name: 'Таблица с хоризонтално превъртане' });
     await region.evaluate((element) => element.scrollTo({ left: element.scrollWidth }));
     const [regionBox, headerBox] = await Promise.all([
       region.boundingBox(),

@@ -1,0 +1,19 @@
+---
+import { foreignLanguage, type SourceLanguage } from '@shared/domain';
+
+/**
+ * A link to a cited source, named by its title. The link carries `lang` when the title is not in
+ * the site language (WCAG 3.1.2), so screen readers read it in that language.
+ */
+interface Props {
+  source: {
+    readonly name: string;
+    readonly url: string;
+    readonly lang?: SourceLanguage | undefined;
+  };
+}
+
+const { source } = Astro.props;
+---
+
+<a href={source.url} lang={foreignLanguage(source.lang)} set:text={source.name} />

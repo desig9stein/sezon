@@ -39,6 +39,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Peppers, sweet, green, raw'
     url: https://fdc.nal.usda.gov/food-details/170427/nutrients
+    lang: en
 preparation:
   - method: Суров
     tip: Нарязан на салата запазва най-много витамин C, който намалява при нагряване.

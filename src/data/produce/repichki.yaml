@@ -28,6 +28,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Radishes, raw'
     url: https://fdc.nal.usda.gov/food-details/169276/nutrients
+    lang: en
 preparation:
   - method: Сурови
     tip: Яж ги сурови и нарязани непосредствено преди сервиране – така запазват витамин C и хрупкавостта си.

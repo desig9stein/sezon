@@ -1,16 +1,14 @@
 ---
-/**
- * Focusable, horizontally scrollable region for a data table, labelled by the table caption, with
- * the shared table styles: start-aligned headers, end-aligned numbers and hairline rows.
- */
-interface Props {
-  captionId: string;
-}
+import { ui } from '@i18n/bg';
 
-const { captionId } = Astro.props;
+/**
+ * Focusable, horizontally scrollable region for a data table, with the shared table styles:
+ * start-aligned headers, end-aligned numbers, hairline rows and row-header links at least 24 px
+ * tall. The region has a short name of its own, so the table caption is announced once.
+ */
 ---
 
-<section class="table-scroll" aria-labelledby={captionId} tabindex="0">
+<section class="table-scroll" aria-label={ui.scrollTable.label} tabindex="0">
   <slot />
 </section>
 
@@ -41,6 +39,19 @@ const { captionId } = Astro.props;
 
   .table-scroll :global(td) {
     text-align: end;
+  }
+
+  .table-scroll :global(th a) {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-compact);
+  }
+
+  @media print {
+    .table-scroll :global(th a) {
+      display: inline;
+      min-height: 0;
+    }
   }
 
   .table-scroll :global(abbr) {

@@ -50,6 +50,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Nuts, hazelnuts or filberts'
     url: https://fdc.nal.usda.gov/food-details/170581/nutrients
+    lang: en
 updatedAt: 2026-11-13
 photo:
   src: ../../assets/produce/leshnitsi.jpg

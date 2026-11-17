@@ -13,7 +13,8 @@ describe('FarmContacts phone (spec 060)', () => {
     const html = await render(FarmContacts, { farm });
     const link = /<a[^>]*href="tel:[^"]*"[^>]*>([^<]*)<\/a>/.exec(html);
     expect(link?.[0]).toContain('href="tel:+359899909310"');
-    expect(link?.[0]).toMatch(/aria-label="[^"]*: \+359 899 909 310"/);
-    expect(link?.[1]?.trim()).toBe('+359 899 909 310');
+    const grouped = ['+359', '899', '909', '310'].join('\u00a0');
+    expect(link?.[0]).toContain(`aria-label="Телефон на Зелена долина: ${grouped}"`);
+    expect(link?.[1]?.trim()).toBe(grouped);
   });
 });

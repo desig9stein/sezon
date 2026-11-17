@@ -11,8 +11,10 @@ import provinceMap from '../../assets/map/provinces.json';
  * borders in the border colour. Without links the SVG is an image named by its title. With links it
  * is a named group: the drawn provinces are hidden from assistive technology and the links are a
  * layer above them, in Bulgarian name order, each named after its province and showing a surface
- * and focus ring on focus. The caption describes the map (`caption`, or the produce page's default)
- * and credits Natural Earth. The SVG keeps its size without CSS.
+ * and focus ring on focus. With `keyboardPath: 'list'` (a nearby text list repeats every link) the
+ * links are for pointers only: they leave the Tab order and are hidden from assistive technology,
+ * so the group reads as its title alone. The caption describes the map (`caption`, or the produce
+ * page's default) and credits Natural Earth. The SVG keeps its size without CSS.
  * @throws BrokenReferenceError when a marked or linked region has no province on the map.
  */
 interface ProvinceLink {
@@ -20,10 +22,15 @@ interface ProvinceLink {
   readonly href: string;
 }
 
+/** Where keyboard and screen-reader users follow the province links: the map or a text list. */
+type KeyboardPath = 'map' | 'list';
+
 interface Props {
   regions: ReadonlyArray<Region>;
   links?: ReadonlyArray<ProvinceLink>;
   caption?: string;
+  /** Defaults to `map`. */
+  keyboardPath?: KeyboardPath;
 }
 
 /** Rendered width without CSS; the height follows the viewBox ratio. */
@@ -42,13 +49,15 @@ const ink = palettes.light;
 const paths: Readonly<Record<string, string>> = provinceMap.provinces;
 const collator = new Intl.Collator('bg');
 
-const { regions, links = [], caption } = Astro.props;
+const { regions, links = [], caption, keyboardPath = 'map' } = Astro.props;
 const marked = new Set(regions.map((region) => region.slug));
 const linkBySlug = new Map(links.map((link) => [link.region.slug, link]));
 for (const slug of [...marked, ...linkBySlug.keys()]) {
   if (paths[slug] === undefined) throw new BrokenReferenceError(`No province on the map: ${slug}`);
 }
 const isLinked = linkBySlug.size > 0;
+const isNavigable = isLinked && keyboardPath === 'map';
+const POINTER_ONLY_TAB_INDEX = -1;
 const label = ui.produce.map.label(
   regions.map((region) => region.name),
   Object.keys(paths).length,
@@ -139,23 +148,29 @@ const linkLayer = [...links]
         />
       ))}
     </g>
-    {linkLayer.map(({ region, href, d }) => (
-      <a href={href} aria-label={region.name}>
-        <path class="province-map__hit" fill="transparent" stroke="none" d={d} />
-        <path
-          class="province-map__ring province-map__ring--outer"
-          fill="none"
-          stroke="none"
-          d={d}
-        />
-        <path
-          class="province-map__ring province-map__ring--inner"
-          fill="none"
-          stroke="none"
-          d={d}
-        />
-      </a>
-    ))}
+    <g aria-hidden={isNavigable ? undefined : 'true'} data-links>
+      {linkLayer.map(({ region, href, d }) => (
+        <a
+          href={href}
+          aria-label={region.name}
+          tabindex={isNavigable ? undefined : POINTER_ONLY_TAB_INDEX}
+        >
+          <path class="province-map__hit" fill="transparent" stroke="none" d={d} />
+          <path
+            class="province-map__ring province-map__ring--outer"
+            fill="none"
+            stroke="none"
+            d={d}
+          />
+          <path
+            class="province-map__ring province-map__ring--inner"
+            fill="none"
+            stroke="none"
+            d={d}
+          />
+        </a>
+      ))}
+    </g>
   </svg>
   <figcaption>
     {caption ?? labels.caption}
@@ -206,7 +221,7 @@ const linkLayer = [...links]
     stroke: var(--color-accent);
   }
 
-  .province-map a {
+  .province-map svg a {
     outline: none;
   }
 

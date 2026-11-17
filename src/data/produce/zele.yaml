@@ -47,6 +47,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Cabbage, raw'
     url: https://fdc.nal.usda.gov/food-details/169975/nutrients
+    lang: en
 preparation:
   - method: Сурово
     tip: Нарязано на салата непосредствено преди сервиране запазва най-много витамин C.

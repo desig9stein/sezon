@@ -23,6 +23,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Basil, fresh'
     url: https://fdc.nal.usda.gov/food-details/172232/nutrients
+    lang: en
 updatedAt: 2026-11-13
 photo:
   src: ../../assets/produce/bosilek.jpg

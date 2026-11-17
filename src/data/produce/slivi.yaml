@@ -44,6 +44,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Plums, raw'
     url: https://fdc.nal.usda.gov/food-details/169949/nutrients
+    lang: en
 preparation:
   - method: Пресни
     tip: Белият восъчен налеп по кората е естествен – измий го точно преди ядене.

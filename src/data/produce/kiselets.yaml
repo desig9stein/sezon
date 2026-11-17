@@ -29,6 +29,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Dock, raw'
     url: https://fdc.nal.usda.gov/food-details/170076/nutrients
+    lang: en
 preparation:
   - method: Пресен в салата
     tip: Нарязвай листата непосредствено преди ястието – суровите листа запазват витамин C.

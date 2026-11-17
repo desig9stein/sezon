@@ -764,6 +764,9 @@ export const ui = {
     separator: '; ',
     outOfSeason: 'Извън сезона през цялата година',
   },
+  scrollTable: {
+    label: 'Таблица с хоризонтално превъртане',
+  },
   seasonList: {
     heading: (month: Month, count: number) => `В сезон през ${monthNameLower(month)} (${count})`,
     countHeading: (count: number) => `Всичко в сезон (${count})`,

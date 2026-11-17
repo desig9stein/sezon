@@ -36,6 +36,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Eggplant, raw'
     url: https://fdc.nal.usda.gov/food-details/169228/nutrients
+    lang: en
 preparation:
   - method: Печен
     tip: Изпечи го цял до омекване, обели го и го използвай за кьопоолу или салата.

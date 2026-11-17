@@ -23,6 +23,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Chickpeas (garbanzo beans, bengal gram), mature seeds, raw'
     url: https://fdc.nal.usda.gov/food-details/173756/nutrients
+    lang: en
 updatedAt: 2026-11-13
 photo:
   src: ../../assets/produce/nahut.jpg

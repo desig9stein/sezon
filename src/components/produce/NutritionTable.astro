@@ -5,9 +5,12 @@ import { routes } from '@components/layout/routes';
 import ScrollTable from '@components/ui/ScrollTable.astro';
 import { palettes } from '@design/tokens';
 import { formatNumber, ui } from '@i18n/bg';
+import { foreignLanguage } from '@shared/domain';
 
 /**
- * Nutrition values per 100 g with % of the EU reference intake and the data source.
+ * Nutrition values per 100 g with % of the EU reference intake: a note before the table explains
+ * the reference intake (РСП) and describes the table, and a note after it names the data source,
+ * which the page's source list links.
  * Micronutrient rows link to their nutrient page. Each percentage is followed by a decorative bar
  * filled to the percentage, capped at 100.
  */
@@ -23,6 +26,7 @@ interface Row {
   readonly href?: string;
 }
 
+const NOTE_ID = 'nutrition-note';
 const BAR_SCALE = 100;
 const BAR_HEIGHT = 8;
 const BAR_WIDTH = 64;
@@ -30,6 +34,7 @@ const ink = palettes.light;
 
 const { nutrition, micronutrients } = Astro.props;
 const labels = ui.produce.nutrition;
+const sourceLang = foreignLanguage(nutrition.source.lang);
 const { units } = labels;
 const macroRow = (macro: Macronutrient, label: string, unit: string): Row[] => {
   const value = nutrition[macro];
@@ -59,8 +64,11 @@ const rows: ReadonlyArray<Row> = [
 ];
 ---
 
-<ScrollTable captionId="nutrition-caption">
-  <table class="nutrition">
+<p class="nutrition__note" id={NOTE_ID}>
+  {labels.referenceNote}
+</p>
+<ScrollTable>
+  <table class="nutrition" aria-describedby={NOTE_ID}>
     <caption id="nutrition-caption">{labels.caption}</caption>
     <thead>
       <tr>
@@ -118,8 +126,7 @@ const rows: ReadonlyArray<Row> = [
   </table>
 </ScrollTable>
 <p class="nutrition__note">
-  {labels.sourcePrefix} <a href={nutrition.source.url}>{nutrition.source.name}</a>.
-  {labels.referenceNote}
+  {labels.sourcePrefix} <cite lang={sourceLang}>{nutrition.source.name}</cite>.
 </p>
 
 <style>
@@ -154,7 +161,6 @@ const rows: ReadonlyArray<Row> = [
   }
 
   .nutrition__note {
-    margin-top: var(--space-2);
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
   }

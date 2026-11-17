@@ -9,6 +9,8 @@ const VITAMIN_C = '/nutrienti/vitamin-c';
 const CALENDAR = '/kalendar';
 const PHONE_WIDTH = 390;
 const PHONE_HEIGHT = 800;
+/** Wide enough that the doubled text does not reflow the home list into its narrow layout. */
+const WIDE_VIEWPORT = { width: 1280, height: 800 };
 const MIN_TARGET = 24;
 const MAX_TAB_STOPS = 400;
 const STOP_ATTRIBUTE = 'data-e2e-stop';
@@ -22,6 +24,8 @@ interface TabStop {
   readonly index: number;
   readonly label: string;
   readonly href: string | null;
+  /** Whether the stop is in the produce page's „Откъде“ section (list and map). */
+  readonly inRegions: boolean;
   readonly focused: FocusStyle;
 }
 
@@ -44,6 +48,7 @@ async function tabStopsInMain(page: Page): Promise<TabStop[]> {
           index: position,
           label: (active.textContent ?? '').trim().slice(0, 60) || active.outerHTML.slice(0, 80),
           href: active.getAttribute('href'),
+          inRegions: active.closest('section[aria-labelledby="regions"]') !== null,
           focused: {
             outline: `${style.outlineStyle} ${style.outlineWidth} ${style.outlineColor}`,
             boxShadow: style.boxShadow,
@@ -104,15 +109,21 @@ test.describe('accessibility polish (spec 060)', () => {
     page,
   }) => {
     await page.goto(APPLES);
-    const hrefs = (await tabStopsInMain(page)).flatMap((stop) =>
-      stop.href === null ? [] : [stop.href],
+    const stops = await tabStopsInMain(page);
+    const hrefs = stops.flatMap((stop) => (stop.href === null ? [] : [stop.href]));
+    const regionHrefs = stops.flatMap((stop) =>
+      stop.inRegions && stop.href?.startsWith('/regioni/') === true ? [stop.href] : [],
     );
-    const regionHrefs = hrefs.filter((href) => href.startsWith('/regioni/'));
     expect(regionHrefs.length).toBeGreaterThan(0);
     expect(new Set(regionHrefs).size).toBe(regionHrefs.length);
     const usda = hrefs.filter((href) => href.includes('fdc.nal.usda.gov'));
     expect(usda).toHaveLength(1);
-    await expect(page.locator('figure.province-map svg')).toHaveAttribute('role', 'img');
+    const mapLinks = page.locator('figure.province-map svg a');
+    await expect(mapLinks.first()).toHaveAttribute('tabindex', '-1');
+    await expect(page.locator('figure.province-map svg g[data-links]')).toHaveAttribute(
+      'aria-hidden',
+      'true',
+    );
     await expectNoAxeViolations(page);
   });
 
@@ -144,7 +155,7 @@ test.describe('accessibility polish (spec 060)', () => {
     await page.setViewportSize({ width: PHONE_WIDTH, height: PHONE_HEIGHT });
     await page.goto(VITAMIN_C);
     const box = await page.locator('.table-scroll').first().boundingBox();
-    const cell = await page.locator('.table-scroll tbody tr').first().locator('td').first();
+    const cell = page.locator('.table-scroll tbody tr').first().locator('td').first();
     const cellBox = await cell.boundingBox();
     expect(box).not.toBeNull();
     expect(cellBox).not.toBeNull();
@@ -153,6 +164,7 @@ test.describe('accessibility polish (spec 060)', () => {
   });
 
   test('AC9: the home year strip doubles with the root font size', async ({ page }) => {
+    await page.setViewportSize(WIDE_VIEWPORT);
     await page.goto('/');
     const strip = page.locator('.year-strip').first();
     const before = (await strip.boundingBox())?.height ?? 0;

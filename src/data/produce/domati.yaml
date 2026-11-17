@@ -41,6 +41,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Tomatoes, red, ripe, raw, year round average'
     url: https://fdc.nal.usda.gov/food-details/170457/nutrients
+    lang: en
 preparation:
   - method: Сурови
     tip: Нарежи ги непосредствено преди ядене, за да запазят сока си и повече витамин C.

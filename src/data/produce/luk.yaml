@@ -53,6 +53,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Onions, raw'
     url: https://fdc.nal.usda.gov/food-details/170000/nutrients
+    lang: en
 preparation:
   - method: Суров
     tip: Нарежи го на салата малко преди да го сервираш, за да запази свежия си вкус и витамин C.

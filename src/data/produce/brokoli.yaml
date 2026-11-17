@@ -26,6 +26,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Broccoli, raw'
     url: https://fdc.nal.usda.gov/food-details/170379/nutrients
+    lang: en
 preparation:
   - method: На пара
     tip: Няколко минути на пара запазват повече витамин C, отколкото варенето във вода.

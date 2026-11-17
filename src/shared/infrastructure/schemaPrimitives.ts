@@ -3,6 +3,7 @@ import { isUtcMidnight } from '@shared/domain/calendarDay';
 import { BULGARIAN_PHONE, EMAIL, isHttpsUrl } from '@shared/domain/contact';
 import type { ImageAsset } from '@shared/domain/ImageAsset';
 import { SLUG_PATTERN } from '@shared/domain/Slug';
+import { SOURCE_LANGUAGES } from '@shared/domain/sourceLanguage';
 
 const ISO_DATE_MESSAGE = 'Expected an ISO date (YYYY-MM-DD).';
 
@@ -44,8 +45,15 @@ export const calendarDate = () =>
     z.iso.date(ISO_DATE_MESSAGE).transform((value) => new Date(value)),
   ]);
 
-/** A citation with a name and an https URL. */
-export const sourceSchema = z.strictObject({ name: text(), url: httpsUrl() });
+/**
+ * A citation with a name, an https URL and the language of the name (`en` for an English title;
+ * absent means Bulgarian, the site language).
+ */
+export const sourceSchema = z.strictObject({
+  name: text(),
+  url: httpsUrl(),
+  lang: z.enum(SOURCE_LANGUAGES).optional(),
+});
 
 /** Adds an issue for every value of `key(item)` that appears more than once in `items`. */
 export function uniqueBy<T>(key: (item: T) => unknown, label: string) {

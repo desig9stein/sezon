@@ -48,6 +48,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Grapes, red or green (European type, such as Thompson seedless), raw'
     url: https://fdc.nal.usda.gov/food-details/174683/nutrients
+    lang: en
 preparation:
   - method: Прясно
     tip: Измий гроздето точно преди ядене, като държиш грозда за чепката.

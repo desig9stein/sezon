@@ -17,11 +17,13 @@ cautions:
     source:
       name: 'Avena, Ozola, Ķeķe (2024), Sambucus nigra fruits and their processing solutions: a review, Research for Rural Development 39'
       url: https://lbtufb.lbtu.lv/conference/Research-for-Rural-Development/2024/LBTU_LatviaResRuralDev_30th_2024-67-72.pdf
+      lang: en
   - kind: preparation
     text: 'Плодовете съдържат цианогенни гликозиди и лектини, които са риск за здравето без обработка. Топлинната обработка ги намалява – не яж плодовете сурови.'
     source:
       name: 'Avena, Ozola, Ķeķe (2024), Sambucus nigra fruits and their processing solutions: a review, Research for Rural Development 39'
       url: https://lbtufb.lbtu.lv/conference/Research-for-Rural-Development/2024/LBTU_LatviaResRuralDev_30th_2024-67-72.pdf
+      lang: en
   - kind: look-alike
     text: 'Не го бъркай с бъзака: той е тревисто растение до 2 м и цъфти през юни–юли, а черният бъз е дърво до 3–5 м, цъфтящо в края на пролетта.'
     source:
@@ -50,6 +52,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Elderberries, raw'
     url: https://fdc.nal.usda.gov/food-details/171727/nutrients
+    lang: en
 updatedAt: 2026-11-13
 photo:
   src: ../../assets/produce/cheren-baz.jpg

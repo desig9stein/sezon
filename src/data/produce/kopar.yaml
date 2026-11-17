@@ -31,6 +31,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Dill weed, fresh'
     url: https://fdc.nal.usda.gov/food-details/172233/nutrients
+    lang: en
 preparation:
   - method: Пресен
     tip: Нарязвай го непосредствено преди сервиране – ароматните масла се изпаряват бързо.
@@ -40,6 +41,7 @@ traditionalUses:
     source:
       name: 'Dragoeva A., Stoyanova Z., Marinov M., Koleva V. – Survey on current status of folk medicine in Bulgaria reported by local knowledgeable persons, Acta Scientifica Naturalis 9(3), 2022'
       url: https://doi.org/10.2478/asn-2022-0021
+      lang: en
 howToChoose: Избери яркозелени, ароматни стръкове без пожълтяване.
 storage: Увит във влажна хартия в хладилника издържа три–четири дни; може да се замрази нарязан.
 faq:
