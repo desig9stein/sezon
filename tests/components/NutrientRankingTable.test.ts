@@ -26,7 +26,7 @@ const service = new NutrientRankingService(
       slug: 'morkovi',
       name: 'Моркови',
       season: [{ month: 5, level: 'peak' }],
-      micronutrients: [{ nutrient: 'vitamin-c', amount: 5.9 }],
+      micronutrients: [{ nutrient: 'vitamin-c', amount: 12.5 }],
     }),
     aProduce({
       slug: 'tikva',
@@ -61,7 +61,13 @@ describe('NutrientRankingTable', () => {
 
     expect(html).toMatch(/<caption[^>]*>\s*Витамин C на 100 г\s*<\/caption>/);
     expect(html.match(/<th[^>]*scope="col"/g)).toHaveLength(5);
-    expect(html.match(/<th[^>]*scope="row"/g)).toHaveLength(3);
+    expect(html.match(/<th[^>]*scope="row"/g)).toHaveLength(4);
+    expect(html).not.toContain('под прага за претенция');
+    const morkoviRow = html.slice(
+      html.indexOf('Моркови'),
+      html.indexOf('</tr>', html.indexOf('Моркови')),
+    );
+    expect(morkoviRow).toContain('Извън сезона');
     expect(html).toMatch(
       /<th[^>]*scope="row"[^>]*>\s*<a href="\/zelenchutsi\/zele"[^>]*>Зеле<\/a>/,
     );
@@ -93,7 +99,9 @@ describe('NutrientRankingTable', () => {
     const html = await render(NutrientRankingTable, {
       ranking: await service.rankingFor('folat', Month.of(11)),
     });
-    expect(html).toContain('Все още няма продукти с данни за фолат.');
+    expect(html).toContain(
+      'Нито един продукт не достига 15 % от референтния прием на фолат на 100 г.',
+    );
     expect(html).not.toContain('<table');
   });
 });

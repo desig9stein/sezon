@@ -70,6 +70,8 @@ const processingStep = (steps: ReadonlyArray<string>) =>
 const LARGE_JAR = 'до 950 мл';
 const NCHFP_DIFFERENCE = 5;
 const CLAIM_SHARE = 0.15;
+/** Fewer micronutrients at 15 % are filled up to this many with the highest others (spec 043). */
+const MIN_LISTED = 3;
 /** Micronutrients left out on purpose: the chestnut record includes the inner skin (spec 044). */
 const LEFT_OUT: ReadonlyArray<readonly [string, string]> = [['kesteni', 'mangan']];
 const NSI_REGISTER = 'https://nrnm.nsi.bg/ekatte/territorial-units';
@@ -230,6 +232,29 @@ describe('nutrient coverage (spec 061)', () => {
         }
         expect(listed.has(slug), `${id} ${slug}`).toBe(true);
       }
+    },
+  );
+
+  it.each(usdaProduce)(
+    'QA 061: %s lists exactly the spec 043 selection, highest share first',
+    (id, entry) => {
+      const fdcId = /\/food-details\/(\d+)\//.exec(entry.nutrition?.source.url ?? '')?.[1] ?? '';
+      const values = foods[fdcId]?.nutrients ?? {};
+      const ranked = Object.entries(MICRO_NUTRIENT_IDS)
+        .filter(([, fdcNutrient]) => values[fdcNutrient] !== undefined)
+        .filter(
+          ([slug]) => !LEFT_OUT.some(([produceId, left]) => produceId === id && left === slug),
+        )
+        .map(([slug, fdcNutrient]) => ({
+          slug,
+          share: (values[fdcNutrient] ?? 0) / (referenceIntakes.get(slug) ?? Infinity),
+        }))
+        .sort((a, b) => b.share - a.share || a.slug.localeCompare(b.slug));
+      const high = ranked.filter(({ share }) => share >= CLAIM_SHARE);
+      const expected = (high.length >= MIN_LISTED ? high : ranked.slice(0, MIN_LISTED)).map(
+        ({ slug }) => slug,
+      );
+      expect(entry.nutrition?.micronutrients.map(({ nutrient }) => nutrient)).toEqual(expected);
     },
   );
 });

@@ -41,7 +41,7 @@ describe('province towns by water-bath band (spec 061)', () => {
     const text = (await documentOf()).body.textContent?.replace(/\s+/g, ' ') ?? '';
     expect(text).toContain('Смолян (700–999 м)');
     expect(text).toContain('300–900 м: 30 мин');
-    expect(text).toContain('900–1800 м: 35 мин');
+    expect(text).toContain('900–1800 м (35 мин)');
   });
 
   it('AC5: cites the НСИ register', async () => {
