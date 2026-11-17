@@ -125,6 +125,7 @@ describe('Keystatic reads and saves the content without changing it (spec 054)',
       [
         'category',
         'ingredients',
+        'processingAtAltitude',
         'processingMinutes',
         'produce',
         'publishedAt',

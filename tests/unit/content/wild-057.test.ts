@@ -57,7 +57,7 @@ const ADDED: Readonly<Record<string, Added>> = {
     group: 'amarilisovi',
     wild: true,
     season: months('available', 3, 4),
-    cautions: ['look-alike', 'look-alike', 'look-alike', 'look-alike', 'protected'],
+    cautions: ['look-alike', 'look-alike', 'look-alike', 'look-alike', 'look-alike', 'protected'],
   },
   'cheren-baz': {
     name: 'Черен бъз',
@@ -67,7 +67,6 @@ const ADDED: Readonly<Record<string, Added>> = {
     wild: true,
     season: months('peak', 8),
     cautions: ['toxic-part', 'toxic-part', 'preparation', 'look-alike', 'protected', 'protected'],
-    fdcId: '171727',
     photo: 'ITFBAchRAiI',
   },
   glog: {
@@ -308,9 +307,10 @@ describe('wild produce (spec 057)', () => {
   it.each(Object.entries(EXISTING))('AC10: %s gains its sourced caution', (slug, expected) => {
     const record = recordOf(slug);
     expect(record.wild).toBe(false);
-    expect(record.cautions.map(({ kind, source }) => ({ kind, url: source.url }))).toEqual([
+    // The caution this spec added comes first; later cautions may follow it.
+    expect(record.cautions.map(({ kind, source }) => ({ kind, url: source.url }))[0]).toEqual(
       expected,
-    ]);
+    );
     for (const caution of record.cautions) expect(caution.text).not.toMatch(FORBIDDEN);
   });
 

@@ -14,6 +14,7 @@ export function toRecipe(id: string, record: RecipeRecord): Recipe {
     prepMinutes: record.prepMinutes,
     cookMinutes: record.cookMinutes,
     processingMinutes: record.processingMinutes,
+    processingAtAltitude: record.processingAtAltitude,
     waitDays: record.waitDays,
     ingredients: record.ingredients,
     steps: record.steps,

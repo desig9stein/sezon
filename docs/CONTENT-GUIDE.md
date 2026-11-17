@@ -204,8 +204,11 @@ individual products or offers.
 
 ### Wild plants and cautions
 
-Wild-gathered plants (nettle, dandelion, ramsons, elder, hawthorn, sloe …) are marked `wild: true`
-(spec 055). A wild produce needs at least one sourced caution: `pnpm build` and the schema tests
+A produce is marked `wild: true` when its page describes gathering the plant from the wild
+(nettle, dandelion, ramsons, elder, hawthorn, sloe, cornelian cherry …; spec 055, rule from spec
+058). A crop grown in gardens or orchards that also grows wild (rose hip, blackberry, raspberry, sea
+buckthorn, sorrel, oregano) is not marked; give it a `protected` caution when a source restricts
+gathering its wild form. A wild produce needs at least one sourced caution: `pnpm build` and the schema tests
 reject `wild: true` without `cautions`. Whenever a source names a toxic look-alike, add a
 `look-alike` caution at minimum. Cautions may also be given for a cultivated produce (for example
 an allergy, or a protected wild form, see below).
@@ -249,10 +252,25 @@ cautions: # optional; required (at least one) when wild is true
   Latin name (e.g. кавказка боровинка on the bilberry page, spec 057).
 - A Закон за лечебните растения caution states the personal-needs amounts of § 1, т. 18 for the
   part that is gathered and that commercial gathering needs a permit (spec 057).
-- Write facts, never health claims: no „полезен“, „лекува“ or „действие“. Do not write what to do
-  after poisoning; the page links no medical advice.
+- Write facts, never health claims: no „полезен“, „лекува“ or „действие“. A caution never gives
+  treatment advice. The only text about what to do after a suspected poisoning is the shared
+  emergency line (`ui.produce.cautions.emergency`: „При съмнение за отравяне веднага звъни на
+  112.“, with 112 as a `tel:` link). No other phone number is published; the methodology page names
+  the toxicology clinic of УМБАЛСМ „Н. И. Пирогов“ and cites both sources (spec 058).
 - The page shows the cautions in one „Внимание“ callout before the season, with the gathering note
-  for wild produce, and lists their sources in „Източници“.
+  for wild produce, and lists their sources in „Източници“. The emergency line appears for a wild
+  produce and for any produce with a `look-alike` or `toxic-part` caution.
+
+#### Not eaten raw
+
+```yaml
+notEatenRaw: true # optional, default false: the raw fruit or leaves are not eaten
+```
+
+Nutrition values are per 100 g of the raw edible portion, so a produce whose raw part is not eaten
+(elder berries, Japanese quince, nettle) has `notEatenRaw: true` and **no** `nutrition` block, and
+needs a `preparation` or `toxic-part` caution that says why. `pnpm build` rejects anything else
+(spec 058).
 
 ### Health content (YMYL)
 
@@ -339,6 +357,10 @@ yield: от 10 круши # as the source states it, else the main amount
 prepMinutes: 20 # optional: only when the recipe or safety source gives the time
 cookMinutes: 5 # optional: same rule; never estimate a time
 processingMinutes: 25 # boiling-water time at 0–300 m for the largest jar, from the safety source
+processingAtAltitude: # the same jar in every higher band, from the same table (spec 058)
+  - { fromMetres: 300, minutes: 30 }
+  - { fromMetres: 900, minutes: 35 }
+  - { fromMetres: 1800, minutes: 40 }
 waitDays: 0 # optional: days of fermentation before the preserve is ready
 ingredients:
   - { name: Круши, quantity: 10, unit: piece } # g | kg | ml | l | piece | tsp | tbsp | cup
@@ -374,6 +396,10 @@ updatedAt: 2026-11-13
 - **Leave a recipe out** when no tested source covers it: low-acid vegetables without a tested
   vinegar ratio (beets, mixed pickles), anything that needs a pressure canner (pumpkin, plain beets)
   or lye or lime (green walnuts).
+- The facts card shows `processingMinutes` and every band of `processingAtAltitude` („до 300 м: 25
+  мин“, „300–900 м: 30 мин“ …), so a reader above 300 m sees the right time without opening the
+  safety notes. Copy the bands from the table in `safety.sterilisation`; a test checks that each
+  altitude and time is there.
 - NCHFP's altitudes are in feet: 0–1,000 ft is „до 300 м“, 1,001–3,000 ft „300–900 м“, 3,001–6,000 ft
   „900–1800 м“ and above 6,000 ft „над 1800 м“; give every band. A pint jar is „до 470 мл“, a quart
   „до 950 мл“; larger jars have no tested time.

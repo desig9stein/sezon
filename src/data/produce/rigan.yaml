@@ -13,4 +13,9 @@ cautions:
     source:
       name: 'МОСВ – Заповед № РД-178 от 18 февруари 2026 г. (ДВ, бр. 24 от 2026 г.)'
       url: https://www.moew.government.bg/static/media/ups/tiny/filebase/Nature/Legislation/Zapovedi/MedicinalPlants/RD-178-18.02.2026-MedPlants.pdf
-updatedAt: 2026-11-13
+  - kind: protected
+    text: 'Обикновеният риган е в списъка на Закона за лечебните растения: за лични нужди можеш да набереш до 2 кг стръкове на ден, а за търговия ти трябва позволително.'
+    source:
+      name: 'Закон за лечебните растения (обн. ДВ, бр. 29 от 2000 г., посл. изм. ДВ, бр. 58 от 2017 г.), копие във FAOLEX'
+      url: https://faolex.fao.org/docs/pdf/bul40297.pdf
+updatedAt: 2026-11-17

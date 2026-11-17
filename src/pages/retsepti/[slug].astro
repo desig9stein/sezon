@@ -2,9 +2,10 @@
 import type { GetStaticPaths } from 'astro';
 import { routes } from '@components/layout/routes';
 import SourceList from '@components/produce/SourceList.astro';
+import RecipeFacts from '@components/recipes/RecipeFacts.astro';
 import { recipePagesQuery, recipeRepository } from '@composition/index';
 import { requireSiteUrl } from '@composition/site';
-import { formatDuration, ui } from '@i18n/bg';
+import { ui } from '@i18n/bg';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { recipeJsonLd } from '@shared/seo';
 
@@ -37,19 +38,6 @@ const jsonLd = [
     citations: [...recipe.sources, ...recipe.safety.sources],
   }),
 ];
-const facts = [
-  { term: labels.facts.yield, value: recipe.yield },
-  ...(recipe.prepMinutes === undefined
-    ? []
-    : [{ term: labels.facts.prep, value: formatDuration(recipe.prepMinutes) }]),
-  ...(recipe.cookMinutes === undefined
-    ? []
-    : [{ term: labels.facts.cook, value: formatDuration(recipe.cookMinutes) }]),
-  { term: labels.facts.processing, value: formatDuration(recipe.processingMinutes) },
-  ...(recipe.waitDays > 0
-    ? [{ term: labels.facts.wait, value: labels.facts.days(recipe.waitDays) }]
-    : []),
-];
 ---
 
 <BaseLayout
@@ -71,15 +59,7 @@ const facts = [
         {labels.facts.category}: {category}
       </p>
       <p class="recipe__summary">{recipe.summary}</p>
-      <dl class="recipe__facts">
-        {facts.map((fact) => (
-          <div>
-            <dt>{fact.term}</dt>
-            <dd>{fact.value}</dd>
-          </div>
-        ))}
-      </dl>
-      <p class="recipe__muted">{labels.facts.processingNote}</p>
+      <RecipeFacts recipe={recipe} />
       <p>
         {labels.produceLabel}{' '}
         {produce.map((item, index) => (
@@ -168,28 +148,6 @@ const facts = [
     font-size: var(--font-size-lg);
   }
 
-  .recipe__facts {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 9rem), 1fr));
-    gap: var(--space-2);
-    margin: 0;
-  }
-
-  .recipe__facts div {
-    padding: var(--space-2) var(--space-3);
-    border: 1px solid var(--color-border);
-  }
-
-  .recipe__facts dt {
-    color: var(--color-text-muted);
-    font-size: var(--font-size-sm);
-  }
-
-  .recipe__facts dd {
-    margin: 0;
-    font-weight: 700;
-  }
-
   .recipe__ingredients,
   .recipe__steps,
   .recipe__water-bath,
@@ -232,19 +190,16 @@ const facts = [
       break-after: avoid;
     }
 
-    .recipe li,
-    .recipe__facts div {
+    .recipe li {
       break-inside: avoid;
     }
 
-    .recipe__facts div,
     .recipe__safety {
       border-color: var(--print-ink);
     }
 
     .recipe__meta,
-    .recipe__muted,
-    .recipe__facts dt {
+    .recipe__muted {
       color: var(--print-ink);
     }
   }

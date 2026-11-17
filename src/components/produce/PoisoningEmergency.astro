@@ -1,0 +1,30 @@
+---
+import { ui } from '@i18n/bg';
+
+/**
+ * The emergency line of a cautions callout (spec 058): one sentence that tells the reader to call
+ * 112 on a suspected poisoning, with the number as a `tel:` link of at least 24 × 24 CSS px.
+ */
+const call = ui.produce.cautions.emergency;
+---
+
+<p class="emergency">
+  {[
+    `${call.text} `,
+    <a class="cautions__call" href={call.href} set:text={call.number} />,
+    call.end,
+  ]}
+</p>
+
+<style>
+  .emergency {
+    font-weight: 600;
+  }
+
+  .cautions__call {
+    display: inline-block;
+    min-inline-size: 1.5rem;
+    min-block-size: 1.5rem;
+    text-align: center;
+  }
+</style>

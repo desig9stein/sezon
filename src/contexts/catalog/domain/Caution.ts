@@ -18,6 +18,9 @@ export const CAUTION_KINDS = [
 
 export type CautionKind = (typeof CAUTION_KINDS)[number];
 
+/** Kinds of caution that warn of a poisoning risk; their callout shows the emergency line. */
+export const POISONING_CAUTION_KINDS: ReadonlyArray<CautionKind> = ['look-alike', 'toxic-part'];
+
 /** Shortest caution text, in characters. */
 export const CAUTION_TEXT_MIN_LENGTH = 20;
 /** Longest caution text, in characters. */

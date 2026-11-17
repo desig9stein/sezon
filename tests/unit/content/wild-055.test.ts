@@ -54,7 +54,7 @@ describe('wild produce in the content and the guide (spec 055)', () => {
   });
 
   it('AC16: the methodology explains how wild plants and cautions are sourced', () => {
-    const methodology = ui.methodology as Record<string, string>;
+    const methodology = ui.methodology as unknown as Record<string, string>;
     expect(methodology.wildHeading).toBe('Диворастящи растения');
     expect(methodology.wild).toContain('Внимание');
     expect(methodology.wild).toContain('източник');
