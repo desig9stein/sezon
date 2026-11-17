@@ -18,7 +18,7 @@ describe('GrowingGuide', () => {
     });
     expect(html).toMatch(/<h2[^>]*>\s*Отглеждане в градината\s*<\/h2>/);
     expect(html).toMatch(/<dt[^>]*>\s*Сеитба\s*<\/dt>/);
-    expect(html).toMatch(/<dt[^>]*>\s*Разсаждане\s*<\/dt>/);
+    expect(html).toMatch(/<dt[^>]*>\s*Разсаждане навън\s*<\/dt>/);
     expect(html).not.toMatch(/<dt[^>]*>\s*Засаждане\s*<\/dt>/);
     expect(html).toMatch(
       /<a href="\/sezon\/mart"[^>]*>март<\/a>\s*–\s*<a href="\/sezon\/april"[^>]*>април<\/a>/,

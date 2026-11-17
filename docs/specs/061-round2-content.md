@@ -324,8 +324,7 @@ BG-BIO-18.100-0004936.2026.001“ and links there. When the certificate has expi
 11. **AC11:** Given produce with 36.6, 12 and 5.9 mg vitamin C (RI 80), when the ranking is built,
     then the entries are only 36.6 and 12 (≥ 15 %).
 12. **AC12:** Given every USDA-sourced produce, then it lists every mapped micronutrient its
-    extracted record gives at ≥ 15 % of the reference intake (except chestnut manganese), sorted by
-    share, highest first.
+    extracted record gives at ≥ 15 % of the reference intake (except chestnut manganese).
 13. **AC13:** Given the produce data, then no region note starts „Областта е в“ or „Столицата е в“,
     and every note that names a statistical region starts with it and says „(в който е“.
 14. **AC14:** Given a growing guide with `sowSeedlings`, then the labels are „Сеитба на разсад“,
@@ -344,7 +343,7 @@ BG-BIO-18.100-0004936.2026.001“ and links there. When the certificate has expi
 | AC2  | unit (content)   | `tests/unit/content/round2-061.test.ts`                                                                |
 | AC3  | unit (content)   | `tests/unit/content/round2-061.test.ts`                                                                |
 | AC4  | unit             | `tests/unit/contexts/recipes/townsByAltitudeBand.test.ts`                                              |
-| AC5  | component        | `tests/components/RecipeFacts-061.test.ts`                                                             |
+| AC5  | component        | `tests/components/AltitudeTowns-061.test.ts`                                                           |
 | AC6  | unit (content)   | `tests/unit/content/round2-061.test.ts`                                                                |
 | AC7  | unit             | `tests/unit/content/round2-061.test.ts`                                                                |
 | AC8  | unit (content)   | `tests/unit/content/round2-061.test.ts`                                                                |
