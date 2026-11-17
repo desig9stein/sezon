@@ -34,6 +34,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Garlic, raw'
     url: https://fdc.nal.usda.gov/food-details/169230/nutrients
+    lang: en
 preparation:
   - method: Зелен чесън
     tip: Яж го целия – и стръка, и младата главичка, нарязани в салата или в ястие накрая.

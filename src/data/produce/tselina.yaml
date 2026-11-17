@@ -30,6 +30,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Celeriac, raw'
     url: https://fdc.nal.usda.gov/food-details/170400/nutrients
+    lang: en
 preparation:
   - method: В супа
     tip: Вари я в супата и консумирай и бульона, в който остават минералите.

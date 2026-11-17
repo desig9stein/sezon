@@ -32,10 +32,10 @@ describe('NutritionTable', () => {
     expect(html).toContain('1%');
     expect(html).toContain('няма референтен прием');
     expect(html).toMatch(/<abbr[^>]*title="референтен прием"[^>]*>РСП<\/abbr>/);
+    expect(html).toMatch(/<cite[^>]*>USDA FoodData Central/);
     expect(html).toMatch(
-      /<a[^>]*href="https:\/\/fdc\.nal\.usda\.gov\/"[^>]*>USDA FoodData Central/,
+      /<section[^>]*aria-label="Хранителни стойности на 100 г \(превъртане\)"[^>]*tabindex="0"/,
     );
-    expect(html).toMatch(/<section[^>]*aria-labelledby="nutrition-caption"[^>]*tabindex="0"/);
   });
 
   it('AC8 (spec 011): links micronutrient rows to their nutrient page', async () => {

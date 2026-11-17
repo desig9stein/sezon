@@ -74,7 +74,9 @@ describe('NutrientRankingTable', () => {
     expect(html).toContain('Извън сезона');
     expect(html.indexOf('Зеле')).toBeLessThan(html.indexOf('Праз'));
     expect(html.indexOf('Праз')).toBeLessThan(html.indexOf('Моркови'));
-    expect(html).toMatch(/<section[^>]*aria-labelledby="[^"]+"[^>]*tabindex="0"/);
+    expect(html).toMatch(
+      /<section[^>]*aria-label="Витамин C на 100 г \(превъртане\)"[^>]*tabindex="0"/,
+    );
   });
 
   it('QA 011: shows one decimal when the rounded percent would reach a claim threshold', async () => {
@@ -96,5 +98,20 @@ describe('NutrientRankingTable', () => {
     });
     expect(html).toContain('Все още няма продукти с данни за фолат.');
     expect(html).not.toContain('<table');
+  });
+});
+
+describe('NutrientRankingTable on phones (spec 060)', () => {
+  it('AC5: puts the season column right after the produce name', async () => {
+    const html = await render(NutrientRankingTable, {
+      ranking: await service.rankingFor('vitamin-c', Month.of(11)),
+    });
+    const headers = [...html.matchAll(/<th[^>]*scope="col"[^>]*>([\s\S]*?)<\/th>/g)].map((match) =>
+      (match[1] ?? '').replace(/<[^>]+>/g, '').trim(),
+    );
+    expect(headers[1]).toBe('През ноември');
+    const zeleRow = html.slice(html.indexOf('Зеле'), html.indexOf('</tr>', html.indexOf('Зеле')));
+    const firstCell = /<td[^>]*>([\s\S]*?)<\/td>/.exec(zeleRow)?.[1] ?? '';
+    expect(firstCell).toContain('Разгар');
   });
 });

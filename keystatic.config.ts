@@ -13,7 +13,7 @@ import {
 } from '@contexts/catalog';
 import { INGREDIENT_UNITS, RECIPE_CATEGORIES } from '@contexts/recipes';
 import { FIRST_MONTH_NUMBER, LAST_MONTH_NUMBER, SEASON_LEVEL_VALUES } from '@contexts/seasonality';
-import { Slug, SLUG_PATTERN } from '@shared/domain';
+import { DEFAULT_SOURCE_LANGUAGE, Slug, SLUG_PATTERN, SOURCE_LANGUAGES } from '@shared/domain';
 import { DATA_DIRECTORY } from '@shared/infrastructure/contentFiles';
 import { DESCRIPTION_MAX_LENGTH, DESCRIPTION_MIN_LENGTH } from '@shared/seo';
 
@@ -88,12 +88,30 @@ const optionalText = (label: string, options: { multiline?: boolean } = {}) =>
 
 const requiredDate = (label: string) => fields.date({ label, validation: { isRequired: true } });
 
-/** A citation: a name and an https URL (`sourceSchema`). */
+/**
+ * The language of a source title as a select of {@link SOURCE_LANGUAGES}. The default language
+ * (Bulgarian) is left out of the file, and the reader returns no language for it, as
+ * `sourceSchema` treats a missing language as Bulgarian.
+ */
+const sourceLanguage = () => {
+  const field = selectOf('Language of the name', SOURCE_LANGUAGES);
+  type Value = Parameters<typeof field.serialize>[0];
+  type StoredValue = Parameters<typeof field.reader.parse>[0];
+  const withoutDefault = (value: Value) => (value === DEFAULT_SOURCE_LANGUAGE ? undefined : value);
+  return {
+    ...field,
+    serialize: (value: Value) => ({ value: withoutDefault(value) }),
+    reader: { parse: (value: StoredValue) => withoutDefault(field.reader.parse(value)) },
+  };
+};
+
+/** A citation: a name, an https URL and the language of the name (`sourceSchema`). */
 const source = (label: string) =>
   fields.object(
     {
       name: requiredText('Name'),
       url: fields.url({ label: 'URL', validation: { isRequired: true } }),
+      lang: sourceLanguage(),
     },
     { label },
   );

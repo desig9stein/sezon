@@ -34,6 +34,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Pumpkin, raw'
     url: https://fdc.nal.usda.gov/food-details/168448/nutrients
+    lang: en
 preparation:
   - method: Печена
     tip: Печи я с малко мазнина – бета-каротинът се усвоява по-добре с мазнини.

@@ -6,3 +6,5 @@ export type { ImageAsset, ImageFormat } from './ImageAsset';
 export type { NamedEntity, Repository } from './Repository';
 export { Slug, SLUG_PATTERN } from './Slug';
 export { transliterate } from './transliterate';
+export { DEFAULT_SOURCE_LANGUAGE, foreignLanguage, SOURCE_LANGUAGES } from './sourceLanguage';
+export type { SourceLanguage } from './sourceLanguage';

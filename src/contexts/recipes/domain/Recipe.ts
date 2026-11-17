@@ -1,3 +1,4 @@
+import type { SourceLanguage } from '@shared/domain/sourceLanguage';
 import { isHttpsUrl } from '@shared/domain/contact';
 import { InvalidRecipeError } from '@shared/domain/errors';
 import { frozenList, frozenRecords } from '@shared/domain/freeze';
@@ -9,6 +10,8 @@ import { isRecipeCategory, type RecipeCategory } from './RecipeCategory';
 export interface RecipeSource {
   readonly name: string;
   readonly url: string;
+  /** Language of the name when it is not Bulgarian. */
+  readonly lang?: SourceLanguage | undefined;
 }
 
 /** One ingredient: its name, a positive quantity and the unit of the quantity. */

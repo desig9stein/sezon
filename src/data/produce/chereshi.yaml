@@ -44,6 +44,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Cherries, sweet, raw'
     url: https://fdc.nal.usda.gov/food-details/171719/nutrients
+    lang: en
 preparation:
   - method: Пресни
     tip: Измий ги точно преди ядене – мокрите череши се развалят по-бързо.

@@ -12,9 +12,10 @@ import {
 import { formatNumber, monthNameLower, ui } from '@i18n/bg';
 
 /**
- * Ranking of produce by the amount of one nutrient per 100 g: amount, % of the reference intake,
- * the nutrition claim the amount allows and the season level in the ranking's month. Renders the
- * empty-state text when no produce lists the nutrient.
+ * Ranking of produce by the amount of one nutrient per 100 g: the season level in the ranking's
+ * month (second, so it is visible on a phone without scrolling), amount, % of the reference intake
+ * and the nutrition claim the amount allows. Renders the empty-state text when no produce lists
+ * the nutrient.
  */
 interface Props {
   ranking: NutrientRanking;
@@ -45,19 +46,19 @@ const percentText = (entry: NutrientRankingEntry): string => {
 {ranking.entries.length === 0 ? (
   <p>{labels.empty(nutrient.name)}</p>
 ) : (
-  <ScrollTable captionId={captionId}>
+  <ScrollTable caption={labels.caption(nutrient.name)}>
     <table class="ranking">
       <caption id={captionId}>{labels.caption(nutrient.name)}</caption>
       <thead>
         <tr>
           <th scope="col">{labels.produceColumn}</th>
+          <th scope="col">{labels.seasonColumn(monthNameLower(month))}</th>
           <th scope="col">{nutrition.amount}</th>
           <th scope="col">
             {nutrition.percent}
             <abbr title={nutrition.percentTitle}>{nutrition.percentAbbreviation}</abbr>
           </th>
           <th scope="col">{labels.claimColumn}</th>
-          <th scope="col">{labels.seasonColumn(monthNameLower(month))}</th>
         </tr>
       </thead>
       <tbody>
@@ -66,6 +67,15 @@ const percentText = (entry: NutrientRankingEntry): string => {
             <th scope="row">
               <a href={routes.produce(entry.produce)}>{entry.produce.name}</a>
             </th>
+            <td class="ranking__text">
+              {entry.seasonLevel === undefined ? (
+                <>
+                  <LevelMark /> {ui.produce.outOfSeason}
+                </>
+              ) : (
+                <SeasonBadge level={entry.seasonLevel} />
+              )}
+            </td>
             <td>{`${formatNumber(entry.amount)} ${nutrition.units[nutrient.unit]}`}</td>
             <td>{percentText(entry)}</td>
             <td class="ranking__text">
@@ -76,15 +86,6 @@ const percentText = (entry: NutrientRankingEntry): string => {
                 </>
               ) : (
                 labels.claimLabels[entry.claimLevel](nutrient.name)
-              )}
-            </td>
-            <td class="ranking__text">
-              {entry.seasonLevel === undefined ? (
-                <>
-                  <LevelMark /> {ui.produce.outOfSeason}
-                </>
-              ) : (
-                <SeasonBadge level={entry.seasonLevel} />
               )}
             </td>
           </tr>

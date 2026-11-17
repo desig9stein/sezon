@@ -30,7 +30,7 @@ describe('FarmList', () => {
       /<a[^>]*href="mailto:farm@example\.com"[^>]*>\s*Имейл до Зелена долина\s*<\/a>/,
     );
     expect(html).toMatch(
-      /<a[^>]*href="tel:\+359888123456"[^>]*aria-label="Телефон на Сад: \+359888123456"[^>]*>\s*\+359888123456\s*<\/a>/,
+      /<a[^>]*href="tel:\+359888123456"[^>]*aria-label="Телефон на Сад: \+359\u00a0888\u00a0123\u00a0456"[^>]*>\s*\+359\u00a0888\u00a0123\u00a0456\s*<\/a>/,
     );
     expect(html).toContain('Спонсорирано');
     expect(html).toContain('Пловдив');

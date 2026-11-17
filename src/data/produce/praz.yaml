@@ -36,6 +36,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Leeks (bulb and lower leaf-portion), raw'
     url: https://fdc.nal.usda.gov/food-details/169246/nutrients
+    lang: en
 preparation:
   - method: Задушен
     tip: Задуши го кратко на слаб огън, за да запази сладостта и витамините си.

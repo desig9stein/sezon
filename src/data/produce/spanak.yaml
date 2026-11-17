@@ -36,6 +36,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Spinach, raw'
     url: https://fdc.nal.usda.gov/food-details/168462/nutrients
+    lang: en
 preparation:
   - method: Пресен в салата
     tip: Суровите листа запазват витамин C и фолата.

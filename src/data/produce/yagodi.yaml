@@ -37,6 +37,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Strawberries, raw'
     url: https://fdc.nal.usda.gov/food-details/167762/nutrients
+    lang: en
 preparation:
   - method: Пресни
     tip: Измий ги, преди да махнеш чашките, за да не поемат вода, и ги яж скоро след това.

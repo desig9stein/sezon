@@ -48,6 +48,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Cucumber, with peel, raw'
     url: https://fdc.nal.usda.gov/food-details/168409/nutrients
+    lang: en
 preparation:
   - method: Сурови с кората
     tip: Измий ги добре и ги яж с кората; стойностите на USDA са за краставица с кора.

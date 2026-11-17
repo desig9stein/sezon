@@ -36,6 +36,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Melons, honeydew, raw'
     url: https://fdc.nal.usda.gov/food-details/169911/nutrients
+    lang: en
 preparation:
   - method: Пресен
     tip: Измий кората, преди да разрежеш пъпеша, за да не пренесеш замърсяване от нея към месото.

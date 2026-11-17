@@ -36,7 +36,8 @@ a clickable map, and links to the province pages from produce pages and farm car
   link with the province name as its accessible name; the rest are decorative. Marked provinces
   are filled with the accent colour and a hatch pattern, so they are not shown by colour alone.
 - **Links:** produce page growing regions (in the list and on its map, whose role becomes
-  `group`) and farm cards link to the province page. The catalogue
+  `group`; spec 060 makes the produce page's map links pointer-only, with the list as the keyboard
+  path) and farm cards link to the province page. The catalogue
   page (`/katalog`) gets a „Области“ section, and `/regioni` counts as part of the catalogue in the
   header.
 - **Structured data:** region pages carry `AdministrativeArea` with `containedInPlace` Bulgaria;

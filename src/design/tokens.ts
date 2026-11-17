@@ -107,6 +107,8 @@ export const misc: Readonly<Record<string, string>> = {
   'reading-width': '42rem',
   'focus-width': '3px',
   'target-min': '2.75rem',
+  /** Smallest target in compact rows and tables (WCAG 2.5.8, 24 px). */
+  'target-compact': '1.5rem',
 };
 
 const toKebabCase = (name: string): string =>

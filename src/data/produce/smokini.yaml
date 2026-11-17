@@ -32,6 +32,7 @@ nutrition:
   source:
     name: 'USDA FoodData Central, SR Legacy: Figs, raw'
     url: https://fdc.nal.usda.gov/food-details/173021/nutrients
+    lang: en
 preparation:
   - method: Пресни
     tip: Яж ги с кората, само отрежи дръжката.

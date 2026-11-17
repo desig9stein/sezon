@@ -31,18 +31,25 @@ safety:
   sources:
     - name: 'National Center for Home Food Preservation – Sauerkraut'
       url: https://nchfp.uga.edu/how/ferment/recipes/sauerkraut
+      lang: en
     - name: 'National Center for Home Food Preservation – General Information on Fermenting'
       url: https://nchfp.uga.edu/how/ferment/general-information-on-fermenting/general-information-on-fermenting/
+      lang: en
     - name: 'National Center for Home Food Preservation – Salts Used in Pickling'
       url: https://nchfp.uga.edu/how/pickle/general-information-pickling/salts-used-in-pickling/
+      lang: en
     - name: 'National Center for Home Food Preservation – Using Boiling Water Canners'
       url: https://nchfp.uga.edu/publications/uga-publications/using-boiling-water-canners
+      lang: en
     - name: 'National Center for Home Food Preservation – Recommended Jars and Lids'
       url: https://nchfp.uga.edu/how/can/general-information/recommended-jars-and-lids/
+      lang: en
     - name: 'National Center for Home Food Preservation – Sterilization of Empty Jars'
       url: https://nchfp.uga.edu/how/can/general-information/sterilization-of-empty-jars/
+      lang: en
     - name: 'National Center for Home Food Preservation – Storing Home Canned Foods'
       url: https://nchfp.uga.edu/how/can/general-information/storing-home-canned-foods/
+      lang: en
 sources:
   - name: 'Български фермер – Как да си направим кисело зеле в буркани'
     url: https://www.bgfermer.bg/Article/7113883

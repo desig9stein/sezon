@@ -1,4 +1,5 @@
 ---
+import SourceLink from '@components/ui/SourceLink.astro';
 import type { GetStaticPaths } from 'astro';
 import NutrientInSeason from '@components/nutrients/NutrientInSeason.astro';
 import NutrientRankingTable from '@components/nutrients/NutrientRankingTable.astro';
@@ -56,7 +57,7 @@ const jsonLd = [
       <p>{labels.balancedDiet}</p>
       <p class="nutrient__note">
         {labels.claimsNote(nutrient.name)} {ui.produce.nutrition.sourcePrefix}
-        <a href={nutrient.claimsSource.url}>{nutrient.claimsSource.name}</a>.
+        <SourceLink source={nutrient.claimsSource} />.
       </p>
       {nutrient.note !== undefined && <p class="nutrient__note">{nutrient.note}</p>}
       <p class="nutrient__note">{ui.footer.disclaimer}</p>
